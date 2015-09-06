@@ -1,4 +1,4 @@
-packages/
+packages/npm-container/.npm/
 app.browserify.js.cached
 app.browserify.js.map
 
