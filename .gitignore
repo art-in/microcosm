@@ -1,0 +1,12 @@
+packages/
+app.browserify.js.cached
+app.browserify.js.map
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Cloud9
+.c9/
+c9/
