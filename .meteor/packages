@@ -22,9 +22,9 @@ check
 ecmascript
 react
 cosmos:browserify
-d3js:d3
 meteorhacks:npm
 mquandalle:jade
 
 
 npm-container
+universe:modules

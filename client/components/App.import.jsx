@@ -1,13 +1,16 @@
-App = React.createClassWithCSS({
+import Svg from 'client/components/svg/Svg';
+import Rect from 'client/components/svg/Rect';
+
+export default React.createClassWithCSS({
   mixins: [ReactMeteorData],
   getInitialState() {
     return {
-      items: []
+      ideas: []
     };
   },
 
   getMeteorData() {
-    this.state.items = Items.find({}).fetch();
+    this.state.ideas = Ideas.find({}).fetch();
     return {};
   },
 
@@ -20,8 +23,9 @@ App = React.createClassWithCSS({
   render() {
     return (
       <section className={ this.css().component }>
-        <ItemList items={ this.state.items }/>
-        <Graph />
+        <Svg>
+          <Rect />
+        </Svg>
       </section>
     );
   }
