@@ -1,4 +1,4 @@
-import { getIdStr } from 'client/lib/mongoHelpers';
+import { getIdStr } from 'client/helpers/mongoHelpers';
 
 export default {
 

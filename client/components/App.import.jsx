@@ -1,7 +1,7 @@
 import Graph from 'client/components/graph/Graph';
-import ideaMapper from 'client/mapping/ideaMapper';
-import assocMapper from 'client/mapping/assocMapper';
-import { getIdFromStr } from 'client/lib/mongoHelpers';
+import ideaMapper from 'client/mappers/ideaMapper';
+import assocMapper from 'client/mappers/assocMapper';
+import { getIdFromStr } from 'client/helpers/mongoHelpers';
 
 export default React.createClassWithCSS({
 
