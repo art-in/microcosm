@@ -29,15 +29,15 @@ export default React.createClassWithCSS({
 
   onDragStep(node, shiftX, shiftY) {
     // shift node
-    node.x += shiftX;
-    node.y += shiftY;
+    node.point.x += shiftX;
+    node.point.y += shiftY;
 
     this.setState(this.state);
   },
 
   onDragCanceled(node, x, y) {
-    node.x = x;
-    node.y = y;
+    node.point.x = x;
+    node.point.y = y;
     this.setState(this.state);
   },
 
@@ -50,8 +50,9 @@ export default React.createClassWithCSS({
       return (
         <Node
           key={ node.id }
-          x={ node.x } y={ node.y }
-          onMouseDown={ this.onDragStart.bind(null, node, node.x, node.y) } />
+          point={ node.point }
+          onMouseDown={ this.onDragStart
+                            .bind(null, node, node.point.x, node.point.y) } />
       );
     });
 
@@ -59,8 +60,8 @@ export default React.createClassWithCSS({
       return (
         <Link
           key={ link.id }
-          x1={ link.fromNode.x } y1={ link.fromNode.y }
-          x2={ link.toNode.x } y2={ link.toNode.y } />
+          point1={ link.fromNode.point }
+          point2={ link.toNode.point } />
       );
     });
 

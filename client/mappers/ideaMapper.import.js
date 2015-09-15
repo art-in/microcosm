@@ -1,12 +1,12 @@
 import { getIdStr } from 'client/helpers/mongoHelpers';
+import Point from 'client/viewmodels/Point';
 
 export default {
 
   ideaToNode(idea) {
     return {
       id: getIdStr(idea),
-      x: idea.x,
-      y: idea.y
+      point: new Point(idea.x, idea.y)
     };
   }
 

@@ -18,8 +18,11 @@ export default React.createClassWithCSS({
   },
 
   onNodeChange(node) {
-    console.log(`idea changed ("${node.id}"): ${node.x} x ${node.y}`);
-    Ideas.update({_id: getIdFromStr(node.id)}, {$set: {x: node.x, y: node.y}});
+    let point = node.point;
+    console.log(`idea changed [${node.id}] ${node.point}`);
+    Ideas.update(
+      {_id: getIdFromStr(node.id)},
+      {$set: {x: point.x, y: point.y}});
   },
 
   render() {
