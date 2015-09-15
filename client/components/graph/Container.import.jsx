@@ -1,3 +1,5 @@
+import Svg from 'client/components/svg/Svg';
+
 export default React.createClassWithCSS({
 
   propTypes: {
@@ -6,16 +8,25 @@ export default React.createClassWithCSS({
     onMouseLeave: React.PropTypes.func.isRequired
   },
 
+  css: {
+    container: {
+      outline: '1px solid red',
+      width: '100%',
+      height: '500px'
+    }
+  },
+
   render() {
+
     return (
-      <svg className={ this.props.className }
+      <Svg className={ cx(this.props.className, this.css().container) }
            onMouseUp={ this.props.onMouseUp }
            onMouseMove={ this.props.onMouseMove}
            onMouseLeave={ this.props.onMouseLeave }>
 
         { this.props.children }
 
-      </svg>
+      </Svg>
     );
   }
 

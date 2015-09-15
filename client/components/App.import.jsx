@@ -1,33 +1,25 @@
-import Svg from 'client/components/svg/Svg';
-import Rect from 'client/components/svg/Rect';
+import Graph from 'client/components/graph/Graph';
+import ideaMapper from 'client/mapping/ideaMapper';
 
 export default React.createClassWithCSS({
+
   mixins: [ReactMeteorData],
-  getInitialState() {
+
+  getMeteorData() {
     return {
-      ideas: []
+      nodes: Ideas.find().fetch().map(ideaMapper.ideaToNode)
     };
   },
 
-  getMeteorData() {
-    this.state.ideas = Ideas.find({}).fetch();
-    return {};
-  },
-
-  css: {
-    component: {
-      'font-family': 'Monospace'
-    }
+  onNodeChange(node) {
+    console.log(`idea changed ("${node.id}"): ${node.x} x ${node.y}`);
+    Ideas.update({_id: node.id}, {$set: {x: node.x, y: node.y}});
   },
 
   render() {
     return (
-      <section className={ this.css().component }>
-        <Svg>
-          <Rect />
-        </Svg>
-      </section>
+      <Graph nodes={ this.data.nodes }
+             onNodeChange={ this.onNodeChange } />
     );
   }
 });
-

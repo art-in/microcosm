@@ -21,7 +21,6 @@
   "validateQuoteMarks": "'",
   "disallowMultipleLineStrings": true,
   "disallowMixedSpacesAndTabs": true,
-  "disallowTrailingWhitespace": true,
   "disallowSpaceAfterPrefixUnaryOperators": true,
   "disallowMultipleVarDecl": true,
   "disallowKeywordsOnNewLine": [
