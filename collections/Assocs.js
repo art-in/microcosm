@@ -1,0 +1,1 @@
+Assocs = new Mongo.Collection('assocs');
