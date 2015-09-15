@@ -1,11 +1,8 @@
-export function getIdStr(document) {
-  if (!document._id) { throw Error('invalid Mongo document'); }
-
-  return typeof document._id === 'string' ? document._id
-                                          : document._id._str;
+export function strFromId(id) {
+  return typeof id === 'string' ? id : id._str;
 }
 
-export function getIdFromStr(str) {
-
+export function idFromStr(str) {
+  //noinspection JSClosureCompilerSyntax
   return new Mongo.ObjectID(str);
 }

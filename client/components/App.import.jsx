@@ -8,8 +8,8 @@ export default React.createClassWithCSS({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
-    let ideas =  Ideas.find().fetch();
-    let assocs = Assocs.find().fetch();
+    let ideas =  Ideas.find().fetch().map(ideaMapper.doToIdea);
+    let assocs = Assocs.find().fetch().map(assocMapper.doToAssoc);
 
     let nodes = ideas.map(ideaMapper.ideaToNode);
     let links = assocs.map(assocMapper.assocToLink.bind(null, nodes));
@@ -18,11 +18,10 @@ export default React.createClassWithCSS({
   },
 
   onNodeChange(node) {
-    let point = node.point;
-    console.log(`idea changed [${node.id}] ${node.point}`);
-    Ideas.update(
-      {_id: getIdFromStr(node.id)},
-      {$set: {x: point.x, y: point.y}});
+    let idea = ideaMapper.nodeToIdea(node);
+    Ideas.update({_id: idea._id}, idea);
+
+    console.log(`idea changed: ${idea}`);
   },
 
   render() {

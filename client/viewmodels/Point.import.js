@@ -6,7 +6,7 @@ export default class Point {
   }
 
   toString() {
-    return `(${this.x} x ${this.y})`;
+    return `[Point (${this.x} x ${this.y})]`;
   }
 
 }

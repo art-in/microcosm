@@ -1,24 +1,24 @@
 import Line from 'client/components/svg/Line';
-import Point from 'client/viewmodels/Point';
+import Link from 'client/viewmodels/Link';
 
 export default React.createClassWithCSS({
 
   propTypes: {
-    point1: React.PropTypes.instanceOf(Point).isRequired,
-    point2: React.PropTypes.instanceOf(Point).isRequired
+    link: React.PropTypes.instanceOf(Link).isRequired
   },
 
   css: {
     link: {
-      'stroke': 'lightgray'
+      'stroke': 'gray',
+      'stroke-width': '2'
     }
   },
 
   render() {
     return (
       <Line className={ this.css().link }
-            point1={ this.props.point1 }
-            point2={ this.props.point2 } />
+            pos1={ this.props.link.fromNode.pos }
+            pos2={ this.props.link.toNode.pos } />
     );
   }
 

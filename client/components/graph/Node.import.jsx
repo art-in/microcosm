@@ -1,10 +1,10 @@
 import Circle from 'client/components/svg/Circle';
-import Point from 'client/viewmodels/Point';
+import Node from 'client/viewmodels/Node';
 
 export default React.createClassWithCSS({
 
   propTypes: {
-    point: React.PropTypes.instanceOf(Point).isRequired,
+    node: React.PropTypes.instanceOf(Node).isRequired,
     onMouseDown: React.PropTypes.func.isRequired
   },
 
@@ -20,7 +20,7 @@ export default React.createClassWithCSS({
     return (
       <Circle className={ this.css().node }
               radius={ 50 }
-              point={ this.props.point }
+              pos={ this.props.node.pos }
               onMouseDown={ this.props.onMouseDown }/>
     );
   }

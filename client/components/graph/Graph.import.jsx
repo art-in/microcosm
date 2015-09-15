@@ -2,15 +2,19 @@ import DragContainer from 'client/components/shared/DragContainer';
 import Container from './Container';
 import Node from './Node';
 import Link from './Link';
+import NodeVM from 'client/viewmodels/Node';
+import LinkVM from 'client/viewmodels/Link';
+
+const propTypes = React.PropTypes;
 
 export default React.createClassWithCSS({
 
   mixins: [DragContainer],
 
   propTypes: {
-    nodes: React.PropTypes.array.isRequired,
-    links: React.PropTypes.array.isRequired,
-    onNodeChange: React.PropTypes.func.isRequired
+    nodes: propTypes.arrayOf(propTypes.instanceOf(NodeVM)).isRequired,
+    links: propTypes.arrayOf(propTypes.instanceOf(LinkVM)).isRequired,
+    onNodeChange: propTypes.func.isRequired
   },
 
   getInitialState() {
@@ -29,15 +33,15 @@ export default React.createClassWithCSS({
 
   onDragStep(node, shiftX, shiftY) {
     // shift node
-    node.point.x += shiftX;
-    node.point.y += shiftY;
+    node.pos.x += shiftX;
+    node.pos.y += shiftY;
 
     this.setState(this.state);
   },
 
   onDragCanceled(node, x, y) {
-    node.point.x = x;
-    node.point.y = y;
+    node.pos.x = x;
+    node.pos.y = y;
     this.setState(this.state);
   },
 
@@ -50,9 +54,9 @@ export default React.createClassWithCSS({
       return (
         <Node
           key={ node.id }
-          point={ node.point }
+          node={ node }
           onMouseDown={ this.onDragStart
-                            .bind(null, node, node.point.x, node.point.y) } />
+                            .bind(null, node, node.pos.x, node.pos.y) } />
       );
     });
 
@@ -60,8 +64,7 @@ export default React.createClassWithCSS({
       return (
         <Link
           key={ link.id }
-          point1={ link.fromNode.point }
-          point2={ link.toNode.point } />
+          link={ link } />
       );
     });
 
