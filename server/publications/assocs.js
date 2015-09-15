@@ -1,0 +1,1 @@
+Meteor.publish('assocs', () => Assocs.find());
