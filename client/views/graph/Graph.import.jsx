@@ -10,11 +10,14 @@ const propTypes = React.PropTypes;
 
 export default React.createClassWithCSS({
 
+  displayName: 'Graph',
+
   mixins: [DragContainer],
 
   propTypes: {
     graph: React.PropTypes.instanceOf(GraphVM).isRequired,
-    onNodeChange: propTypes.func.isRequired
+    onNodeChange: propTypes.func.isRequired,
+    onNodeAdd: propTypes.func.isRequired
   },
 
   getInitialState() {
@@ -25,8 +28,12 @@ export default React.createClassWithCSS({
 
   componentWillReceiveProps(nextProps) {
     this.state.graph.removeAllListeners();
-    nextProps.graph.addListener('change', () => this.forceUpdate());
+    this.addGraphListeners(nextProps.graph);
     this.setState({graph: nextProps.graph});
+  },
+
+  addGraphListeners(graph) {
+    graph.addListener('change', () => this.forceUpdate());
   },
 
   componentWillUnmount() {
@@ -45,6 +52,10 @@ export default React.createClassWithCSS({
     this.props.onNodeChange(node);
   },
 
+  onNodeDoubleClick(parentNode) {
+    this.props.onNodeAdd(parentNode);
+  },
+
   render() {
     let nodes = this.state.graph.nodes.map((node) => {
       return (
@@ -52,7 +63,8 @@ export default React.createClassWithCSS({
           key={ node.id }
           node={ node }
           onMouseDown={ this.onDragStart
-                            .bind(null, node, node.pos.x, node.pos.y) } />
+                            .bind(null, node, node.pos.x, node.pos.y) }
+          onDoubleClick={ this.onNodeDoubleClick.bind(null, node) } />
       );
     });
 

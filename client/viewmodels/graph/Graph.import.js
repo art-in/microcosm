@@ -1,3 +1,5 @@
+import Node from './Node';
+
 export default class Graph extends EventEmitter {
 
   constructor() {
@@ -8,9 +10,7 @@ export default class Graph extends EventEmitter {
   }
 
   moveNode({nodeId, pos, shift}) {
-    let node = this.nodes.find((n) => n.id === nodeId);
-
-    if (!node) { throw Error(`No node with such id found: ${nodeId}`); }
+    let node = getNode.call(this, nodeId);
 
     if (shift) {
       node.pos.x += shift.x;
@@ -23,4 +23,10 @@ export default class Graph extends EventEmitter {
     this.emit('change');
   }
 
+}
+
+function getNode(nodeId) {
+  let node = this.nodes.find((n) => n.id === nodeId);
+  if (!node) { throw Error(`No node with such id found: ${nodeId}`); }
+  return node;
 }

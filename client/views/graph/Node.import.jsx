@@ -5,7 +5,8 @@ export default React.createClassWithCSS({
 
   propTypes: {
     node: React.PropTypes.instanceOf(Node).isRequired,
-    onMouseDown: React.PropTypes.func.isRequired
+    onMouseDown: React.PropTypes.func.isRequired,
+    onDoubleClick: React.PropTypes.func.isRequired
   },
 
   css: {
@@ -21,7 +22,8 @@ export default React.createClassWithCSS({
       <Circle className={ this.css().node }
               radius={ 50 }
               pos={ this.props.node.pos }
-              onMouseDown={ this.props.onMouseDown }/>
+              onMouseDown={ this.props.onMouseDown }
+              onDoubleClick={ this.props.onDoubleClick }/>
     );
   }
 
