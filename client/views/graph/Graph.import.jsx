@@ -32,12 +32,17 @@ export default React.createClassWithCSS({
     this.setState({graph: nextProps.graph});
   },
 
-  addGraphListeners(graph) {
-    graph.addListener('change', () => this.forceUpdate());
+  componentWillMount() {
+    this.addGraphListeners(this.props.graph);
+    this.setState({graph: this.props.graph});
   },
 
   componentWillUnmount() {
     nextProps.graph.removeAllListeners();
+  },
+
+  addGraphListeners(graph) {
+    graph.addListener('change', () => this.forceUpdate());
   },
 
   onDragStep(node, shiftX, shiftY) {

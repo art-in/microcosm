@@ -11,17 +11,28 @@ export default React.createClassWithCSS({
   mixins: [ReactMeteorData],
 
   getMeteorData() {
-    let ideas = Ideas.find().fetch().map(ideaMapper.doToIdea);
-    let assocs = Assocs.find().fetch().map(assocMapper.doToAssoc);
+    let assocSub = Meteor.subscribe('assocs');
+    let ideaSub = Meteor.subscribe('ideas');
 
-    let nodes = ideas.map(ideaMapper.ideaToNode);
-    let links = assocs.map(assocMapper.assocToLink.bind(null, nodes));
+    let loaded = assocSub.ready() && ideaSub.ready();
+    let graph;
 
-    let graph = new GraphVM();
-    graph.nodes = nodes;
-    graph.links = links;
+    if (loaded) {
+      let ideas = Ideas.find().fetch().map(ideaMapper.doToIdea);
+      let assocs = Assocs.find().fetch().map(assocMapper.doToAssoc);
 
-    return {graph};
+      let nodes = ideas.map(ideaMapper.ideaToNode);
+      let links = assocs.map(assocMapper.assocToLink.bind(null, nodes));
+
+      graph = new GraphVM();
+      graph.nodes = nodes;
+      graph.links = links;
+    }
+
+    return {
+      graph: graph,
+      loaded: loaded
+    };
   },
 
   onNodeChange(node) {
@@ -51,6 +62,10 @@ export default React.createClassWithCSS({
   },
 
   render() {
+    if (!this.data.loaded) {
+      return (<div>Loading...</div>);
+    }
+
     return (
       <Graph graph={ this.data.graph }
              onNodeChange={ this.onNodeChange }
