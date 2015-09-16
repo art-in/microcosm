@@ -1,5 +1,5 @@
 import { idFromStr, strFromId } from 'client/lib/helpers/mongoHelpers';
-import Link from 'client/viewmodels/Link';
+import Link from 'client/viewmodels/graph/Link';
 import Assoc from 'models/Assoc';
 
 export default {

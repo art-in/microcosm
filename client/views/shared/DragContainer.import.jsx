@@ -4,7 +4,7 @@
  * Ext methods:
  * @param {func} onDragStep - called when position changed,
  *                            passes positions shift from previous drag step
- * @param {func} onDragCanceled - called when drag canceled, passes initial position
+ * @param {func} onDragCanceled - called when drag canceled, passes start position
  * @param {func} onDragged - called when drag finishes
  */
 export default {

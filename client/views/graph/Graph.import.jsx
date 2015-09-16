@@ -2,8 +2,9 @@ import DragContainer from 'client/views/shared/DragContainer';
 import Container from './Container';
 import Node from './Node';
 import Link from './Link';
-import NodeVM from 'client/viewmodels/Node';
-import LinkVM from 'client/viewmodels/Link';
+import NodeVM from 'client/viewmodels/graph/Node';
+import LinkVM from 'client/viewmodels/graph/Link';
+import GraphVM from 'client/viewmodels/graph/Graph';
 
 const propTypes = React.PropTypes;
 
@@ -12,37 +13,32 @@ export default React.createClassWithCSS({
   mixins: [DragContainer],
 
   propTypes: {
-    nodes: propTypes.arrayOf(propTypes.instanceOf(NodeVM)).isRequired,
-    links: propTypes.arrayOf(propTypes.instanceOf(LinkVM)).isRequired,
+    graph: React.PropTypes.instanceOf(GraphVM).isRequired,
     onNodeChange: propTypes.func.isRequired
   },
 
   getInitialState() {
     return {
-      nodes: [],
-      links: []
+      graph: new GraphVM()
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      nodes: nextProps.nodes,
-      links: nextProps.links
-    });
+    this.state.graph.removeAllListeners();
+    nextProps.graph.addListener('change', () => this.forceUpdate());
+    this.setState({graph: nextProps.graph});
+  },
+
+  componentWillUnmount() {
+    nextProps.graph.removeAllListeners();
   },
 
   onDragStep(node, shiftX, shiftY) {
-    // shift node
-    node.pos.x += shiftX;
-    node.pos.y += shiftY;
-
-    this.setState(this.state);
+    this.state.graph.moveNode({nodeId: node.id, shift: {x: shiftX, y: shiftY}});
   },
 
   onDragCanceled(node, x, y) {
-    node.pos.x = x;
-    node.pos.y = y;
-    this.setState(this.state);
+    this.state.graph.moveNode({nodeId: node.id, pos: {x, y}});
   },
 
   onDragged(node) {
@@ -50,7 +46,7 @@ export default React.createClassWithCSS({
   },
 
   render() {
-    let nodes = this.state.nodes.map((node) => {
+    let nodes = this.state.graph.nodes.map((node) => {
       return (
         <Node
           key={ node.id }
@@ -60,7 +56,7 @@ export default React.createClassWithCSS({
       );
     });
 
-    let links = this.state.links.map((link) => {
+    let links = this.state.graph.links.map((link) => {
       return (
         <Link
           key={ link.id }

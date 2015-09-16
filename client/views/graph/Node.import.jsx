@@ -1,5 +1,5 @@
 import Circle from 'client/views/svg/Circle';
-import Node from 'client/viewmodels/Node';
+import Node from 'client/viewmodels/graph/Node';
 
 export default React.createClassWithCSS({
 

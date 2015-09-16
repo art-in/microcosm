@@ -1,5 +1,5 @@
 import Point from 'client/viewmodels/Point';
-import Node from 'client/viewmodels/Node';
+import Node from 'client/viewmodels/graph/Node';
 import Idea from 'models/Idea';
 import { idFromStr, strFromId } from 'client/lib/helpers/mongoHelpers';
 

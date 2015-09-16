@@ -2,6 +2,7 @@ import Graph from 'client/views/graph/Graph';
 import ideaMapper from 'client/lib/mappers/ideaMapper';
 import assocMapper from 'client/lib/mappers/assocMapper';
 import { getIdFromStr } from 'client/lib/helpers/mongoHelpers';
+import GraphVM from 'client/viewmodels/graph/Graph';
 
 export default React.createClassWithCSS({
 
@@ -14,7 +15,11 @@ export default React.createClassWithCSS({
     let nodes = ideas.map(ideaMapper.ideaToNode);
     let links = assocs.map(assocMapper.assocToLink.bind(null, nodes));
 
-    return {nodes, links};
+    let graph = new GraphVM();
+    graph.nodes = nodes;
+    graph.links = links;
+
+    return {graph};
   },
 
   onNodeChange(node) {
@@ -26,8 +31,7 @@ export default React.createClassWithCSS({
 
   render() {
     return (
-      <Graph nodes={ this.data.nodes }
-             links={ this.data.links }
+      <Graph graph={ this.data.graph }
              onNodeChange={ this.onNodeChange } />
     );
   }

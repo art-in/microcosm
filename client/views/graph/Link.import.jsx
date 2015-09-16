@@ -1,5 +1,5 @@
 import Line from 'client/views/svg/Line';
-import Link from 'client/viewmodels/Link';
+import Link from 'client/viewmodels/graph/Link';
 
 export default React.createClassWithCSS({
 
