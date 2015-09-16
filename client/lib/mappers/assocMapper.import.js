@@ -1,4 +1,4 @@
-import { idFromStr, strFromId } from 'client/helpers/mongoHelpers';
+import { idFromStr, strFromId } from 'client/lib/helpers/mongoHelpers';
 import Link from 'client/viewmodels/Link';
 import Assoc from 'models/Assoc';
 

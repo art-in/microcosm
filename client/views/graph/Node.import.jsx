@@ -1,4 +1,4 @@
-import Circle from 'client/components/svg/Circle';
+import Circle from 'client/views/svg/Circle';
 import Node from 'client/viewmodels/Node';
 
 export default React.createClassWithCSS({

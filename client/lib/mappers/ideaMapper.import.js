@@ -1,7 +1,7 @@
 import Point from 'client/viewmodels/Point';
 import Node from 'client/viewmodels/Node';
 import Idea from 'models/Idea';
-import { idFromStr, strFromId } from 'client/helpers/mongoHelpers';
+import { idFromStr, strFromId } from 'client/lib/helpers/mongoHelpers';
 
 export default {
 

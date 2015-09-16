@@ -1,4 +1,4 @@
-import DragContainer from 'client/components/shared/DragContainer';
+import DragContainer from 'client/views/shared/DragContainer';
 import Container from './Container';
 import Node from './Node';
 import Link from './Link';

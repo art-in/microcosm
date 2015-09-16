@@ -1,4 +1,4 @@
-import Svg from 'client/components/svg/Svg';
+import Svg from 'client/views/svg/Svg';
 
 export default React.createClassWithCSS({
 
