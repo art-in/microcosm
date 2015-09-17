@@ -29,15 +29,21 @@ export default class Mindmap {
   }
 
   //noinspection JSMethodCanBeStatic
+  createIdea(...args) {
+    console.log(`create idea`);
+    Meteor.call('mindmap.createIdea', ...args);
+  }
+
+  //noinspection JSMethodCanBeStatic
   updateIdea(...args) {
     console.log(`update idea: ${args[0].idea}`);
     Meteor.call('mindmap.updateIdea', ...args);
   }
 
   //noinspection JSMethodCanBeStatic
-  createIdea(...args) {
-    console.log(`create idea`);
-    Meteor.call('mindmap.createIdea', ...args);
+  deleteIdea(...args) {
+    console.log(`delete idea`);
+    Meteor.call('mindmap.deleteIdea', ...args);
   }
 
 }

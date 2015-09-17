@@ -5,6 +5,7 @@ import Link from './Link';
 import NodeVM from 'client/viewmodels/graph/Node';
 import LinkVM from 'client/viewmodels/graph/Link';
 import GraphVM from 'client/viewmodels/graph/Graph';
+import Point from 'client/viewmodels/Point';
 
 const propTypes = React.PropTypes;
 
@@ -15,9 +16,11 @@ export default React.createClassWithCSS({
   mixins: [DragContainer],
 
   propTypes: {
-    graph: React.PropTypes.instanceOf(GraphVM).isRequired,
+    graph: propTypes.instanceOf(GraphVM).isRequired,
     onNodeChange: propTypes.func.isRequired,
-    onNodeAdd: propTypes.func.isRequired
+    onNodeAdd: propTypes.func.isRequired,
+    onNodeContextMenu: propTypes.func.isRequired,
+    onClick: propTypes.func.isRequired
   },
 
   getInitialState() {
@@ -61,7 +64,13 @@ export default React.createClassWithCSS({
     this.props.onNodeAdd(parentNode);
   },
 
+  onNodeContextMenu(node, e) {
+    this.props.onNodeContextMenu(node, new Point(e.clientX, e.clientY));
+    e.preventDefault();
+  },
+
   render() {
+
     let nodes = this.state.graph.nodes.map((node) => {
       return (
         <Node
@@ -69,7 +78,8 @@ export default React.createClassWithCSS({
           node={ node }
           onMouseDown={ this.onDragStart
                             .bind(null, node, node.pos.x, node.pos.y) }
-          onDoubleClick={ this.onNodeDoubleClick.bind(null, node) } />
+          onDoubleClick={ this.onNodeDoubleClick.bind(null, node) }
+          onContextMenu={ this.onNodeContextMenu.bind(null, node) } />
       );
     });
 
@@ -82,7 +92,8 @@ export default React.createClassWithCSS({
     });
 
     return (
-      <Container onMouseUp={ this.onDragStop }
+      <Container onClick={ this.props.onClick }
+                 onMouseUp={ this.onDragStop }
                  onMouseMove={ this.onDrag }
                  onMouseLeave={ this.onDragRevert }>
 
