@@ -15,10 +15,13 @@ export default React.createClassWithCSS({
   },
 
   render() {
+    let {link, className, ...other} = this.props;
+
     return (
-      <Line className={ this.css().link }
+      <Line className={ cx(this.css().link, className) }
             pos1={ this.props.link.fromNode.pos }
-            pos2={ this.props.link.toNode.pos } />
+            pos2={ this.props.link.toNode.pos }
+            {...other} />
     );
   }
 

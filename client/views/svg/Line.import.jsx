@@ -8,10 +8,12 @@ export default React.createClassWithCSS({
   },
 
   render() {
+    let {pos1, pos2, ...other} = this.props;
+
     return (
-      <line className={ this.props.className }
-            x1={ this.props.pos1.x } y1={ this.props.pos1.y }
-            x2={ this.props.pos2.x } y2={ this.props.pos2.y } />
+      <line x1={ this.props.pos1.x } y1={ this.props.pos1.y }
+            x2={ this.props.pos2.x } y2={ this.props.pos2.y }
+            {...other} />
     );
   }
 

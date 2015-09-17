@@ -4,9 +4,7 @@ import Node from 'client/viewmodels/graph/Node';
 export default React.createClassWithCSS({
 
   propTypes: {
-    node: React.PropTypes.instanceOf(Node).isRequired,
-    onMouseDown: React.PropTypes.func.isRequired,
-    onDoubleClick: React.PropTypes.func.isRequired
+    node: React.PropTypes.instanceOf(Node).isRequired
   },
 
   css: {
@@ -18,12 +16,13 @@ export default React.createClassWithCSS({
   },
 
   render() {
+    let {node, className, ...other} = this.props;
+
     return (
-      <Circle className={ this.css().node }
+      <Circle className={ cx(this.css().node, className) }
               radius={ 50 }
               pos={ this.props.node.pos }
-              onMouseDown={ this.props.onMouseDown }
-              onDoubleClick={ this.props.onDoubleClick }/>
+              {...other} />
     );
   }
 
