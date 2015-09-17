@@ -9,4 +9,5 @@ export default class Assoc {
   toString() {
     return `[Assoc (${this._id}) (${this.from} - ${this.to})]`;
   }
-}
+
+};

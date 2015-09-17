@@ -1,10 +1,10 @@
 import Graph from 'client/views/graph/Graph';
-import ideaMapper from 'client/lib/mappers/ideaMapper';
-import assocMapper from 'client/lib/mappers/assocMapper';
+import ideaMapper from 'client/mappers/ideaMapper';
+import assocMapper from 'client/mappers/assocMapper';
 import { getIdFromStr } from 'client/lib/helpers/mongoHelpers';
 import GraphVM from 'client/viewmodels/graph/Graph';
-import Idea from 'models/Idea';
-import Assoc from 'models/Assoc';
+import Ideas from 'collections/Ideas';
+import Assocs from 'collections/Assocs';
 
 export default React.createClassWithCSS({
 
@@ -18,8 +18,8 @@ export default React.createClassWithCSS({
     let graph;
 
     if (loaded) {
-      let ideas = Ideas.find().fetch().map(ideaMapper.doToIdea);
-      let assocs = Assocs.find().fetch().map(assocMapper.doToAssoc);
+      let ideas = Ideas.find().fetch();
+      let assocs = Assocs.find().fetch();
 
       let nodes = ideas.map(ideaMapper.ideaToNode);
       let links = assocs.map(assocMapper.assocToLink.bind(null, nodes));

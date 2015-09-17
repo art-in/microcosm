@@ -9,4 +9,5 @@ export default class Idea {
   toString() {
     return `[Idea (${this._id}) (${this.x} x ${this.y})]`;
   }
-}
+
+};
