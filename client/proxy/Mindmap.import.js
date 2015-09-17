@@ -1,6 +1,9 @@
 import Ideas from 'collections/Ideas';
 import Assocs from 'collections/Assocs';
 import Idea from 'models/Idea';
+import ideaMapper from 'mappers/ideaMapper';
+import { dboToAssoc } from 'mappers/assocMapper';
+import { dboToIdea } from 'mappers/ideaMapper';
 
 export default class Mindmap {
 
@@ -11,12 +14,12 @@ export default class Mindmap {
 
   //noinspection JSMethodCanBeStatic
   get ideas() {
-    return Ideas.find().fetch();
+    return Ideas.find().fetch().map(dboToIdea);
   }
 
   //noinspection JSMethodCanBeStatic
   get assocs() {
-    return Assocs.find().fetch();
+    return Assocs.find().fetch().map(dboToAssoc);
   }
 
   get loaded() {
@@ -28,13 +31,13 @@ export default class Mindmap {
   //noinspection JSMethodCanBeStatic
   updateIdea(...args) {
     console.log(`update idea: ${args[0].idea}`);
-    Meteor.call('Mindmap.updateIdea', ...args);
+    Meteor.call('mindmap.updateIdea', ...args);
   }
 
   //noinspection JSMethodCanBeStatic
   createIdea(...args) {
     console.log(`create idea`);
-    Meteor.call('Mindmap.createIdea', ...args);
+    Meteor.call('mindmap.createIdea', ...args);
   }
 
 }

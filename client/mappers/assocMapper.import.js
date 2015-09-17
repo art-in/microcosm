@@ -1,4 +1,4 @@
-import { idFromStr, strFromId } from 'client/lib/helpers/mongoHelpers';
+import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 import Link from 'client/viewmodels/graph/Link';
 import Assoc from 'models/Assoc';
 
@@ -16,7 +16,7 @@ export default {
       `unable to find idea while mapping association [${assoc.to}]`);
 
     let link = new Link();
-    link.id = strFromId(assoc._id);
+    link.id = assoc.id;
     link.fromNode = fromNode;
     link.toNode = toNode;
 

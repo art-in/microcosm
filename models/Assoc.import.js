@@ -1,13 +1,15 @@
+import { newIdStr } from 'lib/helpers/mongoHelpers';
+
 export default class Assoc {
 
   constructor() {
-    this._id = undefined;
+    this.id = newIdStr();
     this.from = undefined;
     this.to = undefined;
   }
 
   toString() {
-    return `[Assoc (${this._id}) (${this.from} - ${this.to})]`;
+    return `[Assoc (${this.id}) (${this.from} - ${this.to})]`;
   }
 
 };

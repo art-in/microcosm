@@ -33,7 +33,7 @@ export default React.createClassWithCSS({
 
   onNodeAdd(parentNode) {
     let parentIdea = ideaMapper.nodeToIdea(parentNode);
-    this.props.mindmap.createIdea({parentIdea});
+    this.props.mindmap.createIdea({parentIdeaId: parentIdea.id});
   },
 
   render() {
