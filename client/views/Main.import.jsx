@@ -1,6 +1,6 @@
 import Mindmap from 'client/proxy/Mindmap';
 import Graph from 'client/views/graph/Graph';
-import mindmapMapper from 'client/mappers/mindmapMapper';
+import { mindmapToGraph } from 'client/mappers/mindmapMapper';
 import ideaMapper from 'client/mappers/ideaMapper';
 
 export default React.createClassWithCSS({
@@ -16,7 +16,7 @@ export default React.createClassWithCSS({
 
     if (mindmap.loaded) {
       return {
-        graph: mindmapMapper.mindmapToGraph(mindmap),
+        graph: mindmapToGraph(mindmap),
         loaded: true
       };
     }

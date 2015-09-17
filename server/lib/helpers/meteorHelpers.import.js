@@ -8,3 +8,7 @@ export function methodsInScope(scope, methods) {
 
   Meteor.methods(methodsMap);
 }
+
+export default {
+  methodsInScope
+}
