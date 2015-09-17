@@ -1,5 +1,11 @@
-Promise.resolve().then(() => {
-  return System.import('server/publications/ideas');
-}).then(() => {
-  return System.import('server/publications/assocs');
-});
+importSeq([
+  'server/lib/helpers/meteorHelpers',
+  'server/publications/ideas',
+  'server/publications/assocs',
+  'server/api/Mindmap'
+]);
+
+function importSeq(modules) {
+  modules.reduce((prev, cur) =>
+    prev.then(System.import.bind(System,cur)), Promise.resolve());
+}

@@ -5,6 +5,7 @@ import { getIdFromStr } from 'client/lib/helpers/mongoHelpers';
 import GraphVM from 'client/viewmodels/graph/Graph';
 import Ideas from 'collections/Ideas';
 import Assocs from 'collections/Assocs';
+import Idea from 'models/Idea';
 
 export default React.createClassWithCSS({
 
@@ -37,28 +38,12 @@ export default React.createClassWithCSS({
 
   onNodeChange(node) {
     let idea = ideaMapper.nodeToIdea(node);
-    Ideas.update({_id: idea._id}, idea);
-
-    console.log(`idea changed: ${idea}`);
+    Meteor.call('Mindmap.updateIdea', {idea});
   },
 
   onNodeAdd(parentNode) {
     let parentIdea = ideaMapper.nodeToIdea(parentNode);
-    let idea = new Idea();
-
-    idea._id = new Mongo.ObjectID();
-    idea.x = parentIdea.x + 100;
-    idea.y = parentIdea.y + 100;
-
-    Ideas.insert(idea);
-
-    let assoc = new Assoc();
-
-    assoc._id = new Mongo.ObjectID();
-    assoc.from = parentIdea._id._str;
-    assoc.to = idea._id._str;
-
-    Assocs.insert(assoc);
+    Meteor.call('Mindmap.createIdea', {parentIdea});
   },
 
   render() {
