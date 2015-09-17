@@ -7,6 +7,8 @@ import Assoc from 'models/Assoc';
 methods('Mindmap', {
 
   createIdea({parentIdea}) {
+    console.log(`create idea`);
+
     let idea = new Idea();
 
     idea._id = new Mongo.ObjectID();
@@ -25,6 +27,8 @@ methods('Mindmap', {
   },
 
   updateIdea({idea}) {
+    console.log(`update idea`);
+
     Ideas.update({_id: idea._id}, idea);
   }
 

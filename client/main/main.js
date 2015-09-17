@@ -1,1 +1,1 @@
-System.import('client/views/startup');
+System.import('client/main/startup');
