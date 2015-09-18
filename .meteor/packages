@@ -16,7 +16,6 @@ logging
 reload
 random
 ejson
-spacebars
 check
 ecmascript
 react
