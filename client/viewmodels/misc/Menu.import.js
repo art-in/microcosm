@@ -1,4 +1,10 @@
-export default class Menu extends EventEmitter {
+import EventedViewModel from '../shared/EventedViewModel';
+
+export default class Menu extends EventedViewModel {
+
+  static eventTypes() {
+    return ['itemSelected'];
+  }
 
   constructor(items) {
     super();

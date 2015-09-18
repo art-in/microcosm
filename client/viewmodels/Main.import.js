@@ -1,3 +1,4 @@
+import EventedViewModel from './shared/EventedViewModel';
 import MindmapProxy from 'client/proxy/Mindmap';
 import {mindmapToGraph} from 'client/mappers/mindmapMapper';
 import MenuVM from 'client/viewmodels/misc/Menu';
@@ -5,7 +6,13 @@ import MenuItemVM from 'client/viewmodels/misc/MenuItem';
 import ideaMapper from 'client/mappers/ideaMapper';
 import GraphVM from './graph/Graph';
 
-export default class Main extends EventEmitter {
+export default class Main extends EventedViewModel {
+
+  static eventTypes() {
+    return [
+      'change'
+    ];
+  }
 
   constructor() {
     super();

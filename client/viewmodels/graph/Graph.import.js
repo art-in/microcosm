@@ -1,7 +1,17 @@
+import EventedViewModel from '../shared/EventedViewModel';
 import Node from './Node';
 import Point from 'client/viewmodels/Point';
 
-export default class Graph extends EventEmitter {
+export default class Graph extends EventedViewModel {
+
+  static eventTypes() {
+    return [
+      'change',
+      'nodeChange',
+      'nodeAdd',
+      'nodeContextMenu'
+    ];
+  }
 
   constructor() {
     super();
