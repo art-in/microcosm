@@ -1,8 +1,5 @@
-import MainView from './../views/Main.import';
-import Mindmap from 'client/proxy/Mindmap';
-
-let mindmap = new Mindmap();
+import MainView from 'client/views/Main.import';
 
 Meteor.startup(function() {
-  React.render(<MainView mindmap={mindmap} />, document.body);
+  React.render(<MainView />, document.body);
 });

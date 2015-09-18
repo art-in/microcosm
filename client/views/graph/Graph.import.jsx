@@ -1,11 +1,8 @@
-import DragContainer from 'client/views/shared/DragContainer';
-import Container from './Container';
+import ViewModelComponent from 'client/views/shared/ViewModelComponent';
+import GraphVM from 'client/viewmodels/graph/Graph';
+import Svg from '../svg/Svg';
 import Node from './Node';
 import Link from './Link';
-import NodeVM from 'client/viewmodels/graph/Node';
-import LinkVM from 'client/viewmodels/graph/Link';
-import GraphVM from 'client/viewmodels/graph/Graph';
-import Point from 'client/viewmodels/Point';
 
 const propTypes = React.PropTypes;
 
@@ -13,94 +10,58 @@ export default React.createClassWithCSS({
 
   displayName: 'Graph',
 
-  mixins: [DragContainer],
+  mixins: [ViewModelComponent],
 
   propTypes: {
-    graph: propTypes.instanceOf(GraphVM).isRequired,
-    onNodeChange: propTypes.func.isRequired,
-    onNodeAdd: propTypes.func.isRequired,
-    onNodeContextMenu: propTypes.func.isRequired,
-    onClick: propTypes.func.isRequired
+    graph: propTypes.instanceOf(GraphVM).isRequired
   },
 
-  getInitialState() {
-    return {
-      graph: new GraphVM()
-    };
+  getViewModel() {
+    return {graph: this.props.graph};
   },
 
-  componentWillReceiveProps(nextProps) {
-    this.state.graph.removeAllListeners();
-    this.addGraphListeners(nextProps.graph);
-    this.setState({graph: nextProps.graph});
-  },
-
-  componentWillMount() {
-    this.addGraphListeners(this.props.graph);
-    this.setState({graph: this.props.graph});
-  },
-
-  componentWillUnmount() {
-    nextProps.graph.removeAllListeners();
-  },
-
-  addGraphListeners(graph) {
-    graph.addListener('change', () => this.forceUpdate());
-  },
-
-  onDragStep(node, shiftX, shiftY) {
-    this.state.graph.moveNode({nodeId: node.id, shift: {x: shiftX, y: shiftY}});
-  },
-
-  onDragCanceled(node, x, y) {
-    this.state.graph.moveNode({nodeId: node.id, pos: {x, y}});
-  },
-
-  onDragged(node) {
-    this.props.onNodeChange(node);
-  },
-
-  onNodeDoubleClick(parentNode) {
-    this.props.onNodeAdd(parentNode);
-  },
-
-  onNodeContextMenu(node, e) {
-    this.props.onNodeContextMenu(node, new Point(e.clientX, e.clientY));
-    e.preventDefault();
+  css: {
+    container: {
+      outline: '1px solid red',
+      width: '100%',
+      height: '500px'
+    }
   },
 
   render() {
 
-    let nodes = this.state.graph.nodes.map((node) => {
+    let graph = this.props.graph;
+
+    let nodes = graph.nodes.map((node) => {
       return (
         <Node
           key={ node.id }
           node={ node }
-          onMouseDown={ this.onDragStart
-                            .bind(null, node, node.pos.x, node.pos.y) }
-          onDoubleClick={ this.onNodeDoubleClick.bind(null, node) }
-          onContextMenu={ this.onNodeContextMenu.bind(null, node) } />
+          onMouseDown={ graph.onDragStart
+                            .bind(graph, node, node.pos.x, node.pos.y) }
+          onDoubleClick={ graph.onNodeDoubleClick.bind(graph, node) }
+          onContextMenu={ graph.onNodeContextMenu.bind(graph, node) }/>
       );
     });
 
-    let links = this.state.graph.links.map((link) => {
+    let links = graph.links.map((link) => {
       return (
         <Link
           key={ link.id }
-          link={ link } />
+          link={ link }/>
       );
     });
 
     return (
-      <Container onClick={ this.props.onClick }
-                 onMouseUp={ this.onDragStop }
-                 onMouseMove={ this.onDrag }
-                 onMouseLeave={ this.onDragRevert }>
+      <Svg className={ cx(this.css().container) }
+           onMouseUp={ graph.onDragStop.bind(graph) }
+           onMouseMove={ graph.onDrag.bind(graph) }
+           onMouseLeave={ graph.onDragRevert.bind(graph) }>
 
         { links }
         { nodes }
 
-      </Container>
+      </Svg>
     );
   }
 })

@@ -1,17 +1,15 @@
-import Menu from 'client/viewmodels/misc/Menu';
+import MenuVM from 'client/viewmodels/misc/Menu';
 import MenuItem from './MenuItem';
 import Point from 'client/viewmodels/Point';
+import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 
 export default React.createClassWithCSS({
 
-  propTypes: {
-    menu: React.PropTypes.instanceOf(Menu).isRequired,
-    pos: React.PropTypes.instanceOf(Point),
-    onItemClick: React.PropTypes.func.isRequired
-  },
+  displayName: 'Menu',
 
-  onItemClick(item) {
-    this.props.onItemClick.call(null, item);
+  propTypes: {
+    menu: React.PropTypes.instanceOf(MenuVM).isRequired,
+    pos: React.PropTypes.instanceOf(Point)
   },
 
   css: {
@@ -26,10 +24,10 @@ export default React.createClassWithCSS({
 
     let {className, menu, pos, ...other} = this.props;
 
-    let items = this.props.menu.items.map((item) => {
+    let items = menu.items.map((item) => {
       return (<MenuItem key={ item.id }
                         item={ item }
-                        onClick={ this.onItemClick.bind(null, item) } />);
+                        onClick={ menu.onItemSelected.bind(menu, item) } />);
     });
 
     let styles = {};

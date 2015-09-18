@@ -22,7 +22,7 @@ export default class Mindmap {
     return Assocs.find().fetch().map(dboToAssoc);
   }
 
-  get loaded() {
+  load() {
     this.ideaSub = Meteor.subscribe('ideas');
     this.assocSub = Meteor.subscribe('assocs');
     return this.ideaSub.ready() && this.assocSub.ready();

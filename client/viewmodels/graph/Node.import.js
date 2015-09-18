@@ -7,4 +7,8 @@ export default class Node {
     this.pos = new Point();
   }
 
+  toString() {
+    return `[Node (${this.id}) (${this.pos.x} x ${this.pos.y})]`;
+  }
+
 }
