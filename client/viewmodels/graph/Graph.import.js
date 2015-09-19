@@ -1,6 +1,6 @@
 import EventedViewModel from '../shared/EventedViewModel';
 import Node from './Node';
-import Point from 'client/viewmodels/Point';
+import Point from 'client/viewmodels/misc/Point';
 
 export default class Graph extends EventedViewModel {
 

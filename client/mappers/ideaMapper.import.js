@@ -1,4 +1,4 @@
-import Point from 'client/viewmodels/Point';
+import Point from 'client/viewmodels/misc/Point';
 import Node from 'client/viewmodels/graph/Node';
 import Idea from 'models/Idea';
 

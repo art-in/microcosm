@@ -1,4 +1,4 @@
-import Point from 'client/viewmodels/Point';
+import Point from 'client/viewmodels/misc/Point';
 
 export default class Node {
 

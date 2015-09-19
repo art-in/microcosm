@@ -1,6 +1,6 @@
 import MenuVM from 'client/viewmodels/misc/Menu';
 import MenuItem from './MenuItem';
-import Point from 'client/viewmodels/Point';
+import Point from 'client/viewmodels/misc/Point';
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 
 export default React.createClassWithCSS({
