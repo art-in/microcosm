@@ -35,7 +35,7 @@ export default {
   },
 
   componentWillUnmount() {
-    removeVMListeners(this._getViewModel());
+    this.removeVMListeners(this._getViewModel());
   },
 
   //endregion

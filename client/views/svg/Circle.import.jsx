@@ -3,7 +3,7 @@ import Point from 'client/viewmodels/misc/Point';
 export default React.createClassWithCSS({
 
   propTypes: {
-    pos: React.PropTypes.instanceOf(Point).isRequired,
+    pos: React.PropTypes.instanceOf(Point),
     radius: React.PropTypes.number.isRequired
   },
 
@@ -12,7 +12,7 @@ export default React.createClassWithCSS({
 
     return (
       <circle r={ radius }
-              cx={ pos.x } cy={ pos.y }
+              cx={ pos && pos.x } cy={ pos && pos.y }
               {...other} />
     );
   }

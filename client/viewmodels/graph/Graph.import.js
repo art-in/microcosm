@@ -2,6 +2,9 @@ import EventedViewModel from '../shared/EventedViewModel';
 import Node from './Node';
 import Point from 'client/viewmodels/misc/Point';
 
+const nodes_ = new WeakMap();
+const links_ = new WeakMap();
+
 export default class Graph extends EventedViewModel {
 
   static eventTypes() {
@@ -16,8 +19,8 @@ export default class Graph extends EventedViewModel {
   constructor() {
     super();
 
-    this.nodes = [];
-    this.links = [];
+    nodes_.set(this, []);
+    links_.set(this, []);
 
     this.drag = {
       on: false,
@@ -31,6 +34,31 @@ export default class Graph extends EventedViewModel {
 
   toString() {
     return `[Graph (${this.nodes}) (${this.links})]`;
+  }
+
+  get nodes() {
+    return nodes_.get(this);
+  }
+
+  set nodes(nodes) {
+    nodes.forEach(this.addNodeHandlers.bind(this));
+    nodes_.set(this, nodes);
+  }
+
+  get links() {
+    return links_.get(this);
+  }
+
+  set links(links) {
+    links_.set(this, links);
+  }
+
+  addNodeHandlers(node) {
+    node.on('titleChange', this.onNodeTitleChange.bind(this, node));
+  }
+
+  onNodeTitleChange(node) {
+    this.emit('nodeChange', node);
   }
 
   moveNode({nodeId, pos, shift}) {
@@ -115,6 +143,8 @@ export default class Graph extends EventedViewModel {
 
 function getNode(nodeId) {
   let node = this.nodes.find((n) => n.id === nodeId);
-  if (!node) { throw Error(`No node with such id found: ${nodeId}`); }
+  if (!node) {
+    throw Error(`No node with such id found: ${nodeId}`);
+  }
   return node;
 }
