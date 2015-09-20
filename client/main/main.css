@@ -1,0 +1,3 @@
+html, body {
+    height: calc(100% - 10px);
+}

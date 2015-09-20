@@ -22,7 +22,8 @@ export default React.createClassWithCSS({
 
   css: {
     main: {
-      'font-family': 'Arial'
+      'font-family': 'Arial',
+      'height': '100%'
     }
   },
 

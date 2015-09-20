@@ -36,9 +36,9 @@ export default React.createClassWithCSS({
 
   css: {
     container: {
-      outline: '1px solid red',
-      height: '500px',
-      position: 'relative'
+      'outline': '1px solid red',
+      'height': '100%',
+      'position': 'relative'
     },
     svg: {
       width: '100%',
