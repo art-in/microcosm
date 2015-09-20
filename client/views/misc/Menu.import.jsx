@@ -8,8 +8,7 @@ export default React.createClassWithCSS({
   displayName: 'Menu',
 
   propTypes: {
-    menu: React.PropTypes.instanceOf(MenuVM).isRequired,
-    pos: React.PropTypes.instanceOf(Point)
+    menu: React.PropTypes.instanceOf(MenuVM).isRequired
   },
 
   css: {
@@ -22,7 +21,7 @@ export default React.createClassWithCSS({
 
   render() {
 
-    let {className, menu, pos, ...other} = this.props;
+    let {menu, className, ...other} = this.props;
 
     let items = menu.items.map((item) => {
       return (<MenuItem key={ item.id }
@@ -30,14 +29,8 @@ export default React.createClassWithCSS({
                         onClick={ menu.onItemSelected.bind(menu, item) } />);
     });
 
-    let styles = {};
-    if (pos) {
-      styles = {position: 'absolute', left: `${pos.x}px`, top: `${pos.y}px`};
-    }
-
     return (
       <div className={ cx(this.css().menu, className) }
-           style={ styles }
            onClick={ this.onClick }
            {...other} >
 

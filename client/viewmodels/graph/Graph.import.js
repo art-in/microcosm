@@ -1,6 +1,8 @@
 import EventedViewModel from '../shared/EventedViewModel';
+import MenuVM from '../misc/Menu';
+import MenuItemVM from '../misc/MenuItem';
+import Point from '../misc/Point';
 import Node from './Node';
-import Point from 'client/viewmodels/misc/Point';
 
 const nodes_ = new WeakMap();
 const links_ = new WeakMap();
@@ -10,9 +12,9 @@ export default class Graph extends EventedViewModel {
   static eventTypes() {
     return [
       'change',
-      'nodeChange',
       'nodeAdd',
-      'nodeContextMenu'
+      'nodeChange',
+      'nodeDelete'
     ];
   }
 
@@ -30,18 +32,32 @@ export default class Graph extends EventedViewModel {
       x: null,
       y: null
     };
+
+    this.contextMenu = {
+      on: false,
+      pos: null,
+      node: null,
+      def: new MenuVM([
+        new MenuItemVM('add'),
+        new MenuItemVM('delete')
+      ])
+    };
+
+    addContextMenuHandlers.call(this);
   }
 
   toString() {
     return `[Graph (${this.nodes}) (${this.links})]`;
   }
 
+  //region properties
+
   get nodes() {
     return nodes_.get(this);
   }
 
   set nodes(nodes) {
-    nodes.forEach(this.addNodeHandlers.bind(this));
+    nodes.forEach(addNodeHandlers.bind(this));
     nodes_.set(this, nodes);
   }
 
@@ -53,32 +69,52 @@ export default class Graph extends EventedViewModel {
     links_.set(this, links);
   }
 
-  addNodeHandlers(node) {
-    node.on('titleChange', this.onNodeTitleChange.bind(this, node));
+  //endregion
+
+  //region handlers
+
+  onClick() {
+    if (this.contextMenu.on) {
+      this.contextMenu.on = false;
+      this.emit('change');
+    }
+  }
+
+  onNodeRightClick(node, pos) {
+    this.contextMenu.on = true;
+    this.contextMenu.pos = pos;
+    this.contextMenu.node = node;
+    this.emit('change');
+  }
+
+  onNodeContextMenuClick(menuItem) {
+    let node = this.contextMenu.node;
+
+    switch (menuItem.displayValue) {
+      case 'add': this.emit('nodeAdd', node); break;
+      case 'delete': this.emit('nodeDelete', node); break;
+    }
   }
 
   onNodeTitleChange(node) {
     this.emit('nodeChange', node);
   }
 
-  moveNode({nodeId, pos, shift}) {
-    let node = getNode.call(this, nodeId);
-
-    if (shift) {
-      node.pos.x += shift.x;
-      node.pos.y += shift.y;
-    } else {
-      node.pos.x = pos.x;
-      node.pos.y = pos.y;
-    }
-
-    this.emit('change');
+  onNodeDoubleClick(parentNode) {
+    this.emit('nodeAdd', parentNode);
   }
 
-  onDragStart(item, startX, startY, e) {
+  //region dragging
+
+  onDragStart(node, startX, startY, e) {
+    if (e.nativeEvent.which !== 1) {
+      // left button only
+      return;
+    }
+
     this.drag = {
       on: true,
-      item: item,
+      node: node,
       startX: startX,
       startY: startY,
       x: e.clientX,
@@ -94,7 +130,7 @@ export default class Graph extends EventedViewModel {
     this.drag.on = false;
 
     this.onDragCanceled(
-      this.drag.item,
+      this.drag.node,
       this.drag.startX,
       this.drag.startY);
   }
@@ -105,7 +141,7 @@ export default class Graph extends EventedViewModel {
     }
 
     this.drag.on = false;
-    this.emit('nodeChange', this.drag.item);
+    this.emit('nodeChange', this.drag.node);
   }
 
   onDrag(e) {
@@ -119,26 +155,30 @@ export default class Graph extends EventedViewModel {
     this.drag.x = e.clientX;
     this.drag.y = e.clientY;
 
-    this.onDragStep(this.drag.item, shiftX, shiftY);
+    this.onDragStep(this.drag.node, shiftX, shiftY);
   }
 
   onDragStep(node, shiftX, shiftY) {
-    this.moveNode({nodeId: node.id, shift: {x: shiftX, y: shiftY}});
+    moveNode.call(this, {nodeId: node.id, shift: {x: shiftX, y: shiftY}});
   }
 
   onDragCanceled(node, x, y) {
-    this.moveNode({nodeId: node.id, pos: {x, y}});
+    moveNode.call(this, {nodeId: node.id, pos: {x, y}});
   }
 
-  onNodeDoubleClick(parentNode) {
-    this.emit('nodeAdd', parentNode);
-  }
+  //endregion
 
-  onNodeContextMenu(node, e) {
-    this.emit('nodeContextMenu', node, new Point(e.clientX, e.clientY));
-    e.preventDefault();
-  }
+  //endregion
 
+}
+
+function addNodeHandlers(node) {
+  node.on('titleChange', this.onNodeTitleChange.bind(this, node));
+}
+
+function addContextMenuHandlers() {
+  this.contextMenu.def.on('itemSelected',
+    this.onNodeContextMenuClick.bind(this));
 }
 
 function getNode(nodeId) {
@@ -147,4 +187,18 @@ function getNode(nodeId) {
     throw Error(`No node with such id found: ${nodeId}`);
   }
   return node;
+}
+
+function moveNode({nodeId, pos, shift}) {
+  let node = getNode.call(this, nodeId);
+
+  if (shift) {
+    node.pos.x += shift.x;
+    node.pos.y += shift.y;
+  } else {
+    node.pos.x = pos.x;
+    node.pos.y = pos.y;
+  }
+
+  this.emit('change');
 }

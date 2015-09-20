@@ -1,8 +1,10 @@
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import GraphVM from 'client/viewmodels/graph/Graph';
+import Point from 'client/viewmodels/misc/Point';
 import Svg from '../svg/Svg';
 import Node from './Node';
 import Link from './Link';
+import Menu from '../misc/Menu';
 
 const propTypes = React.PropTypes;
 
@@ -20,17 +22,36 @@ export default React.createClassWithCSS({
     return {graph: this.props.graph};
   },
 
+  onNodeRightClick(node, e) {
+    let container = React.findDOMNode(this.refs.container);
+
+    let pos = new Point(
+      e.pageX - container.offsetLeft,
+      e.pageY - container.offsetTop
+    );
+
+    this.props.graph.onNodeRightClick(node, pos);
+    e.preventDefault();
+  },
+
   css: {
     container: {
       outline: '1px solid red',
+      height: '500px',
+      position: 'relative'
+    },
+    svg: {
       width: '100%',
-      height: '500px'
+      height: '100%'
+    },
+    contextMenu: {
+      position: 'absolute'
     }
   },
 
   render() {
 
-    let graph = this.props.graph;
+    let {graph, className, ...other} = this.props;
 
     let nodes = graph.nodes.map((node) => {
       return (
@@ -40,7 +61,7 @@ export default React.createClassWithCSS({
           onMouseDown={ graph.onDragStart
                             .bind(graph, node, node.pos.x, node.pos.y) }
           onDoubleClick={ graph.onNodeDoubleClick.bind(graph, node) }
-          onContextMenu={ graph.onNodeContextMenu.bind(graph, node) }/>
+          onContextMenu={ this.onNodeRightClick.bind(null, node) }/>
       );
     });
 
@@ -52,16 +73,37 @@ export default React.createClassWithCSS({
       );
     });
 
+    let contextMenu;
+    if (graph.contextMenu.on) {
+      contextMenu = (
+        <Menu menu={ graph.contextMenu.def }
+              className={ this.css().contextMenu }
+              style={{
+                left: `${graph.contextMenu.pos.x}px`,
+                top: `${graph.contextMenu.pos.y}px`
+              }}/>
+      );
+    }
+
     return (
-      <Svg className={ cx(this.css().container) }
-           onMouseUp={ graph.onDragStop.bind(graph) }
-           onMouseMove={ graph.onDrag.bind(graph) }
-           onMouseLeave={ graph.onDragRevert.bind(graph) }>
+      <div ref='container'
+           className={ cx(this.css().container, className) }>
 
-        { links }
-        { nodes }
+        <Svg className={ this.css().svg }
+             onMouseUp={ graph.onDragStop.bind(graph) }
+             onMouseMove={ graph.onDrag.bind(graph) }
+             onMouseLeave={ graph.onDragRevert.bind(graph) }
+             onClick={ graph.onClick.bind(graph) }
+             {...other}>
 
-      </Svg>
+          { links }
+          { nodes }
+
+        </Svg>
+
+        { contextMenu }
+
+      </div>
     );
   }
 })
