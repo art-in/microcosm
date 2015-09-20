@@ -3,6 +3,8 @@ import Link from 'client/viewmodels/graph/Link';
 
 export default React.createClassWithCSS({
 
+  displayName: 'Link',
+
   propTypes: {
     link: React.PropTypes.instanceOf(Link).isRequired
   },
@@ -18,7 +20,8 @@ export default React.createClassWithCSS({
     let {link, className, ...other} = this.props;
 
     return (
-      <Line className={ cx(this.css().link, className) }
+      <Line id={ this.constructor.displayName }
+            className={ cx(this.css().link, className) }
             pos1={ this.props.link.fromNode.pos }
             pos2={ this.props.link.toNode.pos }
             {...other} />

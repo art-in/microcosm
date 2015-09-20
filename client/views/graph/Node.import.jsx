@@ -50,7 +50,7 @@ export default React.createClassWithCSS({
     textAreaPos.y = -(node.radius + textAreaHeight);
 
     return (
-      <Group pos={ node.pos }>
+      <Group id={ this.constructor.displayName } pos={ node.pos }>
 
         <Circle className={ cx(this.css().node, className) }
                 radius={ node.radius }

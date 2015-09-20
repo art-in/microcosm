@@ -28,7 +28,8 @@ export default React.createClassWithCSS({
 
   render() {
     return (
-      <main className={ this.css().main }>
+      <main id={ this.constructor.displayName }
+            className={ this.css().main }>
         {
           !this.state.graph &&
             <div>Loading...</div>

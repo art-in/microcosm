@@ -86,7 +86,7 @@ export default React.createClassWithCSS({
     }
 
     return (
-      <div ref='container'
+      <div id={ this.constructor.displayName } ref='container'
            className={ cx(this.css().container, className) }>
 
         <Svg className={ this.css().svg }

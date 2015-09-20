@@ -30,7 +30,8 @@ export default React.createClassWithCSS({
     });
 
     return (
-      <div className={ cx(this.css().menu, className) }
+      <div id={ this.constructor.displayName }
+           className={ cx(this.css().menu, className) }
            onClick={ this.onClick }
            {...other} >
 

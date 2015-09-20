@@ -8,11 +8,12 @@ export default React.createClassWithCSS({
 
   render() {
 
-    let {pos, ...other} = this.props;
+    let {pos, id, ...other} = this.props;
 
     return (
-      <g transform={`translate(${pos.x} ${pos.y})`}
-            {...other}>
+      <g id={id}
+         transform={`translate(${pos.x} ${pos.y})`}
+         {...other}>
 
         {this.props.children}
 
