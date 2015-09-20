@@ -2,19 +2,31 @@ import Point from 'client/viewmodels/misc/Point';
 
 export default React.createClassWithCSS({
 
+  displayName: 'Line',
+
   propTypes: {
+    id: React.PropTypes.string,
     pos1: React.PropTypes.instanceOf(Point).isRequired,
     pos2: React.PropTypes.instanceOf(Point).isRequired
   },
 
   render() {
-    let {id, pos1, pos2, ...other} = this.props;
+    let {id, pos1, pos2, className, ...other} = this.props;
 
+    id = id || Math.random();
+
+    // React does not (want to?) support namespaced attributes...
+    // In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'
+    // https://github.com/facebook/react/issues/2250
     return (
-      <line id={id}
-            x1={ this.props.pos1.x } y1={ this.props.pos1.y }
-            x2={ this.props.pos2.x } y2={ this.props.pos2.y }
-            {...other} />
+      <g id={ this.constructor.displayName } dangerouslySetInnerHTML={{__html: `
+
+        <defs>
+          <path id='${id}'
+                class='${className}'
+                d='M ${pos1.x} ${pos1.y} L ${pos2.x} ${pos2.y}' />
+        </defs>
+        <use xlink:href='#${id}' />`}} />
     );
   }
 

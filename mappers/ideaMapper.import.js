@@ -1,26 +1,26 @@
 import Idea from 'models/Idea';
 import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
-export function dboToIdea(ideaDbo) {
-  let idea = new Idea();
+export function dboToIdea(dbo) {
+  let model = new Idea();
 
-  idea.id = idToStr(ideaDbo._id);
-  idea.x = ideaDbo.x;
-  idea.y = ideaDbo.y;
-  idea.value = ideaDbo.value;
+  model.id = idToStr(dbo._id);
+  model.x = dbo.x;
+  model.y = dbo.y;
+  model.value = dbo.value;
 
-  return idea;
+  return model;
 }
 
-export function ideaToDbo(idea) {
-  let ideaDbo = {};
+export function ideaToDbo(model) {
+  let dbo = {};
 
-  ideaDbo._id = strToId(idea.id);
-  ideaDbo.x = idea.x;
-  ideaDbo.y = idea.y;
-  ideaDbo.value = idea.value;
+  dbo._id = strToId(model.id);
+  dbo.x = model.x;
+  dbo.y = model.y;
+  dbo.value = model.value;
 
-  return ideaDbo;
+  return dbo;
 }
 
 export default {

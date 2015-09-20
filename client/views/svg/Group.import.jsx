@@ -12,7 +12,7 @@ export default React.createClassWithCSS({
 
     return (
       <g id={id}
-         transform={`translate(${pos.x} ${pos.y})`}
+         transform={ pos && `translate(${pos.x} ${pos.y})`}
          {...other}>
 
         {this.props.children}

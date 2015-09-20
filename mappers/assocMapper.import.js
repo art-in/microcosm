@@ -7,6 +7,7 @@ export function dboToAssoc(dbo) {
   model.id = idToStr(dbo._id);
   model.from = dbo.from;
   model.to = dbo.to;
+  model.value = dbo.value;
 
   return model;
 }
@@ -14,9 +15,10 @@ export function dboToAssoc(dbo) {
 export function assocToDbo(model) {
   let dbo = {};
 
-  dbo._id = new Mongo.ObjectID(model.id);
+  dbo._id = strToId(model.id);
   dbo.from = model.from;
   dbo.to = model.to;
+  dbo.value = model.value;
 
   return dbo;
 }

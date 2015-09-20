@@ -2,23 +2,54 @@ import Point from 'client/viewmodels/misc/Point';
 
 export default React.createClassWithCSS({
 
+  displayName: 'Text',
+
   propTypes: {
+    text: React.PropTypes.string,
     align: React.PropTypes.string,
-    pos: React.PropTypes.instanceOf(Point)
+    pos: React.PropTypes.instanceOf(Point),
+    href: React.PropTypes.string,
+    offset: React.PropTypes.number
   },
 
   render() {
 
-    let {align, pos, ...other} = this.props;
+    let {text, align, pos, href, offset, className, ...other} = this.props;
 
+    if (offset && !href) {
+      console.warn('Offset only makes sense with href');
+    }
+
+    // React does not (want to?) support namespaced attributes...
+    // In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'
+    // https://github.com/facebook/react/issues/2250
+
+    // Chrome does not redraw textPath on path change
+    // when <text> and <defs> are in different <g>-groups ...
+    // Force redraw by setting random id attr.
     return (
-      <text textAnchor={ align }
-            x={ pos && pos.x } y={ pos && pos.y }
-            {...other}>
+      <g id={ this.constructor.displayName } dangerouslySetInnerHTML={{__html: `
 
-        {this.props.children}
+          <text id='${Math.random()}'
+                text-anchor='${align || ''}'
+                x='${pos ? pos.x : ''}'
+                y='${pos ? pos.y : ''}'
+                class='${className}'>` +
 
-      </text>
+          (href ?
+
+          `<textPath xlink:href='#${href}'
+                     startOffset='${offset || ''}%'>
+            <tspan
+              dx='${(pos && pos.x) || ''}'
+              dy='${(pos && pos.y) || ''}'>
+              ${text || ''}
+            </tspan>
+          </textPath>`
+
+          : `${text || ''}`) +
+
+        `</text>`}} />
     );
   }
 

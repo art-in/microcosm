@@ -1,0 +1,16 @@
+1. React does not (want to?) support namespaced attributes...
+   And 'xlink:href' is necessary for UA to ref path from textPath.
+   In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'.
+   https://github.com/facebook/react/issues/2250
+
+2. Chrome does not redraw textPath on path change
+   when <text> and <defs> are in different <g>-groups ...
+   Force redraw by setting random id attr.
+   http://stackoverflow.com/questions/11573694/svg-textpath-not-visible-after-transition-on-chrome
+   TODO: search for or file a bug to Chrome
+
+
+
+
+
+
