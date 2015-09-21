@@ -1,4 +1,5 @@
 import Point from 'client/viewmodels/misc/Point';
+import {reversedPathIdPostfix} from './Line';
 
 export default React.createClassWithCSS({
 
@@ -6,18 +7,28 @@ export default React.createClassWithCSS({
 
   propTypes: {
     text: React.PropTypes.string,
-    align: React.PropTypes.string,
-    pos: React.PropTypes.instanceOf(Point),
-    href: React.PropTypes.string,
-    offset: React.PropTypes.number
+    align: React.PropTypes.string, // start / middle / end
+    pos: React.PropTypes.instanceOf(Point), // position dep on client area or path
+    href: React.PropTypes.string, // id of path to draw text on
+    offset: React.PropTypes.number, // offset from start of the path
+    reverse: React.PropTypes.bool // draw from start of the path or from end
   },
 
   render() {
 
-    let {text, align, pos, href, offset, className, ...other} = this.props;
+    let {
+      text,
+      align,
+      pos,
+      href, offset, reverse,
+      className, ...other} = this.props;
 
     if (offset && !href) {
       console.warn('Offset only makes sense with href');
+    }
+
+    if (reverse && !href) {
+      console.warn('Reverse only makes sense with href');
     }
 
     // React does not (want to?) support namespaced attributes...
@@ -38,8 +49,9 @@ export default React.createClassWithCSS({
 
           (href ?
 
-          `<textPath xlink:href='#${href}'
-                     startOffset='${offset || ''}%'>
+          `<textPath
+              xlink:href='#${reverse ? href + reversedPathIdPostfix : href}'
+              startOffset='${offset || ''}%'>
             <tspan
               dx='${(pos && pos.x) || ''}'
               dy='${(pos && pos.y) || ''}'>

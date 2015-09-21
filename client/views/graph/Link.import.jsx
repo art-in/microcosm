@@ -30,21 +30,22 @@ export default React.createClassWithCSS({
   render() {
     let {link, className, ...other} = this.props;
 
-    let id = link.id + Math.random();
+    let reverseTitle = link.fromNode.pos.x > link.toNode.pos.x;
 
     return (
       <Group id={ this.constructor.displayName }>
 
         <Line id={ link.id }
               className={ cx(this.css().line, className) }
-              pos1={ this.props.link.fromNode.pos }
-              pos2={ this.props.link.toNode.pos }
+              pos1={ link.fromNode.pos }
+              pos2={ link.toNode.pos }
               {...other} />
 
         <Text text={ link.title }
               href={ link.id }
               pos={ new Point(0, -10) }
               offset={ 30 }
+              reverse={ reverseTitle }
               className={ this.css().title } />
 
       </Group>
