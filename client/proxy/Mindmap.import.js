@@ -46,4 +46,10 @@ export default class Mindmap {
     Meteor.call('mindmap.deleteIdea', ...args);
   }
 
+  //noinspection JSMethodCanBeStatic
+  updateAssoc(...args) {
+    console.log(`update assoc: ${args[0].assoc}`);
+    Meteor.call('mindmap.updateAssoc', ...args);
+  }
+
 }

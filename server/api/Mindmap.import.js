@@ -49,6 +49,12 @@ methods('mindmap', {
 
     Assocs.remove({});
     Ideas.remove({});
+  },
+
+  updateAssoc({assoc}) {
+    console.log(`update assoc: ${assoc.id}`);
+
+    Assocs.update({_id: strToId(assoc.id)}, assocToDbo(assoc));
   }
 
 });

@@ -15,7 +15,7 @@ export default class Node extends EventedViewModel {
 
     this.id = undefined;
     this.pos = new Point();
-    this.radius = 50;
+    this.radius = 20;
     this.title = '';
     this.titleEditable = false;
   }

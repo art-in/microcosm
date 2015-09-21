@@ -14,6 +14,36 @@ export default React.createClassWithCSS({
     reverse: React.PropTypes.bool // draw from start of the path or from end
   },
 
+  getInitialState() {
+    return {
+      text: ''
+    };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      pos: 0,
+      text: nextProps.text
+    });
+  },
+
+  componentWillMount() {
+    this.setState({
+      text: this.props.text
+    });
+  },
+
+  componentDidMount() {
+    let container = React.findDOMNode(this.refs.container);
+    let text = container.querySelector('text');
+    text.focus();
+
+    text.addEventListener('keypress', function(e) {
+      debugger;
+      e.preventDefault();
+    });
+  },
+
   render() {
 
     let {
@@ -21,7 +51,8 @@ export default React.createClassWithCSS({
       align,
       pos,
       href, offset, reverse,
-      className, ...other} = this.props;
+      className,
+      ...other} = this.props;
 
     if (offset && !href) {
       console.warn('Offset only makes sense with href');
@@ -39,7 +70,10 @@ export default React.createClassWithCSS({
     // when <text> and <defs> are in different <g>-groups ...
     // Force redraw by setting random id attr.
     return (
-      <g id={ this.constructor.displayName } dangerouslySetInnerHTML={{__html: `
+      <g id={ this.constructor.displayName }
+         ref={ 'container' }
+         {...other}
+         dangerouslySetInnerHTML={{__html: `
 
           <text id='${Math.random()}'
                 text-anchor='${align || ''}'
@@ -55,11 +89,11 @@ export default React.createClassWithCSS({
             <tspan
               dx='${(pos && pos.x) || ''}'
               dy='${(pos && pos.y) || ''}'>
-              ${text || ''}
+              ${this.state.text || ''}
             </tspan>
           </textPath>`
 
-          : `${text || ''}`) +
+          : `${this.state.text || ''}`) +
 
         `</text>`}} />
     );

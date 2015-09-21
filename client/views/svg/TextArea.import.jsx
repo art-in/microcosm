@@ -11,6 +11,7 @@ export default React.createClassWithCSS({
     pos: React.PropTypes.instanceOf(Point),
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number,
+    rotation: React.PropTypes.number,
     editable: React.PropTypes.bool,
     onChange: React.PropTypes.func
   },
@@ -24,13 +25,14 @@ export default React.createClassWithCSS({
   render() {
 
     let {
-      value, pos, width, height,
+      value, pos, width, height, rotation,
       onChange,
       editable,
       ...other} = this.props;
 
     return (
-      <foreignObject x={ pos && pos.x } y={ pos && pos.y }>
+      <foreignObject transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
+                                 (rotation ? `rotate(${rotation})` : '') }>
 
         {
           editable ?
@@ -41,9 +43,9 @@ export default React.createClassWithCSS({
                            onChange={ onChange }
                            {...other} />
 
-          : <div style={{width, height}} {...other}>
-              {value}
-            </div>
+            : <div style={{width, height}} {...other}>
+                {value}
+              </div>
         }
       </foreignObject>
     );

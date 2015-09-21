@@ -2,6 +2,7 @@ import EventedViewModel from './shared/EventedViewModel';
 import MindmapProxy from 'client/proxy/Mindmap';
 import {mindmapToGraph} from 'client/mappers/mindmapMapper';
 import ideaMapper from 'client/mappers/ideaMapper';
+import assocMapper from 'client/mappers/assocMapper';
 import GraphVM from './graph/Graph';
 
 export default class Main extends EventedViewModel {
@@ -35,6 +36,8 @@ export default class Main extends EventedViewModel {
     this.graph.on('nodeAdd', this.onNodeAdd.bind(this));
     this.graph.on('nodeChange', this.onNodeChange.bind(this));
     this.graph.on('nodeDelete', this.onNodeDelete.bind(this));
+
+    this.graph.on('linkChange', this.onLinkChange.bind(this));
   }
 
   onNodeChange(node) {
@@ -50,6 +53,11 @@ export default class Main extends EventedViewModel {
   onNodeDelete(node) {
     let idea = ideaMapper.nodeToIdea(node);
     this.mindmap.deleteIdea({ideaId: idea.id});
+  }
+
+  onLinkChange(link) {
+    let assoc = assocMapper.linkToAssoc(link);
+    this.mindmap.updateAssoc({assoc});
   }
 
 }

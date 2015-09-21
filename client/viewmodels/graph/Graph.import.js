@@ -14,7 +14,8 @@ export default class Graph extends EventedViewModel {
       'change',
       'nodeAdd',
       'nodeChange',
-      'nodeDelete'
+      'nodeDelete',
+      'linkChange'
     ];
   }
 
@@ -66,6 +67,7 @@ export default class Graph extends EventedViewModel {
   }
 
   set links(links) {
+    links.forEach(addLinkHandlers.bind(this));
     links_.set(this, links);
   }
 
@@ -98,6 +100,10 @@ export default class Graph extends EventedViewModel {
 
   onNodeTitleChange(node) {
     this.emit('nodeChange', node);
+  }
+
+  onLinkTitleChange(link) {
+    this.emit('linkChange', link);
   }
 
   onNodeDoubleClick(parentNode) {
@@ -174,6 +180,10 @@ export default class Graph extends EventedViewModel {
 
 function addNodeHandlers(node) {
   node.on('titleChange', this.onNodeTitleChange.bind(this, node));
+}
+
+function addLinkHandlers(link) {
+  link.on('titleChange', this.onLinkTitleChange.bind(this, link));
 }
 
 function addContextMenuHandlers() {

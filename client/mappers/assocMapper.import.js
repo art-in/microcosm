@@ -33,7 +33,7 @@ export function linkToAssoc(link) {
   assoc.to = link.toNode.id;
   assoc.value = link.title;
 
-  return Assoc;
+  return assoc;
 }
 
 export default {

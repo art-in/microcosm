@@ -43,7 +43,7 @@ export default React.createClassWithCSS({
   render() {
     let {node, className, ...other} = this.props;
 
-    let textAreaWidth = node.radius * 4;
+    let textAreaWidth = 200;
     let textAreaHeight = 25;
     let textAreaPos = new Point();
     textAreaPos.x = -(textAreaWidth / 2);
