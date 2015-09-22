@@ -47,7 +47,7 @@ export default React.createClassWithCSS({
 
     let titlePartOfLink = 0.75;
     let titleHeight = 25;
-    let linkStartWidth = 25;
+    let linkStartWidth = link.isBOI ? 30 : 5;
     let linkEndWidth = 2;
 
     // Using editable/rectangular TextArea for now.

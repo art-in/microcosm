@@ -8,6 +8,7 @@ export function dboToIdea(dbo) {
   model.x = dbo.x;
   model.y = dbo.y;
   model.value = dbo.value;
+  model.isCentral = dbo.isCentral === true;
 
   return model;
 }
@@ -19,6 +20,9 @@ export function ideaToDbo(model) {
   dbo.x = model.x;
   dbo.y = model.y;
   dbo.value = model.value;
+  if (model.isCentral) {
+    dbo.isCentral = model.isCentral;
+  }
 
   return dbo;
 }

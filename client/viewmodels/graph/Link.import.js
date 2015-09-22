@@ -20,10 +20,16 @@ export default class Link extends EventedViewModel {
   }
 
   toString() {
-    return `[Link (${this.id}) ` +
-      ` (${this.fromNode.pos.x} x ${this.fromNode.pos.y}) -` +
-      ` (${this.toNode.pos.x} x ${this.toNode.pos.y}) ` +
-      ` (${this.title})]`;
+    return `[Link` +
+      (this.isBOI ? '* ' : ' ') +
+      `(${this.id}) ` +
+      `(${this.fromNode.pos.x} x ${this.fromNode.pos.y}) - ` +
+      `(${this.toNode.pos.x} x ${this.toNode.pos.y}) ` +
+      `(${this.title})]`;
+  }
+
+  get isBOI() {
+    return this.fromNode.isCentral;
   }
 
   onTitleClick() {

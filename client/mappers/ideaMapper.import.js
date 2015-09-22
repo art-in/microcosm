@@ -10,6 +10,7 @@ export function ideaToNode(idea) {
   node.id = idea.id;
   node.pos = new Point(idea.x, idea.y);
   node.title = idea.value;
+  node.isCentral = idea.isCentral;
 
   return node;
 }
@@ -23,6 +24,7 @@ export function nodeToIdea(node) {
   idea.x = node.pos.x;
   idea.y = node.pos.y;
   idea.value = node.title;
+  idea.isCentral = node.isCentral;
 
   return idea;
 }

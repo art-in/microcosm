@@ -32,13 +32,35 @@ methods('mindmap', {
   updateIdea({idea}) {
     console.log(`update idea: ${idea.id}`);
 
+    if (idea.isCentral) {
+      let centralCount = Ideas.find({
+        isCentral: true,
+        _id: {$not: {$eq: strToId(idea.id)}}}
+      ).count();
+
+      if (centralCount > 0) {
+        throw new Meteor.Error(400,
+          'Unable to set isCentral flag because map already has central idea');
+      }
+    }
+
     Ideas.update({_id: strToId(idea.id)}, ideaToDbo(idea));
   },
 
   deleteIdea({ideaId}) {
     console.log(`delete idea: ${ideaId}`);
 
-    var id = strToId(ideaId);
+    let id = strToId(ideaId);
+
+    let idea = Ideas.findOne({_id: id});
+    if (idea.isCentral) {
+      throw new Meteor.Error(400, 'Unable to delete central idea');
+    }
+
+    let assocsFrom = Assocs.find({from: ideaId}).count();
+    if (assocsFrom > 0) {
+      throw new Meteor.Error(400, 'Unable to delete idea with association');
+    }
 
     Assocs.remove({$or: [{from: ideaId}, {to: ideaId}]});
     Ideas.remove({_id: id});

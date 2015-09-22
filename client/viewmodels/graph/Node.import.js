@@ -18,12 +18,15 @@ export default class Node extends EventedViewModel {
     this.radius = 20;
     this.title = '';
     this.titleEditable = false;
+    this.isCentral = false;
   }
 
   toString() {
-    return `[Node (${this.id}) ` +
-           ` (${this.pos.x} x ${this.pos.y}) ` +
-           ` (${this.title})]`;
+    return `[Node` +
+     (this.isCentral ? '* ' : ' ') +
+     `(${this.id}) ` +
+     ` (${this.pos.x} x ${this.pos.y}) ` +
+     ` (${this.title})]`;
   }
 
   onTitleClick() {

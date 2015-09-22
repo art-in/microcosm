@@ -10,7 +10,10 @@ export default class Assoc {
   }
 
   toString() {
-    return `[Assoc (${this.id}) (${this.from} - ${this.to}) (${this.value})]`;
+    return `[Assoc` +
+      `(${this.id}) ` +
+      `(${this.from} - ${this.to}) ` +
+      `(${this.value})]`;
   }
 
 };
