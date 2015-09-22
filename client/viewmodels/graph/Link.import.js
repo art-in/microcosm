@@ -17,6 +17,7 @@ export default class Link extends EventedViewModel {
     this.toNode = undefined;
     this.title = '';
     this.titleEditable = false;
+    this.color = '';
   }
 
   toString() {
@@ -25,6 +26,7 @@ export default class Link extends EventedViewModel {
       `(${this.id}) ` +
       `(${this.fromNode.pos.x} x ${this.fromNode.pos.y}) - ` +
       `(${this.toNode.pos.x} x ${this.toNode.pos.y}) ` +
+      `(${this.color}) ` +
       `(${this.title})]`;
   }
 

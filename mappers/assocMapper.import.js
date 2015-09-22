@@ -8,6 +8,7 @@ export function dboToAssoc(dbo) {
   model.from = dbo.from;
   model.to = dbo.to;
   model.value = dbo.value;
+  model.color = dbo.color;
 
   return model;
 }
@@ -19,6 +20,7 @@ export function assocToDbo(model) {
   dbo.from = model.from;
   dbo.to = model.to;
   dbo.value = model.value;
+  dbo.color = model.color;
 
   return dbo;
 }

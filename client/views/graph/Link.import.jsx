@@ -22,7 +22,6 @@ export default React.createClassWithCSS({
 
   css: {
     line: {
-      'fill': 'lightgray',
       'stroke': '#BBB'
     },
     title: {
@@ -90,6 +89,7 @@ export default React.createClassWithCSS({
 
         <Line id={ link.id }
               className={ cx(this.css().line, className) }
+              style={{fill: link.color}}
               pos1={ link.fromNode.pos }
               pos2={ link.toNode.pos }
               width={{start: linkStartWidth, end: linkEndWidth}}

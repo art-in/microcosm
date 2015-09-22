@@ -1,7 +1,9 @@
+import Link from './Link';
 import EventedViewModel from '../shared/EventedViewModel';
-import MenuVM from '../misc/Menu';
-import MenuItemVM from '../misc/MenuItem';
+import ContextMenu from '../misc/ContextMenu';
+import MenuItem from '../misc/MenuItem';
 import Point from '../misc/Point';
+import ColorPicker from '../misc/ColorPicker';
 import Node from './Node';
 
 const nodes_ = new WeakMap();
@@ -34,24 +36,27 @@ export default class Graph extends EventedViewModel {
       y: null
     };
 
-    this.contextMenu = {
-      on: false,
-      pos: null,
-      node: null,
-      def: new MenuVM([
-        new MenuItemVM('add'),
-        new MenuItemVM('delete')
-      ])
-    };
+    this.nodeContextMenu = new ContextMenu([
+      new MenuItem('add'),
+      new MenuItem('delete')
+    ]);
 
-    addContextMenuHandlers.call(this);
+    this.linkContextMenu = new ContextMenu([
+      new MenuItem('set color')
+    ]);
+
+    this.colorPicker = new ColorPicker();
+
+    addNodeContextMenuHandlers.call(this);
+    addLinkContextMenuHandlers.call(this);
+    addColorPickerHandlers.call(this);
   }
 
   toString() {
     return `[Graph (${this.nodes}) (${this.links})]`;
   }
 
-  //region properties
+  //region getters/setters
 
   get nodes() {
     return nodes_.get(this);
@@ -76,26 +81,52 @@ export default class Graph extends EventedViewModel {
   //region handlers
 
   onClick() {
-    if (this.contextMenu.on) {
-      this.contextMenu.on = false;
-      this.emit('change');
-    }
+    this.nodeContextMenu.active && this.nodeContextMenu.deactivate();
+    this.linkContextMenu.active && this.linkContextMenu.deactivate();
+    this.colorPicker.active && this.colorPicker.deactivate();
   }
 
   onNodeRightClick(node, pos) {
-    this.contextMenu.on = true;
-    this.contextMenu.pos = pos;
-    this.contextMenu.node = node;
-    this.emit('change');
+    this.nodeContextMenu.activate({pos, target: node});
   }
 
-  onNodeContextMenuClick(menuItem) {
-    let node = this.contextMenu.node;
+  onLinkRightClick(link, pos) {
+    this.linkContextMenu.activate({pos, target: link});
+  }
+
+  onNodeContextMenuItemSelected(menuItem) {
+    let node = this.nodeContextMenu.target;
 
     switch (menuItem.displayValue) {
       case 'add': this.emit('nodeAdd', node); break;
       case 'delete': this.emit('nodeDelete', node); break;
+      default: throw Error('unknown menu item');
     }
+
+    this.nodeContextMenu.deactivate();
+  }
+
+  onLinkContextMenuItemSelected(menuItem) {
+    let link = this.linkContextMenu.target;
+
+    switch (menuItem.displayValue) {
+      case 'set color': this.colorPicker.activate(link); break;
+      default: throw Error('unknown menu item');
+    }
+
+    this.linkContextMenu.deactivate();
+  }
+
+  onColorPickerColorSelected(color) {
+    let target = this.colorPicker.target;
+
+    if (target.constructor === Link) {
+      let link = target;
+      link.color = color;
+      this.emit('linkChange', link);
+    }
+
+    this.colorPicker.deactivate();
   }
 
   onNodeTitleChange(node) {
@@ -128,12 +159,12 @@ export default class Graph extends EventedViewModel {
     };
   }
 
-  onDragRevert(e) {
+  onDragRevert() {
     if (!this.drag.on) {
       return;
     }
 
-    this.drag.on = false;
+    this.drag.active = false;
 
     this.onDragCanceled(
       this.drag.node,
@@ -146,7 +177,7 @@ export default class Graph extends EventedViewModel {
       return;
     }
 
-    this.drag.on = false;
+    this.drag.active = false;
     this.emit('nodeChange', this.drag.node);
   }
 
@@ -186,9 +217,19 @@ function addLinkHandlers(link) {
   link.on('titleChange', this.onLinkTitleChange.bind(this, link));
 }
 
-function addContextMenuHandlers() {
-  this.contextMenu.def.on('itemSelected',
-    this.onNodeContextMenuClick.bind(this));
+function addNodeContextMenuHandlers() {
+  this.nodeContextMenu.on('itemSelected',
+    this.onNodeContextMenuItemSelected.bind(this));
+}
+
+function addLinkContextMenuHandlers() {
+  this.linkContextMenu.on('itemSelected',
+    this.onLinkContextMenuItemSelected.bind(this));
+}
+
+function addColorPickerHandlers() {
+  this.colorPicker.on('colorSelected',
+    this.onColorPickerColorSelected.bind(this));
 }
 
 function getNode(nodeId) {

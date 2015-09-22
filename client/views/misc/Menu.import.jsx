@@ -1,7 +1,5 @@
 import MenuVM from 'client/viewmodels/misc/Menu';
 import MenuItem from './MenuItem';
-import Point from 'client/viewmodels/misc/Point';
-import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 
 export default React.createClassWithCSS({
 
@@ -33,7 +31,7 @@ export default React.createClassWithCSS({
       <div id={ this.constructor.displayName }
            className={ cx(this.css().menu, className) }
            onClick={ this.onClick }
-           {...other} >
+           {...other}>
 
         { items }
 

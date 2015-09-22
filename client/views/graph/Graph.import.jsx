@@ -5,7 +5,8 @@ import Svg from '../svg/Svg';
 import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
-import Menu from '../misc/Menu';
+import ContextMenu from '../misc/ContextMenu';
+import ColorPicker from '../misc/ColorPicker';
 
 const propTypes = React.PropTypes;
 
@@ -32,6 +33,18 @@ export default React.createClassWithCSS({
     );
 
     this.props.graph.onNodeRightClick(node, pos);
+    e.preventDefault();
+  },
+
+  onLinkRightClick(link, e) {
+    let container = React.findDOMNode(this.refs.container);
+
+    let pos = new Point(
+      e.pageX - container.offsetLeft,
+      e.pageY - container.offsetTop
+    );
+
+    this.props.graph.onLinkRightClick(link, pos);
     e.preventDefault();
   },
 
@@ -70,21 +83,10 @@ export default React.createClassWithCSS({
       return (
         <Link
           key={ link.id }
-          link={ link }/>
+          link={ link }
+          onContextMenu={ this.onLinkRightClick.bind(null, link) } />
       );
     });
-
-    let contextMenu;
-    if (graph.contextMenu.on) {
-      contextMenu = (
-        <Menu menu={ graph.contextMenu.def }
-              className={ this.css().contextMenu }
-              style={{
-                left: `${graph.contextMenu.pos.x}px`,
-                top: `${graph.contextMenu.pos.y}px`
-              }}/>
-      );
-    }
 
     return (
       <div id={ this.constructor.displayName } ref='container'
@@ -102,7 +104,15 @@ export default React.createClassWithCSS({
 
         </Svg>
 
-        { contextMenu }
+        <div id={'menus'}>
+          <ContextMenu menu={ graph.nodeContextMenu }
+                       className={ this.css().contextMenu } />
+
+          <ContextMenu menu={ graph.linkContextMenu }
+                       className={ this.css().contextMenu } />
+
+          <ColorPicker picker={ graph.colorPicker } />
+        </div>
 
       </div>
     );
