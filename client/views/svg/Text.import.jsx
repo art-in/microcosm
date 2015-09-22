@@ -33,17 +33,6 @@ export default React.createClassWithCSS({
     });
   },
 
-  componentDidMount() {
-    let container = React.findDOMNode(this.refs.container);
-    let text = container.querySelector('text');
-    text.focus();
-
-    text.addEventListener('keypress', function(e) {
-      debugger;
-      e.preventDefault();
-    });
-  },
-
   render() {
 
     let {
@@ -71,7 +60,6 @@ export default React.createClassWithCSS({
     // Force redraw by setting random id attr.
     return (
       <g id={ this.constructor.displayName }
-         ref={ 'container' }
          {...other}
          dangerouslySetInnerHTML={{__html: `
 
