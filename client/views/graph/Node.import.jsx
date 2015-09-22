@@ -25,9 +25,6 @@ export default React.createClassWithCSS({
       'stroke': 'gray',
       'stroke-width': '2'
     },
-    nodeCentral: {
-      'fill': 'yellow'
-    },
     title: {
       'font-size': '20px',
       'color': '#333',
@@ -55,10 +52,8 @@ export default React.createClassWithCSS({
     return (
       <Group id={ this.constructor.displayName } pos={ node.pos }>
 
-        <Circle className={ cx(
-                              this.css().node,
-                              {[this.css().nodeCentral]: node.isCentral},
-                              className) }
+        <Circle className={ cx(this.css().node, className)}
+                style={{fill: node.color || 'lightgray'}}
                 radius={ node.radius }
                 {...other} />
 

@@ -8,6 +8,7 @@ export default class Idea {
     this.y = undefined;
     this.value = 'new idea';
     this.isCentral = false;
+    this.color = '';
   }
 
   toString() {

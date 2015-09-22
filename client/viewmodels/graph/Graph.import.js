@@ -91,6 +91,10 @@ export default class Graph extends EventedViewModel {
   }
 
   onLinkRightClick(link, pos) {
+    if (!link.isBOI) {
+      // color can be set on BOI links only
+      return;
+    }
     this.linkContextMenu.activate({pos, target: link});
   }
 
@@ -121,9 +125,9 @@ export default class Graph extends EventedViewModel {
     let target = this.colorPicker.target;
 
     if (target.constructor === Link) {
-      let link = target;
-      link.color = color;
-      this.emit('linkChange', link);
+      let node = target.toNode;
+      node.color = color;
+      this.emit('nodeChange', node);
     }
 
     this.colorPicker.deactivate();

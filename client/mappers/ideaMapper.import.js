@@ -11,6 +11,7 @@ export function ideaToNode(idea) {
   node.pos = new Point(idea.x, idea.y);
   node.title = idea.value;
   node.isCentral = idea.isCentral;
+  node.color = idea.isCentral ? 'yellow' : (idea.color || node.color);
 
   return node;
 }
@@ -25,6 +26,7 @@ export function nodeToIdea(node) {
   idea.y = node.pos.y;
   idea.value = node.title;
   idea.isCentral = node.isCentral;
+  idea.color = node.color;
 
   return idea;
 }

@@ -19,14 +19,17 @@ export default class Node extends EventedViewModel {
     this.title = '';
     this.titleEditable = false;
     this.isCentral = false;
+    this.color = '';
+    this.links = [];
   }
 
   toString() {
     return `[Node` +
-     (this.isCentral ? '* ' : ' ') +
-     `(${this.id}) ` +
-     ` (${this.pos.x} x ${this.pos.y}) ` +
-     ` (${this.title})]`;
+      (this.isCentral ? '* ' : ' ') +
+      `(${this.id}) ` +
+      `(${this.pos.x} x ${this.pos.y}) ` +
+      `(links: ${this.links.length}}) ` +
+      `(${this.title})]`;
   }
 
   onTitleClick() {

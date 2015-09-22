@@ -9,6 +9,7 @@ export function dboToIdea(dbo) {
   model.y = dbo.y;
   model.value = dbo.value;
   model.isCentral = dbo.isCentral === true;
+  model.color = dbo.color;
 
   return model;
 }
@@ -20,11 +21,21 @@ export function ideaToDbo(model) {
   dbo.x = model.x;
   dbo.y = model.y;
   dbo.value = model.value;
-  if (model.isCentral) {
-    dbo.isCentral = model.isCentral;
-  }
+  dbo.isCentral = model.isCentral || undefined;
+  dbo.color = model.color || undefined;
 
+  deleteUndefinedProps(dbo);
   return dbo;
+}
+
+function deleteUndefinedProps(obj) {
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      if (obj[prop] === undefined) {
+        delete obj[prop];
+      }
+    }
+  }
 }
 
 export default {

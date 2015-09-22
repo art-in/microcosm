@@ -17,7 +17,6 @@ export default class Link extends EventedViewModel {
     this.toNode = undefined;
     this.title = '';
     this.titleEditable = false;
-    this.color = '';
   }
 
   toString() {
@@ -32,6 +31,10 @@ export default class Link extends EventedViewModel {
 
   get isBOI() {
     return this.fromNode.isCentral;
+  }
+
+  get color() {
+    return this.toNode.color;
   }
 
   onTitleClick() {

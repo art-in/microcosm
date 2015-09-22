@@ -7,14 +7,12 @@ export default class Assoc {
     this.from = undefined;
     this.to = undefined;
     this.value = 'new assoc';
-    this.color = 'lightgray';
   }
 
   toString() {
     return `[Assoc ` +
       `(${this.id}) ` +
       `(${this.from} - ${this.to}) ` +
-      `(${this.color}) ` +
       `(${this.value})]`;
   }
 

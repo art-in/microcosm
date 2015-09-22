@@ -89,7 +89,7 @@ export default React.createClassWithCSS({
 
         <Line id={ link.id }
               className={ cx(this.css().line, className) }
-              style={{fill: link.color}}
+              style={{fill: link.color || 'lightgray'}}
               pos1={ link.fromNode.pos }
               pos2={ link.toNode.pos }
               width={{start: linkStartWidth, end: linkEndWidth}}
