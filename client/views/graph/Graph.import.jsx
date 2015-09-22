@@ -2,6 +2,7 @@ import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import GraphVM from 'client/viewmodels/graph/Graph';
 import Point from 'client/viewmodels/misc/Point';
 import Svg from '../svg/Svg';
+import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
 import Menu from '../misc/Menu';
@@ -96,8 +97,8 @@ export default React.createClassWithCSS({
              onClick={ graph.onClick.bind(graph) }
              {...other}>
 
-          { links }
-          { nodes }
+          <Group id={'links'}>{links}</Group>
+          <Group id={'nodes'}>{nodes}</Group>
 
         </Svg>
 
