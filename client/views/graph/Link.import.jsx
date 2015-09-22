@@ -22,8 +22,8 @@ export default React.createClassWithCSS({
 
   css: {
     line: {
-      'stroke': 'gray',
-      'stroke-width': '2'
+      'fill': 'lightgray',
+      'stroke': '#BBB'
     },
     title: {
       'font-size': '24px',
@@ -45,13 +45,18 @@ export default React.createClassWithCSS({
   render() {
     let {link, className, ...other} = this.props;
 
+    let titlePartOfLink = 0.75;
+    let titleHeight = 25;
+    let linkStartWidth = 25;
+    let linkEndWidth = 2;
+
     // Using editable/rectangular TextArea for now.
     // It is always rectangular form, which is OK since all links are lines now.
     // It cannot be drawn on (curl) paths, so compute all positioning stuff by hand.
     // This will not be required when we implement editable text area which can be
     // drawn on (curl) paths.
     // For now it is just easier to compute positions vs. implement curl editable field.
-    let {sin, cos, atan2, sqrt, pow, PI} = Math;
+    let {sin, cos, atan2, sqrt, pow, max, PI} = Math;
 
     // flip title so it always above the link
     let reverseTitle = link.fromNode.pos.x > link.toNode.pos.x;
@@ -67,11 +72,7 @@ export default React.createClassWithCSS({
 
     // rotate title with the link
     let titleRotation = atan2(dy, dx) * 180 / PI;
-
-    let titlePartOfLink = 0.75;
     let titleWidth = linkLength * titlePartOfLink;
-    let titleHeight = 25;
-
     let titlePos = new Point(posFrom.x, posFrom.y);
 
     // shift title to the center of the link
@@ -79,8 +80,10 @@ export default React.createClassWithCSS({
     titlePos.y += dy * (1 - titlePartOfLink) / 2;
 
     // lift title above the link
-    titlePos.x -= (-sin(titleRotation * (PI / 180)) * (titleHeight + 5));
-    titlePos.y -= (cos(titleRotation * (PI / 180)) * (titleHeight + 5));
+    let titleLiftHeight = titleHeight + max(linkStartWidth, linkEndWidth) / 2;
+
+    titlePos.x -= (-sin(titleRotation * (PI / 180)) * titleLiftHeight);
+    titlePos.y -= (cos(titleRotation * (PI / 180)) * titleLiftHeight);
 
     return (
       <Group id={ this.constructor.displayName }>
@@ -89,6 +92,7 @@ export default React.createClassWithCSS({
               className={ cx(this.css().line, className) }
               pos1={ link.fromNode.pos }
               pos2={ link.toNode.pos }
+              width={{start: linkStartWidth, end: linkEndWidth}}
               {...other} />
 
         <TextArea className={ this.css().title }
