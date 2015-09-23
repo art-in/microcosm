@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import Link from 'client/viewmodels/graph/Link';
 import Point from 'client/viewmodels/misc/Point';
@@ -10,7 +11,7 @@ export default React.createClassWithCSS({
 
   displayName: 'Link',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     link: React.PropTypes.instanceOf(Link).isRequired
@@ -86,7 +87,7 @@ export default React.createClassWithCSS({
     titlePos.y -= (cos(titleRotation * (PI / 180)) * titleLiftHeight);
 
     return (
-      <Group id={ this.constructor.displayName }>
+      <Group>
 
         <Line id={ link.id }
               className={ cx(this.css().line, className) }

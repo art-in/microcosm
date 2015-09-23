@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import ColorPickerVM from 'client/viewmodels/misc/ColorPicker';
 
@@ -5,7 +6,7 @@ export default React.createClassWithCSS({
 
   displayName: 'ColorPicker',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     picker: React.PropTypes.instanceOf(ColorPickerVM).isRequired
@@ -50,8 +51,7 @@ export default React.createClassWithCSS({
     // NOTE: picker cannot be forced on page load with any delay at all.
 
     return (
-      <input id={ this.constructor.displayName }
-             ref='input'
+      <input ref='input'
              type='color'
              onChange={ this.onChange }
              className={ this.css().input } />

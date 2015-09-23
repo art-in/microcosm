@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import Point from 'client/viewmodels/misc/Point';
 
 export const reversedPathIdPostfix = '_reversed';
@@ -5,6 +6,8 @@ export const reversedPathIdPostfix = '_reversed';
 export default React.createClassWithCSS({
 
   displayName: 'Line',
+
+  mixins: [DisplayNameAttribute],
 
   propTypes: {
     id: React.PropTypes.string,
@@ -78,8 +81,7 @@ export default React.createClassWithCSS({
     // Create two paths: normal one for drawing line itself,
     // and reversed - for later use (e.g. inverted textPath).
     return (
-      <g id={ this.constructor.displayName }
-         {...other}
+      <g {...other}
          dangerouslySetInnerHTML={{__html: `
 
         <defs>

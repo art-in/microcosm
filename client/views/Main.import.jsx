@@ -1,4 +1,4 @@
-import ViewModelComponent from 'client/views/shared/ViewModelComponent';
+import DisplayNameAttribute from './shared/DisplayNameAttribute';
 import MainVM from 'client/viewmodels/Main';
 import Mindmap from './Mindmap';
 
@@ -6,7 +6,7 @@ export default React.createClassWithCSS({
 
   displayName: 'Main',
 
-  mixins: [ReactMeteorData],
+  mixins: [DisplayNameAttribute, ReactMeteorData],
 
   getInitialState() {
     return new MainVM();
@@ -26,8 +26,7 @@ export default React.createClassWithCSS({
 
   render() {
     return (
-      <main id={ this.constructor.displayName }
-            className={ this.css().main }>
+      <main className={ this.css().main }>
         {
           !this.state.mindmap &&
             <div>Loading...</div>

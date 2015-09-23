@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import ContextMenuVM from 'client/viewmodels/misc/ContextMenu';
 import MenuItem from './MenuItem';
 import Point from 'client/viewmodels/misc/Point';
@@ -8,7 +9,7 @@ export default React.createClassWithCSS({
 
   displayName: 'ContextMenu',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     menu: React.PropTypes.instanceOf(ContextMenuVM).isRequired

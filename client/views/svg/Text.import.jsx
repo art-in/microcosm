@@ -1,9 +1,12 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import Point from 'client/viewmodels/misc/Point';
 import {reversedPathIdPostfix} from './Line';
 
 export default React.createClassWithCSS({
 
   displayName: 'Text',
+
+  mixins: [DisplayNameAttribute],
 
   propTypes: {
     text: React.PropTypes.string,
@@ -59,8 +62,7 @@ export default React.createClassWithCSS({
     // when <text> and <defs> are in different <g>-groups ...
     // Force redraw by setting random id attr.
     return (
-      <g id={ this.constructor.displayName }
-         {...other}
+      <g {...other}
          dangerouslySetInnerHTML={{__html: `
 
           <text id='${Math.random()}'

@@ -1,4 +1,5 @@
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
+import DisplayNameAttribute from './shared/DisplayNameAttribute';
 import MindmapVM from 'client/viewmodels/Mindmap';
 import Graph from './graph/Graph';
 import ContextMenu from './misc/ContextMenu';
@@ -8,7 +9,7 @@ export default React.createClassWithCSS({
 
   displayName: 'Mindmap',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     mindmap: React.PropTypes.instanceOf(MindmapVM).isRequired
@@ -36,8 +37,7 @@ export default React.createClassWithCSS({
     let {mindmap, className, ...other} = this.props;
 
     return (
-      <div id={ this.constructor.displayName }
-           className={ cx(this.css().container, className) }
+      <div className={ cx(this.css().container, className) }
            {...other}>
 
         <Graph graph={ mindmap.graph } />

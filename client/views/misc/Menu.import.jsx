@@ -1,9 +1,12 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import MenuVM from 'client/viewmodels/misc/Menu';
 import MenuItem from './MenuItem';
 
 export default React.createClassWithCSS({
 
   displayName: 'Menu',
+
+  mixins: [DisplayNameAttribute],
 
   propTypes: {
     menu: React.PropTypes.instanceOf(MenuVM).isRequired
@@ -28,8 +31,7 @@ export default React.createClassWithCSS({
     });
 
     return (
-      <div id={ this.constructor.displayName }
-           className={ cx(this.css().menu, className) }
+      <div className={ cx(this.css().menu, className) }
            onClick={ this.onClick }
            {...other}>
 

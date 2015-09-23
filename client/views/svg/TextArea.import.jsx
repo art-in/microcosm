@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import Point from 'client/viewmodels/misc/Point';
 import EditableField from '../misc/EditableField';
 import Text from './Text';
@@ -5,6 +6,8 @@ import Text from './Text';
 export default React.createClassWithCSS({
 
   displayName: 'TextArea',
+
+  mixins: [DisplayNameAttribute],
 
   propTypes: {
     value: React.PropTypes.string,
@@ -31,8 +34,7 @@ export default React.createClassWithCSS({
       ...other} = this.props;
 
     return (
-      <foreignObject id={ this.constructor.displayName }
-                     transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
+      <foreignObject transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
                                  (rotation ? `rotate(${rotation})` : '') }>
 
         {

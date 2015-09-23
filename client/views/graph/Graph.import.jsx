@@ -1,4 +1,5 @@
-import ViewModelComponent from 'client/views/shared/ViewModelComponent';
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
+import ViewModelComponent from '../shared/ViewModelComponent';
 import GraphVM from 'client/viewmodels/graph/Graph';
 import Point from 'client/viewmodels/misc/Point';
 import Svg from '../svg/Svg';
@@ -13,7 +14,7 @@ export default React.createClassWithCSS({
 
   displayName: 'Graph',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     graph: propTypes.instanceOf(GraphVM).isRequired
@@ -81,7 +82,7 @@ export default React.createClassWithCSS({
     });
 
     return (
-        <Svg id={ this.constructor.displayName } ref={ 'container' }
+        <Svg ref={ 'container' }
              className={ this.css().svg }
              onMouseUp={ graph.onDragStop.bind(graph) }
              onMouseMove={ graph.onDrag.bind(graph) }

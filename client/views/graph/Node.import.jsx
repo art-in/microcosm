@@ -1,3 +1,4 @@
+import DisplayNameAttribute from '../shared/DisplayNameAttribute';
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import Point from 'client/viewmodels/misc/Point';
 import Node from 'client/viewmodels/graph/Node';
@@ -9,7 +10,7 @@ export default React.createClassWithCSS({
 
   displayName: 'Node',
 
-  mixins: [ViewModelComponent],
+  mixins: [DisplayNameAttribute, ViewModelComponent],
 
   propTypes: {
     node: React.PropTypes.instanceOf(Node).isRequired
@@ -49,7 +50,7 @@ export default React.createClassWithCSS({
     textAreaPos.y = -(node.radius + textAreaHeight);
 
     return (
-      <Group id={ this.constructor.displayName } pos={ node.pos }>
+      <Group pos={ node.pos }>
 
         <Circle className={ cx(this.css().node, className)}
                 style={{fill: node.color || 'lightgray'}}
