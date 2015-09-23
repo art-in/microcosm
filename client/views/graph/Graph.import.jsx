@@ -5,6 +5,7 @@ import Svg from '../svg/Svg';
 import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
+import { bodyMargin } from 'client/lib/helpers/domHelpers';
 
 const propTypes = React.PropTypes;
 
@@ -25,9 +26,10 @@ export default React.createClassWithCSS({
   onNodeRightClick(node, e) {
     let container = React.findDOMNode(this.refs.container);
 
+    // send position depending to this container
     let pos = new Point(
-      e.pageX - container.offsetLeft,
-      e.pageY - container.offsetTop
+      e.pageX - container.offsetLeft - bodyMargin.left,
+      e.pageY - container.offsetTop - bodyMargin.top
     );
 
     this.props.graph.onNodeRightClick(node, pos);
@@ -37,9 +39,10 @@ export default React.createClassWithCSS({
   onLinkRightClick(link, e) {
     let container = React.findDOMNode(this.refs.container);
 
+    // send position depending to this container
     let pos = new Point(
-      e.pageX - container.offsetLeft,
-      e.pageY - container.offsetTop
+      e.pageX - container.offsetLeft - bodyMargin.left,
+      e.pageY - container.offsetTop - bodyMargin.top
     );
 
     this.props.graph.onLinkRightClick(link, pos);

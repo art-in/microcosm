@@ -22,6 +22,11 @@ export default React.createClassWithCSS({
     container: {
       'outline': '1px solid red',
       'height': '100%',
+
+      // Context menus are positioned relatively to Mindmap container.
+      // Graph sends right-click positions relative to its container.
+      // To avoid menus shift - Graph and Mindmap should equal at top-left,
+      // otherwise wrap Graph and context menus in separate container.
       'position': 'relative'
     }
   },
