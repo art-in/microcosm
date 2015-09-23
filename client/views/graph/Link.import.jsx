@@ -22,7 +22,8 @@ export default React.createClassWithCSS({
 
   css: {
     line: {
-      'stroke': '#BBB'
+      'stroke': '#BBB',
+      'stroke-width': '1'
     },
     title: {
       'font-size': '24px',

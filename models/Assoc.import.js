@@ -6,7 +6,7 @@ export default class Assoc {
     this.id = newIdStr();
     this.from = undefined;
     this.to = undefined;
-    this.value = 'new assoc';
+    this.value = '';
   }
 
   toString() {

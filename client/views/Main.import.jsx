@@ -1,23 +1,20 @@
 import ViewModelComponent from 'client/views/shared/ViewModelComponent';
 import MainVM from 'client/viewmodels/Main';
-import Graph from './graph/Graph';
+import Mindmap from './Mindmap';
 
 export default React.createClassWithCSS({
 
   displayName: 'Main',
 
-  mixins: [ReactMeteorData, ViewModelComponent],
+  mixins: [ReactMeteorData],
 
   getInitialState() {
     return new MainVM();
   },
 
-  getViewModel() {
-    return this.state;
-  },
-
   getMeteorData() {
-    return {loaded: this.state.load()};
+    this.state.load();
+    return {};
   },
 
   css: {
@@ -32,13 +29,13 @@ export default React.createClassWithCSS({
       <main id={ this.constructor.displayName }
             className={ this.css().main }>
         {
-          !this.state.graph &&
+          !this.state.mindmap &&
             <div>Loading...</div>
         }
 
         {
-          this.state.graph &&
-            <Graph graph={ this.state.graph } />
+          this.state.mindmap &&
+            <Mindmap mindmap={ this.state.mindmap } />
         }
       </main>
     );

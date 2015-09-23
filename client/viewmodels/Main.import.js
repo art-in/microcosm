@@ -1,63 +1,47 @@
 import EventedViewModel from './shared/EventedViewModel';
-import MindmapProxy from 'client/proxy/Mindmap';
-import {mindmapToGraph} from 'client/mappers/mindmapMapper';
-import ideaMapper from 'client/mappers/ideaMapper';
-import assocMapper from 'client/mappers/assocMapper';
-import GraphVM from './graph/Graph';
+import MindmapModel from 'models/Mindmap';
+import Mindmap from './Mindmap';
+import Graph from './graph/Graph';
 
-export default class Main extends EventedViewModel {
-
-  static eventTypes() {
-    return [
-      'change'
-    ];
-  }
+export default class Main {
 
   constructor() {
-    super();
+    this.model = new MindmapModel();
 
-    this.mindmap = new MindmapProxy();
-
-    this.graph = new GraphVM();
+    this.mindmap = null;
   }
 
   load() {
-    if (this.mindmap.load()) {
-      this.graph = mindmapToGraph(this.mindmap);
-      this.addGraphHandlers();
+    if (this.model.load()) {
+      this.mindmap = new Mindmap(this.model);
+      this.addMindmapHandlers();
       return true;
     }
 
-    this.graph = null;
     return false;
   }
 
-  addGraphHandlers() {
-    this.graph.on('nodeAdd', this.onNodeAdd.bind(this));
-    this.graph.on('nodeChange', this.onNodeChange.bind(this));
-    this.graph.on('nodeDelete', this.onNodeDelete.bind(this));
-
-    this.graph.on('linkChange', this.onLinkChange.bind(this));
+  addMindmapHandlers() {
+    this.mindmap.on('ideaAdd', this.onIdeaAdd.bind(this));
+    this.mindmap.on('ideaChange', this.onIdeaChange.bind(this));
+    this.mindmap.on('ideaDelete', this.onIdeaDelete.bind(this));
+    this.mindmap.on('assocChange', this.onAssocChange.bind(this));
   }
 
-  onNodeChange(node) {
-    let idea = ideaMapper.nodeToIdea(node);
-    this.mindmap.updateIdea({idea});
+  onIdeaChange(idea) {
+    this.model.updateIdea({idea});
   }
 
-  onNodeAdd(parentNode) {
-    let parentIdea = ideaMapper.nodeToIdea(parentNode);
-    this.mindmap.createIdea({parentIdeaId: parentIdea.id});
+  onIdeaAdd(parentIdea) {
+    this.model.createIdea({parentIdeaId: parentIdea.id});
   }
 
-  onNodeDelete(node) {
-    let idea = ideaMapper.nodeToIdea(node);
-    this.mindmap.deleteIdea({ideaId: idea.id});
+  onIdeaDelete(idea) {
+    this.model.deleteIdea({ideaId: idea.id});
   }
 
-  onLinkChange(link) {
-    let assoc = assocMapper.linkToAssoc(link);
-    this.mindmap.updateAssoc({assoc});
+  onAssocChange(assoc) {
+    this.model.updateAssoc({assoc});
   }
 
 }

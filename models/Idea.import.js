@@ -6,7 +6,7 @@ export default class Idea {
     this.id = newIdStr();
     this.x = undefined;
     this.y = undefined;
-    this.value = 'new idea';
+    this.value = '';
     this.isCentral = false;
     this.color = '';
   }

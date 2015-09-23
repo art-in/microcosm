@@ -36,7 +36,9 @@ export default React.createClassWithCSS({
   css: {
     input: {
       'position': 'absolute',
-      'visibility': 'hidden'
+      'visibility': 'hidden',
+      'left': '0', 'top': '0',
+      'width': '0', 'height': '0'
     }
   },
 

@@ -21,9 +21,8 @@ export default React.createClassWithCSS({
 
   css: {
     node: {
-      'fill': 'lightblue',
-      'stroke': 'gray',
-      'stroke-width': '2'
+      'stroke': '#BBB',
+      'stroke-width': '1'
     },
     title: {
       'font-size': '20px',

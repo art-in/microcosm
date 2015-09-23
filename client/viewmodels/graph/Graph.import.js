@@ -1,10 +1,4 @@
-import Link from './Link';
 import EventedViewModel from '../shared/EventedViewModel';
-import ContextMenu from '../misc/ContextMenu';
-import MenuItem from '../misc/MenuItem';
-import Point from '../misc/Point';
-import ColorPicker from '../misc/ColorPicker';
-import Node from './Node';
 
 const nodes_ = new WeakMap();
 const links_ = new WeakMap();
@@ -14,10 +8,11 @@ export default class Graph extends EventedViewModel {
   static eventTypes() {
     return [
       'change',
-      'nodeAdd',
+      'click',
       'nodeChange',
-      'nodeDelete',
-      'linkChange'
+      'linkChange',
+      'nodeRightClick',
+      'linkRightClick'
     ];
   }
 
@@ -35,28 +30,13 @@ export default class Graph extends EventedViewModel {
       x: null,
       y: null
     };
-
-    this.nodeContextMenu = new ContextMenu([
-      new MenuItem('add'),
-      new MenuItem('delete')
-    ]);
-
-    this.linkContextMenu = new ContextMenu([
-      new MenuItem('set color')
-    ]);
-
-    this.colorPicker = new ColorPicker();
-
-    addNodeContextMenuHandlers.call(this);
-    addLinkContextMenuHandlers.call(this);
-    addColorPickerHandlers.call(this);
   }
 
   toString() {
     return `[Graph (${this.nodes}) (${this.links})]`;
   }
 
-  //region getters/setters
+  //region get / set
 
   get nodes() {
     return nodes_.get(this);
@@ -81,68 +61,15 @@ export default class Graph extends EventedViewModel {
   //region handlers
 
   onClick() {
-    this.nodeContextMenu.active && this.nodeContextMenu.deactivate();
-    this.linkContextMenu.active && this.linkContextMenu.deactivate();
-    this.colorPicker.active && this.colorPicker.deactivate();
+    this.emit('click');
   }
 
   onNodeRightClick(node, pos) {
-    this.nodeContextMenu.activate({pos, target: node});
+    this.emit('nodeRightClick', node, pos);
   }
 
   onLinkRightClick(link, pos) {
-    if (!link.isBOI) {
-      // color can be set on BOI links only
-      return;
-    }
-    this.linkContextMenu.activate({pos, target: link});
-  }
-
-  onNodeContextMenuItemSelected(menuItem) {
-    let node = this.nodeContextMenu.target;
-
-    switch (menuItem.displayValue) {
-      case 'add': this.emit('nodeAdd', node); break;
-      case 'delete': this.emit('nodeDelete', node); break;
-      default: throw Error('unknown menu item');
-    }
-
-    this.nodeContextMenu.deactivate();
-  }
-
-  onLinkContextMenuItemSelected(menuItem) {
-    let link = this.linkContextMenu.target;
-
-    switch (menuItem.displayValue) {
-      case 'set color': this.colorPicker.activate(link); break;
-      default: throw Error('unknown menu item');
-    }
-
-    this.linkContextMenu.deactivate();
-  }
-
-  onColorPickerColorSelected(color) {
-    let target = this.colorPicker.target;
-
-    if (target.constructor === Link) {
-      let node = target.toNode;
-      node.color = color;
-      this.emit('nodeChange', node);
-    }
-
-    this.colorPicker.deactivate();
-  }
-
-  onNodeTitleChange(node) {
-    this.emit('nodeChange', node);
-  }
-
-  onLinkTitleChange(link) {
-    this.emit('linkChange', link);
-  }
-
-  onNodeDoubleClick(parentNode) {
-    this.emit('nodeAdd', parentNode);
+    this.emit('linkRightClick', link, pos);
   }
 
   //region dragging
@@ -213,27 +140,14 @@ export default class Graph extends EventedViewModel {
 
 }
 
+//region privates
+
 function addNodeHandlers(node) {
-  node.on('titleChange', this.onNodeTitleChange.bind(this, node));
+  node.on('titleChange', this.emit.bind(this, 'nodeChange', node));
 }
 
 function addLinkHandlers(link) {
-  link.on('titleChange', this.onLinkTitleChange.bind(this, link));
-}
-
-function addNodeContextMenuHandlers() {
-  this.nodeContextMenu.on('itemSelected',
-    this.onNodeContextMenuItemSelected.bind(this));
-}
-
-function addLinkContextMenuHandlers() {
-  this.linkContextMenu.on('itemSelected',
-    this.onLinkContextMenuItemSelected.bind(this));
-}
-
-function addColorPickerHandlers() {
-  this.colorPicker.on('colorSelected',
-    this.onColorPickerColorSelected.bind(this));
+  link.on('titleChange', this.emit.bind(this, 'linkChange', link));
 }
 
 function getNode(nodeId) {
@@ -257,3 +171,5 @@ function moveNode({nodeId, pos, shift}) {
 
   this.emit('change');
 }
+
+//endregion

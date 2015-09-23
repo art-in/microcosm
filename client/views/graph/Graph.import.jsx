@@ -5,8 +5,6 @@ import Svg from '../svg/Svg';
 import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
-import ContextMenu from '../misc/ContextMenu';
-import ColorPicker from '../misc/ColorPicker';
 
 const propTypes = React.PropTypes;
 
@@ -49,23 +47,15 @@ export default React.createClassWithCSS({
   },
 
   css: {
-    container: {
-      'outline': '1px solid red',
-      'height': '100%',
-      'position': 'relative'
-    },
     svg: {
       width: '100%',
       height: '100%'
-    },
-    contextMenu: {
-      position: 'absolute'
     }
   },
 
   render() {
 
-    let {graph, className, ...other} = this.props;
+    let {graph, ...other} = this.props;
 
     let nodes = graph.nodes.map((node) => {
       return (
@@ -74,7 +64,6 @@ export default React.createClassWithCSS({
           node={ node }
           onMouseDown={ graph.onDragStart
                             .bind(graph, node, node.pos.x, node.pos.y) }
-          onDoubleClick={ graph.onNodeDoubleClick.bind(graph, node) }
           onContextMenu={ this.onNodeRightClick.bind(null, node) }/>
       );
     });
@@ -89,10 +78,8 @@ export default React.createClassWithCSS({
     });
 
     return (
-      <div id={ this.constructor.displayName } ref='container'
-           className={ cx(this.css().container, className) }>
-
-        <Svg className={ this.css().svg }
+        <Svg id={ this.constructor.displayName } ref={ 'container' }
+             className={ this.css().svg }
              onMouseUp={ graph.onDragStop.bind(graph) }
              onMouseMove={ graph.onDrag.bind(graph) }
              onMouseLeave={ graph.onDragRevert.bind(graph) }
@@ -103,18 +90,6 @@ export default React.createClassWithCSS({
           <Group id={'nodes'}>{nodes}</Group>
 
         </Svg>
-
-        <div id={'menus'}>
-          <ContextMenu menu={ graph.nodeContextMenu }
-                       className={ this.css().contextMenu } />
-
-          <ContextMenu menu={ graph.linkContextMenu }
-                       className={ this.css().contextMenu } />
-
-          <ColorPicker picker={ graph.colorPicker } />
-        </div>
-
-      </div>
     );
   }
 })

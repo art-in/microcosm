@@ -7,7 +7,7 @@ export default React.createClassWithCSS({
   displayName: 'TextArea',
 
   propTypes: {
-    value: React.PropTypes.string.isRequired,
+    value: React.PropTypes.string,
     pos: React.PropTypes.instanceOf(Point),
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number,
@@ -31,7 +31,8 @@ export default React.createClassWithCSS({
       ...other} = this.props;
 
     return (
-      <foreignObject transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
+      <foreignObject id={ this.constructor.displayName }
+                     transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
                                  (rotation ? `rotate(${rotation})` : '') }>
 
         {
