@@ -13,14 +13,16 @@ export default {
 };
 
 function addNameAttribute() {
-  if (!this.constructor.displayName) {
+  let componentDisplayName = this.constructor.displayName;
+
+  if (!componentDisplayName) {
     console.warn(`Add displayName property to component`);
     return;
   }
 
   let el = React.findDOMNode(this);
 
-  if (el.hasAttribute(attributeName)) {
+  if (el.getAttribute(attributeName) === componentDisplayName) {
     // already has that
     return;
   }
@@ -34,13 +36,13 @@ function addNameAttribute() {
   // detach all attributes
   for (let i = elementAttrs.length - 1; i >= 0; i--) {
     let attr = elementAttrs[i];
-    attrs.push(attr);
+    attr.name !== attributeName && attrs.push(attr);
     elementAttrs.removeNamedItem(attr.name);
   }
 
   // inject
   let attr = document.createAttribute(attributeName);
-  attr.value = this.constructor.displayName;
+  attr.value = componentDisplayName;
   elementAttrs.setNamedItem(attr);
 
   // attach back
