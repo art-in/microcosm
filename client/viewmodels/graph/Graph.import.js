@@ -11,6 +11,7 @@ export default class Graph extends EventedViewModel {
       'click',
       'nodeChange',
       'linkChange',
+      'viewportChange',
       'nodeRightClick',
       'linkRightClick'
     ];
@@ -19,6 +20,7 @@ export default class Graph extends EventedViewModel {
   constructor() {
     super();
 
+    this.id = undefined;
     nodes_.set(this, []);
     links_.set(this, []);
 
@@ -81,7 +83,7 @@ export default class Graph extends EventedViewModel {
     this.viewport.width = width;
     this.viewport.height = height;
 
-    recomputeviewbox.call(this);
+    recomputeViewbox.call(this);
   }
 
   //endregion
@@ -107,7 +109,7 @@ export default class Graph extends EventedViewModel {
 
   onWheel(up) {
     zoom.call(this, up);
-    this.emit('change');
+    this.emit('viewportChange');
   }
 
   //region dragging
@@ -214,17 +216,20 @@ function zoom(_in) {
   let viewbox = this.viewbox;
   viewbox.scale += (_in ? 1 : -1) * 0.2 * viewbox.scale;
 
-  recomputeviewbox.call(this);
+  recomputeViewbox.call(this);
 }
 
-function recomputeviewbox() {
+function recomputeViewbox() {
   let viewbox = this.viewbox;
 
-  viewbox.scale = Math.max(viewbox.scaleMin, viewbox.scale);
-  viewbox.scale = Math.min(viewbox.scaleMax, viewbox.scale);
+  let {min, max, round} = Math;
 
-  viewbox.width = this.viewport.width / viewbox.scale;
-  viewbox.height = this.viewport.height / viewbox.scale;
+  viewbox.scale = max(viewbox.scaleMin, viewbox.scale);
+  viewbox.scale = min(viewbox.scaleMax, viewbox.scale);
+  viewbox.scale = round(viewbox.scale * 100) / 100;
+
+  viewbox.width = round(this.viewport.width / viewbox.scale);
+  viewbox.height = round(this.viewport.height / viewbox.scale);
 }
 
 //endregion

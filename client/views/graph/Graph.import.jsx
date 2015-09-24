@@ -6,6 +6,7 @@ import Svg from '../svg/Svg';
 import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
+import Text from '../svg/Text';
 import { bodyMargin, getElementSize } from 'client/lib/helpers/domHelpers';
 
 const propTypes = React.PropTypes;
@@ -75,6 +76,12 @@ export default React.createClassWithCSS({
     svg: {
       width: '100%',
       height: '100%'
+    },
+    debug: {
+      position: 'absolute',
+      left: 0, top: 0,
+      color: 'red',
+      width: '300px'
     }
   },
 
@@ -99,28 +106,35 @@ export default React.createClassWithCSS({
         <Link
           key={ link.id }
           link={ link }
-          onContextMenu={ this.onLinkRightClick.bind(null, link) } />
+          onContextMenu={ this.onLinkRightClick.bind(null, link) }/>
       );
     });
 
     return (
-        <Svg ref={ 'viewport' }
-             viewBox={ `${viewbox.x} ${viewbox.y} ` +
+      <Svg ref={ 'viewport' }
+           viewBox={ `${viewbox.x} ${viewbox.y} ` +
                        `${viewbox.width} ${viewbox.height}` }
-             preserveAspectRatio={ 'xMidYMid meet' }
+           preserveAspectRatio={ 'xMidYMid meet' }
 
-             className={ this.css().svg }
-             onMouseUp={ graph.onDragStop.bind(graph) }
-             onMouseMove={ graph.onDrag.bind(graph) }
-             onMouseLeave={ graph.onDragRevert.bind(graph) }
-             onWheel={ this.onWheel }
-             onClick={ graph.onClick.bind(graph) }
-             {...other}>
+           className={ this.css().svg }
+           onMouseUp={ graph.onDragStop.bind(graph) }
+           onMouseMove={ graph.onDrag.bind(graph) }
+           onMouseLeave={ graph.onDragRevert.bind(graph) }
+           onWheel={ this.onWheel }
+           onClick={ graph.onClick.bind(graph) }
+        {...other}>
 
-          <Group id={'links'}>{links}</Group>
-          <Group id={'nodes'}>{nodes}</Group>
+        <Group id={'links'}>{links}</Group>
+        <Group id={'nodes'}>{nodes}</Group>
 
-        </Svg>
+        <foreignObject>
+          <div id={'debug'} className={ this.css().debug }>
+            { `vb: (${viewbox.x}; ${viewbox.y}) - ` +
+                  `(${viewbox.width}; ${viewbox.height})` } <br />
+            { `scale: ${viewbox.scale}` }
+          </div>
+        </foreignObject>
+      </Svg>
     );
   }
-})
+});

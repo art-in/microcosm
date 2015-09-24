@@ -2,9 +2,11 @@ import {methodsInScope as methods} from 'server/lib/helpers/meteorHelpers';
 import Ideas from 'collections/Ideas';
 import Idea from 'models/Idea';
 import Assocs from 'collections/Assocs';
+import Mindmaps from 'collections/Mindmaps';
 import Assoc from 'models/Assoc';
 import { ideaToDbo, dboToIdea } from 'mappers/ideaMapper';
 import { assocToDbo, dboToAssoc } from 'mappers/assocMapper';
+import { mindmapToDbo, dboToMindmap } from 'mappers/mindmapMapper';
 import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
 methods('mindmap', {
@@ -77,6 +79,12 @@ methods('mindmap', {
     console.log(`update assoc: ${assoc.id}`);
 
     Assocs.update({_id: strToId(assoc.id)}, assocToDbo(assoc));
+  },
+
+  updateMindmap({mindmap}) {
+    console.log(`update mindmap: ${mindmap.id}`);
+
+    Mindmaps.update({_id: strToId(mindmap.id)}, mindmapToDbo(mindmap));
   }
 
 });

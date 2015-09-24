@@ -26,17 +26,34 @@ export function mindmapToGraph(mindmap) {
         n.color = subNode.color;
       });
     });
-
   }
 
   let graph = new GraphVM();
 
+  graph.id = mindmap.id;
   graph.nodes = nodes;
   graph.links = links;
+  graph.viewbox.x = mindmap.viewbox.x;
+  graph.viewbox.y = mindmap.viewbox.y;
+  graph.viewbox.scale = mindmap.viewbox.scale;
 
   return graph;
 }
 
+export function graphToMindmap(graph) {
+  let mindmap = new Mindmap();
+
+  mindmap.id = graph.id;
+  mindmap.viewbox = {
+    x: graph.viewbox.x,
+    y: graph.viewbox.y,
+    scale: graph.viewbox.scale
+  };
+
+  return mindmap;
+}
+
 export default {
-  mindmapToGraph
+  mindmapToGraph,
+  graphToMindmap
 }

@@ -2,7 +2,7 @@ import EventedViewModel from './shared/EventedViewModel';
 import ColorPicker from './misc/ColorPicker';
 import ContextMenu from './misc/ContextMenu';
 import MenuItem from './misc/MenuItem';
-import {mindmapToGraph as toGraph} from 'client/mappers/graphMapper';
+import {mindmapToGraph as toGraph, graphToMindmap as toMindmap} from 'client/mappers/graphMapper';
 import ideaMapper from 'client/mappers/nodeMapper';
 import {nodeToIdea as toIdea} from 'client/mappers/nodeMapper';
 import {linkToAssoc as toAssoc} from 'client/mappers/linkMapper';
@@ -19,7 +19,8 @@ export default class Mindmap extends EventedViewModel {
       'ideaAdd',
       'ideaChange',
       'ideaDelete',
-      'assocChange'
+      'assocChange',
+      'mindmapChange'
     ];
   }
 
@@ -82,6 +83,11 @@ export default class Mindmap extends EventedViewModel {
     this.emit('assocChange', assoc);
   }
 
+  onViewboxChange() {
+    let mindmap = toMindmap(this.graph);
+    this.emit('mindmapChange', mindmap);
+  }
+
   onNodeRightClick(node, pos) {
     this.nodeMenu.activate({pos, target: node});
   }
@@ -141,6 +147,7 @@ function addGraphHandlers() {
 
   this.graph.on('nodeChange', this.onNodeChange.bind(this));
   this.graph.on('linkChange', this.onLinkChange.bind(this));
+  this.graph.on('viewportChange', this.onViewboxChange.bind(this));
 
   this.graph.on('nodeRightClick', this.onNodeRightClick.bind(this));
   this.graph.on('linkRightClick', this.onLinkRightClick.bind(this));

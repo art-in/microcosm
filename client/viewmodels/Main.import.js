@@ -26,6 +26,7 @@ export default class Main {
     this.mindmap.on('ideaChange', this.onIdeaChange.bind(this));
     this.mindmap.on('ideaDelete', this.onIdeaDelete.bind(this));
     this.mindmap.on('assocChange', this.onAssocChange.bind(this));
+    this.mindmap.on('mindmapChange', this.onMindmapChange.bind(this));
   }
 
   onIdeaChange(idea) {
@@ -42,6 +43,10 @@ export default class Main {
 
   onAssocChange(assoc) {
     this.model.updateAssoc({assoc});
+  }
+
+  onMindmapChange(mindmap) {
+    this.model.updateMindmap({mindmap});
   }
 
 }
