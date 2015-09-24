@@ -102,7 +102,7 @@ export default React.createClassWithCSS({
                   width={ titleWidth }
                   height={ titleHeight }
                   rotation={ titleRotation }
-                  value={ link.title }
+                  value={ `` } // TODO: link.title
                   editable={ link.titleEditable }
                   onClick={ link.onTitleClick.bind(link) }
                   onBlur={ link.onTitleBlur.bind(link) }

@@ -54,14 +54,14 @@ export default React.createClassWithCSS({
 
         <Circle className={ cx(this.css().node, className)}
                 style={{fill: node.color || 'lightgray'}}
-                radius={ node.radius }
+                radius={ 10 } // TODO: node.radius
                 {...other} />
 
         <TextArea className={ this.css().title }
                   pos={ textAreaPos }
                   width={ textAreaWidth }
                   height={ textAreaHeight }
-                  value={ node.title }
+                  value={ `(${node.pos.x} ${node.pos.y})` } // TODO: node.title
                   editable={ node.titleEditable }
                   onClick={ node.onTitleClick.bind(node) }
                   onBlur={ node.onTitleBlur.bind(node) }

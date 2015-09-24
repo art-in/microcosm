@@ -1,3 +1,10 @@
+export function getElementSize(el) {
+  return {
+    width: el.offsetWidth,
+    height: el.offsetHeight
+  };
+}
+
 export function getBodyMargin() {
   let bodyStyle = window.getComputedStyle(document.body, null);
   return {
@@ -13,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 export default {
+  getElementSize,
   getBodyMargin,
   bodyMargin
 }

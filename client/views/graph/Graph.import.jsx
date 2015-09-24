@@ -6,7 +6,7 @@ import Svg from '../svg/Svg';
 import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
-import { bodyMargin } from 'client/lib/helpers/domHelpers';
+import { bodyMargin, getElementSize } from 'client/lib/helpers/domHelpers';
 
 const propTypes = React.PropTypes;
 
@@ -24,30 +24,51 @@ export default React.createClassWithCSS({
     return {graph: this.props.graph};
   },
 
-  onNodeRightClick(node, e) {
-    let container = React.findDOMNode(this.refs.container);
+  getViewportSize() {
+    let viewport = React.findDOMNode(this.refs.viewport);
+    return getElementSize(viewport);
+  },
 
-    // send position depending to this container
-    let pos = new Point(
-      e.pageX - container.offsetLeft - bodyMargin.left,
-      e.pageY - container.offsetTop - bodyMargin.top
+  getClickPos(e) {
+    // send position depending to this viewport
+    let viewport = React.findDOMNode(this.refs.viewport);
+
+    return new Point(
+      e.pageX - viewport.offsetLeft - bodyMargin.left,
+      e.pageY - viewport.offsetTop - bodyMargin.top
     );
+  },
 
-    this.props.graph.onNodeRightClick(node, pos);
+  componentWillReceiveProps(nextProps) {
+    nextProps.graph.setViewportSize(this.getViewportSize());
+  },
+
+  componentDidMount() {
+    // For now detect viewport resize by window 'resize'.
+    // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
+    window.addEventListener('resize', this.onResize);
+
+    // Only after viewport being mount we can get its size,
+    // recalculate viewbox and render again with viewbox set.
+    this.onResize();
+  },
+
+  onNodeRightClick(node, e) {
+    this.props.graph.onNodeRightClick(node, this.getClickPos(e));
     e.preventDefault();
   },
 
   onLinkRightClick(link, e) {
-    let container = React.findDOMNode(this.refs.container);
-
-    // send position depending to this container
-    let pos = new Point(
-      e.pageX - container.offsetLeft - bodyMargin.left,
-      e.pageY - container.offsetTop - bodyMargin.top
-    );
-
-    this.props.graph.onLinkRightClick(link, pos);
+    this.props.graph.onLinkRightClick(link, this.getClickPos(e));
     e.preventDefault();
+  },
+
+  onResize() {
+    this.props.graph.onViewportResize(this.getViewportSize());
+  },
+
+  onWheel(e) {
+    this.props.graph.onWheel(e.deltaY <= 0);
   },
 
   css: {
@@ -60,6 +81,7 @@ export default React.createClassWithCSS({
   render() {
 
     let {graph, ...other} = this.props;
+    let viewbox = graph.viewbox;
 
     let nodes = graph.nodes.map((node) => {
       return (
@@ -82,11 +104,16 @@ export default React.createClassWithCSS({
     });
 
     return (
-        <Svg ref={ 'container' }
+        <Svg ref={ 'viewport' }
+             viewBox={ `${viewbox.x} ${viewbox.y} ` +
+                       `${viewbox.width} ${viewbox.height}` }
+             preserveAspectRatio={ 'xMidYMid meet' }
+
              className={ this.css().svg }
              onMouseUp={ graph.onDragStop.bind(graph) }
              onMouseMove={ graph.onDrag.bind(graph) }
              onMouseLeave={ graph.onDragRevert.bind(graph) }
+             onWheel={ this.onWheel }
              onClick={ graph.onClick.bind(graph) }
              {...other}>
 
