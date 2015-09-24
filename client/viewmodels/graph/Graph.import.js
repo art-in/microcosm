@@ -22,11 +22,13 @@ export default class Graph extends EventedViewModel {
     nodes_.set(this, []);
     links_.set(this, []);
 
+    // drawing area
     this.viewport = {
       width: 0,
       height: 0
     };
 
+    // fragment of canvas mapped to viewport
     this.viewbox = {
       x: 0,
       y: 0,
