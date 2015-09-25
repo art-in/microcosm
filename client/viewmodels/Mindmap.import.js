@@ -65,104 +65,104 @@ export default class Mindmap extends EventedViewModel {
 
   //endregion
 
-  //region handlers
-
-  onGraphClick() {
-    this.nodeMenu.active && this.nodeMenu.deactivate();
-    this.linkMenu.active && this.linkMenu.deactivate();
-    this.colorPicker.active && this.colorPicker.deactivate();
-  }
-
-  onNodeChange(node) {
-    let idea = toIdea(node, this.model.ideas.find(i => i.id === node.id));
-    this.emit('ideaChange', idea);
-  }
-
-  onLinkChange(link) {
-    let assoc = toAssoc(link, this.model.assocs.find(a => a.id === link.id));
-    this.emit('assocChange', assoc);
-  }
-
-  onViewboxChange() {
-    let mindmap = toMindmap(this.graph, this.model);
-    this.emit('mindmapChange', mindmap);
-  }
-
-  onNodeRightClick(node, pos) {
-    this.nodeMenu.activate({pos, target: node});
-  }
-
-  onLinkRightClick(link, pos) {
-    if (!link.isBOI) {
-      // color can be set on BOI links only
-      return;
-    }
-
-    this.linkMenu.activate({pos, target: link});
-  }
-
-  onNodeMenuItem(menuItem) {
-    let idea = this.model.ideas.find(i => i.id === this.nodeMenu.target.id);
-
-    switch (menuItem.displayValue) {
-      case 'add': this.emit('ideaAdd', idea); break;
-      case 'delete': this.emit('ideaDelete', idea); break;
-      default: throw Error('unknown menu item');
-    }
-
-    this.nodeMenu.deactivate();
-  }
-
-  onLinkMenuItem(menuItem) {
-    let link = this.linkMenu.target;
-
-    switch (menuItem.displayValue) {
-      case 'set color': this.colorPicker.activate(link); break;
-      default: throw Error('unknown menu item');
-    }
-
-    this.linkMenu.deactivate();
-  }
-
-  onPickerColor(color) {
-    let target = this.colorPicker.target;
-
-    if (target.constructor === Link) {
-      let idea = this.model.ideas.find(i => i.id === target.toNode.id);
-      idea.color = color;
-      this.emit('ideaChange', idea);
-    }
-
-    this.colorPicker.deactivate();
-  }
-
-  //endregion
-
 }
 
 //region privates
 
 function addGraphHandlers() {
-  this.graph.on('click', this.onGraphClick.bind(this));
+  this.graph.on('click', onGraphClick.bind(this));
 
-  this.graph.on('nodeChange', this.onNodeChange.bind(this));
-  this.graph.on('linkChange', this.onLinkChange.bind(this));
-  this.graph.on('viewportChange', this.onViewboxChange.bind(this));
+  this.graph.on('nodeChange', onNodeChange.bind(this));
+  this.graph.on('linkChange', onLinkChange.bind(this));
+  this.graph.on('viewportChange', onViewboxChange.bind(this));
 
-  this.graph.on('nodeRightClick', this.onNodeRightClick.bind(this));
-  this.graph.on('linkRightClick', this.onLinkRightClick.bind(this));
+  this.graph.on('nodeRightClick', onNodeRightClick.bind(this));
+  this.graph.on('linkRightClick', onLinkRightClick.bind(this));
 }
 
 function addNodeMenuHandlers() {
-  this.nodeMenu.on('itemSelected', this.onNodeMenuItem.bind(this));
+  this.nodeMenu.on('itemSelected', onNodeMenuItem.bind(this));
 }
 
 function addLinkMenuHandlers() {
-  this.linkMenu.on('itemSelected', this.onLinkMenuItem.bind(this));
+  this.linkMenu.on('itemSelected', onLinkMenuItem.bind(this));
 }
 
 function addColorPickerHandlers() {
-  this.colorPicker.on('colorSelected', this.onPickerColor.bind(this));
+  this.colorPicker.on('colorSelected', onPickerColor.bind(this));
+}
+
+//endregion
+
+//region handlers
+
+function onGraphClick() {
+  this.nodeMenu.active && this.nodeMenu.deactivate();
+  this.linkMenu.active && this.linkMenu.deactivate();
+  this.colorPicker.active && this.colorPicker.deactivate();
+}
+
+function onNodeChange(node) {
+  let idea = toIdea(node, this.model.ideas.find(i => i.id === node.id));
+  this.emit('ideaChange', idea);
+}
+
+function onLinkChange(link) {
+  let assoc = toAssoc(link, this.model.assocs.find(a => a.id === link.id));
+  this.emit('assocChange', assoc);
+}
+
+function onViewboxChange() {
+  let mindmap = toMindmap(this.graph, this.model);
+  this.emit('mindmapChange', mindmap);
+}
+
+function onNodeRightClick(node, pos) {
+  this.nodeMenu.activate({pos, target: node});
+}
+
+function onLinkRightClick(link, pos) {
+  if (!link.isBOI) {
+    // color can be set on BOI links only
+    return;
+  }
+
+  this.linkMenu.activate({pos, target: link});
+}
+
+function onNodeMenuItem(menuItem) {
+  let idea = this.model.ideas.find(i => i.id === this.nodeMenu.target.id);
+
+  switch (menuItem.displayValue) {
+    case 'add': this.emit('ideaAdd', idea); break;
+    case 'delete': this.emit('ideaDelete', idea); break;
+    default: throw Error('unknown menu item');
+  }
+
+  this.nodeMenu.deactivate();
+}
+
+function onLinkMenuItem(menuItem) {
+  let link = this.linkMenu.target;
+
+  switch (menuItem.displayValue) {
+    case 'set color': this.colorPicker.activate(link); break;
+    default: throw Error('unknown menu item');
+  }
+
+  this.linkMenu.deactivate();
+}
+
+function onPickerColor(color) {
+  let target = this.colorPicker.target;
+
+  if (target.constructor === Link) {
+    let idea = this.model.ideas.find(i => i.id === target.toNode.id);
+    idea.color = color;
+    this.emit('ideaChange', idea);
+  }
+
+  this.colorPicker.deactivate();
 }
 
 //endregion

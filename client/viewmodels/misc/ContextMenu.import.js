@@ -14,6 +14,8 @@ export default class ContextMenu extends Menu {
     return `[ContextMenu (items: ${this.items.length})]`;
   }
 
+  //region publics
+
   activate({pos, target}) {
     this.active = true;
     this.pos = pos;
@@ -25,5 +27,7 @@ export default class ContextMenu extends Menu {
     this.active = false;
     this.emit('change');
   }
+
+  //endregion
 
 }

@@ -14,8 +14,12 @@ export default class Menu extends EventedViewModel {
     this.items = items;
   }
 
+  //region handlers
+
   onItemSelected(item) {
     this.emit('itemSelected', item);
   }
+
+  //endregion
 
 }

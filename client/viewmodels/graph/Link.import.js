@@ -29,6 +29,8 @@ export default class Link extends EventedViewModel {
       `(${this.title})]`;
   }
 
+  //region publics
+
   get isBOI() {
     return this.fromNode.isCentral;
   }
@@ -36,6 +38,10 @@ export default class Link extends EventedViewModel {
   get color() {
     return this.toNode.color;
   }
+
+  //endregion
+
+  //region handlers
 
   onTitleClick() {
     if (!this.titleEditable) {
@@ -56,5 +62,7 @@ export default class Link extends EventedViewModel {
     this.emit('titleChange');
     this.emit('change');
   }
+
+  //endregion
 
 }

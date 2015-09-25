@@ -32,6 +32,8 @@ export default class Node extends EventedViewModel {
       `(${this.title})]`;
   }
 
+  //region handlers
+
   onTitleClick() {
     if (!this.titleEditable) {
       this.titleEditable = true;
@@ -51,5 +53,7 @@ export default class Node extends EventedViewModel {
     this.emit('titleChange');
     this.emit('change');
   }
+
+  //endregion
 
 }

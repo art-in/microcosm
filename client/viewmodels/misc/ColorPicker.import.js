@@ -16,6 +16,8 @@ export default class ColorPicker extends EventedViewModel {
     this.target = null;
   }
 
+  //region publics
+
   activate(target) {
     this.active = true;
     this.target = target;
@@ -27,8 +29,14 @@ export default class ColorPicker extends EventedViewModel {
     this.emit('change');
   }
 
+  //endregion
+
+  //region handlers
+
   onColorSelected(color) {
     this.emit('colorSelected', color);
   }
+
+  //endregion
 
 }
