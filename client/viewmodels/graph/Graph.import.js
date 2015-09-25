@@ -225,9 +225,16 @@ function moveNode({nodeId, pos, shift}) {
 
 function zoom(_in) {
   let viewbox = this.viewbox;
+
+  // zoom by 20%
   viewbox.scale += (_in ? 1 : -1) * 0.2 * viewbox.scale;
 
+  let {width:prevWidth, height:prevHeight} = viewbox;
   recomputeViewbox.call(this);
+
+  // zoom to/from the center of viewbox
+  viewbox.x += (prevWidth - viewbox.width) / 2;
+  viewbox.y += (prevHeight - viewbox.height) / 2;
 }
 
 function recomputeViewbox() {
