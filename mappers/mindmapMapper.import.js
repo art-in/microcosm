@@ -5,7 +5,10 @@ export function dboToMindmap(dbo, ideas, assocs) {
   let model = new Mindmap();
 
   model.id = idToStr(dbo._id);
-  model.viewbox = dbo.viewbox;
+  model.x = dbo.x;
+  model.y = dbo.y;
+  model.scale = dbo.scale;
+
   model.ideas = ideas;
   model.assocs = assocs;
 
@@ -16,7 +19,9 @@ export function mindmapToDbo(model) {
   let dbo = {};
 
   dbo._id = strToId(model.id);
-  dbo.viewbox = model.viewbox;
+  dbo.x = model.x;
+  dbo.y = model.y;
+  dbo.scale = model.scale;
 
   return dbo;
 }

@@ -30,22 +30,24 @@ export function mindmapToGraph(mindmap) {
 
   graph.nodes = nodes;
   graph.links = links;
-  graph.viewbox.x = mindmap.viewbox.x;
-  graph.viewbox.y = mindmap.viewbox.y;
-  graph.viewbox.scale = mindmap.viewbox.scale;
+  graph.viewbox.x = mindmap.x;
+  graph.viewbox.y = mindmap.y;
+  graph.viewbox.scale = mindmap.scale;
 
   return graph;
 }
 
 export function graphToMindmap(graph, mindmap) {
-  if (!(graph instanceof GraphVM)) { throw Error('invalid graph type'); }
-  if (!(mindmap instanceof Mindmap)) { throw Error('invalid mindmap type'); }
+  if (!(graph instanceof GraphVM)) {
+    throw Error('invalid graph type');
+  }
+  if (!(mindmap instanceof Mindmap)) {
+    throw Error('invalid mindmap type');
+  }
 
-  mindmap.viewbox = {
-    x: graph.viewbox.x,
-    y: graph.viewbox.y,
-    scale: graph.viewbox.scale
-  };
+  mindmap.x = graph.viewbox.x;
+  mindmap.y = graph.viewbox.y;
+  mindmap.scale = graph.viewbox.scale;
 
   return mindmap;
 }

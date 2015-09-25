@@ -6,18 +6,17 @@ export default class Mindmap {
 
     this.id = undefined;
     this.mindmapId = undefined;
-    this.viewbox = {
-      x: 0,
-      y: 0,
-      scale: 1
-    };
+    this.x = 0;
+    this.y = 0;
+    this.scale = 0;
+
     this.ideas = [];
     this.assocs = [];
   }
 
   toString() {
     return `[Mindmap ` +
-      `(${this.viewbox.x} - ${this.viewbox.y}) (${this.viewbox.scale})` +
+      `(${this.x} - ${this.y}) (${this.scale})` +
       `]`;
   }
 

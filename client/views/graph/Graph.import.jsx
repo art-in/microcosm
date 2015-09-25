@@ -129,8 +129,8 @@ export default React.createClassWithCSS({
 
         <foreignObject>
           <div id={'debug'} className={ this.css().debug }>
-            { `vb: (${viewbox.x}; ${viewbox.y}) - ` +
-                  `(${viewbox.width}; ${viewbox.height})` } <br />
+            { `viewbox: (${viewbox.x}; ${viewbox.y}) - ` +
+                       `(${viewbox.width}; ${viewbox.height})` } <br />
             { `scale: ${viewbox.scale}` }
           </div>
         </foreignObject>
