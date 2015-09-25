@@ -119,7 +119,7 @@ export default React.createClassWithCSS({
     debug: {
       position: 'absolute',
       left: 0, top: 0,
-      color: 'red',
+      color: '#D00',
       width: '300px'
     }
   },
@@ -167,14 +167,18 @@ export default React.createClassWithCSS({
         <Group id={'links'}>{links}</Group>
         <Group id={'nodes'}>{nodes}</Group>
 
-        <foreignObject>
-          <div id={'debug'} className={ this.css().debug }>
-            { `viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
-                       `(${round(viewbox.width)}; ${round(viewbox.height)})` }
-            <br />
-            { `scale: ${viewbox.scale}` }
-          </div>
-        </foreignObject>
+        {
+          graph.debug &&
+            <foreignObject>
+              <div id={'debug'} className={ this.css().debug }>
+                { `viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
+                `(${round(viewbox.width)}; ${round(viewbox.height)})` }
+                <br />
+                { `scale: ${viewbox.scale}` }
+              </div>
+            </foreignObject>
+        }
+
       </Svg>
     );
   }

@@ -27,8 +27,8 @@ export default React.createClassWithCSS({
       'stroke-width': '1'
     },
     title: {
-      'font-size': '24px',
-      'fill': '#333',
+      'font-size': '20px',
+      'color': '#333',
       'overflow': 'hidden',
       'word-break': 'break-all',
       'text-align': 'center',
@@ -102,7 +102,7 @@ export default React.createClassWithCSS({
                   width={ titleWidth }
                   height={ titleHeight }
                   rotation={ titleRotation }
-                  value={ `` } // TODO: link.title
+                  value={ link.title }
                   editable={ link.titleEditable }
                   onClick={ link.onTitleClick.bind(link) }
                   onBlur={ link.onTitleBlur.bind(link) }

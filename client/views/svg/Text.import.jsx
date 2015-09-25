@@ -69,7 +69,7 @@ export default React.createClassWithCSS({
                 text-anchor='${align || ''}'
                 x='${pos ? pos.x : ''}'
                 y='${pos ? pos.y : ''}'
-                class='${className}'>` +
+                class='${className || ''}'>` +
 
           (href ?
 

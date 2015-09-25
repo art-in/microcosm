@@ -15,12 +15,14 @@ export default class Node extends EventedViewModel {
 
     this.id = undefined;
     this.pos = new Point();
-    this.radius = 20;
+    this.radius = 10;
     this.title = '';
     this.titleEditable = false;
     this.isCentral = false;
     this.color = '';
     this.links = [];
+
+    this.debug = false;
   }
 
   toString() {

@@ -17,6 +17,8 @@ export default class Link extends EventedViewModel {
     this.toNode = undefined;
     this.title = '';
     this.titleEditable = false;
+
+    this.debug = false;
   }
 
   toString() {

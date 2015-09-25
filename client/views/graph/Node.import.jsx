@@ -5,6 +5,7 @@ import Node from 'client/viewmodels/graph/Node';
 import Group from '../svg/Group';
 import Circle from '../svg/Circle';
 import TextArea from '../svg/TextArea';
+import Text from '../svg/Text';
 
 export default React.createClassWithCSS({
 
@@ -37,6 +38,13 @@ export default React.createClassWithCSS({
       '&[contenteditable]': {
         'outline': '1px solid red'
       }
+    },
+    debug: {
+      'font-size': '12px',
+      'fill': '#D00',
+      '&::selection': {
+        'background-color': 'inherit'
+      }
     }
   },
 
@@ -55,18 +63,25 @@ export default React.createClassWithCSS({
 
         <Circle className={ cx(this.css().node, className)}
                 style={{fill: node.color || 'lightgray'}}
-                radius={ 10 } // TODO: node.radius
+                radius={ node.radius }
                 {...other} />
 
         <TextArea className={ this.css().title }
                   pos={ textAreaPos }
                   width={ textAreaWidth }
                   height={ textAreaHeight }
-                  value={ `(${round(node.pos.x)} ${round(node.pos.y)})` } // TODO: node.title
+                  value={ node.title }
                   editable={ node.titleEditable }
                   onClick={ node.onTitleClick.bind(node) }
                   onBlur={ node.onTitleBlur.bind(node) }
                   onChange={ node.onTitleChange.bind(node) }/>
+
+        {
+          node.debug &&
+            <Text text={ `(${round(node.pos.x)} ${round(node.pos.y)})` }
+                  className={ this.css().debug }
+                  transform={ `translate(-25 ${node.radius * 2})` }/>
+        }
 
       </Group>
     );

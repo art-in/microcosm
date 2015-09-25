@@ -50,6 +50,8 @@ export default class Graph extends EventedViewModel {
       startX: null,
       startY: null
     };
+
+    this.debug = true;
   }
 
   toString() {
@@ -64,6 +66,7 @@ export default class Graph extends EventedViewModel {
 
   set nodes(nodes) {
     nodes.forEach(addNodeHandlers.bind(this));
+    nodes.forEach(n => n.debug = this.debug);
     nodes_.set(this, nodes);
   }
 
@@ -73,6 +76,7 @@ export default class Graph extends EventedViewModel {
 
   set links(links) {
     links.forEach(addLinkHandlers.bind(this));
+    links.forEach(l => l.debug = this.debug);
     links_.set(this, links);
   }
 
