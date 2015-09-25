@@ -16,10 +16,9 @@ export function ideaToNode(idea) {
   return node;
 }
 
-export function nodeToIdea(node) {
+export function nodeToIdea(node, idea) {
   if (!(node instanceof Node)) { throw Error('invalid node type'); }
-
-  let idea = new Idea();
+  if (!(idea instanceof Idea)) { throw Error('invalid idea type'); }
 
   idea.id = node.id;
   idea.x = node.pos.x;

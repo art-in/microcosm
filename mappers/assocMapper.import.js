@@ -5,6 +5,7 @@ export function dboToAssoc(dbo) {
   let model = new Assoc();
 
   model.id = idToStr(dbo._id);
+  model.mindmapId = dbo.mindmapId;
   model.from = dbo.from;
   model.to = dbo.to;
   model.value = dbo.value;
@@ -16,6 +17,7 @@ export function assocToDbo(model) {
   let dbo = {};
 
   dbo._id = strToId(model.id);
+  dbo.mindmapId = model.mindmapId;
   dbo.from = model.from;
   dbo.to = model.to;
   dbo.value = model.value;

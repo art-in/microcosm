@@ -20,7 +20,6 @@ export default class Graph extends EventedViewModel {
   constructor() {
     super();
 
-    this.id = undefined;
     nodes_.set(this, []);
     links_.set(this, []);
 

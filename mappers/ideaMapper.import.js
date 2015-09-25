@@ -5,6 +5,7 @@ export function dboToIdea(dbo) {
   let model = new Idea();
 
   model.id = idToStr(dbo._id);
+  model.mindmapId = dbo.mindmapId;
   model.x = dbo.x;
   model.y = dbo.y;
   model.value = dbo.value;
@@ -18,6 +19,7 @@ export function ideaToDbo(model) {
   let dbo = {};
 
   dbo._id = strToId(model.id);
+  dbo.mindmapId = model.mindmapId;
   dbo.x = model.x;
   dbo.y = model.y;
   dbo.value = model.value;

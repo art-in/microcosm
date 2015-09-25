@@ -2,12 +2,12 @@ import EventedViewModel from './shared/EventedViewModel';
 import ColorPicker from './misc/ColorPicker';
 import ContextMenu from './misc/ContextMenu';
 import MenuItem from './misc/MenuItem';
-import {mindmapToGraph as toGraph, graphToMindmap as toMindmap} from 'client/mappers/graphMapper';
-import ideaMapper from 'client/mappers/nodeMapper';
-import {nodeToIdea as toIdea} from 'client/mappers/nodeMapper';
-import {linkToAssoc as toAssoc} from 'client/mappers/linkMapper';
+import {mindmapToGraph as toGraph} from 'client/mappers/graphMapper';
 import Graph from './graph/Graph';
 import Link from './graph/Link';
+import {nodeToIdea as toIdea} from 'client/mappers/nodeMapper';
+import {linkToAssoc as toAssoc} from 'client/mappers/linkMapper';
+import {graphToMindmap as toMindmap} from 'client/mappers/graphMapper';
 
 const model_ = new WeakMap();
 
@@ -74,17 +74,17 @@ export default class Mindmap extends EventedViewModel {
   }
 
   onNodeChange(node) {
-    let idea = toIdea(node);
+    let idea = toIdea(node, this.model.ideas.find(i => i.id === node.id));
     this.emit('ideaChange', idea);
   }
 
   onLinkChange(link) {
-    let assoc = toAssoc(link);
+    let assoc = toAssoc(link, this.model.assocs.find(a => a.id === link.id));
     this.emit('assocChange', assoc);
   }
 
   onViewboxChange() {
-    let mindmap = toMindmap(this.graph);
+    let mindmap = toMindmap(this.graph, this.model);
     this.emit('mindmapChange', mindmap);
   }
 
@@ -102,7 +102,7 @@ export default class Mindmap extends EventedViewModel {
   }
 
   onNodeMenuItem(menuItem) {
-    let idea = toIdea(this.nodeMenu.target);
+    let idea = this.model.ideas.find(i => i.id === this.nodeMenu.target.id);
 
     switch (menuItem.displayValue) {
       case 'add': this.emit('ideaAdd', idea); break;
@@ -128,7 +128,7 @@ export default class Mindmap extends EventedViewModel {
     let target = this.colorPicker.target;
 
     if (target.constructor === Link) {
-      let idea = toIdea(target.toNode);
+      let idea = this.model.ideas.find(i => i.id === target.toNode.id);
       idea.color = color;
       this.emit('ideaChange', idea);
     }

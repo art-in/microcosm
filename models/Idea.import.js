@@ -4,6 +4,7 @@ export default class Idea {
 
   constructor() {
     this.id = newIdStr();
+    this.mindmapId = undefined;
     this.x = undefined;
     this.y = undefined;
     this.value = '';
@@ -14,6 +15,7 @@ export default class Idea {
   toString() {
     return `[Idea` +
       (this.isCentral ? `* ` : ` `) +
+      `(mm: ${this.mindmapId}) ` +
       `(${this.id}) ` +
       `(${this.x} x ${this.y}) ` +
       `(${this.value})]`;

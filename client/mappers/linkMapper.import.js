@@ -25,10 +25,9 @@ export function assocToLink(nodes, assoc) {
   return link;
 }
 
-export function linkToAssoc(link) {
+export function linkToAssoc(link, assoc) {
   if (!(link instanceof Link)) { throw Error('invalid link type'); }
-
-  let assoc = new Assoc();
+  if (!(assoc instanceof Assoc)) { throw Error('invalid assoc type'); }
 
   assoc.id = link.id;
   assoc.from = link.fromNode.id;

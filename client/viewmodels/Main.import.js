@@ -1,52 +1,64 @@
-import EventedViewModel from './shared/EventedViewModel';
-import MindmapModel from 'models/Mindmap';
 import Mindmap from './Mindmap';
-import Graph from './graph/Graph';
+import ApiAgent from 'client/lib/ApiAgent';
 
 export default class Main {
 
   constructor() {
-    this.model = new MindmapModel();
+    this.apiAgent = new ApiAgent();
 
     this.mindmap = null;
   }
 
+  //region publics
+
   load() {
-    if (this.model.load()) {
-      this.mindmap = new Mindmap(this.model);
-      this.addMindmapHandlers();
+    if (this.apiAgent.loadMindmap()) {
+
+      this.mindmap = new Mindmap(this.apiAgent.mindmap);
+      addMindmapHandlers.call(this);
+
       return true;
     }
 
     return false;
   }
 
-  addMindmapHandlers() {
-    this.mindmap.on('ideaAdd', this.onIdeaAdd.bind(this));
-    this.mindmap.on('ideaChange', this.onIdeaChange.bind(this));
-    this.mindmap.on('ideaDelete', this.onIdeaDelete.bind(this));
-    this.mindmap.on('assocChange', this.onAssocChange.bind(this));
-    this.mindmap.on('mindmapChange', this.onMindmapChange.bind(this));
-  }
-
-  onIdeaChange(idea) {
-    this.model.updateIdea({idea});
-  }
-
-  onIdeaAdd(parentIdea) {
-    this.model.createIdea({parentIdeaId: parentIdea.id});
-  }
-
-  onIdeaDelete(idea) {
-    this.model.deleteIdea({ideaId: idea.id});
-  }
-
-  onAssocChange(assoc) {
-    this.model.updateAssoc({assoc});
-  }
-
-  onMindmapChange(mindmap) {
-    this.model.updateMindmap({mindmap});
-  }
+  //endregion
 
 }
+
+//region privates
+
+function addMindmapHandlers() {
+  this.mindmap.on('ideaAdd', onIdeaAdd.bind(this));
+  this.mindmap.on('ideaChange', onIdeaChange.bind(this));
+  this.mindmap.on('ideaDelete', onIdeaDelete.bind(this));
+  this.mindmap.on('assocChange', onAssocChange.bind(this));
+  this.mindmap.on('mindmapChange', onMindmapChange.bind(this));
+}
+
+//endregion
+
+//region handlers
+
+function onIdeaAdd(parentIdea) {
+  this.apiAgent.createIdea(parentIdea);
+}
+
+function onIdeaChange(idea) {
+  this.apiAgent.updateIdea(idea);
+}
+
+function onIdeaDelete(idea) {
+  this.apiAgent.deleteIdea(idea);
+}
+
+function onAssocChange(assoc) {
+  this.apiAgent.updateAssoc(assoc);
+}
+
+function onMindmapChange(mindmap) {
+  this.apiAgent.updateMindmap(mindmap);
+}
+
+//endregion

@@ -5,12 +5,10 @@ import Mindmap from 'models/Mindmap';
 import TreeCrawler from 'client/lib/TreeCrawler';
 
 export function mindmapToGraph(mindmap) {
-  if (!(mindmap instanceof Mindmap)) {
-    throw Error('invalid mindmap type');
-  }
+  if (!(mindmap instanceof Mindmap)) { throw Error('invalid mindmap type'); }
 
-  let nodes = Mindmap.ideas.map(ideaToNode);
-  let links = Mindmap.assocs.map(assocToLink.bind(null, nodes));
+  let nodes = mindmap.ideas.map(ideaToNode);
+  let links = mindmap.assocs.map(assocToLink.bind(null, nodes));
 
   // travers tree
   let centralNode = nodes.find(n => n.isCentral);
@@ -30,7 +28,6 @@ export function mindmapToGraph(mindmap) {
 
   let graph = new GraphVM();
 
-  graph.id = mindmap.id;
   graph.nodes = nodes;
   graph.links = links;
   graph.viewbox.x = mindmap.viewbox.x;
@@ -40,10 +37,10 @@ export function mindmapToGraph(mindmap) {
   return graph;
 }
 
-export function graphToMindmap(graph) {
-  let mindmap = new Mindmap();
+export function graphToMindmap(graph, mindmap) {
+  if (!(graph instanceof GraphVM)) { throw Error('invalid graph type'); }
+  if (!(mindmap instanceof Mindmap)) { throw Error('invalid mindmap type'); }
 
-  mindmap.id = graph.id;
   mindmap.viewbox = {
     x: graph.viewbox.x,
     y: graph.viewbox.y,

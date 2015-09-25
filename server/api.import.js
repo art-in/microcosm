@@ -9,15 +9,16 @@ import { assocToDbo, dboToAssoc } from 'mappers/assocMapper';
 import { mindmapToDbo, dboToMindmap } from 'mappers/mindmapMapper';
 import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
-methods('mindmap', {
+methods('api.mindmap', {
 
-  createIdea({parentIdeaId}) {
-    console.log(`create idea from parent: ${parentIdeaId}`);
+  createIdea({mindmapId, parentIdeaId}) {
+    console.log(`create idea from parent (mm: ${mindmapId}): ${parentIdeaId}`);
 
     let parentIdea = dboToIdea(Ideas.findOne({_id: strToId(parentIdeaId)}));
 
     let newIdea = new Idea();
 
+    newIdea.mindmapId = mindmapId;
     newIdea.x = parentIdea.x + 100;
     newIdea.y = parentIdea.y + 100;
 
@@ -25,19 +26,20 @@ methods('mindmap', {
 
     let assoc = new Assoc();
 
+    assoc.mindmapId = mindmapId;
     assoc.from = parentIdea.id;
     assoc.to = newIdea.id;
 
     Assocs.insert(assocToDbo(assoc));
   },
 
-  updateIdea({idea}) {
-    console.log(`update idea: ${idea.id}`);
+  updateIdea({mindmapId, ideaDbo}) {
+    console.log(`update idea (mm: ${mindmapId}): ${ideaDbo._id}`);
 
-    if (idea.isCentral) {
+    if (ideaDbo.isCentral) {
       let centralCount = Ideas.find({
         isCentral: true,
-        _id: {$not: {$eq: strToId(idea.id)}}}
+        _id: {$not: {$eq: ideaDbo._id}}}
       ).count();
 
       if (centralCount > 0) {
@@ -46,11 +48,11 @@ methods('mindmap', {
       }
     }
 
-    Ideas.update({_id: strToId(idea.id)}, ideaToDbo(idea));
+    Ideas.update({_id: ideaDbo._id}, ideaDbo);
   },
 
-  deleteIdea({ideaId}) {
-    console.log(`delete idea: ${ideaId}`);
+  deleteIdea({mindmapId, ideaId}) {
+    console.log(`delete idea (mm: ${mindmapId}): ${ideaId}`);
 
     let id = strToId(ideaId);
 
@@ -70,21 +72,18 @@ methods('mindmap', {
 
   deleteIdeas() {
     console.log(`delete ideas`);
-
     Assocs.remove({});
     Ideas.remove({});
   },
 
-  updateAssoc({assoc}) {
-    console.log(`update assoc: ${assoc.id}`);
-
-    Assocs.update({_id: strToId(assoc.id)}, assocToDbo(assoc));
+  updateAssoc({mindmapId, assocDbo}) {
+    console.log(`update assoc (mm: ${mindmapId}): ${assocDbo._id}`);
+    Assocs.update({_id: assocDbo._id}, assocDbo);
   },
 
-  updateMindmap({mindmap}) {
-    console.log(`update mindmap: ${mindmap.id}`);
-
-    Mindmaps.update({_id: strToId(mindmap.id)}, mindmapToDbo(mindmap));
+  updateMindmap({mindmapId, mindmapDbo}) {
+    console.log(`update mindmap (mm: ${mindmapId}): ${mindmapDbo._id}`);
+    Mindmaps.update({_id: mindmapDbo._id}, mindmapDbo);
   }
 
 });

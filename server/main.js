@@ -3,7 +3,7 @@ importSeq([
   'server/publications/ideas',
   'server/publications/assocs',
   'server/publications/mindmaps',
-  'server/api/Mindmap'
+  'server/api'
 ]);
 
 function importSeq(modules) {

@@ -1,3 +1,3 @@
 import Assocs from 'collections/Assocs';
 
-Meteor.publish('assocs', () => Assocs.find());
+Meteor.publish('assocs', (mindmapId) => Assocs.find({mindmapId}));
