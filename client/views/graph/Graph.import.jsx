@@ -72,10 +72,11 @@ export default React.createClassWithCSS({
     this.props.graph.onWheel(e.deltaY <= 0);
   },
 
-  onMouseDown(node, e) {
+  onNodeMouseDown(node, e) {
+    // left button only
     if (e.nativeEvent.which === 1) {
-      // left button only
       this.props.graph.onDragStart(node);
+      e.stopPropagation();
     }
   },
 
@@ -86,7 +87,28 @@ export default React.createClassWithCSS({
     let shiftX = e.nativeEvent.movementX / graph.viewbox.scale;
     let shiftY = e.nativeEvent.movementY / graph.viewbox.scale;
 
-    graph.onDrag({shiftX, shiftY});
+    if (graph.drag.active) {
+      graph.onDrag({shiftX, shiftY});
+    } else {
+      graph.onPan({shiftX, shiftY});
+    }
+  },
+
+  onMouseUp() {
+    let graph = this.props.graph;
+
+    if (graph.drag.active) {
+      graph.onDragStop();
+    } else {
+      graph.onPanStop();
+    }
+  },
+
+  onViewportMouseDown(e) {
+    // left button only
+    if (e.nativeEvent.which === 1) {
+      this.props.graph.onPanStart();
+    }
   },
 
   css: {
@@ -105,6 +127,8 @@ export default React.createClassWithCSS({
   render() {
 
     let {graph, ...other} = this.props;
+    let {round} = Math;
+
     let viewbox = graph.viewbox;
 
     let nodes = graph.nodes.map((node) => {
@@ -112,7 +136,7 @@ export default React.createClassWithCSS({
         <Node
           key={ node.id }
           node={ node }
-          onMouseDown={ this.onMouseDown.bind(null, node) }
+          onMouseDown={ this.onNodeMouseDown.bind(null, node) }
           onContextMenu={ this.onNodeRightClick.bind(null, node) }/>
       );
     });
@@ -131,22 +155,23 @@ export default React.createClassWithCSS({
            viewBox={ `${viewbox.x} ${viewbox.y} ` +
                      `${viewbox.width} ${viewbox.height}` }
            preserveAspectRatio={ 'xMidYMid meet' }
-
            className={ this.css().svg }
-           onMouseUp={ graph.onDragStop.bind(graph) }
+           onMouseUp={ this.onMouseUp }
            onMouseMove={ this.onMouseMove }
            onMouseLeave={ graph.onDragRevert.bind(graph) }
            onWheel={ this.onWheel }
+           onMouseDown={ this.onViewportMouseDown }
            onClick={ graph.onClick.bind(graph) }
-        {...other}>
+           {...other}>
 
         <Group id={'links'}>{links}</Group>
         <Group id={'nodes'}>{nodes}</Group>
 
         <foreignObject>
           <div id={'debug'} className={ this.css().debug }>
-            { `viewbox: (${viewbox.x}; ${viewbox.y}) - ` +
-                       `(${viewbox.width}; ${viewbox.height})` } <br />
+            { `viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
+                       `(${round(viewbox.width)}; ${round(viewbox.height)})` }
+            <br />
             { `scale: ${viewbox.scale}` }
           </div>
         </foreignObject>

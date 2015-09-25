@@ -40,13 +40,15 @@ export default class Graph extends EventedViewModel {
       scaleMax: 2
     };
 
+    this.pan = {
+      active: false
+    };
+
     this.drag = {
       active: false,
       item: null,
       startX: null,
-      startY: null,
-      x: null,
-      y: null
+      startY: null
     };
   }
 
@@ -111,7 +113,35 @@ export default class Graph extends EventedViewModel {
     this.emit('viewportChange');
   }
 
-  //region dragging
+  //region pan
+
+  onPanStart() {
+    this.pan.active = true;
+  }
+
+  onPan({shiftX, shiftY}) {
+    if (!this.pan.active) {
+      return;
+    }
+
+    this.viewbox.x -= shiftX;
+    this.viewbox.y -= shiftY;
+    
+    this.emit('change');
+  }
+
+  onPanStop() {
+    if (!this.pan.active) {
+      return;
+    }
+
+    this.pan.active = false;
+    this.emit('viewportChange');
+  }
+
+  //endregion
+
+  //region drag
 
   onDragStart(node) {
     this.drag = {
@@ -122,17 +152,15 @@ export default class Graph extends EventedViewModel {
     };
   }
 
-  onDragRevert() {
+  onDrag({shiftX, shiftY}) {
     if (!this.drag.active) {
       return;
     }
 
-    this.drag.active = false;
-
-    this.onDragCanceled(
-      this.drag.node,
-      this.drag.startX,
-      this.drag.startY);
+    moveNode.call(this, {
+      nodeId: this.drag.node.id,
+      shift: {x: shiftX, y: shiftY}
+    });
   }
 
   onDragStop() {
@@ -144,20 +172,17 @@ export default class Graph extends EventedViewModel {
     this.emit('nodeChange', this.drag.node);
   }
 
-  onDrag({shiftX, shiftY}) {
+  onDragRevert() {
     if (!this.drag.active) {
       return;
     }
 
-    this.onDragStep(this.drag.node, shiftX, shiftY);
-  }
+    this.drag.active = false;
 
-  onDragStep(node, shiftX, shiftY) {
-    moveNode.call(this, {nodeId: node.id, shift: {x: shiftX, y: shiftY}});
-  }
-
-  onDragCanceled(node, x, y) {
-    moveNode.call(this, {nodeId: node.id, pos: {x, y}});
+    moveNode.call(this, {
+      nodeId: this.drag.node.id,
+      pos: {x: this.drag.startX, y: this.drag.startY}
+    });
   }
 
   //endregion
