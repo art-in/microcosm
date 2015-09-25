@@ -42,6 +42,7 @@ export default React.createClassWithCSS({
 
   render() {
     let {node, className, ...other} = this.props;
+    let {round} = Math;
 
     let textAreaWidth = 200;
     let textAreaHeight = 25;
@@ -61,7 +62,7 @@ export default React.createClassWithCSS({
                   pos={ textAreaPos }
                   width={ textAreaWidth }
                   height={ textAreaHeight }
-                  value={ `(${node.pos.x} ${node.pos.y})` } // TODO: node.title
+                  value={ `(${round(node.pos.x)} ${round(node.pos.y)})` } // TODO: node.title
                   editable={ node.titleEditable }
                   onClick={ node.onTitleClick.bind(node) }
                   onBlur={ node.onTitleBlur.bind(node) }

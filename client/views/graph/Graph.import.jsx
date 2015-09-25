@@ -72,6 +72,23 @@ export default React.createClassWithCSS({
     this.props.graph.onWheel(e.deltaY <= 0);
   },
 
+  onMouseDown(node, e) {
+    if (e.nativeEvent.which === 1) {
+      // left button only
+      this.props.graph.onDragStart(node);
+    }
+  },
+
+  onMouseMove(e) {
+    let graph = this.props.graph;
+
+    // convert position shift from Viewport Space measures to User Space
+    let shiftX = e.nativeEvent.movementX / graph.viewbox.scale;
+    let shiftY = e.nativeEvent.movementY / graph.viewbox.scale;
+
+    graph.onDrag({shiftX, shiftY});
+  },
+
   css: {
     svg: {
       width: '100%',
@@ -95,8 +112,7 @@ export default React.createClassWithCSS({
         <Node
           key={ node.id }
           node={ node }
-          onMouseDown={ graph.onDragStart
-                            .bind(graph, node, node.pos.x, node.pos.y) }
+          onMouseDown={ this.onMouseDown.bind(null, node) }
           onContextMenu={ this.onNodeRightClick.bind(null, node) }/>
       );
     });
@@ -113,12 +129,12 @@ export default React.createClassWithCSS({
     return (
       <Svg ref={ 'viewport' }
            viewBox={ `${viewbox.x} ${viewbox.y} ` +
-                       `${viewbox.width} ${viewbox.height}` }
+                     `${viewbox.width} ${viewbox.height}` }
            preserveAspectRatio={ 'xMidYMid meet' }
 
            className={ this.css().svg }
            onMouseUp={ graph.onDragStop.bind(graph) }
-           onMouseMove={ graph.onDrag.bind(graph) }
+           onMouseMove={ this.onMouseMove }
            onMouseLeave={ graph.onDragRevert.bind(graph) }
            onWheel={ this.onWheel }
            onClick={ graph.onClick.bind(graph) }

@@ -41,7 +41,7 @@ export default class Graph extends EventedViewModel {
     };
 
     this.drag = {
-      on: false,
+      active: false,
       item: null,
       startX: null,
       startY: null,
@@ -113,24 +113,17 @@ export default class Graph extends EventedViewModel {
 
   //region dragging
 
-  onDragStart(node, startX, startY, e) {
-    if (e.nativeEvent.which !== 1) {
-      // left button only
-      return;
-    }
-
+  onDragStart(node) {
     this.drag = {
-      on: true,
+      active: true,
       node: node,
-      startX: startX,
-      startY: startY,
-      x: e.clientX,
-      y: e.clientY
+      startX: node.pos.x,
+      startY: node.pos.y
     };
   }
 
   onDragRevert() {
-    if (!this.drag.on) {
+    if (!this.drag.active) {
       return;
     }
 
@@ -143,7 +136,7 @@ export default class Graph extends EventedViewModel {
   }
 
   onDragStop() {
-    if (!this.drag.on) {
+    if (!this.drag.active) {
       return;
     }
 
@@ -151,16 +144,10 @@ export default class Graph extends EventedViewModel {
     this.emit('nodeChange', this.drag.node);
   }
 
-  onDrag(e) {
-    if (!this.drag.on) {
+  onDrag({shiftX, shiftY}) {
+    if (!this.drag.active) {
       return;
     }
-
-    let shiftX = e.clientX - this.drag.x;
-    let shiftY = e.clientY - this.drag.y;
-
-    this.drag.x = e.clientX;
-    this.drag.y = e.clientY;
 
     this.onDragStep(this.drag.node, shiftX, shiftY);
   }
