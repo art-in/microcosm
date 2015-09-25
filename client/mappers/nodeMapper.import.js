@@ -12,6 +12,7 @@ export function ideaToNode(idea) {
   node.title = idea.value;
   node.isCentral = idea.isCentral;
   node.color = idea.isCentral ? 'yellow' : (idea.color || node.color);
+  node.radius = idea.isCentral ? 15 : 10;
 
   return node;
 }
