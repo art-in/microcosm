@@ -11,7 +11,7 @@ export default class Graph extends EventedViewModel {
       'click',
       'nodeChange',
       'linkChange',
-      'viewportChange',
+      'viewboxChange',
       'nodeRightClick',
       'linkRightClick'
     ];
@@ -114,7 +114,6 @@ export default class Graph extends EventedViewModel {
 
   onWheel(up) {
     zoom.call(this, up);
-    this.emit('viewportChange');
   }
 
   //region pan
@@ -140,7 +139,7 @@ export default class Graph extends EventedViewModel {
     }
 
     this.pan.active = false;
-    this.emit('viewportChange');
+    this.emit('viewboxChange');
   }
 
   //endregion
@@ -230,6 +229,12 @@ function moveNode({nodeId, pos, shift}) {
 function zoom(_in) {
   let viewbox = this.viewbox;
 
+  if ((_in && viewbox.scale >= viewbox.scaleMax) ||
+    (!_in && viewbox.scale <= viewbox.scaleMin)) {
+    // do not scale out of boundaries
+    return;
+  }
+
   // zoom by 20%
   viewbox.scale += (_in ? 1 : -1) * 0.2 * viewbox.scale;
 
@@ -239,6 +244,8 @@ function zoom(_in) {
   // zoom to/from the center of viewbox
   viewbox.x += (prevWidth - viewbox.width) / 2;
   viewbox.y += (prevHeight - viewbox.height) / 2;
+
+  this.emit('viewboxChange');
 }
 
 function recomputeViewbox() {

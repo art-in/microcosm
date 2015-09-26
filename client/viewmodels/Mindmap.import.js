@@ -74,7 +74,7 @@ function addGraphHandlers() {
 
   this.graph.on('nodeChange', onNodeChange.bind(this));
   this.graph.on('linkChange', onLinkChange.bind(this));
-  this.graph.on('viewportChange', onViewboxChange.bind(this));
+  this.graph.on('viewboxChange', onViewboxChange.bind(this));
 
   this.graph.on('nodeRightClick', onNodeRightClick.bind(this));
   this.graph.on('linkRightClick', onLinkRightClick.bind(this));
