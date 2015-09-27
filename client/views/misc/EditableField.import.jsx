@@ -78,6 +78,8 @@ export default React.createClass({
       e.preventDefault();
       document.execCommand('insertHTML', false, '<br><br>');
     }
+
+    e.stopPropagation();
   },
 
   emitChange: function() {

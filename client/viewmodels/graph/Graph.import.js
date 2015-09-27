@@ -116,17 +116,34 @@ export default class Graph extends EventedViewModel {
     zoom.call(this, up);
   }
 
+  onKeyPress(keyCode) {
+    let panKeyStep = 20;
+
+    panKeyStep /= this.viewbox.scale;
+
+    switch (keyCode) {
+      case 'ArrowDown':
+        this.onPan({shiftY: -panKeyStep});
+        break;
+      case 'ArrowUp':
+        this.onPan({shiftY: panKeyStep});
+        break;
+      case 'ArrowLeft':
+        this.onPan({shiftX: panKeyStep});
+        break;
+      case 'ArrowRight':
+        this.onPan({shiftX: -panKeyStep});
+        break;
+    }
+  }
+
   //region pan
 
   onPanStart() {
     this.pan.active = true;
   }
 
-  onPan({shiftX, shiftY}) {
-    if (!this.pan.active) {
-      return;
-    }
-
+  onPan({shiftX = 0, shiftY = 0}) {
     this.viewbox.x -= shiftX;
     this.viewbox.y -= shiftY;
     

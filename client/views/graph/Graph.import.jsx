@@ -52,6 +52,10 @@ export default React.createClassWithCSS({
     // Only after viewport being mount we can get its size,
     // recalculate viewbox and render again with viewbox set.
     this.onResize();
+
+    // Focus viewport
+    let viewport = React.findDOMNode(this.refs.viewport);
+    viewport.focus();
   },
 
   onNodeRightClick(node, e) {
@@ -89,7 +93,9 @@ export default React.createClassWithCSS({
 
     if (graph.drag.active) {
       graph.onDrag({shiftX, shiftY});
-    } else {
+    }
+
+    if (graph.pan.active) {
       graph.onPan({shiftX, shiftY});
     }
   },
@@ -109,6 +115,10 @@ export default React.createClassWithCSS({
     if (e.nativeEvent.which === 1) {
       this.props.graph.onPanStart();
     }
+  },
+
+  onKeyPress(e) {
+    this.props.graph.onKeyPress(e.key);
   },
 
   css: {
@@ -162,6 +172,8 @@ export default React.createClassWithCSS({
            onWheel={ this.onWheel }
            onMouseDown={ this.onViewportMouseDown }
            onClick={ graph.onClick.bind(graph) }
+           onKeyDown={ this.onKeyPress }
+           tabIndex={ 0 }
            {...other}>
 
         <Group id={'links'}>{links}</Group>
