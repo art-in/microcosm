@@ -18,7 +18,7 @@ export function assocToLink(nodes, assoc) {
   link.id = assoc.id;
   link.fromNode = fromNode;
   link.toNode = toNode;
-  link.title = assoc.value;
+  link.title.value = assoc.value;
 
   fromNode.links.push(link);
 
@@ -32,7 +32,7 @@ export function linkToAssoc(link, assoc) {
   assoc.id = link.id;
   assoc.from = link.fromNode.id;
   assoc.to = link.toNode.id;
-  assoc.value = link.title;
+  assoc.value = link.title.value;
 
   return assoc;
 }

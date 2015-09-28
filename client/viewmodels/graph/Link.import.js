@@ -15,8 +15,12 @@ export default class Link extends EventedViewModel {
     this.id = undefined;
     this.fromNode = undefined;
     this.toNode = undefined;
-    this.title = '';
-    this.titleEditable = false;
+    this.title = {
+      value: '',
+      editing: false,
+      editable: false,
+      visible: true
+    };
 
     this.debug = false;
   }
@@ -46,21 +50,21 @@ export default class Link extends EventedViewModel {
   //region handlers
 
   onTitleClick() {
-    if (!this.titleEditable) {
-      this.titleEditable = true;
+    if (this.title.editable && !this.title.editing) {
+      this.title.editing = true;
       this.emit('change');
     }
   }
 
   onTitleBlur() {
-    if (this.titleEditable) {
-      this.titleEditable = false;
+    if (this.title.editable && this.title.editing) {
+      this.title.editing = false;
       this.emit('change');
     }
   }
 
   onTitleChange(title) {
-    this.title = title;
+    this.title.value = title;
     this.emit('titleChange');
     this.emit('change');
   }

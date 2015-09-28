@@ -66,15 +66,18 @@ export default React.createClassWithCSS({
                 radius={ node.radius }
                 {...other} />
 
-        <TextArea className={ this.css().title }
-                  pos={ textAreaPos }
-                  width={ textAreaWidth }
-                  height={ textAreaHeight }
-                  value={ node.title }
-                  editable={ node.titleEditable }
-                  onClick={ node.onTitleClick.bind(node) }
-                  onBlur={ node.onTitleBlur.bind(node) }
-                  onChange={ node.onTitleChange.bind(node) }/>
+        {
+          node.title.visible &&
+            <TextArea className={ this.css().title }
+                      pos={ textAreaPos }
+                      width={ textAreaWidth }
+                      height={ textAreaHeight }
+                      value={ node.title.value }
+                      editable={ node.title.editing }
+                      onClick={ node.onTitleClick.bind(node) }
+                      onBlur={ node.onTitleBlur.bind(node) }
+                      onChange={ node.onTitleChange.bind(node) }/>
+        }
 
         {
           node.debug &&

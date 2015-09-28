@@ -97,16 +97,19 @@ export default React.createClassWithCSS({
               width={{start: linkStartWidth, end: linkEndWidth}}
               {...other} />
 
-        <TextArea className={ this.css().title }
-                  pos={ titlePos }
-                  width={ titleWidth }
-                  height={ titleHeight }
-                  rotation={ titleRotation }
-                  value={ link.title }
-                  editable={ link.titleEditable }
-                  onClick={ link.onTitleClick.bind(link) }
-                  onBlur={ link.onTitleBlur.bind(link) }
-                  onChange={ link.onTitleChange.bind(link) }/>
+        {
+          link.title.visible &&
+            <TextArea className={ this.css().title }
+                      pos={ titlePos }
+                      width={ titleWidth }
+                      height={ titleHeight }
+                      rotation={ titleRotation }
+                      value={ link.title.value }
+                      editable={ link.title.editing }
+                      onClick={ link.onTitleClick.bind(link) }
+                      onBlur={ link.onTitleBlur.bind(link) }
+                      onChange={ link.onTitleChange.bind(link) }/>
+        }
 
       </Group>
     );

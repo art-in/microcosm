@@ -9,7 +9,7 @@ export function ideaToNode(idea) {
 
   node.id = idea.id;
   node.pos = new Point(idea.x, idea.y);
-  node.title = idea.value;
+  node.title.value = idea.value;
   node.isCentral = idea.isCentral;
   node.color = idea.isCentral ? 'yellow' : (idea.color || node.color);
   node.radius = idea.isCentral ? 15 : 10;
@@ -24,7 +24,7 @@ export function nodeToIdea(node, idea) {
   idea.id = node.id;
   idea.x = node.pos.x;
   idea.y = node.pos.y;
-  idea.value = node.title;
+  idea.value = node.title.value;
   idea.isCentral = node.isCentral;
   idea.color = node.color;
 
