@@ -7,7 +7,7 @@ import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
 import Text from '../svg/Text';
-import { bodyMargin, getElementSize } from 'client/lib/helpers/domHelpers';
+import { bodyMargin, getElementSize, getPageScale } from 'client/lib/helpers/domHelpers';
 
 const propTypes = React.PropTypes;
 
@@ -86,10 +86,14 @@ export default React.createClassWithCSS({
 
   onMouseMove(e) {
     let graph = this.props.graph;
+    let pageScale = getPageScale();
 
-    // convert position shift from Viewport Space measures to User Space
-    let shiftX = e.nativeEvent.movementX / graph.viewbox.scale;
-    let shiftY = e.nativeEvent.movementY / graph.viewbox.scale;
+    // convert value of position shift between several coordinate systems:
+    // a. Browser Viewport (page can be zoomed)
+    // b. SVG Viewport (viewbox can be zoomed, i.e. differ from SVG viewport size)
+    // c. SVG Current User Space (target measures on drawing canvas)
+    let shiftX = e.nativeEvent.movementX / pageScale / graph.viewbox.scale;
+    let shiftY = e.nativeEvent.movementY / pageScale / graph.viewbox.scale;
 
     if (graph.drag.active) {
       graph.onDrag({shiftX, shiftY});

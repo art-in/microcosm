@@ -19,8 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
   bodyMargin = getBodyMargin();
 });
 
+export function getPageScale() {
+  return window.outerWidth / window.innerWidth;
+}
+
 export default {
   getElementSize,
   getBodyMargin,
-  bodyMargin
+  bodyMargin,
+  getPageScale
 }
