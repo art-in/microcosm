@@ -19,6 +19,10 @@ export default class ApiAgent {
 
       let mindmap = Mindmaps.findOne();
 
+      if (!mindmap) {
+        throw Error('Mindmap does not found. You have to create at least one.');
+      }
+
       let ideaSub = Meteor.subscribe('ideas', idToStr(mindmap._id));
       let assocSub = Meteor.subscribe('assocs', idToStr(mindmap._id));
 
