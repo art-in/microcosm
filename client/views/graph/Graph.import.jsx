@@ -125,6 +125,11 @@ export default React.createClassWithCSS({
     this.props.graph.onKeyPress(e.key);
   },
 
+  onDragStart(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  },
+
   css: {
     svg: {
       width: '100%',
@@ -178,6 +183,7 @@ export default React.createClassWithCSS({
            onClick={ graph.onClick.bind(graph) }
            onKeyDown={ this.onKeyPress }
            tabIndex={ 0 }
+           onDragStart={ this.onDragStart }
            {...other}>
 
         <Group id={'links'}>{links}</Group>
@@ -191,6 +197,10 @@ export default React.createClassWithCSS({
                 `(${round(viewbox.width)}; ${round(viewbox.height)})` }
                 <br />
                 { `scale: ${viewbox.scale}` }
+                <br />
+                { `drag: ${graph.drag.active}` }
+                <br />
+                { `pan: ${graph.pan.active}` }
               </div>
             </foreignObject>
         }
