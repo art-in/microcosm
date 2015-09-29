@@ -19,8 +19,8 @@ export default class Node extends EventedViewModel {
     this.title = {
       value: '',
       editing: false,
-      editable: false,
-      visible: false
+      editable: true,
+      visible: true
     };
     this.isCentral = false;
     this.color = '';

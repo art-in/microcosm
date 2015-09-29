@@ -18,7 +18,7 @@ export default class Link extends EventedViewModel {
     this.title = {
       value: '',
       editing: false,
-      editable: false,
+      editable: true,
       visible: true
     };
 

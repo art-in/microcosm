@@ -118,23 +118,30 @@ export default class Graph extends EventedViewModel {
 
   onKeyPress(keyCode) {
     let panKeyStep = 20;
+    let viewboxChanged = false;
 
     panKeyStep /= this.viewbox.scale;
 
     switch (keyCode) {
       case 'ArrowDown':
         this.onPan({shiftY: -panKeyStep});
+        viewboxChanged = true;
         break;
       case 'ArrowUp':
         this.onPan({shiftY: panKeyStep});
+        viewboxChanged = true;
         break;
       case 'ArrowLeft':
         this.onPan({shiftX: panKeyStep});
+        viewboxChanged = true;
         break;
       case 'ArrowRight':
         this.onPan({shiftX: -panKeyStep});
+        viewboxChanged = true;
         break;
     }
+
+    viewboxChanged && this.emit('viewboxChange');
   }
 
   //region pan
