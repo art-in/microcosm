@@ -2,6 +2,8 @@
    And 'xlink:href' is necessary for UA to ref path from textPath.
    In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'.
    https://github.com/facebook/react/issues/2250
+   UPDATE: actually React team willing to support missing SVG tags/attrs
+   https://github.com/facebook/react/issues/1657
 
 2. Chrome does not redraw textPath on path change
    when <text> and <defs> are in different <g>-groups ...
