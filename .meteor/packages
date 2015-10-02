@@ -26,3 +26,5 @@ mquandalle:jade
 
 npm-container
 universe:modules
+sanjo:jasmine
+velocity:console-reporter
