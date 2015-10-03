@@ -14,7 +14,7 @@ export default class Node extends EventedViewModel {
     super();
 
     this.id = undefined;
-    this.pos = new Point();
+    this.pos = new Point(0, 0);
     this.radius = 0;
     this.title = {
       value: '',

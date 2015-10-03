@@ -9,9 +9,9 @@ export function assocToLink(nodes, assoc) {
   let toNode = nodes.find((node) => node.id === assoc.to);
 
   !fromNode && console.warn(
-    `unable to find idea while mapping association [${assoc.from}]`);
+    `unable to find 'from' idea while mapping association [${assoc.from}]`);
   !toNode && console.warn(
-    `unable to find idea while mapping association [${assoc.to}]`);
+    `unable to find 'to' idea while mapping association [${assoc.to}]`);
 
   let link = new Link();
 

@@ -9,12 +9,12 @@ export default class Link extends EventedViewModel {
     ];
   }
 
-  constructor() {
+  constructor(fromNode, toNode) {
     super();
 
     this.id = undefined;
-    this.fromNode = undefined;
-    this.toNode = undefined;
+    this.fromNode = fromNode;
+    this.toNode = toNode;
     this.title = {
       value: '',
       editing: false,

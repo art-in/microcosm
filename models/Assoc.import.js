@@ -2,10 +2,10 @@ import { newIdStr } from 'lib/helpers/mongoHelpers';
 
 export default class Assoc {
 
-  constructor() {
+  constructor(from, to) {
     this.id = newIdStr();
-    this.from = undefined;
-    this.to = undefined;
+    this.from = from;
+    this.to = to;
     this.value = '';
   }
 

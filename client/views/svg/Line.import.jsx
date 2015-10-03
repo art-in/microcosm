@@ -35,7 +35,7 @@ export default React.createClassWithCSS({
       width,
       ...other} = this.props;
 
-    id = id || random();
+    id = id || Math.random();
 
     // Variable Stroke Width (VSW) not supported by SVG natively for now (#26).
     // Currenly we need to variate start and end widths only.

@@ -8,6 +8,10 @@ export default React.createClassWithCSS({
 
   mixins: [DisplayNameAttribute, ReactMeteorData],
 
+  propTypes: {
+    main: React.PropTypes.instanceOf(MainVM)
+  },
+
   getInitialState() {
     return new MainVM();
   },
@@ -15,6 +19,10 @@ export default React.createClassWithCSS({
   getMeteorData() {
     this.state.load();
     return {};
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.main);
   },
 
   css: {
