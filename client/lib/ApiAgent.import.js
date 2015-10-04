@@ -23,11 +23,10 @@ export default class ApiAgent {
         throw Error('Mindmap does not found. You have to create at least one.');
       }
 
-      let ideaSub = Meteor.subscribe('ideas', idToStr(mindmap._id));
+      let {ideas} = Ideas.fetchAll(idToStr(mindmap._id));
       let assocSub = Meteor.subscribe('assocs', idToStr(mindmap._id));
 
-      if (ideaSub.ready() && assocSub.ready()) {
-        let ideas = Ideas.find().fetch().map(dboToIdea);
+      if (ideas && assocSub.ready()) {
         let assocs = Assocs.find().fetch().map(dboToAssoc);
 
         this.mindmap = dboToMindmap(mindmap, ideas, assocs);
@@ -51,7 +50,7 @@ export default class ApiAgent {
     console.log(`update idea: ${idea}`);
     Meteor.call('api.mindmap.updateIdea', {
       mindmapId: this.mindmap.id,
-      ideaDbo: ideaToDbo(idea)
+      idea
     });
   }
 

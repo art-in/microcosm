@@ -7,7 +7,8 @@ import Group from '../svg/Group';
 import Node from './Node';
 import Link from './Link';
 import Text from '../svg/Text';
-import { bodyMargin, getElementSize, getPageScale } from 'client/lib/helpers/domHelpers';
+import { bodyMargin, getElementSize, getPageScale }
+    from 'client/lib/helpers/domHelpers';
 
 const propTypes = React.PropTypes;
 

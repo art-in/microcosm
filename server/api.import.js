@@ -20,7 +20,7 @@ methods('api.mindmap', {
     newIdea.y = 0;
 
     if (parentIdeaId) {
-      let parentIdea = dboToIdea(Ideas.findOne({_id: strToId(parentIdeaId)}));
+      let parentIdea = Ideas.findOne(parentIdeaId);
 
       newIdea.x = parentIdea.x + 100;
       newIdea.y = parentIdea.y + 100;
@@ -34,17 +34,14 @@ methods('api.mindmap', {
       Assocs.insert(assocToDbo(assoc));
     }
 
-    Ideas.insert(ideaToDbo(newIdea));
+    Ideas.insert(newIdea);
   },
 
-  updateIdea({mindmapId, ideaDbo}) {
-    console.log(`update idea (mm: ${mindmapId}): ${ideaDbo._id}`);
+  updateIdea({mindmapId, idea}) {
+    console.log(`update idea (mm: ${mindmapId}): ${idea.id}`);
 
-    if (ideaDbo.isCentral) {
-      let centralCount = Ideas.find({
-        isCentral: true,
-        _id: {$not: {$eq: ideaDbo._id}}}
-      ).count();
+    if (idea.isCentral) {
+      let centralCount = Ideas.countCentral(idea.id);
 
       if (centralCount > 0) {
         throw new Meteor.Error(400,
@@ -52,15 +49,13 @@ methods('api.mindmap', {
       }
     }
 
-    Ideas.update({_id: ideaDbo._id}, ideaDbo);
+    Ideas.update(idea);
   },
 
   deleteIdea({mindmapId, ideaId}) {
     console.log(`delete idea (mm: ${mindmapId}): ${ideaId}`);
 
-    let id = strToId(ideaId);
-
-    let idea = Ideas.findOne({_id: id});
+    let idea = Ideas.findOne(ideaId);
     if (idea.isCentral) {
       throw new Meteor.Error(400, 'Unable to delete central idea');
     }
@@ -71,13 +66,13 @@ methods('api.mindmap', {
     }
 
     Assocs.remove({$or: [{from: ideaId}, {to: ideaId}]});
-    Ideas.remove({_id: id});
+    Ideas.remove(ideaId);
   },
 
   deleteIdeas() {
     console.log(`delete ideas`);
     Assocs.remove({});
-    Ideas.remove({});
+    Ideas.removeAll();
   },
 
   updateAssoc({mindmapId, assocDbo}) {

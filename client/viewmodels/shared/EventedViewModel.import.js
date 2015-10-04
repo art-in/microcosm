@@ -33,8 +33,7 @@ export default class EventedViewModel extends EventEmitter {
   addListener(eventType, ...args) {
     if (!this.hasEventType(eventType)) {
       console.warn(
-        `No "${eventType}" event to listen ` +
-        `on ${this.displayName} view model`);
+        `No "${eventType}" event to listen on ${this.displayName} view model`);
 
       return;
     }

@@ -24,8 +24,8 @@ export default {
         this.addVMListeners(vmNext);
       } else {
         console.warn(
-          `Prop specified in getViewModel() of ${this.constructor.displayName} ` +
-          `component not found in this.props`);
+          `Prop specified in getViewModel() of ` +
+          `${this.constructor.displayName} component not found in this.props`);
       }
     }
   },
