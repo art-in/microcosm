@@ -5,7 +5,7 @@ import Mindmap from 'models/Mindmap';
 import TreeCrawler from 'client/lib/TreeCrawler';
 
 export function mindmapToGraph(mindmap) {
-  if (!(mindmap instanceof Mindmap)) { throw Error('invalid mindmap type'); }
+  assert(mindmap instanceof Mindmap);
 
   let nodes = mindmap.ideas.map(ideaToNode);
   let links = mindmap.assocs.map(assocToLink.bind(null, nodes));
@@ -38,12 +38,8 @@ export function mindmapToGraph(mindmap) {
 }
 
 export function graphToMindmap(graph, mindmap) {
-  if (!(graph instanceof GraphVM)) {
-    throw Error('invalid graph type');
-  }
-  if (!(mindmap instanceof Mindmap)) {
-    throw Error('invalid mindmap type');
-  }
+  assert(graph instanceof GraphVM);
+  assert(mindmap instanceof Mindmap);
 
   mindmap.x = graph.viewbox.x;
   mindmap.y = graph.viewbox.y;
