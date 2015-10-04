@@ -14,23 +14,27 @@ methods('api.mindmap', {
   createIdea({mindmapId, parentIdeaId}) {
     console.log(`create idea from parent (mm: ${mindmapId}): ${parentIdeaId}`);
 
-    let parentIdea = dboToIdea(Ideas.findOne({_id: strToId(parentIdeaId)}));
-
     let newIdea = new Idea();
-
     newIdea.mindmapId = mindmapId;
-    newIdea.x = parentIdea.x + 100;
-    newIdea.y = parentIdea.y + 100;
+    newIdea.x = 0;
+    newIdea.y = 0;
+
+    if (parentIdeaId) {
+      let parentIdea = dboToIdea(Ideas.findOne({_id: strToId(parentIdeaId)}));
+
+      newIdea.x = parentIdea.x + 100;
+      newIdea.y = parentIdea.y + 100;
+
+      let assoc = new Assoc();
+
+      assoc.mindmapId = mindmapId;
+      assoc.from = parentIdea.id;
+      assoc.to = newIdea.id;
+
+      Assocs.insert(assocToDbo(assoc));
+    }
 
     Ideas.insert(ideaToDbo(newIdea));
-
-    let assoc = new Assoc();
-
-    assoc.mindmapId = mindmapId;
-    assoc.from = parentIdea.id;
-    assoc.to = newIdea.id;
-
-    Assocs.insert(assocToDbo(assoc));
   },
 
   updateIdea({mindmapId, ideaDbo}) {

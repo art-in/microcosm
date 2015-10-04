@@ -25,3 +25,8 @@ export function mindmapToDbo(model) {
 
   return dbo;
 }
+
+export default {
+  dboToMindmap,
+  mindmapToDbo
+}

@@ -3,8 +3,7 @@ import { newIdStr } from 'lib/helpers/mongoHelpers';
 export default class Mindmap {
 
   constructor() {
-
-    this.id = undefined;
+    this.id = newIdStr();
     this.mindmapId = undefined;
     this.x = 0;
     this.y = 0;
