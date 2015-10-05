@@ -1,10 +1,6 @@
 import Ideas from 'collections/Ideas';
 import Assocs from 'collections/Assocs';
 import Mindmaps from 'collections/Mindmaps';
-import { dboToAssoc, assocToDbo } from 'mappers/assocMapper';
-import { dboToIdea, ideaToDbo } from 'mappers/ideaMapper';
-import { dboToMindmap, mindmapToDbo } from 'mappers/mindmapMapper';
-import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
 export default class ApiAgent {
 
@@ -17,18 +13,16 @@ export default class ApiAgent {
 
     if (mindmaps) {
 
-      if (!mindmap.length) {
+      if (!mindmaps.length) {
         throw Error('Mindmap does not found. You have to create at least one.');
       }
 
       this.mindmap = mindmaps[0];
 
       let {ideas} = Ideas.reactivelyFetchAll(this.mindmap.id);
-      let assocSub = Meteor.subscribe('assocs', this.mindmap.id);
+      let {assocs} = Assocs.reactivelyFetchAll(this.mindmap.id);
 
-      if (ideas && assocSub.ready()) {
-        let assocs = Assocs.find().fetch().map(dboToAssoc);
-
+      if (ideas && assocs) {
         this.mindmap.ideas = ideas;
         this.mindmap.assocs = assocs;
 
@@ -67,7 +61,7 @@ export default class ApiAgent {
     console.log(`update assoc: ${assoc}`);
     Meteor.call('api.mindmap.updateAssoc', {
       mindmapId: this.mindmap.id,
-      assocDbo: assocToDbo(assoc)
+      assoc
     });
   }
 

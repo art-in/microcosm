@@ -1,42 +1,31 @@
 importing([
-      'lib/helpers/mongoHelpers',
       'models/Mindmap',
       'models/Idea',
       'models/Assoc',
       'collections/Mindmaps',
       'collections/Ideas',
-      'collections/Assocs',
-      'mappers/mindmapMapper',
-      'mappers/ideaMapper'
+      'collections/Assocs'
     ],
     function(
-        mongoHelpers,
         Mindmap, Idea, Assoc,
-        Mindmaps, Ideas, Assocs,
-        mindmapMapper, ideaMapper) {
-
-      let idToStr = mongoHelpers.idToStr;
-      let mindmapToDbo = mindmapMapper.mindmapToDbo;
-      let dboToMindmap = mindmapMapper.dboToMindmap;
-      let ideaToDbo = ideaMapper.ideaToDbo;
-      let dboToIdea = ideaMapper.dboToIdea;
+        Mindmaps, Ideas, Assocs) {
 
       describe('API', function() {
 
         let db = MongoInternals.defaultRemoteCollectionDriver().mongo.db;
 
         beforeAll(() => {
-          Mindmaps.remove({});
+          Mindmaps.removeAll();
 
           let mindmap = new Mindmap();
-          Mindmaps.insert(mindmapToDbo(mindmap));
+          Mindmaps.insert(mindmap);
         });
 
         describe('create idea', () => {
 
           beforeEach(() => {
-            Ideas.remove({});
-            Assocs.remove({});
+            Ideas.removeAll();
+            Assocs.removeAll();
           });
 
           it('should exist', () => {
@@ -46,12 +35,12 @@ importing([
           });
 
           it('should create idea', () => {
-            let mindmap = dboToMindmap(Mindmaps.findOne());
+            let mindmap = Mindmaps.findOne();
 
             Meteor.call('api.mindmap.createIdea', {mindmapId: mindmap.id});
 
-            let ideas = Ideas.find().fetch();
-            let assocs = Assocs.find().fetch();
+            let ideas = Ideas.fetchAll();
+            let assocs = Assocs.fetchAll();
 
             expect(ideas.length).toEqual(1);
             expect(ideas[0].mindmapId).toEqual(mindmap.id);
@@ -59,22 +48,21 @@ importing([
           });
 
           it('should create idea from parent', () => {
-            let mindmap = dboToMindmap(Mindmaps.findOne());
+            let mindmap = Mindmaps.findOne();
 
             let parentIdea = new Idea();
             parentIdea.mindmapId = mindmap.id;
-            Ideas.insert(ideaToDbo(parentIdea));
+            Ideas.insert(parentIdea);
 
             Meteor.call('api.mindmap.createIdea', {
               mindmapId: mindmap.id,
               parentIdeaId: parentIdea.id
             });
 
-            let ideas = Ideas.find().fetch();
-            let assocs = Assocs.find().fetch();
+            let ideas = Ideas.fetchAll();
+            let assocs = Assocs.fetchAll();
 
-            let newIdea = dboToIdea(ideas.find(
-                    i => i._id.valueOf() !== parentIdea.id));
+            let newIdea = ideas.find(i => i.id !== parentIdea.id);
 
             expect(ideas.length).toEqual(2);
             expect(ideas[0].mindmapId).toEqual(mindmap.id);

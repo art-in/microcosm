@@ -1,13 +1,9 @@
 import {methodsInScope as methods} from 'server/lib/helpers/meteorHelpers';
-import Ideas from 'collections/Ideas';
 import Idea from 'models/Idea';
+import Assoc from 'models/Assoc';
+import Ideas from 'collections/Ideas';
 import Assocs from 'collections/Assocs';
 import Mindmaps from 'collections/Mindmaps';
-import Assoc from 'models/Assoc';
-import { ideaToDbo, dboToIdea } from 'mappers/ideaMapper';
-import { assocToDbo, dboToAssoc } from 'mappers/assocMapper';
-import { mindmapToDbo, dboToMindmap } from 'mappers/mindmapMapper';
-import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
 methods('api.mindmap', {
 
@@ -31,7 +27,7 @@ methods('api.mindmap', {
       assoc.from = parentIdea.id;
       assoc.to = newIdea.id;
 
-      Assocs.insert(assocToDbo(assoc));
+      Assocs.insert(assoc);
     }
 
     Ideas.insert(newIdea);
@@ -60,24 +56,24 @@ methods('api.mindmap', {
       throw new Meteor.Error(400, 'Unable to delete central idea');
     }
 
-    let assocsFrom = Assocs.find({from: ideaId}).count();
+    let assocsFrom = Assocs.countFrom(ideaId);
     if (assocsFrom > 0) {
       throw new Meteor.Error(400, 'Unable to delete idea with association');
     }
 
-    Assocs.remove({$or: [{from: ideaId}, {to: ideaId}]});
+    Assocs.remove(ideaId);
     Ideas.remove(ideaId);
   },
 
   deleteIdeas() {
     console.log(`delete ideas`);
-    Assocs.remove({});
+    Assocs.removeAll();
     Ideas.removeAll();
   },
 
-  updateAssoc({mindmapId, assocDbo}) {
-    console.log(`update assoc (mm: ${mindmapId}): ${assocDbo._id}`);
-    Assocs.update({_id: assocDbo._id}, assocDbo);
+  updateAssoc({mindmapId, assoc}) {
+    console.log(`update assoc (mm: ${mindmapId}): ${assoc.id}`);
+    Assocs.update(assoc);
   },
 
   updateMindmap({mindmap}) {
