@@ -13,23 +13,24 @@ export default class ApiAgent {
   }
 
   loadMindmap() {
-    let mindmapSub = Meteor.subscribe('mindmaps');
+    let {mindmaps} = Mindmaps.reactivelyFetchAll();
 
-    if (mindmapSub.ready()) {
+    if (mindmaps) {
 
-      let mindmap = Mindmaps.findOne();
-
-      if (!mindmap) {
+      if (!mindmap.length) {
         throw Error('Mindmap does not found. You have to create at least one.');
       }
 
-      let {ideas} = Ideas.fetchAll(idToStr(mindmap._id));
-      let assocSub = Meteor.subscribe('assocs', idToStr(mindmap._id));
+      this.mindmap = mindmaps[0];
+
+      let {ideas} = Ideas.reactivelyFetchAll(this.mindmap.id);
+      let assocSub = Meteor.subscribe('assocs', this.mindmap.id);
 
       if (ideas && assocSub.ready()) {
         let assocs = Assocs.find().fetch().map(dboToAssoc);
 
-        this.mindmap = dboToMindmap(mindmap, ideas, assocs);
+        this.mindmap.ideas = ideas;
+        this.mindmap.assocs = assocs;
 
         return true;
       }
@@ -74,7 +75,7 @@ export default class ApiAgent {
     console.log(`update mindmap: ${mindmap}`);
     Meteor.call('api.mindmap.updateMindmap', {
       mindmapId: this.mindmap.id,
-      mindmapDbo: mindmapToDbo(mindmap)
+      mindmap
     });
   }
 

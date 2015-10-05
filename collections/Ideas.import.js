@@ -1,10 +1,10 @@
-import { ideaToDbo as toDbo, dboToIdea as toIdea } from 'mappers/ideaMapper';
+import { ideaToDbo as toDbo, dboToIdea as toModel } from 'mappers/ideaMapper';
 import { idToStr, strToId } from 'lib/helpers/mongoHelpers';
 
 let col = new Mongo.Collection('ideas');
 
 export function findOne(ideaId) {
-  return toIdea(col.findOne({_id: strToId(ideaId)}));
+  return toModel(col.findOne({_id: strToId(ideaId)}));
 }
 
 export function countCentral(exceptIdeaId) {
@@ -17,16 +17,15 @@ export function countCentral(exceptIdeaId) {
   return col.find(query).count();
 }
 
-export function fetchAll(mindmapId) {
+export function reactivelyFetchAll(mindmapId) {
   let sub = Meteor.subscribe('ideas', mindmapId);
 
   if (!sub.ready()) {
     return {ideas: null};
   }
 
-  let ideas = col.find().fetch();
   return {
-    ideas: ideas.map(toIdea)
+    ideas: col.find().fetch().map(toModel)
   };
 }
 
@@ -51,7 +50,7 @@ export default {
   col,
   findOne,
   countCentral,
-  fetchAll,
+  reactivelyFetchAll,
   insert,
   update,
   remove,

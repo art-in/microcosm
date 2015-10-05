@@ -80,9 +80,9 @@ methods('api.mindmap', {
     Assocs.update({_id: assocDbo._id}, assocDbo);
   },
 
-  updateMindmap({mindmapId, mindmapDbo}) {
-    console.log(`update mindmap (mm: ${mindmapId}): ${mindmapDbo._id}`);
-    Mindmaps.update({_id: mindmapDbo._id}, mindmapDbo);
+  updateMindmap({mindmap}) {
+    console.log(`update mindmap: ${mindmap.id}`);
+    Mindmaps.update(mindmap);
   }
 
 });
