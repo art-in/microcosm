@@ -1,4 +1,4 @@
-importSeq([
+importingSeq([
   'server/lib/helpers/meteorHelpers',
   'server/publications/ideas',
   'server/publications/assocs',
@@ -6,7 +6,3 @@ importSeq([
   'server/api'
 ]);
 
-function importSeq(modules) {
-  modules.reduce((prev, cur) =>
-    prev.then(System.import.bind(System,cur)), Promise.resolve());
-}
