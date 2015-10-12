@@ -30,14 +30,14 @@ importing([
 
           it('should exist in API', () => {
             expect(() => {
-              Meteor.call('api.mindmap.createIdea');
+              Meteor.call('api/mindmap/createIdea');
             }).not.toThrowError(Meteor.Error);
           });
 
           it('should create idea', () => {
             let mindmap = Mindmaps.findOne();
 
-            Meteor.call('api.mindmap.createIdea', {mindmapId: mindmap.id});
+            Meteor.call('api/mindmap/createIdea', {mindmapId: mindmap.id});
 
             let ideas = Ideas.fetchAll();
             let assocs = Assocs.fetchAll();
@@ -54,7 +54,7 @@ importing([
             parentIdea.mindmapId = mindmap.id;
             Ideas.insert(parentIdea);
 
-            Meteor.call('api.mindmap.createIdea', {
+            Meteor.call('api/mindmap/createIdea', {
               mindmapId: mindmap.id,
               parentIdeaId: parentIdea.id
             });

@@ -5,7 +5,7 @@ import Ideas from 'collections/Ideas';
 import Assocs from 'collections/Assocs';
 import Mindmaps from 'collections/Mindmaps';
 
-methods('api.mindmap', {
+methods('api/mindmap', {
 
   createIdea({mindmapId, parentIdeaId}) {
     console.log(`create idea from parent (mm: ${mindmapId}): ${parentIdeaId}`);

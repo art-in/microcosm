@@ -35,7 +35,7 @@ export default class ApiAgent {
 
   createIdea(parentIdea) {
     console.log(`create idea: parent ${parentIdea}`);
-    Meteor.call('api.mindmap.createIdea', {
+    Meteor.call('api/mindmap/createIdea', {
       mindmapId: this.mindmap.id,
       parentIdeaId: parentIdea.id
     });
@@ -43,7 +43,7 @@ export default class ApiAgent {
 
   updateIdea(idea) {
     console.log(`update idea: ${idea}`);
-    Meteor.call('api.mindmap.updateIdea', {
+    Meteor.call('api/mindmap/updateIdea', {
       mindmapId: this.mindmap.id,
       idea
     });
@@ -51,7 +51,7 @@ export default class ApiAgent {
 
   deleteIdea(idea) {
     console.log(`delete idea: ${idea.id}`);
-    Meteor.call('api.mindmap.deleteIdea', {
+    Meteor.call('api/mindmap/deleteIdea', {
       mindmapId: this.mindmap.id,
       ideaId: idea.id
     });
@@ -59,7 +59,7 @@ export default class ApiAgent {
 
   updateAssoc(assoc) {
     console.log(`update assoc: ${assoc}`);
-    Meteor.call('api.mindmap.updateAssoc', {
+    Meteor.call('api/mindmap/updateAssoc', {
       mindmapId: this.mindmap.id,
       assoc
     });
@@ -67,7 +67,7 @@ export default class ApiAgent {
 
   updateMindmap(mindmap) {
     console.log(`update mindmap: ${mindmap}`);
-    Meteor.call('api.mindmap.updateMindmap', {
+    Meteor.call('api/mindmap/updateMindmap', {
       mindmapId: this.mindmap.id,
       mindmap
     });
