@@ -1,3 +1,4 @@
+// Script to setup a testing database with Velocity (Meteor)
 // https://github.com/xolvio/meteor-jasmine/blob/master/test-app/tests/jasmine/server/integration/_database-fixture.js
 
 /* globals

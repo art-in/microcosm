@@ -28,7 +28,7 @@ importing([
             Assocs.removeAll();
           });
 
-          it('should exist', () => {
+          it('should exist in API', () => {
             expect(() => {
               Meteor.call('api.mindmap.createIdea');
             }).not.toThrowError(Meteor.Error);
