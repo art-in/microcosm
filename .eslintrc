@@ -1,10 +1,38 @@
 {
-  "env": {
-    "es6": true
-  },
+  "extends": "google",
+  "parser": "babel-eslint",
+  "plugins": [
+    "babel",
+    "react"
+  ],
   "ecmaFeatures": {
-    "jsx": true,
-    "modules": true,
-    "experimentalObjectRestSpread": true
+    "jsx": true
+  },
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "indent": [ 1, 4 ],
+    "no-alert": 0,
+    "new-cap": 0,
+    "spaced-comment": 0,
+    "no-unused-expressions": 0,
+    "one-var": 0,
+    "no-undef": 0,
+    "camelcase": 0,
+    "padded-blocks": 0,
+    "eol-last": 0,
+    "no-trailing-spaces": 0,
+
+    // React
+    "jsx-quotes": [ 1, "prefer-single" ],
+
+    // Babel rewrites
+    "arrow-parens": 0,
+    "babel/arrow-parens": [ 1, "as-needed" ],
+
+    "object-curly-spacing": 0,
+    "babel/object-curly-spacing": 1
   }
 }

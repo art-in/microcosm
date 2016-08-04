@@ -1,13 +1,23 @@
-React.createClassWithCSS = function(reactClass) {
-  var css = reactClass.css;
+import React from 'react';
+import {create as jssCreate} from 'jss';
+import jssNested from 'jss-nested';
+import reactJss from 'react-jss';
 
-  if (css) {
-    reactClass.css = function() {
-      return this.props.sheet.classes;
-    };
+const jss = jssCreate();
+jss.use(jssNested);
 
-    return useSheet(React.createClass.apply(React, arguments), css);
-  }
+const useSheet = reactJss(jss);
 
-  return React.createClass.apply(React, arguments);
-};
+export function createClassWithCSS(reactClass) {
+    var css = reactClass.css;
+
+    if (css) {
+        reactClass.css = function() {
+            return this.props.sheet.classes;
+        };
+
+        return useSheet(React.createClass.apply(React, arguments), css);
+    }
+
+    return React.createClass.apply(React, arguments);
+}
