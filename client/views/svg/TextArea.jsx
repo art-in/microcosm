@@ -43,6 +43,7 @@ export default createClassWithCSS({
             onChange,
             editable,
             sheet,
+            classes,
       ...other} = this.props;
 
 return (

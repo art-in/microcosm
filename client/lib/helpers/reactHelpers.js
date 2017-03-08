@@ -1,12 +1,12 @@
 import React from 'react';
 import {create as jssCreate} from 'jss';
+import {create as createInjectSheet} from 'react-jss';
 import jssNested from 'jss-nested';
-import reactJss from 'react-jss';
 
 const jss = jssCreate();
 jss.use(jssNested);
 
-const useSheet = reactJss(jss);
+const injectSheet = createInjectSheet(jss);
 
 export function createClassWithCSS(reactClass) {
     var css = reactClass.css;
@@ -16,7 +16,7 @@ export function createClassWithCSS(reactClass) {
             return this.props.sheet.classes;
         };
 
-        return useSheet(React.createClass.apply(React, arguments), css);
+        return injectSheet(css)(React.createClass.apply(React, arguments));
     }
 
     return React.createClass.apply(React, arguments);

@@ -12,10 +12,6 @@ export default createClassWithCSS({
 
     mixins: [DisplayNameAttribute, ViewModelComponent],
 
-    propTypes: {
-        main: React.PropTypes.instanceOf(MainVM)
-    },
-
     getViewModel() {
         return this.state;
     },
@@ -27,11 +23,7 @@ export default createClassWithCSS({
     componentDidMount() {
         this.state.load();
     },
-
-    componentWillReceiveProps(nextProps) {
-        this.setState(nextProps.main);
-    },
-
+    
     css: {
         main: {
             'font-family': 'Arial',

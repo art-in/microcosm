@@ -27,7 +27,7 @@ export default createClassWithCSS({
 
     render() {
 
-        let {menu, className, sheet, ...other} = this.props;
+        let {menu, className, sheet, classes, ...other} = this.props;
 
 let items = menu.items.map((item) => {
     return (<MenuItem key={ item.id }

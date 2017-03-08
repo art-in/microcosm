@@ -7,6 +7,8 @@ import MenuItem from 'client/viewmodels/misc/MenuItem';
 
 export default createClassWithCSS({
 
+    displayName: 'MenuItem',
+
     propTypes: {
         item: React.PropTypes.instanceOf(MenuItem).isRequired
     },
@@ -22,7 +24,7 @@ export default createClassWithCSS({
 
     render() {
 
-        let {className, item, sheet, ...other} = this.props;
+        let {className, item, sheet, classes, ...other} = this.props;
 
 return (
     <div className={ cx(this.css().item, className) }

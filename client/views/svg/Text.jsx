@@ -55,6 +55,7 @@ export default createClassWithCSS({
             href, offset, reverse,
             className,
             sheet,
+            classes,
       ...other} = this.props;
 
 if (offset && !href) {

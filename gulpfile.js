@@ -36,15 +36,18 @@ function pack(opts) {
         },
         plugins: [].concat(plugins),
         module: {
-            loaders: [{
+            rules: [{
                 test: /\.(js|jsx)$/,
-                loaders: ['react-hot', 'babel'],
+                use: [
+                    {loader: 'react-hot-loader'},
+                    {loader: 'babel-loader'} 
+                ],
                 exclude: [/node_modules/]
             }]
         },
         resolve: {
-            extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
-            root: [__dirname]
+            extensions: ['.webpack.js', '.web.js', '.js', '.jsx'],
+            modules: [__dirname, 'node_modules']
         }
     }, function(err, stats) {
         if (err) {

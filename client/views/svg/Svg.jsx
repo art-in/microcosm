@@ -5,8 +5,11 @@ export default createClassWithCSS({
 
     render() {
 
+        let {classes, ...other} = this.props;
+
         return (
-            <svg {...this.props}>
+
+            <svg {...other}>
 
                 { this.props.children }
 

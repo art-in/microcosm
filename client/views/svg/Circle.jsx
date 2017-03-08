@@ -5,13 +5,15 @@ import Point from 'client/viewmodels/misc/Point';
 
 export default createClassWithCSS({
 
+    displayName: 'Circle',
+
     propTypes: {
         pos: React.PropTypes.instanceOf(Point),
         radius: React.PropTypes.number.isRequired
     },
 
     render() {
-        var {pos, radius, ...other} = this.props;
+        var {pos, radius, classes, ...other} = this.props;
 
 return (
     <circle r={ radius }

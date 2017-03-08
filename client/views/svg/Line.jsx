@@ -39,6 +39,7 @@ export default createClassWithCSS({
             sheet,
             pos1: temp1,
             pos2: temp2,
+            classes,
             ...other} = this.props;
 
 id = id || Math.random();

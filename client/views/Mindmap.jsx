@@ -41,7 +41,7 @@ export default createClassWithCSS({
 
     render() {
 
-        let {mindmap, className, sheet, ...other} = this.props;
+        let {mindmap, className, sheet, classes, ...other} = this.props;
         
         return (
             <div className={ cx(this.css().container, className) }
