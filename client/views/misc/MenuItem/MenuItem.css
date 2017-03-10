@@ -1,0 +1,7 @@
+.item {
+    padding: 5px;
+}
+
+.item:hover {
+    background-color: lightgray
+}

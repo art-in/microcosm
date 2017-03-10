@@ -1,0 +1,12 @@
+.svg {
+    width: 100%;
+    height: 100%;
+}
+
+.debug {
+    position: absolute;
+    left: 0; 
+    top: 0;
+    color: #D00;
+    width: 300px;
+}

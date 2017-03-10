@@ -1,0 +1,22 @@
+.line {
+    stroke: #BBB;
+    stroke-width: 1;
+}
+
+.title {
+    font-size: 20px;
+    color: #333;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: center;
+    line-height: 25px;
+}
+
+.title::selection:not([contenteditable]) {
+    /* do not select titles of nearby nodes when dragging over */
+    background-color: inherit;
+}
+
+.title[contenteditable] {
+    outline: 1px solid red;
+}
