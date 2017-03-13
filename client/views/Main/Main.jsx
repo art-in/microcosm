@@ -12,7 +12,7 @@ export default class Main extends Component {
     };
 
     componentDidMount() {
-        this.props.vm.load();
+        this.props.vm.onMount();
     }
     
     render() {

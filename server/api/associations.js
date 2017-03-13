@@ -1,4 +1,4 @@
-import * as Associations from '../data/Associations';
+import * as Associations from '../data/associations';
 
 import express from 'express';
 const api = new express.Router();

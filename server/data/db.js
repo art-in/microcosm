@@ -10,7 +10,7 @@ let dbPromise;
  * Connects to database
  * @return {promise.<Db>}
  */
-export default function() {
+export function connect() {
     if (!dbPromise) {
         dbPromise = MongoClient
             .connect(URL)

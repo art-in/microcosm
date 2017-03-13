@@ -1,8 +1,8 @@
 import Idea from '../../models/Idea';
 import Association from '../../models/Association';
 
-import * as Ideas from '../data/Ideas';
-import * as Associations from '../data/Associations';
+import * as Ideas from '../data/ideas';
+import * as Associations from '../data/associations';
 
 import express from 'express';
 const api = new express.Router();

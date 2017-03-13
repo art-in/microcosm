@@ -4,7 +4,7 @@ import GraphVM from 'client/viewmodels/graph/Graph';
 import {ideaToNode} from 'client/mappers/nodeMapper';
 import {assocToLink} from 'client/mappers/linkMapper';
 import Mindmap from 'models/Mindmap';
-import TreeCrawler from 'client/lib/TreeCrawler';
+import {traverseTree} from 'client/lib/tree-crawler';
 
 /**
  * Maps mindmap model to graph view model
@@ -22,12 +22,11 @@ export function mindmapToGraph(mindmap) {
     if (!centralNode) {
         console.warn('There is no central node in the tree');
     } else {
-        const crawler = new TreeCrawler();
-
         // set color on main sub trees
         centralNode.links.forEach(l => {
             const subNode = l.toNode;
-            crawler.traverseTree(subNode, (n) => {
+            
+            traverseTree(subNode, (n) => {
                 n.color = subNode.color;
             });
         });

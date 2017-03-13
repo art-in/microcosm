@@ -1,5 +1,6 @@
 import Idea from 'models/Idea';
 import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
+import {deleteUndefinedProps} from 'lib/helpers/helpers';
 
 /**
  * Maps dbo to model
@@ -38,18 +39,4 @@ export function toDbo(model) {
 
     deleteUndefinedProps(dbo);
     return dbo;
-}
-
-/**
- * Deletes props with undefined values from object
- * @param {object} obj
- */
-function deleteUndefinedProps(obj) {
-    for (const prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            if (obj[prop] === undefined) {
-                delete obj[prop];
-            }
-        }
-    }
 }

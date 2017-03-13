@@ -1,12 +1,12 @@
 import {strToId} from 'server/lib/helpers/mongoHelpers';
 import {toModel, toDbo} from 'server/mappers/mindmapMapper';
 
-import getDB from './db';
+import {connect} from './db';
 
 let col;
 
 (async function() {
-    const db = await getDB();
+    const db = await connect();
     col = db.collection('mindmaps');
 })();
 

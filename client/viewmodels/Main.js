@@ -1,7 +1,7 @@
 import EventedViewModel from './shared/EventedViewModel';
 
 import Mindmap from './Mindmap';
-import ApiAgent from 'client/lib/ApiAgent';
+import * as apiAgent from 'client/lib/api-agent';
 
 /**
  * Main view model
@@ -14,31 +14,27 @@ export default class Main extends EventedViewModel {
         'change'
     ]
 
-    apiAgent = new ApiAgent();
+    /**
+     * Mindmap view model
+     * @type {Mindmap}
+     */
+    mindmap;
 
     /**
-     * Mindmap model
+     * Handles component mount event
      */
-    mindmap = null;
-
-    /**
-     * Loads mindmap data
-     * @return {promise.<boolean>} data loaded
-     */
-    async load() {
-        if (await this.apiAgent.loadMindmap()) {
-            this.onModelLoaded();
-            return true;
-        }
-
-        return false;
+    async onMount() {
+        const model = await apiAgent.loadMindmap();
+        this.onModelLoaded(model);
     }
 
     /**
      * Handles mindmap loaded event
      */
-    onModelLoaded() {
-        this.mindmap = new Mindmap(this.apiAgent.mindmap);
+    onModelLoaded(model) {
+
+        this.mindmap = new Mindmap(model);
+
         this.addMindmapHandlers();
         this.emit('change');
     }
@@ -59,8 +55,8 @@ export default class Main extends EventedViewModel {
      * @param {Idea} parentIdea
      */
     async onIdeaAdd(parentIdea) {
-        await this.apiAgent.createIdea(parentIdea);
-        this.onModelLoaded();
+        await apiAgent.createIdea(this.mindmap.model, parentIdea);
+        this.onModelLoaded(this.mindmap.model);
     }
 
     /**
@@ -68,8 +64,8 @@ export default class Main extends EventedViewModel {
      * @param {Idea} idea
      */
     async onIdeaChange(idea) {
-        await this.apiAgent.updateIdea(idea);
-        this.onModelLoaded();
+        await apiAgent.updateIdea(this.mindmap.model, idea);
+        this.onModelLoaded(this.mindmap.model);
     }
 
     /**
@@ -77,8 +73,8 @@ export default class Main extends EventedViewModel {
      * @param {Idea} idea
      */
     async onIdeaDelete(idea) {
-        await this.apiAgent.deleteIdea(idea);
-        this.onModelLoaded();
+        await apiAgent.deleteIdea(this.mindmap.model, idea);
+        this.onModelLoaded(this.mindmap.model);
     }
 
     /**
@@ -86,7 +82,7 @@ export default class Main extends EventedViewModel {
      * @param {Association} assoc
      */
     onAssocChange(assoc) {
-        this.apiAgent.updateAssoc(assoc);
+        apiAgent.updateAssoc(assoc);
     }
 
     /**
@@ -94,7 +90,7 @@ export default class Main extends EventedViewModel {
      * @param {Mindmap} mindmap
      */
     onMindmapChange(mindmap) {
-        this.apiAgent.updateMindmap(mindmap);
+        apiAgent.updateMindmap(mindmap);
     }
 
 }

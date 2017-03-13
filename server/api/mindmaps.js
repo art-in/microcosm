@@ -1,4 +1,4 @@
-import * as Mindmaps from '../data/Mindmaps';
+import * as Mindmaps from '../data/mindmaps';
 
 import express from 'express';
 const api = new express.Router();

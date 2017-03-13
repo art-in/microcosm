@@ -145,7 +145,8 @@ export default class Mindmap extends EventedViewModel {
      * Binds color picker events
      */
     addColorPickerHandlers() {
-        this.colorPicker.on('colorSelected', this.onPickerColor.bind(this));
+        this.colorPicker.on('colorSelected',
+            this.onPickerColorSelected.bind(this));
     }
 
     /**
@@ -243,10 +244,10 @@ export default class Mindmap extends EventedViewModel {
      * Handles color selected event
      * @param {string} color
      */
-    onPickerColor(color) {
+    onPickerColorSelected(color) {
         const target = this.colorPicker.target;
 
-        if (target.constructor === Link) {
+        if (target instanceof Link) {
             const idea = this.model.ideas.find(i => i.id === target.toNode.id);
             idea.color = color;
             this.emit('ideaChange', idea);
