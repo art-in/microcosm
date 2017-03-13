@@ -2,7 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 import ideas from './api/ideas';
-import assocs from './api/assocs';
+import associations from './api/associations';
 import mindmaps from './api/mindmaps';
 
 import bodyParser from 'body-parser';
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 app.use('/api', ideas);
-app.use('/api', assocs);
+app.use('/api', associations);
 app.use('/api', mindmaps);
 
 app.use(express.static('client'));

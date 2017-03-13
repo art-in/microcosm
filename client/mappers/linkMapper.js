@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import Link from 'client/viewmodels/graph/Link';
-import Assoc from 'models/Assoc';
+import Association from 'models/Association';
 
 /**
  * Maps association model to link view model
@@ -10,7 +10,7 @@ import Assoc from 'models/Assoc';
  * @return {Link}
  */
 export function assocToLink(nodes, assoc) {
-    assert(assoc instanceof Assoc);
+    assert(assoc instanceof Association);
 
     const fromNode = nodes.find((node) => node.id === assoc.from);
     const toNode = nodes.find((node) => node.id === assoc.to);
@@ -40,7 +40,7 @@ export function assocToLink(nodes, assoc) {
  */
 export function linkToAssoc(link, assoc) {
     assert(link instanceof Link);
-    assert(assoc instanceof Assoc);
+    assert(assoc instanceof Association);
 
     assoc.id = link.id;
     assoc.from = link.fromNode.id;

@@ -1,6 +1,6 @@
 import Mindmap from 'models/Mindmap';
 import Idea from 'models/Idea';
-import Assoc from 'models/Assoc';
+import Association from 'models/Association';
 
 /**
  * API wrapper
@@ -35,7 +35,7 @@ export default class ApiAgent {
 
             const assocs = await fetch('api/assocs')
                 .then(data => data.json())
-                .then(({items}) => items.map(i => new Assoc(i)));
+                .then(({items}) => items.map(i => new Association(i)));
 
             if (ideas && assocs) {
                 this.mindmap.ideas = ideas;
@@ -61,7 +61,7 @@ export default class ApiAgent {
             .then(data => data.json())
             .then(({rawIdea, rawAssoc}) => ({
                 idea: new Idea(rawIdea),
-                assoc: new Assoc(rawAssoc)
+                assoc: new Association(rawAssoc)
             }));
         this.mindmap.ideas.push(idea);
         this.mindmap.assocs.push(assoc);
@@ -89,7 +89,7 @@ export default class ApiAgent {
             this.mindmap.ideas.push(idea);
         });
         updated.assocs.forEach(rawAssoc => {
-            const assoc = new Assoc(rawAssoc);
+            const assoc = new Association(rawAssoc);
             const idx = this.mindmap.assocs.findIndex(i => i.id === assoc.id);
             this.mindmap.assocs.splice(idx, 1);
             this.mindmap.assocs.push(assoc);

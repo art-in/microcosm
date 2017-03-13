@@ -3,7 +3,7 @@ import {newIdStr, mapObject} from 'lib/helpers/helpers';
 /**
  * Association model
  */
-export default class Assoc {
+export default class Association {
 
     /**
      * ID
@@ -44,7 +44,7 @@ export default class Assoc {
      * @return {string}
      */
     toString() {
-        return `[Assoc ` +
+        return `[Association ` +
             `(${this.id}) ` +
             `(${this.from} - ${this.to}) ` +
             `(${this.value})]`;

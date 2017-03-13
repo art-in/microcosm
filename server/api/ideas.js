@@ -1,8 +1,8 @@
 import Idea from '../../models/Idea';
-import Assoc from '../../models/Assoc';
+import Association from '../../models/Association';
 
 import * as Ideas from '../data/Ideas';
-import * as Assocs from '../data/Assocs';
+import * as Associations from '../data/Associations';
 
 import express from 'express';
 const api = new express.Router();
@@ -30,13 +30,13 @@ api.post('/ideas', async function(req, res) {
         newIdea.x = parentIdea.x + 100;
         newIdea.y = parentIdea.y + 100;
 
-        assoc = new Assoc();
+        assoc = new Association();
         
         assoc.mindmapId = mindmapId;
         assoc.from = parentIdea.id;
         assoc.to = newIdea.id;
 
-        await Assocs.add(assoc);
+        await Associations.add(assoc);
     }
 
     await Ideas.add(newIdea);
@@ -83,12 +83,12 @@ api.delete('/ideas/:iid', async function(req, res) {
         throw Error('Unable to delete central idea');
     }
 
-    const assocsFrom = await Assocs.countFrom(ideaId);
+    const assocsFrom = await Associations.countFrom(ideaId);
     if (assocsFrom > 0) {
         throw Error('Unable to delete idea with association');
     }
 
-    const deletedAssocId = await Assocs.remove(ideaId);
+    const deletedAssocId = await Associations.remove(ideaId);
     const deletedIdeaId = await Ideas.remove(ideaId);
 
     res.status(200).send({
@@ -101,7 +101,7 @@ api.delete('/ideas/:iid', async function(req, res) {
 
 api.delete('/ideas', async function(req, res) {
     console.log(`delete ideas`);
-    await Assocs.removeAll();
+    await Associations.removeAll();
     await Ideas.removeAll();
     res.status(200).send();
 });

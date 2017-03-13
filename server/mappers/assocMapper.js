@@ -1,4 +1,4 @@
-import Assoc from 'models/Assoc';
+import Association from 'models/Association';
 import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
 
 /**
@@ -7,7 +7,7 @@ import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
  * @return {Association}
  */
 export function toModel(dbo) {
-    const model = new Assoc();
+    const model = new Association();
 
     model.id = idToStr(dbo._id);
     model.mindmapId = dbo.mindmapId;
