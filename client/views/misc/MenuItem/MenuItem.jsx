@@ -8,12 +8,14 @@ import classes from './MenuItem.css';
 export default class MenuItem extends Component {
 
     static propTypes = {
-        item: PropTypes.instanceOf(MenuItemVM).isRequired
+        item: PropTypes.instanceOf(MenuItemVM).isRequired,
+        className: PropTypes.string
     }
 
     render() {
 
-        let {className, item, ...other} = this.props;
+        const {className, ...other} = this.props;
+        delete other.item;
 
         return (
             <div className={ cx(classes.item, className) }

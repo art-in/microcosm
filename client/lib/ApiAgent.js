@@ -2,14 +2,23 @@ import Mindmap from 'models/Mindmap';
 import Idea from 'models/Idea';
 import Assoc from 'models/Assoc';
 
+/**
+ * API wrapper
+ */
 export default class ApiAgent {
 
-    constructor() {
-        this.mindmap = null;
-    }
+    /**
+     * Loaded mindmap instance
+     */
+    mindmap = null;
 
+    /**
+     * Loads mindmap
+     * @return {promise.<boolean>} true if mindmap loaded,
+     *                             false - if no mindmap was received
+     */
     async loadMindmap() {
-        let mindmaps = await fetch('api/mindmaps')
+        const mindmaps = await fetch('api/mindmaps')
             .then(data => data.json())
             .then(({items}) => items.map(i => new Mindmap(i)));
 
@@ -20,11 +29,11 @@ export default class ApiAgent {
 
             this.mindmap = mindmaps[0];
 
-            let ideas = await fetch('api/ideas')
+            const ideas = await fetch('api/ideas')
                 .then(data => data.json())
                 .then(({items}) => items.map(i => new Idea(i)));
 
-            let assocs = await fetch('api/assocs')
+            const assocs = await fetch('api/assocs')
                 .then(data => data.json())
                 .then(({items}) => items.map(i => new Assoc(i)));
 
@@ -39,9 +48,13 @@ export default class ApiAgent {
         return false;
     }
 
+    /**
+     * Creates idea
+     * @param {Idea} parentIdea
+     */
     async createIdea(parentIdea) {
         console.log(`create idea: parent ${parentIdea}`);
-        let {idea, assoc} = await fetch(
+        const {idea, assoc} = await fetch(
             `api/ideas?mmid=${this.mindmap.id}&piid=${parentIdea.id}`, {
                 method: 'POST'
             })
@@ -54,9 +67,13 @@ export default class ApiAgent {
         this.mindmap.assocs.push(assoc);
     }
 
+    /**
+     * Updates idea
+     * @param {Idea} idea
+     */
     async updateIdea(idea) {
         console.log(`update idea: ${idea}`);
-        let {updated} = await fetch('api/ideas/', {
+        const {updated} = await fetch('api/ideas/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,34 +83,42 @@ export default class ApiAgent {
             .then(data => data.json());
 
         updated.ideas.forEach(rawIdea => {
-            let idea = new Idea(rawIdea);
-            let idx = this.mindmap.ideas.findIndex(i => i.id === idea.id);
+            const idea = new Idea(rawIdea);
+            const idx = this.mindmap.ideas.findIndex(i => i.id === idea.id);
             this.mindmap.ideas.splice(idx, 1);
             this.mindmap.ideas.push(idea);
         });
         updated.assocs.forEach(rawAssoc => {
-            let assoc = new Assoc(rawAssoc);
-            let idx = this.mindmap.assocs.findIndex(i => i.id === assoc.id);
+            const assoc = new Assoc(rawAssoc);
+            const idx = this.mindmap.assocs.findIndex(i => i.id === assoc.id);
             this.mindmap.assocs.splice(idx, 1);
             this.mindmap.assocs.push(assoc);
         });
     }
 
+    /**
+     * Deletes idea
+     * @param {Idea} idea
+     */
     async deleteIdea(idea) {
         console.log(`delete idea: ${idea.id}`);
-        let {deleted} = await fetch(`api/ideas/${idea.id}`, {
+        const {deleted} = await fetch(`api/ideas/${idea.id}`, {
             method: 'DELETE'
         }).then(data => data.json());
         deleted.ideas.forEach(ideaId => {
-            let idx = this.mindmap.ideas.findIndex(i => i.id === ideaId);
+            const idx = this.mindmap.ideas.findIndex(i => i.id === ideaId);
             this.mindmap.ideas.splice(idx, 1);
         });
         deleted.assocs.forEach(assocId => {
-            let idx = this.mindmap.assocs.findIndex(i => i.id === assocId);
+            const idx = this.mindmap.assocs.findIndex(i => i.id === assocId);
             this.mindmap.assocs.splice(idx, 1);
         });
     }
 
+    /**
+     * Updates association
+     * @param {Association} assoc
+     */
     async updateAssoc(assoc) {
         console.log(`update assoc: ${assoc}`);
         await fetch('api/assocs/', {
@@ -105,6 +130,10 @@ export default class ApiAgent {
         });
     }
 
+    /**
+     * Updates mindmap
+     * @param {Mindmap} mindmap
+     */
     async updateMindmap(mindmap) {
         console.log(`update mindmap: ${mindmap}`);
         await fetch('api/mindmaps/', {

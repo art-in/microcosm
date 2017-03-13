@@ -1,14 +1,19 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 
 export default class Svg extends Component {
 
+    static propTypes = {
+        nodeRef: PropTypes.func,
+        children: PropTypes.arrayOf(PropTypes.element)
+    }
+
     render() {
 
-        let {classes, ...other} = this.props;
+        const {nodeRef, ...other} = this.props;
 
         return (
 
-            <svg {...other}>
+            <svg ref={nodeRef} {...other}>
 
                 { this.props.children }
 

@@ -4,7 +4,6 @@ import cx from 'classnames';
 import Point from 'client/viewmodels/misc/Point';
 
 import EditableField from '../../misc/EditableField';
-import Text from '../Text';
 
 import classes from './TextArea.css';
 
@@ -17,7 +16,8 @@ export default class TextArea extends Component {
         height: PropTypes.number,
         rotation: PropTypes.number,
         editable: PropTypes.bool,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        className: PropTypes.string
     }
 
     static defaultProps = {
@@ -26,7 +26,7 @@ export default class TextArea extends Component {
 
     render() {
 
-        let {
+        const {
             value, pos, width, height, rotation,
             className,
             onChange,
@@ -34,12 +34,13 @@ export default class TextArea extends Component {
             ...other} = this.props;
 
         return (
-            <foreignObject transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
+            <foreignObject
+                transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
                 (rotation ? `rotate(${rotation})` : '') }>
 
                 {
                     editable ?
-                        <EditableField style={{ width, height }}
+                        <EditableField style={{width, height}}
                             html={ value }
                             tag='div'
                             focusOnMount={ true }
@@ -47,7 +48,8 @@ export default class TextArea extends Component {
                             className={className}
                             {...other} />
 
-                        : <div style={{ width, height }} className={cx(classes.root, className) } {...other}>
+                        : <div style={{width, height}}
+                            className={cx(classes.root, className) } {...other}>
                             {value}
                         </div>
                 }

@@ -1,3 +1,5 @@
+/* global require */
+
 require('babel-register');
 require('babel-polyfill');
 

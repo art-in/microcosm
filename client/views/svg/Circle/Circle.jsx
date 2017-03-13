@@ -10,7 +10,8 @@ export default class Circle extends Component {
     }
 
     render() {
-        var {pos, radius, classes, ...other} = this.props;
+        const {pos, radius, ...other} = this.props;
+        delete other.classes;
 
         return (
             <circle r={ radius }

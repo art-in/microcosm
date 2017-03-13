@@ -5,12 +5,14 @@ import Point from 'client/viewmodels/misc/Point';
 export default class Group extends Component {
 
     static propTypes = {
-        pos: React.PropTypes.instanceOf(Point)
+        pos: PropTypes.instanceOf(Point),
+        id: PropTypes.string,
+        children: PropTypes.arrayOf(PropTypes.element).isRequired
     }
 
     render() {
 
-        let {pos, id, ...other} = this.props;
+        const {pos, id, ...other} = this.props;
 
         return (
             <g id={id}

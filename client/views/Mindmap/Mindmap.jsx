@@ -12,12 +12,13 @@ import classes from './Mindmap.css';
 export default class Mindmap extends Component {
 
     static propTypes = {
-        mindmap: PropTypes.instanceOf(MindmapVM).isRequired
+        mindmap: PropTypes.instanceOf(MindmapVM).isRequired,
+        className: PropTypes.string
     };
     
     render() {
 
-        let {mindmap, className, ...other} = this.props;
+        const {mindmap, className, ...other} = this.props;
         
         return (
             <div className={ cx(classes.container, className) }

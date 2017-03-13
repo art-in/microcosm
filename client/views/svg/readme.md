@@ -1,0 +1,1 @@
+Contains low-level SVG primitives - building blocks for graph picture

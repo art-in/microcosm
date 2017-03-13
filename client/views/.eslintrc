@@ -1,0 +1,25 @@
+{
+    "rules": {
+
+        // 'this' cannot be used inside class arrow methods,
+        // but it is needed in react components to solve
+        // method binding issue
+        // https://github.com/babel/babel-eslint/issues/401
+        "no-invalid-this": 0,
+
+        "require-jsdoc": ["error", {
+            "require": {
+                "FunctionDeclaration": true,
+                "ArrowFunctionExpression": true,
+
+                // unnecessary comments on common component methods (ie. render())
+                "MethodDefinition": false,
+
+                // unnecessary comments on each component class.
+                // semantic meaning of component should be described
+                // in corresponding view model, not in view
+                "ClassDeclaration": false
+            }
+        }]
+    }
+}

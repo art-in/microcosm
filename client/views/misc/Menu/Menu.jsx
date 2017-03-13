@@ -10,14 +10,15 @@ import classes from './Menu.css';
 export default class Menu extends Component {
 
     static propTypes = {
-        menu: PropTypes.instanceOf(MenuVM).isRequired
+        menu: PropTypes.instanceOf(MenuVM).isRequired,
+        className: PropTypes.string
     }
 
     render() {
 
-        let {menu, className, ...other} = this.props;
+        const {menu, className, ...other} = this.props;
 
-        let items = menu.items.map((item) => {
+        const items = menu.items.map((item) => {
             return (<MenuItem key={ item.id }
                 item={ item }
                 onClick={ menu.onItemSelected.bind(menu, item) } />);

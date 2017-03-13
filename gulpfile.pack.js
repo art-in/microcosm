@@ -1,14 +1,21 @@
-var path = require('path');
-var gutil = require('gulp-util');
-var webpack = require('webpack');
+/* global require, module, __dirname */
 
+const path = require('path');
+const gutil = require('gulp-util');
+const webpack = require('webpack');
+
+/**
+ * Packs client assets into bundle
+ * @param {object} opts
+ * @return {object} webpack compiler
+ */
 function pack(opts) {
 
-    var isWatch = opts.isWatch;
+    const isWatch = opts.isWatch;
 
-    var entries = [];
-    var plugins = [];
-    var jsLoaders = [];
+    const entries = [];
+    const plugins = [];
+    const jsLoaders = [];
 
     if (isWatch) {
         entries.push(

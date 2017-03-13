@@ -1,21 +1,64 @@
 import {newIdStr, mapObject} from 'lib/helpers/helpers';
 
+/**
+ * Idea model
+ */
 export default class Idea {
 
-    constructor(obj) {
-        this.id = newIdStr();
-        this.mindmapId = undefined;
-        this.x = undefined;
-        this.y = undefined;
-        this.value = '';
-        this.isCentral = false;
-        this.color = '';
+    /**
+     * ID
+     */
+    id = newIdStr();
 
+    /**
+     * ID of parent mindmap
+     */
+    mindmapId = undefined;
+
+    /**
+     * Is it central idea of mindmap?
+     * @type {boolean}
+     */
+    isCentral = false;
+
+    /**
+     * X position on mindmap canvas
+     * @type {number}
+     */
+    x = undefined;
+
+    /**
+     * Y position on mindmap canvas
+     * @type {number}
+     */
+    y = undefined;
+
+    /**
+     * Value
+     * @type {string}
+     */
+    value = '';
+
+    /**
+     * Color
+     * @type {string}
+     */
+    color = '';
+
+    /**
+     * constructor
+     * @param {object} obj
+     */
+    constructor(obj) {
         if (obj) {
             mapObject(this, obj);
         }
     }
 
+    /**
+     * Stringifies instance
+     * @return {string}
+     */
     toString() {
         return `[Idea` +
             (this.isCentral ? `* ` : ` `) +

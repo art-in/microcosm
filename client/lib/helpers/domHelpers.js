@@ -1,5 +1,10 @@
+/**
+ * Gets element size
+ * @param {HtmlElement} el
+ * @return {{width: number, height: number}}}
+ */
 export function getElementSize(el) {
-    let rect = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     return {
         // SVG element size
         // https://github.com/jquery/jquery/issues/2889
@@ -8,8 +13,12 @@ export function getElementSize(el) {
     };
 }
 
+/**
+ * Gets body margin
+ * @return {{left: number, top: number}}}
+ */
 export function getBodyMargin() {
-    let bodyStyle = window.getComputedStyle(document.body, null);
+    const bodyStyle = window.getComputedStyle(document.body, null);
     return {
         left: parseInt(bodyStyle.marginLeft, 10),
         top: parseInt(bodyStyle.marginTop, 10)
@@ -22,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
     bodyMargin = getBodyMargin();
 });
 
+/**
+ * Gets page scale
+ * @return {number}
+ */
 export function getPageScale() {
     return window.outerWidth / window.innerWidth;
 }

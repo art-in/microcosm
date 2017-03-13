@@ -5,27 +5,27 @@ import * as Ideas from '../data/Ideas';
 import * as Assocs from '../data/Assocs';
 
 import express from 'express';
-const api = express.Router();
+const api = new express.Router();
 
 api.get('/ideas', async function(req, res) {
-    let data = await Ideas.get();
+    const data = await Ideas.get();
     res.send(data);
 });
 
 api.post('/ideas', async function(req, res) {
-    let mindmapId = req.query.mmid;
-    let parentIdeaId = req.query.piid;
+    const mindmapId = req.query.mmid;
+    const parentIdeaId = req.query.piid;
 
     console.log(`create idea from parent (mm: ${mindmapId}): ${parentIdeaId}`);
 
-    let newIdea = new Idea();
+    const newIdea = new Idea();
     newIdea.mindmapId = mindmapId;
     newIdea.x = 0;
     newIdea.y = 0;
 
     let assoc;
     if (parentIdeaId) {
-        let parentIdea = await Ideas.findOne(parentIdeaId);
+        const parentIdea = await Ideas.findOne(parentIdeaId);
 
         newIdea.x = parentIdea.x + 100;
         newIdea.y = parentIdea.y + 100;
@@ -48,21 +48,21 @@ api.post('/ideas', async function(req, res) {
 });
 
 api.put('/ideas', async function(req, res) {
-    let idea = req.body;
+    const idea = req.body;
 
     console.log(`update idea: ${idea.id}`);
 
     if (idea.isCentral) {
-        let centralCount = Ideas.countCentral(idea.id);
+        const centralCount = Ideas.countCentral(idea.id);
 
         if (centralCount > 0) {
             throw Error(
-                'Unable to set isCentral flag ' + 
+                'Unable to set isCentral flag ' +
                 'because map already has central idea');
         }
     }
 
-    let updatedIdea = await Ideas.update(idea);
+    const updatedIdea = await Ideas.update(idea);
 
     res.status(200).send({
         updated: {
@@ -74,22 +74,22 @@ api.put('/ideas', async function(req, res) {
 
 api.delete('/ideas/:iid', async function(req, res) {
 
-    let ideaId = req.params.iid;
+    const ideaId = req.params.iid;
 
     console.log(`delete idea: ${ideaId}`);
 
-    let idea = await Ideas.findOne(ideaId);
+    const idea = await Ideas.findOne(ideaId);
     if (idea.isCentral) {
         throw Error('Unable to delete central idea');
     }
 
-    let assocsFrom = await Assocs.countFrom(ideaId);
+    const assocsFrom = await Assocs.countFrom(ideaId);
     if (assocsFrom > 0) {
         throw Error('Unable to delete idea with association');
     }
 
-    let deletedAssocId = await Assocs.remove(ideaId);
-    let deletedIdeaId = await Ideas.remove(ideaId);
+    const deletedAssocId = await Assocs.remove(ideaId);
+    const deletedIdeaId = await Ideas.remove(ideaId);
 
     res.status(200).send({
         deleted: {

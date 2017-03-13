@@ -1,34 +1,69 @@
 import EventedViewModel from '../shared/EventedViewModel';
 import Point from 'client/viewmodels/misc/Point';
 
+/**
+ * Node view model
+ */
 export default class Node extends EventedViewModel {
 
-    static eventTypes() {
-        return [
-            'change',
-            'titleChange'
-        ];
-    }
+    static eventTypes = [
 
-    constructor() {
-        super();
+        // state changed
+        'change',
 
-        this.id = undefined;
-        this.pos = new Point(0, 0);
-        this.radius = 0;
-        this.title = {
-            value: '',
-            editing: false,
-            editable: true,
-            visible: true
-        };
-        this.isCentral = false;
-        this.color = '';
-        this.links = [];
+        // node title changed
+        'titleChange'
+    ];
 
-        this.debug = false;
-    }
+    /**
+     * Node ID
+     */
+    id;
+    
+    /**
+     * Node position
+     */
+    pos = new Point(0, 0);
 
+    /**
+     * Node radius
+     */
+    radius = 0;
+
+    /**
+     * Node title state
+     */
+    title = {
+        value: '',
+        editing: false,
+        editable: true,
+        visible: true
+    };
+
+    /**
+     * Is central node of graph?
+     */
+    isCentral = false;
+
+    /**
+     * Node color
+     */
+    color = '';
+
+    /**
+     * Outgoing links
+     */
+    links = [];
+
+    /**
+     * Debug state
+     */
+    debug = false;
+
+    /**
+     * Stringifies instance
+     * @return {string}
+     */
     toString() {
         return `[Node` +
             (this.isCentral ? '* ' : ' ') +
@@ -38,8 +73,9 @@ export default class Node extends EventedViewModel {
             `(${this.title})]`;
     }
 
-    //region handlers
-
+    /**
+     * Handles title click event
+     */
     onTitleClick() {
         if (this.title.editable && !this.title.editing) {
             this.title.editing = true;
@@ -47,6 +83,9 @@ export default class Node extends EventedViewModel {
         }
     }
 
+    /**
+     * Handles title blur event
+     */
     onTitleBlur() {
         if (this.title.editable && this.title.editing) {
             this.title.editing = false;
@@ -54,12 +93,14 @@ export default class Node extends EventedViewModel {
         }
     }
 
+    /**
+     * Handles title change event
+     * @param {string} title
+     */
     onTitleChange(title) {
         this.title.value = title;
         this.emit('titleChange');
         this.emit('change');
     }
-
-    //endregion
 
 }

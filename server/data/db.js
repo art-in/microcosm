@@ -6,6 +6,10 @@ const URL = 'mongodb://localhost:27017/microcosm';
 
 let dbPromise;
 
+/**
+ * Connects to database
+ * @return {promise.<Db>}
+ */
 export default function() {
     if (!dbPromise) {
         dbPromise = MongoClient

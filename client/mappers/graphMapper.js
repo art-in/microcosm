@@ -6,29 +6,34 @@ import {assocToLink} from 'client/mappers/linkMapper';
 import Mindmap from 'models/Mindmap';
 import TreeCrawler from 'client/lib/TreeCrawler';
 
+/**
+ * Maps mindmap model to graph view model
+ * @param {Mindmap} mindmap
+ * @return {Graph}
+ */
 export function mindmapToGraph(mindmap) {
     assert(mindmap instanceof Mindmap);
 
-    let nodes = mindmap.ideas.map(ideaToNode);
-    let links = mindmap.assocs.map(assocToLink.bind(null, nodes));
+    const nodes = mindmap.ideas.map(ideaToNode);
+    const links = mindmap.assocs.map(assocToLink.bind(null, nodes));
 
     // travers tree
-    let centralNode = nodes.find(n => n.isCentral);
+    const centralNode = nodes.find(n => n.isCentral);
     if (!centralNode) {
         console.warn('There is no central node in the tree');
     } else {
-        let crawler = new TreeCrawler();
+        const crawler = new TreeCrawler();
 
         // set color on main sub trees
         centralNode.links.forEach(l => {
-            let subNode = l.toNode;
+            const subNode = l.toNode;
             crawler.traverseTree(subNode, (n) => {
                 n.color = subNode.color;
             });
         });
     }
 
-    let graph = new GraphVM();
+    const graph = new GraphVM();
 
     graph.nodes = nodes;
     graph.links = links;
@@ -39,6 +44,12 @@ export function mindmapToGraph(mindmap) {
     return graph;
 }
 
+/**
+ * Maps graph view model to mindmap model
+ * @param {Graph} graph
+ * @param {Mindmap} mindmap
+ * @return {Mindmap}
+ */
 export function graphToMindmap(graph, mindmap) {
     assert(graph instanceof GraphVM);
     assert(mindmap instanceof Mindmap);

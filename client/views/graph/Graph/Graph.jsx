@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDom from 'react-dom';
 
 import {bodyMargin, getElementSize, getPageScale}
     from 'client/lib/helpers/domHelpers';
@@ -11,6 +10,7 @@ import Svg from '../../svg/Svg';
 import Group from '../../svg/Group';
 import Node from '../Node';
 import Link from '../Link';
+import GraphDebugInfo from '../GraphDebugInfo';
 
 import classes from './Graph.css';
 
@@ -21,15 +21,12 @@ export default class Graph extends Component {
     }
 
     getViewportSize = () => {
-        let viewport = ReactDom.findDOMNode(this.refs.viewport);
-        return getElementSize(viewport);
+        return getElementSize(this.viewport);
     }
 
     getClickPos = (e) => {
         // send position depending to this viewport
-        let viewportRect = ReactDom
-            .findDOMNode(this.refs.viewport)
-            .getBoundingClientRect();
+        const viewportRect = this.viewport.getBoundingClientRect();
 
         return new Point(
             e.pageX - viewportRect.left - bodyMargin.left,
@@ -51,8 +48,7 @@ export default class Graph extends Component {
         this.onResize();
 
         // Focus viewport
-        let viewport = ReactDom.findDOMNode(this.refs.viewport);
-        viewport.focus();
+        this.viewport.focus();
     }
 
     onNodeRightClick = (node, e) => {
@@ -82,27 +78,28 @@ export default class Graph extends Component {
     }
 
     onMouseMove = (e) => {
-        let graph = this.props.graph;
-        let pageScale = getPageScale();
+        const {graph} = this.props;
+        const {nativeEvent: event} = e;
+        const pageScale = getPageScale();
 
         // convert value of position shift between several coordinate systems:
         // a. Browser Viewport (page can be zoomed)
-        // b. SVG Viewport (viewbox can be zoomed, i.e. differ from SVG viewport size)
+        // b. SVG Viewport (viewbox can be zoomed, ie. differ from viewport)
         // c. SVG Current User Space (target measures on drawing canvas)
-        let shiftX = e.nativeEvent.movementX / pageScale / graph.viewbox.scale;
-        let shiftY = e.nativeEvent.movementY / pageScale / graph.viewbox.scale;
+        const shiftX = event.movementX / pageScale / graph.viewbox.scale;
+        const shiftY = event.movementY / pageScale / graph.viewbox.scale;
 
         if (graph.drag.active) {
-            graph.onDrag({ shiftX, shiftY });
+            graph.onDrag({shiftX, shiftY});
         }
 
         if (graph.pan.active) {
-            graph.onPan({ shiftX, shiftY });
+            graph.onPan({shiftX, shiftY});
         }
     }
 
     onMouseUp = () => {
-        let graph = this.props.graph;
+        const graph = this.props.graph;
 
         if (graph.drag.active) {
             graph.onDragStop();
@@ -128,13 +125,11 @@ export default class Graph extends Component {
     }
 
     render() {
+        const {graph, ...other} = this.props;
+        
+        const viewbox = graph.viewbox;
 
-        let {graph, ...other} = this.props;
-        let {round} = Math;
-
-        let viewbox = graph.viewbox;
-
-        let nodes = graph.nodes.map((node) => {
+        const nodes = graph.nodes.map(node => {
             return (
                 <Node
                     key={ node.id }
@@ -144,7 +139,7 @@ export default class Graph extends Component {
             );
         });
 
-        let links = graph.links.map((link) => {
+        const links = graph.links.map((link) => {
             return (
                 <Link
                     key={ link.id }
@@ -154,7 +149,7 @@ export default class Graph extends Component {
         });
 
         return (
-            <Svg ref={ 'viewport' }
+            <Svg nodeRef={node => this.viewport = node}
                 viewBox={ `${viewbox.x} ${viewbox.y} ` +
                     `${viewbox.width} ${viewbox.height}` }
                 preserveAspectRatio={ 'xMidYMid meet' }
@@ -175,18 +170,7 @@ export default class Graph extends Component {
 
                 {
                     graph.debug &&
-                    <foreignObject>
-                        <div id={'debug'} className={ classes.debug }>
-                            { `viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
-                                `(${round(viewbox.width)}; ${round(viewbox.height)})` }
-                            <br />
-                            { `scale: ${viewbox.scale}` }
-                            <br />
-                            { `drag: ${graph.drag.active}` }
-                            <br />
-                            { `pan: ${graph.pan.active}` }
-                        </div>
-                    </foreignObject>
+                        <GraphDebugInfo graph={graph} />
                 }
 
             </Svg>

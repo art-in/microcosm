@@ -6,18 +6,27 @@ import getDB from './db';
 let col;
 
 (async function() {
-    let db = await getDB();
+    const db = await getDB();
     col = db.collection('mindmaps');
 })();
 
+/**
+ * Gets all mindmaps
+ * @return {promise.<{ideas: array.<Idea>}>}
+ */
 export async function get() {
     return {
         items: (await col.find().toArray()).map(toModel)
     };
 }
 
+/**
+ * Gets mindmap
+ * @param {string} mindmapId
+ * @return {Mindmap}
+ */
 export async function findOne(mindmapId) {
-    let query = {};
+    const query = {};
     if (mindmapId) {
         query._id = strToId(mindmapId);
     }
@@ -27,22 +36,25 @@ export async function findOne(mindmapId) {
 
 /**
  * Updates mindmap
- * @param {object} mindmap - dbo
+ * @param {Mindmap} mindmap
  */
 export async function update(mindmap) {
-    let dbo = toDbo(mindmap);
+    const dbo = toDbo(mindmap);
     await col.update({_id: dbo._id}, dbo);
 }
 
 /**
  * Adds new mindmap
- * @param {object} mindmap - dbo
+ * @param {Mindmap} mindmap
  */
 export async function add(mindmap) {
-    let dbo = toDbo(mindmap);
+    const dbo = toDbo(mindmap);
     await col.insert(dbo);
 }
 
+/**
+ * Removes all mindmaps
+ */
 export async function removeAll() {
     await col.deleteMany();
 }

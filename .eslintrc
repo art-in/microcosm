@@ -1,38 +1,53 @@
 {
-  "extends": "google",
-  "parser": "babel-eslint",
-  "plugins": [
-    "babel",
-    "react"
-  ],
-  "ecmaFeatures": {
-    "jsx": true
-  },
-  "env": {
-    "browser": true
-  },
-  "rules": {
-    "linebreak-style": 0,
-    "indent": [ 1, 4 ],
-    "no-alert": 0,
-    "new-cap": 0,
-    "spaced-comment": 0,
-    "no-unused-expressions": 0,
-    "one-var": 0,
-    "no-undef": 0,
-    "camelcase": 0,
-    "padded-blocks": 0,
-    "eol-last": 0,
-    "no-trailing-spaces": 0,
+    "extends": ["eslint:recommended", "plugin:react/recommended", "google"],
+    "parser": "babel-eslint",
+    "plugins": [
+        "babel",
+        "react"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        // do not care about win/unix line ending diffs
+        "linebreak-style": 0,
 
-    // React
-    "jsx-quotes": [ 1, "prefer-single" ],
+        // padding big functions makes it more "breathing" (render),
+        // padding small functions looks unnecessary (onClick)
+        "padded-blocks": 0,
 
-    // Babel rewrites
-    "arrow-parens": 0,
-    "babel/arrow-parens": [ 1, "as-needed" ],
+        // remove empty line junk at the end of each file.
+        // common unix idiom is not an argument for me
+        "eol-last": ["error", "never"],
+        
+        // remove comma junk after last obj/array item.
+        // version control diffs is not an argument for me
+        "comma-dangle": ["error", "never"],
 
-    "object-curly-spacing": 0,
-    "babel/object-curly-spacing": 1
-  }
+        // since this is not a lib to embed other project
+        // and make noise there, i feel free to log anything
+        "no-console": 0,
+
+        // remove invisible spaces junk at the end of lines
+        "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+
+        // using 'const' instead of 'let' to follow spec meaning
+        "prefer-const": ["error"],
+
+        // React
+        "jsx-quotes": [ 1, "prefer-single" ],
+        "react/jsx-indent": [2, 4],
+
+        // Babel rewrites
+        "arrow-parens": 0,
+        "babel/arrow-parens": [ 1, "as-needed" ],
+
+        "object-curly-spacing": 0,
+        "babel/object-curly-spacing": 1
+    }
 }

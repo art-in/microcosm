@@ -1,15 +1,16 @@
-var path = require('path');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var WebpackDevServer = require('webpack-dev-server');
-var nodemon = require('gulp-nodemon');
-var pack = require('./gulpfile.pack.js').pack;
+/* global require, __dirname */
+
+const path = require('path');
+const gulp = require('gulp');
+const WebpackDevServer = require('webpack-dev-server');
+const nodemon = require('gulp-nodemon');
+const pack = require('./gulpfile.pack.js').pack;
 
 gulp.task('build:watch', ['serv'], function() {
-    var compiler = pack({
+    const compiler = pack({
         isWatch: true
     });
-    var server = new WebpackDevServer(compiler, {
+    const server = new WebpackDevServer(compiler, {
         publicPath: '/build/',
         contentBase: path.resolve(__dirname, './client/'),
         historyApiFallback: true,
@@ -39,7 +40,7 @@ gulp.task('serv', function() {
     nodemon({
         script: 'app.js',
         env: {
-            NODE_PATH: '$NODE_PATH;' + __dirname //eslint-disable-line no-path-concat
+            NODE_PATH: '$NODE_PATH;' + __dirname
         }
     });
 });

@@ -1,8 +1,13 @@
 import Assoc from 'models/Assoc';
 import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
 
+/**
+ * Maps dbo to model
+ * @param {object} dbo
+ * @return {Association}
+ */
 export function toModel(dbo) {
-    let model = new Assoc();
+    const model = new Assoc();
 
     model.id = idToStr(dbo._id);
     model.mindmapId = dbo.mindmapId;
@@ -13,8 +18,13 @@ export function toModel(dbo) {
     return model;
 }
 
+/**
+ * Maps model to dbo
+ * @param {Association} model
+ * @return {object}
+ */
 export function toDbo(model) {
-    let dbo = {};
+    const dbo = {};
 
     dbo._id = strToId(model.id);
     dbo.mindmapId = model.mindmapId;

@@ -4,10 +4,15 @@ import Point from 'client/viewmodels/misc/Point';
 import Node from 'client/viewmodels/graph/Node';
 import Idea from 'models/Idea';
 
+/**
+ * Maps idea model to node view model
+ * @param {Idea} idea
+ * @return {Node}
+ */
 export function ideaToNode(idea) {
     assert(idea instanceof Idea);
 
-    let node = new Node();
+    const node = new Node();
 
     node.id = idea.id;
     node.pos = new Point(idea.x, idea.y);
@@ -19,6 +24,12 @@ export function ideaToNode(idea) {
     return node;
 }
 
+/**
+ * Maps node view model to idea model
+ * @param {Node} node
+ * @param {Idea} idea
+ * @return {Idea}
+ */
 export function nodeToIdea(node, idea) {
     assert(node instanceof Node);
     assert(idea instanceof Idea);

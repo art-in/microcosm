@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDom from 'react-dom';
 
 import ColorPickerVM from 'client/viewmodels/misc/ColorPicker';
 
@@ -21,7 +20,7 @@ export default class ColorPicker extends Component {
 
     forcePicker() {
         if (this.props.picker.active) {
-            ReactDom.findDOMNode(this.refs.input).click();
+            this.input.click();
         }
     }
 
@@ -37,7 +36,7 @@ export default class ColorPicker extends Component {
         // NOTE: picker cannot be forced on page load with any delay at all.
 
         return (
-            <input ref='input'
+            <input ref={node => this.input = node}
                 type='color'
                 onChange={ this.onChange }
                 className={ classes.input } />

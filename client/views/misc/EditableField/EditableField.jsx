@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDom from 'react-dom';
 
 export default class EditableField extends Component {
 
@@ -31,7 +30,7 @@ export default class EditableField extends Component {
         this.lastHtml = this.props.html;
 
         if (this.props.focusOnMount) {
-            ReactDom.findDOMNode(this.refs.input).focus();
+            this.input.focus();
         }
     }
 
@@ -40,11 +39,11 @@ export default class EditableField extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState.editHtml !== ReactDom.findDOMNode(this).innerHTML;
+        return nextState.editHtml !== this.input.innerHTML;
     }
 
     onInput = () => {
-        var html = ReactDom.findDOMNode(this).innerHTML;
+        const html = this.input.innerHTML;
         this.setState({
             editHtml: html
         });
@@ -53,11 +52,11 @@ export default class EditableField extends Component {
     onFocus = () => {
         if (this.props.selectOnFocus) {
             setTimeout(() => {
-                var node = ReactDom.findDOMNode(this);
-                var range = document.createRange();
+                const node = this.input;
+                const range = document.createRange();
                 range.selectNodeContents(node);
 
-                var sel = window.getSelection();
+                const sel = window.getSelection();
                 sel.removeAllRanges();
                 sel.addRange(range);
             }, 10);
@@ -82,7 +81,7 @@ export default class EditableField extends Component {
     }
 
     emitChange = () => {
-        var html = this.state.editHtml;
+        const html = this.state.editHtml;
         if (this.lastHtml !== html) {
             this.props.onChange(html);
             this.lastHtml = html;
@@ -90,16 +89,19 @@ export default class EditableField extends Component {
     }
 
     render() {
-        let {tag, html, focusOnMount, selectOnFocus, ...other} = this.props;
+        const {tag, ...other} = this.props;
+        delete other.html;
+        delete other.focusOnMount;
+        delete other.selectOnFocus;
 
         return React.createElement(tag, Object.assign({
             contentEditable: true,
-            dangerouslySetInnerHTML: { __html: this.state.editHtml },
+            dangerouslySetInnerHTML: {__html: this.state.editHtml},
             onInput: this.onInput,
             onFocus: this.onFocus,
             onKeyDown: this.onKeyDown,
             onBlur: this.emitChange,
-            ref: 'input'
+            ref: node => this.input = node
         }, {...other}));
     }
 

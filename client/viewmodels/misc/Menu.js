@@ -1,25 +1,41 @@
 import EventedViewModel from '../shared/EventedViewModel';
 
+/**
+ * Menu view model
+ */
 export default class Menu extends EventedViewModel {
 
-    static eventTypes() {
-        return [
-            'change',
-            'itemSelected'];
-    }
+    static eventTypes = [
 
+        // state changed
+        'change',
+        
+        // menu item triggered
+        'itemSelected'
+    ];
+
+    /**
+     * Menu items
+     * @type {array.<MenuItem>}
+     */
+    items = [];
+
+    /**
+     * constructor
+     * @param {array.<MenuItems>} items
+     */
     constructor(items) {
         super();
 
         this.items = items;
     }
 
-    //region handlers
-
+    /**
+     * Handles menu item selected event
+     * @param {MenuItem} item
+     */
     onItemSelected(item) {
         this.emit('itemSelected', item);
     }
-
-    //endregion
 
 }

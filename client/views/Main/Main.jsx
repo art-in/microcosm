@@ -8,7 +8,7 @@ import classes from './Main.css';
 export default class Main extends Component {
 
     static propTypes = {
-        vm: PropTypes.instanceOf(MainVM).isRequired,
+        vm: PropTypes.instanceOf(MainVM).isRequired
     };
 
     componentDidMount() {
@@ -32,4 +32,3 @@ export default class Main extends Component {
         );
     }
 }
-

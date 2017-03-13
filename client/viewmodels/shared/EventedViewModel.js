@@ -1,42 +1,66 @@
 import {EventEmitter} from 'events';
 
+/**
+ * Wraps EventEmitter to check integrity of events on view model
+ */
 export default class EventedViewModel extends EventEmitter {
 
-    static eventTypes() {
-        console.warn(
-            `Add eventTypes() static method to view model ` +
-            `and return array of event types`);
-        return [];
-    }
-
+    /**
+     * constructor
+     */
     constructor() {
         super();
+
+        if (typeof this.constructor.eventTypes !== 'object' ||
+            typeof this.constructor.eventTypes.length !== 'number') {
+            
+            throw Error(
+                `No 'eventTypes' static member found ` +
+                `on '${this.displayName}' view model`);
+        }
     }
 
+    /**
+     * Gets display type name
+     */
     get displayName() {
         return this.constructor.name;
     }
 
+    /**
+     * Emits event
+     * @param {string} eventType
+     * @param {*} args
+     */
     emit(eventType, ...args) {
         if (!this.hasListeners(eventType)) {
             console.warn(
-                `No one listens to "${eventType}" event ` +
-                `of ${this.displayName} view model`);
+                `Triggering '${eventType}' event on ` +
+                `'${this.displayName}' view model, but no one listens to it`);
             return;
         }
 
         super.emit(eventType, ...args);
     }
 
+    /**
+     * Adds event handler
+     * @param {*} args
+     */
     on(...args) {
         this.addListener(...args);
     }
 
+    /**
+     * Adds event listener
+     * @param {string} eventType
+     * @param {*} args
+     */
     addListener(eventType, ...args) {
         if (!this.hasEventType(eventType)) {
             console.warn(
-                `No "${eventType}" event to listen on ' + 
-                '${this.displayName} view model`);
+                `No '${eventType}' event to listen on ` +
+                `'${this.displayName}' view model`);
 
             return;
         }
@@ -44,21 +68,22 @@ export default class EventedViewModel extends EventEmitter {
         super.on(eventType, ...args);
     }
 
+    /**
+     * Checks whether view model has listeners for particular event
+     * @param {string} eventType
+     * @return {boolean}
+     */
     hasListeners(eventType) {
         return super.listeners(eventType).length !== 0;
     }
 
+    /**
+     * Checks whether view model can initiate particular event
+     * @param {*} eventType
+     * @return {boolean}
+     */
     hasEventType(eventType) {
-        let eventTypes = this.constructor.eventTypes();
-
-        if (!Array.isArray(eventTypes)) {
-            console.warn(
-                `eventTypes() of ${this.displayName} view model ' + 
-                'should return array`);
-            return false;
-        }
-
-        return eventTypes.some(e => e === eventType);
+        return this.constructor.eventTypes.some(e => e === eventType);
     }
 
 }

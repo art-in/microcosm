@@ -5,16 +5,32 @@ import React, {Component} from 'react';
 /**
  * Binds view component and view-model (EventEmitter).
  * Each 'change' event from model will trigger update of view.
- * 
+ *
  * @param {function} mapPropsToVM - (props) => EventEmitter view-model
- * 
+ *
  * @example
+ *
+ * // define component
  * class MyComponent extends Component {
  *      static propTypes = {vm: PropTypes.object};
- *      render() {return <div>this.props.vm.value</div>}
+ *      render() {return <div>this.props.vm.someProp</div>}
  * }
- * 
+ *
+ * // connect
  * const MyConnectedComponent = connect(props => props.vm)(MyComponent);
+ *
+ * // instantiate model and views
+ * const vm = new ViewModel();
+ *
+ * <MyConnectedComponent vm={vm} />
+ * <MyComponent vm={vm} />
+ *
+ * // trigger view update
+ * vm.someProp = 'new value';
+ * vm.trigger('change'); // here MyConnectedComponent will be updated,
+ *                       // but MyComponent - will not
+ *
+ * @return {function} CustomComponent => ConnectedCustomComponent
  */
 export function connect(mapPropsToVM) {
     return CustomComponent => {
@@ -22,7 +38,11 @@ export function connect(mapPropsToVM) {
         assert(mapPropsToVM);
         assert(CustomComponent);
         
-        // view model getter
+        /**
+         * View model getter
+         * @param {object} props
+         * @return {EventEmitter} view model
+         */
         const getVM = props => {
             const vm = mapPropsToVM(props);
 
@@ -33,12 +53,12 @@ export function connect(mapPropsToVM) {
             }
 
             return vm;
-        }
+        };
 
         /**
          * Wrapper component
          */
-        class VMComponent extends Component {
+        class ConnectedComponent extends Component {
 
             constructor(props, ...args) {
                 super(props, ...args);
@@ -82,6 +102,6 @@ export function connect(mapPropsToVM) {
             }
         }
 
-        return VMComponent;
-    }
+        return ConnectedComponent;
+    };
 }

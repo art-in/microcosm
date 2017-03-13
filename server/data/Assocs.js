@@ -5,37 +5,62 @@ import {toModel, toDbo} from 'server/mappers/assocMapper';
 let col;
 
 (async function() {
-    let db = await getDB();
+    const db = await getDB();
     col = db.collection('assocs');
 })();
 
+/**
+ * Gets all associations
+ * @return {promise.<{items: array.<Association>}>}
+ */
 export async function get() {
     return {
         items: (await col.find().toArray()).map(toModel)
     };
 }
 
+/**
+ * Gets count of associations start from the idea
+ * @param {string} ideaId
+ * @return {promise.<number>}
+ */
 export async function countFrom(ideaId) {
     return await col.find({from: ideaId}).count();
 }
 
+/**
+ * Adds new association
+ * @param {Association} assoc
+ */
 export async function add(assoc) {
-    let dbo = toDbo(assoc);
+    const dbo = toDbo(assoc);
     await col.insert(dbo);
 }
 
+/**
+ * Updates association
+ * @param {Association} assoc
+ */
 export async function update(assoc) {
-    let dbo = toDbo(assoc);
+    const dbo = toDbo(assoc);
     await col.update({_id: dbo._id}, dbo);
 }
 
+/**
+ * Removes association attached to the idea
+ * @param {string} ideaId
+ * @return {string} id of removed association
+ */
 export async function remove(ideaId) {
-    let deleted = await col.findOne(
+    const deleted = await col.findOne(
         {$or: [{from: ideaId}, {to: ideaId}]}, {_id: 1});
     await col.deleteOne({_id: strToId(deleted._id)});
     return deleted._id;
 }
 
+/**
+ * Removes all associations
+ */
 export async function removeAll() {
     await col.deleteMany();
 }

@@ -4,6 +4,9 @@ import Main from './views/Main';
 
 import MainVM from 'client/viewmodels/Main';
 
+/**
+ * Startup
+ */
 async function start() {
     ReactDom.render(<Main vm={new MainVM()}/>,
         document.getElementById('root'));

@@ -29,9 +29,11 @@ app.use(function(err, req, res) {
 });
 
 app.listen(3000, function() {
+    // eslint-disable-next-line no-console
     console.log('Server started on http://localhost:3000');
 });
 
+/* global process */
 process.on('unhandledRejection', function(reason) {
-    console.log('[Unhandled Rejection]:', reason.stack);
+    console.error('[Unhandled Rejection]:', reason.stack);
 });

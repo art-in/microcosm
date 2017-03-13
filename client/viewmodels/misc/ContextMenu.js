@@ -1,21 +1,39 @@
 import Menu from './Menu';
 
+/**
+ * Context menu view model
+ */
 export default class ContextMenu extends Menu {
 
-    constructor(menuItems) {
-        super(menuItems);
+    /**
+     * Is menu shown/focused?
+     */
+    active = false;
 
-        this.active = false;
-        this.pos = null;
-        this.target = null;
-    }
+    /**
+     * Position on canvas
+     * @type {Point}
+     */
+    pos = null;
 
+    /**
+     * Target entity to show options to
+     * @type {*}
+     */
+    target = null;
+
+    /**
+     * Stringifies instance
+     * @return {string}
+     */
     toString() {
         return `[ContextMenu (items: ${this.items.length})]`;
     }
 
-    //region publics
-
+    /**
+     * Activates menu
+     * @param {object} opts
+     */
     activate({pos, target}) {
         this.active = true;
         this.pos = pos;
@@ -23,11 +41,12 @@ export default class ContextMenu extends Menu {
         this.emit('change');
     }
 
+    /**
+     * Deactivates menu
+     */
     deactivate() {
         this.active = false;
         this.emit('change');
     }
-
-    //endregion
 
 }

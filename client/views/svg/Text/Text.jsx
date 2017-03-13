@@ -15,7 +15,8 @@ export default class Text extends Component {
         pos: PropTypes.instanceOf(Point), // position dep on client area or path
         href: PropTypes.string, // id of path to draw text on
         offset: PropTypes.number, // offset from start of the path
-        reverse: PropTypes.bool // draw from start of the path or from end
+        reverse: PropTypes.bool, // draw from start of the path or from end
+        className: PropTypes.string
     }
 
     state = {
@@ -37,13 +38,14 @@ export default class Text extends Component {
 
     render() {
 
-        let {
-            text,
+        const {
             align,
             pos,
             href, offset, reverse,
             className,
             ...other} = this.props;
+
+        delete other.text;
 
         if (offset && !href) {
             console.warn('Offset only makes sense with href');
@@ -54,7 +56,8 @@ export default class Text extends Component {
         }
 
         // React does not (want to?) support namespaced attributes...
-        // In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'
+        // In 0.14 we will use 'xlinkHref'
+        // and for now go with 'dangerouslySetInnerHTML'
         // https://github.com/facebook/react/issues/2250
 
         // Chrome does not redraw textPath on path change
@@ -73,15 +76,16 @@ export default class Text extends Component {
 
                     (href ?
 
-                        `<textPath
-                    xlink:href='#${reverse ? href + reversedPathIdPostfix : href}'
-                    startOffset='${offset || ''}%'>
-                    <tspan
-                    dx='${(pos && pos.x) || ''}'
-                    dy='${(pos && pos.y) || ''}'>
-                    ${this.state.text || ''}
+                    `<textPath
+                        xlink:href=
+                            '#${reverse ? href + reversedPathIdPostfix : href}'
+                        startOffset='${offset || ''}%'>
+                        <tspan
+                        dx='${(pos && pos.x) || ''}'
+                        dy='${(pos && pos.y) || ''}'>
+                        ${this.state.text || ''}
                     </tspan>
-                </textPath>`
+                    </textPath>`
 
                         : `${this.state.text || ''}`) +
 

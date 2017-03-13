@@ -1,8 +1,13 @@
 import Mindmap from 'models/Mindmap';
 import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
 
+/**
+ * Maps dbo to model
+ * @param {object} dbo
+ * @return {Mindmap}
+ */
 export function toModel(dbo) {
-    let model = new Mindmap();
+    const model = new Mindmap();
 
     model.id = idToStr(dbo._id);
     model.x = dbo.x;
@@ -12,8 +17,13 @@ export function toModel(dbo) {
     return model;
 }
 
+/**
+ * Maps model to dbo
+ * @param {Mindmap} model
+ * @return {object}
+ */
 export function toDbo(model) {
-    let dbo = {};
+    const dbo = {};
 
     dbo._id = strToId(model.id);
     dbo.x = model.x;

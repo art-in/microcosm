@@ -1,42 +1,54 @@
 import EventedViewModel from '../shared/EventedViewModel';
 
+/**
+ * Color picker view model
+ */
 export default class ColorPicker extends EventedViewModel {
 
-    static eventTypes() {
-        return [
-            'change',
-            'colorSelected'
-        ];
-    }
+    static eventTypes = [
 
-    constructor() {
-        super();
+        // state changed
+        'change',
 
-        this.active = false;
-        this.target = null;
-    }
+        // color selected
+        'colorSelected'
+    ]
 
-    //region publics
+    /**
+     * Is picker shown/focused?
+     */
+    active = false;
 
+    /**
+     * Target entity to pick color for
+     * @type {*}
+     */
+    target = null;
+    
+    /**
+     * Activates picker
+     * @param {*} target
+     */
     activate(target) {
         this.active = true;
         this.target = target;
         this.emit('change');
     }
 
+    /**
+     * Deactivates picker
+     */
     deactivate() {
         this.active = false;
         this.emit('change');
     }
 
-    //endregion
-
-    //region handlers
-
+    /**
+     * Handles color selection event
+     * @param {string} color
+     */
     onColorSelected(color) {
         this.emit('colorSelected', color);
     }
-
-    //endregion
 
 }

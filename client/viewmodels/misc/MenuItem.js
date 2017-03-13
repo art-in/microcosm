@@ -1,8 +1,24 @@
+/**
+ * Menu item view model
+ */
 export default class MenuItem {
 
-    constructor(displaName) {
-        this.id = Math.random();
-        this.displayValue = displaName;
+    /**
+     * Menu item ID
+     */
+    id = Math.random();
+
+    /**
+     * Display value of menu item
+     */
+    displayValue;
+
+    /**
+     * constructor
+     * @param {string} displayName
+     */
+    constructor(displayName) {
+        this.displayValue = displayName;
     }
 
 }

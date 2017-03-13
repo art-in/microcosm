@@ -10,19 +10,16 @@ import classes from './ContextMenu.css';
 export default class ContextMenu extends Component {
 
     static propTypes = {
-        menu: PropTypes.instanceOf(ContextMenuVM).isRequired
+        menu: PropTypes.instanceOf(ContextMenuVM).isRequired,
+        className: PropTypes.string
     }
 
     render() {
 
-        let {menu, className, ...other} = this.props;
+        const {menu, className, ...other} = this.props;
 
         if (!menu.active) {
-            // We can return null, and React will replace it with <noscript> itself,
-            // but in this case it will continiously update DOM this <noscript>.
-            // This will not be required when React omit any DOM change on null.
-            // https://facebook.github.io/react/blog/2014/07/17/react-v0.11.html#rendering-to-null
-            return (<noscript/>);
+            return null;
         }
 
         return (

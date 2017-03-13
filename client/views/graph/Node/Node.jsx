@@ -14,49 +14,52 @@ import classes from './Node.css';
 export default class Node extends Component {
 
     static propTypes = {
-        node: PropTypes.instanceOf(NodeVM).isRequired
+        node: PropTypes.instanceOf(NodeVM).isRequired,
+        className: PropTypes.string
     }
 
     render() {
-        let {node, className, sheet, ...other} = this.props;
-    let {round} = Math;
+        
+        const {node, className, ...other} = this.props;
+        const {round} = Math;
 
-    let textAreaWidth = 200;
-    let textAreaHeight = 25;
-    let textAreaPos = new Point();
-    textAreaPos.x = -(textAreaWidth / 2);
-    textAreaPos.y = -(node.radius + textAreaHeight);
+        const textAreaWidth = 200;
+        const textAreaHeight = 25;
+        const textAreaPos = new Point();
 
-    return (
-        <Group pos={ node.pos }>
+        textAreaPos.x = -(textAreaWidth / 2);
+        textAreaPos.y = -(node.radius + textAreaHeight);
 
-            <Circle className={ cx(classes.node, className) }
-                style={{ fill: node.color || 'lightgray' }}
-                radius={ node.radius }
-                {...other} />
+        return (
+            <Group pos={ node.pos }>
 
-            {
-                node.title.visible &&
-                <TextArea className={ classes.title }
-                    pos={ textAreaPos }
-                    width={ textAreaWidth }
-                    height={ textAreaHeight }
-                    value={ node.title.value }
-                    editable={ node.title.editing }
-                    onClick={ node.onTitleClick.bind(node) }
-                    onBlur={ node.onTitleBlur.bind(node) }
-                    onChange={ node.onTitleChange.bind(node) }/>
-            }
+                <Circle className={ cx(classes.node, className) }
+                    style={{fill: node.color || 'lightgray'}}
+                    radius={ node.radius }
+                    {...other} />
 
-            {
-                node.debug &&
-                <Text text={ `(${round(node.pos.x)} ${round(node.pos.y)})` }
-                    className={ classes.debug }
-                    transform={ `translate(-25 ${node.radius * 2})` }/>
-            }
+                {
+                    node.title.visible &&
+                    <TextArea className={ classes.title }
+                        pos={ textAreaPos }
+                        width={ textAreaWidth }
+                        height={ textAreaHeight }
+                        value={ node.title.value }
+                        editable={ node.title.editing }
+                        onClick={ node.onTitleClick.bind(node) }
+                        onBlur={ node.onTitleBlur.bind(node) }
+                        onChange={ node.onTitleChange.bind(node) }/>
+                }
 
-        </Group>
-    );
-  }
+                {
+                    node.debug &&
+                    <Text text={ `(${round(node.pos.x)} ${round(node.pos.y)})` }
+                        className={ classes.debug }
+                        transform={ `translate(-25 ${node.radius * 2})` }/>
+                }
+
+            </Group>
+        );
+    }
 
 }

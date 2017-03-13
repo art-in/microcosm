@@ -1,8 +1,13 @@
 import Idea from 'models/Idea';
-import { idToStr, strToId } from 'server/lib/helpers/mongoHelpers';
+import {idToStr, strToId} from 'server/lib/helpers/mongoHelpers';
 
+/**
+ * Maps dbo to model
+ * @param {object} dbo
+ * @return {Idea}
+ */
 export function toModel(dbo) {
-    let model = new Idea();
+    const model = new Idea();
 
     model.id = idToStr(dbo._id);
     model.mindmapId = dbo.mindmapId;
@@ -15,8 +20,13 @@ export function toModel(dbo) {
     return model;
 }
 
+/**
+ * Maps model to dbo
+ * @param {Idea} model
+ * @return {object}
+ */
 export function toDbo(model) {
-    let dbo = {};
+    const dbo = {};
 
     dbo._id = strToId(model.id);
     dbo.mindmapId = model.mindmapId;
@@ -30,8 +40,12 @@ export function toDbo(model) {
     return dbo;
 }
 
+/**
+ * Deletes props with undefined values from object
+ * @param {object} obj
+ */
 function deleteUndefinedProps(obj) {
-    for (let prop in obj) {
+    for (const prop in obj) {
         if (obj.hasOwnProperty(prop)) {
             if (obj[prop] === undefined) {
                 delete obj[prop];

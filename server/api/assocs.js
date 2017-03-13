@@ -1,15 +1,15 @@
 import * as Assocs from '../data/Assocs';
 
 import express from 'express';
-const api = express.Router();
+const api = new express.Router();
 
 api.get('/assocs', async function(req, res) {
-    let data = await Assocs.get();
+    const data = await Assocs.get();
     res.send(data);
 });
 
 api.put('/assocs', function(req, res) {
-    let assoc = req.body;
+    const assoc = req.body;
 
     console.log(`update assoc: ${assoc.id}`);
     Assocs.update(assoc);
