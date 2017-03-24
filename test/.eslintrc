@@ -1,0 +1,7 @@
+{
+    "globals": {
+        /* mocha members */
+        "describe": false,
+        "it": false
+    }
+}

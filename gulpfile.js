@@ -1,44 +1,18 @@
 /* global require, __dirname */
 
-const path = require('path');
 const gulp = require('gulp');
-const WebpackDevServer = require('webpack-dev-server');
+
 const nodemon = require('gulp-nodemon');
 const pack = require('./gulpfile.pack.js').pack;
+const getPackConfig = require('./gulpfile.pack.js').getPackConfig;
+const test = require('./gulpfile.test.js');
 
-gulp.task('build:watch', ['serv'], function() {
-    const compiler = pack({
-        isWatch: true
-    });
-    const server = new WebpackDevServer(compiler, {
-        publicPath: '/build/',
-        contentBase: path.resolve(__dirname, './client/'),
-        historyApiFallback: true,
-        filename: 'bundle.js',
-        hot: true,
-        proxy: {
-            '/api/*': {
-                target: 'http://localhost:3000'
-            }
-        },
-        stats: {
-            chunks: false,
-            colors: true
-        }
-    });
-
-    server.listen(8080, 'localhost', function(err) {
-        if (err) {
-            return console.log(err);
-        }
-
-        console.log('Listening at http://localhost:8080/');
-    });
-});
+const config = require('./gulpfile.config.js');
 
 gulp.task('serv', function() {
     nodemon({
-        script: 'app.js',
+        script: config.src.serv.entry,
+        watch: config.src.serv.root,
         env: {
             NODE_PATH: '$NODE_PATH;' + __dirname
         }
@@ -46,7 +20,57 @@ gulp.task('serv', function() {
 });
 
 gulp.task('build', function() {
-    return pack({});
+    return pack({
+        root: config.src.client.root,
+        entry: config.src.client.entry,
+        output: {
+            path: config.src.client.output.path,
+            name: config.src.client.output.name
+        }
+    });
 });
 
-gulp.task('default', ['build']);
+gulp.task('build:watch', ['serv'], function() {
+    return pack({
+        root: config.src.client.root,
+        entry: config.src.client.entry,
+        output: {
+            path: config.src.client.output.path,
+            name: config.src.client.output.name
+        },
+        watch: true,
+        serv: {
+            host: 'localhost',
+            port: 8080
+        }
+    });
+});
+
+const getUnitTestPackConfig = () =>
+    getPackConfig({
+        root: config.src.client.root,
+        output: {
+            path: config.test.unit.output.path,
+            name: config.test.unit.output.name
+        }
+    });
+
+gulp.task('test-unit', function(done) {
+    return test.runUnitTests({
+        packConfig: getUnitTestPackConfig(),
+        entry: config.test.unit.entry,
+        watch: false
+    });
+});
+
+gulp.task('test-unit:watch', function(done) {
+    return test.runUnitTests({
+        packConfig: getUnitTestPackConfig(),
+        entry: config.test.unit.entry,
+        watch: true
+    });
+});
+
+gulp.task('test', ['test-unit']);
+
+gulp.task('default', ['build:watch']);
