@@ -1,23 +1,23 @@
-/* global module, require, __dirname */
-
-const path = require('path');
-
+/* global module, __dirname */
 module.exports = {
+    root: __dirname,
     src: {
         serv: {
             root: 'src/server/',
-            entry: 'src/server/entry.js'
+            entry: 'src/server/entry.js',
+            public: 'src/ui/public'
         },
         client: {
             root: './src/',
-            entry: './src/public/client',
+            entry: './src/ui/public/client',
             output: {
-                path: getAbsolutePath('./src/build/'),
+                path: './src/ui/public/build/',
                 name: 'bundle.js'
             }
         }
     },
     test: {
+        root: './test/',
         unit: {
             entry: 'test/unit/entry.js',
             output: {
@@ -27,19 +27,3 @@ module.exports = {
         }
     }
 };
-
-/**
- * Gets absolute path from relative to current folder
- * @param {string} relative
- * @return {string}
- */
-function getAbsolutePath(relative) {
-    let abs = path.resolve(__dirname, relative);
-
-    // FIXME:
-    // uppercase drive letter so webpack@2.3.0 not breaks
-    // https://github.com/webpack/webpack/issues/4530
-    abs = abs.charAt(0).toUpperCase() + abs.slice(1).toLowerCase();
-
-    return abs;
-}

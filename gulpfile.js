@@ -41,14 +41,24 @@ gulp.task('build:watch', ['serv'], function() {
         watch: true,
         serv: {
             host: 'localhost',
-            port: 8080
+            port: 8080,
+            public: config.src.serv.public
         }
     });
 });
 
 const getUnitTestPackConfig = () =>
     getPackConfig({
-        root: config.src.client.root,
+        root: [
+            // to explicitly import src/test modules from tests.
+            // eg. when importing 'utils' it is not clear
+            // whether its source utils or test utils. better
+            // use explicit notation 'src/utils' or 'test/utils'
+            config.root,
+
+            // for src-modules internal references to work
+            config.src.client.root
+        ],
         output: {
             path: config.test.unit.output.path,
             name: config.test.unit.output.name

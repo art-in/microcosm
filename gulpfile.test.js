@@ -27,7 +27,7 @@ function runUnitTests(opts) {
             singleRun: !opts.watch,
 
             preprocessors: {
-                [opts.entry]: ['webpack']
+                [opts.entry]: ['webpack', 'sourcemap']
             },
 
             webpack: opts.packConfig,
@@ -37,7 +37,10 @@ function runUnitTests(opts) {
 
             frameworks: ['mocha'],
             reporters: ['mocha'],
-            browsers: ['PhantomJS'] // 'Chrome'
+            browsers: ['PhantomJS'], // Chrome, PhantomJS
+            mochaReporter: {
+                showDiff: true
+            }
 
         }, resolve).start();
     });

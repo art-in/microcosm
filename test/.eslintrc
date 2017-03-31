@@ -1,7 +1,14 @@
 {
     "globals": {
+        /* webpack members */
+        "require": false,
+
         /* mocha members */
         "describe": false,
-        "it": false
+        "it": false,
+        "before": false,
+        "beforeEach": false,
+        "after": false,
+        "afterEach": false
     }
 }

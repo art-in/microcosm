@@ -13,7 +13,7 @@ const WebpackDevServer = require('webpack-dev-server');
  * eg. when webpack run by other tool, eg. by karma
  *
  * @param {object} opts
- * @param {string} root - module resolve root path
+ * @param {string|array} root - module resolve root path
  * @param {object}  opts.output
  * @param {string} opts.output.path - output bundle path
  * @param {string} opts.output.name - output bundle name
@@ -22,6 +22,7 @@ const WebpackDevServer = require('webpack-dev-server');
  * @param {object}  [opts.serv] - dev server
  * @param {string}  [opts.serv.host]
  * @param {string}  [opts.serv.port]
+ * @param {string}  [opts.serv.public]
  *
  * @return {object} config
  */
@@ -31,11 +32,15 @@ function getPackConfig(opts) {
     assert(opts.output);
     if (opts.watch) {
         assert(opts.serv);
+        assert(opts.serv.host);
+        assert(opts.serv.port);
+        assert(opts.serv.public);
     }
 
     const entries = [];
     const plugins = [];
     const loaders = {js: []};
+    const resolveModules = [];
 
     if (opts.watch) {
         entries.push(
@@ -57,8 +62,16 @@ function getPackConfig(opts) {
         entries.push(opts.entry);
     }
 
+    let root = opts.root;
+    if (typeof root === 'string') {
+        root = [root];
+    }
+    root.forEach(p => resolveModules.push(path.resolve(__dirname, p)));
+    
     return {
-        devtool: 'eval-source-map',
+        // eval-source-map gives stacktraces without source file:line
+        // (when stacktrace passed from chrome/phantomjs to terminal by karma)
+        devtool: 'inline-source-map',
         entry: entries,
         output: {
             path: path.resolve(__dirname, opts.output.path),
@@ -88,7 +101,7 @@ function getPackConfig(opts) {
         },
         resolve: {
             extensions: ['.js', '.jsx'],
-            modules: [path.join(__dirname, opts.root), 'node_modules']
+            modules: resolveModules.concat(['node_modules'])
         }
     };
 }
@@ -126,7 +139,7 @@ function pack(opts) {
 
         const server = new WebpackDevServer(compiler, {
             publicPath: '/build/',
-            contentBase: path.resolve(__dirname, opts.output.path),
+            contentBase: opts.serv.public,
             historyApiFallback: true,
             filename: opts.output.name,
             hot: true,

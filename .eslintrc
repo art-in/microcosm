@@ -13,6 +13,10 @@
     "env": {
         "browser": true
     },
+    "globals": {
+        "Promise": false,
+        "Symbol": false
+    },
     "rules": {
         // do not care about win/unix line ending diffs
         "linebreak-style": 0,
@@ -29,7 +33,7 @@
         // version control diffs is not an argument for me
         "comma-dangle": ["error", "never"],
 
-        // since this is not a lib to embed other project
+        // since this is not a lib to embed into another project
         // and make noise there, i feel free to log anything
         "no-console": 0,
 
@@ -38,6 +42,13 @@
 
         // using 'const' instead of 'let' to follow spec meaning
         "prefer-const": ["error"],
+
+        // accurate text column to fit into split-screens or 
+        // portrait-screen-orientation with comfortable font size
+        "max-len": ["error", 80],
+
+        // four spaces indent
+        "indent": ["error", 4],
 
         // React
         "jsx-quotes": [ 1, "prefer-single" ],

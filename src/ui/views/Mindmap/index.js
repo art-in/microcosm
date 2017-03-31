@@ -1,0 +1,1 @@
+export default from './Mindmap.connect';

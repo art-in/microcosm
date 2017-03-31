@@ -1,4 +1,4 @@
 # ignored by default
 /node_modules/*
 
-client/build/*
+src/ui/public/build/*
