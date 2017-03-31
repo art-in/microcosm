@@ -25,5 +25,4 @@ To support consistency between layers state cannot be changed directly, but only
 
 **Patch** is container of mutations. Each mutation always applied to each layer, so layers stay in sync.  
 
-**[VM]** --action--> **[store]** --action--> **[handlers]** --> **[services]** --patch--> **[mutator]** --> **[state]**  
-^-----------------------------------------------------------------------------------------------------|
+**[VM]** --action--> **[store]** --action--> **[dispatcher]** --patch--> **[mutator]** --> **[state]**  
