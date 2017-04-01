@@ -1,4 +1,4 @@
-import {clone} from 'lib/helpers/helpers';
+import clone from 'clone';
 
 /**
  * Log entry for store action
