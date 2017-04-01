@@ -15,7 +15,9 @@
     },
     "globals": {
         "Promise": false,
-        "Symbol": false
+        "Symbol": false,
+        "Map": false,
+        "WeakMap": false
     },
     "rules": {
         // do not care about win/unix line ending diffs
