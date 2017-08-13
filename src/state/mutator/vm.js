@@ -26,7 +26,7 @@ export default async function mutate(state, patch) {
  */
 async function apply(state, mutation) {
 
-    switch(mutation.type) {
+    switch (mutation.type) {
     case 'init':
         state.vm.main = new MainVM();
         state.vm.main.mindmap = new MindmapVM();

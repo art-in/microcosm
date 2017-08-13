@@ -6,6 +6,7 @@ const nodemon = require('gulp-nodemon');
 const pack = require('./gulpfile.pack.js').pack;
 const getPackConfig = require('./gulpfile.pack.js').getPackConfig;
 const test = require('./gulpfile.test.js');
+const eslint = require('gulp-eslint');
 
 const config = require('./gulpfile.config.js');
 
@@ -41,7 +42,7 @@ gulp.task('build:watch', ['serv'], function() {
         watch: true,
         serv: {
             host: 'localhost',
-            port: 8080,
+            port: 3001,
             public: config.src.serv.public
         }
     });
@@ -81,6 +82,13 @@ gulp.task('test-unit:watch', function(done) {
     });
 });
 
-gulp.task('test', ['test-unit']);
+gulp.task('test-lint', function() {
+    return gulp.src(['**/*.js', '**/*.jsx'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
+gulp.task('test', ['test-lint', 'test-unit']);
 
 gulp.task('default', ['build:watch']);

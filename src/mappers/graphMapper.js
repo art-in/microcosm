@@ -26,7 +26,7 @@ export function toGraph(mindmap) {
         centralNode.links.forEach(l => {
             const subNode = l.toNode;
             
-            traverseTree(subNode, (n) => {
+            traverseTree(subNode, n => {
                 n.color = subNode.color;
             });
         });

@@ -99,8 +99,7 @@ describe('db', () => {
 
             const patch = new Patch(
                 'add idea',
-                new Idea({id: 'id', value: 'test'}
-            ));
+                new Idea({id: 'id', value: 'test'}));
 
             // target
             const result = await mutate(db, patch);
@@ -184,8 +183,7 @@ describe('db', () => {
 
             const patch = new Patch(
                 'add association',
-                new Association({id: 'id', value: 'test'}
-            ));
+                new Association({id: 'id', value: 'test'}));
 
             // target
             const result = await mutate(db, patch);

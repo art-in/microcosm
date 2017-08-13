@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {bodyMargin, getElementSize, getPageScale}
     from 'lib/helpers/domHelpers';
@@ -24,7 +25,7 @@ export default class Graph extends Component {
         return getElementSize(this.viewport);
     }
 
-    getClickPos = (e) => {
+    getClickPos = e => {
         // send position depending to this viewport
         const viewportRect = this.viewport.getBoundingClientRect();
 
@@ -34,12 +35,13 @@ export default class Graph extends Component {
         );
     }
 
-    componentWillReceiveProps = (nextProps) => {
+    componentWillReceiveProps = nextProps => {
         nextProps.graph.setViewportSize(this.getViewportSize());
     }
 
     componentDidMount = () => {
         // For now detect viewport resize by window 'resize'.
+        // eslint-disable-next-line max-len
         // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
         window.addEventListener('resize', this.onResize);
 
@@ -65,7 +67,7 @@ export default class Graph extends Component {
         this.props.graph.onViewportResize(this.getViewportSize());
     }
 
-    onWheel = (e) => {
+    onWheel = e => {
         this.props.graph.onWheel(e.deltaY <= 0);
     }
 
@@ -77,7 +79,7 @@ export default class Graph extends Component {
         }
     }
 
-    onMouseMove = (e) => {
+    onMouseMove = e => {
         const {graph} = this.props;
         const {nativeEvent: event} = e;
         const pageScale = getPageScale();
@@ -108,18 +110,18 @@ export default class Graph extends Component {
         }
     }
 
-    onViewportMouseDown = (e) => {
+    onViewportMouseDown = e => {
         // left button only
         if (e.nativeEvent.which === 1) {
             this.props.graph.onPanStart();
         }
     }
 
-    onKeyPress = (e) => {
+    onKeyPress = e => {
         this.props.graph.onKeyPress(e.key);
     }
 
-    onDragStart = (e) => {
+    onDragStart = e => {
         e.preventDefault();
         e.stopPropagation();
     }
@@ -139,7 +141,7 @@ export default class Graph extends Component {
             );
         });
 
-        const links = graph.links.map((link) => {
+        const links = graph.links.map(link => {
             return (
                 <Link
                     key={ link.id }

@@ -52,14 +52,13 @@
         // four spaces indent
         "indent": ["error", 4],
 
+        "arrow-parens": [ 1, "as-needed" ],
+
         // React
         "jsx-quotes": [ 1, "prefer-single" ],
         "react/jsx-indent": [2, 4],
 
         // Babel rewrites
-        "arrow-parens": 0,
-        "babel/arrow-parens": [ 1, "as-needed" ],
-
         "object-curly-spacing": 0,
         "babel/object-curly-spacing": 1
     }

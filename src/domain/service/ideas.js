@@ -34,40 +34,40 @@ function getIdea(mindmap, ideaId) {
  * @return {Patch}
  */
 disp.reg('create-idea',
-async ({parentIdeaId}, {mindmap}) => {
+    async ({parentIdeaId}, {mindmap}) => {
 
-    const patch = new Patch();
+        const patch = new Patch();
 
-    const newIdea = new Idea({
-        mindmapId: mindmap.id,
-        x: 0,
-        y: 0
-    });
+        const newIdea = new Idea({
+            mindmapId: mindmap.id,
+            x: 0,
+            y: 0
+        });
 
-    if (parentIdeaId) {
+        if (parentIdeaId) {
 
-        const parentIdea = mindmap.ideas.find(i => i.id === parentIdeaId);
+            const parentIdea = mindmap.ideas.find(i => i.id === parentIdeaId);
 
-        if (!parentIdea) {
-            throw Error(`Parent idea '${parentIdeaId}' not found`);
+            if (!parentIdea) {
+                throw Error(`Parent idea '${parentIdeaId}' not found`);
+            }
+
+            newIdea.x = parentIdea.x + 100;
+            newIdea.y = parentIdea.y + 100;
+
+            const assoc = new Association();
+            
+            assoc.mindmapId = mindmap.id;
+            assoc.from = parentIdea.id;
+            assoc.to = newIdea.id;
+
+            patch.push('add association', assoc);
         }
 
-        newIdea.x = parentIdea.x + 100;
-        newIdea.y = parentIdea.y + 100;
+        patch.push('add idea', newIdea);
 
-        const assoc = new Association();
-        
-        assoc.mindmapId = mindmap.id;
-        assoc.from = parentIdea.id;
-        assoc.to = newIdea.id;
-
-        patch.push('add association', assoc);
-    }
-
-    patch.push('add idea', newIdea);
-
-    return patch;
-});
+        return patch;
+    });
 
 /**
  * Removes idea with corresponding associations
@@ -78,29 +78,29 @@ async ({parentIdeaId}, {mindmap}) => {
  * @return {Patch}
  */
 disp.reg('remove-idea',
-async ({ideaId}, {mindmap}) => {
+    async ({ideaId}, {mindmap}) => {
 
-    const patch = new Patch();
+        const patch = new Patch();
 
-    const idea = getIdea(mindmap, ideaId);
+        const idea = getIdea(mindmap, ideaId);
 
-    if (idea.isCentral) {
-        throw Error('Unable to remove central idea');
-    }
+        if (idea.isCentral) {
+            throw Error('Unable to remove central idea');
+        }
 
-    const hasOutgoingAssocs = mindmap.assocs.filter(a => a.from === ideaId);
-    if (hasOutgoingAssocs.length) {
-        throw Error('Unable to remove idea with association');
-    }
+        const hasOutgoingAssocs = mindmap.assocs.filter(a => a.from === ideaId);
+        if (hasOutgoingAssocs.length) {
+            throw Error('Unable to remove idea with association');
+        }
 
-    mindmap.assocs
-        .filter(a => a.from === ideaId || a.to === ideaId)
-        .forEach(a => patch.push('remove association', {id: a.id}));
+        mindmap.assocs
+            .filter(a => a.from === ideaId || a.to === ideaId)
+            .forEach(a => patch.push('remove association', {id: a.id}));
 
-    patch.push('remove idea', {id: ideaId});
+        patch.push('remove idea', {id: ideaId});
 
-    return patch;
-});
+        return patch;
+    });
 
 /**
  * Sets value for idea
@@ -112,32 +112,32 @@ async ({ideaId}, {mindmap}) => {
  * @return {Patch}
  */
 disp.reg('set-idea-value',
-async ({ideaId, value}, {mindmap}) => {
-    
-    const idea = getIdea(mindmap, ideaId);
+    async ({ideaId, value}, {mindmap}) => {
+        
+        const idea = getIdea(mindmap, ideaId);
 
-    if (idea.value != value) {
-        return new Patch('update idea', {id: ideaId, value});
-    }
-});
+        if (idea.value != value) {
+            return new Patch('update idea', {id: ideaId, value});
+        }
+    });
 
 disp.reg('set-idea-position',
-async ({ideaId, pos}, {mindmap}) => {
+    async ({ideaId, pos}, {mindmap}) => {
 
-    return new Patch('update idea', {
-        id: ideaId,
-        x: pos.x,
-        y: pos.y
+        return new Patch('update idea', {
+            id: ideaId,
+            x: pos.x,
+            y: pos.y
+        });
     });
-});
 
 disp.reg('set-idea-color',
-async ({ideaId, color}, {mindmap}) => {
+    async ({ideaId, color}, {mindmap}) => {
 
-    return new Patch('update idea', {
-        id: ideaId,
-        color
+        return new Patch('update idea', {
+            id: ideaId,
+            color
+        });
     });
-});
 
 export default disp;

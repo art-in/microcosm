@@ -352,7 +352,7 @@ export default class Graph extends EventedViewModel {
      * @return {Node}
      */
     getNode(nodeId) {
-        const node = this.nodes.find((n) => n.id === nodeId);
+        const node = this.nodes.find(n => n.id === nodeId);
         if (!node) {
             throw Error(`No node with such id found: ${nodeId}`);
         }

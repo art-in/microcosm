@@ -59,7 +59,7 @@ let targetStore;
  * @return {ConnectedVM} class
  */
 export function connect(mapEventsToHandlers) {
-    return (VM) => {
+    return VM => {
 
         if (!(VM.prototype instanceof EventedViewModel)) {
             throw Error(

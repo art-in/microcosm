@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import Point from 'ui/viewmodels/misc/Point';
@@ -76,20 +77,20 @@ export default class Text extends Component {
 
                     (href ?
 
-                    `<textPath
-                        xlink:href=
+                        `<textPath
+                            xlink:href=
                             '#${reverse ? href + reversedPathIdPostfix : href}'
-                        startOffset='${offset || ''}%'>
-                        <tspan
-                        dx='${(pos && pos.x) || ''}'
-                        dy='${(pos && pos.y) || ''}'>
-                        ${this.state.text || ''}
-                    </tspan>
-                    </textPath>`
+                            startOffset='${offset || ''}%'>
+                            <tspan
+                            dx='${(pos && pos.x) || ''}'
+                            dy='${(pos && pos.y) || ''}'>
+                            ${this.state.text || ''}
+                        </tspan>
+                        </textPath>`
 
                         : `${this.state.text || ''}`) +
 
-                    `</text>`
+                        `</text>`
                 }} />
         );
     }

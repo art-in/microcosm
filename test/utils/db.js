@@ -1,11 +1,10 @@
 import {guid} from 'lib/helpers/helpers';
-
 import PouchDB from 'pouchdb';
-PouchDB.plugin(require('pouchdb-adapter-memory'));
+import memoryPlugin from 'pouchdb-adapter-memory';
+import findPlugin from 'pouchdb-find';
 
-// TODO: remove plugin when 'find' will be merged to core
-// https://github.com/pouchdb/pouchdb/issues/6289
-PouchDB.plugin(require('pouchdb-find'));
+PouchDB.plugin(memoryPlugin);
+PouchDB.plugin(findPlugin);
 
 /**
  * Creates unique database

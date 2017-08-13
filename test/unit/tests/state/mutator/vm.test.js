@@ -10,7 +10,7 @@ describe('vm', () => {
 
     describe(`'init' mutation`, () => {
 
-        it('should init vm', async() => {
+        it('should init vm', async () => {
 
             // setup
             const state = createState();

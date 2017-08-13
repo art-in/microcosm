@@ -7,7 +7,7 @@ describe('mindmaps', () => {
 
     describe('.get()', () => {
 
-        it('should return model', async() => {
+        it('should return model', async () => {
             
             // setup
             const db = createDB();
@@ -141,7 +141,7 @@ describe('mindmaps', () => {
             expect(result.scale).to.equal(2);
         });
 
-        it('should not store unknown props', async() => {
+        it('should not store unknown props', async () => {
 
             // setup
             const db = createDB();

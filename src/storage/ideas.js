@@ -37,7 +37,7 @@ export async function getAll(db) {
  */
 export async function add(db, idea) {
     assert(idea instanceof Idea,
-     'Argument should be instance of Idea');
+        'Argument should be instance of Idea');
     
     const dbo = toDbo(idea);
     await db.put(dbo);

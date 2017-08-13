@@ -5,15 +5,14 @@ import Dispatcher from 'state/Dispatcher';
 const disp = new Dispatcher();
 
 disp.reg('set-association-value',
-async ({assocId, value}, {mindmap}) => {
+    async ({assocId, value}, {mindmap}) => {
 
-    const idea = getAssociation(mindmap, assocId);
+        const idea = getAssociation(mindmap, assocId);
 
-    if (idea.value != value) {
-        return new Patch('update association', {id: assocId, value});
-    }
-
-});
+        if (idea.value != value) {
+            return new Patch('update association', {id: assocId, value});
+        }
+    });
 
 /**
  * Gets association by ID

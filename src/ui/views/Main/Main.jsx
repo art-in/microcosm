@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import MainVM from '../../viewmodels/Main';
 import Mindmap from '../Mindmap';

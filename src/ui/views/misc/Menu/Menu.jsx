@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import MenuVM from 'ui/viewmodels/misc/Menu';
@@ -18,7 +19,7 @@ export default class Menu extends Component {
 
         const {menu, className, ...other} = this.props;
 
-        const items = menu.items.map((item) => {
+        const items = menu.items.map(item => {
             return (<MenuItem key={ item.id }
                 item={ item }
                 onClick={ menu.onItemSelected.bind(menu, item) } />);

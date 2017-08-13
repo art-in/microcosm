@@ -12,8 +12,8 @@ import Association from 'domain/models/Association';
 export function assocToLink(nodes, assoc) {
     assert(assoc instanceof Association);
 
-    const fromNode = nodes.find((node) => node.id === assoc.from);
-    const toNode = nodes.find((node) => node.id === assoc.to);
+    const fromNode = nodes.find(node => node.id === assoc.from);
+    const toNode = nodes.find(node => node.id === assoc.to);
 
     !fromNode && console.warn(
         `unable to find 'from' idea while mapping association [${assoc.from}]`);

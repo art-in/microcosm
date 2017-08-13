@@ -127,10 +127,7 @@ function pack(opts) {
             if (err) {
                 throw new gutil.PluginError('webpack', err);
             }
-            gutil.log('[webpack]', stats.toString({
-                colors: true,
-                chunks: false
-            }));
+            gutil.log('[webpack]', stats.toString('minimal'));
             
             resolve();
         });
@@ -144,10 +141,7 @@ function pack(opts) {
             filename: opts.output.name,
             hot: true,
             proxy: {},
-            stats: {
-                chunks: false,
-                colors: true
-            }
+            stats: 'minimal'
         });
 
         server.listen(opts.serv.port, opts.serv.host, function(err) {

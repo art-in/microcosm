@@ -14,7 +14,7 @@ export default class Dispatcher {
      */
     reg(type, dispatcher) {
 
-        if(this._dispatcher.some(d => d.type === type)) {
+        if (this._dispatcher.some(d => d.type === type)) {
             throw Error(`Action '${type}' already has registered dispatcher`);
         }
         
