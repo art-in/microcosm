@@ -1,4 +1,4 @@
-import config from '../../gulpfile.config.js';
+import config from '../../config.js';
 
 import express from 'express';
 import logger from 'morgan';
@@ -18,9 +18,12 @@ app.use(function(err, req, res) {
     res.render('error', {error: err});
 });
 
-app.listen(3000, function() {
-    // eslint-disable-next-line no-console
-    console.log('Server started on http://localhost:3000');
+const {host, port} = config.server;
+app.listen(port, host, function(err) {
+    if (err) {
+        throw Error(err);
+    }
+    console.log(`Listening at ${host}:${port}`);
 });
 
 /* global process */

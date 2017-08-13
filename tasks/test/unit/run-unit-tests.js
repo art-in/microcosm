@@ -1,5 +1,3 @@
-/* global module, require */
-
 const assert = require('assert');
 const KarmaServer = require('karma').Server;
 
@@ -46,6 +44,4 @@ function runUnitTests(opts) {
     });
 }
 
-module.exports = {
-    runUnitTests
-};
+module.exports = runUnitTests;

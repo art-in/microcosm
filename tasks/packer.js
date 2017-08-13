@@ -1,5 +1,3 @@
-/* global require, module, Promise, __dirname */
-
 const path = require('path');
 const gutil = require('gulp-util');
 const webpack = require('webpack');
@@ -149,9 +147,9 @@ function pack(opts) {
                 throw err;
             }
 
-            console.log(
+            console.log(gutil.colors.bgRed(
                 `Webpack dev server listening at ` +
-                `http://${opts.serv.host}:${opts.serv.port}/`);
+                `http://${opts.serv.host}:${opts.serv.port}/`));
         });
     }
 

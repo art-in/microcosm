@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+      "start": "gulp build:watch",
+      "build:watch": "gulp build:watch",
+      "serve": "gulp serve",
+      "test": "gulp test",
+      "test:watch": "gulp test:unit:watch",
+      "lint": "gulp test:static:lint"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -33,6 +40,7 @@
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.0",
     "gulp-nodemon": "^2.2.1",
+    "gulp-require-tasks": "^1.2.1",
     "gulp-util": "^3.0.8",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
