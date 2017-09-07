@@ -1,4 +1,5 @@
 import EventedViewModel from '../../shared/EventedViewModel';
+import Point from '../../misc/Point';
 
 /**
  * Graph view model.
@@ -204,9 +205,10 @@ export default class Graph extends EventedViewModel {
     /**
      * Handles wheel event
      * @param {boolean} up
+     * @param {Point} pos - target canvas point to zoom into/out from
      */
-    onWheel(up) {
-        this.zoom(up);
+    onWheel(up, pos) {
+        this.zoom(up, pos);
     }
 
     /**
@@ -379,9 +381,10 @@ export default class Graph extends EventedViewModel {
 
     /**
      * Zooms graph in or out
-     * @param {boolean} _in
+     * @param {boolean} _in - zoom in or out
+     * @param {Point} pos - target canvas point to zoom into/out from
      */
-    zoom(_in) {
+    zoom(_in, pos) {
         const viewbox = this.viewbox;
 
         if ((_in && viewbox.scale >= viewbox.scaleMax) ||
@@ -391,18 +394,34 @@ export default class Graph extends EventedViewModel {
         }
 
         // zoom by 20%
-        viewbox.scale += (_in ? 1 : -1) * 0.2 * viewbox.scale;
+        const zoomStep = 0.2;
+        viewbox.scale += (_in ? 1 : -1) * zoomStep * viewbox.scale;
 
         const {width: prevWidth, height: prevHeight} = viewbox;
+
         this.recomputeViewbox();
 
-        // zoom to/from the center of viewbox
-        viewbox.x += (prevWidth - viewbox.width) / 2;
-        viewbox.y += (prevHeight - viewbox.height) / 2;
+        // space that will be hidden/shown by zoom
+        const hiddenWidth = prevWidth - viewbox.width;
+        const hiddenHeight = prevHeight - viewbox.height;
+
+        // zoom position on viewbox (ie. not on canvas)
+        const viewboxX = pos.x - viewbox.x;
+        const viewboxY = pos.y - viewbox.y;
+
+        // how much of hidden/shown space we should use
+        // to shift viewbox depending on zoom position
+        const shiftFactorX = viewboxX / prevWidth;
+        const shiftFactorY = viewboxY / prevHeight;
+
+        // shift viewbox toward zoom position
+        viewbox.x += hiddenWidth * shiftFactorX;
+        viewbox.y += hiddenHeight * shiftFactorY;
 
         this.emit('viewbox-scale-change', {
             graphId: this.id,
-            scale: this.viewbox.scale
+            scale: viewbox.scale,
+            pos: new Point(viewbox.x, viewbox.y)
         });
     }
 

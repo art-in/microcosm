@@ -33,7 +33,8 @@ export default connect(dispatch => ({
     ['viewbox-scale-change']: data => dispatch(
         'set-mindmap-scale', {
             mindmapId: data.graphId,
-            scale: data.scale
+            scale: data.scale,
+            pos: data.pos
         }
     )
     

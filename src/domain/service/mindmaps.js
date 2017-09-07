@@ -4,8 +4,16 @@ import Dispatcher from 'state/Dispatcher';
 
 const disp = new Dispatcher();
 
+/**
+ * Sets mindmap position
+ * 
+ * @param {object} data
+ * @param {string} data.mindmapId
+ * @param {Point} data.pos - new position of viewbox on canvas
+ * @return {Patch}
+ */
 disp.reg('set-mindmap-position',
-    async ({mindmapId, pos}, {mindmap}) => {
+    async ({mindmapId, pos}, {model: {mindmap}}) => {
 
         if (mindmap.id !== mindmapId) {
             throw Error('Setting position of not loaded mindmap');
@@ -18,8 +26,17 @@ disp.reg('set-mindmap-position',
         });
     });
 
+/**
+ * Sets mindmap scale
+ * 
+ * @param {object} data
+ * @param {string} data.mindmapId
+ * @param {number} data.scale - target scale
+ * @param {Point} data.pos - new position of viewbox on canvas
+ * @return {Patch}
+ */
 disp.reg('set-mindmap-scale',
-    async ({mindmapId, scale}, {mindmap}) => {
+    async ({mindmapId, scale, pos}, {model: {mindmap}}) => {
 
         if (mindmap.id !== mindmapId) {
             throw Error('Setting scale of not loaded mindmap');
@@ -27,7 +44,9 @@ disp.reg('set-mindmap-scale',
 
         return new Patch('update mindmap', {
             id: mindmapId,
-            scale
+            scale,
+            x: pos.x,
+            y: pos.y
         });
     });
 
