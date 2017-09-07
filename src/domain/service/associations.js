@@ -5,7 +5,7 @@ import Dispatcher from 'state/Dispatcher';
 const disp = new Dispatcher();
 
 disp.reg('set-association-value',
-    async ({assocId, value}, {mindmap}) => {
+    async ({assocId, value}, {model: {mindmap}}) => {
 
         const idea = getAssociation(mindmap, assocId);
 

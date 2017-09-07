@@ -34,7 +34,7 @@ function getIdea(mindmap, ideaId) {
  * @return {Patch}
  */
 disp.reg('create-idea',
-    async ({parentIdeaId}, {mindmap}) => {
+    async ({parentIdeaId}, {model: {mindmap}}) => {
 
         const patch = new Patch();
 
@@ -78,7 +78,7 @@ disp.reg('create-idea',
  * @return {Patch}
  */
 disp.reg('remove-idea',
-    async ({ideaId}, {mindmap}) => {
+    async ({ideaId}, {model: {mindmap}}) => {
 
         const patch = new Patch();
 
@@ -112,7 +112,7 @@ disp.reg('remove-idea',
  * @return {Patch}
  */
 disp.reg('set-idea-value',
-    async ({ideaId, value}, {mindmap}) => {
+    async ({ideaId, value}, {model: {mindmap}}) => {
         
         const idea = getIdea(mindmap, ideaId);
 
@@ -122,7 +122,7 @@ disp.reg('set-idea-value',
     });
 
 disp.reg('set-idea-position',
-    async ({ideaId, pos}, {mindmap}) => {
+    async ({ideaId, pos}) => {
 
         return new Patch('update idea', {
             id: ideaId,
@@ -132,7 +132,7 @@ disp.reg('set-idea-position',
     });
 
 disp.reg('set-idea-color',
-    async ({ideaId, color}, {mindmap}) => {
+    async ({ideaId, color}) => {
 
         return new Patch('update idea', {
             id: ideaId,

@@ -5,6 +5,9 @@ import {expect} from 'test/utils';
 import EventedViewModel from 'src/ui/viewmodels/shared/EventedViewModel';
 import {connect} from 'src/ui/viewmodels/shared/store-connect';
 import Store from 'src/state/Store';
+import Dispatcher from 'src/state/Dispatcher';
+
+const mutator = () => {};
 
 describe('connected-vm', () => {
 
@@ -13,7 +16,7 @@ describe('connected-vm', () => {
         it('should dispatch container actions on vm events', async () => {
 
             // setup
-            const store = new Store();
+            const store = new Store(new Dispatcher(), mutator);
             const dispatch = store.dispatch = sinon.spy();
 
             // eslint-disable-next-line require-jsdoc
@@ -49,8 +52,8 @@ describe('connected-vm', () => {
         it('should connect to store on vm instantiation', () => {
 
             // setup
-            const store1 = new Store();
-            const store2 = new Store();
+            const store1 = new Store(new Dispatcher(), mutator);
+            const store2 = new Store(new Dispatcher(), mutator);
 
             const dispatch1 = store1.dispatch = sinon.spy();
             const dispatch2 = store2.dispatch = sinon.spy();
@@ -80,7 +83,7 @@ describe('connected-vm', () => {
         it('should connect all vm instances to single store', async () => {
 
             // setup
-            const store = new Store();
+            const store = new Store(new Dispatcher(), mutator);
             const dispatch = store.dispatch = sinon.spy();
 
             // eslint-disable-next-line require-jsdoc
@@ -108,8 +111,8 @@ describe('connected-vm', () => {
         it('should allow to connect diff-t stores to diff-t instances', () => {
 
             // setup
-            const store1 = new Store();
-            const store2 = new Store();
+            const store1 = new Store(new Dispatcher(), mutator);
+            const store2 = new Store(new Dispatcher(), mutator);
 
             const dispatch1 = store1.dispatch = sinon.spy();
             const dispatch2 = store2.dispatch = sinon.spy();
@@ -153,7 +156,7 @@ describe('connected-vm', () => {
                 static eventTypes = ['event']
             }
 
-            connect.to(new Store());
+            connect.to(new Store(new Dispatcher(), mutator));
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
@@ -198,7 +201,7 @@ describe('connected-vm', () => {
                 static eventTypes = ['event']
             }
 
-            connect.to(new Store());
+            connect.to(new Store(new Dispatcher(), mutator));
 
             // target
             const ConnectedTestVM = connect(dispatch => ({

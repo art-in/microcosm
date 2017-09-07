@@ -6,8 +6,11 @@ import MindmapVM from 'src/ui/viewmodels/Mindmap';
 import {connect} from 'src/ui/viewmodels/shared/store-connect';
 
 import Store from 'src/state/Store';
+import Dispatcher from 'src/state/Dispatcher';
 
 import {toGraph} from 'mappers/graphMapper';
+
+const mutator = () => {};
 
 /**
  * Creates clean test-ready state
@@ -16,7 +19,7 @@ import {toGraph} from 'mappers/graphMapper';
 export function createState() {
 
     // store
-    connect.to(new Store());
+    connect.to(new Store(new Dispatcher(), mutator));
 
     // model
     const mindmap = new Mindmap();

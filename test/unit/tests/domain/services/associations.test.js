@@ -1,9 +1,11 @@
 import {expect} from 'test/utils';
 
-import dispatch from 'src/domain/service';
+import dispatcher from 'src/domain/service';
 
 import Mindmap from 'src/domain/models/Mindmap';
 import Association from 'src/domain/models/Association';
+
+const dispatch = dispatcher.dispatch.bind(dispatcher);
 
 describe('associations', () => {
 
@@ -19,11 +21,13 @@ describe('associations', () => {
                 value: 'old'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('set-association-value', {
                 assocId: 'id',
                 value: 'new'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(1);

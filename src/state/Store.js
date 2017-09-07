@@ -1,14 +1,23 @@
 import EventEmitter from 'events';
 
-import dispatch from 'domain/service';
-import mutate from './mutator';
-
-import {log, LogEntry} from './logger';
+import AsyncTaskQueue from 'lib/AsyncTaskQueue';
 
 /**
  * Application state container.
  */
 export default class Store extends EventEmitter {
+
+    /**
+     * The dispatcher.
+     * @type {Dispatcher}
+     */
+    _dispatcher;
+
+    /**
+     * The mutator
+     * @type {function}
+     */
+    _mutator;
 
     /**
      * The state.
@@ -17,12 +26,36 @@ export default class Store extends EventEmitter {
     _state = {};
 
     /**
-     * Constructor
-     * @param {object} initialState
+     * List of middlewares
      */
-    constructor(initialState) {
+    _middlewares = [];
+
+    /**
+     * Action execution queue
+     * Async actions should be dispatched sequentially,
+     * and not mixed up with each other, which is crucial
+     * eg. for db updates: user initiates graph zoom too
+     * often - several async actions dispatched in parallel,
+     * both get the same db entity, first action updates 
+     * that entity, second one fails on update because of
+     * wrong db entity version
+     */
+    _queue = new AsyncTaskQueue();
+
+    /**
+     * Constructor
+     * @param {Dispatcher} dispatcher
+     * @param {function} mutator
+     * @param {object} [initialState]
+     * @param {array} [middlewares]
+     */
+    constructor(dispatcher, mutator, initialState = {}, middlewares = []) {
         super();
+
+        this._dispatcher = dispatcher;
+        this._mutator = mutator;
         this._state = initialState;
+        this._middlewares = middlewares;
     }
 
     /**
@@ -30,27 +63,21 @@ export default class Store extends EventEmitter {
      *
      * @param {string} type - action type
      * @param {*} data - payload
-     * @return {object} new state
+     * @return {Promise.<object>} new state
      */
     async dispatch(type, data) {
 
-        // log action
-        const entry = new LogEntry();
-        entry.action = {type, data};
-        entry.prevState = this._state;
-        entry.perf.start = Date.now();
+        return this._queue.enqueue(async () => {
 
-        // process action
-        const patch = await dispatch(type, data, this._state.model);
-        this._state = await mutate(this._state, patch);
+            // process action
+            const dispatch = this._dispatcher.dispatch.bind(this._dispatcher);
+            const mutate = this._mutator.bind(this);
 
-        // log action
-        entry.perf.end = Date.now();
-        entry.patch = patch;
-        entry.nextState = this._state;
+            const patch = await dispatch(type, data, this._state);
+            this._state = await mutate(this._state, patch);
 
-        log(entry);
-
-        return this._state;
+            return this._state;
+        });
     }
+    
 }

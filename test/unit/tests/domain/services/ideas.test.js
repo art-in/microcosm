@@ -1,10 +1,12 @@
 import {expect} from 'test/utils';
 
-import dispatch from 'src/domain/service';
+import dispatcher from 'src/domain/service';
 
 import Mindmap from 'src/domain/models/Mindmap';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
+
+const dispatch = dispatcher.dispatch.bind(dispatcher);
 
 describe('ideas', () => {
 
@@ -16,8 +18,10 @@ describe('ideas', () => {
             const mindmap = new Mindmap();
             mindmap.id = 'm';
 
+            const state = {model: {mindmap}};
+
             // target
-            const patch = await dispatch('create-idea', {}, {mindmap});
+            const patch = await dispatch('create-idea', {}, state);
 
             // check
             expect(patch).to.have.length(1);
@@ -36,10 +40,12 @@ describe('ideas', () => {
 
             mindmap.ideas.push(new Idea({id: 'parent'}));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('create-idea', {
                 parentIdeaId: 'parent'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(2);
@@ -62,10 +68,12 @@ describe('ideas', () => {
 
             mindmap.ideas.push(new Idea({id: 'parent', x: 10, y: 20}));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('create-idea', {
                 parentIdeaId: 'parent'
-            }, {mindmap});
+            }, state);
 
             // check
             const mutation = patch['add idea'][0];
@@ -80,10 +88,12 @@ describe('ideas', () => {
             // setup
             const mindmap = new Mindmap();
 
+            const state = {model: {mindmap}};
+
             // target
             const promise = dispatch('create-idea', {
                 parentIdeaId: 'not exist'
-            }, {mindmap});
+            }, state);
 
             // check
             await expect(promise).to.be
@@ -102,10 +112,12 @@ describe('ideas', () => {
             mindmap.ideas.push(new Idea({id: 'live'}));
             mindmap.ideas.push(new Idea({id: 'die'}));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('remove-idea', {
                 ideaId: 'die'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(1);
@@ -135,10 +147,12 @@ describe('ideas', () => {
                 to: 'die'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('remove-idea', {
                 ideaId: 'die'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(3);
@@ -168,10 +182,12 @@ describe('ideas', () => {
                 to: 'live 2'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const promise = dispatch('remove-idea', {
                 ideaId: 'die'
-            }, {mindmap});
+            }, state);
 
             // check
             await expect(promise).to.be.rejectedWith(
@@ -183,10 +199,12 @@ describe('ideas', () => {
             // setup
             const mindmap = new Mindmap();
 
+            const state = {model: {mindmap}};
+
             // target
             const promise = dispatch('remove-idea', {
                 ideaId: 'uknown'
-            }, {mindmap});
+            }, state);
 
             // check
             await expect(promise).to.be.rejectedWith(
@@ -200,10 +218,12 @@ describe('ideas', () => {
 
             mindmap.ideas.push(new Idea({id: 'central', isCentral: true}));
 
+            const state = {model: {mindmap}};
+
             // target
             const promise = dispatch('remove-idea', {
                 ideaId: 'central'
-            }, {mindmap});
+            }, state);
 
             // check
             await expect(promise).to.be.rejectedWith(
@@ -223,11 +243,13 @@ describe('ideas', () => {
                 value: 'old'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('set-idea-value', {
                 ideaId: 'id',
                 value: 'new'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(1);
@@ -247,11 +269,13 @@ describe('ideas', () => {
                 value: 'same value'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('set-idea-value', {
                 ideaId: 'id',
                 value: 'same value'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(0);
@@ -271,6 +295,8 @@ describe('ideas', () => {
                 y: 100
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('set-idea-position', {
                 ideaId: 'id',
@@ -278,7 +304,7 @@ describe('ideas', () => {
                     x: 200,
                     y: 200
                 }
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(1);
@@ -304,11 +330,13 @@ describe('ideas', () => {
                 color: 'black'
             }));
 
+            const state = {model: {mindmap}};
+
             // target
             const patch = await dispatch('set-idea-color', {
                 ideaId: 'id',
                 color: 'white'
-            }, {mindmap});
+            }, state);
 
             // check
             expect(patch).to.have.length(1);

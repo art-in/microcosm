@@ -28,7 +28,7 @@ import EventedViewModel from 'ui/viewmodels/shared/EventedViewModel';
  * Pure object tree of vm's does not have this infrastructure to implicitly
  * pass store to all child objects in the subtree.
  *
- * So this module holds target store in its state, and implicitly pass it
+ * So this module holds target store in its state, and implicitly passes it
  * to all viewmodels connected throught this module.
  *
  * @see connect.to
@@ -37,6 +37,7 @@ let targetStore;
 
 /**
  * Connects viewmodel to store
+ * 
  * Note: actual connection to store happens when new instance
  * of connected vm created, and not when connect() called.
  *
@@ -45,7 +46,7 @@ let targetStore;
  *      static eventTypes = ['event']
  * }
  *
- * connect.to(new Store());
+ * connect.to(new Store(new Dispatcher(), () => {}));
  *
  * const ConnectedVM = connect(dispatch => ({
  *      ['event 1']: data => dispatch('action 1', data),

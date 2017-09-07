@@ -5,7 +5,7 @@ import Dispatcher from 'src/state/Dispatcher';
 
 describe('Dispatcher', () => {
 
-    describe('.reg', () => {
+    describe('.reg()', () => {
 
         it('should throw error if action already has handler', () => {
 
@@ -62,7 +62,7 @@ describe('Dispatcher', () => {
 
     });
 
-    describe('.combine', () => {
+    describe('.combine()', () => {
 
         it('should combine handlers', () => {
 

@@ -1,7 +1,10 @@
 import PouchDB from 'pouchdb';
 
-import blankState from 'state/blank';
 import Store from 'state/Store';
+
+import dispatcher from 'domain/service';
+import mutator from 'state/mutator';
+import blankState from 'state/blank';
 
 import {connect} from 'ui/viewmodels/shared/store-connect';
 
@@ -13,7 +16,7 @@ window.PouchDB = PouchDB;
  */
 async function start() {
 
-    const store = new Store(blankState);
+    const store = new Store(dispatcher, mutator, blankState);
 
     connect.to(store);
 

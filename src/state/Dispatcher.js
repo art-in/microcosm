@@ -1,4 +1,5 @@
 import assert from 'assert';
+import Patch from './Patch';
 
 /**
  * Holds map of actions and corresponding dispatchers
@@ -34,19 +35,20 @@ export default class Dispatcher {
      * @param {string} type - action type
      * @param {*} data
      * @param {object} state
-     * @return {promise.<array.<Patch>>}
+     * @return {promise.<Patch>}
      */
     async dispatch(type, data, state) {
 
-        const dispatchers = this._dispatcher
-            .filter(d => d.type === type)
-            .map(d => d.dispatcher);
+        const disp = this._dispatcher
+            .find(d => d.type === type);
 
-        if (!dispatchers.length) {
+        if (!disp) {
             throw Error(`Unknown action type '${type}'`);
         }
 
-        return await Promise.all(dispatchers.map(d => d(data, state)));
+        const patch = await disp.dispatcher(data, state);
+
+        return patch || new Patch();
     }
 
     /**
