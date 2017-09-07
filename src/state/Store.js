@@ -5,7 +5,7 @@ import AsyncTaskQueue from 'lib/AsyncTaskQueue';
 /**
  * Application state container.
  */
-export default class Store extends EventEmitter {
+export default class Store {
 
     /**
      * The dispatcher.
@@ -50,12 +50,18 @@ export default class Store extends EventEmitter {
      * @param {array} [middlewares]
      */
     constructor(dispatcher, mutator, initialState = {}, middlewares = []) {
-        super();
 
         this._dispatcher = dispatcher;
         this._mutator = mutator;
         this._state = initialState;
         this._middlewares = middlewares;
+
+        // subscribe middlewares to store events
+        if (this._middlewares) {
+            const storeEvents = new EventEmitter();
+            this._middlewares.events = storeEvents;
+            this._middlewares.forEach(m => m(storeEvents));
+        }
     }
 
     /**
@@ -69,6 +75,9 @@ export default class Store extends EventEmitter {
 
         return this._queue.enqueue(async () => {
 
+            this._middlewares.events.emit('before-dispatch',
+                {type, data}, this._state);
+
             // process action
             const dispatch = this._dispatcher.dispatch.bind(this._dispatcher);
             const mutate = this._mutator.bind(this);
@@ -76,6 +85,9 @@ export default class Store extends EventEmitter {
             const patch = await dispatch(type, data, this._state);
             this._state = await mutate(this._state, patch);
 
+            this._middlewares.events.emit('after-mutate',
+                patch, this._state);
+            
             return this._state;
         });
     }

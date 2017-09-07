@@ -158,6 +158,135 @@ describe('Store', () => {
             expect(state2).to.deep.equal({counter: 2});
         });
 
+        it('should call middlewares', async () => {
+
+            // setup
+            const dispatcher = new Dispatcher();
+            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+
+            const state = {counter: 1};
+            const mutator = () => ({counter: 2});
+
+            const onBeforeDispatch1 = spy();
+            const onAfterMutate1 = spy();
+            const middleware1 = storeEvents => {
+                storeEvents.on('before-dispatch', onBeforeDispatch1);
+                storeEvents.on('after-mutate', onAfterMutate1);
+            };
+
+            const onBeforeDispatch2 = spy();
+            const onAfterMutate2 = spy();
+            const middleware2 = storeEvents => {
+                storeEvents.on('before-dispatch', onBeforeDispatch2);
+                storeEvents.on('after-mutate', onAfterMutate2);
+            };
+
+            const store = new Store(
+                dispatcher,
+                mutator,
+                state,
+                [
+                    middleware1,
+                    middleware2
+                ]);
+
+            // target
+            await store.dispatch('action', {data: 1});
+
+            // check
+            expect(onBeforeDispatch1.callCount).to.equal(1);
+            expect(onAfterMutate1.callCount).to.equal(1);
+
+            expect(onBeforeDispatch2.callCount).to.equal(1);
+            expect(onAfterMutate2.callCount).to.equal(1);
+        });
+
+        it(`should emit 'before-dispatch' event on middlewares`, async () => {
+
+            // setup
+            const dispatcher = new Dispatcher();
+            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+
+            const state = {counter: 1};
+            const mutator = () => ({counter: 2});
+
+            const onBeforeDispatch = spy();
+            const middleware = storeEvents =>
+                storeEvents.on('before-dispatch', onBeforeDispatch);
+
+            const store = new Store(
+                dispatcher,
+                mutator,
+                state,
+                [
+                    middleware
+                ]);
+
+            // target
+            await store.dispatch('action', {data: 1});
+
+            // check
+            expect(onBeforeDispatch.callCount).to.equal(1);
+            
+            const args = onBeforeDispatch.firstCall.args;
+            expect(args).to.have.length(2);
+
+            // action
+            expect(args[0]).to.deep.equal({
+                type: 'action',
+                data: {data: 1}
+            });
+            
+            // state
+            expect(args[1]).to.deep.equal({
+                counter: 1
+            });
+        });
+
+        it(`should emit 'after-mutate' event on middlewares`, async () => {
+            
+            // setup
+            const dispatcher = new Dispatcher();
+            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+
+            const state = {counter: 1};
+            const mutator = () => ({counter: 2});
+
+            const onAfterMutate = spy();
+            const middleware = storeEvents =>
+                storeEvents.on('after-mutate', onAfterMutate);
+
+            const store = new Store(
+                dispatcher,
+                mutator,
+                state,
+                [
+                    middleware
+                ]);
+
+            // target
+            await store.dispatch('action', {data: 1});
+
+            // check
+            expect(onAfterMutate.callCount).to.equal(1);
+
+            const args = onAfterMutate.firstCall.args;
+            expect(args).to.have.length(2);
+
+            // patch
+            expect(args[0]).to.containSubset({
+                mutations: [{
+                    type: 'mutation',
+                    data: {data: 2}
+                }]
+            });
+
+            // state
+            expect(args[1]).to.deep.equal({
+                counter: 2
+            });
+        });
+
     });
 
 });

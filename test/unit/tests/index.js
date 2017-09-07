@@ -4,12 +4,6 @@ require('./domain/services');
 
 require('./lib');
 
-require('./state/mutator');
-
-require('./state/Patch.test');
-
-require('./state/Store.test');
-
-require('./state/Dispatcher.test');
+require('./state');
 
 require('./ui/viewmodels');
