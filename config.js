@@ -8,13 +8,13 @@ module.exports = {
         serv: {
             root: abs('src/server/'),
             entry: abs('src/server/entry.js'),
-            public: abs('src/ui/public')
+            public: abs('src/client/public')
         },
         client: {
             root: abs('./src/'),
-            entry: abs('./src/ui/public/client'),
+            entry: abs('./src/client/client'),
             output: {
-                path: abs('./src/ui/public/build/'),
+                path: abs('./src/client/public/build/'),
                 name: 'bundle.js'
             }
         }
