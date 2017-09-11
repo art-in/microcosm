@@ -35,15 +35,24 @@ export default class Mindmap {
 
     /**
      * Ideas
+     * TODO: use Map to improve search performance
      * @type {array.<Idea>}
      */
     ideas = [];
 
     /**
      * Associations
+     * TODO: use Map to improve search performance
      * @type {array.<Association>}
      */
-    assocs = [];
+    associations = [];
+
+    /**
+     * Root of ideas graph
+     * Note: available only after graph is build
+     * @type {Idea}
+     */
+    root = undefined;
 
     /**
      * constructor

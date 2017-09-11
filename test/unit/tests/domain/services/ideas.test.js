@@ -57,8 +57,8 @@ describe('ideas', () => {
 
             expect(mutation).to.be.instanceOf(Association);
             expect(mutation.mindmapId).to.equal('m');
-            expect(mutation.from).to.equal('parent');
-            expect(mutation.to).to.be.ok;
+            expect(mutation.fromId).to.equal('parent');
+            expect(mutation.toId).to.be.ok;
         });
 
         it('should set idea position from parent position', async () => {
@@ -135,13 +135,13 @@ describe('ideas', () => {
             mindmap.ideas.push(new Idea({id: 'live 2'}));
             mindmap.ideas.push(new Idea({id: 'die'}));
 
-            mindmap.assocs.push(new Association({
+            mindmap.associations.push(new Association({
                 id: 'a',
                 from: 'live 1',
                 to: 'die'
             }));
 
-            mindmap.assocs.push(new Association({
+            mindmap.associations.push(new Association({
                 id: 'b',
                 from: 'live 2',
                 to: 'die'
@@ -172,12 +172,12 @@ describe('ideas', () => {
             mindmap.ideas.push(new Idea({id: 'die'}));
             mindmap.ideas.push(new Idea({id: 'live 2'}));
 
-            mindmap.assocs.push(new Association({
+            mindmap.associations.push(new Association({
                 from: 'live 1',
                 to: 'die'
             }));
 
-            mindmap.assocs.push(new Association({
+            mindmap.associations.push(new Association({
                 from: 'die',
                 to: 'live 2'
             }));

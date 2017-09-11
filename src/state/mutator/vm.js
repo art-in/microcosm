@@ -34,6 +34,14 @@ async function apply(state, mutation) {
         state.vm.main.emit('change');
         break;
     default:
+        // always re-map from model as simpliest coding
+        // approach (not best performance though).
+        // some model changes can radically change viewmodel
+        // (eg. moving viewbox can remove bunch of nodes and add
+        // bunch of new nodes, or zooming-out can completely change
+        // almost all nodes because of shading)
+        // instead of doing clever patches on existing graph 
+        // it is simplier just to rebuild whole graph from stratch
         state.vm.main.mindmap.graph = toGraph(state.model.mindmap);
         state.vm.main.emit('change');
     }

@@ -10,7 +10,8 @@ import Idea from 'domain/models/Idea';
  * @return {Node}
  */
 export function ideaToNode(idea) {
-    assert(idea instanceof Idea);
+    assert(idea instanceof Idea,
+        `Object '${idea}' is not an Idea`);
 
     const node = new Node();
 
@@ -31,8 +32,10 @@ export function ideaToNode(idea) {
  * @return {Idea}
  */
 export function nodeToIdea(node, idea) {
-    assert(node instanceof Node);
-    assert(idea instanceof Idea);
+    assert(node instanceof Node,
+        `Object '${node}' is not a Node`);
+    assert(idea instanceof Idea,
+        `Object '${idea}' is not an Idea`);
 
     idea.id = node.id;
     idea.x = node.pos.x;

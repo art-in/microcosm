@@ -12,17 +12,31 @@ export default class Association {
     id = newIdStr();
 
     /**
-     * ID of start node
+     * ID of start idea
      * @type {string}
+     */
+    fromId = undefined;
+
+    /**
+     * Start idea
+     * Note: available only after graph is build
+     * @type {Idea}
      */
     from = undefined;
 
     /**
-     * ID of end node
+     * ID of end idea
      * @type {string}
      */
+    toId = undefined;
+
+    /**
+     * End idea
+     * Note: available only after graph is build
+     * @type {Idea}
+     */
     to = undefined;
-    
+
     /**
      * Value
      * @type {string}

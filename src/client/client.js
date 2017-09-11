@@ -29,7 +29,7 @@ async function start() {
     await store.dispatch('init', {
         db: {
             ideas: new PouchDB('ideas'),
-            assocs: new PouchDB('associations'),
+            associations: new PouchDB('associations'),
             mindmaps: new PouchDB('mindmaps')
         },
         view: {

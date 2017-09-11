@@ -11,8 +11,8 @@ export function toModel(dbo) {
 
     model.id = dbo._id;
     model.mindmapId = dbo.mindmapId;
-    model.from = dbo.from;
-    model.to = dbo.to;
+    model.fromId = dbo.fromId;
+    model.toId = dbo.toId;
     model.value = dbo.value;
 
     return model;
@@ -28,8 +28,8 @@ export function toDbo(model) {
 
     dbo._id = model.id;
     dbo.mindmapId = model.mindmapId;
-    dbo.from = model.from;
-    dbo.to = model.to;
+    dbo.fromId = model.fromId;
+    dbo.toId = model.toId;
     dbo.value = model.value;
 
     deleteUndefinedProps(dbo);

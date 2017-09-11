@@ -58,8 +58,8 @@ disp.reg('create-idea',
             const assoc = new Association();
             
             assoc.mindmapId = mindmap.id;
-            assoc.from = parentIdea.id;
-            assoc.to = newIdea.id;
+            assoc.fromId = parentIdea.id;
+            assoc.toId = newIdea.id;
 
             patch.push('add association', assoc);
         }
@@ -88,12 +88,13 @@ disp.reg('remove-idea',
             throw Error('Unable to remove central idea');
         }
 
-        const hasOutgoingAssocs = mindmap.assocs.filter(a => a.from === ideaId);
+        const hasOutgoingAssocs = mindmap.associations
+            .filter(a => a.from === ideaId);
         if (hasOutgoingAssocs.length) {
             throw Error('Unable to remove idea with association');
         }
 
-        mindmap.assocs
+        mindmap.associations
             .filter(a => a.from === ideaId || a.to === ideaId)
             .forEach(a => patch.push('remove association', {id: a.id}));
 

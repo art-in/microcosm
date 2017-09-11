@@ -15,20 +15,20 @@ describe('db', () => {
             // setup
             const initial = {
                 ideas: undefined,
-                assocs: undefined,
+                associations: undefined,
                 mindmaps: undefined
             };
 
             const patchData = {
                 db: {
                     ideas: createDB(),
-                    assocs: createDB(),
+                    associations: createDB(),
                     mindmaps: createDB()
                 }
             };
 
             await patchData.db.ideas.post({});
-            await patchData.db.assocs.post({});
+            await patchData.db.associations.post({});
             await patchData.db.mindmaps.post({});
 
             const patch = new Patch('init', patchData);
@@ -40,8 +40,8 @@ describe('db', () => {
             expect(result.ideas).to.exist;
             expect((await result.ideas.info()).doc_count).to.equal(1);
 
-            expect(result.assocs).to.exist;
-            expect((await result.assocs.info()).doc_count).to.equal(1);
+            expect(result.associations).to.exist;
+            expect((await result.associations.info()).doc_count).to.equal(1);
 
             expect(result.mindmaps).to.exist;
             expect((await result.mindmaps.info()).doc_count).to.equal(1);
@@ -53,7 +53,7 @@ describe('db', () => {
             const patch = new Patch('init', {
                 db: {
                     ideas: createDB(),
-                    assocs: createDB(),
+                    associations: createDB(),
                     mindmaps: createDB()
                 }
             });
@@ -72,7 +72,7 @@ describe('db', () => {
             const patch = new Patch('init', {
                 db: {
                     ideas: createDB(),
-                    assocs: createDB(),
+                    associations: createDB(),
                     mindmaps: createDB()
                 }
             });
@@ -179,7 +179,7 @@ describe('db', () => {
         it('should add association', async () => {
 
             // setup
-            const db = {assocs: createDB()};
+            const db = {associations: createDB()};
 
             const patch = new Patch(
                 'add association',
@@ -189,7 +189,7 @@ describe('db', () => {
             const result = await mutate(db, patch);
 
             // check
-            const data = await result.assocs.allDocs({include_docs: true});
+            const data = await result.associations.allDocs({include_docs: true});
 
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
@@ -206,9 +206,9 @@ describe('db', () => {
         it('should update association', async () => {
 
             // setup
-            const db = {assocs: createDB()};
+            const db = {associations: createDB()};
 
-            db.assocs.put({_id: 'id', value: 'old', from: 'from'});
+            db.associations.put({_id: 'id', value: 'old', from: 'from'});
 
             const patch = new Patch(
                 'update association',
@@ -219,7 +219,7 @@ describe('db', () => {
             const result = await mutate(db, patch);
 
             // check
-            const assoc = await result.assocs.get('id');
+            const assoc = await result.associations.get('id');
 
             expect(assoc).to.exist;
             expect(assoc).to.containSubset({
@@ -236,10 +236,10 @@ describe('db', () => {
         it('should remove association', async () => {
 
             // setup
-            const db = {assocs: createDB()};
+            const db = {associations: createDB()};
 
-            db.assocs.put({_id: 'live'});
-            db.assocs.put({_id: 'die'});
+            db.associations.put({_id: 'live'});
+            db.associations.put({_id: 'die'});
 
             const patch = new Patch(
                 'remove association',
@@ -250,7 +250,7 @@ describe('db', () => {
             const result = await mutate(db, patch);
 
             // check
-            const data = await result.assocs.allDocs({include_docs: true});
+            const data = await result.associations.allDocs({include_docs: true});
 
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc._id).to.equal('live');

@@ -27,6 +27,30 @@ export default class Idea {
     isCentral = false;
 
     /**
+     * List of outgoing associations
+     * Note: available only after graph is build
+     * @type {array.<Association>}
+     */
+    associations = undefined;
+
+    /**
+     * [Node interface]
+     * List of outgoing links
+     */
+    get links() {
+        return this.associations;
+    }
+
+    /**
+     * [Node interface]
+     * Sets list of outgoing links
+     * @param {array.<Association>} associations
+     */
+    set links(associations) {
+        this.associations = associations;
+    }
+
+    /**
      * X position on mindmap canvas
      * @type {number}
      */

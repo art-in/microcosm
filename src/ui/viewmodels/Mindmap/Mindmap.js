@@ -199,7 +199,7 @@ export default class Mindmap extends EventedViewModel {
 
         if (target instanceof Link) {
             this.emit('idea-color-change', {
-                ideaId: target.toNode.id,
+                ideaId: target.to.id,
                 color
             });
         }

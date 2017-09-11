@@ -12,8 +12,9 @@ describe('mutator', () => {
     require('./vm.test');
     require('./view.test');
 
-    it('should mutate db layer', async () => {
-        
+    let result;
+    beforeEach(async () => {
+
         // setup
         const state = createState();
         
@@ -22,107 +23,64 @@ describe('mutator', () => {
             {_id: 'parent', isCentral: true});
 
         // setup model
-        state.model.mindmap.ideas.push(
-            new Idea({id: 'parent', isCentral: true}));
+        const rootIdea = new Idea({
+            id: 'parent',
+            isCentral: true,
+            associations: []
+        });
+
+        state.model.mindmap.root = rootIdea;
+        state.model.mindmap.ideas = [rootIdea];
         
         // setup patch
         const patch = new Patch();
+        patch.push('add association', new Association({
+            id: 'assoc',
+            fromId: 'parent',
+            toId: 'child'
+        }));
         patch.push('add idea', new Idea({id: 'child'}));
-        patch.push('add association',
-            new Association({from: 'parent', to: 'child'}));
 
         // target
-        const result = await mutator(state, patch);
+        result = await mutator(state, patch);
+    });
 
-        // check
+    it('should mutate db layer', async () => {
+        
         const {db} = result;
         
         expect((await db.ideas.allDocs()).rows).to.have.length(2);
-        expect((await db.assocs.allDocs()).rows).to.have.length(1);
+        expect((await db.associations.allDocs()).rows).to.have.length(1);
     });
 
     it('should mutate model layer', async () => {
 
-        // setup
-        const state = createState();
-        
-        // setup db
-        await state.db.ideas.put(
-            {_id: 'parent', isCentral: true});
-
-        // setup model
-        state.model.mindmap.ideas.push(
-            new Idea({id: 'parent', isCentral: true}));
-        
-        // setup patch
-        const patch = new Patch();
-        patch.push('add idea', new Idea({id: 'child'}));
-        patch.push('add association',
-            new Association({from: 'parent', to: 'child'}));
-
-        // target
-        const result = await mutator(state, patch);
-
-        // check
         const {model} = result;
         
         expect(model.mindmap.ideas).to.have.length(2);
-        expect(model.mindmap.assocs).to.have.length(1);
+        expect(model.mindmap.associations).to.have.length(1);
     });
 
     it('should mutate viewmodel layer', async () => {
         
-        // setup
-        const state = createState();
-        
-        // setup db
-        await state.db.ideas.put(
-            {_id: 'parent', isCentral: true});
-
-        // setup model
-        state.model.mindmap.ideas.push(
-            new Idea({id: 'parent', isCentral: true}));
-        
-        // setup patch
-        const patch = new Patch();
-        patch.push('add idea', new Idea({id: 'child'}));
-        patch.push('add association',
-            new Association({from: 'parent', to: 'child'}));
-
-        // target
-        const result = await mutator(state, patch);
-
-        // check
         const {vm} = result;
         
-        expect(vm.main.mindmap.graph.nodes).to.have.length(2);
-        expect(vm.main.mindmap.graph.links).to.have.length(1);
+        expect(vm.main.mindmap.graph.root).to.containSubset({
+            id: 'parent',
+            links: [{
+                id: 'assoc',
+                from: {
+                    id: 'parent'
+                },
+                to: {
+                    id: 'child'
+                }
+            }]
+        });
     });
 
-    
     it('should mutate view layer', async () => {
         
-        // setup
-        const state = createState();
-        
-        // setup db
-        await state.db.ideas.put(
-            {_id: 'parent', isCentral: true});
-
-        // setup model
-        state.model.mindmap.ideas.push(
-            new Idea({id: 'parent', isCentral: true}));
-        
-        // setup patch
-        const patch = new Patch();
-        patch.push('add idea', new Idea({id: 'child'}));
-        patch.push('add association',
-            new Association({from: 'parent', to: 'child'}));
-
-        // target
-        const result = await mutator(state, patch);
-
-        // check
         const {view} = result;
         
         expect(view.root.querySelectorAll('.Node-root')).to.have.length(2);

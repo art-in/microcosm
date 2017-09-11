@@ -12,10 +12,10 @@ Items on layers - are just different reincarnations of __same entities__.
 Each layer converts entities to appropriate state, so its easier to work with them on that layer. 
 - on **(D)** they should be compact and duplication-free plain objects,
 - on **(M)** they should create correlated graph of idea/association models - 
-  to fully represent domain idea of ideas bound with associations, and so - to be ready to various on-graph algorithms,
+  to fully represent domain idea of ideas bound with associations, and so - to be ready for various graph algorithms,
 - on **(VM)** they converted to representational picture of nodes/links, 
-  and that picture can be quite different from logical picture of underlying models  
-  (like zooming-in should focus only part of picture, and (VM) part is obviously different from whole (M) picture, zooming-out should group nearby ideas to single nodes (clasterization), etc.),
+  and that picture can be quite different from underlying model graph
+  (eg. zooming-out should shade out some deep nodes removing them from picture, etc.),
 - and on **(V)** they become circles and lines on rendering surface, to be visually presented to user
 
 **Store** is application container to the state.  

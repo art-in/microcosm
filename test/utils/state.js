@@ -32,7 +32,7 @@ export function createState() {
     return {
         db: {
             ideas: createDB(),
-            assocs: createDB(),
+            associations: createDB(),
             mindmaps: createDB()
         },
         model: {

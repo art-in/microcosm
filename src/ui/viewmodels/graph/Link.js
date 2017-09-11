@@ -18,13 +18,13 @@ export default class Link extends EventedViewModel {
      * Start node
      * @type {Node}
      */
-    fromNode;
+    from;
 
     /**
      * End node
      * @type {Node}
      */
-    toNode;
+    to;
 
     /**
      * ID of link
@@ -54,8 +54,8 @@ export default class Link extends EventedViewModel {
     constructor(fromNode, toNode) {
         super();
 
-        this.fromNode = fromNode;
-        this.toNode = toNode;
+        this.from = fromNode;
+        this.to = toNode;
     }
 
     /**
@@ -66,8 +66,8 @@ export default class Link extends EventedViewModel {
         return `[Link` +
             (this.isBOI ? '* ' : ' ') +
             `(${this.id}) ` +
-            `(${this.fromNode.pos.x} x ${this.fromNode.pos.y}) - ` +
-            `(${this.toNode.pos.x} x ${this.toNode.pos.y}) ` +
+            `(${this.from.pos.x} x ${this.from.pos.y}) - ` +
+            `(${this.to.pos.x} x ${this.to.pos.y}) ` +
             `(${this.color}) ` +
             `(${this.title})]`;
     }
@@ -76,14 +76,14 @@ export default class Link extends EventedViewModel {
      * Is basic oriented idea (BOI)?
      */
     get isBOI() {
-        return this.fromNode.isCentral;
+        return this.from.isCentral;
     }
 
     /**
      * Gets link color
      */
     get color() {
-        return this.toNode.color;
+        return this.to.color;
     }
 
     /**

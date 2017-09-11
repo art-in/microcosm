@@ -32,6 +32,8 @@ async function apply(state, mutation) {
         break;
     }
 
+    // always re-map from viewmodel
+    // react will do all clever patches on view
     ReactDom.render(<Main vm={state.vm.main} />,
         state.view.root);
 

@@ -1,10 +1,9 @@
 import assert from 'assert';
 
 import GraphVM from 'ui/viewmodels/graph/Graph';
-import {ideaToNode} from 'mappers/nodeMapper';
-import {assocToLink} from 'mappers/linkMapper';
 import Mindmap from 'domain/models/Mindmap';
-import {traverseTree} from 'lib/tree-crawler';
+import traverseGraph from 'lib/graph/traverse-nodes-graph';
+import mapGraph from 'lib/graph/map-ideas-to-nodes-graph';
 
 /**
  * Maps mindmap model to graph view model
@@ -12,26 +11,30 @@ import {traverseTree} from 'lib/tree-crawler';
  * @return {Graph}
  */
 export function toGraph(mindmap) {
-    assert(mindmap instanceof Mindmap);
+    assert(mindmap instanceof Mindmap,
+        `Object '${mindmap}' is not a Mindmap`);
 
-    const nodes = mindmap.ideas.map(ideaToNode);
-    const links = mindmap.assocs.map(assocToLink.bind(null, nodes));
+    let rootNode;
+    let nodes = [];
+    let links = [];
 
-    // travers tree
-    const centralNode = nodes.find(n => n.isCentral);
-    if (!centralNode) {
-        console.warn('There is no central node in the tree');
-    } else {
-        // set color on main sub trees
-        centralNode.links.forEach(l => {
-            const subNode = l.toNode;
+    if (mindmap.root) {
+        const map = mapGraph(mindmap.root);
+        rootNode = map.rootNode;
+        nodes = map.nodes;
+        links = map.links;
+
+        // travers graph
+        // set color on main sub graph
+        rootNode.links.forEach(l => {
+            const subNode = l.to;
             
-            traverseTree(subNode, n => {
+            traverseGraph(subNode, n => {
                 n.color = subNode.color;
             });
         });
     }
-
+    
     const graph = new GraphVM();
 
     graph.id = mindmap.id;
@@ -40,6 +43,8 @@ export function toGraph(mindmap) {
     graph.viewbox.x = mindmap.x;
     graph.viewbox.y = mindmap.y;
     graph.viewbox.scale = mindmap.scale;
+
+    graph.root = rootNode;
 
     return graph;
 }
@@ -51,8 +56,10 @@ export function toGraph(mindmap) {
  * @return {Mindmap}
  */
 export function toMindmap(graph, mindmap) {
-    assert(graph instanceof GraphVM);
-    assert(mindmap instanceof Mindmap);
+    assert(graph instanceof GraphVM,
+        `Object '${graph}' is not a Graph`);
+    assert(mindmap instanceof Mindmap,
+        `Object '${mindmap}' is not a Mindmap`);
 
     mindmap.x = graph.viewbox.x;
     mindmap.y = graph.viewbox.y;

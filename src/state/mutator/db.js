@@ -7,7 +7,7 @@ import Idea from 'domain/models/Idea';
 
 /**
  * Applies patch to database state
- * @param {{ideas, assocs, mindmaps}} db
+ * @param {{ideas, associations, mindmaps}} db
  * @param {Patch} patch
  * @return {object} new db state
  */
@@ -34,7 +34,7 @@ async function apply(db, mutation) {
 
     case 'init':
         db.ideas = mutation.data.db.ideas;
-        db.assocs = mutation.data.db.assocs;
+        db.associations = mutation.data.db.associations;
         db.mindmaps = mutation.data.db.mindmaps;
 
         if (!(await db.mindmaps.info()).doc_count) {
@@ -47,7 +47,7 @@ async function apply(db, mutation) {
         }
 
         if (!(await db.ideas.info()).doc_count) {
-            console.warn('Ideas database is empty. Creating one.');
+            console.warn('Ideas database is empty. Creating central idea.');
             await ideas.add(db.ideas, new Idea({
                 isCentral: true,
                 x: 0,
@@ -69,15 +69,15 @@ async function apply(db, mutation) {
         break;
 
     case 'add association':
-        await associations.add(db.assocs, mutation.data);
+        await associations.add(db.associations, mutation.data);
         break;
 
     case 'update association':
-        await associations.update(db.assocs, mutation.data);
+        await associations.update(db.associations, mutation.data);
         break;
 
     case 'remove association':
-        await associations.remove(db.assocs, mutation.data.id);
+        await associations.remove(db.associations, mutation.data.id);
         break;
 
     case 'update mindmap':
