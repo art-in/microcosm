@@ -60,8 +60,8 @@ async function apply(model, mutation) {
 
         mindmap.root = buildGraph(ideas, assocs);
         
-        mindmap.associations = assocs;
-        mindmap.ideas = ideas;
+        assocs.forEach(a => mindmap.associations.set(a.id, a));
+        ideas.forEach(i => mindmap.ideas.set(i.id, i));
 
         model.mindmap = mindmap;
         break;
@@ -69,7 +69,7 @@ async function apply(model, mutation) {
 
     case 'add idea': {
         const idea = mutation.data;
-        mindmap.ideas.push(idea);
+        mindmap.ideas.set(idea.id, idea);
 
         if (idea.isCentral) {
 
@@ -83,7 +83,8 @@ async function apply(model, mutation) {
         } else {
 
             // connect to incoming associations
-            const assocs = mindmap.associations.filter(a => a.toId === idea.id);
+            const assocs = [...mindmap.associations.values()]
+                .filter(a => a.toId === idea.id);
         
             if (!assocs.length) {
                 throw Error(
@@ -94,13 +95,13 @@ async function apply(model, mutation) {
         }
 
         idea.associations = [];
-        
+
         break;
     }
 
     case 'update idea': {
         const patch = mutation.data;
-        const idea = mindmap.ideas.find(i => i.id === patch.id);
+        const idea = mindmap.ideas.get(patch.id);
 
         if (!idea) {
             throw Error(`Idea '${patch.id}' was not found`);
@@ -112,11 +113,12 @@ async function apply(model, mutation) {
 
     case 'remove idea': {
         const id = mutation.data.id;
-        const index = mindmap.ideas.findIndex(i => i.id === id);
-        mindmap.ideas.splice(index, 1);
+        mindmap.ideas.delete(id);
 
         // disconnect from incoming associations
-        const assocs = mindmap.associations.filter(a => a.toId === id);
+        // TODO: store incoming associations in Idea
+        const assocs = [...mindmap.associations.values()]
+            .filter(a => a.toId === id);
         assocs.forEach(a => {
             a.toId = null;
             a.to = null;
@@ -127,10 +129,10 @@ async function apply(model, mutation) {
 
     case 'add association': {
         const assoc = mutation.data;
-        mindmap.associations.push(assoc);
+        mindmap.associations.set(assoc.id, assoc);
 
         // connect with starting idea
-        const startingIdea = mindmap.ideas.find(i => i.id === assoc.fromId);
+        const startingIdea = mindmap.ideas.get(assoc.fromId);
         if (!startingIdea) {
             throw Error(
                 `Starting idea '${assoc.fromId}' not found for association`);
@@ -141,7 +143,7 @@ async function apply(model, mutation) {
         startingIdea.associations.push(assoc);
 
         // connect with ending idea
-        const endingIdea = mindmap.ideas.find(i => i.id === assoc.toId);
+        const endingIdea = mindmap.ideas.get(assoc.toId);
         if (endingIdea) {
 
             // do not throw error, because
@@ -156,7 +158,7 @@ async function apply(model, mutation) {
 
     case 'update association': {
         const patch = mutation.data;
-        const assoc = mindmap.associations.find(a => a.id === patch.id);
+        const assoc = mindmap.associations.get(patch.id);
 
         if (!assoc) {
             throw Error(`Association '${patch.id}' was not found`);
@@ -168,15 +170,14 @@ async function apply(model, mutation) {
 
     case 'remove association': {
         const id = mutation.data.id;
-        const assoc = mindmap.associations.find(a => a.id === id);
+        const assoc = mindmap.associations.get(id);
 
         if (!assoc) {
             throw Error(`Association '${id}' was not found`);
         }
 
-        // remove from list
-        let index = mindmap.associations.findIndex(a => a === assoc);
-        mindmap.associations.splice(index, 1);
+        // remove from map
+        mindmap.associations.delete(id);
 
         // disconnect from starting idea
         if (!assoc.from) {
@@ -184,7 +185,7 @@ async function apply(model, mutation) {
         }
 
         const startingIdeaAssocs = assoc.from.associations;
-        index = startingIdeaAssocs.findIndex(a => a === assoc);
+        const index = startingIdeaAssocs.findIndex(a => a === assoc);
 
         if (index === -1) {
             throw Error(

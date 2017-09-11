@@ -23,7 +23,7 @@ disp.reg('set-association-value',
  */
 function getAssociation(mindmap, assocId) {
 
-    const assoc = mindmap.associations.find(a => a.id === assocId);
+    const assoc = mindmap.associations.get(assocId);
 
     if (!assoc) {
         throw Error(`Association with ID '${assocId}' not found in mindmap`);

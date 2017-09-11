@@ -30,7 +30,7 @@ describe('build-ideas-graph', () => {
 
         // check
         expect(graph).to.exist;
-        expect(graph.associations).to.have.length(2);
+        expect([...graph.associations]).to.have.length(2);
         
         expect(graph).to.containSubset({
             id: 'idea 1',

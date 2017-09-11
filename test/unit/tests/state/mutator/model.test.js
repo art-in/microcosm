@@ -37,8 +37,8 @@ describe('model', () => {
             // check
             expect(result.mindmap).to.exist;
             expect(result.mindmap.root).to.exist;
-            expect(result.mindmap.ideas).to.have.length(2);
-            expect(result.mindmap.associations).to.have.length(1);
+            expect([...result.mindmap.ideas]).to.have.length(2);
+            expect([...result.mindmap.associations]).to.have.length(1);
         });
 
     });
@@ -54,8 +54,8 @@ describe('model', () => {
 
             const mindmap = new Mindmap();
             mindmap.root = rootIdea;
-            mindmap.ideas = [rootIdea];
-            mindmap.associations = [assoc];
+            mindmap.ideas.set(rootIdea.id, rootIdea);
+            mindmap.associations.set(assoc.id, assoc);
 
             const model = {mindmap};
 
@@ -68,8 +68,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.ideas).to.have.length(2);
-            expect(result.mindmap.ideas[1]).to.containSubset({
+            expect([...result.mindmap.ideas]).to.have.length(2);
+            expect([...result.mindmap.ideas.values()][1]).to.containSubset({
                 id: 'idea 1',
                 value: 'test'
             });
@@ -84,8 +84,8 @@ describe('model', () => {
 
             const mindmap = new Mindmap();
             mindmap.root = rootIdea;
-            mindmap.ideas = [rootIdea];
-            mindmap.associations = [assoc];
+            mindmap.ideas.set(rootIdea.id, rootIdea);
+            mindmap.associations.set(assoc.id, assoc);
 
             const model = {mindmap};
 
@@ -117,8 +117,8 @@ describe('model', () => {
 
             const mindmap = new Mindmap();
             mindmap.root = rootIdea;
-            mindmap.ideas = [rootIdea];
-            mindmap.associations = [assoc];
+            mindmap.ideas.set(rootIdea.id, rootIdea);
+            mindmap.associations.set(assoc.id, assoc);
 
             const model = {mindmap};
 
@@ -131,9 +131,9 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.ideas).to.have.length(2);
-            expect(result.mindmap.ideas[1].associations).to.be.empty;
-        }); 
+            expect([...result.mindmap.ideas]).to.have.length(2);
+            expect([...result.mindmap.ideas.values()][1].associations).to.be.empty;
+        });
 
         it('should add root idea without incoming association', async () => {
             
@@ -149,7 +149,7 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.ideas).to.have.length(1);
+            expect([...result.mindmap.ideas]).to.have.length(1);
             expect(result.mindmap.root).to.containSubset({
                 id: 'root'
             });
@@ -161,7 +161,7 @@ describe('model', () => {
             const rootIdea = new Idea({id: 'root', isCentral: true});
             const mindmap = new Mindmap();
             mindmap.root = rootIdea;
-            mindmap.ideas.push(rootIdea);
+            mindmap.ideas.set(rootIdea.id, rootIdea);
             const model = {mindmap};
 
             const patch = new Patch(
@@ -203,7 +203,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
 
-            model.mindmap.ideas.push(new Idea({
+            model.mindmap.ideas.set('id', new Idea({
                 id: 'id',
                 value: 'old',
                 color: 'white'
@@ -218,8 +218,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.ideas).to.have.length(1);
-            expect(result.mindmap.ideas[0]).to.containSubset({
+            expect([...result.mindmap.ideas]).to.have.length(1);
+            expect(result.mindmap.ideas.get('id')).to.containSubset({
                 id: 'id',
                 value: 'new',
                 color: 'white'
@@ -253,8 +253,8 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
 
-            model.mindmap.ideas.push(new Idea({id: 'live'}));
-            model.mindmap.ideas.push(new Idea({id: 'die'}));
+            model.mindmap.ideas.set('live', new Idea({id: 'live'}));
+            model.mindmap.ideas.set('die', new Idea({id: 'die'}));
 
             const patch = new Patch(
                 'remove idea',
@@ -265,8 +265,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.ideas).to.have.length(1);
-            expect(result.mindmap.ideas[0].id).to.equal('live');
+            expect([...result.mindmap.ideas]).to.have.length(1);
+            expect([...result.mindmap.ideas.values()][0].id).to.equal('live');
         });
 
         it('should disconnect incoming associations from idea', async () => {
@@ -309,8 +309,12 @@ describe('model', () => {
 
             ideaLive.associations = [assoc3];
 
-            model.mindmap.ideas = [rootIdea, ideaLive, ideaDie];
-            model.mindmap.associations = [assoc1, assoc2, assoc3];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(ideaLive.id, ideaLive);
+            model.mindmap.ideas.set(ideaDie.id, ideaDie);
+            model.mindmap.associations.set(assoc1.id, assoc1);
+            model.mindmap.associations.set(assoc2.id, assoc2);
+            model.mindmap.associations.set(assoc3.id, assoc3);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -358,7 +362,8 @@ describe('model', () => {
             const rootIdea = new Idea({id: 'root', isCentral: true});
             const endingIdea = new Idea({id: 'ending'});
 
-            model.mindmap.ideas = [rootIdea, endingIdea];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(endingIdea.id, endingIdea);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -375,8 +380,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.associations).to.have.length(1);
-            expect(result.mindmap.associations[0]).to.containSubset({
+            expect([...result.mindmap.associations]).to.have.length(1);
+            expect([...result.mindmap.associations.values()][0]).to.containSubset({
                 id: 'id',
                 value: 'test'
             });
@@ -390,7 +395,8 @@ describe('model', () => {
             const rootIdea = new Idea({id: 'root', isCentral: true});
             const endingIdea = new Idea({id: 'ending'});
 
-            model.mindmap.ideas = [rootIdea, endingIdea];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(endingIdea.id, endingIdea);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -423,7 +429,8 @@ describe('model', () => {
             const rootIdea = new Idea({id: 'root', isCentral: true});
             const endingIdea = new Idea({id: 'ending'});
 
-            model.mindmap.ideas = [rootIdea, endingIdea];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(endingIdea.id, endingIdea);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -456,7 +463,8 @@ describe('model', () => {
             const rootIdea = new Idea({id: 'root', isCentral: true});
             const endingIdea = new Idea({id: 'ending'});
 
-            model.mindmap.ideas = [rootIdea, endingIdea];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(endingIdea.id, endingIdea);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -482,7 +490,7 @@ describe('model', () => {
             
             const rootIdea = new Idea({id: 'root', isCentral: true});
 
-            model.mindmap.ideas = [rootIdea];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -509,7 +517,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
 
-            model.mindmap.associations.push(new Association({
+            model.mindmap.associations.set('id', new Association({
                 id: 'id',
                 value: 'old',
                 from: 'from'
@@ -524,8 +532,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.associations).to.have.length(1);
-            expect(result.mindmap.associations[0]).to.containSubset({
+            expect([...result.mindmap.associations]).to.have.length(1);
+            expect([...result.mindmap.associations.values()][0]).to.containSubset({
                 id: 'id',
                 value: 'new',
                 from: 'from'
@@ -580,8 +588,10 @@ describe('model', () => {
             rootIdea.associations = [assocLive];
             idea1.associations = [assocDie];
 
-            model.mindmap.ideas = [rootIdea, idea1];
-            model.mindmap.associations = [assocLive, assocDie];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(idea1.id, idea1);
+            model.mindmap.associations.set(assocLive.id, assocLive);
+            model.mindmap.associations.set(assocDie.id, assocDie);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -593,8 +603,8 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            expect(result.mindmap.associations).to.have.length(1);
-            expect(result.mindmap.associations[0].id).to.equal('live');
+            expect([...result.mindmap.associations]).to.have.length(1);
+            expect([...result.mindmap.associations.values()][0].id).to.equal('live');
         });
 
         it('should disconnect association from starting idea', async () => {
@@ -623,8 +633,10 @@ describe('model', () => {
             rootIdea.associations = [assocLive];
             idea1.associations = [assocDie];
 
-            model.mindmap.ideas = [rootIdea, idea1];
-            model.mindmap.associations = [assocLive, assocDie];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(idea1.id, idea1);
+            model.mindmap.associations.set(assocLive.id, assocLive);
+            model.mindmap.associations.set(assocDie.id, assocDie);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -636,7 +648,7 @@ describe('model', () => {
             const result = await mutate(model, patch);
 
             // check
-            const idea = result.mindmap.ideas.find(i => i.id === 'idea 1');
+            const idea = result.mindmap.ideas.get('idea 1');
             expect(idea.associations).to.be.empty;
 
             expect(result.mindmap.root).to.containSubset({
@@ -676,8 +688,11 @@ describe('model', () => {
             rootIdea.associations = [assocLive];
             idea1.associations = [assocDie];
 
-            model.mindmap.ideas = [rootIdea, idea1];
-            model.mindmap.associations = [assocLive]; // no association to remove
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(idea1.id, idea1);
+
+            // no association to remove
+            model.mindmap.associations.set(assocLive.id, assocLive);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -719,8 +734,10 @@ describe('model', () => {
             rootIdea.associations = [assocLive];
             idea1.associations = [assocDie];
 
-            model.mindmap.ideas = [rootIdea, idea1];
-            model.mindmap.associations = [assocLive, assocDie];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(idea1.id, idea1);
+            model.mindmap.associations.set(assocLive.id, assocLive);
+            model.mindmap.associations.set(assocDie.id, assocDie);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(
@@ -762,8 +779,10 @@ describe('model', () => {
             rootIdea.associations = [assocLive];
             idea1.associations = []; // no association to remove
 
-            model.mindmap.ideas = [rootIdea, idea1];
-            model.mindmap.associations = [assocLive, assocDie];
+            model.mindmap.ideas.set(rootIdea.id, rootIdea);
+            model.mindmap.ideas.set(idea1.id, idea1);
+            model.mindmap.associations.set(assocLive.id, assocLive);
+            model.mindmap.associations.set(assocDie.id, assocDie);
             model.mindmap.root = rootIdea;
 
             const patch = new Patch(

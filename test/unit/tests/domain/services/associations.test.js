@@ -16,7 +16,7 @@ describe('associations', () => {
             // setup
             const mindmap = new Mindmap();
 
-            mindmap.associations.push(new Association({
+            mindmap.associations.set('id', new Association({
                 id: 'id',
                 value: 'old'
             }));

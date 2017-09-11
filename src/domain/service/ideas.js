@@ -16,7 +16,7 @@ const disp = new Dispatcher();
  */
 function getIdea(mindmap, ideaId) {
 
-    const idea = mindmap.ideas.find(i => i.id === ideaId);
+    const idea = mindmap.ideas.get(ideaId);
 
     if (!idea) {
         throw Error(`Idea with ID '${ideaId}' not found in mindmap`);
@@ -46,7 +46,7 @@ disp.reg('create-idea',
 
         if (parentIdeaId) {
 
-            const parentIdea = mindmap.ideas.find(i => i.id === parentIdeaId);
+            const parentIdea = mindmap.ideas.get(parentIdeaId);
 
             if (!parentIdea) {
                 throw Error(`Parent idea '${parentIdeaId}' not found`);
@@ -88,14 +88,21 @@ disp.reg('remove-idea',
             throw Error('Unable to remove central idea');
         }
 
-        const hasOutgoingAssocs = mindmap.associations
-            .filter(a => a.from === ideaId);
-        if (hasOutgoingAssocs.length) {
-            throw Error('Unable to remove idea with association');
+        if (idea.associations.length) {
+            throw Error(
+                `Unable to remove idea '${idea.id}' ` +
+                `with outgoing associations`);
         }
 
-        mindmap.associations
-            .filter(a => a.from === ideaId || a.to === ideaId)
+        // TODO: store incoming associations in Idea
+        const incomingAssocs = [...mindmap.associations.values()]
+            .filter(a => a.toId === ideaId);
+
+        if (!incomingAssocs.length) {
+            throw Error(`No incoming associations found for idea '${idea.id}'`);
+        }
+
+        incomingAssocs
             .forEach(a => patch.push('remove association', {id: a.id}));
 
         patch.push('remove idea', {id: ideaId});

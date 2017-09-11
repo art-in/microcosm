@@ -38,7 +38,7 @@ describe('ideas', () => {
             // setup
             const mindmap = new Mindmap({id: 'm'});
 
-            mindmap.ideas.push(new Idea({id: 'parent'}));
+            mindmap.ideas.set('parent', new Idea({id: 'parent'}));
 
             const state = {model: {mindmap}};
 
@@ -66,7 +66,7 @@ describe('ideas', () => {
             // setup
             const mindmap = new Mindmap({id: 'm'});
 
-            mindmap.ideas.push(new Idea({id: 'parent', x: 10, y: 20}));
+            mindmap.ideas.set('parent', new Idea({id: 'parent', x: 10, y: 20}));
 
             const state = {model: {mindmap}};
 
@@ -109,8 +109,11 @@ describe('ideas', () => {
             // setup
             const mindmap = new Mindmap();
 
-            mindmap.ideas.push(new Idea({id: 'live'}));
-            mindmap.ideas.push(new Idea({id: 'die'}));
+            mindmap.ideas.set('live', new Idea({id: 'live', associations: []}));
+            mindmap.ideas.set('die', new Idea({id: 'die', associations: []}));
+
+            const assoc = new Association({fromId: 'live', toId: 'die'});
+            mindmap.associations.set(assoc.id, assoc);
 
             const state = {model: {mindmap}};
 
@@ -120,7 +123,7 @@ describe('ideas', () => {
             }, state);
 
             // check
-            expect(patch).to.have.length(1);
+            expect(patch).to.have.length(2);
             expect(patch['remove idea'][0]).to.deep.equal({id: 'die'});
         });
 
@@ -131,20 +134,20 @@ describe('ideas', () => {
 
             // [live 1] --a--→ [die]
             // [live 2] --b--↗
-            mindmap.ideas.push(new Idea({id: 'live 1'}));
-            mindmap.ideas.push(new Idea({id: 'live 2'}));
-            mindmap.ideas.push(new Idea({id: 'die'}));
+            mindmap.ideas.set('live 1', new Idea({id: 'live 1', associations: []}));
+            mindmap.ideas.set('live 2', new Idea({id: 'live 2', associations: []}));
+            mindmap.ideas.set('die', new Idea({id: 'die', associations: []}));
 
-            mindmap.associations.push(new Association({
+            mindmap.associations.set('a', new Association({
                 id: 'a',
-                from: 'live 1',
-                to: 'die'
+                fromId: 'live 1',
+                toId: 'die'
             }));
 
-            mindmap.associations.push(new Association({
+            mindmap.associations.set('b', new Association({
                 id: 'b',
-                from: 'live 2',
-                to: 'die'
+                fromId: 'live 2',
+                toId: 'die'
             }));
 
             const state = {model: {mindmap}};
@@ -162,25 +165,36 @@ describe('ideas', () => {
             expect(patch['remove association'][1]).to.deep.equal({id: 'b'});
         });
 
-        it('should throw error if outgoing associations exist', async () => {
+        it('should throw if outgoing associations exist', async () => {
 
             // setup
             const mindmap = new Mindmap();
 
             // [live 1] --a--> [die] --b--> [live 2]
-            mindmap.ideas.push(new Idea({id: 'live 1'}));
-            mindmap.ideas.push(new Idea({id: 'die'}));
-            mindmap.ideas.push(new Idea({id: 'live 2'}));
+            const ideaLive1 = new Idea({id: 'live 1'});
+            const ideaDie = new Idea({id: 'die'});
+            const ideaLive2 = new Idea({id: 'live 2'});
 
-            mindmap.associations.push(new Association({
-                from: 'live 1',
-                to: 'die'
-            }));
+            mindmap.ideas.set(ideaLive1.id, ideaLive1);
+            mindmap.ideas.set(ideaDie.id, ideaDie);
+            mindmap.ideas.set(ideaLive2.id, ideaLive2);
 
-            mindmap.associations.push(new Association({
-                from: 'die',
-                to: 'live 2'
-            }));
+            const assocLive = new Association({
+                fromId: 'live 1',
+                toId: 'die'
+            });
+
+            const assocDie = new Association({
+                fromId: 'die',
+                toId: 'live 2'
+            });
+
+            ideaLive1.associations = [assocLive];
+            ideaDie.associations = [assocDie];
+            ideaLive2.associations = [];
+
+            mindmap.associations.set(assocLive.id, assocLive);
+            mindmap.associations.set(assocDie.id, assocDie);
 
             const state = {model: {mindmap}};
 
@@ -191,10 +205,30 @@ describe('ideas', () => {
 
             // check
             await expect(promise).to.be.rejectedWith(
-                'Unable to remove idea with association');
+                `Unable to remove idea 'die' with outgoing associations`);
         });
 
-        it('should throw error if idea not found', async () => {
+        it('should throw if no incoming associations found', async () => {
+            
+            // setup
+            const mindmap = new Mindmap();
+
+            mindmap.ideas.set('live', new Idea({id: 'live', associations: []}));
+            mindmap.ideas.set('die', new Idea({id: 'die', associations: []}));
+
+            const state = {model: {mindmap}};
+
+            // target
+            const promise = dispatch('remove-idea', {
+                ideaId: 'die'
+            }, state);
+
+            // check
+            await expect(promise).to.be.rejectedWith(
+                `No incoming associations found for idea 'die'`);
+        });
+
+        it('should throw if idea not found', async () => {
 
             // setup
             const mindmap = new Mindmap();
@@ -211,12 +245,13 @@ describe('ideas', () => {
                 'Idea with ID \'uknown\' not found in mindmap');
         });
 
-        it('should throw error if idea is central', async () => {
+        it('should throw if idea is central', async () => {
 
             // setup
             const mindmap = new Mindmap();
 
-            mindmap.ideas.push(new Idea({id: 'central', isCentral: true}));
+            mindmap.ideas.set('central',
+                new Idea({id: 'central', isCentral: true}));
 
             const state = {model: {mindmap}};
 
@@ -238,7 +273,7 @@ describe('ideas', () => {
             
             // setup
             const mindmap = new Mindmap();
-            mindmap.ideas.push(new Idea({
+            mindmap.ideas.set('id', new Idea({
                 id: 'id',
                 value: 'old'
             }));
@@ -264,7 +299,7 @@ describe('ideas', () => {
             
             // setup
             const mindmap = new Mindmap();
-            mindmap.ideas.push(new Idea({
+            mindmap.ideas.set('id', new Idea({
                 id: 'id',
                 value: 'same value'
             }));
@@ -289,7 +324,7 @@ describe('ideas', () => {
 
             // setup
             const mindmap = new Mindmap();
-            mindmap.ideas.push(new Idea({
+            mindmap.ideas.set('id', new Idea({
                 id: 'id',
                 x: 100,
                 y: 100
@@ -325,7 +360,7 @@ describe('ideas', () => {
 
             // setup
             const mindmap = new Mindmap();
-            mindmap.ideas.push(new Idea({
+            mindmap.ideas.set('id', new Idea({
                 id: 'id',
                 color: 'black'
             }));
