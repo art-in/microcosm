@@ -1,10 +1,8 @@
-import assert from 'assert';
-
 import traverseGraph from './traverse-graph';
 
 /**
- * Generic function for building graph structure 
- * from nodes and links
+ * Generic function for building object graph
+ * from nodes/links object arrays
  * 
  * @param {array.<object>} nodes - generic nodes
  * @param {array.<object>} links - generic links
@@ -13,7 +11,7 @@ import traverseGraph from './traverse-graph';
  * @param {function} isRootNode - checks if passed node is graph root
  * @return {object} root node
  */
-export default function(
+export default function buildGraph(
     nodes,
     links,
     nodeName,
@@ -29,40 +27,51 @@ export default function(
         
         // graph of single root node
         rootNode = nodes[0];
-        rootNode.links = [];
+        rootNode.linksIn = [];
+        rootNode.linksOut = [];
 
         return rootNode;
     }
 
     links.forEach(link => {
 
-        // set starting/ending node to link
-        const fromNode = nodes.find(i => i.id === link.fromId);
-        assert(fromNode,
-            `Starting ${nodeName} '${link.fromId}' was not found ` +
-            `for ${linkName} '${link.id}'`);
+        // set head/tail node to link
+        const nodeHead = nodes.find(i => i.id === link.fromId);
+        if (!nodeHead) {
+            throw Error(
+                `Head ${nodeName} '${link.fromId}' ` +
+                `of ${linkName} '${link.id}' was not found`);
+        }
 
-        const toNode = nodes.find(i => i.id === link.toId);
-        assert(toNode,
-            `Ending ${nodeName} '${link.toId}' was not found ` +
-            `for ${linkName} '${link.id}'`);
+        const nodeTail = nodes.find(i => i.id === link.toId);
+        if (!nodeTail) {
+            throw Error(
+                `Tail ${nodeName} '${link.toId}' ` +
+                `of ${linkName} '${link.id}' was not found`);
+        }
 
-        link.from = fromNode;
-        link.to = toNode;
+        link.from = nodeHead;
+        link.to = nodeTail;
         
         // mark visited nodes
-        visitedNodes.add(fromNode);
-        visitedNodes.add(toNode);
+        visitedNodes.add(nodeHead);
+        visitedNodes.add(nodeTail);
 
-        // set outgoing links to node
-        fromNode.links = fromNode.links || [];
-        fromNode.links.push(link);
+        // init links
+        nodeHead.linksIn = nodeHead.linksIn || [];
+        nodeTail.linksIn = nodeTail.linksIn || [];
+        nodeHead.linksOut = nodeHead.linksOut || [];
+        nodeTail.linksOut = nodeTail.linksOut || [];
 
-        toNode.links = toNode.links || [];
+        // add link to head node as outgoing link
+        nodeHead.linksOut.push(link);
+
+        // add link to tail node as incoming link
+        nodeTail.linksIn.push(link);
 
         // mark root node
-        if (isRootNode(fromNode)) {
-            rootNode = fromNode;
+        if (isRootNode(nodeHead)) {
+            rootNode = nodeHead;
         }
     });
 

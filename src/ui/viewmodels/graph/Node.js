@@ -53,9 +53,14 @@ export default class Node extends EventedViewModel {
     color = '';
 
     /**
+     * Incoming links
+     */
+    linksIn = [];
+
+    /**
      * Outgoing links
      */
-    links = [];
+    linksOut = [];
 
     /**
      * Debug state
@@ -82,7 +87,8 @@ export default class Node extends EventedViewModel {
             (this.isCentral ? '* ' : ' ') +
             `(${this.id}) ` +
             `(${this.pos.x} x ${this.pos.y}) ` +
-            `(links: ${this.links.length}}) ` +
+            `(incoming links: ${this.linksIn.length}}) ` +
+            `(outgoing links: ${this.linksOut.length}}) ` +
             `(${this.title})]`;
     }
 

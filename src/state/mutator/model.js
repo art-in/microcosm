@@ -5,6 +5,7 @@ import * as assocStorage from 'storage/associations';
 import * as mindmapStorage from 'storage/mindmaps';
 
 import buildGraph from 'lib/graph/build-ideas-graph';
+import getMapValues from 'lib/helpers/get-map-values';
 
 /**
  * Applies patch to model state
@@ -80,21 +81,28 @@ async function apply(model, mutation) {
 
             mindmap.root = idea;
 
+            // no incomming associations needed
+            // for root idea
+            idea.associationsIn = [];
+
         } else {
 
-            // connect to incoming associations
-            const assocs = [...mindmap.associations.values()]
+            // bind with incoming associations
+            const incomingAssocs = getMapValues(mindmap.associations)
                 .filter(a => a.toId === idea.id);
         
-            if (!assocs.length) {
+            if (!incomingAssocs.length) {
+                // incoming association should be added first.
+                // hanging ideas are not allowed
                 throw Error(
                     `No incoming associations found for idea '${idea.id}'`);
             }
     
-            assocs.forEach(a => a.to = idea);
+            incomingAssocs.forEach(a => a.to = idea);
+            idea.associationsIn = incomingAssocs;
         }
 
-        idea.associations = [];
+        idea.associationsOut = [];
 
         break;
     }
@@ -113,16 +121,21 @@ async function apply(model, mutation) {
 
     case 'remove idea': {
         const id = mutation.data.id;
-        mindmap.ideas.delete(id);
+        const idea = mindmap.ideas.get(id);
 
-        // disconnect from incoming associations
-        // TODO: store incoming associations in Idea
-        const assocs = [...mindmap.associations.values()]
-            .filter(a => a.toId === id);
-        assocs.forEach(a => {
+        // unbind from incoming associations
+        if (!idea.isCentral &&
+            (!idea.associationsIn || !idea.associationsIn.length)) {
+            throw Error(`No incoming associations found for idea '${idea.id}'`);
+        }
+
+        idea.associationsIn.forEach(a => {
             a.toId = null;
             a.to = null;
         });
+        idea.associationsIn = null;
+
+        mindmap.ideas.delete(id);
 
         break;
     }
@@ -131,26 +144,28 @@ async function apply(model, mutation) {
         const assoc = mutation.data;
         mindmap.associations.set(assoc.id, assoc);
 
-        // connect with starting idea
-        const startingIdea = mindmap.ideas.get(assoc.fromId);
-        if (!startingIdea) {
+        // bind with head idea
+        const head = mindmap.ideas.get(assoc.fromId);
+        if (!head) {
             throw Error(
-                `Starting idea '${assoc.fromId}' not found for association`);
+                `Head idea '${assoc.fromId}' was not found for association`);
         }
 
-        assoc.from = startingIdea;
-        startingIdea.associations = startingIdea.associations || [];
-        startingIdea.associations.push(assoc);
+        assoc.from = head;
+        head.associationsOut = head.associationsOut || [];
+        head.associationsOut.push(assoc);
 
-        // connect with ending idea
-        const endingIdea = mindmap.ideas.get(assoc.toId);
-        if (endingIdea) {
+        // bind with tail idea
+        const tail = mindmap.ideas.get(assoc.toId);
 
-            // do not throw error, because
-            // ending idea can be not added yet
-            // in scenario of creating new idea
-            // (new association added before new idea)
-            assoc.to = endingIdea;
+        // do not throw if tail was not found.
+        // tail idea can be not added yet
+        // in scenario of creating new idea
+        // (new association added before new idea)
+        if (tail) {
+            assoc.to = tail;
+            tail.associationsIn = tail.associationsIn || [];
+            tail.associationsIn.push(assoc);
         }
 
         break;
@@ -179,21 +194,33 @@ async function apply(model, mutation) {
         // remove from map
         mindmap.associations.delete(id);
 
-        // disconnect from starting idea
+        // unbind from head idea
         if (!assoc.from) {
-            throw Error(`Association '${id}' not connected to starting idea`);
+            throw Error(`Association '${id}' has no reference to head idea`);
         }
 
-        const startingIdeaAssocs = assoc.from.associations;
-        const index = startingIdeaAssocs.findIndex(a => a === assoc);
+        const headIdeaAssocsOut = assoc.from.associationsOut;
+        const index = headIdeaAssocsOut.indexOf(assoc);
 
         if (index === -1) {
             throw Error(
-                `Starting idea '${assoc.from.id}' not connected ` +
-                `to association '${id}'`);
+                `Head idea '${assoc.from.id}' has no reference ` +
+                `to outgoing association '${id}'`);
         }
 
-        startingIdeaAssocs.splice(index, 1);
+        headIdeaAssocsOut.splice(index, 1);
+
+        assoc.fromId = null;
+        assoc.from = null;
+
+        if (assoc.to) {
+            // tail idea should be removed before association.
+            // hanging ideas are not allowed
+            throw Error(
+                `Association '${id}' cannot be removed ` +
+                `because it has reference to tail idea`);
+        }
+
         break;
     }
 

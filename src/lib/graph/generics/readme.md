@@ -2,29 +2,41 @@ Graph algorithms
 
 ---
 
-Input graphs should be structures of nodes and links objects.  
-Nodes and links can be objects of any type, but they should follow certain interface (ie. should have certain properties).
+Input graphs should be object graphs of nodes and links objects.  
+Nodes and links objects should follow these interfaces:
+
+Node:  
 
 ```javascript
 interface Node {
 
     /**
-     * List of outgoing links
+     * Incoming links
      * @type {array.<Link>}
      */
-    links
-}
+    linksIn
 
+    /**
+     * Outgoing links
+     * @type {array.<Link>}
+     */
+    linksOut
+}
+```
+
+Link:  
+
+```javascript
 interface Link {
 
     /**
-     * Starting node
+     * Head node
      * @type {Node}
      */
     from,
-    
+
     /**
-     * Target node
+     * Tail node
      * @type {Node}
      */
     to

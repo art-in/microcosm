@@ -189,7 +189,8 @@ describe('db', () => {
             const result = await mutate(db, patch);
 
             // check
-            const data = await result.associations.allDocs({include_docs: true});
+            const data = await result.associations
+                .allDocs({include_docs: true});
 
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
@@ -250,7 +251,8 @@ describe('db', () => {
             const result = await mutate(db, patch);
 
             // check
-            const data = await result.associations.allDocs({include_docs: true});
+            const data = await result.associations
+                .allDocs({include_docs: true});
 
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc._id).to.equal('live');

@@ -59,20 +59,3 @@ export async function removeAll(db) {
     const data = await db.allDocs();
     await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
 }
-
-/**
- * Gets count of associations starting from the idea
- * @param {PouchDB} db
- * @param {string} ideaId
- * @return {promise.<number>}
- */
-export async function countFrom(db, ideaId) {
-
-    const data = await db.find({
-        selector: {
-            from: ideaId
-        }
-    });
-
-    return data.docs.length;
-}

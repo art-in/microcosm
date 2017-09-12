@@ -88,15 +88,15 @@ disp.reg('remove-idea',
             throw Error('Unable to remove central idea');
         }
 
-        if (idea.associations.length) {
+        patch.push('remove idea', {id: ideaId});
+
+        if (idea.associationsOut.length) {
             throw Error(
                 `Unable to remove idea '${idea.id}' ` +
                 `with outgoing associations`);
         }
 
-        // TODO: store incoming associations in Idea
-        const incomingAssocs = [...mindmap.associations.values()]
-            .filter(a => a.toId === ideaId);
+        const incomingAssocs = idea.associationsIn;
 
         if (!incomingAssocs.length) {
             throw Error(`No incoming associations found for idea '${idea.id}'`);
@@ -104,8 +104,6 @@ disp.reg('remove-idea',
 
         incomingAssocs
             .forEach(a => patch.push('remove association', {id: a.id}));
-
-        patch.push('remove idea', {id: ideaId});
 
         return patch;
     });

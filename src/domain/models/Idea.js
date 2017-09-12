@@ -31,14 +31,21 @@ export default class Idea {
      * Note: available only after graph is build
      * @type {array.<Association>}
      */
-    associations = undefined;
+    associationsOut = [];
+
+    /**
+     * List of incoming associations
+     * Note: available only after graph is build
+     * @type {array.<Association>}
+     */
+    associationsIn = [];
 
     /**
      * [Node interface]
      * List of outgoing links
      */
-    get links() {
-        return this.associations;
+    get linksOut() {
+        return this.associationsOut;
     }
 
     /**
@@ -46,8 +53,25 @@ export default class Idea {
      * Sets list of outgoing links
      * @param {array.<Association>} associations
      */
-    set links(associations) {
-        this.associations = associations;
+    set linksOut(associations) {
+        this.associationsOut = associations;
+    }
+
+    /**
+     * [Node interface]
+     * List of incoming links
+     */
+    get linksIn() {
+        return this.associationsIn;
+    }
+
+    /**
+     * [Node interface]
+     * Sets list of incoming links
+     * @param {array.<Association>} associations
+     */
+    set linksIn(associations) {
+        this.associationsIn = associations;
     }
 
     /**

@@ -26,7 +26,7 @@ export function toGraph(mindmap) {
 
         // travers graph
         // set color on main sub graph
-        rootNode.links.forEach(l => {
+        rootNode.linksOut.forEach(l => {
             const subNode = l.to;
             
             traverseGraph(subNode, n => {

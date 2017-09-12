@@ -34,8 +34,8 @@ export default function(opts) {
  * @param {function} opts.mapNode
  * @param {function} opts.mapLink
  * @param {Map} visitedOriginalNodes 
- * @param {array} allNewNodes 
- * @param {array} allNewLinks 
+ * @param {array} allNodes 
+ * @param {array} allLinks 
  * @return {{rootNode, nodes, links}}
  */
 function mapGraph({
@@ -44,42 +44,47 @@ function mapGraph({
     mapLink
 },
 visitedOriginalNodes = new Map(),
-allNewNodes,
-allNewLinks) {
+allNodes,
+allLinks) {
     
     // check if node was already visited
     // to not fail into infinite loop in graph cycles
-    let newNode = visitedOriginalNodes.get(originalNode);
-    if (newNode) {
-        return newNode;
+    let node = visitedOriginalNodes.get(originalNode);
+    if (node) {
+        return node;
     }
 
     // map node
-    newNode = mapNode(originalNode);
-    visitedOriginalNodes.set(originalNode, newNode);
+    node = mapNode(originalNode);
+    visitedOriginalNodes.set(originalNode, node);
 
-    const newLinks = [];
+    const linksOut = [];
 
     // map links and target nodes (recursively)
-    originalNode.links.forEach(originalLink => {
-        const newLink = mapLink(originalLink);
-        newLink.from = newNode;
-        newLink.to = mapGraph({
+    originalNode.linksOut.forEach(originalLink => {
+        const link = mapLink(originalLink);
+        link.from = node;
+        link.to = mapGraph({
             node: originalLink.to,
             mapNode,
             mapLink
         },
         visitedOriginalNodes,
-        allNewNodes,
-        allNewLinks);
+        allNodes,
+        allLinks);
+
+        // add link to tail node as incoming link
+        link.to.linksIn = link.to.linksIn || [];
+        link.to.linksIn.push(originalLink);
         
-        newLinks.push(newLink);
-        allNewLinks.push(newLink);
+        // add link to head node as outgoing link
+        linksOut.push(link);
+        allLinks.push(link);
     });
 
-    newNode.links = newLinks;
+    node.linksOut = linksOut;
 
-    allNewNodes.push(newNode);
+    allNodes.push(node);
 
-    return newNode;
+    return node;
 }

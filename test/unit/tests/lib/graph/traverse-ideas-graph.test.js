@@ -34,7 +34,7 @@ describe('traverse-ideas-graph', () => {
             to: idea2
         });
 
-        rootIdea.associations = [
+        rootIdea.associationsOut = [
             assoc1,
             assoc2
         ];
@@ -45,9 +45,9 @@ describe('traverse-ideas-graph', () => {
             to: idea3
         });
 
-        idea1.associations = [];
-        idea3.associations = [];
-        idea2.associations = [
+        idea1.associationsOut = [];
+        idea3.associationsOut = [];
+        idea2.associationsOut = [
             assoc3
         ];
 
@@ -95,7 +95,7 @@ describe('traverse-ideas-graph', () => {
             to: idea2
         });
 
-        rootIdea.associations = [
+        rootIdea.associationsOut = [
             assoc1,
             assoc2
         ];
@@ -106,8 +106,8 @@ describe('traverse-ideas-graph', () => {
             to: idea3
         });
 
-        idea1.associations = [];
-        idea2.associations = [
+        idea1.associationsOut = [];
+        idea2.associationsOut = [
             assoc3
         ];
 
@@ -117,7 +117,7 @@ describe('traverse-ideas-graph', () => {
             to: idea4
         });
 
-        idea3.associations = [assoc4];
+        idea3.associationsOut = [assoc4];
 
         const assoc5 = new Association({
             id: 'assoc 5',
@@ -125,7 +125,7 @@ describe('traverse-ideas-graph', () => {
             to: idea2
         });
 
-        idea4.associations = [assoc5];
+        idea4.associationsOut = [assoc5];
 
         const visited = {};
 

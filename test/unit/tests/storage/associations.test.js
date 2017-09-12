@@ -180,24 +180,4 @@ describe('associations', () => {
 
     });
 
-    describe('.countFrom()', () => {
-
-        it('should return number of associations', async () => {
-
-            // setup
-            const db = createDB();
-
-            await db.post({from: '123'});
-            await db.post({from: '123'});
-            await db.post({from: '321'});
-
-            // target
-            const result = await storage.countFrom(db, '123');
-
-            // check
-            expect(result).to.equal(2);
-        });
-
-    });
-
 });

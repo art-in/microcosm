@@ -1,9 +1,12 @@
 import {expect, createState} from 'test/utils';
 
+import mutator from 'src/state/mutator';
+
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 import Patch from 'src/state/Patch';
-import mutator from 'src/state/mutator';
+
+import getMapValues from 'src/lib/helpers/get-map-values';
 
 describe('main', () => {
 
@@ -51,18 +54,24 @@ describe('main', () => {
     it('should mutate model layer', async () => {
 
         const {model} = result;
+        const ideas = getMapValues(model.mindmap.ideas);
+        const assocs = getMapValues(model.mindmap.associations);
         
-        expect([...model.mindmap.ideas]).to.have.length(2);
-        expect([...model.mindmap.associations]).to.have.length(1);
+        expect(ideas).to.have.length(2);
+        expect(assocs).to.have.length(1);
     });
 
     it('should mutate viewmodel layer', async () => {
         
         const {vm} = result;
-        
-        expect(vm.main.mindmap.graph.root).to.containSubset({
+        const rootNode = vm.main.mindmap.graph.root;
+
+        expect(rootNode.linksIn).to.have.length(0);
+        expect(rootNode.linksOut).to.have.length(1);
+
+        expect(rootNode).to.containSubset({
             id: 'parent',
-            links: [{
+            linksOut: [{
                 id: 'assoc',
                 from: {
                     id: 'parent'

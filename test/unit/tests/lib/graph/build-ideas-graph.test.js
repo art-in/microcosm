@@ -30,17 +30,31 @@ describe('build-ideas-graph', () => {
 
         // check
         expect(graph).to.exist;
-        expect([...graph.associations]).to.have.length(2);
+
+        const idea1 = graph;
+        const idea2 = idea1.associationsOut[0].to;
+        const idea3 = idea1.associationsOut[1].to;
+
+        expect(idea1.associationsIn).to.have.length(0);
+        expect(idea1.associationsOut).to.have.length(2);
         
+        expect(idea2.associationsIn).to.have.length(1);
+        expect(idea2.associationsOut).to.have.length(0);
+
+        expect(idea3.associationsIn).to.have.length(1);
+        expect(idea3.associationsOut).to.have.length(0);
+
         expect(graph).to.containSubset({
             id: 'idea 1',
-            associations: [{
+            associationsIn: [],
+            associationsOut: [{
                 id: 'assoc 1',
                 from: {
                     id: 'idea 1'
                 },
                 to: {
-                    id: 'idea 2'
+                    id: 'idea 2',
+                    associationsIn: [{id: 'assoc 1'}]
                 }
             }, {
                 id: 'assoc 2',
@@ -48,7 +62,8 @@ describe('build-ideas-graph', () => {
                     id: 'idea 1'
                 },
                 to: {
-                    id: 'idea 3'
+                    id: 'idea 3',
+                    associationsIn: [{id: 'assoc 2'}]
                 }
             }]
         });
@@ -58,12 +73,12 @@ describe('build-ideas-graph', () => {
         
         // setup cyclic graph
         //
-        //        (idea 1) ---> (idea 2)
-        //              ^         |
-        //               \        |
-        //                \       |
-        //                 \      v
-        //                  (idea 3)
+        //    (idea 1) ---> (idea 2)
+        //          ^         |
+        //           \        |
+        //            \       |
+        //             \      v
+        //              (idea 3)
         //
         const ideas = [
             new Idea({id: 'idea 1', isCentral: true}),
@@ -82,19 +97,36 @@ describe('build-ideas-graph', () => {
 
         // check
         expect(graph).to.exist;
+        
+        const idea1 = graph;
+        const idea2 = idea1.associationsOut[0].to;
+        const idea3 = idea2.associationsOut[0].to;
+
+        expect(idea1.associationsIn).to.have.length(1);
+        expect(idea1.associationsOut).to.have.length(1);
+        
+        expect(idea2.associationsIn).to.have.length(1);
+        expect(idea2.associationsOut).to.have.length(1);
+
+        expect(idea3.associationsIn).to.have.length(1);
+        expect(idea3.associationsOut).to.have.length(1);
+
         expect(graph).to.containSubset({
             id: 'idea 1',
-            associations: [{
+            associationsIn: [{id: 'assoc 3'}],
+            associationsOut: [{
                 id: 'assoc 1',
                 from: {id: 'idea 1'},
                 to: {
                     id: 'idea 2',
-                    associations: [{
+                    associationsIn: [{id: 'assoc 1'}],
+                    associationsOut: [{
                         id: 'assoc 2',
                         from: {id: 'idea 2'},
                         to: {
                             id: 'idea 3',
-                            associations: [{
+                            associationsIn: [{id: 'assoc 2'}],
+                            associationsOut: [{
                                 id: 'assoc 3',
                                 from: {id: 'idea 3'},
                                 to: {id: 'idea 1'}
@@ -106,7 +138,7 @@ describe('build-ideas-graph', () => {
         });
     });
 
-    it('should build graph of single node', () => {
+    it('should build from single node graph', () => {
 
         // setup
         const ideas = [
@@ -122,7 +154,7 @@ describe('build-ideas-graph', () => {
         expect(graph).to.exist;
     });
 
-    it('should throw error if central idea was not found', () => {
+    it('should throw if central idea was not found', () => {
 
         // setup
         const ideas = [
@@ -143,7 +175,7 @@ describe('build-ideas-graph', () => {
         expect(result).to.throw('No root idea was found');
     });
 
-    it('should throw if starting idea was not found for association', () => {
+    it('should throw if head idea was not found for association', () => {
 
         // setup
         const ideas = [
@@ -162,10 +194,10 @@ describe('build-ideas-graph', () => {
 
         // check
         expect(result).to.throw(
-            `Starting idea 'idea X' was not found for association 'assoc 1'`);
+            `Head idea 'idea X' of association 'assoc 1' was not found`);
     });
 
-    it('should throw if ending idea was not found for association', () => {
+    it('should throw if tail idea was not found for association', () => {
         
         // setup
         const ideas = [
@@ -184,7 +216,7 @@ describe('build-ideas-graph', () => {
 
         // check
         expect(result).to.throw(
-            `Ending idea 'idea Y' was not found for association 'assoc 2'`);
+            `Tail idea 'idea Y' of association 'assoc 2' was not found`);
     });
 
     it('should throw if not all ideas can be reached from central idea', () => {

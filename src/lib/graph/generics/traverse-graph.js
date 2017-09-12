@@ -24,7 +24,7 @@ export default function traverseGraph({
         visit(node);
     }
 
-    node.links.forEach(link => {
+    node.linksOut.forEach(link => {
         traverseGraph({
             node: link.to,
             visit,

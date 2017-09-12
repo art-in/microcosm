@@ -34,7 +34,7 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea2
         });
 
-        rootIdea.associations = [
+        rootIdea.associationsOut = [
             assoc1,
             assoc2
         ];
@@ -45,9 +45,9 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea3
         });
 
-        idea1.associations = [];
-        idea3.associations = [];
-        idea2.associations = [
+        idea1.associationsOut = [];
+        idea3.associationsOut = [];
+        idea2.associationsOut = [
             assoc3
         ];
 
@@ -58,19 +58,27 @@ describe('map-ideas-to-nodes-graph', () => {
         expect(rootNode).to.exist;
         expect(rootNode).to.containSubset({
             id: 'root idea',
-            links: [{
+            linksIn: [],
+            linksOut: [{
                 id: 'assoc 1',
                 from: {id: 'root idea'},
-                to: {id: 'idea 1'}
+                to: {
+                    id: 'idea 1',
+                    linksIn: [{id: 'assoc 1'}]
+                }
             }, {
                 id: 'assoc 2',
                 from: {id: 'root idea'},
                 to: {
                     id: 'idea 2',
-                    links: [{
+                    linksIn: [{id: 'assoc 2'}],
+                    linksOut: [{
                         id: 'assoc 3',
                         from: {id: 'idea 2'},
-                        to: {id: 'idea 3'}
+                        to: {
+                            id: 'idea 3',
+                            linksIn: [{id: 'assoc 3'}]
+                        }
                     }]
                 }
             }]
@@ -99,7 +107,7 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea1
         });
 
-        rootIdea.associations = [assoc1];
+        rootIdea.associationsOut = [assoc1];
 
         const assoc2 = new Association({
             id: 'assoc 2',
@@ -107,7 +115,7 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea2
         });
 
-        idea1.associations = [assoc2];
+        idea1.associationsOut = [assoc2];
 
         const assoc3 = new Association({
             id: 'assoc 3',
@@ -115,7 +123,7 @@ describe('map-ideas-to-nodes-graph', () => {
             to: rootIdea
         });
 
-        idea2.associations = [assoc3];
+        idea2.associationsOut = [assoc3];
 
         // target
         const {rootNode} = mapGraph(rootIdea);
@@ -124,17 +132,20 @@ describe('map-ideas-to-nodes-graph', () => {
         expect(rootNode).to.exist;
         expect(rootNode).to.containSubset({
             id: 'root idea',
-            links: [{
+            linksIn: [{id: 'assoc 3'}],
+            linksOut: [{
                 id: 'assoc 1',
                 from: {id: 'root idea'},
                 to: {
                     id: 'idea 1',
-                    links: [{
+                    linksIn: [{id: 'assoc 1'}],
+                    linksOut: [{
                         id: 'assoc 2',
                         from: {id: 'idea 1'},
                         to: {
                             id: 'idea 2',
-                            links: [{
+                            linksIn: [{id: 'assoc 2'}],
+                            linksOut: [{
                                 id: 'assoc 3',
                                 from: {id: 'idea 2'},
                                 to: {id: 'root idea'}
@@ -151,13 +162,13 @@ describe('map-ideas-to-nodes-graph', () => {
         
         // setup tree graph
         //
-        //       (root idea)
+        //         (root)
         //         /     \
         //    (idea 1)  (idea 2)
         //                 \
         //               (idea 3)
         //
-        const rootIdea = new Idea({id: 'root idea', isCentral: true});
+        const rootIdea = new Idea({id: 'root', isCentral: true});
         const idea1 = new Idea({id: 'idea 1'});
         const idea2 = new Idea({id: 'idea 2'});
         const idea3 = new Idea({id: 'idea 3'});
@@ -174,7 +185,7 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea2
         });
 
-        rootIdea.associations = [
+        rootIdea.associationsOut = [
             assoc1,
             assoc2
         ];
@@ -185,9 +196,9 @@ describe('map-ideas-to-nodes-graph', () => {
             to: idea3
         });
 
-        idea1.associations = [];
-        idea3.associations = [];
-        idea2.associations = [
+        idea1.associationsOut = [];
+        idea3.associationsOut = [];
+        idea2.associationsOut = [
             assoc3
         ];
 
