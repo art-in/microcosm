@@ -24,7 +24,9 @@ describe('mutate', () => {
         const rootIdea = new Idea({
             id: 'parent',
             isCentral: true,
-            associations: []
+            associations: [],
+            x: 0,
+            y: 0
         });
 
         state.model.mindmap.root = rootIdea;
@@ -37,7 +39,11 @@ describe('mutate', () => {
             fromId: 'parent',
             toId: 'child'
         }));
-        patch.push('add idea', new Idea({id: 'child'}));
+        patch.push('add idea', new Idea({
+            id: 'child',
+            x: 10,
+            y: 10
+        }));
 
         // target
         result = await mutator(state, patch);
