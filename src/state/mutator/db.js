@@ -38,7 +38,7 @@ async function apply(db, mutation) {
         db.mindmaps = mutation.data.db.mindmaps;
 
         if (!(await db.mindmaps.info()).doc_count) {
-            console.warn('Mindmap database is empty. Creating one.');
+            // mindmap database is empty, creating one
             await mindmaps.add(db.mindmaps, new Mindmap({
                 x: 0,
                 y: 0,
@@ -47,7 +47,7 @@ async function apply(db, mutation) {
         }
 
         if (!(await db.ideas.info()).doc_count) {
-            console.warn('Ideas database is empty. Creating central idea.');
+            // ideas database is empty, creating central idea
             await ideas.add(db.ideas, new Idea({
                 isCentral: true,
                 x: 0,

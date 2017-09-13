@@ -93,11 +93,6 @@ async function init(model, mutation) {
     }
 
     // TDB: get first mindmap
-    if (mindmaps.length > 1) {
-        console.warn(
-            'There is more than one mindmap, but taking first now');
-    }
-
     const mindmap = mindmaps[0];
 
     mindmap.root = buildGraph(ideas, assocs);
