@@ -52,7 +52,7 @@ describe('associations', () => {
             expect(result[0].value).to.equal('test');
         });
 
-        it('should throw error on dublicates', async () => {
+        it('should fail on dublicates', async () => {
 
             // setup
             const db = createDB();
@@ -110,7 +110,7 @@ describe('associations', () => {
             expect(result.X).to.not.exist;
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
@@ -144,7 +144,7 @@ describe('associations', () => {
             expect(result.rows[0].id).to.equal('live');
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();

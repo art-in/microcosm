@@ -54,7 +54,7 @@ describe('EventedViewModel', () => {
             expect(handler.callCount).to.equal(1);
         });
 
-        it('should throw error on subscribe to unknown event', () => {
+        it('should fail on subscribe to unknown event', () => {
             
             // setup
             // eslint-disable-next-line require-jsdoc

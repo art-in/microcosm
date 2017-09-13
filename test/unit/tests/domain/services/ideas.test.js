@@ -83,7 +83,7 @@ describe('ideas', () => {
             expect(mutation.y).to.be.equal(120);
         });
 
-        it('should throw error if parent idea not found', async () => {
+        it('should fail if parent idea not found', async () => {
 
             // setup
             const mindmap = new Mindmap();
@@ -220,7 +220,7 @@ describe('ideas', () => {
             expect(mutations[1].type).to.equal('remove association');
         });
 
-        it('should throw if outgoing associations exist', async () => {
+        it('should fail if outgoing associations exist', async () => {
 
             // setup
             const mindmap = new Mindmap();
@@ -263,7 +263,7 @@ describe('ideas', () => {
                 `Unable to remove idea 'die' with outgoing associations`);
         });
 
-        it('should throw if no incoming associations found', async () => {
+        it('should fail if no incoming associations found', async () => {
             
             // setup
             const mindmap = new Mindmap();
@@ -283,7 +283,7 @@ describe('ideas', () => {
                 `No incoming associations found for idea 'die'`);
         });
 
-        it('should throw if idea not found', async () => {
+        it('should fail if idea not found', async () => {
 
             // setup
             const mindmap = new Mindmap();
@@ -300,7 +300,7 @@ describe('ideas', () => {
                 'Idea with ID \'uknown\' not found in mindmap');
         });
 
-        it('should throw if idea is central', async () => {
+        it('should fail if idea is central', async () => {
 
             // setup
             const mindmap = new Mindmap();

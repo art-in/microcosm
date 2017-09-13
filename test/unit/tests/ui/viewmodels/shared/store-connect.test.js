@@ -148,7 +148,7 @@ describe('connected-vm', () => {
             expect(dispatch2.getCall(0).args).to.deep.equal(['action 2']);
         });
 
-        it('should throw error if connecting to unknown event', () => {
+        it('should fail if connecting to unknown event', () => {
 
             // setup
             // eslint-disable-next-line require-jsdoc
@@ -172,7 +172,7 @@ describe('connected-vm', () => {
 
         });
 
-        it('should throw error if target store not set', () => {
+        it('should fail if target store not set', () => {
 
             // setup
             // eslint-disable-next-line require-jsdoc
@@ -193,7 +193,7 @@ describe('connected-vm', () => {
                 'because store was not set (see connect.to(store))');
         });
 
-        it('should throw error if event is already has handler', () => {
+        it('should fail if event is already has handler', () => {
 
             // setup
             // eslint-disable-next-line require-jsdoc

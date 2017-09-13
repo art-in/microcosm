@@ -25,7 +25,7 @@ describe('ideas', () => {
             expect(result.value).to.equal('test');
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
@@ -102,7 +102,7 @@ describe('ideas', () => {
             expect(result).to.deep.equal(idea);
         });
 
-        it('should throw error on dublicates', async () => {
+        it('should fail on dublicates', async () => {
 
             // setup
             const db = createDB();
@@ -160,7 +160,7 @@ describe('ideas', () => {
             expect(result.X).to.not.exist;
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
@@ -194,7 +194,7 @@ describe('ideas', () => {
             expect(result.rows[0].id).to.equal('live');
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();

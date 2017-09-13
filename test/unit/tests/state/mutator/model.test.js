@@ -231,7 +231,7 @@ describe('model', () => {
             expect(ideas[1].associationsOut).to.be.empty;
         });
 
-        it('should throw if mindmap already has root idea', async () => {
+        it('should fail if mindmap already has root idea', async () => {
             
             // setup
             const rootIdea = new Idea({id: 'root', isCentral: true});
@@ -254,7 +254,7 @@ describe('model', () => {
                 'Mindmap already has root idea');
         });
 
-        it('should throw if no incoming associations was found', async () => {
+        it('should fail if no incoming associations was found', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -272,7 +272,7 @@ describe('model', () => {
                 `No incoming associations found for idea 'idea 1'`);
         });
 
-        it('should NOT throw if no incoming association for root', async () => {
+        it('should NOT fail if no incoming association for root', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -324,7 +324,7 @@ describe('model', () => {
             });
         });
 
-        it('should throw if target idea was not found', async () => {
+        it('should fail if target idea was not found', async () => {
 
             // setup
             const model = {mindmap: new Mindmap()};
@@ -492,7 +492,7 @@ describe('model', () => {
             }]);
         });
 
-        it('should throw if no incoming associations found', async () => {
+        it('should fail if no incoming associations found', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -517,8 +517,6 @@ describe('model', () => {
                 `No incoming associations found for idea 'die'`);
         });
 
-        // TODO: replace 'should throw' with 'should fail'
-        //       to make description shorter
         it('should NOT fail if no incoming associations for root', async () => {
             
             // setup
@@ -715,7 +713,7 @@ describe('model', () => {
 
         });
 
-        it('should throw if head idea was not found', async () => {
+        it('should fail if head idea was not found', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -743,7 +741,7 @@ describe('model', () => {
                 `Head idea 'XXX' was not found for association`);
         });
 
-        it('should NOT throw if tail idea was not found', async () => {
+        it('should NOT fail if tail idea was not found', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -799,7 +797,7 @@ describe('model', () => {
             });
         });
 
-        it('should throw if target association was not found', async () => {
+        it('should fail if target association was not found', async () => {
             
             // setup
             const model = {mindmap: new Mindmap()};
@@ -917,7 +915,7 @@ describe('model', () => {
             expect(idea.associationsOut).to.be.empty;
         });
 
-        it('should throw if association was not found', async () => {
+        it('should fail if association was not found', async () => {
             
             // setup graph
             //
@@ -956,7 +954,7 @@ describe('model', () => {
                 `Association 'die' was not found`);
         });
 
-        it('should throw if association has no head idea', async () => {
+        it('should fail if association has no head idea', async () => {
             
             // setup graph
             //
@@ -1001,7 +999,7 @@ describe('model', () => {
                 `Association 'die' has no reference to head idea`);
         });
 
-        it('should throw if association has tail idea', async () => {
+        it('should fail if association has tail idea', async () => {
             
             // setup graph
             //
@@ -1048,7 +1046,7 @@ describe('model', () => {
                 `because it has reference to tail idea`);
         });
 
-        it('should throw if head idea has no association', async () => {
+        it('should fail if head idea has no association', async () => {
             
             // setup graph
             //

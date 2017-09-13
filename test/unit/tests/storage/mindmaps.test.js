@@ -25,7 +25,7 @@ describe('mindmaps', () => {
             expect(result.scale).to.equal(2);
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
@@ -102,7 +102,7 @@ describe('mindmaps', () => {
             expect(result).to.deep.equal(mindmap);
         });
 
-        it('should throw error on dublicates', async () => {
+        it('should fail on dublicates', async () => {
 
             // setup
             const db = createDB();
@@ -160,7 +160,7 @@ describe('mindmaps', () => {
             expect(result.X).to.not.exist;
         });
 
-        it('should throw error if item does not exist', async () => {
+        it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();

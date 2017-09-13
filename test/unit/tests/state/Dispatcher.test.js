@@ -7,7 +7,7 @@ describe('Dispatcher', () => {
 
     describe('.reg()', () => {
 
-        it('should throw error if action already has handler', () => {
+        it('should fail if action already has handler', () => {
 
             // setup
             const disp = new Dispatcher();
@@ -47,7 +47,7 @@ describe('Dispatcher', () => {
             expect(handler2.callCount).to.equal(0);
         });
 
-        it('should throw error if unknown action', async () => {
+        it('should fail if unknown action', async () => {
 
             // setup
             const disp = new Dispatcher();

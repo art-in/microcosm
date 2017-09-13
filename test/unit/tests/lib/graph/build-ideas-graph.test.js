@@ -154,7 +154,7 @@ describe('build-ideas-graph', () => {
         expect(graph).to.exist;
     });
 
-    it('should throw if central idea was not found', () => {
+    it('should fail if central idea was not found', () => {
 
         // setup
         const ideas = [
@@ -175,7 +175,7 @@ describe('build-ideas-graph', () => {
         expect(result).to.throw('No root idea was found');
     });
 
-    it('should throw if head idea was not found for association', () => {
+    it('should fail if head idea was not found for association', () => {
 
         // setup
         const ideas = [
@@ -197,7 +197,7 @@ describe('build-ideas-graph', () => {
             `Head idea 'idea X' of association 'assoc 1' was not found`);
     });
 
-    it('should throw if tail idea was not found for association', () => {
+    it('should fail if tail idea was not found for association', () => {
         
         // setup
         const ideas = [
@@ -219,7 +219,7 @@ describe('build-ideas-graph', () => {
             `Tail idea 'idea Y' of association 'assoc 2' was not found`);
     });
 
-    it('should throw if not all ideas can be reached from central idea', () => {
+    it('should fail if not all ideas can be reached from central idea', () => {
 
         // setup
         const ideas = [
