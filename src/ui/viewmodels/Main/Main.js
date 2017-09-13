@@ -1,13 +1,7 @@
-import EventedViewModel from '../shared/EventedViewModel';
-
 /**
  * Main view model
  */
-export default class Main extends EventedViewModel {
-
-    static eventTypes = [
-        'change'
-    ]
+export default class Main {
 
     /**
      * Mindmap view model

@@ -1,1 +1,1 @@
-export default from './Main.connect';
+export default from './Main';
