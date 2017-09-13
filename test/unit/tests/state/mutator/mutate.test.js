@@ -8,7 +8,7 @@ import Patch from 'src/state/Patch';
 
 import getMapValues from 'src/lib/helpers/get-map-values';
 
-describe('main', () => {
+describe('mutate', () => {
 
     let result;
     beforeEach(async () => {
