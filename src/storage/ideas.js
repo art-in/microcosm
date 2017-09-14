@@ -79,14 +79,14 @@ export async function removeAll(db) {
 }
 
 /**
- * Gets count of central ideas
+ * Gets count of root ideas
  * @param {PouchDB} db
  * @param {string} [exceptIdeaId] - idea to not take into account
  * @return {promise.<number>}
  */
-export async function countCentral(db, exceptIdeaId) {
+export async function countRoot(db, exceptIdeaId) {
 
-    const query = {isCentral: true};
+    const query = {isRoot: true};
 
     if (exceptIdeaId) {
         query._id = {$ne: exceptIdeaId};

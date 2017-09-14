@@ -43,9 +43,10 @@ export default class Node extends EventedViewModel {
     };
 
     /**
-     * Is central node of graph?
+     * Indicates that idea is root idea of graph
+     * @type {boolean}
      */
-    isCentral = false;
+    isRoot = false;
 
     /**
      * Node color
@@ -92,7 +93,7 @@ export default class Node extends EventedViewModel {
      */
     toString() {
         return `[Node` +
-            (this.isCentral ? '* ' : ' ') +
+            (this.isRoot ? '* ' : ' ') +
             `(${this.id}) ` +
             `(${this.pos.x} x ${this.pos.y}) ` +
             `(incoming links: ${this.linksIn.length}}) ` +

@@ -18,12 +18,12 @@ describe('mutate', () => {
         
         // setup db
         await state.db.ideas.put(
-            {_id: 'parent', isCentral: true});
+            {_id: 'parent', isRoot: true});
 
         // setup model
         const rootIdea = new Idea({
             id: 'parent',
-            isCentral: true,
+            isRoot: true,
             depth: 0,
             x: 0,
             y: 0

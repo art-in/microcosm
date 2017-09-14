@@ -66,7 +66,7 @@ export default class Link extends EventedViewModel {
      */
     toString() {
         return `[Link` +
-            (this.isBOI ? '* ' : ' ') +
+            (this.isRooted ? '* ' : ' ') +
             `(${this.id}) ` +
             `(${this.from.pos.x} x ${this.from.pos.y}) - ` +
             `(${this.to.pos.x} x ${this.to.pos.y}) ` +
@@ -75,10 +75,11 @@ export default class Link extends EventedViewModel {
     }
 
     /**
-     * Is basic oriented idea (BOI)?
+     * Indicates that head node is root
+     * @type {boolean}
      */
-    get isBOI() {
-        return this.from.isCentral;
+    get isRooted() {
+        return this.from.isRoot;
     }
 
     /**

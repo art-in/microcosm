@@ -142,7 +142,7 @@ export default class Mindmap extends EventedViewModel {
      * @param {object} pos
      */
     onLinkRightClick(link, pos) {
-        if (!link.isBOI) {
+        if (!link.isRooted) {
             // color can be set on BOI links only
             return;
         }

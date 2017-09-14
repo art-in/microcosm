@@ -19,7 +19,7 @@ export default function nodeToIdea(node, idea) {
     idea.x = node.pos.x;
     idea.y = node.pos.y;
     idea.value = node.title.value;
-    idea.isCentral = node.isCentral;
+    idea.isRoot = node.isRoot;
     idea.color = node.color;
 
     return idea;

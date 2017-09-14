@@ -66,7 +66,7 @@ describe('db', () => {
             expect((await result.mindmaps.info()).doc_count).to.equal(1);
         });
 
-        it('should create central idea if db is empty', async () => {
+        it('should create root idea if db is empty', async () => {
 
             // setup
             const patch = new Patch('init', {
@@ -85,7 +85,7 @@ describe('db', () => {
 
             const data = await result.ideas.allDocs({include_docs: true});
             expect(data.rows).to.have.length(1);
-            expect(data.rows[0].doc.isCentral).to.be.true;
+            expect(data.rows[0].doc.isRoot).to.be.true;
         });
 
     });

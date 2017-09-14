@@ -17,7 +17,7 @@ describe('traverse-ideas-graph', () => {
         //                 \
         //               (idea 3)
         //
-        const rootIdea = new Idea({id: 'root idea', isCentral: true});
+        const rootIdea = new Idea({id: 'root idea', isRoot: true});
         const idea1 = new Idea({id: 'idea 1'});
         const idea2 = new Idea({id: 'idea 2'});
         const idea3 = new Idea({id: 'idea 3'});
@@ -77,7 +77,7 @@ describe('traverse-ideas-graph', () => {
         //                 \            \
         //               (idea 3) --> (idea 4)
         //
-        const rootIdea = new Idea({id: 'root idea', isCentral: true});
+        const rootIdea = new Idea({id: 'root idea', isRoot: true});
         const idea1 = new Idea({id: 'idea 1'});
         const idea2 = new Idea({id: 'idea 2'});
         const idea3 = new Idea({id: 'idea 3'});

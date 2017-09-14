@@ -26,7 +26,7 @@ describe('model', () => {
                 }
             };
 
-            await patchData.db.ideas.post({_id: 'head', isCentral: true});
+            await patchData.db.ideas.post({_id: 'head', isRoot: true});
             await patchData.db.ideas.post({_id: 'tail'});
             await patchData.db.associations.post({
                 fromId: 'head',
@@ -61,7 +61,7 @@ describe('model', () => {
                 }
             };
 
-            await patchData.db.ideas.post({_id: 'head', isCentral: true});
+            await patchData.db.ideas.post({_id: 'head', isRoot: true});
             await patchData.db.ideas.post({_id: 'tail'});
             await patchData.db.associations.post({
                 fromId: 'head',
@@ -96,7 +96,7 @@ describe('model', () => {
             // setup
             const rootIdea = new Idea({
                 id: 'root',
-                isCentral: true,
+                isRoot: true,
                 depth: 0
             });
             const assoc = new Association({
@@ -140,7 +140,7 @@ describe('model', () => {
             //
             const rootIdea = new Idea({
                 id: 'root',
-                isCentral: true,
+                isRoot: true,
                 depth: 0
             });
             const idea1 = new Idea({
@@ -208,7 +208,7 @@ describe('model', () => {
             //
             const rootIdea = new Idea({
                 id: 'root',
-                isCentral: true,
+                isRoot: true,
                 depth: 0
             });
             const idea1 = new Idea({
@@ -266,14 +266,12 @@ describe('model', () => {
             }]);
         });
 
-        // TODO: rename idea.isCentral to idea.isRoot
-
         it('should set empty outgoing associations to idea', async () => {
             
             // setup
             const rootIdea = new Idea({
                 id: 'root',
-                isCentral: true,
+                isRoot: true,
                 depth: 0
             });
             const assoc = new Association({
@@ -314,7 +312,7 @@ describe('model', () => {
             //
             const rootIdea = new Idea({
                 id: 'root',
-                isCentral: true,
+                isRoot: true,
                 depth: 0
             });
             const idea1 = new Idea({
@@ -376,7 +374,7 @@ describe('model', () => {
 
             const patch = new Patch(
                 'add idea',
-                new Idea({id: 'root', isCentral: true})
+                new Idea({id: 'root', isRoot: true})
             );
 
             // target
@@ -393,7 +391,7 @@ describe('model', () => {
         it('should fail if mindmap already has root idea', async () => {
             
             // setup
-            const rootIdea = new Idea({id: 'root', isCentral: true});
+            const rootIdea = new Idea({id: 'root', isRoot: true});
             
             const mindmap = new Mindmap();
             mindmap.root = rootIdea;
@@ -402,7 +400,7 @@ describe('model', () => {
 
             const patch = new Patch(
                 'add idea',
-                new Idea({id: 'root', isCentral: true})
+                new Idea({id: 'root', isRoot: true})
             );
 
             // target
@@ -438,7 +436,7 @@ describe('model', () => {
 
             const patch = new Patch(
                 'add idea',
-                new Idea({id: 'root', isCentral: true})
+                new Idea({id: 'root', isRoot: true})
             );
 
             // target
@@ -547,7 +545,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const rootIdea = new Idea({id: 'root', isCentral: true});
+            const rootIdea = new Idea({id: 'root', isRoot: true});
             const ideaLive = new Idea({id: 'live'});
             const ideaDie = new Idea({id: 'die'});
 
@@ -616,7 +614,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
             
-            const rootIdea = new Idea({id: 'root', isCentral: true});
+            const rootIdea = new Idea({id: 'root', isRoot: true});
             const ideaLive = new Idea({id: 'live'});
             const ideaDie = new Idea({id: 'die'});
 
@@ -712,7 +710,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const rootIdea = new Idea({id: 'root', isCentral: true});
+            const rootIdea = new Idea({id: 'root', isRoot: true});
 
             model.mindmap.ideas.set(rootIdea.id, rootIdea);
             model.mindmap.root = rootIdea;
@@ -737,7 +735,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const ideaHead = new Idea({id: 'head', isCentral: true});
+            const ideaHead = new Idea({id: 'head', isRoot: true});
             const ideaTail = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(ideaHead.id, ideaHead);
@@ -771,7 +769,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
             const ideaTail = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
@@ -804,7 +802,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
             const ideaTail = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
@@ -837,7 +835,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
             const ideaTail = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
@@ -872,7 +870,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
             const ideaTail = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
@@ -908,7 +906,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
             const tailIdea = new Idea({id: 'tail'});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
@@ -936,7 +934,7 @@ describe('model', () => {
             // setup
             const model = {mindmap: new Mindmap()};
             
-            const headIdea = new Idea({id: 'head', isCentral: true});
+            const headIdea = new Idea({id: 'head', isRoot: true});
 
             model.mindmap.ideas.set(headIdea.id, headIdea);
             model.mindmap.root = headIdea;
@@ -1017,7 +1015,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const ideaRoot = new Idea({id: 'root', isCentral: true});
+            const ideaRoot = new Idea({id: 'root', isRoot: true});
             const ideaHead = new Idea({id: 'head'});
 
             const assocLive = new Association({
@@ -1068,7 +1066,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const ideaRoot = new Idea({id: 'root', isCentral: true});
+            const ideaRoot = new Idea({id: 'root', isRoot: true});
             const ideaHead = new Idea({id: 'head'});
 
             const assocLive = new Association({
@@ -1113,7 +1111,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const rootIdea = new Idea({id: 'root', isCentral: true});
+            const rootIdea = new Idea({id: 'root', isRoot: true});
             const headIdea = new Idea({id: 'head'});
 
             const assocLive = new Association({
@@ -1152,7 +1150,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const ideaRoot = new Idea({id: 'root', isCentral: true});
+            const ideaRoot = new Idea({id: 'root', isRoot: true});
             const ideaHead = new Idea({id: 'head'});
 
             const assocLive = new Association({
@@ -1197,7 +1195,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const ideaRoot = new Idea({id: 'root', isCentral: true});
+            const ideaRoot = new Idea({id: 'root', isRoot: true});
             const ideaHead = new Idea({id: 'head'});
             const ideaTail = new Idea({id: 'tail'});
 
@@ -1244,7 +1242,7 @@ describe('model', () => {
             //
             const model = {mindmap: new Mindmap()};
 
-            const ideaRoot = new Idea({id: 'root', isCentral: true});
+            const ideaRoot = new Idea({id: 'root', isRoot: true});
             const ideaHead = new Idea({id: 'head'});
 
             const assocLive = new Association({

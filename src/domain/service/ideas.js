@@ -84,8 +84,8 @@ disp.reg('remove-idea',
 
         const idea = getIdea(mindmap, ideaId);
 
-        if (idea.isCentral) {
-            throw Error('Unable to remove central idea');
+        if (idea.isRoot) {
+            throw Error('Unable to remove root idea');
         }
 
         patch.push('remove idea', {id: ideaId});

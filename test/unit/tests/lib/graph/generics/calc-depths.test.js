@@ -16,7 +16,7 @@ describe('calc-depths', () => {
         //      v   /
         //       (B)
         //
-        const ideaA = new Idea({id: 'A', isCentral: true});
+        const ideaA = new Idea({id: 'A', isRoot: true});
         const ideaB = new Idea({id: 'B'});
         const ideaC = new Idea({id: 'C'});
         const ideaD = new Idea({id: 'D'});
@@ -68,7 +68,7 @@ describe('calc-depths', () => {
         //      \   v
         //       (C)
         //
-        const ideaA = new Idea({id: 'A', isCentral: true});
+        const ideaA = new Idea({id: 'A', isRoot: true});
         const ideaB = new Idea({id: 'B'});
         const ideaC = new Idea({id: 'C'});
 

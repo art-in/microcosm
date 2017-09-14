@@ -230,19 +230,19 @@ describe('ideas', () => {
 
     });
 
-    describe('.countCentral()', () => {
+    describe('.countRoot()', () => {
 
-        it('should return number of central ideas', async () => {
+        it('should return number of root ideas', async () => {
 
             // setup
             const db = createDB();
 
-            await db.post({isCentral: true});
-            await db.post({isCentral: true});
-            await db.post({isCentral: false});
+            await db.post({isRoot: true});
+            await db.post({isRoot: true});
+            await db.post({isRoot: false});
 
             // target
-            const result = await storage.countCentral(db);
+            const result = await storage.countRoot(db);
 
             // check
             expect(result).to.equal(2);
@@ -253,11 +253,11 @@ describe('ideas', () => {
             // setup
             const db = createDB();
 
-            await db.put({_id: '123', isCentral: true});
-            await db.put({_id: '321', isCentral: true});
+            await db.put({_id: '123', isRoot: true});
+            await db.put({_id: '321', isRoot: true});
 
             // target
-            const result = await storage.countCentral(db, '123');
+            const result = await storage.countRoot(db, '123');
 
             // check
             expect(result).to.equal(1);

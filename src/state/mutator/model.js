@@ -120,7 +120,7 @@ async function addIdea(model, mutation) {
 
     mindmap.ideas.set(idea.id, idea);
 
-    if (idea.isCentral) {
+    if (idea.isRoot) {
 
         // add root idea
         if (mindmap.root) {
@@ -202,7 +202,7 @@ async function removeIdea(model, mutation) {
     const idea = mindmap.ideas.get(id);
 
     // unbind from incoming associations
-    if (!idea.isCentral &&
+    if (!idea.isRoot &&
         (!idea.associationsIn || !idea.associationsIn.length)) {
         throw Error(`No incoming associations found for idea '${idea.id}'`);
     }

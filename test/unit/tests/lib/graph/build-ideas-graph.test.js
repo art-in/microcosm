@@ -15,7 +15,7 @@ describe('build-ideas-graph', () => {
         //    (idea 2)    (idea 3)
         //
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true}),
+            new Idea({id: 'idea 1', isRoot: true}),
             new Idea({id: 'idea 2'}),
             new Idea({id: 'idea 3'})
         ];
@@ -81,7 +81,7 @@ describe('build-ideas-graph', () => {
         //              (idea 3)
         //
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true}),
+            new Idea({id: 'idea 1', isRoot: true}),
             new Idea({id: 'idea 2'}),
             new Idea({id: 'idea 3'})
         ];
@@ -142,7 +142,7 @@ describe('build-ideas-graph', () => {
 
         // setup
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true})
+            new Idea({id: 'idea 1', isRoot: true})
         ];
 
         const assocs = [];
@@ -154,7 +154,7 @@ describe('build-ideas-graph', () => {
         expect(graph).to.exist;
     });
 
-    it('should fail if central idea was not found', () => {
+    it('should fail if root idea was not found', () => {
 
         // setup
         const ideas = [
@@ -179,7 +179,7 @@ describe('build-ideas-graph', () => {
 
         // setup
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true}),
+            new Idea({id: 'idea 1', isRoot: true}),
             new Idea({id: 'idea 2'}),
             new Idea({id: 'idea 3'})
         ];
@@ -201,7 +201,7 @@ describe('build-ideas-graph', () => {
         
         // setup
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true}),
+            new Idea({id: 'idea 1', isRoot: true}),
             new Idea({id: 'idea 2'}),
             new Idea({id: 'idea 3'})
         ];
@@ -219,11 +219,11 @@ describe('build-ideas-graph', () => {
             `Tail idea 'idea Y' of association 'assoc 2' was not found`);
     });
 
-    it('should fail if not all ideas can be reached from central idea', () => {
+    it('should fail if not all ideas can be reached from root idea', () => {
 
         // setup
         const ideas = [
-            new Idea({id: 'idea 1', isCentral: true}),
+            new Idea({id: 'idea 1', isRoot: true}),
             new Idea({id: 'idea 2'}),
             new Idea({id: 'idea A'}),
             new Idea({id: 'idea B'})

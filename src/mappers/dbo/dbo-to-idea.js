@@ -13,7 +13,7 @@ export default function dboToIdea(dbo) {
     model.x = dbo.x;
     model.y = dbo.y;
     model.value = dbo.value;
-    model.isCentral = dbo.isCentral === true;
+    model.isRoot = dbo.isRoot === true;
     model.color = dbo.color;
 
     return model;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import bodyMargin from 'lib/helpers/dom/get-body-margin';
+import getBodyMargin from 'lib/helpers/dom/get-body-margin';
 import getElementSize from 'lib/helpers/dom/get-element-size';
 import getPageScale from 'lib/helpers/dom/get-page-scale';
 
@@ -30,6 +30,8 @@ export default class Graph extends Component {
         // send position depending to this viewport
         const viewportRect = this.viewport.getBoundingClientRect();
 
+        const bodyMargin = getBodyMargin();
+
         return new Point(
             e.pageX - viewportRect.left - bodyMargin.left,
             e.pageY - viewportRect.top - bodyMargin.top
@@ -55,6 +57,7 @@ export default class Graph extends Component {
     }
 
     onNodeRightClick = (node, e) => {
+
         this.props.graph.onNodeRightClick(node, this.getClickPos(e));
         e.preventDefault();
     }
@@ -71,6 +74,7 @@ export default class Graph extends Component {
     onWheel = e => {
 
         const {graph} = this.props;
+        const bodyMargin = getBodyMargin();
 
         const viewportX = e.clientX - bodyMargin.left;
         const viewportY = e.clientY - bodyMargin.top;

@@ -13,7 +13,7 @@ import buildGraph from './generics/build-graph';
  * 
  * @param {array.<Idea>} ideas
  * @param {array.<Association>} associations
- * @return {Idea} central idea
+ * @return {Idea} root idea
  */
 export default function(ideas, associations) {
     return buildGraph(
@@ -21,6 +21,6 @@ export default function(ideas, associations) {
         associations,
         'idea',
         'association',
-        idea => idea.isCentral
+        idea => idea.isRoot
     );
 }

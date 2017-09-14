@@ -22,10 +22,10 @@ export default class Idea {
     mindmapId = undefined;
 
     /**
-     * Is it central idea of mindmap?
+     * Indicates that idea is root idea of mindmap
      * @type {boolean}
      */
-    isCentral = false;
+    isRoot = false;
 
     /**
      * Distance from root
@@ -121,7 +121,7 @@ export default class Idea {
      */
     toString() {
         return `[Idea` +
-            (this.isCentral ? `* ` : ` `) +
+            (this.isRoot ? `* ` : ` `) +
             `(mm: ${this.mindmapId}) ` +
             `(${this.id}) ` +
             `(${this.x} x ${this.y}) ` +

@@ -47,9 +47,9 @@ async function apply(db, mutation) {
         }
 
         if (!(await db.ideas.info()).doc_count) {
-            // ideas database is empty, creating central idea
+            // ideas database is empty, creating root idea
             await ideas.add(db.ideas, new Idea({
-                isCentral: true,
+                isRoot: true,
                 x: 0,
                 y: 0
             }));

@@ -13,7 +13,7 @@ export default function ideaToDbo(model) {
     dbo.x = model.x;
     dbo.y = model.y;
     dbo.value = model.value;
-    dbo.isCentral = model.isCentral || undefined;
+    dbo.isRoot = model.isRoot || undefined;
     dbo.color = model.color || undefined;
 
     deleteUndefinedProps(dbo);

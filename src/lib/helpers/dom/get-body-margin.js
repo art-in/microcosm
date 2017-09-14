@@ -1,7 +1,6 @@
-export let bodyMargin;
-
 document.addEventListener('DOMContentLoaded', function() {
-    bodyMargin = getBodyMargin();
+    // precache
+    getBodyMargin();
 });
 
 /**
@@ -9,9 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
  * @return {{left: number, top: number}}}
  */
 export default function getBodyMargin() {
+    if (getBodyMargin.cache) {
+        return getBodyMargin.cache;
+    }
+
     const bodyStyle = window.getComputedStyle(document.body, null);
-    return {
+    getBodyMargin.cache = {
         left: parseInt(bodyStyle.marginLeft, 10),
         top: parseInt(bodyStyle.marginTop, 10)
     };
+
+    return getBodyMargin.cache;
 }

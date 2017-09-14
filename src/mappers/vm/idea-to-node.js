@@ -18,9 +18,9 @@ export default function ideaToNode(idea) {
     node.id = idea.id;
     node.pos = new Point(idea.x, idea.y);
     node.title.value = idea.value;
-    node.isCentral = idea.isCentral;
-    node.color = idea.isCentral ? 'yellow' : (idea.color || node.color);
-    node.radius = idea.isCentral ? 15 : 10;
+    node.isRoot = idea.isRoot;
+    node.color = idea.isRoot ? 'yellow' : (idea.color || node.color);
+    node.radius = idea.isRoot ? 15 : 10;
     node.depth = idea.depth;
 
     return node;

@@ -300,24 +300,24 @@ describe('ideas', () => {
                 'Idea with ID \'uknown\' not found in mindmap');
         });
 
-        it('should fail if idea is central', async () => {
+        it('should fail if idea is root', async () => {
 
             // setup
             const mindmap = new Mindmap();
 
-            mindmap.ideas.set('central',
-                new Idea({id: 'central', isCentral: true}));
+            mindmap.ideas.set('root',
+                new Idea({id: 'root', isRoot: true}));
 
             const state = {model: {mindmap}};
 
             // target
             const promise = dispatch('remove-idea', {
-                ideaId: 'central'
+                ideaId: 'root'
             }, state);
 
             // check
             await expect(promise).to.be.rejectedWith(
-                'Unable to remove central idea');
+                'Unable to remove root idea');
         });
 
     });

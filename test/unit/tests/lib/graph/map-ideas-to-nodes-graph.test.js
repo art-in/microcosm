@@ -19,7 +19,7 @@ describe('map-ideas-to-nodes-graph', () => {
         //
         const rootIdea = new Idea({
             id: 'root idea',
-            isCentral: true,
+            isRoot: true,
             depth: 0
         });
         const idea1 = new Idea({id: 'idea 1', depth: 1});
@@ -101,7 +101,7 @@ describe('map-ideas-to-nodes-graph', () => {
         //                 \      v
         //                  (idea 2)
         //
-        const rootIdea = new Idea({id: 'root idea', isCentral: true});
+        const rootIdea = new Idea({id: 'root idea', isRoot: true});
         const idea1 = new Idea({id: 'idea 1'});
         const idea2 = new Idea({id: 'idea 2'});
 
@@ -172,7 +172,7 @@ describe('map-ideas-to-nodes-graph', () => {
         //                 \
         //               (idea 3)
         //
-        const rootIdea = new Idea({id: 'root', isCentral: true});
+        const rootIdea = new Idea({id: 'root', isRoot: true});
         const idea1 = new Idea({id: 'idea 1'});
         const idea2 = new Idea({id: 'idea 2'});
         const idea3 = new Idea({id: 'idea 3'});

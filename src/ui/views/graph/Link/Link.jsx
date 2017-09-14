@@ -25,7 +25,7 @@ export default class Link extends Component {
 
         const titlePartOfLink = 0.75;
         const titleHeight = 25;
-        const linkStartWidth = (link.isBOI ? 30 : 5) * depthDownscaleFactor;
+        const linkStartWidth = (link.isRooted ? 30 : 5) * depthDownscaleFactor;
         const linkEndWidth = 2 * depthDownscaleFactor;
         
         
