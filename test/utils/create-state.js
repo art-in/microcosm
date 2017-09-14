@@ -10,15 +10,14 @@ import Dispatcher from 'src/state/Dispatcher';
 
 import toGraph from 'src/mappers/vm/mindmap-to-graph';
 
-const mutator = () => {};
-
 /**
  * Creates clean test-ready state
  * @return {object} state
  */
-export function createState() {
+export default function createState() {
 
     // store
+    const mutator = () => {};
     connect.to(new Store(new Dispatcher(), mutator));
 
     // model
