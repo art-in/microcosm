@@ -8,7 +8,7 @@ import {connect} from 'src/ui/viewmodels/shared/store-connect';
 import Store from 'src/state/Store';
 import Dispatcher from 'src/state/Dispatcher';
 
-import {toGraph} from 'mappers/graphMapper';
+import toGraph from 'src/mappers/vm/mindmap-to-graph';
 
 const mutator = () => {};
 

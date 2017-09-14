@@ -1,5 +1,6 @@
 import assert from 'assert';
-import {toModel, toDbo} from 'mappers/ideaMapper';
+import toModel from 'mappers/dbo/dbo-to-idea';
+import toDbo from 'mappers/dbo/idea-to-dbo';
 
 import Idea from 'domain/models/Idea';
 

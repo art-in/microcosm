@@ -1,7 +1,7 @@
 import mapGraph from './generics/map-graph';
 
-import {ideaToNode} from 'mappers/nodeMapper';
-import {assocToLink} from 'mappers/linkMapper';
+import ideaToNode from 'mappers/vm/idea-to-node';
+import assocToLink from 'mappers/vm/association-to-link';
 
 /**
  * Maps graph of idea models to graph of node viewmodels

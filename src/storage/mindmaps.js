@@ -1,4 +1,5 @@
-import {toModel, toDbo} from 'mappers/mindmapMapper';
+import toModel from 'mappers/dbo/dbo-to-mindmap';
+import toDbo from 'mappers/dbo/mindmap-to-dbo';
 
 /**
  * Gets mindmap

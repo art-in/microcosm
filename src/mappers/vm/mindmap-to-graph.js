@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import GraphVM from 'ui/viewmodels/graph/Graph';
 import Mindmap from 'domain/models/Mindmap';
+
 import traverseGraph from 'lib/graph/traverse-nodes-graph';
 import mapGraph from 'lib/graph/map-ideas-to-nodes-graph';
 
@@ -10,7 +11,7 @@ import mapGraph from 'lib/graph/map-ideas-to-nodes-graph';
  * @param {Mindmap} mindmap
  * @return {Graph}
  */
-export function toGraph(mindmap) {
+export default function mindmapToGraph(mindmap) {
     assert(mindmap instanceof Mindmap,
         `Object '${mindmap}' is not a Mindmap`);
 
@@ -47,23 +48,4 @@ export function toGraph(mindmap) {
     graph.root = rootNode;
 
     return graph;
-}
-
-/**
- * Maps graph view model to mindmap model
- * @param {Graph} graph
- * @param {Mindmap} mindmap
- * @return {Mindmap}
- */
-export function toMindmap(graph, mindmap) {
-    assert(graph instanceof GraphVM,
-        `Object '${graph}' is not a Graph`);
-    assert(mindmap instanceof Mindmap,
-        `Object '${mindmap}' is not a Mindmap`);
-
-    mindmap.x = graph.viewbox.x;
-    mindmap.y = graph.viewbox.y;
-    mindmap.scale = graph.viewbox.scale;
-
-    return mindmap;
 }

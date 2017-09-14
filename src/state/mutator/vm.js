@@ -1,4 +1,4 @@
-import {toGraph} from 'mappers/graphMapper';
+import toGraph from 'mappers/vm/mindmap-to-graph';
 
 import MainVM from 'ui/viewmodels/Main';
 import MindmapVM from 'ui/viewmodels/Mindmap';

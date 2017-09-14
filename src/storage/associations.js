@@ -1,4 +1,5 @@
-import {toModel, toDbo} from 'mappers/assocMapper';
+import toModel from 'mappers/dbo/dbo-to-association';
+import toDbo from 'mappers/dbo/association-to-dbo';
 
 /**
  * Gets all associations
