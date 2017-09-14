@@ -58,13 +58,13 @@ describe('AsyncTaskQueue', () => {
 
             const task1 = async () => {
                 seq.push('task 1 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 1 end');
             };
 
             const task2 = async () => {
                 seq.push('task 2 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 2 end');
             };
     
@@ -90,7 +90,7 @@ describe('AsyncTaskQueue', () => {
 
             const task1 = async () => {
                 seq.push('task 1 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 1 end');
             };
 
@@ -98,7 +98,7 @@ describe('AsyncTaskQueue', () => {
 
             const task3 = async () => {
                 seq.push('task 3 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 3 end');
             };
     
@@ -125,14 +125,14 @@ describe('AsyncTaskQueue', () => {
 
             const task1 = async () => {
                 seq.push('task 1 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 1 end');
                 return 1;
             };
 
             const task2 = async () => {
                 seq.push('task 2 start');
-                await timer(10);
+                await timer(0);
                 seq.push('task 2 end');
                 return 2;
             };

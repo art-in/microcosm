@@ -68,14 +68,14 @@ describe('Store', () => {
             
             dispatcher.reg('action 1', async () => {
                 seq.push('start dispatch action 1');
-                await timer(10);
+                await timer(0);
                 seq.push('end dispatch action 1');
                 return new Patch('mutation 1');
             });
 
             dispatcher.reg('action 2', async () => {
                 seq.push('start dispatch action 2');
-                await timer(10);
+                await timer(0);
                 seq.push('end dispatch action 2');
                 return new Patch('mutation 2');
             });
@@ -85,12 +85,12 @@ describe('Store', () => {
                     switch (mutation.type) {
                     case 'mutation 1':
                         seq.push('start mutation 1');
-                        await timer(10);
+                        await timer(0);
                         seq.push('end mutation 1');
                         return {counter: initialState.counter + 1};
                     case 'mutation 2':
                         seq.push('start mutation 2');
-                        await timer(10);
+                        await timer(0);
                         seq.push('end mutation 2');
                         return {counter: initialState.counter + 1};
                     }
