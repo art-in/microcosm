@@ -3,7 +3,7 @@ import {expect} from 'chai';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 
-import traverse from 'src/lib/graph/traverse-ideas-graph';
+import traverse from 'src/utils/graph/traverse-ideas-graph';
 
 describe('traverse-ideas-graph', () => {
 

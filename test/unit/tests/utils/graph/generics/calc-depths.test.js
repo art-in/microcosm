@@ -3,7 +3,7 @@ import {expect} from 'chai';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 
-import calcDepths from 'src/lib/graph/generics/calc-depths';
+import calcDepths from 'src/utils/graph/generics/calc-depths';
 
 describe('calc-depths', () => {
 

@@ -1,4 +1,4 @@
-import deleteUndefinedProps from 'lib/helpers/delete-undefined-props';
+import deleteUndefinedProps from 'utils/delete-undefined-props';
 
 /**
  * Maps idea model to dbo

@@ -3,8 +3,8 @@ import assert from 'assert';
 import GraphVM from 'ui/viewmodels/graph/Graph';
 import Mindmap from 'domain/models/Mindmap';
 
-import traverseGraph from 'lib/graph/traverse-nodes-graph';
-import mapGraph from 'lib/graph/map-ideas-to-nodes-graph';
+import traverseGraph from 'utils/graph/traverse-nodes-graph';
+import mapGraph from 'utils/graph/map-ideas-to-nodes-graph';
 
 /**
  * Maps mindmap model to graph view model

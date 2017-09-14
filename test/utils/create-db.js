@@ -1,4 +1,4 @@
-import guid from 'lib/helpers/guid';
+import guid from 'utils/guid';
 
 import PouchDB from 'pouchdb';
 import memoryPlugin from 'pouchdb-adapter-memory';

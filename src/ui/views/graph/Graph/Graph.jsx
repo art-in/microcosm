@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import getBodyMargin from 'lib/helpers/dom/get-body-margin';
-import getElementSize from 'lib/helpers/dom/get-element-size';
-import getPageScale from 'lib/helpers/dom/get-page-scale';
+import getBodyMargin from 'utils/dom/get-body-margin';
+import getElementSize from 'utils/dom/get-element-size';
+import getPageScale from 'utils/dom/get-page-scale';
 
 import GraphVM from 'ui/viewmodels/graph/Graph';
 import Point from 'ui/viewmodels/misc/Point';

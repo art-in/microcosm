@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-import AsyncTaskQueue from 'lib/AsyncTaskQueue';
+import AsyncTaskQueue from 'utils/AsyncTaskQueue';
 
 /**
  * Application state container.

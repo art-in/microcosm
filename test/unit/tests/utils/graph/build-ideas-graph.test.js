@@ -2,7 +2,7 @@ import {expect} from 'chai';
 
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
-import build from 'src/lib/graph/build-ideas-graph';
+import build from 'src/utils/graph/build-ideas-graph';
 
 describe('build-ideas-graph', () => {
 

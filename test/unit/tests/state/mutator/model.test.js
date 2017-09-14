@@ -7,7 +7,7 @@ import Mindmap from 'src/domain/models/Mindmap';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 
-import values from 'src/lib/helpers/get-map-values';
+import values from 'src/utils/get-map-values';
 
 describe('model', () => {
 

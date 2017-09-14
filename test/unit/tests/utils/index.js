@@ -1,4 +1,4 @@
-describe('lib', () => {
+describe('utils', () => {
 
     require('./graph');
 

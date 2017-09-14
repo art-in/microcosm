@@ -1,13 +1,13 @@
-import mapObject from 'lib/helpers/map-object';
+import mapObject from 'utils/map-object';
 
 import * as ideaStorage from 'storage/ideas';
 import * as assocStorage from 'storage/associations';
 import * as mindmapStorage from 'storage/mindmaps';
 
-import values from 'lib/helpers/get-map-values';
+import values from 'utils/get-map-values';
 
-import calcDepths from 'lib/graph/generics/calc-depths';
-import buildGraph from 'lib/graph/build-ideas-graph';
+import calcDepths from 'utils/graph/generics/calc-depths';
+import buildGraph from 'utils/graph/build-ideas-graph';
 
 /**
  * Applies patch to model state

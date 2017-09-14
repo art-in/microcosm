@@ -1,5 +1,5 @@
-import createID from 'lib/helpers/create-id';
-import mapObject from 'lib/helpers/map-object';
+import createID from 'utils/create-id';
+import mapObject from 'utils/map-object';
 
 /**
  * Mindmap model

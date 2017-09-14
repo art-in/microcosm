@@ -3,7 +3,7 @@ import {spy} from 'sinon';
 
 import {timer} from 'test/utils';
 
-import AsyncTaskQueue from 'src/lib/AsyncTaskQueue';
+import AsyncTaskQueue from 'src/utils/AsyncTaskQueue';
 
 describe('AsyncTaskQueue', () => {
 

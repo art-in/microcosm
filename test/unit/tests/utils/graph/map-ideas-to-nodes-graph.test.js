@@ -3,7 +3,7 @@ import {expect} from 'chai';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 
-import mapGraph from 'src/lib/graph/map-ideas-to-nodes-graph';
+import mapGraph from 'src/utils/graph/map-ideas-to-nodes-graph';
 
 describe('map-ideas-to-nodes-graph', () => {
 
