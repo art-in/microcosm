@@ -115,7 +115,9 @@ export default class Graph extends Component {
 
         if (graph.drag.active) {
             graph.onDragStop();
-        } else {
+        }
+        
+        if (graph.pan.active) {
             graph.onPanStop();
         }
     }

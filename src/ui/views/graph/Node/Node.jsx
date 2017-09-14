@@ -19,11 +19,6 @@ export default class Node extends Component {
         className: PropTypes.string
     }
 
-    onMouseDown = e => {
-        // to not interfere with graph panning
-        e.stopPropagation();
-    }
-
     render() {
         
         const {node, className, ...other} = this.props;
@@ -52,10 +47,9 @@ export default class Node extends Component {
                         height={ textAreaHeight }
                         value={ node.title.value }
                         editable={ node.title.editing }
-                        onClick={ node.onTitleClick.bind(node) }
+                        onDoubleClick={ node.onTitleClick.bind(node) }
                         onBlur={ node.onTitleBlur.bind(node) }
-                        onChange={ node.onTitleChange.bind(node) }
-                        onMouseDown= { this.onMouseDown } />
+                        onChange={ node.onTitleChange.bind(node) } />
                 }
 
                 {

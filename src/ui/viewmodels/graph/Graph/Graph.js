@@ -69,7 +69,8 @@ export default class Graph extends EventedViewModel {
      * Panning state
      */
     pan = {
-        active: false
+        active: false,
+        shifted: false
     };
 
     /**
@@ -265,6 +266,8 @@ export default class Graph extends EventedViewModel {
      * @param {object} opts
      */
     onPan({shiftX = 0, shiftY = 0}) {
+        this.pan.shifted = true;
+
         this.viewbox.x -= shiftX;
         this.viewbox.y -= shiftY;
 
@@ -275,18 +278,18 @@ export default class Graph extends EventedViewModel {
      * Handles pan stop event
      */
     onPanStop() {
-        if (!this.pan.active) {
-            return;
+        if (this.pan.active && this.pan.shifted) {
+            this.emit('viewbox-position-change', {
+                graphId: this.id,
+                pos: {
+                    x: this.viewbox.x,
+                    y: this.viewbox.y
+                }
+            });
         }
 
         this.pan.active = false;
-        this.emit('viewbox-position-change', {
-            graphId: this.id,
-            pos: {
-                x: this.viewbox.x,
-                y: this.viewbox.y
-            }
-        });
+        this.pan.shifted = false;
     }
 
     /**

@@ -18,19 +18,14 @@ export default class Link extends Component {
         className: PropTypes.string
     }
 
-    onMouseDown = e => {
-        // to not interfere with graph panning
-        e.stopPropagation();
-    }
-
     render() {
         const {link, className, ...other} = this.props;
-
+        
         const titlePartOfLink = 0.75;
         const titleHeight = 25;
         const linkStartWidth = link.isBOI ? 30 : 5;
         const linkEndWidth = 2;
-
+        
         // Using editable/rectangular TextArea for now.
         // It has rectangular form, which is OK since all links are lines now.
         // It cannot be drawn on (curl) paths, so compute positioning by hand.
@@ -80,18 +75,17 @@ export default class Link extends Component {
                     {...other} />
 
                 {
-                    link.title.visible &&
-                    <TextArea className={ classes.title }
-                        pos={ titlePos }
-                        width={ titleWidth }
-                        height={ titleHeight }
-                        rotation={ titleRotation }
-                        value={ link.title.value }
-                        editable={ link.title.editing }
-                        onClick={ link.onTitleClick.bind(link) }
-                        onBlur={ link.onTitleBlur.bind(link) }
-                        onChange={ link.onTitleChange.bind(link) }
-                        onMouseDown= { this.onMouseDown } />
+                    link.title.visible ?
+                        <TextArea className={ classes.title }
+                            pos={ titlePos }
+                            width={ titleWidth }
+                            height={ titleHeight }
+                            rotation={ titleRotation }
+                            value={ link.title.value }
+                            editable={ link.title.editing }
+                            onDoubleClick={ link.onTitleClick.bind(link) }
+                            onBlur={ link.onTitleBlur.bind(link) }
+                            onChange={ link.onTitleChange.bind(link) } /> : null
                 }
 
             </Group>

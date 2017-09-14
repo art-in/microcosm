@@ -38,7 +38,9 @@ export default class Link extends EventedViewModel {
         value: '',
         editing: false,
         editable: true,
-        visible: true
+
+        // do not shod link titles for now
+        visible: false
     };
 
     /**
