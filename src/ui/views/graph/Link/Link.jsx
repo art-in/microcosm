@@ -21,10 +21,13 @@ export default class Link extends Component {
     render() {
         const {link, className, ...other} = this.props;
         
+        const depthDownscaleFactor = 1 / ((link.from.depth * 3 + 1));
+
         const titlePartOfLink = 0.75;
         const titleHeight = 25;
-        const linkStartWidth = link.isBOI ? 30 : 5;
-        const linkEndWidth = 2;
+        const linkStartWidth = (link.isBOI ? 30 : 5) * depthDownscaleFactor;
+        const linkEndWidth = 2 * depthDownscaleFactor;
+        
         
         // Using editable/rectangular TextArea for now.
         // It has rectangular form, which is OK since all links are lines now.

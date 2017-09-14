@@ -31,8 +31,10 @@ export default class Node extends Component {
         textAreaPos.x = -(textAreaWidth / 2);
         textAreaPos.y = -(node.radius + textAreaHeight);
 
+        const depthDownscaleFactor = 1 / ((node.depth * 3 + 1));
+
         return (
-            <Group pos={ node.pos }>
+            <Group pos={ node.pos } scale={ depthDownscaleFactor }>
 
                 <Circle className={ cx(classes.root, className) }
                     style={{fill: node.color || 'lightgray'}}
@@ -56,7 +58,18 @@ export default class Node extends Component {
                     node.debug &&
                     <Text text={ `(${round(node.pos.x)} ${round(node.pos.y)})` }
                         className={ classes.debug }
-                        transform={ `translate(-25 ${node.radius * 2})` }/>
+                        transform={`translate(` +
+                            `-${node.radius + 10}` +
+                            ` ${node.radius + 10})` }/>
+                }
+
+                {
+                    node.debug &&
+                    <Text text={ `depth = ${node.depth}` }
+                        className={ classes.debug }
+                        transform={`translate(` +
+                            `-${node.radius + 10}` +
+                            ` ${node.radius + 23})` }/>
                 }
 
             </Group>

@@ -62,7 +62,7 @@ export default class Graph extends EventedViewModel {
         // scale (affects the size)
         scale: 1,
         scaleMin: 0.2,
-        scaleMax: 2
+        scaleMax: Infinity
     };
 
     /**
