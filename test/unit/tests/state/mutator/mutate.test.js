@@ -6,7 +6,7 @@ import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 import Patch from 'src/state/Patch';
 
-import getMapValues from 'src/lib/helpers/get-map-values';
+import values from 'src/lib/helpers/get-map-values';
 
 describe('mutate', () => {
 
@@ -62,8 +62,8 @@ describe('mutate', () => {
     it('should mutate model layer', async () => {
 
         const {model} = result;
-        const ideas = getMapValues(model.mindmap.ideas);
-        const assocs = getMapValues(model.mindmap.associations);
+        const ideas = values(model.mindmap.ideas);
+        const assocs = values(model.mindmap.associations);
         
         expect(ideas).to.have.length(2);
         expect(assocs).to.have.length(1);

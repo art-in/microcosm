@@ -1,4 +1,5 @@
-import {newIdStr, mapObject} from 'lib/helpers/helpers';
+import createID from 'lib/helpers/create-id';
+import mapObject from 'lib/helpers/map-object';
 
 /**
  * Association model
@@ -9,7 +10,7 @@ export default class Association {
      * ID
      * @type {string}
      */
-    id = newIdStr();
+    id = createID();
 
     /**
      * ID of start idea

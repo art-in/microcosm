@@ -1,4 +1,4 @@
-import {deleteUndefinedProps} from 'lib/helpers/helpers';
+import deleteUndefinedProps from 'lib/helpers/delete-undefined-props';
 
 /**
  * Maps mindmap model to dbo

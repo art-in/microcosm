@@ -3,8 +3,6 @@ import assert from 'assert';
 import Node from 'ui/viewmodels/graph/Node';
 import Idea from 'domain/models/Idea';
 
-// TODO: use dashed notation in file names instead of camel case.
-
 /**
  * Maps node view model to idea model
  * @param {Node} node

@@ -1,10 +1,10 @@
-import {mapObject} from 'lib/helpers/helpers';
+import mapObject from 'lib/helpers/map-object';
 
 import * as ideaStorage from 'storage/ideas';
 import * as assocStorage from 'storage/associations';
 import * as mindmapStorage from 'storage/mindmaps';
 
-import getMapValues from 'lib/helpers/get-map-values';
+import values from 'lib/helpers/get-map-values';
 
 import calcDepths from 'lib/graph/generics/calc-depths';
 import buildGraph from 'lib/graph/build-ideas-graph';
@@ -138,7 +138,7 @@ async function addIdea(model, mutation) {
     } else {
 
         // bind with incoming associations
-        const incomingAssocs = getMapValues(mindmap.associations)
+        const incomingAssocs = values(mindmap.associations)
             .filter(a => a.toId === idea.id);
     
         if (!incomingAssocs.length) {

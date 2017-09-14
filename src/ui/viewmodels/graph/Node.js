@@ -1,4 +1,4 @@
-import {mapObject} from 'lib/helpers/helpers';
+import mapObject from 'lib/helpers/map-object';
 
 import EventedViewModel from '../shared/EventedViewModel';
 import Point from 'ui/viewmodels/misc/Point';

@@ -7,7 +7,7 @@ import Mindmap from 'src/domain/models/Mindmap';
 import Idea from 'src/domain/models/Idea';
 import Association from 'src/domain/models/Association';
 
-import getMapValues from 'src/lib/helpers/get-map-values';
+import values from 'src/lib/helpers/get-map-values';
 
 describe('model', () => {
 
@@ -38,8 +38,8 @@ describe('model', () => {
 
             // target
             const result = await mutate(initial, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
-            const assocs = getMapValues(result.mindmap.associations);
+            const ideas = values(result.mindmap.ideas);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(result.mindmap).to.exist;
@@ -120,7 +120,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(2);
@@ -185,7 +185,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const associations = getMapValues(result.mindmap.associations);
+            const associations = values(result.mindmap.associations);
 
             // check
             expect(associations).to.have.length(3);
@@ -297,7 +297,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(2);
@@ -360,7 +360,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.containSubset([{
@@ -381,7 +381,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.containSubset([{
@@ -443,7 +443,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(1);
@@ -595,7 +595,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(2);
@@ -664,7 +664,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(3);
@@ -756,7 +756,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(1);
@@ -789,7 +789,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(1);
@@ -822,7 +822,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(1);
@@ -855,7 +855,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(2);
@@ -890,7 +890,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const ideas = getMapValues(result.mindmap.ideas);
+            const ideas = values(result.mindmap.ideas);
 
             // check
             expect(ideas).to.have.length(2);
@@ -977,7 +977,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(1);
@@ -1053,7 +1053,7 @@ describe('model', () => {
 
             // target
             const result = await mutate(model, patch);
-            const assocs = getMapValues(result.mindmap.associations);
+            const assocs = values(result.mindmap.associations);
 
             // check
             expect(assocs).to.have.length(1);

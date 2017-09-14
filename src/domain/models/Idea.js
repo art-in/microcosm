@@ -1,4 +1,5 @@
-import {newIdStr, mapObject} from 'lib/helpers/helpers';
+import createID from 'lib/helpers/create-id';
+import mapObject from 'lib/helpers/map-object';
 
 /**
  * Idea model
@@ -13,7 +14,7 @@ export default class Idea {
     /**
      * ID
      */
-    id = newIdStr();
+    id = createID();
 
     /**
      * ID of parent mindmap
