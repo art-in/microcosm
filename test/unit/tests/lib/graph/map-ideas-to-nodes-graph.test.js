@@ -17,10 +17,14 @@ describe('map-ideas-to-nodes-graph', () => {
         //                 \
         //               (idea 3)
         //
-        const rootIdea = new Idea({id: 'root idea', isCentral: true});
-        const idea1 = new Idea({id: 'idea 1'});
-        const idea2 = new Idea({id: 'idea 2'});
-        const idea3 = new Idea({id: 'idea 3'});
+        const rootIdea = new Idea({
+            id: 'root idea',
+            isCentral: true,
+            depth: 0
+        });
+        const idea1 = new Idea({id: 'idea 1', depth: 1});
+        const idea2 = new Idea({id: 'idea 2', depth: 1});
+        const idea3 = new Idea({id: 'idea 3', depth: 2});
 
         const assoc1 = new Association({
             id: 'assoc 1',

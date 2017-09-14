@@ -53,12 +53,20 @@ export default class Node extends EventedViewModel {
     color = '';
 
     /**
+     * Distance from root
+     * @type {number}
+     */
+    depth = undefined;
+
+    /**
      * Incoming links
+     * @type {array.<Link>}
      */
     linksIn = [];
 
     /**
      * Outgoing links
+     * @type {array.<Link>}
      */
     linksOut = [];
 

@@ -21,6 +21,12 @@ interface Node {
      * @type {array.<Link>}
      */
     linksOut
+
+    /**
+     * Distance from root
+     * @type {number}
+     */
+    depth
 }
 ```
 

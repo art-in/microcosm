@@ -24,7 +24,7 @@ describe('mutate', () => {
         const rootIdea = new Idea({
             id: 'parent',
             isCentral: true,
-            associations: [],
+            depth: 0,
             x: 0,
             y: 0
         });
@@ -34,11 +34,13 @@ describe('mutate', () => {
         
         // setup patch
         const patch = new Patch();
+
         patch.push('add association', new Association({
             id: 'assoc',
             fromId: 'parent',
             toId: 'child'
         }));
+
         patch.push('add idea', new Idea({
             id: 'child',
             x: 10,

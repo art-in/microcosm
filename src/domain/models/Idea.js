@@ -27,6 +27,12 @@ export default class Idea {
     isCentral = false;
 
     /**
+     * Distance from root
+     * @type {number}
+     */
+    depth = undefined;
+
+    /**
      * List of outgoing associations
      * Note: available only after graph is build
      * @type {array.<Association>}

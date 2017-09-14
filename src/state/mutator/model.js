@@ -4,8 +4,10 @@ import * as ideaStorage from 'storage/ideas';
 import * as assocStorage from 'storage/associations';
 import * as mindmapStorage from 'storage/mindmaps';
 
-import buildGraph from 'lib/graph/build-ideas-graph';
 import getMapValues from 'lib/helpers/get-map-values';
+
+import calcDepths from 'lib/graph/generics/calc-depths';
+import buildGraph from 'lib/graph/build-ideas-graph';
 
 /**
  * Applies patch to model state
@@ -96,6 +98,7 @@ async function init(model, mutation) {
     const mindmap = mindmaps[0];
 
     mindmap.root = buildGraph(ideas, assocs);
+    mindmap.root = calcDepths(mindmap.root);
     
     assocs.forEach(a => mindmap.associations.set(a.id, a));
     ideas.forEach(i => mindmap.ideas.set(i.id, i));
@@ -130,6 +133,8 @@ async function addIdea(model, mutation) {
         // for root idea
         idea.associationsIn = [];
 
+        idea.depth = 0;
+
     } else {
 
         // bind with incoming associations
@@ -145,6 +150,18 @@ async function addIdea(model, mutation) {
 
         incomingAssocs.forEach(a => a.to = idea);
         idea.associationsIn = incomingAssocs;
+
+        // set depth (min parent depth + 1)
+        const parents = incomingAssocs.map(assoc => assoc.from);
+        const parentDepths = parents.map(parent => {
+            if (parent.depth === undefined) {
+                throw Error(`Parent idea '${parent.id}' does not have depth`);
+            }
+
+            return parent.depth;
+        });
+
+        idea.depth = Math.min(...parentDepths) + 1;
     }
 
     idea.associationsOut = [];

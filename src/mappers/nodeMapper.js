@@ -4,6 +4,9 @@ import Point from 'ui/viewmodels/misc/Point';
 import Node from 'ui/viewmodels/graph/Node';
 import Idea from 'domain/models/Idea';
 
+// TODO: split up mappers to different files
+// TODO: use dashed notation in file names instead of camel case.
+
 /**
  * Maps idea model to node view model
  * @param {Idea} idea
@@ -21,6 +24,7 @@ export function ideaToNode(idea) {
     node.isCentral = idea.isCentral;
     node.color = idea.isCentral ? 'yellow' : (idea.color || node.color);
     node.radius = idea.isCentral ? 15 : 10;
+    node.depth = idea.depth;
 
     return node;
 }
