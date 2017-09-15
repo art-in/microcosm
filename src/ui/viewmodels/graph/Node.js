@@ -33,6 +33,15 @@ export default class Node extends EventedViewModel {
     radius = 0;
 
     /**
+     * Scale
+     * How much times size of node should be smaller
+     * or bigger then its normal size (ie. radius)
+     * Scale 1 - is normal size
+     * @type {number}
+     */
+    scale = 1;
+
+    /**
      * Node title state
      */
     title = {

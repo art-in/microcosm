@@ -19,9 +19,16 @@ export default function ideaToNode(idea) {
     node.pos = new Point(idea.x, idea.y);
     node.title.value = idea.value;
     node.isRoot = idea.isRoot;
-    node.color = idea.isRoot ? 'yellow' : (idea.color || node.color);
-    node.radius = idea.isRoot ? 15 : 10;
     node.depth = idea.depth;
+
+    node.color = idea.isRoot ?
+        'yellow' :
+        (idea.color || node.color);
+    
+    node.radius = 10;
+    
+    // deeper node is - smaller it gets
+    node.scale = 1 / (node.depth + 1);
 
     return node;
 }
