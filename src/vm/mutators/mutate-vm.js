@@ -11,7 +11,7 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
  */
 export default async function mutate(state, patch) {
     
-    if (!state.vm.main) {
+    if (patch['init']) {
         state.vm.main = new MainVM();
         state.vm.main.mindmap = new MindmapVM();
     }
