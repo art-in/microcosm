@@ -6,7 +6,7 @@ import Idea from 'src/model/entities/Idea';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'set-idea-position' action`, () => {
+describe('set-idea-position', () => {
     
     it('should set idea position', async () => {
 

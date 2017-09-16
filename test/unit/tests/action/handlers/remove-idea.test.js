@@ -7,7 +7,7 @@ import Association from 'src/model/entities/Association';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'remove-idea' action`, () => {
+describe('remove-idea', () => {
     
     it('should remove idea', async () => {
 

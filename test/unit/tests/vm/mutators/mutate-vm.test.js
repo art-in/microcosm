@@ -6,7 +6,7 @@ import Patch from 'utils/state/Patch';
 
 import mutate from 'vm/mutators';
 
-describe(`'init' mutation`, () => {
+describe('init', () => {
 
     it('should init vm', async () => {
 

@@ -7,7 +7,7 @@ import Association from 'src/model/entities/Association';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'create-idea' action`, () => {
+describe('create-idea', () => {
     
     it('should add idea to mindmap', async () => {
 

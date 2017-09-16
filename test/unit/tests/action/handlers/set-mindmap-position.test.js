@@ -5,7 +5,7 @@ import Mindmap from 'src/model/entities/Mindmap';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'set-mindmap-position' action`, () => {
+describe('set-mindmap-position', () => {
     
     it('should set mindmap position', async () => {
 

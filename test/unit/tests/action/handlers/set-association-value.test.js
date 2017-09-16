@@ -6,7 +6,7 @@ import Association from 'src/model/entities/Association';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'set-association-value' action`, () => {
+describe('set-association-value', () => {
     
     it('should set association value', async () => {
 

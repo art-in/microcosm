@@ -9,7 +9,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe(`'init' mutation`, () => {
+describe('init', () => {
 
     it('should init mindmap model from db', async () => {
 
@@ -88,7 +88,7 @@ describe(`'init' mutation`, () => {
 
 });
 
-describe(`'add idea' mutation`, () => {
+describe('add idea', () => {
 
     it('should add idea to ideas map', async () => {
 
@@ -485,7 +485,7 @@ describe(`'add idea' mutation`, () => {
     });
 });
 
-describe(`'update idea' mutation`, () => {
+describe('update idea', () => {
 
     it('should update idea', async () => {
 
@@ -539,7 +539,7 @@ describe(`'update idea' mutation`, () => {
 
 });
 
-describe(`'remove idea' mutation`, () => {
+describe('remove idea', () => {
 
     it('should remove idea from ideas map', async () => {
 
@@ -745,7 +745,7 @@ describe(`'remove idea' mutation`, () => {
     });
 });
 
-describe(`'add association' mutation`, () => {
+describe('add association', () => {
 
     it('should add association to map', async () => {
 
@@ -990,7 +990,7 @@ describe(`'add association' mutation`, () => {
 
 });
 
-describe(`'update association' mutation`, () => {
+describe('update association', () => {
 
     it('should update association', async () => {
 
@@ -1044,7 +1044,7 @@ describe(`'update association' mutation`, () => {
 
 });
 
-describe(`'remove association' mutation`, () => {
+describe('remove association', () => {
 
     it('should remove association from map', async () => {
 
@@ -1332,7 +1332,7 @@ describe(`'remove association' mutation`, () => {
     });
 });
 
-describe(`'update mindmap' mutation`, () => {
+describe('update mindmap', () => {
 
     it('should update mindmap', async () => {
 

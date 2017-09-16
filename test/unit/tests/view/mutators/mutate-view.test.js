@@ -4,7 +4,7 @@ import Patch from 'utils/state/Patch';
 
 import mutate from 'view/mutators';
 
-describe(`'init' mutation`, () => {
+describe('init', () => {
 
     it('should init view', async () => {
 

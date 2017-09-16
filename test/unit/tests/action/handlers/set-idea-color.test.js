@@ -6,7 +6,7 @@ import Idea from 'src/model/entities/Idea';
 import dispatcher from 'src/action/dispatcher';
 const dispatch = dispatcher.dispatch.bind(dispatcher);
 
-describe(`'set-idea-color' action`, () => {
+describe('set-idea-color', () => {
     
     it('should set idea color', async () => {
 
