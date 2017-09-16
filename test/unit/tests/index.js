@@ -1,9 +1,11 @@
-require('./storage');
+require('./data');
 
-require('./domain/services');
+require('./dispatchers');
 
-require('./state');
-
-require('./ui/viewmodels');
+require('./model');
 
 require('./utils');
+
+require('./view');
+
+require('./vm');

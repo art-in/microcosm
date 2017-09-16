@@ -6,15 +6,15 @@ module.exports = {
     root: __dirname,
     src: {
         serv: {
-            root: abs('src/server/'),
-            entry: abs('src/server/entry.js'),
-            public: abs('src/client/public')
+            root: abs('src/boot/server/'),
+            entry: abs('src/boot/server/entry.js'),
+            public: abs('src/boot/client/public')
         },
         client: {
             root: abs('./src/'),
-            entry: abs('./src/client/client'),
+            entry: abs('./src/boot/client/client'),
             output: {
-                path: abs('./src/client/public/build/'),
+                path: abs('./src/boot/client/public/build/'),
                 name: 'bundle.js'
             }
         }

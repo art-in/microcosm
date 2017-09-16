@@ -1,14 +1,24 @@
 /**
- * Executes async tasks sequentially
+ * Queue for executing async tasks sequentially
  * 
  * Use case?
+ * Both following conditions should meet.
+ * 
+ * 1. Need to execute async tasks atomicaly
  * Async tasks executed by series of sync sub-tasks (steps in js task queue).
  * When async tasks called in parallel, their sub-tasks can mix up, which
- * is usually OK, because it improves performance.
+ * is usually OK, because improves performance.
  * But sometimes unacceptable: eg. get/insert ops in DB.
  * To ensure certain series of async tasks are executed atomicaly
- * (ie. sub-tasks are not mixed up), we should maintain our own 
+ * (ie. sub-tasks not mixed up), we should maintain our own 
  * task queue for them.
+ * 
+ * 2. Async tasks initiated asynchronously (unpredictably)
+ * Ie. we do not know what async tasks we need to execute at once,
+ * they initiated in the process (eg. by user actions).
+ * Otherwise it's better chain them in sequence with
+ * simple 'await's. Same, if we have list of generic async tasks
+ * - again, better use simple foreach loop with 'await' inside
  */
 export default class AsyncTaskQueue {
     
@@ -25,8 +35,8 @@ export default class AsyncTaskQueue {
      * @example
      * const queue = new AsyncTaskQueue();
      * 
-     * queue.enqueue(async () => {console.log('A'); await timer(2000)});
-     * queue.enqueue(async () => {console.log('B'); await timer(1000)});
+     * queue.enqueue(async () => {await timer(2000); console.log('A')});
+     * queue.enqueue(async () => {await timer(1000); console.log('B')});
      * queue.enqueue(() => console.log('C'));
      * 
      * // A

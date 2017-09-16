@@ -1,14 +1,14 @@
 import {createDB} from 'test/utils';
 
-import Mindmap from 'src/domain/models/Mindmap';
-import MainVM from 'src/ui/viewmodels/Main';
-import MindmapVM from 'src/ui/viewmodels/Mindmap';
-import {connect} from 'src/ui/viewmodels/shared/store-connect';
+import Mindmap from 'src/model/entities/Mindmap';
+import MainVM from 'src/vm/main/Main';
+import MindmapVM from 'src/vm/main/Mindmap';
+import {connect} from 'src/vm/utils/store-connect';
 
-import Store from 'src/state/Store';
-import Dispatcher from 'src/state/Dispatcher';
+import Store from 'utils/state/Store';
+import Dispatcher from 'utils/state/Dispatcher';
 
-import toGraph from 'src/mappers/vm/mindmap-to-graph';
+import toGraph from 'vm/map/mappers/mindmap-to-graph';
 
 /**
  * Creates clean test-ready state
@@ -29,7 +29,7 @@ export default function createState() {
     main.mindmap.graph = toGraph(mindmap);
 
     return {
-        db: {
+        data: {
             ideas: createDB(),
             associations: createDB(),
             mindmaps: createDB()

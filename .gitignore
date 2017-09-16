@@ -1,4 +1,4 @@
 node_modules
 .vscode
 
-src/client/public/build/
+src/boot/client/public/build/
