@@ -82,12 +82,11 @@ export default function buildGraph(
 
     // check all nodes can be reached from the root
     visitedNodes.clear();
-    traverseGraph({
-        node: rootNode,
-        visit: node => {
+    traverseGraph(
+        rootNode,
+        node => {
             visitedNodes.add(node);
-        }
-    });
+        });
 
     const notVisitedNodes = nodes
         .filter(n => !visitedNodes.has(n))

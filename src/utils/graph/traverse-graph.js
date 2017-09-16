@@ -2,17 +2,16 @@
  * Generic function for depth-first graph traversal,
  * which calls function on each node of the graph
  * 
- * @param {object} opts
- * @param {object} opts.node - root node
- * @param {function} opts.visit - function to call on each node
- * @param {bool} [opts.order='pre'] - pre-order or post-order traversal
+ * @param {object} node - root node
+ * @param {function} visit - function to call on each node
+ * @param {bool} [order='pre'] - pre-order or post-order traversal
  * @param {Set} visitedNodes
  */
-export default function traverseGraph({
+export default function traverseGraph(
     node,
     visit,
-    order = 'pre'
-}, visitedNodes = new Set()) {
+    order = 'pre',
+    visitedNodes = new Set()) {
     
     if (visitedNodes.has(node)) {
         return;
@@ -25,11 +24,11 @@ export default function traverseGraph({
     }
 
     node.linksOut.forEach(link => {
-        traverseGraph({
-            node: link.to,
+        traverseGraph(
+            link.to,
             visit,
-            order
-        }, visitedNodes);
+            order,
+            visitedNodes);
     });
     
     if (order === 'post') {

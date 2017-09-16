@@ -3,11 +3,11 @@ import {expect} from 'chai';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import traverse from 'src/model/utils/traverse-ideas-graph';
+import traverse from 'src/utils/graph/traverse-graph';
 
-describe('traverse-ideas-graph', () => {
+describe('traverse-graph', () => {
 
-    it('should visit each idea once', () => {
+    it('should visit each node once', () => {
 
         // setup tree graph
         //

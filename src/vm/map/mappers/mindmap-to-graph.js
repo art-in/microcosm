@@ -3,7 +3,7 @@ import assert from 'assert';
 import GraphVM from 'vm/map/entities/Graph';
 import Mindmap from 'model/entities/Mindmap';
 
-import traverseGraph from '../utils/traverse-nodes-graph';
+import traverseGraph from 'utils/graph/traverse-graph';
 import mapGraph from './map-ideas-to-nodes-graph';
 
 /**
