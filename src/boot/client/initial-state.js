@@ -1,6 +1,5 @@
 /**
- * Application state structure before initialization
- * TODO: move outside of state/ (+ readme.md)
+ * Application state structure
  */
 export default {
 

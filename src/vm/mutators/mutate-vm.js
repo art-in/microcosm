@@ -11,14 +11,10 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
  */
 export default async function mutate(state, patch) {
     
-    // TODO: handle 'init' mutation
     if (!state.vm.main) {
         state.vm.main = new MainVM();
         state.vm.main.mindmap = new MindmapVM();
     }
-
-    // TODO: move map-specific mutation to vm/map/mutators
-    //       call it from here
 
     // always re-map from model as simpliest coding
     // approach (not best performance though).

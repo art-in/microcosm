@@ -3,7 +3,7 @@ import PouchDB from 'pouchdb';
 import Store from 'utils/state/Store';
 
 import dispatcher from 'action/dispatcher';
-import blankState from 'utils/state/blank';
+import initialState from './initial-state';
 import logger from 'utils/state/middlewares/logger';
 import combine from 'utils/state/combine-mutators';
 
@@ -30,7 +30,7 @@ async function start() {
             mutateVM,
             mutateView
         ]),
-        blankState,
+        initialState,
         [logger]);
 
     connect.to(store);
