@@ -2,36 +2,36 @@ import assert from 'assert';
 import Patch from './Patch';
 
 /**
- * Holds map of actions and corresponding dispatchers
+ * Collection of registered action handlers
  */
 export default class Dispatcher {
 
-    _dispatcher = [];
+    _handlers = [];
 
     /**
-     * Registers dispatchers for action
+     * Registers handler for action
      * @param {string} type - action type
-     * @param {function} dispatcher
+     * @param {function} handler
      */
-    reg(type, dispatcher) {
+    reg(type, handler) {
 
-        if (this._dispatcher.some(d => d.type === type)) {
-            throw Error(`Action '${type}' already has registered dispatcher`);
+        if (this._handlers.some(d => d.type === type)) {
+            throw Error(`Action '${type}' already has registered handler`);
         }
         
-        this._dispatcher.push({type, dispatcher});
+        this._handlers.push({type, handler});
     }
 
     /**
-     * Gets iterator over dispatchers
+     * Gets iterator over handlers
      * @return {object}
      */
     [Symbol.iterator]() {
-        return this._dispatcher[Symbol.iterator]();
+        return this._handlers[Symbol.iterator]();
     }
     
     /**
-     * Executes registered dispatcher for an action
+     * Executes registered handler for an action
      * @param {string} type - action type
      * @param {*} data
      * @param {object} state
@@ -39,14 +39,14 @@ export default class Dispatcher {
      */
     async dispatch(type, data, state) {
 
-        const disp = this._dispatcher
-            .find(d => d.type === type);
+        const actionHandler = this._handlers
+            .find(ah => ah.type === type);
 
-        if (!disp) {
+        if (!actionHandler) {
             throw Error(`Unknown action type '${type}'`);
         }
 
-        const patch = await disp.dispatcher(data, state);
+        const patch = await actionHandler.handler(data, state);
 
         return patch || new Patch();
     }
@@ -59,13 +59,13 @@ export default class Dispatcher {
     static combine(...dispatchers) {
 
         assert(dispatchers.every(g => g instanceof Dispatcher),
-            'Each argument should be instance of Handlers');
+            'Each argument should be instance of Dispatcher');
 
         const dispatcher = new Dispatcher();
 
         dispatchers
-            .forEach(dg => [...dg]
-                .forEach(d => dispatcher.reg(d.type, d.dispatcher)));
+            .forEach(d => [...d]
+                .forEach(ah => dispatcher.reg(ah.type, ah.handler)));
 
         return dispatcher;
     }

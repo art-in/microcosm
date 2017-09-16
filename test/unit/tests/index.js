@@ -1,6 +1,6 @@
-require('./data');
+require('./action');
 
-require('./dispatchers');
+require('./data');
 
 require('./model');
 

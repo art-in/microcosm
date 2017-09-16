@@ -1,0 +1,5 @@
+describe('action', () => {
+
+    require('./handlers');
+
+});

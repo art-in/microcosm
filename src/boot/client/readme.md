@@ -7,7 +7,7 @@ client startup logic
 currently most of folders outside client/server folders used only by client,  
 but it does not mean they should be inside client folder, because
 their logic can be used on server in future.  
-eg. for creating rest api server can use data/model/dispatchers
+eg. for creating rest api server can use data/model/action
 
 so consider other folders as shared between client and server.
 

@@ -18,11 +18,18 @@ Each layer converts entities to appropriate state, so its easier to work with th
   (eg. zooming-out should shade out some deep nodes removing them from picture, etc.),
 - and on **(V)** they become circles and lines on rendering surface, to be visually presented to user
 
-**Store** is application container to the state.  
+---
+
+**Store** is application container for  state.  
 
 State should always stay consistent - same entities are in same condition on each layer.  
 To support consistency between layers state cannot be changed directly, but only through **Patch**`s.  
 
 **Patch** is container of mutations. Each mutation always applied to each layer, so layers stay in sync.  
 
-**[VM]** --action--> **[store]** --action--> **[dispatcher]** --patch--> **[mutator]** --> **[state]**  
+**Dispatcher** is group of registered **action handlers**  
+
+**action handler** defines _what_ should be changed in state    
+**mutator** defines _how_ state should be changed
+
+**[VM]** --action--> **[store]>[dispatcher]>[action handler]** --(patch, old state)--> **[mutator]** --new state--> **[state]**  

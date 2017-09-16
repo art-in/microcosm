@@ -19,7 +19,7 @@ describe('Dispatcher', () => {
 
             // check
             expect(target).to.throw(
-                'Action \'action\' already has registered dispatcher');
+                'Action \'action\' already has registered handler');
         });
 
     });
