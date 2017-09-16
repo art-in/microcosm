@@ -1,5 +1,12 @@
 describe('mutators', () => {
 
-    require('./mutate-model.test');
+    require('./add-association.test');
+    require('./add-idea.test');
+    require('./init.test');
+    require('./remove-association.test');
+    require('./remove-idea.test');
+    require('./update-association.test');
+    require('./update-idea.test');
+    require('./update-mindmap.test');
 
 });
