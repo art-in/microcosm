@@ -4,6 +4,8 @@ import Point from 'vm/shared/Point';
 import Node from 'vm/map/entities/Node';
 import Idea from 'model/entities/Idea';
 
+import getScaleForDepth from '../utils/get-node-scale-for-depth';
+
 /**
  * Maps idea model to node view model
  * @param {Idea} idea
@@ -27,8 +29,7 @@ export default function ideaToNode(idea) {
     
     node.radius = 10;
     
-    // deeper node is - smaller it gets
-    node.scale = 1 / (node.depth + 1);
+    node.scale = getScaleForDepth(node.depth);
 
     return node;
 }

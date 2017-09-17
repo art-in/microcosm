@@ -4,7 +4,9 @@ import GraphVM from 'vm/map/entities/Graph';
 import Mindmap from 'model/entities/Mindmap';
 
 import traverseGraph from 'utils/graph/traverse-graph';
-import mapGraph from './map-ideas-to-nodes-graph';
+import mapGraph from './ideas-to-nodes-graph';
+
+import getFocusDepth from '../utils/get-graph-focus-depth';
 
 /**
  * Maps mindmap model to graph view model
@@ -18,12 +20,22 @@ export default function mindmapToGraph(mindmap) {
     let rootNode;
     let nodes = [];
     let links = [];
+    let height = 0;
+    let focusDepth = 0;
 
     if (mindmap.root) {
-        const map = mapGraph(mindmap.root);
-        rootNode = map.rootNode;
-        nodes = map.nodes;
-        links = map.links;
+
+        // calc depth shadowing limits
+        // show nodes on close depths below focus depth,
+        // more deeper nodes should be hidden
+        focusDepth = getFocusDepth(mindmap.scale);
+        height = focusDepth + 2;
+        
+        // map mindmap to graph
+        const res = mapGraph(mindmap.root, height);
+        rootNode = res.rootNode;
+        nodes = res.nodes;
+        links = res.links;
 
         // travers graph
         // set color on main sub graph
@@ -46,6 +58,8 @@ export default function mindmapToGraph(mindmap) {
     graph.viewbox.scale = mindmap.scale;
 
     graph.root = rootNode;
+    graph.height = height;
+    graph.focusDepth = focusDepth;
 
     return graph;
 }

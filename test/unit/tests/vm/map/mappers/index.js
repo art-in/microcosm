@@ -1,5 +1,5 @@
 describe('mappers', () => {
 
-    require('./map-ideas-to-nodes-graph.test');
+    require('./ideas-to-nodes-graph.test');
 
 });

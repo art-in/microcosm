@@ -8,7 +8,6 @@ export default class Main {
 
     /**
      * Mindmap view model
-     * TODO: rename to 'map'
      * @type {Mindmap}
      */
     mindmap;

@@ -6,6 +6,7 @@
  * @param {object} opts.originalNode
  * @param {function} opts.mapNode
  * @param {function} opts.mapLink
+ * @param {number} [opts.depthMax=infinity] - max depth limit (inclusive)
  * @return {{rootNode, nodes, links}}
  */
 export default function(opts) {
@@ -33,6 +34,8 @@ export default function(opts) {
  * @param {object} opts.originalNode
  * @param {function} opts.mapNode
  * @param {function} opts.mapLink
+ * @param {number} [opts.depthMax=infinity]
+ * 
  * @param {Map} visitedOriginalNodes 
  * @param {array} allNodes 
  * @param {array} allLinks 
@@ -41,7 +44,8 @@ export default function(opts) {
 function mapGraph({
     node: originalNode,
     mapNode,
-    mapLink
+    mapLink,
+    depthMax = Infinity
 },
 visitedOriginalNodes = new Map(),
 allNodes,
@@ -62,12 +66,18 @@ allLinks) {
 
     // map links and target nodes (recursively)
     originalNode.linksOut.forEach(originalLink => {
+        if (originalLink.to.depth > depthMax) {
+            // do not map deeper
+            return;
+        }
+
         const link = mapLink(originalLink);
         link.from = node;
         link.to = mapGraph({
             node: originalLink.to,
             mapNode,
-            mapLink
+            mapLink,
+            depthMax
         },
         visitedOriginalNodes,
         allNodes,

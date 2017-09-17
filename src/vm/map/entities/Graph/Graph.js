@@ -134,6 +134,19 @@ export default class Graph extends EventedViewModel {
     }
 
     /**
+     * Depth of nodes which resulting size 
+     * is close to original for current viewbox scale
+     * @type {number}
+     */
+    focusDepth = undefined;
+
+    /**
+     * Lenght of longest path from root to leaf node
+     * @type {number}
+     */
+    height = undefined;
+
+    /**
      * Binds node events
      * @param {Node} node
      */

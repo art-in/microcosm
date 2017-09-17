@@ -26,6 +26,10 @@ export default class GraphDebugInfo extends Component {
                 { `drag: ${graph.drag.active}` }
                 <br />
                 { `pan: ${graph.pan.active}` }
+                <br />
+                { `focus depth: ${graph.focusDepth}` }
+                <br />
+                { `rendered height: ${graph.height}` }
             </div>
         );
     }
