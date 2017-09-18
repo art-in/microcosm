@@ -4,9 +4,12 @@ import GraphVM from 'vm/map/entities/Graph';
 import Mindmap from 'model/entities/Mindmap';
 
 import traverseGraph from 'utils/graph/traverse-graph';
-import mapGraph from './ideas-to-nodes-graph';
+import mapGraph from 'utils/graph/map-graph';
 
 import getFocusDepth from '../utils/get-graph-focus-depth';
+
+import ideaToNode from './idea-to-node';
+import assocToLink from './association-to-link';
 
 /**
  * Maps mindmap model to graph view model
@@ -20,19 +23,41 @@ export default function mindmapToGraph(mindmap) {
     let rootNode;
     let nodes = [];
     let links = [];
-    let height = 0;
+    let maxDepth = 0;
     let focusDepth = 0;
 
     if (mindmap.root) {
 
-        // calc depth shadowing limits
-        // show nodes on close depths below focus depth,
-        // more deeper nodes should be hidden
+        // calc depth shading limits
+        // nodes below focused depth should be shaded
+        // nodes below max depth should be hidden
         focusDepth = getFocusDepth(mindmap.scale);
-        height = focusDepth + 2;
-        
+        const shadeDepth = focusDepth;
+        maxDepth = focusDepth + 3;
+
         // map mindmap to graph
-        const res = mapGraph(mindmap.root, height);
+        const res = mapGraph({
+            node: mindmap.root,
+            depthMax: maxDepth,
+            mapLink: assoc => {
+                const link = assocToLink(assoc);
+
+                // depth shading
+                link.shaded = assoc.to.depth > shadeDepth;
+
+                return link;
+            },
+            mapNode: idea => {
+                const node = ideaToNode(idea);
+
+                // depth shading
+                node.shaded = idea.depth > shadeDepth;
+                node.title.visible = idea.depth - shadeDepth < 2;
+
+                return node;
+            }
+        });
+        
         rootNode = res.rootNode;
         nodes = res.nodes;
         links = res.links;
@@ -58,7 +83,7 @@ export default function mindmapToGraph(mindmap) {
     graph.viewbox.scale = mindmap.scale;
 
     graph.root = rootNode;
-    graph.height = height;
+    graph.height = maxDepth;
     graph.focusDepth = focusDepth;
 
     return graph;

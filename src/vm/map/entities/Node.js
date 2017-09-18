@@ -86,6 +86,12 @@ export default class Node extends EventedViewModel {
     debug = false;
 
     /**
+     * Indicates that node has less importance
+     * (ie. grayed out)
+     */
+    shaded = false;
+
+    /**
      * constructor
      * @param {object} obj
      */
@@ -114,20 +120,28 @@ export default class Node extends EventedViewModel {
      * Handles title click event
      */
     onTitleClick() {
-        if (this.title.editable && !this.title.editing) {
-            this.title.editing = true;
-            this.emit('change');
+        if (this.shaded ||
+            !this.title.editable ||
+            this.title.editing) {
+            return;
         }
+            
+        this.title.editing = true;
+        this.emit('change');
     }
 
     /**
      * Handles title blur event
      */
     onTitleBlur() {
-        if (this.title.editable && this.title.editing) {
-            this.title.editing = false;
-            this.emit('change');
+        if (this.shaded ||
+            !this.title.editable ||
+            !this.title.editing) {
+            return;
         }
+            
+        this.title.editing = false;
+        this.emit('change');
     }
 
     /**

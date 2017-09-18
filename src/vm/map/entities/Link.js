@@ -49,6 +49,12 @@ export default class Link extends EventedViewModel {
     debug = false;
 
     /**
+     * Indicates that link has less importance
+     * (ie. grayed out)
+     */
+    shaded = false;
+
+    /**
      * constructor
      * @param {Node} fromNode
      * @param {Node} toNode

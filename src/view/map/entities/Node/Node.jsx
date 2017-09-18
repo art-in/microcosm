@@ -32,24 +32,30 @@ export default class Node extends Component {
         textAreaPos.y = -(node.radius + textAreaHeight);
 
         return (
-            <Group pos={ node.pos } scale={ node.scale }>
+            <Group
+                className={cx(
+                    classes.root, className,
+                    {[classes.shaded]: node.shaded})}
+                pos={node.pos}
+                scale={node.scale}>
 
-                <Circle className={ cx(classes.root, className) }
+                <Circle className={classes.circle}
                     style={{fill: node.color || 'lightgray'}}
                     radius={ node.radius }
                     {...other} />
 
                 {
-                    node.title.visible &&
-                    <TextArea className={ classes.title }
-                        pos={ textAreaPos }
-                        width={ textAreaWidth }
-                        height={ textAreaHeight }
-                        value={ node.title.value }
-                        editable={ node.title.editing }
-                        onDoubleClick={ node.onTitleClick.bind(node) }
-                        onBlur={ node.onTitleBlur.bind(node) }
-                        onChange={ node.onTitleChange.bind(node) } />
+                    node.title.visible ?
+                        <TextArea className={ classes.title }
+                            pos={ textAreaPos }
+                            width={ textAreaWidth }
+                            height={ textAreaHeight }
+                            value={ node.title.value }
+                            editable={ node.title.editing }
+                            onDoubleClick={ node.onTitleClick.bind(node) }
+                            onBlur={ node.onTitleBlur.bind(node) }
+                            onChange={ node.onTitleChange.bind(node) } />
+                        : null
                 }
 
                 {

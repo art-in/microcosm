@@ -64,7 +64,9 @@ export default class Link extends Component {
         titlePos.y -= (cos(titleRotation * (PI / 180)) * titleLiftHeight);
 
         return (
-            <Group className={classes.root}>
+            <Group className={cx(
+                classes.root,
+                {[classes.shaded]: link.shaded})}>
 
                 <Line id={ link.id }
                     className={ cx(classes.line, className) }

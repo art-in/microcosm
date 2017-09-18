@@ -6,6 +6,7 @@ import Point from 'vm/shared/Point';
 export default class Group extends Component {
 
     static propTypes = {
+        className: PropTypes.string,
         pos: PropTypes.instanceOf(Point),
         scale: PropTypes.number,
         id: PropTypes.string,
@@ -18,7 +19,7 @@ export default class Group extends Component {
 
     render() {
 
-        const {pos, scale, id, ...other} = this.props;
+        const {pos, scale, id, className, children, ...other} = this.props;
 
         const transforms = [];
 
@@ -31,11 +32,12 @@ export default class Group extends Component {
         }
 
         return (
-            <g id={id}
+            <g className={className}
+                id={id}
                 transform={transforms.join(' ')}
                 {...other}>
 
-                {this.props.children}
+                {children}
 
             </g>
         );

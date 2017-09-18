@@ -260,8 +260,8 @@ describe('ideas-to-nodes-graph', () => {
 
         const assoc3to4 = new Association({
             id: 'assoc 4',
-            from: idea2,
-            to: idea3
+            from: idea3,
+            to: idea4
         });
 
         const assoc4to2 = new Association({

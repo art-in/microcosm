@@ -194,6 +194,11 @@ export default class Graph extends EventedViewModel {
      * @param {object} pos
      */
     onNodeRightClick(node, pos) {
+        if (node.shaded) {
+            // prevent actions on shaded nodes
+            return;
+        }
+
         this.emit('node-rightclick', node, pos);
     }
 
@@ -203,6 +208,11 @@ export default class Graph extends EventedViewModel {
      * @param {object} pos
      */
     onLinkRightClick(link, pos) {
+        if (link.shaded) {
+            // prevent actions on shaded links
+            return;
+        }
+
         this.emit('link-rightclick', link, pos);
     }
 
@@ -310,6 +320,11 @@ export default class Graph extends EventedViewModel {
      * @param {Node} node
      */
     onDragStart(node) {
+        if (node.shaded) {
+            // prevent actions on shaded nodes
+            return;
+        }
+
         this.drag = {
             active: true,
             node: node,

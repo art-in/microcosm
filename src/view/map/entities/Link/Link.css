@@ -22,3 +22,8 @@
 .title[contenteditable] {
     outline: 1px solid red;
 }
+
+.root.shaded .line {
+    opacity: 0.5;
+    stroke-width: 0.1;
+}

@@ -1,4 +1,6 @@
-.root {
+.root {}
+
+.circle {
     stroke: #BBB;
     stroke-width: 1
 }
@@ -26,4 +28,12 @@
 
 .debug::selection{
     background-color: inherit
+}
+
+.root.shaded .circle {
+    opacity: 0.5;
+}
+
+.root.shaded .title {
+    color: lightgray;
 }
