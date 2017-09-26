@@ -1,6 +1,8 @@
 import EventedViewModel from 'vm/utils/EventedViewModel';
 import Point from 'vm/shared/Point';
 
+import animate from 'vm/utils/animate';
+
 /**
  * Graph view model.
  *
@@ -178,7 +180,7 @@ export default class Graph extends EventedViewModel {
         this.viewport.width = width;
         this.viewport.height = height;
 
-        this.recomputeViewbox();
+        this.recomputeViewboxSize();
     }
 
     /**
@@ -222,17 +224,17 @@ export default class Graph extends EventedViewModel {
      */
     onViewportResize(size) {
         this.setViewportSize(size);
-        
+
         this.emit('change');
     }
 
     /**
-     * Handles wheel event
+     * Handles mouse wheel event
      * @param {boolean} up
-     * @param {Point} pos - target canvas point to zoom into/out from
+     * @param {Point} pos - target canvas point of mouse event
      */
     onWheel(up, pos) {
-        this.zoom(up, pos);
+        this.animateZoom(up, pos);
     }
 
     /**
@@ -411,26 +413,59 @@ export default class Graph extends EventedViewModel {
     }
 
     /**
-     * Zooms graph in or out
-     * @param {boolean} _in - zoom in or out
-     * @param {Point} pos - target canvas point to zoom into/out from
+     * Animates zoom
+     * @param {bool} up 
+     * @param {Point} pos - target canvas point
      */
-    zoom(_in, pos) {
-        const viewbox = this.viewbox;
-
-        if ((_in && viewbox.scale >= viewbox.scaleMax) ||
-            (!_in && viewbox.scale <= viewbox.scaleMin)) {
-            // do not scale out of boundaries
+    async animateZoom(up, pos) {
+        
+        if (this.zoomInProgress || !this.canScaleMore(up)) {
             return;
         }
 
-        // zoom by 20%
-        const zoomStep = 0.2;
-        viewbox.scale += (_in ? 1 : -1) * zoomStep * viewbox.scale;
+        this.zoomInProgress = true;
+
+        const scaleStep = 0.5;
+        const targetScale = this.viewbox.scale +
+            ((up ? 1 : -1) * scaleStep * this.viewbox.scale);
+
+        await animate({
+            from: this.viewbox.scale,
+            to: targetScale,
+            duration: 250,
+
+            onStep: scale => {
+                this.zoom(scale, pos);
+            }
+        });
+
+        await this.emit('viewbox-scale-change', {
+            graphId: this.id,
+            scale: this.viewbox.scale,
+            pos: new Point(this.viewbox.x, this.viewbox.y)
+        });
+
+        this.zoomInProgress = false;
+    }
+
+    /**
+     * Changes scale of the graph
+     * @param {number} scale - target scale
+     * @param {Point} pos - target canvas point to zoom into/out from
+     */
+    zoom(scale, pos) {
+        const viewbox = this.viewbox;
+
+        if (!this.canScaleMore(scale > this.viewbox.scale)) {
+            // do not scale out of limits
+            return;
+        }
+
+        viewbox.scale = scale;
 
         const {width: prevWidth, height: prevHeight} = viewbox;
 
-        this.recomputeViewbox();
+        this.recomputeViewboxSize();
 
         // space that will be hidden/shown by zoom
         const hiddenWidth = prevWidth - viewbox.width;
@@ -449,17 +484,25 @@ export default class Graph extends EventedViewModel {
         viewbox.x += hiddenWidth * shiftFactorX;
         viewbox.y += hiddenHeight * shiftFactorY;
 
-        this.emit('viewbox-scale-change', {
-            graphId: this.id,
-            scale: viewbox.scale,
-            pos: new Point(viewbox.x, viewbox.y)
-        });
+        this.emit('change');
     }
 
     /**
-     * Recomputes geometry of viewbox
+     * Checks whether scale limits allow to scale more up or down
+     * @param {bool} up
+     * @return {bool}
      */
-    recomputeViewbox() {
+    canScaleMore(up) {
+        return (
+            (up && this.viewbox.scale < this.viewbox.scaleMax) ||
+            (!up && this.viewbox.scale > this.viewbox.scaleMin)
+        );
+    }
+
+    /**
+     * Recomputes viewbox size
+     */
+    recomputeViewboxSize() {
         const viewbox = this.viewbox;
 
         const {min, max, round} = Math;
