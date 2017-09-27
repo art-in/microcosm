@@ -120,15 +120,7 @@ function pack(opts) {
         resolve = res;
     });
 
-    const compiler = webpack(config,
-        function(err, stats) {
-            if (err) {
-                throw new gutil.PluginError('webpack', err);
-            }
-            gutil.log('[webpack]', stats.toString('minimal'));
-            
-            resolve();
-        });
+    const compiler = webpack(config);
 
     if (opts.watch) {
 
@@ -147,9 +139,19 @@ function pack(opts) {
                 throw err;
             }
 
-            console.log(gutil.colors.bgRed(
+            gutil.log(gutil.colors.bgRed(
                 `Webpack dev server listening at ` +
                 `http://${opts.serv.host}:${opts.serv.port}/`));
+        });
+    } else {
+
+        compiler.run(function(err, stats) {
+            if (err || stats.hasErrors()) {
+                throw new gutil.PluginError('webpack', err);
+            }
+            gutil.log('[webpack]', stats.toString('minimal'));
+            
+            resolve();
         });
     }
 
