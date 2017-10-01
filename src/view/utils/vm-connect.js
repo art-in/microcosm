@@ -92,7 +92,10 @@ export function connect(mapPropsToVM) {
             }
 
             bindViewModel(vm) {
-                vm.addListener('change', () => this.forceUpdate());
+                vm.addListener('change', () =>
+                    new Promise(resolve => {
+                        this.forceUpdate(resolve);
+                    }));
             }
 
             unbindViewModel(vm) {

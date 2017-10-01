@@ -21,15 +21,6 @@
     outline: 1px solid red
 }
 
-.debug {
-    font-size: 12px;
-    fill: #D00;
-}
-
-.debug::selection{
-    background-color: inherit
-}
-
 .root.shaded .circle {
     opacity: 0.5;
 }

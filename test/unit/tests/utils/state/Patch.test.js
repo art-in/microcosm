@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {expect} from 'test/utils';
 
 import Patch from 'utils/state/Patch';
+import Mutation from 'utils/state/Mutation';
 
 describe('Patch', () => {
 
@@ -16,7 +17,8 @@ describe('Patch', () => {
         const result = [...patch];
 
         // check
-        expect(result).to.deep.equal([{type: 'type', data: {}}]);
+        expect(result).to.have.length(1);
+        expect(result[0]).to.be.instanceOf(Mutation);
     });
 
     it('should be iteratable via forEach', () => {
@@ -38,8 +40,11 @@ describe('Patch', () => {
         const firstCallArg = handler.firstCall.args[0];
         const secondCallArg = handler.secondCall.args[0];
 
-        expect(firstCallArg).to.deep.equal({type: 't1', data: 'd1'});
-        expect(secondCallArg).to.deep.equal({type: 't2', data: 'd2'});
+        expect(firstCallArg).to.be.instanceOf(Mutation);
+        expect(secondCallArg).to.be.instanceOf(Mutation);
+
+        expect(firstCallArg).to.containSubset({type: 't1', data: 'd1'});
+        expect(secondCallArg).to.containSubset({type: 't2', data: 'd2'});
     });
 
     it('should return length', () => {
@@ -62,12 +67,15 @@ describe('Patch', () => {
         // setup
         const patch = new Patch();
 
-        patch.push('type 1', {});
-        patch.push('type 2', {});
+        patch.push('type 1');
+        patch.push('type 2');
 
         // target/check
-        expect(patch[0]).to.deep.equal({type: 'type 1', data: {}});
-        expect(patch[1]).to.deep.equal({type: 'type 2', data: {}});
+        expect(patch[0]).to.be.instanceOf(Mutation);
+        expect(patch[1]).to.be.instanceOf(Mutation);
+
+        expect(patch[0]).to.containSubset({type: 'type 1'});
+        expect(patch[1]).to.containSubset({type: 'type 2'});
         expect(patch[2]).to.be.undefined;
     });
 
@@ -82,40 +90,102 @@ describe('Patch', () => {
 
         // target/check
         expect(patch['type 1']).to.have.length(2);
-        expect(patch['type 1']).to.deep.equal([{a: '1'}, {b: '2'}]);
+        expect(patch['type 1'][0]).to.be.instanceOf(Mutation);
+        expect(patch['type 1'][1]).to.be.instanceOf(Mutation);
+        expect(patch['type 1']).to.containSubset([
+            {data: {a: '1'}},
+            {data: {b: '2'}}
+        ]);
 
         expect(patch['type 2']).to.have.length(1);
-        expect(patch['type 2']).to.deep.equal([{c: '3'}]);
+        expect(patch['type 2'][0]).to.be.instanceOf(Mutation);
+        expect(patch['type 2']).to.containSubset([
+            {data: {c: '3'}}
+        ]);
 
         expect(patch['type X']).to.be.undefined;
     });
 
-    it('should accept single mutation in constructor', () => {
+    describe('.constructor()', () => {
 
-        // target
-        const patch = new Patch('a', 1);
+        it('should add single mutation', () => {
 
-        // check
-        const mutations = [...patch];
+            // target
+            const patch = new Patch('a', 1, ['t']);
 
-        expect(mutations).to.have.length(1);
-        expect(mutations[0]).to.deep.equal({type: 'a', data: 1});
+            // check
+            const mutations = [...patch];
+
+            expect(mutations).to.have.length(1);
+            expect(mutations[0]).to.be.instanceOf(Mutation);
+            expect(mutations[0]).to.containSubset({
+                type: 'a',
+                data: 1,
+                targets: ['t']
+            });
+        });
+
+        it('should add multiple mutations', () => {
+
+            // target
+            const patch = new Patch([
+                {type: 'a', data: 1},
+                {type: 'b', data: 2, targets: ['t2']}
+            ]);
+
+            // check
+            const mutations = [...patch];
+
+            expect(mutations).to.have.length(2);
+
+            expect(mutations[0]).to.be.instanceOf(Mutation);
+            expect(mutations[1]).to.be.instanceOf(Mutation);
+
+            expect(mutations[0]).to.containSubset({
+                type: 'a',
+                data: 1,
+                targets: undefined
+            });
+            expect(mutations[1]).to.containSubset({
+                type: 'b',
+                data: 2,
+                targets: ['t2']
+            });
+        });
+
     });
 
-    it('should accept multiple mutations in constructor', () => {
+    describe('.push()', () => {
 
-        // target
-        const patch = new Patch([
-            {type: 'a', data: 1},
-            {type: 'b', data: 2}
-        ]);
+        it('should add mutation', () => {
 
-        // check
-        const mutations = [...patch];
+            // setup
+            const patch = new Patch();
 
-        expect(mutations).to.have.length(2);
-        expect(mutations[0]).to.deep.equal({type: 'a', data: 1});
-        expect(mutations[1]).to.deep.equal({type: 'b', data: 2});
+            // target
+            patch.push('type 1', 'data 1');
+            patch.push('type 2', 'data 2', ['target 2']);
+
+            // check
+            const mutations = [...patch];
+
+            expect(mutations).to.have.length(2);
+
+            expect(mutations[0]).to.be.instanceOf(Mutation);
+            expect(mutations[1]).to.be.instanceOf(Mutation);
+
+            expect(mutations[0]).to.containSubset({
+                type: 'type 1',
+                data: 'data 1',
+                targets: undefined
+            });
+            expect(mutations[1]).to.containSubset({
+                type: 'type 2',
+                data: 'data 2',
+                targets: ['target 2']
+            });
+        });
+
     });
 
     describe('.combine()', () => {
@@ -131,6 +201,36 @@ describe('Patch', () => {
 
             // check
             expect(result).to.have.length(2);
+        });
+
+    });
+
+    describe('.hasTarget()', () => {
+
+        it('should return true if all mutations has passed target', () => {
+            
+            // setup
+            const patch = new Patch();
+
+            patch.push('type 1', null, ['target X']);
+            patch.push('type 2', null, ['target X', 'target Y']);
+            patch.push('type 3', null); // all targets
+
+            // target / check
+            expect(patch.hasTarget('target X')).to.be.true;
+        });
+
+        it('should return false if all mutations has passed target', () => {
+            
+            // setup
+            const patch = new Patch();
+            
+            patch.push('type 1', null, ['target X']);
+            patch.push('type 2', null, ['target Y']);
+            patch.push('type 3', null); // all targets
+
+            // target / check
+            expect(patch.hasTarget('target X')).to.be.false;
         });
 
     });

@@ -1,0 +1,12 @@
+.root {}
+
+.input {
+    padding: 2px 5px;
+    margin-bottom: 5px;
+}
+
+.suggestions {}
+
+.suggestion + .suggestion {
+    border-top: 1px solid #e5e5e5;
+}

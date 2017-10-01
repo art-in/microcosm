@@ -26,7 +26,7 @@ export default class Menu extends Component {
         });
 
         return (
-            <div className={ cx(classes.menu, className) }
+            <div className={ cx(classes.root, className) }
                 onClick={ this.onClick }
                 {...other}>
 

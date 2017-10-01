@@ -10,7 +10,7 @@ const disp = new Dispatcher();
 const context = require.context('./handlers', true, /\.js$/);
 context.keys().forEach(modulePath => {
     const module = context(modulePath);
-    const actionType = modulePath.match(/\/(.+)\./i)[1];
+    const actionType = modulePath.match(/.+\/(.+)\./i)[1];
     disp.reg(actionType, module.default);
 });
 

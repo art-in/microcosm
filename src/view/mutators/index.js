@@ -11,8 +11,14 @@ import Main from 'view/main/Main';
  */
 export default async function mutate(state, patch) {
     
+    if ([...patch].some(m => !m.hasTarget('view'))) {
+        // do not apply patch if some mutations
+        // do not target view layer
+        return state;
+    }
+
     if (patch['init']) {
-        state.view.root = patch['init'][0].view.root;
+        state.view.root = patch['init'][0].data.view.root;
     }
 
     // always re-map from viewmodel

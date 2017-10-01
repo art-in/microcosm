@@ -1,30 +1,56 @@
-import MainVM from 'vm/main/Main';
-import MindmapVM from 'vm/main/Mindmap';
-
-import toGraph from 'vm/map/mappers/mindmap-to-graph';
+import init from './init';
+import setAssociationTailsToLookup from './set-association-tails-to-lookup';
+import defaultMutator from './default-mutator';
 
 /**
- * Applies patch to viewmodel state
+ * Applies patch to model state
  * @param {object} state
  * @param {Patch} patch
- * @return {object} new view-model state
+ * @return {object} new state
  */
 export default async function mutate(state, patch) {
     
-    if (patch['init']) {
-        state.vm.main = new MainVM();
-        state.vm.main.mindmap = new MindmapVM();
-    }
+    let newState = state;
 
-    // always re-map from model as simpliest coding
-    // approach (not best performance though).
-    // some model changes can radically change viewmodel
-    // (eg. moving viewbox can remove bunch of nodes and add
-    // bunch of new nodes, or zooming-out can completely change
-    // almost all nodes because of shading)
-    // instead of doing clever patches on existing graph,
-    // it is simplier to rebuild whole graph from stratch
-    state.vm.main.mindmap.graph = toGraph(state.model.mindmap);
+    await Promise.all(patch.map(async function(mutation) {
+        if (mutation.hasTarget('vm')) {
+            newState = await apply(newState, mutation);
+        }
+    }));
+
+    return newState;
+}
+
+/**
+ * Applies single mutation to state
+ * 
+ * @param {object} state
+ * @param {{type, data}} mutation
+ * @return {object} new state
+ */
+async function apply(state, mutation) {
+    
+    switch (mutation.type) {
+
+    case 'init':
+        init(state, mutation);
+        break;
+    case 'set-association-tails-to-lookup':
+        setAssociationTailsToLookup(state, mutation);
+        break;
+    case 'add idea':
+    case 'update idea':
+    case 'remove idea':
+    case 'add association':
+    case 'update association':
+    case 'remove association':
+    case 'update mindmap':
+        // TODO: do not apply default mutation several times
+        defaultMutator(state);
+        break;
+    default:
+        throw Error(`Unknown mutation '${mutation.type}'`);
+    }
 
     return state;
 }

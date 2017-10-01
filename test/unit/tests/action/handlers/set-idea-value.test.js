@@ -28,7 +28,7 @@ describe('set-idea-value', () => {
         // check
         expect(patch).to.have.length(1);
         expect(patch['update idea']).to.exist;
-        expect(patch['update idea'][0]).to.deep.equal({
+        expect(patch['update idea'][0].data).to.deep.equal({
             id: 'id',
             value: 'new'
         });
@@ -53,6 +53,30 @@ describe('set-idea-value', () => {
 
         // check
         expect(patch).to.have.length(0);
+    });
+
+    it('should target all state layers', async () => {
+
+        // setup
+        const mindmap = new Mindmap();
+        mindmap.ideas.set('id', new Idea({
+            id: 'id',
+            value: 'same value'
+        }));
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = await dispatch('set-idea-value', {
+            ideaId: 'id',
+            value: 'same value'
+        }, state);
+
+        // check
+        expect(patch.hasTarget('data')).to.be.true;
+        expect(patch.hasTarget('model')).to.be.true;
+        expect(patch.hasTarget('vm')).to.be.true;
+        expect(patch.hasTarget('view')).to.be.true;
     });
     
 });

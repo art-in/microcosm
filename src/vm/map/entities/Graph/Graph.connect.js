@@ -36,6 +36,34 @@ export default connect(dispatch => ({
             scale: data.scale,
             pos: data.pos
         }
-    )
+    ),
+
+    ['picker-color-change']: data => dispatch(
+        'set-idea-color', {
+            ideaId: data.ideaId,
+            color: data.color
+        }),
+
+    ['node-menu-idea-add']: data => dispatch(
+        'create-idea', {
+            parentIdeaId: data.parentIdeaId
+        }),
+
+    ['node-menu-idea-remove']: data => dispatch(
+        'remove-idea', {
+            ideaId: data.ideaId
+        }),
+
+    ['association-tails-lookup-phrase-changed']: data => dispatch(
+        'search-association-tails-for-lookup', {
+            headIdeaId: data.node.id,
+            phrase: data.phrase
+        }),
     
+    ['association-tails-lookup-suggestion-selected']: data => dispatch(
+        'create-cross-association', {
+            headIdeaId: data.node.id,
+            tailIdeaId: data.suggestion.data
+        })
+
 }))(VM);

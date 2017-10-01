@@ -6,7 +6,7 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
  *
  * Why introduce module state? It breaks FP style!
  *
- * This is tricky part.
+ * This is tricky part (pain).
  *
  * We need to spread current store to all connected viewmodels in the app,
  * so they can initiate actions to that store.
@@ -20,7 +20,7 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
  * This is rare case when implicit is better then explicit.
  *
  * Eg. 'react-redux' achieve this task through <Provider>, which is based
- * on react's context hack. Which allows to implicitly pass props down
+ * on react's 'context' hack. Which allows to implicitly pass props down
  * to all child components in the subtree. So you should not manually pass
  * store from component to component through props.
  * https://facebook.github.io/react/docs/context.html
@@ -106,7 +106,7 @@ export function connect(mapEventsToHandlers) {
 
                 Object.keys(eventHandlers).forEach(event => {
                     this.on(event, eventHandlers[event]);
-                }, this);
+                });
             }
         }
         

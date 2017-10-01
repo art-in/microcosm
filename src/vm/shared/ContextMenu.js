@@ -1,33 +1,57 @@
+import EventedViewModel from 'vm/utils/EventedViewModel';
+
 import Menu from './Menu';
+import Popup from './Popup';
 
 /**
  * Context menu view model
  */
-export default class ContextMenu extends Menu {
+export default class ContextMenu extends EventedViewModel {
+
+    static eventTypes = [
+        
+        // state changed
+        'change',
+        
+        // menu item triggered
+        'itemSelected'
+    ];
 
     /**
-     * Is menu shown/focused?
+     * Is shown?
+     * @type {bool}
      */
-    active = false;
+    get active() {
+        return this.popup && this.popup.active;
+    }
 
     /**
-     * Position on canvas
-     * @type {Point}
+     * Popup container
      */
-    pos = null;
+    popup = undefined;
 
     /**
-     * Target entity to show options to
+     * Menu
+     */
+    menu = undefined;
+
+    /**
+     * Target entity to show options for
      * @type {*}
      */
     target = null;
 
     /**
-     * Stringifies instance
-     * @return {string}
+     * Constructor
+     * @param {array.<MenuItem>} items 
      */
-    toString() {
-        return `[ContextMenu (items: ${this.items.length})]`;
+    constructor(items) {
+        super();
+        this.popup = new Popup();
+        this.menu = new Menu(items);
+
+        this.menu.on('itemSelected',
+            (...data) => this.emit('itemSelected', ...data));
     }
 
     /**
@@ -35,18 +59,16 @@ export default class ContextMenu extends Menu {
      * @param {object} opts
      */
     activate({pos, target}) {
-        this.active = true;
-        this.pos = pos;
         this.target = target;
-        this.emit('change');
+        this.popup.activate(pos);
     }
 
     /**
      * Deactivates menu
+     * @param {object} opts
      */
     deactivate() {
-        this.active = false;
-        this.emit('change');
+        this.popup.deactivate();
     }
 
 }

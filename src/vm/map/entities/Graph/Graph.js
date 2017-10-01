@@ -1,5 +1,12 @@
 import EventedViewModel from 'vm/utils/EventedViewModel';
+
 import Point from 'vm/shared/Point';
+import ColorPicker from 'vm/shared/ColorPicker';
+import ContextMenu from 'vm/shared/ContextMenu';
+import MenuItem from 'vm/shared/MenuItem';
+import LookupPopup from 'vm/shared/LookupPopup';
+
+import Link from 'vm/map/entities/Link';
 
 import animate from 'vm/utils/animate';
 
@@ -28,6 +35,12 @@ export default class Graph extends EventedViewModel {
 
         'viewbox-scale-change',
 
+        'picker-color-change',
+        
+        'node-menu-idea-add',
+
+        'node-menu-idea-remove',
+
         // graph clicked
         'click',
 
@@ -35,9 +48,35 @@ export default class Graph extends EventedViewModel {
         'node-rightclick',
 
         // link was right clicked
-        'link-rightclick'
+        'link-rightclick',
+
+        'association-tails-lookup-phrase-changed',
+
+        'association-tails-lookup-suggestion-selected'
     ]
     
+    /**
+     * 
+     */
+    constructor() {
+        super();
+
+        this.nodeMenu.on('itemSelected',
+            this.onNodeMenuItemSelected.bind(this));
+
+        this.linkMenu.on('itemSelected',
+            this.onLinkMenuItemSelected.bind(this));
+
+        this.colorPicker.on('colorSelected',
+            this.onPickerColorSelected.bind(this));
+
+        this.associationTailsLookup.on('phrase-changed',
+            this.onAssociationTailsLookupPhraseChanged.bind(this));
+
+        this.associationTailsLookup.on('suggestion-selected',
+            this.onAssociationTailsLookupSuggestionSelected.bind(this));
+    }
+
     id = undefined;
 
     /**
@@ -149,6 +188,33 @@ export default class Graph extends EventedViewModel {
     height = undefined;
 
     /**
+     * Context menu of nodes
+     */
+    nodeMenu = new ContextMenu([
+        new MenuItem('idea-add', 'add idea'),
+        new MenuItem('association-add', 'add association'),
+        new MenuItem('idea-remove', 'remove idea')
+    ]);
+
+    /**
+     * Context menu of links
+     */
+    linkMenu = new ContextMenu([
+        new MenuItem('association-set-color', 'set color')
+    ]);
+
+    /**
+     * Color picker
+     */
+    colorPicker = new ColorPicker()
+
+    /**
+     * Lookup for selecting tail idea for cross-association
+     * @type {LookupPopup}
+     */
+    associationTailsLookup = new LookupPopup('target idea...')
+
+    /**
      * Binds node events
      * @param {Node} node
      */
@@ -187,7 +253,10 @@ export default class Graph extends EventedViewModel {
      * Handles click event
      */
     onClick() {
-        this.emit('click');
+        this.nodeMenu.deactivate();
+        this.linkMenu.deactivate();
+        this.colorPicker.deactivate();
+        this.associationTailsLookup.deactivate();
     }
 
     /**
@@ -201,7 +270,7 @@ export default class Graph extends EventedViewModel {
             return;
         }
 
-        this.emit('node-rightclick', node, pos);
+        this.nodeMenu.activate({pos, target: node});
     }
 
     /**
@@ -215,7 +284,12 @@ export default class Graph extends EventedViewModel {
             return;
         }
 
-        this.emit('link-rightclick', link, pos);
+        if (!link.isRooted) {
+            // color can be set on BOI links only
+            return;
+        }
+
+        this.linkMenu.activate({pos, target: link});
     }
 
     /**
@@ -379,6 +453,102 @@ export default class Graph extends EventedViewModel {
             nodeId: this.drag.node.id,
             pos: {x: this.drag.startX, y: this.drag.startY}
         });
+    }
+
+    /**
+     * Handles node menu item selected event
+     * @param {MenuItem} menuItem
+     */
+    onNodeMenuItemSelected(menuItem) {
+        
+        const node = this.nodeMenu.target;
+
+        switch (menuItem.actionName) {
+        case 'idea-add':
+            this.emit('node-menu-idea-add', {parentIdeaId: node.id});
+            break;
+        case 'idea-remove':
+            this.emit('node-menu-idea-remove', {ideaId: node.id});
+            break;
+        case 'association-add':
+            this.associationTailsLookup.activate({
+                pos: this.nodeMenu.popup.pos,
+                target: node
+            });
+            break;
+        default:
+            throw Error(`Unknown menu action '${menuItem.actionName}'`);
+        }
+
+        this.nodeMenu.deactivate();
+    }
+
+    /**
+     * Handles link menu item selected event
+     * @param {MenuItem} menuItem
+     */
+    onLinkMenuItemSelected(menuItem) {
+
+        const link = this.linkMenu.target;
+
+        switch (menuItem.actionName) {
+        case 'association-set-color':
+            this.colorPicker.activate(link);
+            break;
+        default:
+            throw Error(`Unknown menu action '${menuItem.actionName}'`);
+        }
+
+        this.linkMenu.deactivate();
+    }
+
+    /**
+     * Handles color selected event
+     * @param {string} color
+     */
+    onPickerColorSelected(color) {
+
+        const link = this.colorPicker.target;
+
+        if (link instanceof Link) {
+            this.emit('picker-color-change', {
+                ideaId: link.to.id,
+                color
+            });
+        }
+
+        this.colorPicker.deactivate();
+    }
+
+    /**
+     * Handles phrase changed event from association tails lookup
+     * @param {*} data 
+     */
+    onAssociationTailsLookupPhraseChanged({phrase}) {
+
+        const node = this.associationTailsLookup.target;
+
+        this.emit('association-tails-lookup-phrase-changed', {
+            node,
+            phrase: phrase
+        });
+    }
+
+    /**
+     * Handles suggestion selected event from association tails lookup
+     * @param {object} data
+     * @param {LookupSuggestion} data.suggestion
+     */
+    onAssociationTailsLookupSuggestionSelected({suggestion}) {
+
+        const node = this.associationTailsLookup.target;
+
+        this.emit('association-tails-lookup-suggestion-selected', {
+            node,
+            suggestion
+        });
+
+        this.associationTailsLookup.deactivate();
     }
 
     /**

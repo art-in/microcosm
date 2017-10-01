@@ -1,5 +1,6 @@
 describe('mutators', () => {
 
-    require('./mutate-vm.test');
+    require('./init.test');
+    require('./set-association-tails-to-lookup.test');
 
 });

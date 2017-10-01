@@ -35,7 +35,9 @@ describe('remove-idea', () => {
 
         // check
         expect(patch).to.have.length(2);
-        expect(patch['remove idea'][0]).to.deep.equal({id: 'die'});
+
+        const mutation = patch['remove idea'][0];
+        expect(mutation.data).to.deep.equal({id: 'die'});
     });
 
     it('should remove incoming associations', async () => {
@@ -88,9 +90,9 @@ describe('remove-idea', () => {
         // check
         expect(patch).to.have.length(3);
 
-        expect(patch['remove idea'][0]).to.deep.equal({id: 'die'});
-        expect(patch['remove association'][0]).to.deep.equal({id: 'a'});
-        expect(patch['remove association'][1]).to.deep.equal({id: 'b'});
+        expect(patch['remove idea'][0].data).to.deep.equal({id: 'die'});
+        expect(patch['remove association'][0].data).to.deep.equal({id: 'a'});
+        expect(patch['remove association'][1].data).to.deep.equal({id: 'b'});
     });
 
     it('should remove idea before associations', async () => {
@@ -123,6 +125,37 @@ describe('remove-idea', () => {
 
         expect(mutations[0].type).to.equal('remove idea');
         expect(mutations[1].type).to.equal('remove association');
+    });
+
+    it('should target all state layers', async () => {
+
+        // setup
+        const mindmap = new Mindmap();
+        
+        const ideaLive = new Idea({id: 'live'});
+        const ideaDie = new Idea({id: 'die'});
+
+        const assoc = new Association({fromId: 'live', toId: 'die'});
+
+        ideaLive.associationsOut = [assoc];
+        ideaDie.associationsIn = [assoc];
+
+        mindmap.ideas.set('live', ideaLive);
+        mindmap.ideas.set('die', ideaDie);
+        mindmap.associations.set(assoc.id, assoc);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = await dispatch('remove-idea', {
+            ideaId: 'die'
+        }, state);
+
+        // check
+        expect(patch.hasTarget('data')).to.be.true;
+        expect(patch.hasTarget('model')).to.be.true;
+        expect(patch.hasTarget('vm')).to.be.true;
+        expect(patch.hasTarget('view')).to.be.true;
     });
 
     it('should fail if outgoing associations exist', async () => {

@@ -1,1 +1,1 @@
-export default from './Mindmap.connect';
+export default from './Mindmap';

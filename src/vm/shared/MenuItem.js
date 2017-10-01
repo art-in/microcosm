@@ -9,16 +9,23 @@ export default class MenuItem {
     id = Math.random();
 
     /**
-     * Display value of menu item
+     * Action name
+     */
+    actionName;
+
+    /**
+     * Display value
      */
     displayValue;
 
     /**
      * constructor
-     * @param {string} displayName
+     * @param {string} actionName
+     * @param {string} displayValue
      */
-    constructor(displayName) {
-        this.displayValue = displayName;
+    constructor(actionName, displayValue) {
+        this.actionName = actionName;
+        this.displayValue = displayValue;
     }
 
 }

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import GraphVM from 'vm/map/entities/Graph';
 
-import classes from './GraphDebugInfo.css';
+import classes from './GraphDebug.css';
 
-export default class GraphDebugInfo extends Component {
+export default class GraphDebug extends Component {
 
     static propTypes = {
         graph: PropTypes.instanceOf(GraphVM).isRequired

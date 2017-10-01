@@ -1,0 +1,6 @@
+.root {
+    position: absolute;
+
+    border: 1px solid gray;
+    background-color: white;
+}

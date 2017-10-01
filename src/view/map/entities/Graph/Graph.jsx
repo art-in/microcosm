@@ -12,7 +12,11 @@ import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
 import Node from '../Node';
 import Link from '../Link';
-import GraphDebugInfo from '../GraphDebugInfo';
+import GraphDebug from '../GraphDebug';
+
+import ContextMenu from 'view/shared/ContextMenu';
+import ColorPicker from 'view/shared/ColorPicker';
+import LookupPopup from 'view/shared/LookupPopup';
 
 import classes from './Graph.css';
 
@@ -171,7 +175,7 @@ export default class Graph extends Component {
             <div>
                 {
                     graph.debug &&
-                        <GraphDebugInfo graph={graph} />
+                        <GraphDebug graph={graph} />
                 }
                 <Svg nodeRef={node => this.viewport = node}
                     viewBox={ `${viewbox.x} ${viewbox.y} ` +
@@ -192,6 +196,14 @@ export default class Graph extends Component {
                     <Group id={'links'}>{links}</Group>
                     <Group id={'nodes'}>{nodes}</Group>
                 </Svg>
+
+                <div id={'menus'}>
+                    <ContextMenu cmenu={ graph.nodeMenu } />
+                    <ContextMenu cmenu={ graph.linkMenu } />
+                    <ColorPicker picker={ graph.colorPicker } />
+                    <LookupPopup
+                        lookupPopup={graph.associationTailsLookup} />
+                </div>
             </div>
         );
     }

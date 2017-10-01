@@ -4,22 +4,9 @@ import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Mindmap from 'src/model/entities/Mindmap';
 
-import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
-import {connect} from 'src/vm/utils/store-connect';
-
 import toGraph from 'src/vm/map/mappers/mindmap-to-graph';
 
 describe('mindmap-to-graph', () => {
-
-    beforeEach(() => {
-        // graph vm cannot work without store connection
-        connect.to(new Store(new Dispatcher(), () => {}));
-    });
-
-    after(() => {
-        connect.disconnect();
-    });
 
     /**
      * Setup mindmap for tests

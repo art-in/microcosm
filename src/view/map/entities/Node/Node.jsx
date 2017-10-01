@@ -8,7 +8,8 @@ import NodeVM from 'vm/map/entities/Node';
 import Group from 'view/shared/svg/Group';
 import Circle from 'view/shared/svg/Circle';
 import TextArea from 'view/shared/svg/TextArea';
-import Text from 'view/shared/svg/Text';
+
+import NodeDebug from '../NodeDebug';
 
 import classes from './Node.css';
 
@@ -22,7 +23,6 @@ export default class Node extends Component {
     render() {
         
         const {node, className, ...other} = this.props;
-        const {round} = Math;
 
         const textAreaWidth = 200;
         const textAreaHeight = 25;
@@ -58,32 +58,7 @@ export default class Node extends Component {
                         : null
                 }
 
-                {
-                    node.debug &&
-                    <Text text={ `(${round(node.pos.x)} ${round(node.pos.y)})` }
-                        className={ classes.debug }
-                        transform={`translate(` +
-                            `-${node.radius + 10}` +
-                            ` ${node.radius + 10})` }/>
-                }
-
-                {
-                    node.debug &&
-                    <Text text={ `depth = ${node.depth}` }
-                        className={ classes.debug }
-                        transform={`translate(` +
-                            `-${node.radius + 10}` +
-                            ` ${node.radius + 23})` }/>
-                }
-
-                {
-                    node.debug &&
-                    <Text text={ `scale = ${node.scale}` }
-                        className={ classes.debug }
-                        transform={`translate(` +
-                            `-${node.radius + 10}` +
-                            ` ${node.radius + 36})` }/>
-                }
+                <NodeDebug node={node} />
 
             </Group>
         );

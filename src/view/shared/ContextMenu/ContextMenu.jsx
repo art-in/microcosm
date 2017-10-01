@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import ContextMenuVM from 'vm/shared/ContextMenu';
 
+import Popup from '../Popup';
 import Menu from '../Menu';
 
 import classes from './ContextMenu.css';
@@ -11,26 +12,24 @@ import classes from './ContextMenu.css';
 export default class ContextMenu extends Component {
 
     static propTypes = {
-        menu: PropTypes.instanceOf(ContextMenuVM).isRequired,
+        cmenu: PropTypes.instanceOf(ContextMenuVM).isRequired,
         className: PropTypes.string
     }
 
     render() {
 
-        const {menu, className, ...other} = this.props;
-
-        if (!menu.active) {
-            return null;
-        }
+        const {cmenu, className, ...other} = this.props;
+        const {popup, menu} = cmenu;
 
         return (
-            <Menu menu={ menu }
-                className={ cx(classes.menu, className) }
-                style={{
-                    left: `${menu.pos.x}px`,
-                    top: `${menu.pos.y}px`
-                }}
-                {...other} />
+            <Popup popup={popup}
+                className={cx(classes.root, className)}
+                {...other}>
+
+                <Menu menu={menu}
+                    className={classes.menu} />
+        
+            </Popup>
         );
     }
 

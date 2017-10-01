@@ -30,7 +30,7 @@ describe('set-mindmap-position', () => {
         // check
         expect(patch).to.have.length(1);
         expect(patch['update mindmap']).to.exist;
-        expect(patch['update mindmap'][0]).to.deep.equal({
+        expect(patch['update mindmap'][0].data).to.deep.equal({
             id: 'id',
             x: 200,
             y: 200
@@ -38,4 +38,31 @@ describe('set-mindmap-position', () => {
 
     });
 
+    it('should target all state layers', async () => {
+
+        // setup
+        const mindmap = new Mindmap({
+            id: 'id',
+            x: 100,
+            y: 100
+        });
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = await dispatch('set-mindmap-position', {
+            mindmapId: 'id',
+            pos: {
+                x: 200,
+                y: 200
+            }
+        }, state);
+
+        // check
+        expect(patch.hasTarget('data')).to.be.true;
+        expect(patch.hasTarget('model')).to.be.true;
+        expect(patch.hasTarget('vm')).to.be.true;
+        expect(patch.hasTarget('view')).to.be.true;
+    });
+    
 });

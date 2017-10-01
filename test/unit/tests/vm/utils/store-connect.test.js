@@ -156,8 +156,6 @@ describe('connected-vm', () => {
                 static eventTypes = ['event']
             }
 
-            connect.to(new Store(new Dispatcher(), mutator));
-
             // target
             const ConnectedTestVM = connect(dispatch => ({
                 ['unknown']: data => dispatch('action')
@@ -175,6 +173,9 @@ describe('connected-vm', () => {
         it('should fail if target store not set', () => {
 
             // setup
+            // clear target store
+            connect.disconnect();
+
             // eslint-disable-next-line require-jsdoc
             class TestVM extends EventedViewModel {
                 static eventTypes = ['event']
@@ -200,8 +201,6 @@ describe('connected-vm', () => {
             class TestVM extends EventedViewModel {
                 static eventTypes = ['event']
             }
-
-            connect.to(new Store(new Dispatcher(), mutator));
 
             // target
             const ConnectedTestVM = connect(dispatch => ({

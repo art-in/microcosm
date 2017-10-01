@@ -18,7 +18,9 @@ export default async function mutate(state, patch) {
     let newState = state;
 
     await Promise.all(patch.map(async function(mutation) {
-        newState = await apply(newState, mutation);
+        if (mutation.hasTarget('model')) {
+            newState = await apply(newState, mutation);
+        }
     }));
 
     return newState;

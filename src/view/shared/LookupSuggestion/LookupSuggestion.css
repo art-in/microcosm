@@ -1,0 +1,8 @@
+.root {
+    padding: 5px;
+}
+
+.root:hover,
+.highlight {
+    background-color: #F0F0F0;
+}

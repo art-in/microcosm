@@ -51,11 +51,12 @@ describe('create-idea', () => {
         expect(patch['add association']).to.exist;
 
         const mutation = patch['add association'][0];
+        const data = mutation.data;
 
-        expect(mutation).to.be.instanceOf(Association);
-        expect(mutation.mindmapId).to.equal('m');
-        expect(mutation.fromId).to.equal('parent');
-        expect(mutation.toId).to.be.ok;
+        expect(data).to.be.instanceOf(Association);
+        expect(data.mindmapId).to.equal('m');
+        expect(data.fromId).to.equal('parent');
+        expect(data.toId).to.be.ok;
     });
 
     it('should set idea position from parent position', async () => {
@@ -74,10 +75,29 @@ describe('create-idea', () => {
 
         // check
         const mutation = patch['add idea'][0];
+        const data = mutation.data;
         
-        expect(mutation).to.be.instanceOf(Idea);
-        expect(mutation.x).to.be.equal(110);
-        expect(mutation.y).to.be.equal(120);
+        expect(data).to.be.instanceOf(Idea);
+        expect(data.x).to.be.equal(110);
+        expect(data.y).to.be.equal(120);
+    });
+
+    it('should target all state layers', async () => {
+        
+        // setup
+        const mindmap = new Mindmap();
+        mindmap.id = 'm';
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = await dispatch('create-idea', {}, state);
+
+        // check
+        expect(patch.hasTarget('data')).to.be.true;
+        expect(patch.hasTarget('model')).to.be.true;
+        expect(patch.hasTarget('vm')).to.be.true;
+        expect(patch.hasTarget('view')).to.be.true;
     });
 
     it('should fail if parent idea not found', async () => {

@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+import Mutation from './Mutation';
+
 /**
  * Application state patch
  * Array(-like) container of mutations, which later can be applied to the state
@@ -50,10 +52,10 @@ export default class Patch {
             const mutations = args[0];
             if (!Array.isArray(mutations)) {
                 // single mutation
-                this.push(args[0], args[1]);
+                this.push(args[0], args[1], args[2]);
             } else {
                 // multiple mutations
-                mutations.forEach(m => this.push(m.type, m.data));
+                mutations.forEach(m => this.push(m.type, m.data, m.targets));
             }
         }
     }
@@ -95,18 +97,21 @@ export default class Patch {
     /**
      * Adds mutations
      * @param {string} type - mutation type
-     * @param {*} data
+     * @param {*} [data]
+     * @param {array.<string>} [targets] - mutation targets
      */
-    push(type, data) {
+    push(type, data, targets) {
         
-        this[this.length] = {type, data};
+        const mutation = new Mutation(type, data, targets);
 
-        this.mutations.push({type, data});
+        this[this.length] = mutation;
+
+        this.mutations.push(mutation);
 
         if (!this[type]) {
             this[type] = [];
         }
-        this[type].push(data);
+        this[type].push(mutation);
     }
 
     /**
@@ -124,6 +129,15 @@ export default class Patch {
         return patches.reduce(
             (comb, patch) => new Patch([...comb, ...patch]),
             new Patch());
+    }
+
+    /**
+     * Checks if all mutations has this target
+     * @param {string} target 
+     * @return {bool}
+     */
+    hasTarget(target) {
+        return this.mutations.every(m => m.hasTarget(target));
     }
 
 }
