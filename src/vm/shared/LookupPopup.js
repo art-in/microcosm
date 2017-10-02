@@ -48,12 +48,8 @@ export default class LookupPopup extends EventedViewModel {
         this.popup = new Popup();
         this.lookup = new Lookup(inputPlaceholder);
 
-        // TODO: this.transmit(this.lookup, 'phrase-changed')
-        this.lookup.on('phrase-changed',
-            (...data) => this.emit('phrase-changed', ...data));
-
-        this.lookup.on('suggestion-selected',
-            (...data) => this.emit('suggestion-selected', ...data));
+        this.retransmit(this.lookup, 'phrase-changed');
+        this.retransmit(this.lookup, 'suggestion-selected');
     }
 
     /**

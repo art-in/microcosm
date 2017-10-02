@@ -1,4 +1,6 @@
+import assert from 'assert';
 import {EventEmitter} from 'events';
+import retransmitEvent from 'utils/retransmit-event';
 
 /**
  * Wraps EventEmitter to check integrity of events on view model
@@ -94,4 +96,13 @@ export default class EventedViewModel extends EventEmitter {
         return this.constructor.eventTypes.some(e => e === eventType);
     }
 
+    /**
+     * Re-emits event from another viewmodel
+     * @param {EventedViewModel} vm 
+     * @param {string} eventType 
+     */
+    retransmit(vm, eventType) {
+        assert(vm instanceof EventedViewModel);
+        retransmitEvent(eventType, vm, this);
+    }
 }
