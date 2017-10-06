@@ -9,6 +9,9 @@ export default function(events) {
 
     let entry = null;
 
+    // TODO: catch exceptions thrown while handling actions
+    //       and log that actions in red
+
     events.on('before-dispatch', (action, state) => {
         
         entry = new LogEntry();

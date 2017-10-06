@@ -1,4 +1,7 @@
+import assert from 'assert';
+
 import EventedViewModel from 'vm/utils/EventedViewModel';
+import MenuItem from 'vm/shared/MenuItem';
 
 /**
  * Menu view model
@@ -6,11 +9,7 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
 export default class Menu extends EventedViewModel {
 
     static eventTypes = [
-
-        // state changed
         'change',
-        
-        // menu item triggered
         'itemSelected'
     ];
 
@@ -21,12 +20,23 @@ export default class Menu extends EventedViewModel {
     items = [];
 
     /**
-     * constructor
-     * @param {array.<MenuItems>} items
+     * Constructor
+     * @param {object}            [opts]
+     * @param {array.<MenuItems>} [opts.items]
      */
-    constructor(items) {
+    constructor({items = []} = {}) {
         super();
 
+        assert(items.every(i => i instanceof MenuItem));
+        this.items = items;
+    }
+
+    /**
+     * Sets menu items
+     * @param {array.<MenuItem>} items
+     */
+    setItems(items) {
+        assert(items.every(i => i instanceof MenuItem));
         this.items = items;
     }
 

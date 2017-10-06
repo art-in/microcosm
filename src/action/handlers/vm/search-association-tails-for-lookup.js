@@ -3,6 +3,8 @@ import Patch from 'utils/state/Patch';
 import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
 
+import LookupSuggestion from 'vm/shared/LookupSuggestion';
+
 /**
  * Searches and sets suggesting ideas to lookup
  * which selects tail idea for cross-association
@@ -36,9 +38,16 @@ export default function searchAssociationTailsForLookup(
 
     const ideas = searchIdeas(mindmap, {phrase, excludeIds});
 
+    // map to suggestions
+    const suggestions = ideas
+        .map(i => new LookupSuggestion({
+            displayName: i.value,
+            data: {ideaId: i.id}
+        }));
+
     return new Patch([{
-        type: 'set-association-tails-to-lookup',
-        data: {ideas},
+        type: 'set-suggestions-to-association-tails-lookup',
+        data: {suggestions},
         targets: ['vm', 'view']
     }]);
 }

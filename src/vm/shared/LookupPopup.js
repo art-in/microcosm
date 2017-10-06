@@ -1,4 +1,7 @@
+import assert from 'assert';
+
 import EventedViewModel from 'vm/utils/EventedViewModel';
+import Point from 'vm/shared/Point';
 
 import Popup from './Popup';
 import Lookup from './Lookup';
@@ -33,17 +36,22 @@ export default class LookupPopup extends EventedViewModel {
     lookup = undefined;
 
     /**
-     * Target entity to lookup for
-     * @type {*}
+     * Gets action after suggestion selected
+     * @type {function}
      */
-    target = null;
+    onSelectAction = null;
+
+    /**
+     * Gets action after phrase changed
+     * @type {function}
+     */
+    onPhraseChangeAction = null;
 
     /**
      * Constructor
      * @param {string} inputPlaceholder 
      */
     constructor(inputPlaceholder) {
-
         super();
         this.popup = new Popup();
         this.lookup = new Lookup(inputPlaceholder);
@@ -56,9 +64,14 @@ export default class LookupPopup extends EventedViewModel {
      * Activates popup
      * @param {object} opts
      */
-    activate({pos, target}) {
-        this.target = target;
-        this.popup.activate(pos);
+    activate({pos, onSelectAction, onPhraseChangeAction}) {
+        assert(pos instanceof Point);
+        assert(onSelectAction);
+        assert(onPhraseChangeAction);
+
+        this.onSelectAction = onSelectAction;
+        this.onPhraseChangeAction = onPhraseChangeAction;
+        this.popup.activate({pos});
 
         this.lookup.clear();
         this.lookup.focus();
@@ -66,7 +79,6 @@ export default class LookupPopup extends EventedViewModel {
 
     /**
      * Deactivates popup
-     * @param {object} opts
      */
     deactivate() {
         this.popup.deactivate();
@@ -74,10 +86,10 @@ export default class LookupPopup extends EventedViewModel {
 
     /**
      * Sets suggestions
-     * @param {*} args 
+     * @param {array.<LookupSuggestion>} suggestions 
      */
-    setSuggestions(...args) {
-        this.lookup.setSuggestions(...args);
+    setSuggestions(suggestions) {
+        this.lookup.setSuggestions(suggestions);
     }
 
 }

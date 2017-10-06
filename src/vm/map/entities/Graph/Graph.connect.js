@@ -4,6 +4,28 @@ import VM from './Graph';
 
 export default connect(dispatch => ({
 
+    ['link-rightclick']: data => dispatch(
+        'show-context-menu-for-association', {
+            pos: data.pos,
+            associationId: data.link.id,
+            shaded: data.link.shaded
+        }
+    ),
+
+    ['node-rightclick']: data => dispatch(
+        'show-context-menu-for-idea', {
+            pos: data.pos,
+            ideaId: data.node.id,
+            shaded: data.node.shaded
+        }
+    ),
+
+    ['context-menu-item-selected']: data => {
+        const {menuItem} = data;
+        const action = menuItem.onSelectAction();
+        dispatch(action.type, action.data);
+    },
+
     ['node-title-change']: data => dispatch(
         'set-idea-value', {
             ideaId: data.nodeId,
@@ -38,11 +60,11 @@ export default connect(dispatch => ({
         }
     ),
 
-    ['picker-color-change']: data => dispatch(
-        'set-idea-color', {
-            ideaId: data.ideaId,
-            color: data.color
-        }),
+    ['picker-color-change']: data => {
+        const {picker, color} = data;
+        const action = picker.onSelectAction({color});
+        dispatch(action.type, action.data);
+    },
 
     ['node-menu-idea-add']: data => dispatch(
         'create-idea', {
@@ -54,16 +76,16 @@ export default connect(dispatch => ({
             ideaId: data.ideaId
         }),
 
-    ['association-tails-lookup-phrase-changed']: data => dispatch(
-        'search-association-tails-for-lookup', {
-            headIdeaId: data.node.id,
-            phrase: data.phrase
-        }),
+    ['association-tails-lookup-phrase-changed']: data => {
+        const {lookup, phrase} = data;
+        const action = lookup.onPhraseChangeAction({phrase});
+        dispatch(action.type, action.data);
+    },
     
-    ['association-tails-lookup-suggestion-selected']: data => dispatch(
-        'create-cross-association', {
-            headIdeaId: data.node.id,
-            tailIdeaId: data.suggestion.data
-        })
+    ['association-tails-lookup-suggestion-selected']: data => {
+        const {lookup, suggestion} = data;
+        const action = lookup.onSelectAction({suggestion});
+        dispatch(action.type, action.data);
+    }
 
 }))(VM);

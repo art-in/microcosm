@@ -7,13 +7,7 @@ export default class LookupSuggestion {
      * Unique id of suggestion
      * @type {string}
      */
-    id = undefined;
-
-    /**
-     * Any data associated with this suggestion
-     * @type {*}
-     */
-    data = undefined;
+    id = Math.random();
 
     /**
      * Display name
@@ -22,14 +16,20 @@ export default class LookupSuggestion {
     displayName = undefined;
 
     /**
-     * Constructor
-     * @param {*} data 
-     * @param {string} displayName 
+     * Any data associated with this suggestion
+     * @type {*}
      */
-    constructor(data, displayName) {
-        this.id = data;
-        this.data = data;
+    data = undefined;
+
+    /**
+     * Constructor
+     * @param {object}   data
+     * @param {string}   data.displayName 
+     * @param {*}        data.data
+     */
+    constructor({displayName, data}) {
         this.displayName = displayName;
+        this.data = data;
     }
 
 }

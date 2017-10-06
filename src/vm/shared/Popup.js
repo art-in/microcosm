@@ -1,3 +1,6 @@
+import assert from 'assert';
+
+import Point from 'vm/shared/Point';
 import EventedViewModel from 'vm/utils/EventedViewModel';
 
 /**
@@ -21,10 +24,13 @@ export default class Popup extends EventedViewModel {
     pos = null;
 
     /**
-     * Activates popup
-     * @param {Point} pos
+     * Activates menu
+     * @param {object} opts
+     * @param {Point}  opts.pos
      */
-    activate(pos) {
+    activate({pos}) {
+        assert(pos instanceof Point);
+
         this.active = true;
         this.pos = pos;
         this.emit('change');

@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 /**
  * Menu item view model
  */
@@ -9,23 +11,26 @@ export default class MenuItem {
     id = Math.random();
 
     /**
-     * Action name
-     */
-    actionName;
-
-    /**
      * Display value
      */
     displayValue;
 
     /**
-     * constructor
-     * @param {string} actionName
-     * @param {string} displayValue
+     * Gets action after item selected
+     * @type {function}
      */
-    constructor(actionName, displayValue) {
-        this.actionName = actionName;
+    onSelectAction = null;
+
+    /**
+     * Constructor
+     * @param {object} opts
+     */
+    constructor({displayValue, onSelectAction}) {
+        assert(displayValue !== undefined);
+        assert(onSelectAction !== undefined);
+
         this.displayValue = displayValue;
+        this.onSelectAction = onSelectAction.bind(this, this);
     }
 
 }

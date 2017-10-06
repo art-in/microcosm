@@ -49,8 +49,8 @@ describe('Graph', () => {
         ]);
     });
 
-    it(`should dispatch 'search-association-tails-for-lookup' action on ` +
-        `phrase changed in association tails lookup`, async () => {
+    it(`should dispatch action on phrase changed ` +
+        `in association tails lookup`, async () => {
         
         // setup
         const store = new Store(new Dispatcher(), mutator);
@@ -63,7 +63,11 @@ describe('Graph', () => {
         graph.associationTailsLookup.popup.on('change', spy());
         graph.associationTailsLookup.activate({
             pos: new Point(0, 0),
-            target: new Node({id: 'head'})
+            onSelectAction: () => {},
+            onPhraseChangeAction: ({phrase}) => ({
+                type: 'action',
+                data: {phrase}
+            })
         });
 
         // target
@@ -75,14 +79,13 @@ describe('Graph', () => {
         // check
         expect(dispatch.callCount).to.equal(1);
         expect(dispatch.firstCall.args).to.deep.equal([
-            'search-association-tails-for-lookup', {
-                phrase: 'test',
-                headIdeaId: 'head'
+            'action', {
+                phrase: 'test'
             }
         ]);
     });
 
-    it(`should dispatch 'create-cross-association' action on suggestion ` +
+    it(`should dispatch action on suggestion ` +
         `selected in association tails lookup`, async () => {
 
         // setup
@@ -96,21 +99,27 @@ describe('Graph', () => {
         graph.associationTailsLookup.popup.on('change', spy());
         graph.associationTailsLookup.activate({
             pos: new Point(0, 0),
-            target: new Node({id: 'head'})
+            onSelectAction: ({suggestion}) => ({
+                type: 'action',
+                data: {ideaId: suggestion.data.ideaId}
+            }),
+            onPhraseChangeAction: () => {}
         });
 
         // target
         await graph.associationTailsLookup.emit(
             'suggestion-selected', {
-                suggestion: new LookupSuggestion('tail')
+                suggestion: new LookupSuggestion({
+                    displayName: '',
+                    data: {ideaId: 'tail'}
+                })
             });
 
         // check
         expect(dispatch.callCount).to.equal(1);
         expect(dispatch.firstCall.args).to.deep.equal([
-            'create-cross-association', {
-                headIdeaId: 'head',
-                tailIdeaId: 'tail'
+            'action', {
+                ideaId: 'tail'
             }
         ]);
     });

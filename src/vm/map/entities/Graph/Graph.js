@@ -3,10 +3,7 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
 import Point from 'vm/shared/Point';
 import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
-import MenuItem from 'vm/shared/MenuItem';
 import LookupPopup from 'vm/shared/LookupPopup';
-
-import Link from 'vm/map/entities/Link';
 
 import animate from 'vm/utils/animate';
 
@@ -52,7 +49,9 @@ export default class Graph extends EventedViewModel {
 
         'association-tails-lookup-phrase-changed',
 
-        'association-tails-lookup-suggestion-selected'
+        'association-tails-lookup-suggestion-selected',
+
+        'context-menu-item-selected'
     ]
     
     /**
@@ -61,11 +60,8 @@ export default class Graph extends EventedViewModel {
     constructor() {
         super();
 
-        this.nodeMenu.on('itemSelected',
-            this.onNodeMenuItemSelected.bind(this));
-
-        this.linkMenu.on('itemSelected',
-            this.onLinkMenuItemSelected.bind(this));
+        this.contextMenu.on('itemSelected', menuItem =>
+            this.emit('context-menu-item-selected', {menuItem}));
 
         this.colorPicker.on('colorSelected',
             this.onPickerColorSelected.bind(this));
@@ -188,20 +184,9 @@ export default class Graph extends EventedViewModel {
     height = undefined;
 
     /**
-     * Context menu of nodes
-     */
-    nodeMenu = new ContextMenu([
-        new MenuItem('idea-add', 'add idea'),
-        new MenuItem('association-add', 'add association'),
-        new MenuItem('idea-remove', 'remove idea')
-    ]);
-
-    /**
      * Context menu of links
      */
-    linkMenu = new ContextMenu([
-        new MenuItem('association-set-color', 'set color')
-    ]);
+    contextMenu = new ContextMenu();
 
     /**
      * Color picker
@@ -253,8 +238,7 @@ export default class Graph extends EventedViewModel {
      * Handles click event
      */
     onClick() {
-        this.nodeMenu.deactivate();
-        this.linkMenu.deactivate();
+        this.contextMenu.deactivate();
         this.colorPicker.deactivate();
         this.associationTailsLookup.deactivate();
     }
@@ -265,12 +249,7 @@ export default class Graph extends EventedViewModel {
      * @param {object} pos
      */
     onNodeRightClick(node, pos) {
-        if (node.shaded) {
-            // prevent actions on shaded nodes
-            return;
-        }
-
-        this.nodeMenu.activate({pos, target: node});
+        this.emit('node-rightclick', {pos, node});
     }
 
     /**
@@ -279,17 +258,7 @@ export default class Graph extends EventedViewModel {
      * @param {object} pos
      */
     onLinkRightClick(link, pos) {
-        if (link.shaded) {
-            // prevent actions on shaded links
-            return;
-        }
-
-        if (!link.isRooted) {
-            // color can be set on BOI links only
-            return;
-        }
-
-        this.linkMenu.activate({pos, target: link});
+        this.emit('link-rightclick', {pos, link});
     }
 
     /**
@@ -456,67 +425,17 @@ export default class Graph extends EventedViewModel {
     }
 
     /**
-     * Handles node menu item selected event
-     * @param {MenuItem} menuItem
-     */
-    onNodeMenuItemSelected(menuItem) {
-        
-        const node = this.nodeMenu.target;
-
-        switch (menuItem.actionName) {
-        case 'idea-add':
-            this.emit('node-menu-idea-add', {parentIdeaId: node.id});
-            break;
-        case 'idea-remove':
-            this.emit('node-menu-idea-remove', {ideaId: node.id});
-            break;
-        case 'association-add':
-            this.associationTailsLookup.activate({
-                pos: this.nodeMenu.popup.pos,
-                target: node
-            });
-            break;
-        default:
-            throw Error(`Unknown menu action '${menuItem.actionName}'`);
-        }
-
-        this.nodeMenu.deactivate();
-    }
-
-    /**
-     * Handles link menu item selected event
-     * @param {MenuItem} menuItem
-     */
-    onLinkMenuItemSelected(menuItem) {
-
-        const link = this.linkMenu.target;
-
-        switch (menuItem.actionName) {
-        case 'association-set-color':
-            this.colorPicker.activate(link);
-            break;
-        default:
-            throw Error(`Unknown menu action '${menuItem.actionName}'`);
-        }
-
-        this.linkMenu.deactivate();
-    }
-
-    /**
      * Handles color selected event
      * @param {string} color
      */
     onPickerColorSelected(color) {
 
-        const link = this.colorPicker.target;
-
-        if (link instanceof Link) {
-            this.emit('picker-color-change', {
-                ideaId: link.to.id,
-                color
-            });
-        }
-
+        this.emit('picker-color-change', {
+            picker: this.colorPicker,
+            color
+        });
+      
+        // TODO: deactivate through action
         this.colorPicker.deactivate();
     }
 
@@ -526,11 +445,9 @@ export default class Graph extends EventedViewModel {
      */
     onAssociationTailsLookupPhraseChanged({phrase}) {
 
-        const node = this.associationTailsLookup.target;
-
         this.emit('association-tails-lookup-phrase-changed', {
-            node,
-            phrase: phrase
+            lookup: this.associationTailsLookup,
+            phrase
         });
     }
 
@@ -541,13 +458,12 @@ export default class Graph extends EventedViewModel {
      */
     onAssociationTailsLookupSuggestionSelected({suggestion}) {
 
-        const node = this.associationTailsLookup.target;
-
         this.emit('association-tails-lookup-suggestion-selected', {
-            node,
+            lookup: this.associationTailsLookup,
             suggestion
         });
 
+        // TODO: deactivate through action
         this.associationTailsLookup.deactivate();
     }
 

@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import EventedViewModel from 'vm/utils/EventedViewModel';
 
 /**
@@ -20,18 +22,20 @@ export default class ColorPicker extends EventedViewModel {
     active = false;
 
     /**
-     * Target entity to pick color for
-     * @type {*}
+     * Gets action after color selected
+     * @type {function}
      */
-    target = null;
+    onSelectAction = null;
     
     /**
      * Activates picker
      * @param {*} target
      */
-    activate(target) {
+    activate({onSelectAction}) {
+        assert(onSelectAction);
+
         this.active = true;
-        this.target = target;
+        this.onSelectAction = onSelectAction;
         this.emit('change');
     }
 

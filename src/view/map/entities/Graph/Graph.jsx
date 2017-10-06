@@ -198,8 +198,7 @@ export default class Graph extends Component {
                 </Svg>
 
                 <div id={'menus'}>
-                    <ContextMenu cmenu={ graph.nodeMenu } />
-                    <ContextMenu cmenu={ graph.linkMenu } />
+                    <ContextMenu cmenu={ graph.contextMenu } />
                     <ColorPicker picker={ graph.colorPicker } />
                     <LookupPopup
                         lookupPopup={graph.associationTailsLookup} />

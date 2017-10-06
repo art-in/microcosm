@@ -1,5 +1,10 @@
 import init from './init';
-import setAssociationTailsToLookup from './set-association-tails-to-lookup';
+import setSuggestions from './set-suggestions-to-association-tails-lookup';
+import showContextMenu from './show-context-menu';
+import showColorPicker from './show-color-picker';
+import showAssociationTailsLookup from './show-association-tails-lookup';
+import hideContextMenu from './hide-context-menu';
+
 import defaultMutator from './default-mutator';
 
 /**
@@ -30,13 +35,26 @@ export default async function mutate(state, patch) {
  */
 async function apply(state, mutation) {
     
+    // TODO: dynamicly load mutators by filename (same as action handlers)
     switch (mutation.type) {
 
     case 'init':
         init(state, mutation);
         break;
-    case 'set-association-tails-to-lookup':
-        setAssociationTailsToLookup(state, mutation);
+    case 'set-suggestions-to-association-tails-lookup':
+        setSuggestions(state, mutation);
+        break;
+    case 'show-context-menu':
+        showContextMenu(state, mutation);
+        break;
+    case 'show-color-picker':
+        showColorPicker(state, mutation);
+        break;
+    case 'show-association-tails-lookup':
+        showAssociationTailsLookup(state, mutation);
+        break;
+    case 'hide-context-menu':
+        hideContextMenu(state, mutation);
         break;
     case 'add idea':
     case 'update idea':

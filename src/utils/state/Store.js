@@ -73,6 +73,8 @@ export default class Store {
      */
     async dispatch(type, data) {
 
+        // TODO: add Action type
+
         return this._queue.enqueue(async () => {
 
             this._middlewares.events.emit('before-dispatch',

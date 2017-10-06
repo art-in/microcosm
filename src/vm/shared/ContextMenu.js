@@ -5,15 +5,12 @@ import Popup from './Popup';
 
 /**
  * Context menu view model
+ * Menu shown inside free-flow popup
  */
 export default class ContextMenu extends EventedViewModel {
 
     static eventTypes = [
-        
-        // state changed
         'change',
-        
-        // menu item triggered
         'itemSelected'
     ];
 
@@ -36,36 +33,37 @@ export default class ContextMenu extends EventedViewModel {
     menu = undefined;
 
     /**
-     * Target entity to show options for
-     * @type {*}
-     */
-    target = null;
-
-    /**
      * Constructor
-     * @param {array.<MenuItem>} items 
+     * @param {object}           [opts]
+     * @param {array.<MenuItem>} [opts.items]
      */
-    constructor(items) {
+    constructor({items = []} = {}) {
         super();
         this.popup = new Popup();
-        this.menu = new Menu(items);
+        this.menu = new Menu({items});
 
-        this.menu.on('itemSelected',
-            (...data) => this.emit('itemSelected', ...data));
+        this.retransmit(this.menu, 'itemSelected');
+    }
+
+    /**
+     * Sets menu items
+     * @param {array.<MenuItem>} items
+     */
+    setItems(items) {
+        this.menu.setItems(items);
     }
 
     /**
      * Activates menu
      * @param {object} opts
+     * @param {Point}  opts.pos
      */
-    activate({pos, target}) {
-        this.target = target;
-        this.popup.activate(pos);
+    activate({pos}) {
+        this.popup.activate({pos});
     }
 
     /**
      * Deactivates menu
-     * @param {object} opts
      */
     deactivate() {
         this.popup.deactivate();
