@@ -36,7 +36,7 @@ describe('Store', () => {
 
             // setup
             const dispatcher = new Dispatcher();
-            const patch = new Patch('mutation', {data: 1});
+            const patch = new Patch({type: 'mutation', data: 'data'});
             dispatcher.reg('action', () => patch);
 
             const state = createState();
@@ -69,14 +69,14 @@ describe('Store', () => {
                 seq.push('start dispatch action 1');
                 await timer(0);
                 seq.push('end dispatch action 1');
-                return new Patch('mutation 1');
+                return new Patch({type: 'mutation 1'});
             });
 
             dispatcher.reg('action 2', async () => {
                 seq.push('start dispatch action 2');
                 await timer(0);
                 seq.push('end dispatch action 2');
-                return new Patch('mutation 2');
+                return new Patch({type: 'mutation 2'});
             });
 
             const mutator = async (initialState, patch) => {
@@ -126,8 +126,10 @@ describe('Store', () => {
 
             const dispatcher = new Dispatcher();
             
-            dispatcher.reg('action 1', async () => new Patch('mutation 1'));
-            dispatcher.reg('action 2', async () => new Patch('mutation 2'));
+            dispatcher.reg('action 1',
+                async () => new Patch({type: 'mutation 1'}));
+            dispatcher.reg('action 2',
+                async () => new Patch({type: 'mutation 2'}));
 
             const mutator = async (initialState, patch) => {
                 for (const mutation of patch) {
@@ -161,7 +163,8 @@ describe('Store', () => {
 
             // setup
             const dispatcher = new Dispatcher();
-            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+            dispatcher.reg('action',
+                () => new Patch({type: 'mutation', data: 'data'}));
 
             const state = {counter: 1};
             const mutator = () => ({counter: 2});
@@ -204,7 +207,8 @@ describe('Store', () => {
 
             // setup
             const dispatcher = new Dispatcher();
-            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+            dispatcher.reg('action',
+                () => new Patch({type: 'mutation', data: 'data'}));
 
             const state = {counter: 1};
             const mutator = () => ({counter: 2});
@@ -246,7 +250,8 @@ describe('Store', () => {
             
             // setup
             const dispatcher = new Dispatcher();
-            dispatcher.reg('action', () => new Patch('mutation', {data: 2}));
+            dispatcher.reg('action',
+                () => new Patch({type: 'mutation', data: 'data'}));
 
             const state = {counter: 1};
             const mutator = () => ({counter: 2});
@@ -274,7 +279,7 @@ describe('Store', () => {
             // patch
             expect(args[0]).to.containSubset({
                 mutations: [{
-                    data: {data: 2}
+                    data: 'data'
                 }]
             });
 

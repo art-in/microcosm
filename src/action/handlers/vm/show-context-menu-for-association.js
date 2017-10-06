@@ -42,9 +42,9 @@ export default function showContextMenuForAssociation(
 
     // TODO: menu item 'remove association'
     
-    return new Patch([{
+    return new Patch({
         type: 'show-context-menu',
         data: {pos, menuItems},
         targets: ['vm', 'view']
-    }]);
+    });
 }

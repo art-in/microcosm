@@ -16,10 +16,12 @@ export default function setMindmapScale(
         throw Error('Setting scale of not loaded mindmap');
     }
 
-    return new Patch('update mindmap', {
-        id: mindmapId,
-        scale,
-        x: pos.x,
-        y: pos.y
-    });
+    return new Patch({
+        type: 'update mindmap',
+        data: {
+            id: mindmapId,
+            scale,
+            x: pos.x,
+            y: pos.y
+        }});
 }

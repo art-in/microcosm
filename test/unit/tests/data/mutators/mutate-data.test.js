@@ -25,7 +25,7 @@ describe('init', () => {
         await patchData.data.associations.post({});
         await patchData.data.mindmaps.post({});
 
-        const patch = new Patch('init', patchData);
+        const patch = new Patch({type: 'init', data: patchData});
 
         // target
         const result = await mutate(state, patch);
@@ -47,13 +47,15 @@ describe('init', () => {
         // setup
         const state = {data: {}};
 
-        const patch = new Patch('init', {
+        const patch = new Patch({
+            type: 'init',
             data: {
-                ideas: createDB(),
-                associations: createDB(),
-                mindmaps: createDB()
-            }
-        });
+                data: {
+                    ideas: createDB(),
+                    associations: createDB(),
+                    mindmaps: createDB()
+                }
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -70,13 +72,15 @@ describe('init', () => {
         // setup
         const state = {data: {}};
 
-        const patch = new Patch('init', {
+        const patch = new Patch({
+            type: 'init',
             data: {
-                ideas: createDB(),
-                associations: createDB(),
-                mindmaps: createDB()
-            }
-        });
+                data: {
+                    ideas: createDB(),
+                    associations: createDB(),
+                    mindmaps: createDB()
+                }
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -100,9 +104,10 @@ describe('add idea', () => {
         // setup
         const state = {data: {ideas: createDB()}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'id', value: 'test'}));
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'id', value: 'test'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -132,10 +137,10 @@ describe('update idea', () => {
 
         const state = {data: {ideas: ideasDB}};
 
-        const patch = new Patch(
-            'update idea',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update idea',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -166,10 +171,10 @@ describe('remove idea', () => {
 
         const state = {data: {ideas: ideasDB}};
 
-        const patch = new Patch(
-            'remove idea',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove idea',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -191,9 +196,10 @@ describe('add association', () => {
         // setup
         const state = {data: {associations: createDB()}};
 
-        const patch = new Patch(
-            'add association',
-            new Association({id: 'id', value: 'test'}));
+        const patch = new Patch({
+            type: 'add association',
+            data: new Association({id: 'id', value: 'test'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -222,10 +228,10 @@ describe('update association', () => {
 
         const state = {data: {associations: assocDB}};
 
-        const patch = new Patch(
-            'update association',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update association',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -255,10 +261,10 @@ describe('remove association', () => {
 
         const state = {data: {associations: assocDB}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -283,10 +289,10 @@ describe('update mindmap', () => {
 
         const state = {data: {mindmaps: mindmapDB}};
 
-        const patch = new Patch(
-            'update mindmap',
-            {id: 'id', scale: 2}
-        );
+        const patch = new Patch({
+            type: 'update mindmap',
+            data: {id: 'id', scale: 2}
+        });
 
         // target
         const result = await mutate(state, patch);

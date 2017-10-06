@@ -27,11 +27,13 @@ describe('show-association-tails-lookup', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-association-tails-lookup', {
-            pos: new Point(0, 0),
-            onSelectAction: () => {},
-            onPhraseChangeAction: () => {}
-        });
+        const patch = new Patch({
+            type: 'show-association-tails-lookup',
+            data: {
+                pos: new Point(0, 0),
+                onSelectAction: () => {},
+                onPhraseChangeAction: () => {}
+            }});
 
         // target
         await mutate(state, patch);
@@ -60,11 +62,13 @@ describe('show-association-tails-lookup', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-association-tails-lookup', {
-            pos: new Point(100, 200),
-            onSelectAction: () => {},
-            onPhraseChangeAction: () => {}
-        });
+        const patch = new Patch({
+            type: 'show-association-tails-lookup',
+            data: {
+                pos: new Point(100, 200),
+                onSelectAction: () => {},
+                onPhraseChangeAction: () => {}
+            }});
 
         // target
         await mutate(state, patch);
@@ -95,11 +99,13 @@ describe('show-association-tails-lookup', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-association-tails-lookup', {
-            pos: new Point(0, 0),
-            onSelectAction: () => {},
-            onPhraseChangeAction: () => {}
-        });
+        const patch = new Patch({
+            type: 'show-association-tails-lookup',
+            data: {
+                pos: new Point(0, 0),
+                onSelectAction: () => {},
+                onPhraseChangeAction: () => {}
+            }});
 
         // target
         await mutate(state, patch);

@@ -28,7 +28,7 @@ describe('hide-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('hide-context-menu');
+        const patch = new Patch({type: 'hide-context-menu'});
 
         // target
         await mutate(state, patch);
@@ -58,7 +58,7 @@ describe('hide-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('hide-context-menu');
+        const patch = new Patch({type: 'hide-context-menu'});
 
         // target
         await mutate(state, patch);

@@ -18,10 +18,10 @@ describe('update mindmap', () => {
 
         const state = {model: {mindmap}};
         
-        const patch = new Patch(
-            'update mindmap',
-            {id: 'id', scale: 2}
-        );
+        const patch = new Patch({
+            type: 'update mindmap',
+            data: {id: 'id', scale: 2}
+        });
 
         // target
         const result = await mutate(state, patch);

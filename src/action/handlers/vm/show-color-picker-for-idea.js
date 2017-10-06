@@ -14,7 +14,7 @@ export default function showColorPickerForIdea(
 
     assert(ideaId !== undefined);
 
-    return new Patch([{
+    return new Patch({
         type: 'show-color-picker',
         data: {
             onSelectAction: ({color}) => ({
@@ -26,5 +26,5 @@ export default function showColorPickerForIdea(
             })
         },
         targets: ['vm', 'view']
-    }]);
+    });
 }

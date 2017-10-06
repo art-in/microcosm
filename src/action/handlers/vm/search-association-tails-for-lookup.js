@@ -45,9 +45,9 @@ export default function searchAssociationTailsForLookup(
             data: {ideaId: i.id}
         }));
 
-    return new Patch([{
+    return new Patch({
         type: 'set-suggestions-to-association-tails-lookup',
         data: {suggestions},
         targets: ['vm', 'view']
-    }]);
+    });
 }

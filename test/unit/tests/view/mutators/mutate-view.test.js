@@ -12,13 +12,14 @@ describe('init', () => {
         const state = createState();
         state.view.root = undefined;
 
-        const patch = new Patch(
-            'init', {
+        const patch = new Patch({
+            type: 'init',
+            data: {
                 view: {
                     root: document.createElement('div')
                 }
             }
-        );
+        });
 
         // target
         const result = await mutate(state, patch);

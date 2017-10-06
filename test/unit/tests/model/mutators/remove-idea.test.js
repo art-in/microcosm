@@ -65,10 +65,10 @@ describe('remove idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove idea',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove idea',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -137,10 +137,10 @@ describe('remove idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove idea',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove idea',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -177,10 +177,10 @@ describe('remove idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove idea',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove idea',
+            data: {id: 'die'}
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -202,10 +202,10 @@ describe('remove idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove idea',
-            {id: 'root'}
-        );
+        const patch = new Patch({
+            type: 'remove idea',
+            data: {id: 'root'}
+        });
 
         // target
         const promise = mutate(state, patch);

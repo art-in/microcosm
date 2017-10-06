@@ -21,10 +21,10 @@ describe('update idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'update idea',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update idea',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -45,10 +45,10 @@ describe('update idea', () => {
         // setup
         const state = {model: {mindmap: new Mindmap()}};
         
-        const patch = new Patch(
-            'update idea',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update idea',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const promise = mutate(state, patch);

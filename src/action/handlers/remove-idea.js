@@ -20,7 +20,10 @@ export default async function removeIdea(
         throw Error('Unable to remove root idea');
     }
 
-    patch.push('remove idea', {id: ideaId});
+    patch.push({
+        type: 'remove idea',
+        data: {id: ideaId}
+    });
 
     if (idea.associationsOut.length) {
         throw Error(
@@ -34,8 +37,10 @@ export default async function removeIdea(
         throw Error(`No incoming associations found for idea '${idea.id}'`);
     }
 
-    incomingAssocs
-        .forEach(a => patch.push('remove association', {id: a.id}));
+    incomingAssocs.forEach(a => patch.push({
+        type: 'remove association',
+        data: {id: a.id}
+    }));
 
     return patch;
 }

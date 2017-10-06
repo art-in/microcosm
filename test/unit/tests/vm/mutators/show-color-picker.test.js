@@ -26,9 +26,11 @@ describe('show-color-picker', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-color-picker', {
-            onSelectAction: () => {}
-        });
+        const patch = new Patch({
+            type: 'show-color-picker',
+            data: {
+                onSelectAction: () => {}
+            }});
 
         // target
         await mutate(state, patch);
@@ -57,9 +59,11 @@ describe('show-color-picker', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-color-picker', {
-            onSelectAction: () => {}
-        });
+        const patch = new Patch({
+            type: 'show-color-picker',
+            data: {
+                onSelectAction: () => {}
+            }});
 
         // target
         await mutate(state, patch);

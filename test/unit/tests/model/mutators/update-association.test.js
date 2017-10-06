@@ -22,10 +22,10 @@ describe('update association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'update association',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update association',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -47,10 +47,10 @@ describe('update association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'update association',
-            {id: 'id', value: 'new'}
-        );
+        const patch = new Patch({
+            type: 'update association',
+            data: {id: 'id', value: 'new'}
+        });
 
         // target
         const promise = mutate(state, patch);

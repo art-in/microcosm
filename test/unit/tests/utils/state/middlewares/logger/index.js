@@ -34,9 +34,9 @@ describe('logger', () => {
         
         logger(storeEvents);
 
-        const action = {type: 'my-action', data: {}};
+        const action = {type: 'my-action', data: 'A'};
         const prevState = {model: 'prev model', vm: 'prev vm'};
-        const patch = new Patch('my-mutation', {});
+        const patch = new Patch({type: 'my-mutation', data: 'M'});
         const nextState = {model: 'next model', vm: 'next vm'};
 
         storeEvents.emit('before-dispatch', action, prevState);
@@ -74,7 +74,7 @@ describe('logger', () => {
         
         expect(console.log.secondCall.args[2]).to.deep.equal({
             type: 'my-action',
-            data: {}
+            data: 'A'
         });
     });
 
@@ -86,7 +86,7 @@ describe('logger', () => {
         expect(console.log.thirdCall.args[2]).to.containSubset({
             mutations: [{
                 type: 'my-mutation',
-                data: {}
+                data: 'M'
             }]
         });
 

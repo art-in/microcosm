@@ -28,7 +28,7 @@ describe('init', () => {
         });
         await patchData.data.mindmaps.post({});
 
-        const patch = new Patch('init', patchData);
+        const patch = new Patch({type: 'init', data: patchData});
 
         // target
         const result = await mutate(state, patch);
@@ -64,7 +64,7 @@ describe('init', () => {
         });
         await patchData.data.mindmaps.post({});
 
-        const patch = new Patch('init', patchData);
+        const patch = new Patch({type: 'init', data: patchData});
 
         // target
         const result = await mutate(state, patch);

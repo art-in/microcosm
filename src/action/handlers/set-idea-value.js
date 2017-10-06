@@ -15,6 +15,9 @@ export default async function setIdeaValue(
     const idea = getIdea(mindmap, ideaId);
 
     if (idea.value != value) {
-        return new Patch('update idea', {id: ideaId, value});
+        return new Patch({
+            type: 'update idea',
+            data: {id: ideaId, value}
+        });
     }
 }

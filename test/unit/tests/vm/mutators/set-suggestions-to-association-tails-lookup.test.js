@@ -28,12 +28,14 @@ describe('set-suggestions-to-association-tails-lookup', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('set-suggestions-to-association-tails-lookup', {
-            suggestions: [
-                new LookupSuggestion({data: 'idea 1', displayName: 'value 1'}),
-                new LookupSuggestion({data: 'idea 2', displayName: 'value 2'})
-            ]
-        });
+        const patch = new Patch({
+            type: 'set-suggestions-to-association-tails-lookup',
+            data: {
+                suggestions: [
+                    new LookupSuggestion({data: 'idea 1', displayName: 'A'}),
+                    new LookupSuggestion({data: 'idea 2', displayName: 'B'})
+                ]
+            }});
 
         // target
         await mutate(state, patch);
@@ -48,11 +50,11 @@ describe('set-suggestions-to-association-tails-lookup', () => {
 
         expect(suggestions[0]).to.containSubset({
             data: 'idea 1',
-            displayName: 'value 1'
+            displayName: 'A'
         });
         expect(suggestions[1]).to.containSubset({
             data: 'idea 2',
-            displayName: 'value 2'
+            displayName: 'B'
         });
     });
 
@@ -74,12 +76,14 @@ describe('set-suggestions-to-association-tails-lookup', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('set-suggestions-to-association-tails-lookup', {
-            suggestions: [
-                new LookupSuggestion({data: 'idea 1', displayName: 'value 1'}),
-                new LookupSuggestion({data: 'idea 2', displayName: 'value 2'})
-            ]
-        });
+        const patch = new Patch({
+            type: 'set-suggestions-to-association-tails-lookup',
+            data: {
+                suggestions: [
+                    new LookupSuggestion({data: 'idea 1', displayName: 'A'}),
+                    new LookupSuggestion({data: 'idea 2', displayName: 'B'})
+                ]
+            }});
 
         // target
         await mutate(state, patch);

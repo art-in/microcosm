@@ -40,17 +40,21 @@ describe('combine-mutators', () => {
         // setup patch
         const patch = new Patch();
 
-        patch.push('add association', new Association({
-            id: 'assoc',
-            fromId: 'parent',
-            toId: 'child'
-        }));
+        patch.push({
+            type: 'add association',
+            data: new Association({
+                id: 'assoc',
+                fromId: 'parent',
+                toId: 'child'
+            })});
 
-        patch.push('add idea', new Idea({
-            id: 'child',
-            x: 10,
-            y: 10
-        }));
+        patch.push({
+            type: 'add idea',
+            data: new Idea({
+                id: 'child',
+                x: 10,
+                y: 10
+            })});
 
         // target
         const mutate = combine([

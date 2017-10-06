@@ -55,9 +55,9 @@ export default function showContextMenuForIdea(
             })
         }));
 
-    return new Patch([{
+    return new Patch({
         type: 'show-context-menu',
         data: {pos, menuItems},
         targets: ['vm', 'view']
-    }]);
+    });
 }

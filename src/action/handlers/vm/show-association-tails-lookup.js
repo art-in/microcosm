@@ -22,13 +22,15 @@ export default function(
     // TODO: add ability to dispatch actions from another actions
     //       move hide-menu/show-lookup to separate action
     //      'select-menu-item-add-association'
-    // TODO: Patch.push({...named params...})
-    patch.push('hide-context-menu', null, ['vm', 'view']);
+    patch.push({
+        type: 'hide-context-menu',
+        targets: ['vm', 'view']
+    });
 
-    patch.push(
-        'show-association-tails-lookup', {
+    patch.push({
+        type: 'show-association-tails-lookup',
+        data: {
             pos,
-            
             onSelectAction: ({suggestion}) => ({
                 type: 'create-cross-association',
                 data: {
@@ -36,7 +38,6 @@ export default function(
                     tailIdeaId: suggestion.data.ideaId
                 }
             }),
-            
             onPhraseChangeAction: ({phrase}) => ({
                 type: 'search-association-tails-for-lookup',
                 data: {
@@ -45,7 +46,8 @@ export default function(
                 }
             })
         },
-        ['vm', 'view']);
+        targets: ['vm', 'view']
+    });
 
     return patch;
 }

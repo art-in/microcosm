@@ -17,9 +17,12 @@ describe('init', () => {
         const mainVM = new MainVM();
         mainVM.mindmap = new MindmapVM();
 
-        const patch = new Patch('init', {
-            vm: {
-                main: mainVM
+        const patch = new Patch({
+            type: 'init',
+            data: {
+                vm: {
+                    main: mainVM
+                }
             }
         });
 

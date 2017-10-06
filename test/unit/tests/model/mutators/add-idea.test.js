@@ -33,10 +33,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea 1', value: 'test'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea 1', value: 'test'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -98,10 +98,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea X'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea X'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -167,10 +167,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea X'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea X'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -209,10 +209,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea 1', value: 'test'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea 1', value: 'test'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -272,10 +272,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea X'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea X'})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -293,10 +293,10 @@ describe('add idea', () => {
         // setup
         const state = {model: {mindmap: new Mindmap()}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'root', isRoot: true})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'root', isRoot: true})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -321,10 +321,10 @@ describe('add idea', () => {
         
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'root', isRoot: true})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'root', isRoot: true})
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -339,10 +339,10 @@ describe('add idea', () => {
         // setup
         const state = {model: {mindmap: new Mindmap()}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea 1', value: 'test'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea 1', value: 'test'})
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -357,10 +357,10 @@ describe('add idea', () => {
         // setup
         const state = {model: {mindmap: new Mindmap()}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'root', isRoot: true})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'root', isRoot: true})
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -392,10 +392,10 @@ describe('add idea', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'add idea',
-            new Idea({id: 'idea 1', value: 'test'})
-        );
+        const patch = new Patch({
+            type: 'add idea',
+            data: new Idea({id: 'idea 1', value: 'test'})
+        });
 
         // target
         const promise = mutate(state, patch);

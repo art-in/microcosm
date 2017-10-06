@@ -58,5 +58,8 @@ export default function createCrossAssociation(
     assoc.fromId = headIdeaId;
     assoc.toId = tailIdeaId;
 
-    return new Patch('add association', assoc);
+    return new Patch({
+        type: 'add association',
+        data: assoc
+    });
 }

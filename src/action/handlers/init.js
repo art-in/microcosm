@@ -6,5 +6,5 @@ import Patch from 'utils/state/Patch';
  * @return {Patch}
  */
 export default function init(data) {
-    return new Patch('init', data);
+    return new Patch({type: 'init', data});
 }

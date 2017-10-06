@@ -38,10 +38,16 @@ export default function createIdea(
         assoc.fromId = parentIdea.id;
         assoc.toId = newIdea.id;
 
-        patch.push('add association', assoc);
+        patch.push({
+            type: 'add association',
+            data: assoc
+        });
     }
 
-    patch.push('add idea', newIdea);
+    patch.push({
+        type: 'add idea',
+        data: newIdea
+    });
 
     return patch;
 }

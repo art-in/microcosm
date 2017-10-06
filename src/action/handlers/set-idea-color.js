@@ -6,8 +6,10 @@ import Patch from 'utils/state/Patch';
  * @return {Patch}
  */
 export default function setIdeaColor({ideaId, color}) {
-    return new Patch('update idea', {
-        id: ideaId,
-        color
-    });
+    return new Patch({
+        type: 'update idea',
+        data: {
+            id: ideaId,
+            color
+        }});
 }

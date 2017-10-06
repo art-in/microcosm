@@ -28,10 +28,12 @@ describe('show-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-context-menu', {
-            pos: new Point(0, 0),
-            menuItems: []
-        });
+        const patch = new Patch({
+            type: 'show-context-menu',
+            data: {
+                pos: new Point(0, 0),
+                menuItems: []
+            }});
 
         // target
         await mutate(state, patch);
@@ -57,10 +59,12 @@ describe('show-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-context-menu', {
-            pos: new Point(100, 200),
-            menuItems: []
-        });
+        const patch = new Patch({
+            type: 'show-context-menu',
+            data: {
+                pos: new Point(100, 200),
+                menuItems: []
+            }});
 
         // target
         await mutate(state, patch);
@@ -89,13 +93,15 @@ describe('show-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-context-menu', {
-            pos: new Point(0, 0),
-            menuItems: [
-                new MenuItem({displayValue: 'item 1', onSelectAction: spy()}),
-                new MenuItem({displayValue: 'item 2', onSelectAction: spy()})
-            ]
-        });
+        const patch = new Patch({
+            type: 'show-context-menu',
+            data: {
+                pos: new Point(0, 0),
+                menuItems: [
+                    new MenuItem({displayValue: 'A', onSelectAction: spy()}),
+                    new MenuItem({displayValue: 'B', onSelectAction: spy()})
+                ]
+            }});
 
         // target
         await mutate(state, patch);
@@ -105,9 +111,9 @@ describe('show-context-menu', () => {
 
         expect(contextMenu.menu.items).to.have.length(2);
         expect(contextMenu.menu.items).to.containSubset([{
-            displayValue: 'item 1'
+            displayValue: 'A'
         }, {
-            displayValue: 'item 2'
+            displayValue: 'B'
         }]);
     });
 
@@ -129,10 +135,12 @@ describe('show-context-menu', () => {
         state.vm.main = mainVM;
 
         // setup patch
-        const patch = new Patch('show-context-menu', {
-            pos: new Point(0, 0),
-            menuItems: []
-        });
+        const patch = new Patch({
+            type: 'show-context-menu',
+            data: {
+                pos: new Point(0, 0),
+                menuItems: []
+            }});
 
         // target
         await mutate(state, patch);

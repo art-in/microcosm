@@ -11,7 +11,7 @@ describe('Patch', () => {
         
         // setup
         const patch = new Patch();
-        patch.push('type', {});
+        patch.push({type: 'type', data: {}});
 
         // target
         const result = [...patch];
@@ -26,8 +26,8 @@ describe('Patch', () => {
         // setup
         const patch = new Patch();
 
-        patch.push('t1', 'd1');
-        patch.push('t2', 'd2');
+        patch.push({type: 't1', data: 'd1'});
+        patch.push({type: 't2', data: 'd2'});
 
         const handler = sinon.spy();
 
@@ -52,8 +52,8 @@ describe('Patch', () => {
         // setup
         const patch = new Patch();
 
-        patch.push('type', {});
-        patch.push('type', {});
+        patch.push({type: 'type', data: {}});
+        patch.push({type: 'type', data: {}});
 
         // target
         const result = patch.length;
@@ -67,8 +67,8 @@ describe('Patch', () => {
         // setup
         const patch = new Patch();
 
-        patch.push('type 1');
-        patch.push('type 2');
+        patch.push({type: 'type 1'});
+        patch.push({type: 'type 2'});
 
         // target/check
         expect(patch[0]).to.be.instanceOf(Mutation);
@@ -84,9 +84,9 @@ describe('Patch', () => {
         // setup
         const patch = new Patch();
 
-        patch.push('type 1', {a: '1'});
-        patch.push('type 1', {b: '2'});
-        patch.push('type 2', {c: '3'});
+        patch.push({type: 'type 1', data: {a: '1'}});
+        patch.push({type: 'type 1', data: {b: '2'}});
+        patch.push({type: 'type 2', data: {c: '3'}});
 
         // target/check
         expect(patch['type 1']).to.have.length(2);
@@ -111,7 +111,11 @@ describe('Patch', () => {
         it('should add single mutation', () => {
 
             // target
-            const patch = new Patch('a', 1, ['t']);
+            const patch = new Patch({
+                type: 'a',
+                data: 1,
+                targets: ['t']
+            });
 
             // check
             const mutations = [...patch];
@@ -163,8 +167,8 @@ describe('Patch', () => {
             const patch = new Patch();
 
             // target
-            patch.push('type 1', 'data 1');
-            patch.push('type 2', 'data 2', ['target 2']);
+            patch.push({type: 'type 1', data: 'data 1'});
+            patch.push({type: 'type 2', data: 'data 2', targets: ['target 2']});
 
             // check
             const mutations = [...patch];
@@ -193,8 +197,8 @@ describe('Patch', () => {
         it('should combine mutations to single patch', () => {
 
             // setup
-            const patch1 = new Patch('mutation 1', {data: 1});
-            const patch2 = new Patch('mutation 2', {data: 2});
+            const patch1 = new Patch({type: 'mutation 1', data: 'data 1'});
+            const patch2 = new Patch({type: 'mutation 2', data: 'data 2'});
 
             // target
             const result = Patch.combine(patch1, patch2);
@@ -212,9 +216,9 @@ describe('Patch', () => {
             // setup
             const patch = new Patch();
 
-            patch.push('type 1', null, ['target X']);
-            patch.push('type 2', null, ['target X', 'target Y']);
-            patch.push('type 3', null); // all targets
+            patch.push({type: 'type 1', targets: ['target X']});
+            patch.push({type: 'type 2', targets: ['target X', 'target Y']});
+            patch.push({type: 'type 3'}); // all targets
 
             // target / check
             expect(patch.hasTarget('target X')).to.be.true;
@@ -225,9 +229,9 @@ describe('Patch', () => {
             // setup
             const patch = new Patch();
             
-            patch.push('type 1', null, ['target X']);
-            patch.push('type 2', null, ['target Y']);
-            patch.push('type 3', null); // all targets
+            patch.push({type: 'type 1', targets: ['target X']});
+            patch.push({type: 'type 2', targets: ['target Y']});
+            patch.push({type: 'type 3'}); // all targets
 
             // target / check
             expect(patch.hasTarget('target X')).to.be.false;

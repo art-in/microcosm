@@ -23,6 +23,20 @@ import Mutation from './Mutation';
  * only provides subset of native Array func
  * http://perfectionkills.com/
  * how-ecmascript-5-still-does-not-allow-to-subclass-an-array/
+ * 
+ * @example multiple mutations with push
+ * const patch = new Patch();
+ * patch.push({type: 'a', data: 1});
+ * patch.push({type: 'b', data: 2, targets: ['vm', 'view']});
+ *
+ * @example single mutation with constructor
+ * const patch = new Patch({type: 'a', data: 1});
+ *
+ * @example multiple mutations with constructor
+ * new Patch([
+ *  {type: 'a', data: 1},
+ *  {type: 'b', data: 2}
+ * ]);
  */
 export default class Patch {
 
@@ -31,20 +45,6 @@ export default class Patch {
     /**
      * Constructor
      * @param {object} args
-     *
-     * @example multiple mutations with push
-     * const patch = new Patch();
-     * patch.push('a', 1);
-     * patch.push('b', 2);
-     *
-     * @example single mutation with constructor
-     * const patch = new Patch('a', 1);
-     *
-     * @example multiple mutations with constructor
-     * new Patch([
-     *  {type: 'a', data: 1},
-     *  {type: 'b', data: 2}
-     * ]);
      */
     constructor(...args) {
         if (args.length) {
@@ -52,10 +52,10 @@ export default class Patch {
             const mutations = args[0];
             if (!Array.isArray(mutations)) {
                 // single mutation
-                this.push(args[0], args[1], args[2]);
+                this.push(args[0]);
             } else {
                 // multiple mutations
-                mutations.forEach(m => this.push(m.type, m.data, m.targets));
+                mutations.forEach(m => this.push(m));
             }
         }
     }
@@ -96,22 +96,21 @@ export default class Patch {
 
     /**
      * Adds mutations
-     * @param {string} type - mutation type
-     * @param {*} [data]
-     * @param {array.<string>} [targets] - mutation targets
+     * @param {Mutation|object} mutationObj
      */
-    push(type, data, targets) {
+    push(mutationObj) {
         
-        const mutation = new Mutation(type, data, targets);
+        // TODO: validate param scheme
+        const mutation = new Mutation(mutationObj);
 
         this[this.length] = mutation;
 
         this.mutations.push(mutation);
 
-        if (!this[type]) {
-            this[type] = [];
+        if (!this[mutation.type]) {
+            this[mutation.type] = [];
         }
-        this[type].push(mutation);
+        this[mutation.type].push(mutation);
     }
 
     /**
@@ -126,9 +125,10 @@ export default class Patch {
         assert(patches.every(p => p instanceof Patch),
             'Each argument should be instance of Patch');
         
-        return patches.reduce(
-            (comb, patch) => new Patch([...comb, ...patch]),
-            new Patch());
+        const mutations = patches.reduce(
+            (comb, patch) => ([...comb, ...patch]), []);
+
+        return new Patch(mutations);
     }
 
     /**

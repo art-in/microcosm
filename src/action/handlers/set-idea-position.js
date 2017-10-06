@@ -6,9 +6,11 @@ import Patch from 'utils/state/Patch';
  * @return {Patch}
  */
 export default function setIdeaPosition({ideaId, pos}) {
-    return new Patch('update idea', {
-        id: ideaId,
-        x: pos.x,
-        y: pos.y
-    });
+    return new Patch({
+        type: 'update idea',
+        data: {
+            id: ideaId,
+            x: pos.x,
+            y: pos.y
+        }});
 }

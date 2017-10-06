@@ -50,10 +50,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -98,10 +98,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const result = await mutate(state, patch);
@@ -139,10 +139,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -186,10 +186,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -234,10 +234,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const promise = mutate(state, patch);
@@ -282,10 +282,10 @@ describe('remove association', () => {
 
         const state = {model: {mindmap}};
 
-        const patch = new Patch(
-            'remove association',
-            {id: 'die'}
-        );
+        const patch = new Patch({
+            type: 'remove association',
+            data: {id: 'die'}
+        });
 
         // target
         const promise = mutate(state, patch);

@@ -14,6 +14,9 @@ export default async function setAssociationValue(
     const idea = getAssociation(mindmap, assocId);
 
     if (idea.value != value) {
-        return new Patch('update association', {id: assocId, value});
+        return new Patch({
+            type: 'update association',
+            data: {id: assocId, value}
+        });
     }
 }

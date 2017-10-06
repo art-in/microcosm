@@ -23,11 +23,12 @@ export default class Mutation {
 
     /**
      * Constructor
-     * @param {string} type 
-     * @param {*} data 
-     * @param {array.<string>} targets 
+     * @param {object}         opts
+     * @param {string}         opts.type 
+     * @param {*}              opts.data 
+     * @param {array.<string>} opts.targets 
      */
-    constructor(type, data, targets) {
+    constructor({type, data, targets}) {
         this.type = type;
         this.data = data;
         this.targets = targets;
