@@ -18,7 +18,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('create-idea', {}, state);
+        const patch = await dispatch({type: 'create-idea', data: {}}, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -40,8 +40,9 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('create-idea', {
-            parentIdeaId: 'parent'
+        const patch = await dispatch({
+            type: 'create-idea',
+            data: {parentIdeaId: 'parent'}
         }, state);
 
         // check
@@ -69,8 +70,9 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('create-idea', {
-            parentIdeaId: 'parent'
+        const patch = await dispatch({
+            type: 'create-idea',
+            data: {parentIdeaId: 'parent'}
         }, state);
 
         // check
@@ -91,7 +93,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('create-idea', {}, state);
+        const patch = await dispatch({type: 'create-idea', data: {}}, state);
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -108,8 +110,9 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch('create-idea', {
-            parentIdeaId: 'not exist'
+        const promise = dispatch({
+            type: 'create-idea',
+            data: {parentIdeaId: 'not exist'}
         }, state);
 
         // check

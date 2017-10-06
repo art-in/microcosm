@@ -33,11 +33,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: 'idea',
                 headIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -70,11 +72,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: 'idea',
                 headIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -118,11 +122,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: 'idea',
                 headIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -165,11 +171,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: 'idea',
                 headIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -202,11 +210,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: 'idea',
                 headIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -238,11 +248,13 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'search-association-tails-for-lookup', {
+        const patch = await dispatch({
+            type: 'search-association-tails-for-lookup',
+            data: {
                 phrase: '#FOUND#',
                 headIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch.hasTarget('data')).to.be.false;

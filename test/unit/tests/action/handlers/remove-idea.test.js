@@ -29,8 +29,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('remove-idea', {
-            ideaId: 'die'
+        const patch = await dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -83,8 +84,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('remove-idea', {
-            ideaId: 'die'
+        const patch = await dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -115,8 +117,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('remove-idea', {
-            ideaId: 'die'
+        const patch = await dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -147,8 +150,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('remove-idea', {
-            ideaId: 'die'
+        const patch = await dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -192,8 +196,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch('remove-idea', {
-            ideaId: 'die'
+        const promise = dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -212,8 +217,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch('remove-idea', {
-            ideaId: 'die'
+        const promise = dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'die'}
         }, state);
 
         // check
@@ -229,8 +235,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch('remove-idea', {
-            ideaId: 'uknown'
+        const promise = dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'uknown'}
         }, state);
 
         // check
@@ -249,8 +256,9 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch('remove-idea', {
-            ideaId: 'root'
+        const promise = dispatch({
+            type: 'remove-idea',
+            data: {ideaId: 'root'}
         }, state);
 
         // check

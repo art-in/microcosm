@@ -20,9 +20,12 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-value', {
-            ideaId: 'id',
-            value: 'new'
+        const patch = await dispatch({
+            type: 'set-idea-value',
+            data: {
+                ideaId: 'id',
+                value: 'new'
+            }
         }, state);
 
         // check
@@ -46,9 +49,12 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-value', {
-            ideaId: 'id',
-            value: 'same value'
+        const patch = await dispatch({
+            type: 'set-idea-value',
+            data: {
+                ideaId: 'id',
+                value: 'same value'
+            }
         }, state);
 
         // check
@@ -67,9 +73,12 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-value', {
-            ideaId: 'id',
-            value: 'same value'
+        const patch = await dispatch({
+            type: 'set-idea-value',
+            data: {
+                ideaId: 'id',
+                value: 'same value'
+            }
         }, state);
 
         // check

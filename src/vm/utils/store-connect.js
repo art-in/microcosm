@@ -49,8 +49,8 @@ let targetStore;
  * connect.to(new Store(new Dispatcher(), () => {}));
  *
  * const ConnectedVM = connect(dispatch => ({
- *      ['event 1']: data => dispatch('action 1', data),
- *      ['event 2']: data => dispatch('action 2', data)
+ *      ['event 1']: data => dispatch({type: 'action 1', data}),
+ *      ['event 2']: data => dispatch({type: 'action 2', data})
  * }))(VM);
  *
  * const vm = new ConnectedVM();

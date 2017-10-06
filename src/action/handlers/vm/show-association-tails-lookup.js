@@ -25,7 +25,6 @@ export default function(
     // TODO: Patch.push({...named params...})
     patch.push('hide-context-menu', null, ['vm', 'view']);
 
-    // TODO: new Action()
     patch.push(
         'show-association-tails-lookup', {
             pos,

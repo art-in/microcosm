@@ -38,12 +38,15 @@ describe('Dispatcher', () => {
             disp.reg('action 2', handler2);
 
             // target
-            disp.dispatch('action 1', {data: 1}, {state: 1});
+            disp.dispatch({
+                type: 'action 1',
+                data: 'data'
+            }, {state: 1});
 
             // check
             expect(handler1.callCount).to.equal(1);
             expect(handler1.getCall(0).args)
-                .to.deep.equal([{data: 1}, {state: 1}]);
+                .to.deep.equal(['data', {state: 1}]);
             expect(handler2.callCount).to.equal(0);
         });
 
@@ -53,7 +56,10 @@ describe('Dispatcher', () => {
             const disp = new Dispatcher();
 
             // target
-            const promise = disp.dispatch('action', {}, {});
+            const promise = disp.dispatch({
+                type: 'action',
+                data: {}
+            }, {});
 
             // check
             await expect(promise).to.be.rejectedWith(
@@ -80,7 +86,7 @@ describe('Dispatcher', () => {
             const result = Dispatcher.combine(disp1, disp2);
 
             // check
-            result.dispatch('action 2');
+            result.dispatch({type: 'action 2'});
 
             expect(handler1.callCount).to.equal(0);
             expect(handler2.callCount).to.equal(1);

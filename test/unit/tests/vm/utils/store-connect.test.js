@@ -1,15 +1,15 @@
+import {expect} from 'test/utils';
 import sinon from 'sinon';
 
-import {expect} from 'test/utils';
-
 import EventedViewModel from 'src/vm/utils/EventedViewModel';
-import {connect} from 'src/vm/utils/store-connect';
 import Store from 'utils/state/Store';
 import Dispatcher from 'utils/state/Dispatcher';
 
+import {connect} from 'src/vm/utils/store-connect';
+
 const mutator = () => {};
 
-describe('connected-vm', () => {
+describe('store-connect', () => {
 
     describe('connect', () => {
 
@@ -31,8 +31,8 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event 1']: data => dispatch('action 1', data),
-                ['event 2']: () => dispatch('action 2')
+                ['event 1']: data => dispatch({type: 'action 1', data}),
+                ['event 2']: () => dispatch({type: 'action 2'})
             }))(TestVM);
 
             // check
@@ -43,10 +43,16 @@ describe('connected-vm', () => {
             await vm.emit('event 2');
 
             expect(dispatch.callCount).to.equal(3);
-            expect(dispatch.getCall(0).args)
-                .to.deep.equal(['action 1', {test: 'data'}]);
-            expect(dispatch.getCall(1).args).to.deep.equal(['action 2']);
-            expect(dispatch.getCall(2).args).to.deep.equal(['action 2']);
+            expect(dispatch.getCall(0).args).to.deep.equal([{
+                type: 'action 1',
+                data: {test: 'data'}
+            }]);
+            expect(dispatch.getCall(1).args).to.deep.equal([{
+                type: 'action 2'
+            }]);
+            expect(dispatch.getCall(2).args).to.deep.equal([{
+                type: 'action 2'
+            }]);
         });
 
         it('should connect to store on vm instantiation', () => {
@@ -67,7 +73,7 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event']: data => dispatch('action')
+                ['event']: data => dispatch({type: 'action'})
             }))(TestVM);
 
             // check
@@ -95,7 +101,7 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event']: () => dispatch('action')
+                ['event']: () => dispatch({type: 'action'})
             }))(TestVM, store);
 
             // check
@@ -127,8 +133,8 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event 1']: data => dispatch('action 1'),
-                ['event 2']: data => dispatch('action 2')
+                ['event 1']: data => dispatch({type: 'action 1'}),
+                ['event 2']: data => dispatch({type: 'action 2'})
             }))(TestVM);
 
             // check
@@ -142,10 +148,14 @@ describe('connected-vm', () => {
             inst2.emit('event 2');
 
             expect(dispatch1.callCount).to.equal(1);
-            expect(dispatch1.getCall(0).args).to.deep.equal(['action 1']);
+            expect(dispatch1.getCall(0).args).to.deep.equal([{
+                type: 'action 1'
+            }]);
 
             expect(dispatch2.callCount).to.equal(1);
-            expect(dispatch2.getCall(0).args).to.deep.equal(['action 2']);
+            expect(dispatch2.getCall(0).args).to.deep.equal([{
+                type: 'action 2'
+            }]);
         });
 
         it('should fail if connecting to unknown event', () => {
@@ -158,7 +168,7 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['unknown']: data => dispatch('action')
+                ['unknown']: data => dispatch({type: 'action'})
             }))(TestVM);
 
             // check
@@ -183,7 +193,7 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event']: data => dispatch('action')
+                ['event']: data => dispatch({type: 'action'})
             }))(TestVM);
 
             // check
@@ -204,7 +214,7 @@ describe('connected-vm', () => {
 
             // target
             const ConnectedTestVM = connect(dispatch => ({
-                ['event']: data => dispatch('action')
+                ['event']: data => dispatch({type: 'action'})
             }))(TestVM);
 
             // check

@@ -11,12 +11,13 @@ describe('show-context-menu-for-idea', () => {
     it('should show context menu with certain items', async () => {
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(0, 0),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         // check
         expect(patch).to.have.length(1);
@@ -38,12 +39,13 @@ describe('show-context-menu-for-idea', () => {
     it('should show context menu in certain position', async () => {
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(100, 200),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         // check
         expect(patch).to.have.length(1);
@@ -59,12 +61,13 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'create-idea' action`, async () => {
 
         // setup
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(0, 0),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         const item = patch[0].data.menuItems
             .find(i => i.displayValue === 'add idea');
@@ -85,12 +88,13 @@ describe('show-context-menu-for-idea', () => {
         `'show-association-tails-lookup' action`, async () => {
         
         // setup
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(100, 200),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         const item = patch[0].data.menuItems
             .find(i => i.displayValue === 'add association');
@@ -111,12 +115,13 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'remove-idea' action`, async () => {
     
         // setup
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(100, 200),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         const item = patch[0].data.menuItems
             .find(i => i.displayValue === 'remove idea');
@@ -136,12 +141,13 @@ describe('show-context-menu-for-idea', () => {
     it('should NOT show menu if target idea is shaded', async () => {
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(0, 0),
                 ideaId: 'idea',
                 shaded: true
-            });
+            }});
 
         // check
         expect(patch).to.have.length(0);
@@ -150,12 +156,13 @@ describe('show-context-menu-for-idea', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-idea', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-idea',
+            data: {
                 pos: new Point(0, 0),
                 ideaId: 'idea',
                 shaded: false
-            });
+            }});
 
         // check
         expect(patch.hasTarget('data')).to.be.false;

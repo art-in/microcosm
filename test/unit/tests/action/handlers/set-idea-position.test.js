@@ -21,11 +21,14 @@ describe('set-idea-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-position', {
-            ideaId: 'id',
-            pos: {
-                x: 200,
-                y: 200
+        const patch = await dispatch({
+            type: 'set-idea-position',
+            data: {
+                ideaId: 'id',
+                pos: {
+                    x: 200,
+                    y: 200
+                }
             }
         }, state);
 
@@ -53,11 +56,14 @@ describe('set-idea-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-position', {
-            ideaId: 'id',
-            pos: {
-                x: 200,
-                y: 200
+        const patch = await dispatch({
+            type: 'set-idea-position',
+            data: {
+                ideaId: 'id',
+                pos: {
+                    x: 200,
+                    y: 200
+                }
             }
         }, state);
 

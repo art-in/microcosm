@@ -24,11 +24,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'create-cross-association', {
+        const patch = await dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -55,11 +57,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'create-cross-association', {
+        const patch = await dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -81,11 +85,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -105,11 +111,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -131,11 +139,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -169,11 +179,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -208,11 +220,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'tail',
                 tailIdeaId: 'head'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -236,11 +250,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(
-            'create-cross-association', {
+        const promise = dispatch({
+            type: 'create-cross-association',
+            data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
-            }, state);
+            }
+        }, state);
 
         // check
         expect(promise).to.be.rejectedWith(

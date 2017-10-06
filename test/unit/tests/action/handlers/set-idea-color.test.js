@@ -20,9 +20,12 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-color', {
-            ideaId: 'id',
-            color: 'white'
+        const patch = await dispatch({
+            type: 'set-idea-color',
+            data: {
+                ideaId: 'id',
+                color: 'white'
+            }
         }, state);
 
         // check
@@ -47,9 +50,12 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-idea-color', {
-            ideaId: 'id',
-            color: 'white'
+        const patch = await dispatch({
+            type: 'set-idea-color',
+            data: {
+                ideaId: 'id',
+                color: 'white'
+            }
         }, state);
 
         // check

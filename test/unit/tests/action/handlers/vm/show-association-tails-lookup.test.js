@@ -11,11 +11,12 @@ describe('show-association-tails-lookup', () => {
     it('should hide context menu', async () => {
 
         // target
-        const patch = await dispatch(
-            'show-association-tails-lookup', {
+        const patch = await dispatch({
+            type: 'show-association-tails-lookup',
+            data: {
                 pos: new Point(0, 0),
                 headIdeaId: 'idea'
-            });
+            }});
 
         // check
         expect(patch).to.have.length(2);
@@ -25,11 +26,12 @@ describe('show-association-tails-lookup', () => {
     it('should show lookup in certain position', async () => {
         
         // target
-        const patch = await dispatch(
-            'show-association-tails-lookup', {
+        const patch = await dispatch({
+            type: 'show-association-tails-lookup',
+            data: {
                 pos: new Point(100, 200),
                 headIdeaId: 'idea'
-            });
+            }});
 
         // check
         expect(patch).to.have.length(2);
@@ -45,11 +47,12 @@ describe('show-association-tails-lookup', () => {
     it(`should set on select 'create-cross-association' action`, async () => {
 
         // setup
-        const patch = await dispatch(
-            'show-association-tails-lookup', {
+        const patch = await dispatch({
+            type: 'show-association-tails-lookup',
+            data: {
                 pos: new Point(100, 200),
                 headIdeaId: 'head idea'
-            });
+            }});
 
         const {data: {onSelectAction}} = patch[1];
 
@@ -67,19 +70,19 @@ describe('show-association-tails-lookup', () => {
             data: {
                 headIdeaId: 'head idea',
                 tailIdeaId: 'tail idea'
-            }
-        });
+            }});
     });
 
     it(`should set on phrase change ` +
         `'search-association-tails-for-lookup' action`, async () => {
         
         // setup
-        const patch = await dispatch(
-            'show-association-tails-lookup', {
+        const patch = await dispatch({
+            type: 'show-association-tails-lookup',
+            data: {
                 pos: new Point(100, 200),
                 headIdeaId: 'head idea'
-            });
+            }});
 
         const {data: {onPhraseChangeAction}} = patch[1];
 
@@ -101,11 +104,12 @@ describe('show-association-tails-lookup', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(
-            'show-association-tails-lookup', {
+        const patch = await dispatch({
+            type: 'show-association-tails-lookup',
+            data: {
                 pos: new Point(100, 200),
                 headIdeaId: 'idea'
-            });
+            }});
 
         // check
         expect(patch.hasTarget('data')).to.be.false;

@@ -22,13 +22,12 @@ describe('Store', () => {
             const store = new Store(dispatcher, mutator, state);
 
             // target
-            await store.dispatch('action', {data: 1});
+            await store.dispatch({type: 'action', data: 'data'});
 
             // check
             expect(dispatch.callCount).to.equal(1);
             expect(dispatch.firstCall.args).to.deep.equal([
-                'action',
-                {data: 1},
+                {type: 'action', data: 'data'},
                 state
             ]);
         });
@@ -47,7 +46,7 @@ describe('Store', () => {
             const store = new Store(dispatcher, mutator, state);
 
             // target
-            await store.dispatch('action', {data: 1});
+            await store.dispatch({type: 'action', data: 'data'});
 
             // check
             expect(mutator.callCount).to.equal(1);
@@ -101,8 +100,8 @@ describe('Store', () => {
 
             // target
             // dispatch both actions in parallel
-            store.dispatch('action 1');
-            state = await store.dispatch('action 2');
+            store.dispatch({type: 'action 1'});
+            state = await store.dispatch({type: 'action 2'});
 
             // check
             expect(state.counter).to.equal(2);
@@ -144,8 +143,8 @@ describe('Store', () => {
             const store = new Store(dispatcher, mutator, state);
 
             // target
-            const promise1 = store.dispatch('action 1');
-            const promise2 = store.dispatch('action 2');
+            const promise1 = store.dispatch({type: 'action 1'});
+            const promise2 = store.dispatch({type: 'action 2'});
 
             await promise2;
 
@@ -191,7 +190,7 @@ describe('Store', () => {
                 ]);
 
             // target
-            await store.dispatch('action', {data: 1});
+            await store.dispatch({type: 'action', data: 'data'});
 
             // check
             expect(onBeforeDispatch1.callCount).to.equal(1);
@@ -223,7 +222,7 @@ describe('Store', () => {
                 ]);
 
             // target
-            await store.dispatch('action', {data: 1});
+            await store.dispatch({type: 'action', data: 'data'});
 
             // check
             expect(onBeforeDispatch.callCount).to.equal(1);
@@ -234,7 +233,7 @@ describe('Store', () => {
             // action
             expect(args[0]).to.deep.equal({
                 type: 'action',
-                data: {data: 1}
+                data: 'data'
             });
             
             // state
@@ -259,13 +258,12 @@ describe('Store', () => {
             const store = new Store(
                 dispatcher,
                 mutator,
-                state,
-                [
+                state, [
                     middleware
                 ]);
 
             // target
-            await store.dispatch('action', {data: 1});
+            await store.dispatch({type: 'action', data: 'data'});
 
             // check
             expect(onAfterMutate.callCount).to.equal(1);
@@ -276,7 +274,6 @@ describe('Store', () => {
             // patch
             expect(args[0]).to.containSubset({
                 mutations: [{
-                    type: 'mutation',
                     data: {data: 2}
                 }]
             });

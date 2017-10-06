@@ -18,10 +18,13 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-mindmap-scale', {
-            mindmapId: 'id',
-            scale: 2,
-            pos: {}
+        const patch = await dispatch({
+            type: 'set-mindmap-scale',
+            data: {
+                mindmapId: 'id',
+                scale: 2,
+                pos: {}
+            }
         }, state);
 
         // check
@@ -45,12 +48,15 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-mindmap-scale', {
-            mindmapId: 'id',
-            scale: 2,
-            pos: {
-                x: 100,
-                y: 200
+        const patch = await dispatch({
+            type: 'set-mindmap-scale',
+            data: {
+                mindmapId: 'id',
+                scale: 2,
+                pos: {
+                    x: 100,
+                    y: 200
+                }
             }
         }, state);
 
@@ -76,10 +82,13 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-mindmap-scale', {
-            mindmapId: 'id',
-            scale: 2,
-            pos: {}
+        const patch = await dispatch({
+            type: 'set-mindmap-scale',
+            data: {
+                mindmapId: 'id',
+                scale: 2,
+                pos: {}
+            }
         }, state);
 
         // check

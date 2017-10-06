@@ -36,16 +36,18 @@ async function start() {
     connect.to(store);
 
     // warm up state
-    await store.dispatch('init', {
+    await store.dispatch({
+        type: 'init',
         data: {
-            ideas: new PouchDB('ideas'),
-            associations: new PouchDB('associations'),
-            mindmaps: new PouchDB('mindmaps')
-        },
-        view: {
-            root: document.querySelector('#root')
-        }
-    });
+            data: {
+                ideas: new PouchDB('ideas'),
+                associations: new PouchDB('associations'),
+                mindmaps: new PouchDB('mindmaps')
+            },
+            view: {
+                root: document.querySelector('#root')
+            }
+        }});
 }
 
 start();

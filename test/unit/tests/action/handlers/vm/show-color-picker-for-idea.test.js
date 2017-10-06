@@ -8,10 +8,10 @@ describe('show-color-picker-for-idea', () => {
     it('should show color picker', async () => {
 
         // target
-        const patch = await dispatch(
-            'show-color-picker-for-idea', {
-                ideaId: 'idea'
-            });
+        const patch = await dispatch({
+            type: 'show-color-picker-for-idea',
+            data: {ideaId: 'idea'}
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -24,10 +24,10 @@ describe('show-color-picker-for-idea', () => {
     it(`should set action getter for 'set-idea-color' action`, async () => {
 
         // setup
-        const patch = await dispatch(
-            'show-color-picker-for-idea', {
-                ideaId: 'idea'
-            });
+        const patch = await dispatch({
+            type: 'show-color-picker-for-idea',
+            data: {ideaId: 'idea'}
+        });
 
         const {data: {onSelectAction}} = patch[0];
         
@@ -47,10 +47,10 @@ describe('show-color-picker-for-idea', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(
-            'show-color-picker-for-idea', {
-                ideaId: 'idea'
-            });
+        const patch = await dispatch({
+            type: 'show-color-picker-for-idea',
+            data: {ideaId: 'idea'}
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.false;

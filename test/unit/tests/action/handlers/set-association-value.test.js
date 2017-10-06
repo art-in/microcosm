@@ -21,9 +21,12 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-association-value', {
-            assocId: 'id',
-            value: 'new'
+        const patch = await dispatch({
+            type: 'set-association-value',
+            data: {
+                assocId: 'id',
+                value: 'new'
+            }
         }, state);
 
         // check
@@ -49,9 +52,12 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-association-value', {
-            assocId: 'id',
-            value: 'new'
+        const patch = await dispatch({
+            type: 'set-association-value',
+            data: {
+                assocId: 'id',
+                value: 'new'
+            }
         }, state);
 
         // check

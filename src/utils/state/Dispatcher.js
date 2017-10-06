@@ -32,21 +32,20 @@ export default class Dispatcher {
     
     /**
      * Executes registered handler for an action
-     * @param {string} type - action type
-     * @param {*} data
+     * @param {object} action
      * @param {object} state
      * @return {promise.<Patch>}
      */
-    async dispatch(type, data, state) {
+    async dispatch(action, state) {
 
         const actionHandler = this._handlers
-            .find(ah => ah.type === type);
+            .find(ah => ah.type === action.type);
 
         if (!actionHandler) {
-            throw Error(`Unknown action type '${type}'`);
+            throw Error(`Unknown action type '${action.type}'`);
         }
 
-        const patch = await actionHandler.handler(data, state);
+        const patch = await actionHandler.handler(action.data, state);
 
         return patch || new Patch();
     }

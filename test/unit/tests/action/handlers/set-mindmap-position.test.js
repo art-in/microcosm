@@ -19,11 +19,14 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-mindmap-position', {
-            mindmapId: 'id',
-            pos: {
-                x: 200,
-                y: 200
+        const patch = await dispatch({
+            type: 'set-mindmap-position',
+            data: {
+                mindmapId: 'id',
+                pos: {
+                    x: 200,
+                    y: 200
+                }
             }
         }, state);
 
@@ -50,11 +53,14 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch('set-mindmap-position', {
-            mindmapId: 'id',
-            pos: {
-                x: 200,
-                y: 200
+        const patch = await dispatch({
+            type: 'set-mindmap-position',
+            data: {
+                mindmapId: 'id',
+                pos: {
+                    x: 200,
+                    y: 200
+                }
             }
         }, state);
 

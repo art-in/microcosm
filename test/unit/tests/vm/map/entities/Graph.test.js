@@ -41,12 +41,12 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([
-            'set-idea-value', {
+        expect(dispatch.firstCall.args).to.deep.equal([{
+            type: 'set-idea-value',
+            data: {
                 ideaId: 'id',
                 value: 'title'
-            }
-        ]);
+            }}]);
     });
 
     it(`should dispatch action on phrase changed ` +
@@ -78,11 +78,10 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([
-            'action', {
-                phrase: 'test'
-            }
-        ]);
+        expect(dispatch.firstCall.args).to.deep.equal([{
+            type: 'action',
+            data: {phrase: 'test'}
+        }]);
     });
 
     it(`should dispatch action on suggestion ` +
@@ -117,11 +116,10 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([
-            'action', {
-                ideaId: 'tail'
-            }
-        ]);
+        expect(dispatch.firstCall.args).to.deep.equal([{
+            type: 'action',
+            data: {ideaId: 'tail'}
+        }]);
     });
 
 });

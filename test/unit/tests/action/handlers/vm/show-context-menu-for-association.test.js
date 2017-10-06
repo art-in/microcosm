@@ -21,12 +21,14 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-association', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-association',
+            data: {
                 pos: new Point(0, 0),
                 associationId: 'assoc',
                 shaded: false
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -50,12 +52,14 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-association', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-association',
+            data: {
                 pos: new Point(100, 200),
                 associationId: 'assoc',
                 shaded: false
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(1);
@@ -81,12 +85,14 @@ describe('show-context-menu-for-association', () => {
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
 
-        const patch = await dispatch(
-            'show-context-menu-for-association', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-association',
+            data: {
                 pos: new Point(0, 0),
                 associationId: 'assoc',
                 shaded: false
-            }, state);
+            }
+        }, state);
 
         const item = patch[0].data.menuItems
             .find(i => i.displayValue === 'set color');
@@ -112,12 +118,14 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-association', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-association',
+            data: {
                 pos: new Point(0, 0),
                 associationId: 'assoc',
                 shaded: true
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch).to.have.length(0);
@@ -132,12 +140,14 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(
-            'show-context-menu-for-association', {
+        const patch = await dispatch({
+            type: 'show-context-menu-for-association',
+            data: {
                 pos: new Point(0, 0),
                 associationId: 'assoc',
                 shaded: false
-            }, state);
+            }
+        }, state);
 
         // check
         expect(patch.hasTarget('data')).to.be.false;
