@@ -15,6 +15,14 @@ function runUnitTests(opts) {
     assert(opts.packConfig);
     assert(opts.entry);
 
+    let chrome = 'ChromeHeadless';
+
+    if (require('os').platform() === 'win32') {
+        // TODO: karma cannot capture headless chrome
+        // in windows 7, use normal mode for now #54
+        chrome = 'Chrome';
+    }
+
     return new Promise(function(resolve) {
         new KarmaServer({
             files: [
@@ -35,7 +43,7 @@ function runUnitTests(opts) {
 
             frameworks: ['mocha'],
             reporters: ['mocha'],
-            browsers: ['PhantomJS'], // Chrome, PhantomJS
+            browsers: [chrome],
             mochaReporter: {
                 showDiff: true
             }
