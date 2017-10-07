@@ -58,7 +58,7 @@ describe('logger', () => {
         
         it('should log duration', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
-                RegExp(`${S}\\(\\d ms\\)$`));
+                RegExp(`${S}\\(\\d ms\\)`));
         });
     
         it('should log prev state', () => {

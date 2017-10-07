@@ -40,7 +40,7 @@ export default function(entry) {
         S + `action ` +
         S + `${entry.action.type} ` +
         S + `(${entry.perf.end - entry.perf.start} ms)` +
-        (entry.failed ? S + ` [failed on ${failSource}]` : ''),
+        S + (entry.failed ? ` [failed on ${failSource}]` : ''),
 
         (entry.failed ? color.red : color.gray) + font.normal,
         (entry.failed ? color.red : color.black) + font.bold,
