@@ -32,8 +32,8 @@ describe('set-mindmap-position', () => {
 
         // check
         expect(patch).to.have.length(1);
-        expect(patch['update mindmap']).to.exist;
-        expect(patch['update mindmap'][0].data).to.deep.equal({
+        expect(patch['update-mindmap']).to.exist;
+        expect(patch['update-mindmap'][0].data).to.deep.equal({
             id: 'id',
             x: 200,
             y: 200

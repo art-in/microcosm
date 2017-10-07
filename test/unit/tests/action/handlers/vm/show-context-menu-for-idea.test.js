@@ -30,9 +30,9 @@ describe('show-context-menu-for-idea', () => {
         expect(data.menuItems).to.containSubset([{
             displayValue: 'add idea'
         }, {
-            displayValue: 'add association'
+            displayValue: 'add-association'
         }, {
-            displayValue: 'remove idea'
+            displayValue: 'remove-idea'
         }]);
     });
 
@@ -97,7 +97,7 @@ describe('show-context-menu-for-idea', () => {
             }});
 
         const item = patch[0].data.menuItems
-            .find(i => i.displayValue === 'add association');
+            .find(i => i.displayValue === 'add-association');
 
         // target
         const action = item.onSelectAction();
@@ -124,7 +124,7 @@ describe('show-context-menu-for-idea', () => {
             }});
 
         const item = patch[0].data.menuItems
-            .find(i => i.displayValue === 'remove idea');
+            .find(i => i.displayValue === 'remove-idea');
 
         // target
         const action = item.onSelectAction();

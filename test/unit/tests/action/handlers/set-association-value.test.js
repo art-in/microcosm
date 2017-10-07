@@ -32,8 +32,8 @@ describe('set-association-value', () => {
         // check
         expect(patch).to.have.length(1);
 
-        expect(patch['update association']).to.exist;
-        expect(patch['update association'][0].data).to.deep.equal({
+        expect(patch['update-association']).to.exist;
+        expect(patch['update-association'][0].data).to.deep.equal({
             id: 'id',
             value: 'new'
         });

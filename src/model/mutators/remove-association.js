@@ -1,11 +1,11 @@
 import required from 'utils/required-params';
 
 /**
- * Handles 'remove association' mutation
+ * Removes association
+ * 
  * @param {object} state 
  * @param {object} data
  * @param {string} data.id
- * @return {object} new state
  */
 export default async function removeAssociation(state, data) {
     const {model: {mindmap}} = state;
@@ -46,6 +46,4 @@ export default async function removeAssociation(state, data) {
             `Association '${id}' cannot be removed ` +
             `because it has reference to tail idea`);
     }
-
-    return state;
 }

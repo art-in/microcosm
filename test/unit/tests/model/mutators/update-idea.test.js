@@ -6,7 +6,7 @@ import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 
-describe('update idea', () => {
+describe('update-idea', () => {
     
     it('should update idea', async () => {
 
@@ -22,15 +22,15 @@ describe('update idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'update idea',
+            type: 'update-idea',
             data: {id: 'id', value: 'new'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = result.model.mindmap.ideas;
+        const ideas = state.model.mindmap.ideas;
 
         expect([...ideas]).to.have.length(1);
         expect(ideas.get('id')).to.containSubset({
@@ -46,7 +46,7 @@ describe('update idea', () => {
         const state = {model: {mindmap: new Mindmap()}};
         
         const patch = new Patch({
-            type: 'update idea',
+            type: 'update-idea',
             data: {id: 'id', value: 'new'}
         });
 

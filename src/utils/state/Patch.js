@@ -7,8 +7,8 @@ import Mutation from './Mutation';
  * Array(-like) container of mutations, which later can be applied to the state
  *
  * [
- *   {type: 'add idea', data: {...}},            // first mutation
- *   {type: 'remove association', data: {...}}   // second mutation
+ *   {type: 'add-idea', data: {...}},            // first mutation
+ *   {type: 'remove-association', data: {...}}   // second mutation
  * ]
  *
  * Why not just change state directly?

@@ -1,10 +1,10 @@
 import mapObject from 'utils/map-object';
 
 /**
- * Handles 'update association' mutation
+ * Updates association
+ * 
  * @param {object} state 
- * @param {object} data 
- * @return {object} new state
+ * @param {object} data
  */
 export default async function updateAssociation(state, data) {
     const {model: {mindmap}} = state;
@@ -17,6 +17,4 @@ export default async function updateAssociation(state, data) {
     }
 
     mapObject(assoc, patch);
-    
-    return state;
 }

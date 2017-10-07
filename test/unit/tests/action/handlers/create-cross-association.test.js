@@ -36,7 +36,7 @@ describe('create-cross-association', () => {
         expect(patch).to.have.length(1);
         const {type, data} = patch[0];
 
-        expect(type).to.equal('add association');
+        expect(type).to.equal('add-association');
         expect(data.assoc).to.be.instanceOf(Association);
         expect(data.assoc.mindmapId).to.equal('m');
         expect(data.assoc.fromId).to.equal('head');

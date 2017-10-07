@@ -19,7 +19,7 @@ export default function setMindmapPosition(state, data) {
     }
 
     return new Patch({
-        type: 'update mindmap',
+        type: 'update-mindmap',
         data: {
             id: mindmapId,
             x: pos.x,

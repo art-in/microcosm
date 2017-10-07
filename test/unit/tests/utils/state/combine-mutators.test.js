@@ -15,11 +15,11 @@ import mutateView from 'src/view/mutators';
 
 describe('combine-mutators', () => {
 
-    let result;
+    let state;
     beforeEach(async () => {
 
         // setup
-        const state = createState();
+        state = createState();
         
         // setup data
         await state.data.ideas.put(
@@ -41,7 +41,7 @@ describe('combine-mutators', () => {
         const patch = new Patch();
 
         patch.push({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -51,7 +51,7 @@ describe('combine-mutators', () => {
             }});
 
         patch.push({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({
                     id: 'child',
@@ -68,12 +68,12 @@ describe('combine-mutators', () => {
             mutateView
         ]);
 
-        result = await mutate(state, patch);
+        await mutate(state, patch);
     });
 
     it('should mutate data layer', async () => {
         
-        const {data} = result;
+        const {data} = state;
         
         expect((await data.ideas.allDocs()).rows).to.have.length(2);
         expect((await data.associations.allDocs()).rows).to.have.length(1);
@@ -81,7 +81,7 @@ describe('combine-mutators', () => {
 
     it('should mutate model layer', async () => {
 
-        const {model} = result;
+        const {model} = state;
         const ideas = values(model.mindmap.ideas);
         const assocs = values(model.mindmap.associations);
         
@@ -91,7 +91,7 @@ describe('combine-mutators', () => {
 
     it('should mutate viewmodel layer', async () => {
         
-        const {vm} = result;
+        const {vm} = state;
         const rootNode = vm.main.mindmap.graph.root;
 
         expect(rootNode.linksIn).to.have.length(0);
@@ -113,7 +113,7 @@ describe('combine-mutators', () => {
 
     it('should mutate view layer', async () => {
         
-        const {view} = result;
+        const {view} = state;
         
         expect(view.root.querySelectorAll('.Node-root')).to.have.length(2);
         expect(view.root.querySelectorAll('.Link-root')).to.have.length(1);

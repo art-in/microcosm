@@ -9,7 +9,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe('add idea', () => {
+describe('add-idea', () => {
     
     it('should add idea to ideas map', async () => {
 
@@ -34,16 +34,17 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea 1', value: 'test'})
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const ideas = values(result.model.mindmap.ideas);
+        await mutate(state, patch);
 
         // check
+        const ideas = values(state.model.mindmap.ideas);
+
         expect(ideas).to.have.length(2);
         expect(ideas[1]).to.containSubset({
             id: 'idea 1',
@@ -100,16 +101,16 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea X'})
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const associations = values(result.model.mindmap.associations);
+        const associations = values(state.model.mindmap.associations);
 
         expect(associations).to.have.length(3);
         expect(associations).to.containSubset([{
@@ -170,16 +171,17 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea X'})
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const idea = result.model.mindmap.ideas.get('idea X');
+        await mutate(state, patch);
         
         // check
+        const idea = state.model.mindmap.ideas.get('idea X');
+
         expect(idea.associationsIn).to.have.length(2);
         expect(idea.associationsIn).to.containSubset([{
             from: {id: 'root'},
@@ -213,16 +215,17 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea 1', value: 'test'})
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const ideas = values(result.model.mindmap.ideas);
+        await mutate(state, patch);
 
         // check
+        const ideas = values(state.model.mindmap.ideas);
+
         expect(ideas).to.have.length(2);
         expect(ideas[1].associationsOut).to.be.empty;
     });
@@ -277,16 +280,17 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea X'})
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const ideas = values(result.model.mindmap.ideas);
+        await mutate(state, patch);
 
         // check
+        const ideas = values(state.model.mindmap.ideas);
+
         expect(ideas).to.containSubset([{
             id: 'idea X',
             depth: 1
@@ -299,16 +303,16 @@ describe('add idea', () => {
         const state = {model: {mindmap: new Mindmap()}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'root', isRoot: true})
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
+        const ideas = values(state.model.mindmap.ideas);
 
         expect(ideas).to.containSubset([{
             id: 'root',
@@ -328,7 +332,7 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'root', isRoot: true})
             }});
@@ -347,7 +351,7 @@ describe('add idea', () => {
         const state = {model: {mindmap: new Mindmap()}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea 1', value: 'test'})
             }});
@@ -366,19 +370,19 @@ describe('add idea', () => {
         const state = {model: {mindmap: new Mindmap()}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'root', isRoot: true})
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
+        const ideas = values(state.model.mindmap.ideas);
 
         expect(ideas).to.have.length(1);
-        expect(result.model.mindmap.root).to.containSubset({
+        expect(state.model.mindmap.root).to.containSubset({
             id: 'root'
         });
     });
@@ -402,7 +406,7 @@ describe('add idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'idea 1', value: 'test'})
             }});

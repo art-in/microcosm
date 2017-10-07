@@ -31,14 +31,14 @@ describe('init', () => {
         const patch = new Patch({type: 'init', data: patchData});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
-        const assocs = values(result.model.mindmap.associations);
+        const ideas = values(state.model.mindmap.ideas);
+        const assocs = values(state.model.mindmap.associations);
 
-        expect(result.model.mindmap).to.exist;
-        expect(result.model.mindmap.root).to.exist;
+        expect(state.model.mindmap).to.exist;
+        expect(state.model.mindmap.root).to.exist;
         expect(ideas).to.have.length(2);
         expect(assocs).to.have.length(1);
     });
@@ -67,10 +67,10 @@ describe('init', () => {
         const patch = new Patch({type: 'init', data: patchData});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        expect(result.model.mindmap.root).to.containSubset({
+        expect(state.model.mindmap.root).to.containSubset({
             id: 'head',
             depth: 0,
             associationsOut: [{

@@ -24,7 +24,7 @@ describe('create-idea', () => {
         expect(patch).to.have.length(1);
         const {type, data} = patch[0];
 
-        expect(type).to.equal('add idea');
+        expect(type).to.equal('add-idea');
         expect(data.idea).to.be.instanceOf(Idea);
         expect(data.idea.mindmapId).to.equal('m');
         expect(data.idea.x).to.equal(0);
@@ -49,10 +49,10 @@ describe('create-idea', () => {
         // check
         expect(patch).to.have.length(2);
 
-        expect(patch['add idea']).to.exist;
-        expect(patch['add association']).to.exist;
+        expect(patch['add-idea']).to.exist;
+        expect(patch['add-association']).to.exist;
 
-        const mutation = patch['add association'][0];
+        const mutation = patch['add-association'][0];
         const {data} = mutation;
 
         expect(data.assoc).to.be.instanceOf(Association);
@@ -77,7 +77,7 @@ describe('create-idea', () => {
         });
 
         // check
-        const mutation = patch['add idea'][0];
+        const mutation = patch['add-idea'][0];
         const {data} = mutation;
         
         expect(data.idea).to.be.instanceOf(Idea);

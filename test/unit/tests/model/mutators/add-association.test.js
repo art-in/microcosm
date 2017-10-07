@@ -9,7 +9,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe('add association', () => {
+describe('add-association', () => {
     
     it('should add association to map', async () => {
 
@@ -26,7 +26,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -37,10 +37,11 @@ describe('add association', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const assocs = values(result.model.mindmap.associations);
-
+        await mutate(state, patch);
+        
         // check
+        const assocs = values(state.model.mindmap.associations);
+
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({
             id: 'assoc',
@@ -63,7 +64,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -73,10 +74,11 @@ describe('add association', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
-        const assocs = values(result.model.mindmap.associations);
+        await mutate(state, patch);
 
         // check
+        const assocs = values(state.model.mindmap.associations);
+
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({
             fromId: 'head',
@@ -99,7 +101,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -109,10 +111,10 @@ describe('add association', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const assocs = values(result.model.mindmap.associations);
+        const assocs = values(state.model.mindmap.associations);
 
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({
@@ -136,7 +138,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -146,10 +148,10 @@ describe('add association', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
+        const ideas = values(state.model.mindmap.ideas);
 
         expect(ideas).to.have.length(2);
         expect(ideas).to.containSubset([{
@@ -175,7 +177,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     id: 'assoc',
@@ -185,10 +187,10 @@ describe('add association', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
+        const ideas = values(state.model.mindmap.ideas);
 
         expect(ideas).to.have.length(2);
         expect(ideas).to.containSubset([{
@@ -215,7 +217,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     fromId: 'XXX',
@@ -244,7 +246,7 @@ describe('add association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({
                     fromId: 'head',

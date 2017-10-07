@@ -30,8 +30,8 @@ describe('set-idea-value', () => {
 
         // check
         expect(patch).to.have.length(1);
-        expect(patch['update idea']).to.exist;
-        expect(patch['update idea'][0].data).to.deep.equal({
+        expect(patch['update-idea']).to.exist;
+        expect(patch['update-idea'][0].data).to.deep.equal({
             id: 'id',
             value: 'new'
         });

@@ -9,7 +9,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe('remove association', () => {
+describe('remove-association', () => {
     
     it('should remove association from map', async () => {
 
@@ -51,15 +51,16 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
-        const assocs = values(result.model.mindmap.associations);
+        await mutate(state, patch);
 
         // check
+        const assocs = values(state.model.mindmap.associations);
+
         expect(assocs).to.have.length(1);
         expect(assocs[0].id).to.equal('live');
     });
@@ -99,15 +100,15 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const idea = result.model.mindmap.ideas.get('head');
+        const idea = state.model.mindmap.ideas.get('head');
         expect(idea.associationsOut).to.be.empty;
     });
 
@@ -140,7 +141,7 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
@@ -187,7 +188,7 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
@@ -235,7 +236,7 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
@@ -283,7 +284,7 @@ describe('remove association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 

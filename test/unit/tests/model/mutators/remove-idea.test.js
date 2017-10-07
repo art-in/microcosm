@@ -9,7 +9,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe('remove idea', () => {
+describe('remove-idea', () => {
     
     it('should remove idea from ideas map', async () => {
 
@@ -66,15 +66,15 @@ describe('remove idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove idea',
+            type: 'remove-idea',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const ideas = values(result.model.mindmap.ideas);
+        const ideas = values(state.model.mindmap.ideas);
 
         expect(ideas).to.have.length(2);
         expect(ideas).to.containSubset([
@@ -138,15 +138,15 @@ describe('remove idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove idea',
+            type: 'remove-idea',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const assocs = values(result.model.mindmap.associations);
+        const assocs = values(state.model.mindmap.associations);
 
         expect(assocs).to.have.length(3);
         expect(assocs).to.containSubset([{
@@ -178,7 +178,7 @@ describe('remove idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove idea',
+            type: 'remove-idea',
             data: {id: 'die'}
         });
 
@@ -203,7 +203,7 @@ describe('remove idea', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'remove idea',
+            type: 'remove-idea',
             data: {id: 'root'}
         });
 

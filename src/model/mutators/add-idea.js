@@ -2,11 +2,11 @@ import required from 'utils/required-params';
 import values from 'utils/get-map-values';
 
 /**
- * Handles 'add idea' mutation
+ * Adds idea
+ * 
  * @param {object} state 
  * @param {object} data
  * @param {Idea}   data.idea
- * @return {object} new state
  */
 export default async function addIdea(state, data) {
     const {model: {mindmap}} = state;
@@ -59,6 +59,4 @@ export default async function addIdea(state, data) {
     }
 
     idea.associationsOut = [];
-
-    return state;
 }

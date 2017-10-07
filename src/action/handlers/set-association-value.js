@@ -20,7 +20,7 @@ export default async function setAssociationValue(state, data) {
 
     if (idea.value != value) {
         return new Patch({
-            type: 'update association',
+            type: 'update-association',
             data: {id: assocId, value}
         });
     }

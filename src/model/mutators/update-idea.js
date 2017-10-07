@@ -1,10 +1,10 @@
 import mapObject from 'utils/map-object';
 
 /**
- * Handles 'update idea' mutation
+ * Updates idea
+ * 
  * @param {object} state 
- * @param {object} data 
- * @return {object} new state
+ * @param {object} data
  */
 export default async function updateIdea(state, data) {
     const {model: {mindmap}} = state;
@@ -17,5 +17,4 @@ export default async function updateIdea(state, data) {
     }
 
     mapObject(idea, patch);
-    return state;
 }

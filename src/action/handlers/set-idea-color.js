@@ -14,7 +14,7 @@ export default function setIdeaColor(state, data) {
     const {ideaId, color} = required(data);
 
     return new Patch({
-        type: 'update idea',
+        type: 'update-idea',
         data: {
             id: ideaId,
             color

@@ -1,11 +1,11 @@
 import required from 'utils/required-params';
 
 /**
- * Handles 'add association' mutation
+ * Adds association
+ * 
  * @param {object}      state 
  * @param {object}      data
  * @param {Association} data.assoc
- * @return {object} new state
  */
 export default async function addAssociation(state, data) {
     const {model: {mindmap}} = state;
@@ -36,6 +36,4 @@ export default async function addAssociation(state, data) {
         tail.associationsIn = tail.associationsIn || [];
         tail.associationsIn.push(assoc);
     }
-
-    return state;
 }

@@ -79,19 +79,21 @@ describe('Store', () => {
                 return new Patch({type: 'mutation 2'});
             });
 
-            const mutator = async (initialState, patch) => {
+            const mutator = async (state, patch) => {
                 for (const mutation of patch) {
                     switch (mutation.type) {
                     case 'mutation 1':
                         seq.push('start mutation 1');
                         await timer(0);
                         seq.push('end mutation 1');
-                        return {counter: initialState.counter + 1};
+                        state.counter++;
+                        break;
                     case 'mutation 2':
                         seq.push('start mutation 2');
                         await timer(0);
                         seq.push('end mutation 2');
-                        return {counter: initialState.counter + 1};
+                        state.counter++;
+                        break;
                     }
                 }
             };
@@ -131,13 +133,15 @@ describe('Store', () => {
             dispatcher.reg('action 2',
                 async () => new Patch({type: 'mutation 2'}));
 
-            const mutator = async (initialState, patch) => {
+            const mutator = async (state, patch) => {
                 for (const mutation of patch) {
                     switch (mutation.type) {
                     case 'mutation 1':
-                        return {counter: initialState.counter + 1};
+                        state.counter++;
+                        break;
                     case 'mutation 2':
-                        return {counter: initialState.counter + 1};
+                        state.counter++;
+                        break;
                     }
                 }
             };
@@ -155,7 +159,7 @@ describe('Store', () => {
             const state1 = await promise1;
             const state2 = await promise2;
 
-            expect(state1).to.deep.equal({counter: 1});
+            expect(state1).to.deep.equal({counter: 2});
             expect(state2).to.deep.equal({counter: 2});
         });
 
@@ -254,7 +258,7 @@ describe('Store', () => {
                 () => new Patch({type: 'mutation', data: 'data'}));
 
             const state = {counter: 1};
-            const mutator = () => ({counter: 2});
+            const mutator = state => state.counter++;
 
             const onAfterMutate = spy();
             const middleware = storeEvents =>

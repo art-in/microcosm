@@ -24,7 +24,7 @@ export default async function removeIdea(state, data) {
     }
 
     patch.push({
-        type: 'remove idea',
+        type: 'remove-idea',
         data: {id: ideaId}
     });
 
@@ -41,7 +41,7 @@ export default async function removeIdea(state, data) {
     }
 
     incomingAssocs.forEach(a => patch.push({
-        type: 'remove association',
+        type: 'remove-association',
         data: {id: a.id}
     }));
 

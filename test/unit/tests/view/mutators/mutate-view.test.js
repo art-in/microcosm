@@ -22,10 +22,10 @@ describe('init', () => {
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {root} = result.view;
+        const {root} = state.view;
 
         expect(root).to.exist;
         expect(root).to.be.instanceOf(window.HTMLElement);

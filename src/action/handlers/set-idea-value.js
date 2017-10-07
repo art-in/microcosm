@@ -20,7 +20,7 @@ export default async function setIdeaValue(state, data) {
 
     if (idea.value != value) {
         return new Patch({
-            type: 'update idea',
+            type: 'update-idea',
             data: {id: ideaId, value}
         });
     }

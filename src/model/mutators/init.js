@@ -8,13 +8,13 @@ import calcDepths from 'utils/graph/calc-depths';
 import buildGraph from 'model/utils/build-ideas-graph';
 
 /**
- * Handles 'init' mutation
+ * Inits model state
+ * 
  * @param {object}  state 
  * @param {object}  data 
  * @param {PouchDB} data.ideas
  * @param {PouchDB} data.associations
  * @param {PouchDB} data.mindmaps
- * @return {object} new state
  */
 export default async function init(state, data) {
     const {model} = state;
@@ -39,6 +39,4 @@ export default async function init(state, data) {
     ideas.forEach(i => mindmap.ideas.set(i.id, i));
 
     model.mindmap = mindmap;
-
-    return state;
 }

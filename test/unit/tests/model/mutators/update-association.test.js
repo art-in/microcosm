@@ -8,7 +8,7 @@ import Association from 'src/model/entities/Association';
 
 import values from 'src/utils/get-map-values';
 
-describe('update association', () => {
+describe('update-association', () => {
     
     it('should update association', async () => {
 
@@ -23,15 +23,15 @@ describe('update association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'update association',
+            type: 'update-association',
             data: {id: 'id', value: 'new'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const assocs = values(result.model.mindmap.associations);
+        const assocs = values(state.model.mindmap.associations);
 
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({
@@ -48,7 +48,7 @@ describe('update association', () => {
         const state = {model: {mindmap}};
 
         const patch = new Patch({
-            type: 'update association',
+            type: 'update-association',
             data: {id: 'id', value: 'new'}
         });
 

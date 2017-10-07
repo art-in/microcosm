@@ -37,13 +37,13 @@ export default function createIdea(state, data) {
         assoc.toId = idea.id;
 
         patch.push({
-            type: 'add association',
+            type: 'add-association',
             data: {assoc}
         });
     }
 
     patch.push({
-        type: 'add idea',
+        type: 'add-idea',
         data: {idea}
     });
 

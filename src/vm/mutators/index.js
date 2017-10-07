@@ -1,77 +1,37 @@
-import init from './init';
-import setSuggestions from './set-suggestions-to-association-tails-lookup';
-import showContextMenu from './show-context-menu';
-import showColorPicker from './show-color-picker';
-import showAssociationTailsLookup from './show-association-tails-lookup';
-import hideContextMenu from './hide-context-menu';
+import defaultMutator from './default';
 
-import defaultMutator from './default-mutator';
+const mutators = {};
+
+// dinamicaly register all mutators in current folder
+// eslint-disable-next-line no-undef
+const context = require.context('.', true, /\.js$/);
+context.keys().forEach(modulePath => {
+    const module = context(modulePath);
+    const type = modulePath.match(/.+\/(.+)\./i)[1];
+    if (mutators[type]) {
+        throw Error(`Mutation '${type}' already has registered handler`);
+    }
+    if (type !== 'index' && type !== 'default') {
+        mutators[type] = module.default;
+    }
+});
 
 /**
- * Applies patch to model state
+ * Applies patch to vm state
  * @param {object} state
  * @param {Patch} patch
- * @return {object} new state
  */
 export default async function mutate(state, patch) {
-    
-    let newState = state;
-
     await Promise.all(patch.map(async function(mutation) {
         if (mutation.hasTarget('vm')) {
-            newState = await apply(newState, mutation);
+            const {type, data} = mutation;
+            if (mutators[type]) {
+                await mutators[type](state, data);
+            } else {
+                // TODO: do not apply default mutation several times
+                await defaultMutator(state, data);
+            }
+            
         }
     }));
-
-    return newState;
-}
-
-/**
- * Applies single mutation to state
- * 
- * @param {object} state
- * @param {{type, data}} mutation
- * @return {object} new state
- */
-async function apply(state, mutation) {
-    
-    // TODO: dynamicly load mutators by filename (same as action handlers)
-
-    const {data} = mutation;
-
-    switch (mutation.type) {
-
-    case 'init':
-        init(state);
-        break;
-    case 'set-suggestions-to-association-tails-lookup':
-        setSuggestions(state, data);
-        break;
-    case 'show-context-menu':
-        showContextMenu(state, data);
-        break;
-    case 'show-color-picker':
-        showColorPicker(state, data);
-        break;
-    case 'show-association-tails-lookup':
-        showAssociationTailsLookup(state, data);
-        break;
-    case 'hide-context-menu':
-        hideContextMenu(state, data);
-        break;
-    case 'add idea':
-    case 'update idea':
-    case 'remove idea':
-    case 'add association':
-    case 'update association':
-    case 'remove association':
-    case 'update mindmap':
-        // TODO: do not apply default mutation several times
-        defaultMutator(state);
-        break;
-    default:
-        throw Error(`Unknown mutation '${mutation.type}'`);
-    }
-
-    return state;
 }

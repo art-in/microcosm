@@ -37,7 +37,7 @@ describe('remove-idea', () => {
         // check
         expect(patch).to.have.length(2);
 
-        const mutation = patch['remove idea'][0];
+        const mutation = patch['remove-idea'][0];
         expect(mutation.data).to.deep.equal({id: 'die'});
     });
 
@@ -92,9 +92,9 @@ describe('remove-idea', () => {
         // check
         expect(patch).to.have.length(3);
 
-        expect(patch['remove idea'][0].data).to.deep.equal({id: 'die'});
-        expect(patch['remove association'][0].data).to.deep.equal({id: 'a'});
-        expect(patch['remove association'][1].data).to.deep.equal({id: 'b'});
+        expect(patch['remove-idea'][0].data).to.deep.equal({id: 'die'});
+        expect(patch['remove-association'][0].data).to.deep.equal({id: 'a'});
+        expect(patch['remove-association'][1].data).to.deep.equal({id: 'b'});
     });
 
     it('should remove idea before associations', async () => {
@@ -126,8 +126,8 @@ describe('remove-idea', () => {
         const mutations = [...patch];
         expect(mutations).to.have.length(2);
 
-        expect(mutations[0].type).to.equal('remove idea');
-        expect(mutations[1].type).to.equal('remove association');
+        expect(mutations[0].type).to.equal('remove-idea');
+        expect(mutations[1].type).to.equal('remove-association');
     });
 
     it('should target all state layers', async () => {

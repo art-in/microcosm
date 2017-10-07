@@ -14,7 +14,7 @@ export default function setIdeaPosition(state, data) {
     const {ideaId, pos} = required(data);
 
     return new Patch({
-        type: 'update idea',
+        type: 'update-idea',
         data: {
             id: ideaId,
             x: pos.x,

@@ -28,10 +28,10 @@ describe('init', () => {
         const patch = new Patch({type: 'init', data: patchData});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {ideas, associations, mindmaps} = result.data;
+        const {ideas, associations, mindmaps} = state.data;
 
         expect(ideas).to.exist;
         expect(associations).to.exist;
@@ -58,10 +58,10 @@ describe('init', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {mindmaps} = result.data;
+        const {mindmaps} = state.data;
 
         expect(mindmaps).to.exist;
         expect((await mindmaps.info()).doc_count).to.equal(1);
@@ -83,10 +83,10 @@ describe('init', () => {
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {ideas} = result.data;
+        const {ideas} = state.data;
 
         expect(ideas).to.exist;
 
@@ -97,7 +97,7 @@ describe('init', () => {
 
 });
 
-describe('add idea', () => {
+describe('add-idea', () => {
 
     it('should add idea', async () => {
 
@@ -105,16 +105,16 @@ describe('add idea', () => {
         const state = {data: {ideas: createDB()}};
 
         const patch = new Patch({
-            type: 'add idea',
+            type: 'add-idea',
             data: {
                 idea: new Idea({id: 'id', value: 'test'})
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {ideas} = result.data;
+        const {ideas} = state.data;
 
         const data = await ideas.allDocs({include_docs: true});
 
@@ -128,7 +128,7 @@ describe('add idea', () => {
 
 });
 
-describe('update idea', () => {
+describe('update-idea', () => {
 
     it('should update idea', async () => {
 
@@ -139,15 +139,15 @@ describe('update idea', () => {
         const state = {data: {ideas: ideasDB}};
 
         const patch = new Patch({
-            type: 'update idea',
+            type: 'update-idea',
             data: {id: 'id', value: 'new'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {ideas} = result.data;
+        const {ideas} = state.data;
         const idea = await ideas.get('id');
 
         expect(idea).to.exist;
@@ -160,7 +160,7 @@ describe('update idea', () => {
 
 });
 
-describe('remove idea', () => {
+describe('remove-idea', () => {
 
     it('should remove idea', async () => {
 
@@ -173,15 +173,15 @@ describe('remove idea', () => {
         const state = {data: {ideas: ideasDB}};
 
         const patch = new Patch({
-            type: 'remove idea',
+            type: 'remove-idea',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const {ideas} = result.data;
+        const {ideas} = state.data;
         const data = await ideas.allDocs({include_docs: true});
 
         expect(data.rows).to.have.length(1);
@@ -190,7 +190,7 @@ describe('remove idea', () => {
 
 });
 
-describe('add association', () => {
+describe('add-association', () => {
 
     it('should add association', async () => {
 
@@ -198,16 +198,16 @@ describe('add association', () => {
         const state = {data: {associations: createDB()}};
 
         const patch = new Patch({
-            type: 'add association',
+            type: 'add-association',
             data: {
                 assoc: new Association({id: 'id', value: 'test'})
             }});
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const data = await result.data.associations
+        const data = await state.data.associations
             .allDocs({include_docs: true});
 
         expect(data.rows).to.have.length(1);
@@ -220,7 +220,7 @@ describe('add association', () => {
 
 });
 
-describe('update association', () => {
+describe('update-association', () => {
 
     it('should update association', async () => {
 
@@ -231,15 +231,15 @@ describe('update association', () => {
         const state = {data: {associations: assocDB}};
 
         const patch = new Patch({
-            type: 'update association',
+            type: 'update-association',
             data: {id: 'id', value: 'new'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const assoc = await result.data.associations.get('id');
+        const assoc = await state.data.associations.get('id');
 
         expect(assoc).to.exist;
         expect(assoc).to.containSubset({
@@ -251,7 +251,7 @@ describe('update association', () => {
 
 });
 
-describe('remove association', () => {
+describe('remove-association', () => {
 
     it('should remove association', async () => {
 
@@ -264,15 +264,15 @@ describe('remove association', () => {
         const state = {data: {associations: assocDB}};
 
         const patch = new Patch({
-            type: 'remove association',
+            type: 'remove-association',
             data: {id: 'die'}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const data = await result.data.associations
+        const data = await state.data.associations
             .allDocs({include_docs: true});
 
         expect(data.rows).to.have.length(1);
@@ -281,7 +281,7 @@ describe('remove association', () => {
 
 });
 
-describe('update mindmap', () => {
+describe('update-mindmap', () => {
 
     it('should update mindmap', async () => {
 
@@ -292,15 +292,15 @@ describe('update mindmap', () => {
         const state = {data: {mindmaps: mindmapDB}};
 
         const patch = new Patch({
-            type: 'update mindmap',
+            type: 'update-mindmap',
             data: {id: 'id', scale: 2}
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        const mindmap = await result.data.mindmaps.get('id');
+        const mindmap = await state.data.mindmaps.get('id');
 
         expect(mindmap).to.exist;
         expect(mindmap).to.containSubset({

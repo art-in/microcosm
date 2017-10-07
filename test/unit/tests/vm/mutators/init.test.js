@@ -27,10 +27,10 @@ describe('init', () => {
         });
 
         // target
-        const result = await mutate(state, patch);
+        await mutate(state, patch);
 
         // check
-        expect(result.vm.main).to.exist;
+        expect(state.vm.main).to.exist;
     });
 
 });

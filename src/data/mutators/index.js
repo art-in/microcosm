@@ -9,26 +9,19 @@ import Idea from 'model/entities/Idea';
  * Applies patch to data state
  * @param {object} state
  * @param {Patch} patch
- * @return {object} new state
  */
 export default async function mutate(state, patch) {
-    
-    let newState = state;
-
     await Promise.all(patch.map(async function(mutation) {
         if (mutation.hasTarget('data')) {
-            newState = await apply(newState, mutation);
+            await apply(state, mutation);
         }
     }));
-
-    return newState;
 }
 
 /**
  * Applies single mutation to state
  * @param {object} state
  * @param {{type, data}} mutation
- * @return {object} new db state
  */
 async function apply(state, mutation) {
 
@@ -60,37 +53,35 @@ async function apply(state, mutation) {
         }
         break;
 
-    case 'add idea':
+    case 'add-idea':
         await ideaDB.add(data.ideas, mutation.data.idea);
         break;
 
-    case 'update idea':
+    case 'update-idea':
         await ideaDB.update(data.ideas, mutation.data);
         break;
 
-    case 'remove idea':
+    case 'remove-idea':
         await ideaDB.remove(data.ideas, mutation.data.id);
         break;
 
-    case 'add association':
+    case 'add-association':
         await assocDB.add(data.associations, mutation.data.assoc);
         break;
 
-    case 'update association':
+    case 'update-association':
         await assocDB.update(data.associations, mutation.data);
         break;
 
-    case 'remove association':
+    case 'remove-association':
         await assocDB.remove(data.associations, mutation.data.id);
         break;
 
-    case 'update mindmap':
+    case 'update-mindmap':
         await mindmapDB.update(data.mindmaps, mutation.data);
         break;
 
     default:
         throw Error(`Unknown mutation '${mutation.type}'`);
     }
-
-    return state;
 }

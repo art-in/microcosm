@@ -20,7 +20,7 @@ export default function setMindmapScale(state, data) {
     }
 
     return new Patch({
-        type: 'update mindmap',
+        type: 'update-mindmap',
         data: {
             id: mindmapId,
             scale,

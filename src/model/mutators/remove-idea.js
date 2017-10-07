@@ -1,11 +1,11 @@
 import required from 'utils/required-params';
 
 /**
- * Handles 'remove idea' mutation
+ * Removes idea
+ * 
  * @param {object} state 
  * @param {object} data
  * @param {string} data.id
- * @return {object} new state
  */
 export default async function removeIdea(state, data) {
     const {model: {mindmap}} = state;
@@ -26,6 +26,4 @@ export default async function removeIdea(state, data) {
     idea.associationsIn = null;
 
     mindmap.ideas.delete(id);
-
-    return state;
 }

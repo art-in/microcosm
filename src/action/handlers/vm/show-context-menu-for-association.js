@@ -36,7 +36,7 @@ export default function showContextMenuForAssociation(state, data) {
             })
         }));
 
-    // TODO: menu item 'remove association'
+    // TODO: menu item 'remove-association'
     
     return new Patch({
         type: 'show-context-menu',

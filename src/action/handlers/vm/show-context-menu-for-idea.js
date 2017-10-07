@@ -23,7 +23,6 @@ export default function showContextMenuForIdea(state, data) {
 
     const menuItems = [];
 
-    // TODO: new Action()
     menuItems.push(
         new MenuItem({
             displayValue: 'add idea',
@@ -35,7 +34,7 @@ export default function showContextMenuForIdea(state, data) {
     
     menuItems.push(
         new MenuItem({
-            displayValue: 'add association',
+            displayValue: 'add-association',
             onSelectAction: () => ({
                 type: 'show-association-tails-lookup',
                 data: {pos, headIdeaId: ideaId}
@@ -44,7 +43,7 @@ export default function showContextMenuForIdea(state, data) {
     
     menuItems.push(
         new MenuItem({
-            displayValue: 'remove idea',
+            displayValue: 'remove-idea',
             onSelectAction: () => ({
                 type: 'remove-idea',
                 data: {ideaId}
