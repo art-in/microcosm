@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import LogEntry from './LogEntry';
 import log from './log';
 
@@ -7,13 +8,23 @@ import log from './log';
  */
 export default function(events) {
 
+    // log entry is global for all events.
+    // here is a potential problem if several actions
+    // dispatched in parallel, their events can mix 
+    // and corrupt global log entry. bun since actions 
+    // executed sequentially this should work for now.
+    // take closer look when working on dispatching
+    // one action from another
     let entry = null;
 
-    // TODO: catch exceptions thrown while handling actions
-    //       and log that actions in red
+    const logEntry = entry => {
+        log(entry);
+        entry = null;
+    };
 
-    events.on('before-dispatch', (action, state) => {
-        
+    events.on('before-dispatch', opts => {
+        const {action, state} = required(opts);
+
         entry = new LogEntry();
 
         entry.action = action;
@@ -21,13 +32,35 @@ export default function(events) {
         entry.perf.start = Date.now();
     });
 
-    events.on('after-mutate', (patch, state) => {
+    events.on('dispatch-fail', opts => {
+        const {error} = required(opts);
+        
+        entry.perf.end = Date.now();
+        entry.dispatchFailed = true;
+        entry.error = error;
+        
+        logEntry(entry);
+    });
+
+    events.on('mutation-fail', opts => {
+        const {error, patch} = required(opts);
+        
+        entry.perf.end = Date.now();
+        entry.mutationFailed = true;
+        entry.patch = patch;
+        entry.error = error;
+
+        logEntry(entry);
+    });
+
+    events.on('after-mutation', opts => {
+        const {patch, state} = required(opts);
 
         entry.perf.end = Date.now();
         entry.patch = patch;
         entry.nextState = state;
 
-        log(entry);
+        logEntry(entry);
     });
 
 }

@@ -177,21 +177,20 @@ describe('Store', () => {
             const onAfterMutate1 = spy();
             const middleware1 = storeEvents => {
                 storeEvents.on('before-dispatch', onBeforeDispatch1);
-                storeEvents.on('after-mutate', onAfterMutate1);
+                storeEvents.on('after-mutation', onAfterMutate1);
             };
 
             const onBeforeDispatch2 = spy();
             const onAfterMutate2 = spy();
             const middleware2 = storeEvents => {
                 storeEvents.on('before-dispatch', onBeforeDispatch2);
-                storeEvents.on('after-mutate', onAfterMutate2);
+                storeEvents.on('after-mutation', onAfterMutate2);
             };
 
             const store = new Store(
                 dispatcher,
                 mutator,
-                state,
-                [
+                state, [
                     middleware1,
                     middleware2
                 ]);
@@ -207,7 +206,7 @@ describe('Store', () => {
             expect(onAfterMutate2.callCount).to.equal(1);
         });
 
-        it(`should emit 'before-dispatch' event on middlewares`, async () => {
+        it(`should emit 'before-dispatch' event for middlewares`, async () => {
 
             // setup
             const dispatcher = new Dispatcher();
@@ -224,8 +223,7 @@ describe('Store', () => {
             const store = new Store(
                 dispatcher,
                 mutator,
-                state,
-                [
+                state, [
                     middleware
                 ]);
 
@@ -236,21 +234,21 @@ describe('Store', () => {
             expect(onBeforeDispatch.callCount).to.equal(1);
             
             const args = onBeforeDispatch.firstCall.args;
-            expect(args).to.have.length(2);
+            expect(args).to.have.length(1);
 
             // action
             expect(args[0]).to.deep.equal({
-                type: 'action',
-                data: 'data'
-            });
-            
-            // state
-            expect(args[1]).to.deep.equal({
-                counter: 1
+                action: {
+                    type: 'action',
+                    data: 'data'
+                },
+                state: {
+                    counter: 1
+                }
             });
         });
 
-        it(`should emit 'after-mutate' event on middlewares`, async () => {
+        it(`should emit 'after-mutation' event for middlewares`, async () => {
             
             // setup
             const dispatcher = new Dispatcher();
@@ -262,7 +260,7 @@ describe('Store', () => {
 
             const onAfterMutate = spy();
             const middleware = storeEvents =>
-                storeEvents.on('after-mutate', onAfterMutate);
+                storeEvents.on('after-mutation', onAfterMutate);
 
             const store = new Store(
                 dispatcher,
@@ -278,18 +276,110 @@ describe('Store', () => {
             expect(onAfterMutate.callCount).to.equal(1);
 
             const args = onAfterMutate.firstCall.args;
-            expect(args).to.have.length(2);
+            expect(args).to.have.length(1);
 
             // patch
             expect(args[0]).to.containSubset({
-                mutations: [{
-                    data: 'data'
-                }]
+                patch: {
+                    mutations: [{
+                        data: 'data'
+                    }]
+                },
+                state: {
+                    counter: 2
+                }
+            });
+        });
+
+        it(`should emit 'dispatch-fail' when dispatch failed`, async () => {
+            
+            // setup
+            const dispatcher = new Dispatcher();
+            dispatcher.reg('action', () => {
+                throw Error('boom');
             });
 
-            // state
-            expect(args[1]).to.deep.equal({
-                counter: 2
+            const state = {counter: 1};
+            const mutator = () => ({counter: 2});
+
+            const onDispatchFail = spy();
+            const middleware = storeEvents =>
+                storeEvents.on('dispatch-fail', onDispatchFail);
+
+            const store = new Store(
+                dispatcher,
+                mutator,
+                state, [
+                    middleware
+                ]);
+
+            // target
+            let error;
+            try {
+                await store.dispatch({type: 'action', data: 'data'});
+            } catch (e) {
+                error = e;
+            }
+                
+            // check
+            expect(error).to.exist;
+            expect(error.message).to.equal('boom');
+
+            expect(onDispatchFail.callCount).to.equal(1);
+            const args = onDispatchFail.firstCall.args;
+
+            expect(args).to.have.length(1);
+            expect(args[0]).to.containSubset({
+                error: {message: 'boom'}
+            });
+        });
+
+        it(`should emit 'mutation-fail' when mutation failed`, async () => {
+            
+            // setup
+            const dispatcher = new Dispatcher();
+            dispatcher.reg('action',
+                () => new Patch({type: 'mutation', data: 'data'}));
+
+            const state = {counter: 1};
+            const mutator = () => {
+                throw Error('boom');
+            };
+
+            const onMutationFail = spy();
+            const middleware = storeEvents =>
+                storeEvents.on('mutation-fail', onMutationFail);
+
+            const store = new Store(
+                dispatcher,
+                mutator,
+                state, [
+                    middleware
+                ]);
+
+            // target
+            let error;
+            try {
+                await store.dispatch({type: 'action', data: 'data'});
+            } catch (e) {
+                error = e;
+            }
+
+            // check
+            expect(error).to.exist;
+            expect(error.message).to.equal('boom');
+            
+            expect(onMutationFail.callCount).to.equal(1);
+            const args = onMutationFail.firstCall.args;
+
+            expect(args).to.have.length(1);
+            expect(args[0]).to.containSubset({
+                error: {message: 'boom'},
+                patch: {
+                    mutations: [{
+                        data: 'data'
+                    }]
+                }
             });
         });
 

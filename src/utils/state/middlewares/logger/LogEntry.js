@@ -34,6 +34,8 @@ export default class LogEntry {
      */
     patch = undefined;
 
+    _prevState = undefined;
+
     /**
      * Gets state before action
      * @return {object}
@@ -53,6 +55,8 @@ export default class LogEntry {
         };
     }
 
+    _nextState = undefined;
+
     /**
      * Gets state after action
      * @return {object}
@@ -70,6 +74,39 @@ export default class LogEntry {
             model: clone(state.model),
             vm: clone(state.vm)
         };
+    }
+
+    /**
+     * Indicates action failed
+     * @type {boolean}
+     */
+    get failed() {
+        return this.dispatchFailed || this.mutationFailed;
+    }
+
+    /**
+     * Indicates dispatch failed
+     * @type {boolean}
+     */
+    dispatchFailed = false;
+
+    /**
+     * Indicates mutation failed
+     * @type {boolean}
+     */
+    mutationFailed = false;
+
+    /**
+     * Error from dispatch or mutation if failed
+     * @type {Error}
+     */
+    error = undefined;
+
+    /**
+     * Constructor
+     */
+    constructor() {
+        Object.seal(this);
     }
 
 }

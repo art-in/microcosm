@@ -1,4 +1,3 @@
-import assert from 'assert';
 import EventEmitter from 'events';
 
 import AsyncTaskQueue from 'utils/AsyncTaskQueue';
@@ -71,24 +70,33 @@ export default class Store {
      * @param {object} action
      * @return {Promise.<object>} new state
      */
-    async dispatch(action) {
+    dispatch(action) {
 
-        assert(typeof action === 'object');
+        const {events} = this._middlewares;
 
         return this._queue.enqueue(async () => {
 
-            // middlewares
-            this._middlewares.events.emit('before-dispatch',
-                action, this._state);
+            events.emit('before-dispatch', {action, state: this._state});
 
-            // process action
-            const patch = await this._dispatcher.dispatch(this._state, action);
-            await this._mutator(this._state, patch);
+            // dispatch
+            let patch;
+            try {
+                patch = await this._dispatcher.dispatch(this._state, action);
+            } catch (error) {
+                events.emit('dispatch-fail', {error});
+                throw error;
+            }
 
-            // middlewares
-            this._middlewares.events.emit('after-mutate',
-                patch, this._state);
-            
+            // mutate
+            try {
+                await this._mutator(this._state, patch);
+            } catch (error) {
+                events.emit('mutation-fail', {error, patch});
+                throw error;
+            }
+
+            events.emit('after-mutation', {patch, state: this._state});
+
             return this._state;
         });
     }

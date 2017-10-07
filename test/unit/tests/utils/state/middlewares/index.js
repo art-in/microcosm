@@ -1,5 +1,5 @@
 describe('middlewares', () => {
 
-    require('./logger');
+    require('./logger.test');
 
 });
