@@ -29,10 +29,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(2);
@@ -84,10 +84,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(3);
@@ -117,10 +117,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         const mutations = [...patch];
@@ -150,10 +150,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -196,10 +196,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         await expect(promise).to.be.rejectedWith(
@@ -217,10 +217,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
-        }, state);
+        });
 
         // check
         await expect(promise).to.be.rejectedWith(
@@ -235,10 +235,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'uknown'}
-        }, state);
+        });
 
         // check
         await expect(promise).to.be.rejectedWith(
@@ -256,10 +256,10 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'remove-idea',
             data: {ideaId: 'root'}
-        }, state);
+        });
 
         // check
         await expect(promise).to.be.rejectedWith(

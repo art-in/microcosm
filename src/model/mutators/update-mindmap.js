@@ -3,13 +3,12 @@ import mapObject from 'utils/map-object';
 /**
  * Handles 'update mindmap' mutation
  * @param {object} state 
- * @param {object} mutation 
+ * @param {object} data 
  * @return {object} new state
  */
-export default async function updateMindmap(state, mutation) {
-    const {model} = state;
-    const {mindmap} = model;
-    const patch = mutation.data;
+export default async function updateMindmap(state, data) {
+    const {model: {mindmap}} = state;
+    const patch = data;
 
     mapObject(mindmap, patch);
 

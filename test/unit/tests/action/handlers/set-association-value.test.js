@@ -21,13 +21,13 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-association-value',
             data: {
                 assocId: 'id',
                 value: 'new'
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -52,13 +52,13 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-association-value',
             data: {
                 assocId: 'id',
                 value: 'new'
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;

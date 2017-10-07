@@ -15,7 +15,8 @@ const packConfig = getPackConfig({
     output: {
         path: config.test.unit.output.path,
         name: config.test.unit.output.name
-    }
+    },
+    isProduction: false
 });
 
 module.exports = packConfig;

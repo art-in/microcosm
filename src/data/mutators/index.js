@@ -61,7 +61,7 @@ async function apply(state, mutation) {
         break;
 
     case 'add idea':
-        await ideaDB.add(data.ideas, mutation.data);
+        await ideaDB.add(data.ideas, mutation.data.idea);
         break;
 
     case 'update idea':
@@ -73,7 +73,7 @@ async function apply(state, mutation) {
         break;
 
     case 'add association':
-        await assocDB.add(data.associations, mutation.data);
+        await assocDB.add(data.associations, mutation.data.assoc);
         break;
 
     case 'update association':

@@ -20,13 +20,13 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
                 value: 'new'
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -49,13 +49,13 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
                 value: 'same value'
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(0);
@@ -73,13 +73,13 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
                 value: 'same value'
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;

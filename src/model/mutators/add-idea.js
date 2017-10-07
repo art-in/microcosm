@@ -1,15 +1,16 @@
+import required from 'utils/required-params';
 import values from 'utils/get-map-values';
 
 /**
  * Handles 'add idea' mutation
  * @param {object} state 
- * @param {object} mutation 
+ * @param {object} data
+ * @param {Idea}   data.idea
  * @return {object} new state
  */
-export default async function addIdea(state, mutation) {
-    const {model} = state;
-    const {mindmap} = model;
-    const idea = mutation.data;
+export default async function addIdea(state, data) {
+    const {model: {mindmap}} = state;
+    const {idea} = required(data);
 
     mindmap.ideas.set(idea.id, idea);
 

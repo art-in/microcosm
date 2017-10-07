@@ -1,21 +1,16 @@
-import assert from 'assert';
-
-import LookupSuggestion from 'vm/shared/LookupSuggestion';
+import required from 'utils/required-params';
 
 /**
  * Applies 'set-suggestions-to-association-tails-lookup' mutation
  * 
  * @param {object}                   state
- * @param {object}                   mutation
- * @param {array.<LookupSuggestion>} mutation.data.suggestions
+ * @param {object}                   data
+ * @param {array.<LookupSuggestion>} data.suggestions
  */
 export default function setSuggestionsToAssociationTailsLookup(
-    state, mutation) {
-    
-    const graph = state.vm.main.mindmap.graph;
-    const {suggestions} = mutation.data;
-
-    assert(suggestions.every(s => s instanceof LookupSuggestion));
+    state, data) {
+    const {graph} = state.vm.main.mindmap;
+    const {suggestions} = required(data);
 
     graph.associationTailsLookup.setSuggestions(suggestions);
 }

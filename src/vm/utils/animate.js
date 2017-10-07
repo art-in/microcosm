@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import pms from 'utils/pms';
 
 /**
@@ -16,8 +17,9 @@ import pms from 'utils/pms';
  * @param {function} opts.onStep
  * @return {Promise}
  */
-export default function animate({from, to, duration, onStep}) {
-    
+export default function animate(opts) {
+    const {from, to, duration, onStep} = required(opts);
+
     const {promise, resolve, reject} = pms();
 
     const range = to - from;

@@ -3,13 +3,12 @@ import mapObject from 'utils/map-object';
 /**
  * Handles 'update idea' mutation
  * @param {object} state 
- * @param {object} mutation 
+ * @param {object} data 
  * @return {object} new state
  */
-export default async function updateIdea(state, mutation) {
-    const {model} = state;
-    const {mindmap} = model;
-    const patch = mutation.data;
+export default async function updateIdea(state, data) {
+    const {model: {mindmap}} = state;
+    const patch = data;
 
     const idea = mindmap.ideas.get(patch.id);
 

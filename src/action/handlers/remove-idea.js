@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import getIdea from 'action/utils/get-idea';
@@ -5,13 +6,15 @@ import getIdea from 'action/utils/get-idea';
 /**
  * Removes idea with corresponding associations
  *
- * @param {object} data
  * @param {object} state
+ * @param {object} data
+ * @param {object} data.ideaId
  * @return {Patch}
  */
-export default async function removeIdea(
-    {ideaId}, {model: {mindmap}}) {
-    
+export default async function removeIdea(state, data) {
+    const {model: {mindmap}} = state;
+    const {ideaId} = required(data);
+
     const patch = new Patch();
 
     const idea = getIdea(mindmap, ideaId);

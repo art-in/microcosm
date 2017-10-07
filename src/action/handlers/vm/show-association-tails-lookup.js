@@ -1,21 +1,18 @@
-import assert from 'assert';
-
+import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 /**
  * Shows association tails lookup
  * which helps selecting tail idea for cross-association
  *
+ * @param {object} state
  * @param {object} data
  * @param {Point}  data.pos - target canvas position for lookup
  * @param {string} data.headIdeaId - ID of head idea
  * @return {Patch}
  */
-export default function(
-    {pos, headIdeaId}) {
-
-    assert(pos !== undefined);
-    assert(headIdeaId !== undefined);
+export default function(state, data) {
+    const {pos, headIdeaId} = required(data);
 
     const patch = new Patch();
 

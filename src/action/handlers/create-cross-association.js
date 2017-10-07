@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import Association from 'model/entities/Association';
 
 import Patch from 'utils/state/Patch';
@@ -5,14 +6,15 @@ import Patch from 'utils/state/Patch';
 /**
  * Creates association between two existing ideas
  * 
+ * @param {object} state
  * @param {object} data
  * @param {string} data.headIdeaId
  * @param {string} data.tailIdeaId
- * @param {object} state
  * @return {Patch}
  */
-export default function createCrossAssociation(
-    {headIdeaId, tailIdeaId}, {model: {mindmap}}) {
+export default function createCrossAssociation(state, data) {
+    const {model: {mindmap}} = state;
+    const {headIdeaId, tailIdeaId} = required(data);
 
     // check integrity
 
@@ -60,6 +62,6 @@ export default function createCrossAssociation(
 
     return new Patch({
         type: 'add association',
-        data: assoc
+        data: {assoc}
     });
 }

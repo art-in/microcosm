@@ -18,16 +18,17 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({type: 'create-idea', data: {}}, state);
+        const patch = await dispatch(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch).to.have.length(1);
+        const {type, data} = patch[0];
 
-        expect(patch[0].type).to.equal('add idea');
-        expect(patch[0].data).to.be.instanceOf(Idea);
-        expect(patch[0].data.mindmapId).to.equal('m');
-        expect(patch[0].data.x).to.equal(0);
-        expect(patch[0].data.y).to.equal(0);
+        expect(type).to.equal('add idea');
+        expect(data.idea).to.be.instanceOf(Idea);
+        expect(data.idea.mindmapId).to.equal('m');
+        expect(data.idea.x).to.equal(0);
+        expect(data.idea.y).to.equal(0);
     });
 
     it('should add association with parent idea', async () => {
@@ -40,10 +41,10 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(2);
@@ -52,12 +53,12 @@ describe('create-idea', () => {
         expect(patch['add association']).to.exist;
 
         const mutation = patch['add association'][0];
-        const data = mutation.data;
+        const {data} = mutation;
 
-        expect(data).to.be.instanceOf(Association);
-        expect(data.mindmapId).to.equal('m');
-        expect(data.fromId).to.equal('parent');
-        expect(data.toId).to.be.ok;
+        expect(data.assoc).to.be.instanceOf(Association);
+        expect(data.assoc.mindmapId).to.equal('m');
+        expect(data.assoc.fromId).to.equal('parent');
+        expect(data.assoc.toId).to.be.ok;
     });
 
     it('should set idea position from parent position', async () => {
@@ -70,18 +71,18 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
-        }, state);
+        });
 
         // check
         const mutation = patch['add idea'][0];
-        const data = mutation.data;
+        const {data} = mutation;
         
-        expect(data).to.be.instanceOf(Idea);
-        expect(data.x).to.be.equal(110);
-        expect(data.y).to.be.equal(120);
+        expect(data.idea).to.be.instanceOf(Idea);
+        expect(data.idea.x).to.be.equal(110);
+        expect(data.idea.y).to.be.equal(120);
     });
 
     it('should target all state layers', async () => {
@@ -93,7 +94,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({type: 'create-idea', data: {}}, state);
+        const patch = await dispatch(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -110,10 +111,10 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'not exist'}
-        }, state);
+        });
 
         // check
         await expect(promise).to.be

@@ -1,24 +1,20 @@
-import assert from 'assert';
-
 import Patch from 'utils/state/Patch';
 import MenuItem from 'vm/shared/MenuItem';
+
+import required from 'utils/required-params';
 
 /** 
  * Shows context menu for idea
  * 
+ * @param {object} state
  * @param {object} data
  * @param {Point}  data.pos - target canvas position for menu
  * @param {string} data.ideaId - ID of target idea
  * @param {bool}   data.shaded - indicates target idea is shaded
  * @return {Patch}
  */
-export default function showContextMenuForIdea(
-    {pos, ideaId, shaded}) {
-    
-    // TODO: check required props somehow better
-    assert(pos !== undefined);
-    assert(ideaId !== undefined);
-    assert(shaded !== undefined);
+export default function showContextMenuForIdea(state, data) {
+    const {pos, ideaId, shaded} = required(data);
 
     if (shaded) {
         // prevent actions on shaded ideas

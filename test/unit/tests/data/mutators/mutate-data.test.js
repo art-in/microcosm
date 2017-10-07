@@ -106,8 +106,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'id', value: 'test'})
-        });
+            data: {
+                idea: new Idea({id: 'id', value: 'test'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -198,8 +199,9 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({id: 'id', value: 'test'})
-        });
+            data: {
+                assoc: new Association({id: 'id', value: 'test'})
+            }});
 
         // target
         const result = await mutate(state, patch);

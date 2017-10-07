@@ -1,23 +1,16 @@
-import assert from 'assert';
-
-import Point from 'vm/shared/Point';
-import MenuItem from 'vm/shared/MenuItem';
+import required from 'utils/required-params';
 
 /** 
  * Applies 'show-context-menu' mutation
  * 
  * @param {object}           state
- * @param {object}           mutation
- * @param {Point}            mutation.data.pos
- * @param {array.<MenuItem>} mutation.data.menuItems
+ * @param {object}           data
+ * @param {Point}            data.pos
+ * @param {array.<MenuItem>} data.menuItems
  */
-export default function showContextMenu(state, mutation) {
-    
+export default function showContextMenu(state, data) {
     const {contextMenu} = state.vm.main.mindmap.graph;
-    const {pos, menuItems} = mutation.data;
-
-    assert(pos instanceof Point);
-    assert(menuItems.every(i => i instanceof MenuItem));
+    const {pos, menuItems} = required(data);
 
     contextMenu.setItems(menuItems);
     contextMenu.activate({pos});

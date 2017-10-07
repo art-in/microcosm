@@ -1,13 +1,15 @@
+import required from 'utils/required-params';
+
 /**
  * Handles 'remove association' mutation
  * @param {object} state 
- * @param {object} mutation 
+ * @param {object} data
+ * @param {string} data.id
  * @return {object} new state
  */
-export default async function removeAssociation(state, mutation) {
-    const {model} = state;
-    const {mindmap} = model;
-    const {id} = mutation.data;
+export default async function removeAssociation(state, data) {
+    const {model: {mindmap}} = state;
+    const {id} = required(data);
 
     const assoc = mindmap.associations.get(id);
 

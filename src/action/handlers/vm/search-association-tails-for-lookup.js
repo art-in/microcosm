@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import searchIdeas from 'action/utils/search-ideas';
@@ -9,14 +10,15 @@ import LookupSuggestion from 'vm/shared/LookupSuggestion';
  * Searches and sets suggesting ideas to lookup
  * which selects tail idea for cross-association
  * 
+ * @param {object} state
  * @param {object} data
  * @param {string} data.phrase 
  * @param {string} data.headIdeaId 
- * @param {object} state
  * @return {Patch}
  */
-export default function searchAssociationTailsForLookup(
-    {phrase, headIdeaId}, {model: {mindmap}}) {
+export default function searchAssociationTailsForLookup(state, data) {
+    const {model: {mindmap}} = state;
+    const {phrase, headIdeaId} = required(data);
 
     const headIdea = getIdea(mindmap, headIdeaId);
 

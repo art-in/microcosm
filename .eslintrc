@@ -14,8 +14,10 @@
         "browser": true
     },
     "globals": {
+        "process": false,
         "Promise": false,
         "Symbol": false,
+        "Proxy": false,
         "Set": false,
         "WeakSet": false,
         "Map": false,

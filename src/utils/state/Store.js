@@ -82,7 +82,7 @@ export default class Store {
                 action, this._state);
 
             // process action
-            const patch = await this._dispatcher.dispatch(action, this._state);
+            const patch = await this._dispatcher.dispatch(this._state, action);
             this._state = await this._mutator(this._state, patch);
 
             // middlewares

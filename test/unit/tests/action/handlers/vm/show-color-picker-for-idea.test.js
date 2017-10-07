@@ -8,7 +8,7 @@ describe('show-color-picker-for-idea', () => {
     it('should show color picker', async () => {
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -24,7 +24,7 @@ describe('show-color-picker-for-idea', () => {
     it(`should set action getter for 'set-idea-color' action`, async () => {
 
         // setup
-        const patch = await dispatch({
+        const patch = await dispatch(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -47,7 +47,7 @@ describe('show-color-picker-for-idea', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });

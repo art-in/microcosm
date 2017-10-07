@@ -42,19 +42,23 @@ describe('combine-mutators', () => {
 
         patch.push({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                fromId: 'parent',
-                toId: 'child'
-            })});
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    fromId: 'parent',
+                    toId: 'child'
+                })
+            }});
 
         patch.push({
             type: 'add idea',
-            data: new Idea({
-                id: 'child',
-                x: 10,
-                y: 10
-            })});
+            data: {
+                idea: new Idea({
+                    id: 'child',
+                    x: 10,
+                    y: 10
+                })
+            }});
 
         // target
         const mutate = combine([

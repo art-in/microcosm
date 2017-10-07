@@ -20,13 +20,13 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-idea-color',
             data: {
                 ideaId: 'id',
                 color: 'white'
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -50,13 +50,13 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-idea-color',
             data: {
                 ideaId: 'id',
                 color: 'white'
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;

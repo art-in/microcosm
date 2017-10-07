@@ -19,7 +19,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
@@ -28,7 +28,7 @@ describe('set-mindmap-position', () => {
                     y: 200
                 }
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -53,7 +53,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
@@ -62,7 +62,7 @@ describe('set-mindmap-position', () => {
                     y: 200
                 }
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;

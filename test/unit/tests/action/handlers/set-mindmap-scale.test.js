@@ -18,14 +18,14 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',
                 scale: 2,
                 pos: {}
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -48,7 +48,7 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',
@@ -58,7 +58,7 @@ describe('set-mindmap-scale', () => {
                     y: 200
                 }
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
@@ -82,14 +82,14 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',
                 scale: 2,
                 pos: {}
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;

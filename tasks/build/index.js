@@ -8,6 +8,7 @@ module.exports = function() {
         output: {
             path: config.src.client.output.path,
             name: config.src.client.output.name
-        }
+        },
+        isProduction: true
     });
 };

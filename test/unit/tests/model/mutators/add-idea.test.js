@@ -35,8 +35,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea 1', value: 'test'})
-        });
+            data: {
+                idea: new Idea({id: 'idea 1', value: 'test'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -100,8 +101,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea X'})
-        });
+            data: {
+                idea: new Idea({id: 'idea X'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -169,8 +171,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea X'})
-        });
+            data: {
+                idea: new Idea({id: 'idea X'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -211,8 +214,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea 1', value: 'test'})
-        });
+            data: {
+                idea: new Idea({id: 'idea 1', value: 'test'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -274,8 +278,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea X'})
-        });
+            data: {
+                idea: new Idea({id: 'idea X'})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -295,8 +300,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'root', isRoot: true})
-        });
+            data: {
+                idea: new Idea({id: 'root', isRoot: true})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -323,8 +329,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'root', isRoot: true})
-        });
+            data: {
+                idea: new Idea({id: 'root', isRoot: true})
+            }});
 
         // target
         const promise = mutate(state, patch);
@@ -341,8 +348,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea 1', value: 'test'})
-        });
+            data: {
+                idea: new Idea({id: 'idea 1', value: 'test'})
+            }});
 
         // target
         const promise = mutate(state, patch);
@@ -359,8 +367,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'root', isRoot: true})
-        });
+            data: {
+                idea: new Idea({id: 'root', isRoot: true})
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -394,8 +403,9 @@ describe('add idea', () => {
 
         const patch = new Patch({
             type: 'add idea',
-            data: new Idea({id: 'idea 1', value: 'test'})
-        });
+            data: {
+                idea: new Idea({id: 'idea 1', value: 'test'})
+            }});
 
         // target
         const promise = mutate(state, patch);

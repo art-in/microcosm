@@ -1,4 +1,7 @@
+import assert from 'assert';
+
 import EventedViewModel from 'vm/utils/EventedViewModel';
+import LookupSuggestion from './LookupSuggestion';
 
 import debounce from 'debounce';
 
@@ -191,6 +194,8 @@ export default class Lookup extends EventedViewModel {
      * @param {array.<Suggestion>} suggestions 
      */
     setSuggestions(suggestions) {
+        assert(suggestions.every(s => s instanceof LookupSuggestion));
+
         this.suggestions = suggestions;
         
         this.highlightedSuggestionId = null;

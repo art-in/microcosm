@@ -1,13 +1,15 @@
+import required from 'utils/required-params';
+
 /**
  * Handles 'add association' mutation
- * @param {object} state 
- * @param {object} mutation 
+ * @param {object}      state 
+ * @param {object}      data
+ * @param {Association} data.assoc
  * @return {object} new state
  */
-export default async function addAssociation(state, mutation) {
-    const {model} = state;
-    const {mindmap} = model;
-    const assoc = mutation.data;
+export default async function addAssociation(state, data) {
+    const {model: {mindmap}} = state;
+    const {assoc} = required(data);
 
     mindmap.associations.set(assoc.id, assoc);
 

@@ -15,6 +15,7 @@ const WebpackDevServer = require('webpack-dev-server');
  * @param {object}  opts.output
  * @param {string} opts.output.path - output bundle path
  * @param {string} opts.output.name - output bundle name
+ * @param {boolean} opts.isProduction - indicates production environment
  * @param {boolean} [opts.watch=false] - rebuild on changes
  * @param {string}  [opts.entry] - entry module path
  * @param {object}  [opts.serv] - dev server
@@ -28,6 +29,7 @@ function getPackConfig(opts) {
     
     assert(opts.root);
     assert(opts.output);
+    assert(opts.isProduction !== undefined);
     if (opts.watch) {
         assert(opts.serv);
         assert(opts.serv.host);
@@ -50,6 +52,14 @@ function getPackConfig(opts) {
         plugins.push(new webpack.HotModuleReplacementPlugin());
 
         loaders.js.push('react-hot-loader');
+    }
+
+    if (opts.isProduction) {
+        plugins.push(new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': `'production'`
+            }
+        }));
     }
 
     entries.push('babel-polyfill');

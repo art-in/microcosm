@@ -37,38 +37,40 @@ async function apply(state, mutation) {
 
     let newState;
 
+    const data = mutation.data;
+
     switch (mutation.type) {
 
     case 'init':
-        newState = await init(state, mutation);
+        newState = await init(state, data);
         break;
 
     case 'add idea':
-        newState = await addIdea(state, mutation);
+        newState = await addIdea(state, data);
         break;
 
     case 'update idea':
-        newState = await updateIdea(state, mutation);
+        newState = await updateIdea(state, data);
         break;
 
     case 'remove idea':
-        newState = await removeIdea(state, mutation);
+        newState = await removeIdea(state, data);
         break;
 
     case 'add association':
-        newState = await addAssociation(state, mutation);
+        newState = await addAssociation(state, data);
         break;
 
     case 'update association':
-        newState = await updateAssociation(state, mutation);
+        newState = await updateAssociation(state, data);
         break;
 
     case 'remove association':
-        newState = await removeAssociation(state, mutation);
+        newState = await removeAssociation(state, data);
         break;
 
     case 'update mindmap':
-        newState = await updateMindmap(state, mutation);
+        newState = await updateMindmap(state, data);
         break;
 
     default:

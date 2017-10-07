@@ -1,24 +1,17 @@
-import assert from 'assert';
-
-import Point from 'vm/shared/Point';
+import required from 'utils/required-params';
 
 /**
  * Applies 'show-association-tails-lookup' mutation
  * 
  * @param {object}   state
- * @param {object}   mutation
- * @param {Point}    mutation.data.pos
- * @param {function} mutation.data.onSelectAction
- * @param {function} mutation.data.onPhraseChangeAction
+ * @param {object}   data
+ * @param {Point}    data.pos
+ * @param {function} data.onSelectAction
+ * @param {function} data.onPhraseChangeAction
 */
-export default function showAssociationTailsLookup(state, mutation) {
-
+export default function showAssociationTailsLookup(state, data) {
     const {associationTailsLookup} = state.vm.main.mindmap.graph;
-    const {pos, onSelectAction, onPhraseChangeAction} = mutation.data;
-
-    assert(pos instanceof Point);
-    assert(onSelectAction);
-    assert(onPhraseChangeAction);
+    const {pos, onSelectAction, onPhraseChangeAction} = required(data);
 
     associationTailsLookup.activate({
         pos,

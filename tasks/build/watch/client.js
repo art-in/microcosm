@@ -14,6 +14,7 @@ module.exports = function() {
             host: config.dev.server.host,
             port: config.dev.server.port,
             public: config.src.serv.public
-        }
+        },
+        isProduction: false
     });
 };

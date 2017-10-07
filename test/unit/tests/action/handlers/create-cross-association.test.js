@@ -24,22 +24,23 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(patch).to.have.length(1);
+        const {type, data} = patch[0];
 
-        expect(patch[0].type).to.equal('add association');
-        expect(patch[0].data).to.be.instanceOf(Association);
-        expect(patch[0].data.mindmapId).to.equal('m');
-        expect(patch[0].data.fromId).to.equal('head');
-        expect(patch[0].data.toId).to.equal('tail');
+        expect(type).to.equal('add association');
+        expect(data.assoc).to.be.instanceOf(Association);
+        expect(data.assoc.mindmapId).to.equal('m');
+        expect(data.assoc.fromId).to.equal('head');
+        expect(data.assoc.toId).to.equal('tail');
     });
 
     it('should target all state layers', async () => {
@@ -57,13 +58,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch({
+        const patch = await dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -85,13 +86,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -111,13 +112,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -139,13 +140,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'head'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -179,13 +180,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -220,13 +221,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'tail',
                 tailIdeaId: 'head'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(
@@ -250,13 +251,13 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch({
+        const promise = dispatch(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
                 tailIdeaId: 'tail'
             }
-        }, state);
+        });
 
         // check
         expect(promise).to.be.rejectedWith(

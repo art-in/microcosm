@@ -1,3 +1,5 @@
+import required from 'utils/required-params';
+
 import * as ideaDB from 'data/db/ideas';
 import * as assocDB from 'data/db/associations';
 import * as mindmapDB from 'data/db/mindmaps';
@@ -7,18 +9,21 @@ import buildGraph from 'model/utils/build-ideas-graph';
 
 /**
  * Handles 'init' mutation
- * @param {object} state 
- * @param {object} mutation 
+ * @param {object}  state 
+ * @param {object}  data 
+ * @param {PouchDB} data.ideas
+ * @param {PouchDB} data.associations
+ * @param {PouchDB} data.mindmaps
  * @return {object} new state
  */
-export default async function init(state, mutation) {
+export default async function init(state, data) {
     const {model} = state;
-    const {data} = mutation.data;
+    const {data: db} = required(data);
     
     // data
-    const ideas = await ideaDB.getAll(data.ideas);
-    const assocs = await assocDB.getAll(data.associations);
-    const mindmaps = await mindmapDB.getAll(data.mindmaps);
+    const ideas = await ideaDB.getAll(db.ideas);
+    const assocs = await assocDB.getAll(db.associations);
+    const mindmaps = await mindmapDB.getAll(db.mindmaps);
 
     if (mindmaps.length === 0) {
         throw Error('Mindmap database is empty');

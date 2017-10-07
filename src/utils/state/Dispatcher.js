@@ -1,4 +1,5 @@
 import assert from 'assert';
+import required from 'utils/required-params';
 import Patch from './Patch';
 
 /**
@@ -32,20 +33,22 @@ export default class Dispatcher {
     
     /**
      * Executes registered handler for an action
-     * @param {object} action
      * @param {object} state
+     * @param {object} action
      * @return {promise.<Patch>}
      */
-    async dispatch(action, state) {
+    async dispatch(state, action) {
+        const {type} = required(action);
+        const {data} = action;
 
         const actionHandler = this._handlers
-            .find(ah => ah.type === action.type);
+            .find(ah => ah.type === type);
 
         if (!actionHandler) {
-            throw Error(`Unknown action type '${action.type}'`);
+            throw Error(`Unknown action type '${type}'`);
         }
 
-        const patch = await actionHandler.handler(action.data, state);
+        const patch = await actionHandler.handler(state, data);
 
         return patch || new Patch();
     }

@@ -36,25 +36,28 @@ export default async function mutate(state, patch) {
 async function apply(state, mutation) {
     
     // TODO: dynamicly load mutators by filename (same as action handlers)
+
+    const {data} = mutation;
+
     switch (mutation.type) {
 
     case 'init':
-        init(state, mutation);
+        init(state);
         break;
     case 'set-suggestions-to-association-tails-lookup':
-        setSuggestions(state, mutation);
+        setSuggestions(state, data);
         break;
     case 'show-context-menu':
-        showContextMenu(state, mutation);
+        showContextMenu(state, data);
         break;
     case 'show-color-picker':
-        showColorPicker(state, mutation);
+        showColorPicker(state, data);
         break;
     case 'show-association-tails-lookup':
-        showAssociationTailsLookup(state, mutation);
+        showAssociationTailsLookup(state, data);
         break;
     case 'hide-context-menu':
-        hideContextMenu(state, mutation);
+        hideContextMenu(state, data);
         break;
     case 'add idea':
     case 'update idea':

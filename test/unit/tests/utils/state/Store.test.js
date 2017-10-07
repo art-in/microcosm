@@ -27,8 +27,8 @@ describe('Store', () => {
             // check
             expect(dispatch.callCount).to.equal(1);
             expect(dispatch.firstCall.args).to.deep.equal([
-                {type: 'action', data: 'data'},
-                state
+                state,
+                {type: 'action', data: 'data'}
             ]);
         });
 

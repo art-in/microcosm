@@ -27,12 +27,14 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                value: 'test',
-                fromId: 'head',
-                toId: 'tail'
-            })});
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    value: 'test',
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -62,12 +64,13 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                fromId: 'head',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -97,12 +100,13 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                fromId: 'head',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -133,12 +137,13 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                fromId: 'head',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -171,12 +176,13 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                id: 'assoc',
-                fromId: 'head',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    id: 'assoc',
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const result = await mutate(state, patch);
@@ -210,11 +216,12 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                fromId: 'XXX',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    fromId: 'XXX',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const promise = mutate(state, patch);
@@ -238,11 +245,12 @@ describe('add association', () => {
 
         const patch = new Patch({
             type: 'add association',
-            data: new Association({
-                fromId: 'head',
-                toId: 'tail'
-            })
-        });
+            data: {
+                assoc: new Association({
+                    fromId: 'head',
+                    toId: 'tail'
+                })
+            }});
 
         // target
         const promise = mutate(state, patch);

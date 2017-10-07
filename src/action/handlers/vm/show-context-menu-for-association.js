@@ -1,5 +1,4 @@
-import assert from 'assert';
-
+import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 import MenuItem from 'vm/shared/MenuItem';
 
@@ -8,19 +7,16 @@ import getAssociation from 'action/utils/get-association';
 /**
  * Shows context menu for association
  * 
+ * @param {object} state
  * @param {object} data
  * @param {Point}  data.pos - position on canvas
  * @param {string} data.associationId - ID of target association
  * @param {bool}   data.shaded - indicates target association is shaded
- * @param {object} state
  * @return {Patch}
  */
-export default function showContextMenuForAssociation(
-    {pos, associationId, shaded}, {model: {mindmap}}) {
-
-    assert(pos !== undefined);
-    assert(associationId !== undefined);
-    assert(shaded !== undefined);
+export default function showContextMenuForAssociation(state, data) {
+    const {model: {mindmap}} = state;
+    const {pos, associationId, shaded} = required(data);
 
     if (shaded) {
         // prevent actions on shaded links
