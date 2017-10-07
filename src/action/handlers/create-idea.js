@@ -1,4 +1,5 @@
 import Patch from 'utils/state/Patch';
+import getIdea from 'action/utils/get-idea';
 
 import Idea from 'model/entities/Idea';
 import Association from 'model/entities/Association';
@@ -24,12 +25,7 @@ export default function createIdea(state, data) {
     });
 
     if (parentIdeaId) {
-        // TODO: use get idea util
-        const parentIdea = mindmap.ideas.get(parentIdeaId);
-
-        if (!parentIdea) {
-            throw Error(`Parent idea '${parentIdeaId}' not found`);
-        }
+        const parentIdea = getIdea(mindmap, parentIdeaId);
 
         idea.x = parentIdea.x + 100;
         idea.y = parentIdea.y + 100;
