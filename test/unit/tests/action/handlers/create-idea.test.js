@@ -118,7 +118,7 @@ describe('create-idea', () => {
 
         // check
         await expect(promise).to.be
-            .rejectedWith('Parent idea \'not exist\' not found');
+            .rejectedWith(`Idea with ID 'not exist' not found in mindmap`);
     });
 
 });

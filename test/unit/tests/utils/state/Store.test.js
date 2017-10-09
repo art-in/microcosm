@@ -314,16 +314,10 @@ describe('Store', () => {
                 ]);
 
             // target
-            let error;
-            try {
-                await store.dispatch({type: 'action', data: 'data'});
-            } catch (e) {
-                error = e;
-            }
+            const promise = store.dispatch({type: 'action', data: 'data'});
                 
             // check
-            expect(error).to.exist;
-            expect(error.message).to.equal('boom');
+            await expect(promise).to.be.rejectedWith('boom');
 
             expect(onDispatchFail.callCount).to.equal(1);
             const args = onDispatchFail.firstCall.args;
@@ -358,16 +352,10 @@ describe('Store', () => {
                 ]);
 
             // target
-            let error;
-            try {
-                await store.dispatch({type: 'action', data: 'data'});
-            } catch (e) {
-                error = e;
-            }
-
+            const promise = store.dispatch({type: 'action', data: 'data'});
+            
             // check
-            expect(error).to.exist;
-            expect(error.message).to.equal('boom');
+            await expect(promise).to.be.rejectedWith('boom');
             
             expect(onMutationFail.callCount).to.equal(1);
             const args = onMutationFail.firstCall.args;
