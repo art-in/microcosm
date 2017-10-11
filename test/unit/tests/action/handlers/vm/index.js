@@ -1,5 +1,6 @@
 describe('vm', () => {
 
+    require('./on-idea-color-selected.test');
     require('./search-association-tails-for-lookup.test');
     require('./show-association-tails-lookup.test');
     require('./show-color-picker-for-idea.test');

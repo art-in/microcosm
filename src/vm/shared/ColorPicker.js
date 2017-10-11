@@ -1,4 +1,4 @@
-import assert from 'assert';
+import required from 'utils/required-params';
 
 import EventedViewModel from 'vm/utils/EventedViewModel';
 
@@ -29,10 +29,11 @@ export default class ColorPicker extends EventedViewModel {
     
     /**
      * Activates picker
-     * @param {*} target
+     * @param {object}   opts
+     * @param {function} opts.onSelectAction
      */
-    activate({onSelectAction}) {
-        assert(onSelectAction);
+    activate(opts) {
+        const {onSelectAction} = required(opts);
 
         this.active = true;
         this.onSelectAction = onSelectAction;

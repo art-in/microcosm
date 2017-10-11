@@ -21,7 +21,7 @@ describe('show-color-picker-for-idea', () => {
         expect(data.onSelectAction).to.be.a('function');
     });
 
-    it(`should set action getter for 'set-idea-color' action`, async () => {
+    it(`should set action getter`, async () => {
 
         // setup
         const patch = await dispatch(null, {
@@ -35,7 +35,7 @@ describe('show-color-picker-for-idea', () => {
         const action = onSelectAction({color: 'red'});
 
         expect(action).to.containSubset({
-            type: 'set-idea-color',
+            type: 'on-idea-color-selected',
             data: {
                 ideaId: 'idea',
                 color: 'red'

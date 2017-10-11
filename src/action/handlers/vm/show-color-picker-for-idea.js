@@ -16,7 +16,7 @@ export default function showColorPickerForIdea(state, data) {
         type: 'show-color-picker',
         data: {
             onSelectAction: ({color}) => ({
-                type: 'set-idea-color',
+                type: 'on-idea-color-selected',
                 data: {
                     ideaId,
                     color

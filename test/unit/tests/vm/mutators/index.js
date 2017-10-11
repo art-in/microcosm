@@ -1,5 +1,6 @@
 describe('mutators', () => {
 
+    require('./hide-color-picker.test');
     require('./hide-context-menu.test');
     require('./init.test');
     require('./set-suggestions-to-association-tails-lookup.test');
