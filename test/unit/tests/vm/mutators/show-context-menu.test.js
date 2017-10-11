@@ -12,7 +12,7 @@ import mutate from 'src/vm/mutators';
 
 describe('show-context-menu', () => {
 
-    it('should show context menu', async () => {
+    it('should show context menu', () => {
 
         // setup state
         const graph = new Graph();
@@ -36,14 +36,14 @@ describe('show-context-menu', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {contextMenu} = state.vm.main.mindmap.graph;
         expect(contextMenu.active).to.be.true;
     });
 
-    it('should set context menu to certain position', async () => {
+    it('should set context menu to certain position', () => {
 
         // setup state
         const graph = new Graph();
@@ -67,7 +67,7 @@ describe('show-context-menu', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {contextMenu} = state.vm.main.mindmap.graph;
@@ -77,7 +77,7 @@ describe('show-context-menu', () => {
         });
     });
 
-    it('should set menu items to context menu', async () => {
+    it('should set menu items to context menu', () => {
         
         // setup state
         const graph = new Graph();
@@ -104,7 +104,7 @@ describe('show-context-menu', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {contextMenu} = state.vm.main.mindmap.graph;
@@ -117,7 +117,7 @@ describe('show-context-menu', () => {
         }]);
     });
 
-    it(`should emit 'change' event on context menu`, async () => {
+    it(`should emit 'change' event on context menu`, () => {
         
         // setup state
         const onChange = spy();
@@ -143,7 +143,7 @@ describe('show-context-menu', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(onChange.callCount).to.equal(1);

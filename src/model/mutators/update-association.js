@@ -6,7 +6,7 @@ import mapObject from 'utils/map-object';
  * @param {object} state 
  * @param {object} data
  */
-export default async function updateAssociation(state, data) {
+export default function updateAssociation(state, data) {
     const {model: {mindmap}} = state;
     const patch = data;
 

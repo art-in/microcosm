@@ -1,37 +1,37 @@
-import {expect, createDB} from 'test/utils';
-
-import mutate from 'model/mutators';
-
+import {expect} from 'test/utils';
 import Patch from 'src/utils/state/Patch';
 import values from 'src/utils/get-map-values';
 
+import Idea from 'src/model/entities/Idea';
+import Association from 'src/model/entities/Association';
+import Mindmap from 'src/model/entities/Mindmap';
+
+import mutate from 'model/mutators';
+
 describe('init', () => {
     
-    it('should init mindmap model from db', async () => {
+    it('should init mindmap model', () => {
 
         // setup
         const state = {model: {mindmap: undefined}};
 
-        const patchData = {
-            data: {
-                ideas: createDB(),
-                associations: createDB(),
-                mindmaps: createDB()
-            }
+        const entities = {
+            ideas: [
+                new Idea({id: 'head', isRoot: true}),
+                new Idea({id: 'tail'})
+            ],
+            associations: [
+                new Association({fromId: 'head', toId: 'tail'})
+            ],
+            mindmaps: [
+                new Mindmap()
+            ]
         };
 
-        await patchData.data.ideas.post({_id: 'head', isRoot: true});
-        await patchData.data.ideas.post({_id: 'tail'});
-        await patchData.data.associations.post({
-            fromId: 'head',
-            toId: 'tail'
-        });
-        await patchData.data.mindmaps.post({});
-
-        const patch = new Patch({type: 'init', data: patchData});
+        const patch = new Patch({type: 'init', data: {entities}});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -43,31 +43,28 @@ describe('init', () => {
         expect(assocs).to.have.length(1);
     });
 
-    it('should get mindmap with calculated ideas depths', async () => {
+    it('should get mindmap with calculated ideas depths', () => {
         
         // setup
         const state = {model: {mindmap: undefined}};
 
-        const patchData = {
-            data: {
-                ideas: createDB(),
-                associations: createDB(),
-                mindmaps: createDB()
-            }
+        const entities = {
+            ideas: [
+                new Idea({id: 'head', isRoot: true}),
+                new Idea({id: 'tail'})
+            ],
+            associations: [
+                new Association({fromId: 'head', toId: 'tail'})
+            ],
+            mindmaps: [
+                new Mindmap()
+            ]
         };
 
-        await patchData.data.ideas.post({_id: 'head', isRoot: true});
-        await patchData.data.ideas.post({_id: 'tail'});
-        await patchData.data.associations.post({
-            fromId: 'head',
-            toId: 'tail'
-        });
-        await patchData.data.mindmaps.post({});
-
-        const patch = new Patch({type: 'init', data: patchData});
+        const patch = new Patch({type: 'init', data: {entities}});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(state.model.mindmap.root).to.containSubset({

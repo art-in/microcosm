@@ -8,7 +8,7 @@ import Idea from 'src/model/entities/Idea';
 
 describe('update-idea', () => {
     
-    it('should update idea', async () => {
+    it('should update idea', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -27,7 +27,7 @@ describe('update-idea', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = state.model.mindmap.ideas;
@@ -40,7 +40,7 @@ describe('update-idea', () => {
         });
     });
 
-    it('should fail if target idea was not found', async () => {
+    it('should fail if target idea was not found', () => {
 
         // setup
         const state = {model: {mindmap: new Mindmap()}};
@@ -51,10 +51,10 @@ describe('update-idea', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Idea 'id' was not found`);
     });
 

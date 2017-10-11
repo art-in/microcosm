@@ -10,7 +10,7 @@ import mutate from 'src/vm/mutators';
 
 describe('show-color-picker', () => {
 
-    it('should show color picker', async () => {
+    it('should show color picker', () => {
 
         // setup state
         const graph = new Graph();
@@ -33,7 +33,7 @@ describe('show-color-picker', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {colorPicker} = state.vm.main.mindmap.graph;
@@ -41,7 +41,7 @@ describe('show-color-picker', () => {
         expect(colorPicker.onSelectAction).to.be.a('function');
     });
 
-    it(`should emit 'change' event on color picker`, async () => {
+    it(`should emit 'change' event on color picker`, () => {
 
         // setup state
         const onChange = spy();
@@ -66,7 +66,7 @@ describe('show-color-picker', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(onChange.callCount).to.equal(1);

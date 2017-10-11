@@ -11,7 +11,7 @@ import values from 'src/utils/get-map-values';
 
 describe('add-idea', () => {
     
-    it('should add idea to ideas map', async () => {
+    it('should add idea to ideas map', () => {
 
         // setup
         const rootIdea = new Idea({
@@ -40,7 +40,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -52,7 +52,7 @@ describe('add-idea', () => {
         });
     });
 
-    it('should set idea to incoming associations', async () => {
+    it('should set idea to incoming associations', () => {
         
         // setup graph
         //
@@ -107,7 +107,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const associations = values(state.model.mindmap.associations);
@@ -122,7 +122,7 @@ describe('add-idea', () => {
         }]);
     });
 
-    it('should set incoming associations to idea', async () => {
+    it('should set incoming associations to idea', () => {
         
         // setup graph
         //
@@ -177,7 +177,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
         
         // check
         const idea = state.model.mindmap.ideas.get('idea X');
@@ -192,7 +192,7 @@ describe('add-idea', () => {
         }]);
     });
 
-    it('should set empty outgoing associations to idea', async () => {
+    it('should set empty outgoing associations to idea', () => {
         
         // setup
         const rootIdea = new Idea({
@@ -221,7 +221,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -230,7 +230,7 @@ describe('add-idea', () => {
         expect(ideas[1].associationsOut).to.be.empty;
     });
 
-    it('should set idea depth', async () => {
+    it('should set idea depth', () => {
         
         // setup graph
         //
@@ -286,7 +286,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -297,7 +297,7 @@ describe('add-idea', () => {
         }]);
     });
 
-    it('should set root idea depth to zero', async () => {
+    it('should set root idea depth to zero', () => {
         
         // setup
         const state = {model: {mindmap: new Mindmap()}};
@@ -309,7 +309,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -320,7 +320,7 @@ describe('add-idea', () => {
         }]);
     });
 
-    it('should fail if mindmap already has root idea', async () => {
+    it('should fail if mindmap already has root idea', () => {
         
         // setup
         const rootIdea = new Idea({id: 'root', isRoot: true});
@@ -338,14 +338,14 @@ describe('add-idea', () => {
             }});
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             'Mindmap already has root idea');
     });
 
-    it('should fail if no incoming associations was found', async () => {
+    it('should fail if no incoming associations was found', () => {
         
         // setup
         const state = {model: {mindmap: new Mindmap()}};
@@ -357,14 +357,14 @@ describe('add-idea', () => {
             }});
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `No incoming associations found for idea 'idea 1'`);
     });
 
-    it('should NOT fail if no incoming association for root', async () => {
+    it('should NOT fail if no incoming association for root', () => {
         
         // setup
         const state = {model: {mindmap: new Mindmap()}};
@@ -376,7 +376,7 @@ describe('add-idea', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -387,7 +387,7 @@ describe('add-idea', () => {
         });
     });
 
-    it('should fail if parent idea does not have depth', async () => {
+    it('should fail if parent idea does not have depth', () => {
         
         // setup
         const rootIdea = new Idea({id: 'root'});
@@ -412,10 +412,10 @@ describe('add-idea', () => {
             }});
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Parent idea 'root' does not have depth`);
     });
 });

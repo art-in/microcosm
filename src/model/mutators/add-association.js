@@ -7,7 +7,7 @@ import required from 'utils/required-params';
  * @param {object}      data
  * @param {Association} data.assoc
  */
-export default async function addAssociation(state, data) {
+export default function addAssociation(state, data) {
     const {model: {mindmap}} = state;
     const {assoc} = required(data);
 

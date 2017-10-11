@@ -7,7 +7,7 @@ import required from 'utils/required-params';
  * @param {object} data
  * @param {string} data.id
  */
-export default async function removeIdea(state, data) {
+export default function removeIdea(state, data) {
     const {model: {mindmap}} = state;
     const {id} = required(data);
 

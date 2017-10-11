@@ -12,7 +12,7 @@ import mutate from 'src/vm/mutators';
 
 describe('set-suggestions-to-association-tails-lookup', () => {
 
-    it('should set suggestions to lookup', async () => {
+    it('should set suggestions to lookup', () => {
         
         // setup state
         const graph = new Graph();
@@ -38,7 +38,7 @@ describe('set-suggestions-to-association-tails-lookup', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {associationTailsLookup} = state.vm.main.mindmap.graph;
@@ -58,7 +58,7 @@ describe('set-suggestions-to-association-tails-lookup', () => {
         });
     });
 
-    it(`should emit 'change' event on lookup`, async () => {
+    it(`should emit 'change' event on lookup`, () => {
         
         // setup state
         const onChange = spy();
@@ -86,7 +86,7 @@ describe('set-suggestions-to-association-tails-lookup', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(onChange.callCount).to.equal(1);

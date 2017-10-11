@@ -11,7 +11,7 @@ import mutate from 'src/vm/mutators';
 
 describe('hide-context-menu', () => {
 
-    it('should hide context menu', async () => {
+    it('should hide context menu', () => {
 
         // setup state
         const graph = new Graph();
@@ -31,14 +31,14 @@ describe('hide-context-menu', () => {
         const patch = new Patch({type: 'hide-context-menu'});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {contextMenu} = state.vm.main.mindmap.graph;
         expect(contextMenu.active).to.be.false;
     });
 
-    it(`should emit 'change' event on context menu`, async () => {
+    it(`should emit 'change' event on context menu`, () => {
         
         // setup state
         const onChange = spy();
@@ -61,7 +61,7 @@ describe('hide-context-menu', () => {
         const patch = new Patch({type: 'hide-context-menu'});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(onChange.callCount).to.equal(1);

@@ -7,7 +7,7 @@ import Mindmap from 'src/model/entities/Mindmap';
 
 describe('update-mindmap', () => {
 
-    it('should update mindmap', async () => {
+    it('should update mindmap', () => {
 
         // setup
         const mindmap = new Mindmap({
@@ -24,7 +24,7 @@ describe('update-mindmap', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(state.model.mindmap).to.containSubset({

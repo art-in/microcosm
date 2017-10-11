@@ -8,7 +8,7 @@ import values from 'utils/get-map-values';
  * @param {object} data
  * @param {Idea}   data.idea
  */
-export default async function addIdea(state, data) {
+export default function addIdea(state, data) {
     const {model: {mindmap}} = state;
     const {idea} = required(data);
 

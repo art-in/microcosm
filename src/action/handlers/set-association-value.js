@@ -12,7 +12,7 @@ import getAssociation from 'action/utils/get-association';
  * @param {string} data.value
  * @return {Patch}
  */
-export default async function setAssociationValue(state, data) {
+export default function setAssociationValue(state, data) {
     const {model: {mindmap}} = state;
     const {assocId, value} = required(data);
 

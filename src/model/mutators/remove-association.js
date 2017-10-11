@@ -7,7 +7,7 @@ import required from 'utils/required-params';
  * @param {object} data
  * @param {string} data.id
  */
-export default async function removeAssociation(state, data) {
+export default function removeAssociation(state, data) {
     const {model: {mindmap}} = state;
     const {id} = required(data);
 

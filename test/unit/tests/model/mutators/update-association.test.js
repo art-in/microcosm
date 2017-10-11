@@ -10,7 +10,7 @@ import values from 'src/utils/get-map-values';
 
 describe('update-association', () => {
     
-    it('should update association', async () => {
+    it('should update association', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -28,7 +28,7 @@ describe('update-association', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -40,7 +40,7 @@ describe('update-association', () => {
         });
     });
 
-    it('should fail if target association was not found', async () => {
+    it('should fail if target association was not found', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -53,10 +53,10 @@ describe('update-association', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Association 'id' was not found`);
     });
 

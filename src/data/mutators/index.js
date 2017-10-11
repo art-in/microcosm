@@ -2,8 +2,17 @@ import * as ideaDB from '../db/ideas';
 import * as assocDB from '../db/associations';
 import * as mindmapDB from '../db/mindmaps';
 
-import Mindmap from 'model/entities/Mindmap';
-import Idea from 'model/entities/Idea';
+import AsyncTaskQueue from 'utils/AsyncTaskQueue';
+
+/**
+ * DB mutation queue
+ * Since DB uses async API with two-phased updates (get/set),
+ * we need to perform those updates atomicly to avoid
+ * 'Document update conflict' errors.
+ * To achieve that we use task queue to ensure that sub-tasks
+ * of async update tasks (get and set) will not mix up.
+ */
+const _queue = new AsyncTaskQueue();
 
 /**
  * Applies patch to data state
@@ -13,7 +22,9 @@ import Idea from 'model/entities/Idea';
 export default async function mutate(state, patch) {
     await Promise.all(patch.map(async function(mutation) {
         if (mutation.hasTarget('data')) {
-            await apply(state, mutation);
+            await _queue.enqueue(async () => {
+                await apply(state, mutation);
+            });
         }
     }));
 }
@@ -30,27 +41,9 @@ async function apply(state, mutation) {
     switch (mutation.type) {
 
     case 'init':
-        data.ideas = mutation.data.data.ideas;
-        data.associations = mutation.data.data.associations;
-        data.mindmaps = mutation.data.data.mindmaps;
-
-        if (!(await data.mindmaps.info()).doc_count) {
-            // mindmap database is empty, creating one
-            await mindmapDB.add(data.mindmaps, new Mindmap({
-                x: 0,
-                y: 0,
-                scale: 1
-            }));
-        }
-
-        if (!(await data.ideas.info()).doc_count) {
-            // ideas database is empty, creating root idea
-            await ideaDB.add(data.ideas, new Idea({
-                isRoot: true,
-                x: 0,
-                y: 0
-            }));
-        }
+        data.ideas = mutation.data.db.ideas;
+        data.associations = mutation.data.db.associations;
+        data.mindmaps = mutation.data.db.mindmaps;
         break;
 
     case 'add-idea':

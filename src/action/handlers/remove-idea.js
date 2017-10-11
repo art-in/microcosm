@@ -11,7 +11,7 @@ import getIdea from 'action/utils/get-idea';
  * @param {object} data.ideaId
  * @return {Patch}
  */
-export default async function removeIdea(state, data) {
+export default function removeIdea(state, data) {
     const {model: {mindmap}} = state;
     const {ideaId} = required(data);
 

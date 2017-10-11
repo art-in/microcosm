@@ -42,13 +42,19 @@ describe('Dispatcher', () => {
             disp.dispatch({state: 1}, {
                 type: 'action 1',
                 data: 'data'
-            });
+            }, function storeDispatch() {});
 
             // check
             expect(handler1.callCount).to.equal(1);
-            expect(handler1.getCall(0).args[0]).to.deep.equal({state: 1});
-            expect(handler1.getCall(0).args[1]).to.deep.equal('data');
-            expect(handler1.getCall(0).args[2]).to.be.a('function');
+            const call = handler1.getCall(0);
+            
+            expect(call.args).to.have.length(3);
+
+            expect(call.args[0]).to.deep.equal({state: 1});
+            expect(call.args[1]).to.deep.equal('data');
+            expect(call.args[2]).to.be.a('function');
+            expect(call.args[2].name).to.equal('storeDispatch');
+
             expect(handler2.callCount).to.equal(0);
         });
 
@@ -75,33 +81,6 @@ describe('Dispatcher', () => {
             expect(patch).to.have.length(1);
             expect(patch['mutation']).to.exist;
             expect(patch['mutation'][0].data).to.equal('data');
-        });
-
-        it('should pass action handler to handle child actions', async () => {
-            
-            // setup
-            const disp = new Dispatcher();
-
-            disp.reg('action 1', () => {
-                return new Patch({type: 'mutation 1'});
-            });
-
-            disp.reg('action 2', async (state, data, handle) => {
-                const patch = await handle({type: 'action 1'});
-                patch.push({type: 'mutation 2'});
-                return patch;
-            });
-
-            // target
-            const patch = await disp.dispatch({}, {
-                type: 'action 2'
-            });
-
-            // check
-            expect(patch).to.be.instanceOf(Patch);
-            expect(patch).to.have.length(2);
-            expect(patch['mutation 1']).to.exist;
-            expect(patch['mutation 2']).to.exist;
         });
 
         it('should fail if unknown action', async () => {

@@ -38,9 +38,10 @@ export default class Dispatcher {
      * Executes registered handler for an action
      * @param {object} state
      * @param {object} action
+     * @param {function} [storeDispatch]
      * @return {promise.<Patch>}
      */
-    async dispatch(state, action) {
+    async dispatch(state, action, storeDispatch) {
         const {type} = required(action);
         const {data} = action;
 
@@ -51,15 +52,11 @@ export default class Dispatcher {
             throw Error(`Unknown action type '${type}'`);
         }
 
-        // Q: why pass 'handle' function for calling child handlers,
-        // when parent handler can explicitly 'import' child handler module?
-        // A: because in this case parent handler would also need to pass
-        // state, handle, etc. to child handler.
-        // with 'handle' function you can handle actions with same
-        // interface as if handling outside the store.
-        const handle = this.dispatch.bind(this, state);
-
-        const patch = await actionHandler.handler(state, data, handle);
+        const patch = await actionHandler.handler(
+            state,
+            data,
+            storeDispatch
+        );
 
         if (patch !== undefined && !(patch instanceof Patch)) {
             throw Error(

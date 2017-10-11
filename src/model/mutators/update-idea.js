@@ -6,7 +6,7 @@ import mapObject from 'utils/map-object';
  * @param {object} state 
  * @param {object} data
  */
-export default async function updateIdea(state, data) {
+export default function updateIdea(state, data) {
     const {model: {mindmap}} = state;
     const patch = data;
 

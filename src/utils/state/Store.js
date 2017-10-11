@@ -1,6 +1,5 @@
 import EventEmitter from 'events';
-
-import AsyncTaskQueue from 'utils/AsyncTaskQueue';
+import nextTask from 'utils/next-task';
 
 /**
  * Application state container.
@@ -11,7 +10,7 @@ export default class Store {
      * The dispatcher.
      * @type {Dispatcher}
      */
-    _dispatcher;
+    _actionHandler;
 
     /**
      * The mutator
@@ -31,18 +30,6 @@ export default class Store {
     _middlewares = [];
 
     /**
-     * Action execution queue
-     * Async actions should be dispatched sequentially,
-     * and not mixed up with each other, which is crucial
-     * eg. for db updates: user initiates graph zoom too
-     * often - several async actions dispatched in parallel,
-     * both get the same db entity, first action updates 
-     * that entity, second one fails on update because of
-     * wrong db entity version
-     */
-    _queue = new AsyncTaskQueue();
-
-    /**
      * Constructor
      * @param {Dispatcher} dispatcher
      * @param {function} mutator
@@ -51,54 +38,98 @@ export default class Store {
      */
     constructor(dispatcher, mutator, initialState = {}, middlewares = []) {
 
-        this._dispatcher = dispatcher;
+        this._actionHandler = dispatcher;
         this._mutator = mutator;
         this._state = initialState;
         this._middlewares = middlewares;
-
-        // subscribe middlewares to store events
-        if (this._middlewares) {
-            const storeEvents = new EventEmitter();
-            this._middlewares.events = storeEvents;
-            this._middlewares.forEach(m => m(storeEvents));
-        }
     }
 
     /**
      * Dispatches action
-     *
+     * 
      * @param {object} action
      * @return {Promise.<object>} new state
      */
-    dispatch(action) {
+    async dispatch(action) {
 
-        const {events} = this._middlewares;
+        // prevent race conditions
+        // split dispatches between separate tasks, to ensure sync actions
+        // (or async ones resolved immediately) are dispatched atomically,
+        // in case several dispatches initiated from same task.
+        // ie. create-mutation-apply-mutation microtasks of two dispatches
+        // are not mixed up, 
+        //
+        // ⤷ [task: dispatch 1]
+        // ⤷ [microtask: create mutation (action handler)]
+        // ⤷ [microtask: apply mutation (mutator)]
+        // ---
+        // ⤷ [task: dispatch 2]
+        // ⤷ [microtask: create mutation (action handler)]
+        // ⤷ [microtask: apply mutation (mutator)]
+        // ---
+        // ⤷ etc...
+        //
+        await nextTask();
 
-        return this._queue.enqueue(async () => {
+        // subscribe middlewares to dispatch events
+        const events = new EventEmitter();
+        this._middlewares.forEach(m => m(events));
 
-            events.emit('before-dispatch', {action, state: this._state});
+        events.emit('before-dispatch', {action, state: this._state});
+        
+        // dispatch
+        let patch;
+        try {
+            const dispatch = this.dispatch.bind(this);
+            patch = await this._actionHandler
+                .dispatch(this._state, action, dispatch);
+        } catch (error) {
+            events.emit('dispatch-fail', {error});
+            throw error;
+        }
 
-            // dispatch
-            let patch;
-            try {
-                patch = await this._dispatcher.dispatch(this._state, action);
-            } catch (error) {
-                events.emit('dispatch-fail', {error});
-                throw error;
-            }
+        // mutate
+        try {
+            if (patch.length) {
 
-            // mutate
-            try {
+                // Q: why sync mutators are better then async mutators?
+                // A: because async mutators can lead to race conditions.
+                // ie. break atomicity of create-mutation-apply-mutation process
+                // 
+                // if awaiting async task inside process of applying patch,
+                // there can be executed async tasks of another action handlers,
+                // which can read previous state.
+                // although we can put handlers and mutators in same task queue
+                // to block handler from start until async mutators are fully
+                // done, but we cannot block them if handler is already running.
+                //
+                // this ensures any action handler A, when reading state
+                // in the last task before returning patch (after last await),
+                // there is no other action handler B, which already produced
+                // patch to change part of the state that handler A is reading
+                //
+                // this applies only to dispatches which run concurrently.
+                // while this is not the case for parent-child action relations.
+                // parent action can always await full dispatch process of
+                // child action, and then receive state.
+                //
+                // still some parts of state can have async interface (eg. db),
+                // but those parts should have cache-like nature, and should
+                // not be read from action handlers (!)
+                //
+                // awaiting mutator to:
+                // - catch errors from async mutators
+                // - allow parent action to await full dispatch of child action
                 await this._mutator(this._state, patch);
-            } catch (error) {
-                events.emit('mutation-fail', {error, patch});
-                throw error;
             }
+        } catch (error) {
+            events.emit('mutation-fail', {error, patch});
+            throw error;
+        }
 
-            events.emit('after-mutation', {patch, state: this._state});
+        events.emit('after-mutation', {patch, state: this._state});
 
-            return this._state;
-        });
+        return this._state;
     }
     
 }

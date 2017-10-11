@@ -11,7 +11,7 @@ import values from 'src/utils/get-map-values';
 
 describe('remove-association', () => {
     
-    it('should remove association from map', async () => {
+    it('should remove association from map', () => {
 
         // setup graph
         //
@@ -56,7 +56,7 @@ describe('remove-association', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -65,7 +65,7 @@ describe('remove-association', () => {
         expect(assocs[0].id).to.equal('live');
     });
 
-    it('should remove association from head idea', async () => {
+    it('should remove association from head idea', () => {
         
         // setup graph
         //
@@ -105,14 +105,14 @@ describe('remove-association', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const idea = state.model.mindmap.ideas.get('head');
         expect(idea.associationsOut).to.be.empty;
     });
 
-    it('should fail if association was not found', async () => {
+    it('should fail if association was not found', () => {
         
         // setup graph
         //
@@ -146,14 +146,14 @@ describe('remove-association', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Association 'die' was not found`);
     });
 
-    it('should fail if association has no head idea', async () => {
+    it('should fail if association has no head idea', () => {
         
         // setup graph
         //
@@ -193,14 +193,14 @@ describe('remove-association', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Association 'die' has no reference to head idea`);
     });
 
-    it('should fail if association has tail idea', async () => {
+    it('should fail if association has tail idea', () => {
         
         // setup graph
         //
@@ -241,15 +241,15 @@ describe('remove-association', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Association 'die' cannot be removed ` +
             `because it has reference to tail idea`);
     });
 
-    it('should fail if head idea has no association', async () => {
+    it('should fail if head idea has no association', () => {
         
         // setup graph
         //
@@ -289,10 +289,10 @@ describe('remove-association', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Head idea 'head' has no reference ` +
             `to outgoing association 'die'`);
     });

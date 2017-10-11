@@ -11,7 +11,7 @@ import values from 'src/utils/get-map-values';
 
 describe('add-association', () => {
     
-    it('should add association to map', async () => {
+    it('should add association to map', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -37,7 +37,7 @@ describe('add-association', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
         
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -49,7 +49,7 @@ describe('add-association', () => {
         });
     });
 
-    it('should set head idea to association', async () => {
+    it('should set head idea to association', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -74,7 +74,7 @@ describe('add-association', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -86,7 +86,7 @@ describe('add-association', () => {
         });
     });
 
-    it('should set tail idea to association', async () => {
+    it('should set tail idea to association', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -111,7 +111,7 @@ describe('add-association', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -123,7 +123,7 @@ describe('add-association', () => {
         });
     });
 
-    it('should set association to head idea as outgoing', async () => {
+    it('should set association to head idea as outgoing', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -148,7 +148,7 @@ describe('add-association', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -162,7 +162,7 @@ describe('add-association', () => {
         }]);
     });
 
-    it('should set association to tail idea as incoming', async () => {
+    it('should set association to tail idea as incoming', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -187,7 +187,7 @@ describe('add-association', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -202,7 +202,7 @@ describe('add-association', () => {
 
     });
 
-    it('should fail if head idea was not found', async () => {
+    it('should fail if head idea was not found', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -226,14 +226,14 @@ describe('add-association', () => {
             }});
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Head idea 'XXX' was not found for association`);
     });
 
-    it('should NOT fail if tail idea was not found', async () => {
+    it('should NOT fail if tail idea was not found', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -255,10 +255,10 @@ describe('add-association', () => {
             }});
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.not.be.rejectedWith();
+        expect(result).to.not.throw();
     });
 
 });

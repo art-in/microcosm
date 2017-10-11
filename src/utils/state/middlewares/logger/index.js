@@ -4,23 +4,11 @@ import log from './log';
 
 /**
  * Console logger middleware
- * @param {EventEmitter} events - store events
+ * @param {EventEmitter} events - dispatch events
  */
 export default function(events) {
 
-    // log entry is global for all events.
-    // here is a potential problem if several actions
-    // dispatched in parallel, their events can mix 
-    // and corrupt global log entry. bun since actions 
-    // executed sequentially this should work for now.
-    // take closer look when working on dispatching
-    // one action from another
     let entry = null;
-
-    const logEntry = entry => {
-        log(entry);
-        entry = null;
-    };
 
     events.on('before-dispatch', opts => {
         const {action, state} = required(opts);
@@ -39,7 +27,7 @@ export default function(events) {
         entry.dispatchFailed = true;
         entry.error = error;
         
-        logEntry(entry);
+        log(entry);
     });
 
     events.on('mutation-fail', opts => {
@@ -50,7 +38,7 @@ export default function(events) {
         entry.patch = patch;
         entry.error = error;
 
-        logEntry(entry);
+        log(entry);
     });
 
     events.on('after-mutation', opts => {
@@ -60,7 +48,7 @@ export default function(events) {
         entry.patch = patch;
         entry.nextState = state;
 
-        logEntry(entry);
+        log(entry);
     });
 
 }

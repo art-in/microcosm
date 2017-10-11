@@ -12,7 +12,7 @@ import getIdea from 'action/utils/get-idea';
  * @param {string} data.value
  * @return {Patch}
  */
-export default async function setIdeaValue(state, data) {
+export default function setIdeaValue(state, data) {
     const {model: {mindmap}} = state;
     const {ideaId, value} = required(data);
     

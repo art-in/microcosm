@@ -8,7 +8,7 @@ import Main from 'view/main/Main';
  * @param {object} state
  * @param {Patch} patch
  */
-export default async function mutate(state, patch) {
+export default function mutate(state, patch) {
     
     if ([...patch].some(m => !m.hasTarget('view'))) {
         // do not apply patch if some mutations

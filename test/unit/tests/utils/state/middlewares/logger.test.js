@@ -2,8 +2,9 @@ import {expect} from 'chai';
 import {stub} from 'sinon';
 import EventEmitter from 'events';
 
-import logger from 'utils/state/middlewares/logger';
-import Patch from 'utils/state/Patch';
+import Patch from 'src/utils/state/Patch';
+
+import logger from 'src/utils/state/middlewares/logger';
 
 // console style tag
 const S = '%c';
@@ -32,17 +33,17 @@ describe('logger', () => {
             console.groupEnd.reset();
     
             // setup
-            const storeEvents = new EventEmitter();
+            const dispatchEvents = new EventEmitter();
             
-            logger(storeEvents);
+            logger(dispatchEvents);
     
             const action = {type: 'my-action', data: 'A'};
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const nextState = {model: 'next model', vm: 'next vm'};
     
-            storeEvents.emit('before-dispatch', {action, state: prevState});
-            storeEvents.emit('after-mutation', {patch, state: nextState});
+            dispatchEvents.emit('before-dispatch', {action, state: prevState});
+            dispatchEvents.emit('after-mutation', {patch, state: nextState});
         });
 
         it('should make collapsed group', () => {
@@ -116,16 +117,16 @@ describe('logger', () => {
             console.groupEnd.reset();
     
             // setup
-            const storeEvents = new EventEmitter();
+            const dispatchEvents = new EventEmitter();
             
-            logger(storeEvents);
+            logger(dispatchEvents);
     
             const action = {type: 'my-action', data: 'A'};
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const error = new Error('boom');
     
-            storeEvents.emit('before-dispatch', {action, state: prevState});
-            storeEvents.emit('dispatch-fail', {error});
+            dispatchEvents.emit('before-dispatch', {action, state: prevState});
+            dispatchEvents.emit('dispatch-fail', {error});
         });
 
         it('should make collapsed group', () => {
@@ -188,17 +189,17 @@ describe('logger', () => {
             console.groupEnd.reset();
     
             // setup
-            const storeEvents = new EventEmitter();
+            const dispatchEvents = new EventEmitter();
             
-            logger(storeEvents);
+            logger(dispatchEvents);
     
             const action = {type: 'my-action', data: 'A'};
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const error = new Error('boom');
     
-            storeEvents.emit('before-dispatch', {action, state: prevState});
-            storeEvents.emit('mutation-fail', {error, patch});
+            dispatchEvents.emit('before-dispatch', {action, state: prevState});
+            dispatchEvents.emit('mutation-fail', {error, patch});
         });
 
         it('should make collapsed group', () => {

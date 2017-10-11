@@ -11,7 +11,7 @@ import values from 'src/utils/get-map-values';
 
 describe('remove-idea', () => {
     
-    it('should remove idea from ideas map', async () => {
+    it('should remove idea from ideas map', () => {
 
         // setup graph
         //
@@ -71,7 +71,7 @@ describe('remove-idea', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const ideas = values(state.model.mindmap.ideas);
@@ -83,7 +83,7 @@ describe('remove-idea', () => {
         ]);
     });
 
-    it('should remove idea from incoming associations', async () => {
+    it('should remove idea from incoming associations', () => {
 
         // setup graph
         //
@@ -143,7 +143,7 @@ describe('remove-idea', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const assocs = values(state.model.mindmap.associations);
@@ -163,7 +163,7 @@ describe('remove-idea', () => {
         }]);
     });
 
-    it('should fail if no incoming associations found', async () => {
+    it('should fail if no incoming associations found', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -183,14 +183,14 @@ describe('remove-idea', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `No incoming associations found for idea 'die'`);
     });
 
-    it('should NOT fail if no incoming associations for root', async () => {
+    it('should NOT fail if no incoming associations for root', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -208,9 +208,9 @@ describe('remove-idea', () => {
         });
 
         // target
-        const promise = mutate(state, patch);
+        const result = () => mutate(state, patch);
 
         // check
-        await expect(promise).to.not.be.rejectedWith();
+        expect(result).to.not.throw();
     });
 });

@@ -1,6 +1,7 @@
 describe('data', () => {
 
     require('./db');
-    require('./mutators');
+    
+    require('./mutators.test');
 
 });

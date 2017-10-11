@@ -1,5 +1,5 @@
 describe('view', () => {
 
-    require('./mutators');
+    require('./mutators.test');
 
 });

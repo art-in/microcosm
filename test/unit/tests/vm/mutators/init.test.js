@@ -8,7 +8,7 @@ import mutate from 'vm/mutators';
 
 describe('init', () => {
 
-    it('should init vm', async () => {
+    it('should init vm', () => {
 
         // setup
         const state = createState();
@@ -27,7 +27,7 @@ describe('init', () => {
         });
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(state.vm.main).to.exist;

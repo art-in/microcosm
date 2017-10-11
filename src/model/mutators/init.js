@@ -1,9 +1,5 @@
 import required from 'utils/required-params';
 
-import * as ideaDB from 'data/db/ideas';
-import * as assocDB from 'data/db/associations';
-import * as mindmapDB from 'data/db/mindmaps';
-
 import calcDepths from 'utils/graph/calc-depths';
 import buildGraph from 'model/utils/build-ideas-graph';
 
@@ -16,15 +12,11 @@ import buildGraph from 'model/utils/build-ideas-graph';
  * @param {PouchDB} data.associations
  * @param {PouchDB} data.mindmaps
  */
-export default async function init(state, data) {
+export default function init(state, data) {
     const {model} = state;
-    const {data: db} = required(data);
+    const {entities} = required(data);
+    const {ideas, associations, mindmaps} = required(entities);
     
-    // data
-    const ideas = await ideaDB.getAll(db.ideas);
-    const assocs = await assocDB.getAll(db.associations);
-    const mindmaps = await mindmapDB.getAll(db.mindmaps);
-
     if (mindmaps.length === 0) {
         throw Error('Mindmap database is empty');
     }
@@ -32,10 +24,10 @@ export default async function init(state, data) {
     // TDB: get first mindmap
     const mindmap = mindmaps[0];
 
-    mindmap.root = buildGraph(ideas, assocs);
+    mindmap.root = buildGraph(ideas, associations);
     mindmap.root = calcDepths(mindmap.root);
     
-    assocs.forEach(a => mindmap.associations.set(a.id, a));
+    associations.forEach(a => mindmap.associations.set(a.id, a));
     ideas.forEach(i => mindmap.ideas.set(i.id, i));
 
     model.mindmap = mindmap;

@@ -21,17 +21,16 @@ context.keys().forEach(modulePath => {
  * @param {object} state
  * @param {Patch} patch
  */
-export default async function mutate(state, patch) {
-    await Promise.all(patch.map(async function(mutation) {
+export default function mutate(state, patch) {
+    for (const mutation of patch) {
         if (mutation.hasTarget('vm')) {
             const {type, data} = mutation;
             if (mutators[type]) {
-                await mutators[type](state, data);
+                mutators[type](state, data);
             } else {
                 // TODO: do not apply default mutation several times
-                await defaultMutator(state, data);
+                defaultMutator(state, data);
             }
-            
         }
-    }));
+    }
 }

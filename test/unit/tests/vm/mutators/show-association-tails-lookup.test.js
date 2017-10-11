@@ -11,7 +11,7 @@ import mutate from 'src/vm/mutators';
 
 describe('show-association-tails-lookup', () => {
 
-    it('should show association tails lookup', async () => {
+    it('should show association tails lookup', () => {
         
         // setup state
         const graph = new Graph();
@@ -36,7 +36,7 @@ describe('show-association-tails-lookup', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {associationTailsLookup} = state.vm.main.mindmap.graph;
@@ -46,7 +46,7 @@ describe('show-association-tails-lookup', () => {
         expect(associationTailsLookup.onPhraseChangeAction).to.be.a('function');
     });
 
-    it('should set context menu to certain position', async () => {
+    it('should set context menu to certain position', () => {
         
         // setup state
         const graph = new Graph();
@@ -71,7 +71,7 @@ describe('show-association-tails-lookup', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         const {associationTailsLookup} = state.vm.main.mindmap.graph;
@@ -81,7 +81,7 @@ describe('show-association-tails-lookup', () => {
         });
     });
 
-    it(`should emit 'change' event on lookup`, async () => {
+    it(`should emit 'change' event on lookup`, () => {
         
         // setup state
         const onChange = spy();
@@ -108,7 +108,7 @@ describe('show-association-tails-lookup', () => {
             }});
 
         // target
-        await mutate(state, patch);
+        mutate(state, patch);
 
         // check
         expect(onChange.callCount).to.equal(1);
