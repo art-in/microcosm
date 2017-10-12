@@ -39,9 +39,10 @@ export default class Dispatcher {
      * @param {object} state
      * @param {object} action
      * @param {function} [storeDispatch]
+     * @param {function} [mutate]
      * @return {promise.<Patch>}
      */
-    async dispatch(state, action, storeDispatch) {
+    async dispatch(state, action, storeDispatch, mutate) {
         const {type} = required(action);
         const {data} = action;
 
@@ -52,16 +53,27 @@ export default class Dispatcher {
             throw Error(`Unknown action type '${type}'`);
         }
 
+        const validatedMutate = async patch => {
+            if (!(patch instanceof Patch)) {
+                throw Error(
+                    `Action handler should pass instance of a Patch ` +
+                    `as intermediate mutation, but passed '${patch}'`);
+            }
+
+            await mutate(patch);
+        };
+
         const patch = await actionHandler.handler(
             state,
             data,
-            storeDispatch
+            storeDispatch,
+            validatedMutate
         );
 
         if (patch !== undefined && !(patch instanceof Patch)) {
             throw Error(
                 `Action handler should return undefined or ` +
-                `instance of Patch, but returned '${patch}'`);
+                `instance of a Patch, but returned '${patch}'`);
         }
 
         return patch || new Patch();

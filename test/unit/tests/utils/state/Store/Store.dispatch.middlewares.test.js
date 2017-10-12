@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {spy} from 'sinon';
+import clone from 'clone';
 
 import Store from 'utils/state/Store';
 import Dispatcher from 'utils/state/Dispatcher';
@@ -12,24 +13,36 @@ describe('middlewares', () => {
         // setup
         const dispatcher = new Dispatcher();
         dispatcher.reg('action',
-            () => new Patch({type: 'mutation', data: 'data'}));
+            () => new Patch({type: 'mutation'}));
 
-        const state = {counter: 1};
-        const mutator = state => state.counter = 2;
-
+        // setup middlewares
         const onBeforeDispatch1 = spy();
-        const onAfterMutate1 = spy();
+        const onAfterDispatch1 = spy();
+        const onBeforeMutation1 = spy();
+        const onAfterMutation1 = spy();
+
         const middleware1 = storeEvents => {
             storeEvents.on('before-dispatch', onBeforeDispatch1);
-            storeEvents.on('after-mutation', onAfterMutate1);
+            storeEvents.on('after-dispatch', onAfterDispatch1);
+            storeEvents.on('before-mutation', onBeforeMutation1);
+            storeEvents.on('after-mutation', onAfterMutation1);
         };
 
         const onBeforeDispatch2 = spy();
-        const onAfterMutate2 = spy();
+        const onAfterDispatch2 = spy();
+        const onBeforeMutation2 = spy();
+        const onAfterMutation2 = spy();
+
         const middleware2 = storeEvents => {
             storeEvents.on('before-dispatch', onBeforeDispatch2);
-            storeEvents.on('after-mutation', onAfterMutate2);
+            storeEvents.on('after-dispatch', onAfterDispatch2);
+            storeEvents.on('before-mutation', onBeforeMutation2);
+            storeEvents.on('after-mutation', onAfterMutation2);
         };
+
+        // setup store
+        const state = {};
+        const mutator = () => {};
 
         const store = new Store(
             dispatcher,
@@ -40,18 +53,22 @@ describe('middlewares', () => {
             ]);
 
         // target
-        await store.dispatch({type: 'action', data: 'data'});
+        await store.dispatch({type: 'action'});
 
         // check
         expect(onBeforeDispatch1.callCount).to.equal(1);
-        expect(onAfterMutate1.callCount).to.equal(1);
+        expect(onAfterDispatch1.callCount).to.equal(1);
+        expect(onBeforeMutation1.callCount).to.equal(1);
+        expect(onAfterMutation1.callCount).to.equal(1);
 
         expect(onBeforeDispatch2.callCount).to.equal(1);
-        expect(onAfterMutate2.callCount).to.equal(1);
+        expect(onAfterDispatch2.callCount).to.equal(1);
+        expect(onBeforeMutation2.callCount).to.equal(1);
+        expect(onAfterMutation2.callCount).to.equal(1);
     });
 
-    it('should create separate instances for each dispatch', async () => {
-        
+    it('should create new instances of middlewares', async () => {
+    
         // setup
         const seq = [];
 
@@ -65,11 +82,10 @@ describe('middlewares', () => {
             () => new Patch({type: 'child mutation'}));
 
         const mutator = () => {};
-
         const state = {};
 
+        // setup middleware
         const inst = [];
-
         const middleware = spy(events => {
 
             const instNumber = inst.length;
@@ -77,19 +93,16 @@ describe('middlewares', () => {
 
             const instance = {
                 onBeforeDispatch: spy(() => log('onBeforeDispatch')),
-                onDispatchFail: spy(() => log('onDispatchFail')),
-                onMutationFail: spy(() => log('onMutationFail')),
-                onAfterMutation: spy(() => log('onAfterMutation'))
+                onAfterDispatch: spy(() => log('onAfterDispatch'))
             };
 
             events.on('before-dispatch', instance.onBeforeDispatch);
-            events.on('dispatch-fail', instance.onDispatchFail);
-            events.on('mutation-fail', instance.onMutationFail);
-            events.on('after-mutation', instance.onAfterMutation);
+            events.on('after-dispatch', instance.onAfterDispatch);
 
             inst.push(instance);
         });
 
+        // setup store
         const store = new Store(
             disp,
             mutator,
@@ -105,34 +118,9 @@ describe('middlewares', () => {
         expect(seq).to.deep.equal([
             'instance 0: onBeforeDispatch',
             'instance 1: onBeforeDispatch',
-            'instance 1: onAfterMutation',
-            'instance 0: onAfterMutation'
+            'instance 1: onAfterDispatch',
+            'instance 0: onAfterDispatch'
         ]);
-
-        // parent dispatch
-        expect(inst[0].onBeforeDispatch.callCount).to.equal(1);
-        expect(inst[0].onDispatchFail.callCount).to.equal(0);
-        expect(inst[0].onMutationFail.callCount).to.equal(0);
-        expect(inst[0].onAfterMutation.callCount).to.equal(1);
-
-        const firstAction = inst[0].onBeforeDispatch.firstCall.args[0].action;
-        const firstPatch = inst[0].onAfterMutation.firstCall.args[0].patch;
-
-        expect(firstAction.type).to.equal('parent action');
-        expect(firstPatch.length).to.equal(0);
-        
-        // child dispatch
-        expect(inst[1].onBeforeDispatch.callCount).to.equal(1);
-        expect(inst[1].onDispatchFail.callCount).to.equal(0);
-        expect(inst[1].onMutationFail.callCount).to.equal(0);
-        expect(inst[1].onAfterMutation.callCount).to.equal(1);
-
-        const secondAction = inst[1].onBeforeDispatch.firstCall.args[0].action;
-        const secondPatch = inst[1].onAfterMutation.firstCall.args[0].patch;
-
-        expect(secondAction.type).to.equal('child action');
-        expect(secondPatch.length).to.equal(1);
-        expect(secondPatch[0].type).to.equal('child mutation');
     });
 
     it(`should emit 'before-dispatch' event`, async () => {
@@ -145,10 +133,14 @@ describe('middlewares', () => {
         const state = {counter: 1};
         const mutator = () => ({counter: 2});
 
+        // setup middleware
         const onBeforeDispatch = spy();
         const middleware = storeEvents =>
-            storeEvents.on('before-dispatch', onBeforeDispatch);
+            storeEvents.on('before-dispatch', (...args) =>
+                // clone to catch the state at this moment
+                onBeforeDispatch(...clone(args)));
 
+        // setup store
         const store = new Store(
             dispatcher,
             mutator,
@@ -165,7 +157,7 @@ describe('middlewares', () => {
         const args = onBeforeDispatch.firstCall.args;
         expect(args).to.have.length(1);
 
-        // action
+        // check action
         expect(args[0]).to.deep.equal({
             action: {
                 type: 'action',
@@ -177,7 +169,7 @@ describe('middlewares', () => {
         });
     });
 
-    it(`should emit 'after-mutation' event`, async () => {
+    it(`should emit 'after-dispatch' event`, async () => {
         
         // setup
         const dispatcher = new Dispatcher();
@@ -187,10 +179,104 @@ describe('middlewares', () => {
         const state = {counter: 1};
         const mutator = state => state.counter++;
 
+        // setup middleware
+        const onAfterDispatch = spy();
+        const middleware = storeEvents =>
+            storeEvents.on('after-dispatch', (...args) =>
+                // clone to catch the state at this moment
+                onAfterDispatch(...clone(args)));
+
+        // setup store
+        const store = new Store(
+            dispatcher,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action', data: 'data'});
+
+        // check
+        expect(onAfterDispatch.callCount).to.equal(1);
+
+        const args = onAfterDispatch.firstCall.args;
+        expect(args).to.have.length(1);
+
+        // check patch
+        expect(args[0]).to.deep.equal({
+            state: {
+                counter: 2
+            }
+        });
+    });
+
+    it(`should emit 'before-mutation' for resulting mutation`, async () => {
+        
+        // setup
+        const dispatcher = new Dispatcher();
+        dispatcher.reg('action',
+            () => new Patch({type: 'mutation', data: 'data'}));
+
+        const state = {counter: 1};
+        const mutator = state => state.counter++;
+
+        // setup middleware
+        const onBeforeMutation = spy();
+        const middleware = storeEvents =>
+            storeEvents.on('before-mutation', (...args) =>
+                // clone to catch the state at this moment
+                onBeforeMutation(...clone(args)));
+        
+        // setup store
+        const store = new Store(
+            dispatcher,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action', data: 'data'});
+
+        // check
+        expect(onBeforeMutation.callCount).to.equal(1);
+
+        const args = onBeforeMutation.firstCall.args;
+        expect(args).to.have.length(1);
+
+        // check patch
+        expect(args[0]).to.containSubset({
+            patch: {
+                mutations: [{
+                    type: 'mutation',
+                    data: 'data'
+                }]
+            },
+            state: {
+                counter: 1
+            }
+        });
+    });
+
+    it(`should emit 'after-mutation' for resulting mutation`, async () => {
+        
+        // setup
+        const dispatcher = new Dispatcher();
+        dispatcher.reg('action',
+            () => new Patch({type: 'mutation', data: 'data'}));
+
+        const state = {counter: 1};
+        const mutator = state => state.counter++;
+
+        // setup middleware
         const onAfterMutate = spy();
         const middleware = storeEvents =>
-            storeEvents.on('after-mutation', onAfterMutate);
+            storeEvents.on('after-mutation', (...args) =>
+                // clone to catch the state at this moment
+                onAfterMutate(...clone(args)));
 
+        // setup store
         const store = new Store(
             dispatcher,
             mutator,
@@ -207,16 +293,105 @@ describe('middlewares', () => {
         const args = onAfterMutate.firstCall.args;
         expect(args).to.have.length(1);
 
-        // patch
+        // check patch
         expect(args[0]).to.containSubset({
-            patch: {
-                mutations: [{
-                    data: 'data'
-                }]
-            },
             state: {
                 counter: 2
             }
+        });
+    });
+
+    it(`should emit 'before-mutation' for intermediate mutations`, async () => {
+        
+        // setup
+        const dispatcher = new Dispatcher();
+        dispatcher.reg('action', (_, __, ___, mutate) => {
+            mutate(new Patch({type: 'mutation'}));
+            mutate(new Patch({type: 'mutation'}));
+        });
+
+        const state = {counter: 0};
+        const mutator = state => state.counter++;
+
+        // setup middleware
+        const onBeforeMutation = spy();
+        const middleware = storeEvents =>
+            storeEvents.on('before-mutation', (...args) =>
+                // clone to catch the state at this moment
+                onBeforeMutation(...clone(args)));
+        
+        // setup store
+        const store = new Store(
+            dispatcher,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action'});
+
+        // check
+        expect(onBeforeMutation.callCount).to.equal(2);
+
+        const firstCallArgs = onBeforeMutation.firstCall.args[0];
+        const secondCallArgs = onBeforeMutation.secondCall.args[0];
+
+        // check calls
+        expect(firstCallArgs).to.containSubset({
+            patch: {mutations: [{type: 'mutation'}]},
+            state: {counter: 0}
+        });
+
+        expect(secondCallArgs).to.containSubset({
+            patch: {mutations: [{type: 'mutation'}]},
+            state: {counter: 1}
+        });
+    });
+
+    it(`should emit 'after-mutation' for intermediate mutations`, async () => {
+        
+        // setup
+        const dispatcher = new Dispatcher();
+        dispatcher.reg('action', (_, __, ___, mutate) => {
+            mutate(new Patch({type: 'mutation'}));
+            mutate(new Patch({type: 'mutation'}));
+        });
+
+        const state = {counter: 0};
+        const mutator = state => state.counter++;
+
+        // setup middleware
+        const onAfterMutation = spy();
+        const middleware = storeEvents =>
+            storeEvents.on('after-mutation', (...args) =>
+                // clone to catch the state at this moment
+                onAfterMutation(...clone(args)));
+        
+        // setup store
+        const store = new Store(
+            dispatcher,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action'});
+
+        // check
+        expect(onAfterMutation.callCount).to.equal(2);
+
+        const firstCallArgs = onAfterMutation.firstCall.args[0];
+        const secondCallArgs = onAfterMutation.secondCall.args[0];
+
+        // check calls
+        expect(firstCallArgs).to.containSubset({
+            state: {counter: 1}
+        });
+
+        expect(secondCallArgs).to.containSubset({
+            state: {counter: 2}
         });
     });
 
@@ -231,10 +406,12 @@ describe('middlewares', () => {
         const state = {counter: 1};
         const mutator = () => ({counter: 2});
 
+        // setup middleware
         const onDispatchFail = spy();
         const middleware = storeEvents =>
             storeEvents.on('dispatch-fail', onDispatchFail);
 
+        // setup store
         const store = new Store(
             dispatcher,
             mutator,
@@ -269,10 +446,12 @@ describe('middlewares', () => {
             throw Error('boom');
         };
 
+        // setup middleware
         const onMutationFail = spy();
         const middleware = storeEvents =>
             storeEvents.on('mutation-fail', onMutationFail);
 
+        // setup store
         const store = new Store(
             dispatcher,
             mutator,
@@ -290,14 +469,7 @@ describe('middlewares', () => {
         const args = onMutationFail.firstCall.args;
 
         expect(args).to.have.length(1);
-        expect(args[0]).to.containSubset({
-            error: {message: 'boom'},
-            patch: {
-                mutations: [{
-                    data: 'data'
-                }]
-            }
-        });
+        expect(args[0]).to.containSubset({error: {message: 'boom'}});
     });
 
 });

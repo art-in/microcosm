@@ -7,7 +7,7 @@ import Patch from 'utils/state/Patch';
 
 describe('child actions', () => {
 
-    it('should pass nested dispatch to allow child actions', async () => {
+    it(`should pass 'dispatch' function to action handlers`, async () => {
         
         // setup
         const dispatcher = new Dispatcher();

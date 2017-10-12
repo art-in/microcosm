@@ -42,8 +42,10 @@ describe('logger', () => {
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const nextState = {model: 'next model', vm: 'next vm'};
     
-            dispatchEvents.emit('before-dispatch', {action, state: prevState});
-            dispatchEvents.emit('after-mutation', {patch, state: nextState});
+            dispatchEvents.emit('before-dispatch', {state: prevState, action});
+            dispatchEvents.emit('before-mutation', {state: nextState, patch});
+            dispatchEvents.emit('after-mutation', {state: nextState});
+            dispatchEvents.emit('after-dispatch', {state: nextState});
         });
 
         it('should make collapsed group', () => {
@@ -125,7 +127,7 @@ describe('logger', () => {
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const error = new Error('boom');
     
-            dispatchEvents.emit('before-dispatch', {action, state: prevState});
+            dispatchEvents.emit('before-dispatch', {state: prevState, action});
             dispatchEvents.emit('dispatch-fail', {error});
         });
 
@@ -197,9 +199,10 @@ describe('logger', () => {
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const error = new Error('boom');
-    
-            dispatchEvents.emit('before-dispatch', {action, state: prevState});
-            dispatchEvents.emit('mutation-fail', {error, patch});
+
+            dispatchEvents.emit('before-dispatch', {state: prevState, action});
+            dispatchEvents.emit('before-mutation', {state: prevState, patch});
+            dispatchEvents.emit('mutation-fail', {error});
         });
 
         it('should make collapsed group', () => {

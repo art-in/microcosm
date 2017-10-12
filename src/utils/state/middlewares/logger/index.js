@@ -1,4 +1,6 @@
 import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
+
 import LogEntry from './LogEntry';
 import log from './log';
 
@@ -11,13 +13,30 @@ export default function(events) {
     let entry = null;
 
     events.on('before-dispatch', opts => {
-        const {action, state} = required(opts);
+        const {state, action} = required(opts);
 
         entry = new LogEntry();
 
-        entry.action = action;
         entry.prevState = state;
+        entry.action = action;
         entry.perf.start = Date.now();
+    });
+
+    events.on('before-mutation', opts => {
+        const {patch} = required(opts);
+
+        entry.patch = entry.patch ?
+            Patch.combine(entry.patch, patch) :
+            patch;
+    });
+
+    events.on('after-dispatch', opts => {
+        const {state} = required(opts);
+
+        entry.perf.end = Date.now();
+        entry.nextState = state;
+
+        log(entry);
     });
 
     events.on('dispatch-fail', opts => {
@@ -31,22 +50,11 @@ export default function(events) {
     });
 
     events.on('mutation-fail', opts => {
-        const {error, patch} = required(opts);
+        const {error} = required(opts);
         
         entry.perf.end = Date.now();
         entry.mutationFailed = true;
-        entry.patch = patch;
         entry.error = error;
-
-        log(entry);
-    });
-
-    events.on('after-mutation', opts => {
-        const {patch, state} = required(opts);
-
-        entry.perf.end = Date.now();
-        entry.patch = patch;
-        entry.nextState = state;
 
         log(entry);
     });

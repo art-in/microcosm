@@ -44,15 +44,13 @@ export default class Patch {
 
     /**
      * Constructor
-     * @param {object} args
+     * @param {array.<Mutation>|Mutation} [mutations]
      */
-    constructor(...args) {
-        if (args.length) {
-
-            const mutations = args[0];
+    constructor(mutations) {
+        if (mutations) {
             if (!Array.isArray(mutations)) {
                 // single mutation
-                this.push(args[0]);
+                this.push(mutations);
             } else {
                 // multiple mutations
                 mutations.forEach(m => this.push(m));
@@ -118,8 +116,11 @@ export default class Patch {
      * @param {array.<Patch>} patches
      * @return {Patch}
      */
-    static combine(...patches) {
+    static combine(...args) {
         
+        // flatten arrays
+        let patches = args.reduce((res, a) => res.concat(a), []);
+
         patches = patches.filter(p => p !== undefined);
 
         assert(patches.every(p => p instanceof Patch),

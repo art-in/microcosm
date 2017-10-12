@@ -205,6 +205,23 @@ describe('Patch', () => {
 
             // check
             expect(result).to.have.length(2);
+            expect(result['mutation 1']).to.exist;
+            expect(result['mutation 2']).to.exist;
+        });
+
+        it('should combine array of mutations to single patch', () => {
+            
+            // setup
+            const patch1 = new Patch({type: 'mutation 1', data: 'data 1'});
+            const patch2 = new Patch({type: 'mutation 2', data: 'data 2'});
+
+            // target
+            const result = Patch.combine([patch1, patch2]);
+
+            // check
+            expect(result).to.have.length(2);
+            expect(result['mutation 1']).to.exist;
+            expect(result['mutation 2']).to.exist;
         });
 
     });

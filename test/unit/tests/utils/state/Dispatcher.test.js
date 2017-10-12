@@ -39,21 +39,24 @@ describe('Dispatcher', () => {
             disp.reg('action 2', handler2);
 
             // target
-            disp.dispatch({state: 1}, {
-                type: 'action 1',
-                data: 'data'
-            }, function storeDispatch() {});
+            disp.dispatch(
+                {state: 1},
+                {type: 'action 1', data: 'data'},
+                function storeDispatch() {},
+                function mutate() {});
 
             // check
             expect(handler1.callCount).to.equal(1);
             const call = handler1.getCall(0);
             
-            expect(call.args).to.have.length(3);
+            expect(call.args).to.have.length(4);
 
             expect(call.args[0]).to.deep.equal({state: 1});
             expect(call.args[1]).to.deep.equal('data');
             expect(call.args[2]).to.be.a('function');
             expect(call.args[2].name).to.equal('storeDispatch');
+            expect(call.args[3]).to.be.a('function');
+            expect(call.args[3].name).to.equal('validatedMutate');
 
             expect(handler2.callCount).to.equal(0);
         });
@@ -81,6 +84,85 @@ describe('Dispatcher', () => {
             expect(patch).to.have.length(1);
             expect(patch['mutation']).to.exist;
             expect(patch['mutation'][0].data).to.equal('data');
+        });
+
+        it('should allow to test intermediate mutations', async () => {
+            
+            // setup
+            const disp = new Dispatcher();
+            
+            disp.reg('action', async (state, data, dispatch, mutate) => {
+    
+                await mutate(new Patch({
+                    type: 'intermediate mutation 1',
+                    data: 1
+                }));
+    
+                await mutate(new Patch([{
+                    type: 'intermediate mutation 2',
+                    data: 2
+                }, {
+                    type: 'intermediate mutation 3',
+                    data: 3
+                }]));
+    
+                return new Patch({
+                    type: 'resulting mutation',
+                    data: 4
+                });
+            });
+    
+            const state = null;
+            const dispatch = null;
+    
+            const mutate = spy();
+            
+            // target
+            const resPatch = await disp.dispatch(
+                state,
+                {type: 'action'},
+                dispatch,
+                mutate
+            );
+    
+            // check
+            // gather all patches (intermediate + resulting)
+            const patches = mutate.getCalls()
+                .map(c => c.args[0])
+                .concat(resPatch);
+            
+            // check patches count
+            expect(patches).to.have.length(3);
+    
+            // check each individual patches
+            expect(patches[0]).to.have.length(1);
+            expect(patches[1]).to.have.length(2);
+            expect(patches[2]).to.have.length(1);
+    
+            // combine mutations to single patch,
+            // since it easier to test mutations from single patch
+            const patch = Patch.combine(patches);
+    
+            // check mutations count
+            expect(patch).to.have.length(4);
+    
+            // check mutations order
+            expect(patch[0].type).to.equal('intermediate mutation 1');
+            expect(patch[1].type).to.equal('intermediate mutation 2');
+            expect(patch[2].type).to.equal('intermediate mutation 3');
+            expect(patch[3].type).to.equal('resulting mutation');
+    
+            // check mutations existance
+            expect(patch['intermediate mutation 1']).to.exist;
+            expect(patch['intermediate mutation 2']).to.exist;
+            expect(patch['intermediate mutation 3']).to.exist;
+            expect(patch['resulting mutation']).to.exist;
+    
+            // check mutations data
+            expect(patch['intermediate mutation 1'][0].data).to.equal(1);
+            expect(patch['intermediate mutation 2'][0].data).to.equal(2);
+            expect(patch['intermediate mutation 3'][0].data).to.equal(3);
+            expect(patch['resulting mutation'][0].data).to.equal(4);
         });
 
         it('should fail if unknown action', async () => {
@@ -114,7 +196,26 @@ describe('Dispatcher', () => {
             // check
             await expect(promise).to.be.rejectedWith(
                 `Action handler should return undefined or ` +
-                `instance of Patch, but returned 'WRONG VALUE'`);
+                `instance of a Patch, but returned 'WRONG VALUE'`);
+        });
+
+        it('should fail if action handler passes invalid patch ' +
+            'to intermediate mutation', async () => {
+            
+            // setup
+            const disp = new Dispatcher();
+
+            disp.reg('action', (state, data) => 'WRONG VALUE');
+
+            // target
+            const promise = disp.dispatch({}, {
+                type: 'action'
+            });
+
+            // check
+            await expect(promise).to.be.rejectedWith(
+                `Action handler should return undefined or ` +
+                `instance of a Patch, but returned 'WRONG VALUE'`);
         });
 
     });

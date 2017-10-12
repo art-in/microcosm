@@ -10,6 +10,8 @@ describe('.dispatch()', () => {
 
     require('./Store.dispatch.child-actions.test');
 
+    require('./Store.dispatch.intermediate-mutations.test');
+
     require('./Store.dispatch.middlewares.test');
 
     require('./Store.dispatch.race-conditions.test');
@@ -113,18 +115,13 @@ describe('.dispatch()', () => {
 
         const dispatcher = new Dispatcher();
         
-        dispatcher.reg('action 1',
-            () => new Patch({type: 'mutation 1'}));
-        dispatcher.reg('action 2',
-            () => new Patch({type: 'mutation 2'}));
+        dispatcher.reg('action',
+            () => new Patch({type: 'mutation'}));
 
         const mutator = (state, patch) => {
             for (const mutation of patch) {
                 switch (mutation.type) {
-                case 'mutation 1':
-                    state.counter++;
-                    break;
-                case 'mutation 2':
+                case 'mutation':
                     state.counter++;
                     break;
                 }
@@ -134,15 +131,10 @@ describe('.dispatch()', () => {
         const store = new Store(dispatcher, mutator, state);
 
         // target
-        const promise1 = store.dispatch({type: 'action 1'});
-        const promise2 = store.dispatch({type: 'action 2'});
+        await store.dispatch({type: 'action'});
 
         // check
-        const state1 = await promise1;
-        expect(state1).to.deep.equal({counter: 1});
-
-        const state2 = await promise2;
-        expect(state2).to.deep.equal({counter: 2});
+        expect(state).to.deep.equal({counter: 1});
     });
 
 });
