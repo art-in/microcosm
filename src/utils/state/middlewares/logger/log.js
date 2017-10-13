@@ -28,8 +28,8 @@ export default function(entry) {
     
     let failSource;
     
-    if (entry.dispatchFailed) {
-        failSource = `dispatch`;
+    if (entry.handlerFailed) {
+        failSource = `handler`;
     }
     
     if (entry.mutationFailed) {
@@ -57,14 +57,14 @@ export default function(entry) {
         color.red + font.bold,
         entry.action);
 
-    if (!entry.dispatchFailed) {
+    if (!entry.handlerFailed) {
         console.log(
             S + 'patch'.padEnd(20),
             color.blue + font.bold,
             entry.patch);
     }
     
-    if (!entry.dispatchFailed && !entry.mutationFailed) {
+    if (!entry.handlerFailed && !entry.mutationFailed) {
         console.log(
             S + 'next state'.padEnd(20),
             color.green + font.bold,

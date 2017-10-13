@@ -6,8 +6,8 @@ import Association from 'src/model/entities/Association';
 
 import LookupSuggestion from 'vm/shared/LookupSuggestion';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('search-association-tails-for-lookup', () => {
 
@@ -33,7 +33,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -72,7 +72,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -122,7 +122,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -171,7 +171,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -210,7 +210,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -248,7 +248,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: '#FOUND#',

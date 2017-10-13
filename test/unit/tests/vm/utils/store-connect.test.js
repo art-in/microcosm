@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import EventedViewModel from 'src/vm/utils/EventedViewModel';
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 
 import {connect} from 'src/vm/utils/store-connect';
 
@@ -16,7 +16,7 @@ describe('store-connect', () => {
         it('should dispatch container actions on vm events', async () => {
 
             // setup
-            const store = new Store(new Dispatcher(), mutator);
+            const store = new Store(new Handler(), mutator);
             const dispatch = store.dispatch = sinon.spy();
 
             // eslint-disable-next-line require-jsdoc
@@ -58,8 +58,8 @@ describe('store-connect', () => {
         it('should connect to store on vm instantiation', () => {
 
             // setup
-            const store1 = new Store(new Dispatcher(), mutator);
-            const store2 = new Store(new Dispatcher(), mutator);
+            const store1 = new Store(new Handler(), mutator);
+            const store2 = new Store(new Handler(), mutator);
 
             const dispatch1 = store1.dispatch = sinon.spy();
             const dispatch2 = store2.dispatch = sinon.spy();
@@ -89,7 +89,7 @@ describe('store-connect', () => {
         it('should connect all vm instances to single store', async () => {
 
             // setup
-            const store = new Store(new Dispatcher(), mutator);
+            const store = new Store(new Handler(), mutator);
             const dispatch = store.dispatch = sinon.spy();
 
             // eslint-disable-next-line require-jsdoc
@@ -117,8 +117,8 @@ describe('store-connect', () => {
         it('should allow to connect diff-t stores to diff-t instances', () => {
 
             // setup
-            const store1 = new Store(new Dispatcher(), mutator);
-            const store2 = new Store(new Dispatcher(), mutator);
+            const store1 = new Store(new Handler(), mutator);
+            const store2 = new Store(new Handler(), mutator);
 
             const dispatch1 = store1.dispatch = sinon.spy();
             const dispatch2 = store2.dispatch = sinon.spy();

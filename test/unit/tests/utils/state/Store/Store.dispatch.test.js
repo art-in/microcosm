@@ -3,7 +3,7 @@ import {spy, stub} from 'sinon';
 import {createState, timer} from 'test/utils';
 
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 import Patch from 'utils/state/Patch';
 
 describe('.dispatch()', () => {
@@ -16,25 +16,25 @@ describe('.dispatch()', () => {
 
     require('./Store.dispatch.race-conditions.test');
     
-    it('should call dispatcher', async () => {
+    it('should call handler', async () => {
 
         // setup
-        const dispatcher = new Dispatcher();
-        const dispatch = dispatcher.dispatch = spy(dispatcher.dispatch);
+        const handler = new Handler();
+        const handle = handler.handle = spy(handler.handle);
 
-        dispatcher.reg('action', () => {});
+        handler.reg('action', () => {});
 
         const state = createState();
         const mutator = () => state;
 
-        const store = new Store(dispatcher, mutator, state);
+        const store = new Store(handler, mutator, state);
 
         // target
         await store.dispatch({type: 'action', data: 'data'});
 
         // check
-        expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.containSubset([
+        expect(handle.callCount).to.equal(1);
+        expect(handle.firstCall.args).to.containSubset([
             state,
             {type: 'action', data: 'data'}
         ]);
@@ -43,15 +43,15 @@ describe('.dispatch()', () => {
     it('should call mutator', async () => {
 
         // setup
-        const dispatcher = new Dispatcher();
+        const handler = new Handler();
         const patch = new Patch({type: 'mutation', data: 'data'});
-        dispatcher.reg('action', () => patch);
+        handler.reg('action', () => patch);
 
         const state = createState();
         const mutator = stub();
         mutator.returns(state);
 
-        const store = new Store(dispatcher, mutator, state);
+        const store = new Store(handler, mutator, state);
 
         // target
         await store.dispatch({type: 'action', data: 'data'});
@@ -72,12 +72,12 @@ describe('.dispatch()', () => {
 
             let state = {counter: 0};
 
-            const dispatcher = new Dispatcher();
+            const handler = new Handler();
             
-            dispatcher.reg('action', async () => {
-                seq.push('start dispatch action');
+            handler.reg('action', async () => {
+                seq.push('start handle action');
                 await timer(0);
-                seq.push('end dispatch action');
+                seq.push('end handle action');
                 return new Patch({type: 'mutation'});
             });
 
@@ -93,7 +93,7 @@ describe('.dispatch()', () => {
                 }
             };
 
-            const store = new Store(dispatcher, mutator, state);
+            const store = new Store(handler, mutator, state);
 
             // target
             state = await store.dispatch({type: 'action'});
@@ -102,8 +102,8 @@ describe('.dispatch()', () => {
             expect(state.counter).to.equal(1);
 
             expect(seq).to.deep.equal([
-                'start dispatch action',
-                'end dispatch action',
+                'start handle action',
+                'end handle action',
                 'apply mutation'
             ]);
         });
@@ -113,9 +113,9 @@ describe('.dispatch()', () => {
         // setup
         const state = {counter: 0};
 
-        const dispatcher = new Dispatcher();
+        const handler = new Handler();
         
-        dispatcher.reg('action',
+        handler.reg('action',
             () => new Patch({type: 'mutation'}));
 
         const mutator = (state, patch) => {
@@ -128,7 +128,7 @@ describe('.dispatch()', () => {
             }
         };
 
-        const store = new Store(dispatcher, mutator, state);
+        const store = new Store(handler, mutator, state);
 
         // target
         await store.dispatch({type: 'action'});

@@ -7,10 +7,10 @@ import nextTask from 'utils/next-task';
 export default class Store {
 
     /**
-     * The dispatcher.
-     * @type {Dispatcher}
+     * The action handler
+     * @type {Handler}
      */
-    _actionHandler;
+    _handler;
 
     /**
      * The mutator
@@ -19,8 +19,8 @@ export default class Store {
     _mutator;
 
     /**
-     * The state.
-     * Warning: no one should ever touch it from outside.
+     * The state
+     * Warning: no one should ever touch it from outside
      */
     _state = {};
 
@@ -31,14 +31,14 @@ export default class Store {
 
     /**
      * Constructor
-     * @param {Dispatcher} dispatcher
+     * @param {Handler} handler
      * @param {function} mutator
      * @param {object} [initialState]
      * @param {array} [middlewares]
      */
-    constructor(dispatcher, mutator, initialState = {}, middlewares = []) {
+    constructor(handler, mutator, initialState = {}, middlewares = []) {
 
-        this._actionHandler = dispatcher;
+        this._handler = handler;
         this._mutator = mutator;
         this._state = initialState;
         this._middlewares = middlewares;
@@ -125,7 +125,7 @@ export default class Store {
 
                 // postpond awaiting async mutation before emitting
                 // after-mutation event. otherwise when calling
-                // series of sync mutators from same task, we come
+                // series of sync mutations from same task, we come
                 // here in next microtask - after they all applied.
                 // but we need to catch intermediate states between
                 // those mutations for middleware event.
@@ -143,19 +143,19 @@ export default class Store {
 
         events.emit('before-dispatch', {state, action});
         
-        // dispatch
+        // handle action
         let patch;
         try {
-            // pass mutator to allow intermediate mutations
-            patch = await this._actionHandler
-                .dispatch(
+            // pass mutator func to allow intermediate mutations
+            patch = await this._handler
+                .handle(
                     state,
                     action,
                     dispatch,
                     mutate);
         
         } catch (error) {
-            events.emit('dispatch-fail', {error});
+            events.emit('handler-fail', {error});
             throw error;
         }
 

@@ -2,21 +2,21 @@ import {expect} from 'test/utils';
 import {spy} from 'sinon';
 
 import Patch from 'utils/state/Patch';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 
-describe('Dispatcher', () => {
+describe('Handler', () => {
 
     describe('.reg()', () => {
 
-        it('should fail if action already has handler', () => {
+        it('should fail if action already has registered handler', () => {
 
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
-            disp.reg('action', () => {});
+            handler.reg('action', () => {});
 
             // target
-            const target = () => disp.reg('action', () => {});
+            const target = () => handler.reg('action', () => {});
 
             // check
             expect(target).to.throw(
@@ -25,24 +25,24 @@ describe('Dispatcher', () => {
 
     });
 
-    describe('.dispatch()', () => {
+    describe('.handle()', () => {
 
-        it('should call dispatchers', () => {
+        it('should call handlers', () => {
 
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
             const handler1 = spy();
             const handler2 = spy();
 
-            disp.reg('action 1', handler1);
-            disp.reg('action 2', handler2);
+            handler.reg('action 1', handler1);
+            handler.reg('action 2', handler2);
 
             // target
-            disp.dispatch(
+            handler.handle(
                 {state: 1},
                 {type: 'action 1', data: 'data'},
-                function storeDispatch() {},
+                function dispatch() {},
                 function mutate() {});
 
             // check
@@ -54,7 +54,7 @@ describe('Dispatcher', () => {
             expect(call.args[0]).to.deep.equal({state: 1});
             expect(call.args[1]).to.deep.equal('data');
             expect(call.args[2]).to.be.a('function');
-            expect(call.args[2].name).to.equal('storeDispatch');
+            expect(call.args[2].name).to.equal('dispatch');
             expect(call.args[3]).to.be.a('function');
             expect(call.args[3].name).to.equal('validatedMutate');
 
@@ -64,9 +64,9 @@ describe('Dispatcher', () => {
         it('should return patch', async () => {
 
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
-            disp.reg('action', (state, data) => {
+            handler.reg('action', (state, data) => {
                 return new Patch({
                     type: 'mutation',
                     data
@@ -74,7 +74,7 @@ describe('Dispatcher', () => {
             });
 
             // target
-            const patch = await disp.dispatch({state: 1}, {
+            const patch = await handler.handle({state: 1}, {
                 type: 'action',
                 data: 'data'
             });
@@ -89,9 +89,9 @@ describe('Dispatcher', () => {
         it('should allow to test intermediate mutations', async () => {
             
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
             
-            disp.reg('action', async (state, data, dispatch, mutate) => {
+            handler.reg('action', async (state, data, dispatch, mutate) => {
     
                 await mutate(new Patch({
                     type: 'intermediate mutation 1',
@@ -118,7 +118,7 @@ describe('Dispatcher', () => {
             const mutate = spy();
             
             // target
-            const resPatch = await disp.dispatch(
+            const resPatch = await handler.handle(
                 state,
                 {type: 'action'},
                 dispatch,
@@ -168,10 +168,10 @@ describe('Dispatcher', () => {
         it('should fail if unknown action', async () => {
 
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
             // target
-            const promise = disp.dispatch({}, {
+            const promise = handler.handle({}, {
                 type: 'action',
                 data: {}
             });
@@ -184,12 +184,12 @@ describe('Dispatcher', () => {
         it('should fail if action handler returns invalid patch', async () => {
             
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
-            disp.reg('action', (state, data) => 'WRONG VALUE');
+            handler.reg('action', (state, data) => 'WRONG VALUE');
 
             // target
-            const promise = disp.dispatch({}, {
+            const promise = handler.handle({}, {
                 type: 'action'
             });
 
@@ -203,12 +203,12 @@ describe('Dispatcher', () => {
             'to intermediate mutation', async () => {
             
             // setup
-            const disp = new Dispatcher();
+            const handler = new Handler();
 
-            disp.reg('action', (state, data) => 'WRONG VALUE');
+            handler.reg('action', (state, data) => 'WRONG VALUE');
 
             // target
-            const promise = disp.dispatch({}, {
+            const promise = handler.handle({}, {
                 type: 'action'
             });
 
@@ -225,23 +225,23 @@ describe('Dispatcher', () => {
         it('should combine handlers', () => {
 
             // setup
-            const disp1 = new Dispatcher();
-            const disp2 = new Dispatcher();
+            const handler1 = new Handler();
+            const handler2 = new Handler();
 
-            const handler1 = spy();
-            const handler2 = spy();
+            const handlerFunc1 = spy();
+            const handlerFunc2 = spy();
 
-            disp1.reg('action 1', handler1);
-            disp2.reg('action 2', handler2);
+            handler1.reg('action 1', handlerFunc1);
+            handler2.reg('action 2', handlerFunc2);
 
             // target
-            const result = Dispatcher.combine(disp1, disp2);
+            const result = Handler.combine(handler1, handler2);
 
             // check
-            result.dispatch(null, {type: 'action 2'});
+            result.handle(null, {type: 'action 2'});
 
-            expect(handler1.callCount).to.equal(0);
-            expect(handler2.callCount).to.equal(1);
+            expect(handlerFunc1.callCount).to.equal(0);
+            expect(handlerFunc2.callCount).to.equal(1);
         });
 
     });

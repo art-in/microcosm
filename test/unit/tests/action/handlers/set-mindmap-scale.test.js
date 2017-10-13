@@ -2,8 +2,8 @@ import {expect} from 'test/utils';
 
 import Mindmap from 'src/model/entities/Mindmap';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('set-mindmap-scale', () => {
     
@@ -18,7 +18,7 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',
@@ -48,7 +48,7 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',
@@ -82,7 +82,7 @@ describe('set-mindmap-scale', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'set-mindmap-scale',
             data: {
                 mindmapId: 'id',

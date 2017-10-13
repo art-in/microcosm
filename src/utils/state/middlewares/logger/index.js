@@ -39,11 +39,11 @@ export default function(events) {
         log(entry);
     });
 
-    events.on('dispatch-fail', opts => {
+    events.on('handler-fail', opts => {
         const {error} = required(opts);
         
         entry.perf.end = Date.now();
-        entry.dispatchFailed = true;
+        entry.handlerFailed = true;
         entry.error = error;
         
         log(entry);

@@ -9,8 +9,8 @@ import * as ideaDB from 'src/data/db/ideas';
 import * as assocDB from 'src/data/db/associations';
 import * as mindmapDB from 'src/data/db/mindmaps';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('init', () => {
 
@@ -35,7 +35,7 @@ describe('init', () => {
         await assocDB.add(db.associations, new Association({id: 'assoc 2'}));
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'init',
             data: {
                 db,
@@ -66,7 +66,7 @@ describe('init', () => {
         const state = {};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'init',
             data: {
                 db: {
@@ -92,7 +92,7 @@ describe('init', () => {
         const state = {};
         
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'init',
             data: {
                 db: {

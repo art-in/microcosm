@@ -109,7 +109,7 @@ describe('logger', () => {
 
     });
 
-    describe('logging action failed on dispatch', () => {
+    describe('logging action failed on handler', () => {
 
         beforeEach(() => {
             
@@ -128,7 +128,7 @@ describe('logger', () => {
             const error = new Error('boom');
     
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
-            dispatchEvents.emit('dispatch-fail', {error});
+            dispatchEvents.emit('handler-fail', {error});
         });
 
         it('should make collapsed group', () => {
@@ -149,7 +149,7 @@ describe('logger', () => {
 
         it('should log fail source', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
-                RegExp(`${S} \\[failed on dispatch\\]`));
+                RegExp(`${S} \\[failed on handler\\]`));
         });
 
         it('should log prev state', () => {

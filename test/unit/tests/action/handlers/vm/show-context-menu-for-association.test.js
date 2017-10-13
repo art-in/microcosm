@@ -7,8 +7,8 @@ import Association from 'src/model/entities/Association';
 import Point from 'src/vm/shared/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('show-context-menu-for-association', () => {
 
@@ -21,7 +21,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -52,7 +52,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(100, 200),
@@ -85,7 +85,7 @@ describe('show-context-menu-for-association', () => {
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
 
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -118,7 +118,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -140,7 +140,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),

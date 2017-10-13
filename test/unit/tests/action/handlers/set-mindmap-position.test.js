@@ -2,8 +2,8 @@ import {expect} from 'test/utils';
 
 import Mindmap from 'src/model/entities/Mindmap';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('set-mindmap-position', () => {
     
@@ -19,7 +19,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
@@ -53,7 +53,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',

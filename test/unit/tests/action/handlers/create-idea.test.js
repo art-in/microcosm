@@ -4,8 +4,8 @@ import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('create-idea', () => {
     
@@ -18,7 +18,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {type: 'create-idea', data: {}});
+        const patch = await handle(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch).to.have.length(1);
@@ -41,7 +41,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
         });
@@ -71,7 +71,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
         });
@@ -94,7 +94,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {type: 'create-idea', data: {}});
+        const patch = await handle(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -111,7 +111,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'not exist'}
         });

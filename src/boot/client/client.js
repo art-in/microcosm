@@ -2,7 +2,7 @@ import PouchDB from 'pouchdb';
 
 import Store from 'utils/state/Store';
 
-import dispatcher from 'action/dispatcher';
+import handler from 'action/handler';
 import initialState from './initial-state';
 import logger from 'utils/state/middlewares/logger';
 import combine from 'utils/state/combine-mutators';
@@ -23,7 +23,7 @@ window.PouchDB = PouchDB;
 async function start() {
 
     const store = new Store(
-        dispatcher,
+        handler,
         combine([
             mutateData,
             mutateModel,

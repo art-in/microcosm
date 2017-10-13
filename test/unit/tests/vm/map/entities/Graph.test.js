@@ -2,7 +2,7 @@ import {spy} from 'sinon';
 import {expect} from 'test/utils';
 
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 import {connect} from 'src/vm/utils/store-connect';
 
 import Graph from 'src/vm/map/entities/Graph';
@@ -27,7 +27,7 @@ describe('Graph', () => {
     it(`should dispatch 'set-idea-value' action on node title change`, () => {
 
         // setup
-        const store = new Store(new Dispatcher(), mutator);
+        const store = new Store(new Handler(), mutator);
         const dispatch = store.dispatch = spy();
 
         connect.to(store);
@@ -53,7 +53,7 @@ describe('Graph', () => {
         `in association tails lookup`, async () => {
         
         // setup
-        const store = new Store(new Dispatcher(), mutator);
+        const store = new Store(new Handler(), mutator);
         const dispatch = store.dispatch = spy();
 
         connect.to(store);
@@ -88,7 +88,7 @@ describe('Graph', () => {
         `selected in association tails lookup`, async () => {
 
         // setup
-        const store = new Store(new Dispatcher(), mutator);
+        const store = new Store(new Handler(), mutator);
         const dispatch = store.dispatch = spy();
 
         connect.to(store);

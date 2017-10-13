@@ -3,24 +3,10 @@ import assert from 'assert';
 import Mutation from './Mutation';
 
 /**
- * Application state patch
- * Array(-like) container of mutations, which later can be applied to the state
- *
- * [
- *   {type: 'add-idea', data: {...}},            // first mutation
- *   {type: 'remove-association', data: {...}}   // second mutation
- * ]
- *
- * Why not just change state directly?
- * It helps to clean business logic from model/db dependencies.
- * This way BL is collection of self-contained pieces of work (FP style).
- * - easy to test
- * - easy to maintain, eg:
- * -- move BL to server side for rest-api
- * -- or log/debug/time-travel state mutations, etc.
- *
+ * Container of mutations, which later can be applied to the state
+ * 
  * Considered to extend Array, but due to difficulties
- * only provides subset of native Array func
+ * only provides subset of native Array funcs (push, map, forEach)
  * http://perfectionkills.com/
  * how-ecmascript-5-still-does-not-allow-to-subclass-an-array/
  * 

@@ -1,5 +1,5 @@
 /**
- * Single mutation which can be applied to application state
+ * Single mutation which can be applied to state
  */
 export default class Mutation {
 

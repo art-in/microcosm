@@ -1,14 +1,14 @@
 import {expect} from 'test/utils';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('show-color-picker-for-idea', () => {
 
     it('should show color picker', async () => {
 
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -24,7 +24,7 @@ describe('show-color-picker-for-idea', () => {
     it(`should set action getter`, async () => {
 
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -47,7 +47,7 @@ describe('show-color-picker-for-idea', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });

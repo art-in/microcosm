@@ -1,7 +1,7 @@
 import {expect, timer} from 'test/utils';
 
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 import Patch from 'utils/state/Patch';
 
 describe('intermediate mutations', () => {
@@ -9,7 +9,7 @@ describe('intermediate mutations', () => {
     it(`should pass 'mutate' function to action handlers`, async () => {
 
         // setup
-        const disp = new Dispatcher();
+        const disp = new Handler();
 
         disp.reg('action', (state, data, dispatch, mutate) => {
             // check
@@ -28,7 +28,7 @@ describe('intermediate mutations', () => {
             // setup
             const seq = [];
 
-            const disp = new Dispatcher();
+            const disp = new Handler();
             
             disp.reg('action', (state, data, dispatch, mutate) => {
                 seq.push('start handle action');
@@ -78,7 +78,7 @@ describe('intermediate mutations', () => {
             // setup
             const seq = [];
 
-            const disp = new Dispatcher();
+            const disp = new Handler();
             
             disp.reg('action', async (state, data, dispatch, mutate) => {
                 seq.push('start handle action');
@@ -129,7 +129,7 @@ describe('intermediate mutations', () => {
         // setup
         const seq = [];
 
-        const disp = new Dispatcher();
+        const disp = new Handler();
         
         disp.reg('action', async (state, data, dispatch, mutate) => {
             seq.push('start handle action');

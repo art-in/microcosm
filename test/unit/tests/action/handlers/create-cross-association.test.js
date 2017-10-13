@@ -4,8 +4,8 @@ import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('create-cross-association', () => {
 
@@ -24,7 +24,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -58,7 +58,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -86,7 +86,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -112,7 +112,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -140,7 +140,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -180,7 +180,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -221,7 +221,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'tail',
@@ -251,7 +251,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',

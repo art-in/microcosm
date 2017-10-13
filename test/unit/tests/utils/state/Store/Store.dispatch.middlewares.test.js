@@ -3,7 +3,7 @@ import {spy} from 'sinon';
 import clone from 'clone';
 
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 import Patch from 'utils/state/Patch';
 
 describe('middlewares', () => {
@@ -11,8 +11,8 @@ describe('middlewares', () => {
     it('should call multiple middlewares', async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation'}));
 
         // setup middlewares
@@ -45,7 +45,7 @@ describe('middlewares', () => {
         const mutator = () => {};
 
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware1,
@@ -72,7 +72,7 @@ describe('middlewares', () => {
         // setup
         const seq = [];
 
-        const disp = new Dispatcher();
+        const disp = new Handler();
 
         disp.reg('parent action',
             async (_, __, dispatch) =>
@@ -126,8 +126,8 @@ describe('middlewares', () => {
     it(`should emit 'before-dispatch' event`, async () => {
 
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
@@ -142,7 +142,7 @@ describe('middlewares', () => {
 
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -172,8 +172,8 @@ describe('middlewares', () => {
     it(`should emit 'after-dispatch' event`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
@@ -188,7 +188,7 @@ describe('middlewares', () => {
 
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -214,8 +214,8 @@ describe('middlewares', () => {
     it(`should emit 'before-mutation' for resulting mutation`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
@@ -230,7 +230,7 @@ describe('middlewares', () => {
         
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -262,8 +262,8 @@ describe('middlewares', () => {
     it(`should emit 'after-mutation' for resulting mutation`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
@@ -278,7 +278,7 @@ describe('middlewares', () => {
 
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -304,8 +304,8 @@ describe('middlewares', () => {
     it(`should emit 'before-mutation' for intermediate mutations`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action', (_, __, ___, mutate) => {
+        const handler = new Handler();
+        handler.reg('action', (_, __, ___, mutate) => {
             mutate(new Patch({type: 'mutation'}));
             mutate(new Patch({type: 'mutation'}));
         });
@@ -322,7 +322,7 @@ describe('middlewares', () => {
         
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -352,8 +352,8 @@ describe('middlewares', () => {
     it(`should emit 'after-mutation' for intermediate mutations`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action', (_, __, ___, mutate) => {
+        const handler = new Handler();
+        handler.reg('action', (_, __, ___, mutate) => {
             mutate(new Patch({type: 'mutation'}));
             mutate(new Patch({type: 'mutation'}));
         });
@@ -370,7 +370,7 @@ describe('middlewares', () => {
         
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -395,11 +395,11 @@ describe('middlewares', () => {
         });
     });
 
-    it(`should emit 'dispatch-fail' event when dispatch failed`, async () => {
+    it(`should emit 'handler-fail' event when handler failed`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action', () => {
+        const handler = new Handler();
+        handler.reg('action', () => {
             throw Error('boom');
         });
 
@@ -407,13 +407,13 @@ describe('middlewares', () => {
         const mutator = () => ({counter: 2});
 
         // setup middleware
-        const onDispatchFail = spy();
+        const onHandlerFail = spy();
         const middleware = storeEvents =>
-            storeEvents.on('dispatch-fail', onDispatchFail);
+            storeEvents.on('handler-fail', onHandlerFail);
 
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware
@@ -425,8 +425,8 @@ describe('middlewares', () => {
         // check
         await expect(promise).to.be.rejectedWith('boom');
 
-        expect(onDispatchFail.callCount).to.equal(1);
-        const args = onDispatchFail.firstCall.args;
+        expect(onHandlerFail.callCount).to.equal(1);
+        const args = onHandlerFail.firstCall.args;
 
         expect(args).to.have.length(1);
         expect(args[0]).to.containSubset({
@@ -437,8 +437,8 @@ describe('middlewares', () => {
     it(`should emit 'mutation-fail' event when mutation failed`, async () => {
         
         // setup
-        const dispatcher = new Dispatcher();
-        dispatcher.reg('action',
+        const handler = new Handler();
+        handler.reg('action',
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
@@ -453,7 +453,7 @@ describe('middlewares', () => {
 
         // setup store
         const store = new Store(
-            dispatcher,
+            handler,
             mutator,
             state, [
                 middleware

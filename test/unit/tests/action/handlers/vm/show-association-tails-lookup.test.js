@@ -3,15 +3,15 @@ import {expect} from 'test/utils';
 import Point from 'src/vm/shared/Point';
 import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('show-association-tails-lookup', () => {
     
     it('should hide context menu', async () => {
 
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(0, 0),
@@ -26,7 +26,7 @@ describe('show-association-tails-lookup', () => {
     it('should show lookup in certain position', async () => {
         
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -47,7 +47,7 @@ describe('show-association-tails-lookup', () => {
     it(`should set on select 'create-cross-association' action`, async () => {
 
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -77,7 +77,7 @@ describe('show-association-tails-lookup', () => {
         `'search-association-tails-for-lookup' action`, async () => {
         
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -104,7 +104,7 @@ describe('show-association-tails-lookup', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),

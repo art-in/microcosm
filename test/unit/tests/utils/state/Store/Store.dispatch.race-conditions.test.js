@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {timer} from 'test/utils';
 
 import Store from 'utils/state/Store';
-import Dispatcher from 'utils/state/Dispatcher';
+import Handler from 'utils/state/Handler';
 import Patch from 'utils/state/Patch';
 
 describe('race conditions', () => {
@@ -12,10 +12,10 @@ describe('race conditions', () => {
         
             // setup
             const seq = [];
-            const dispatcher = new Dispatcher();
+            const handler = new Handler();
             
-            dispatcher.reg('increase counter', state => {
-                seq.push('dispatch action (create mutation)');
+            handler.reg('increase counter', state => {
+                seq.push('handle action (create mutation)');
                 return new Patch({
                     type: 'set counter',
                     data: {counter: state.counter + 1}
@@ -35,7 +35,7 @@ describe('race conditions', () => {
 
             const state = {counter: 0};
 
-            const store = new Store(dispatcher, mutator, state);
+            const store = new Store(handler, mutator, state);
 
             // target
             // start actions simultaneously
@@ -48,9 +48,9 @@ describe('race conditions', () => {
             expect(state.counter).to.equal(2);
 
             expect(seq).to.deep.equal([
-                'dispatch action (create mutation)',
+                'handle action (create mutation)',
                 'mutate state',
-                'dispatch action (create mutation)',
+                'handle action (create mutation)',
                 'mutate state'
             ]);
         });
@@ -60,12 +60,12 @@ describe('race conditions', () => {
         
             // setup
             const seq = [];
-            const dispatcher = new Dispatcher();
+            const handler = new Handler();
             
-            dispatcher.reg('increase counter', async state => {
-                seq.push('start dispatch action');
+            handler.reg('increase counter', async state => {
+                seq.push('start handle action');
                 await timer(0);
-                seq.push('end dispatch action (create mutation)');
+                seq.push('end handle action (create mutation)');
                 return new Patch({
                     type: 'set counter',
                     data: {counter: state.counter + 1}
@@ -85,7 +85,7 @@ describe('race conditions', () => {
 
             const state = {counter: 0};
 
-            const store = new Store(dispatcher, mutator, state);
+            const store = new Store(handler, mutator, state);
 
             // target
             // start both actions simultaneously
@@ -98,11 +98,11 @@ describe('race conditions', () => {
             expect(state.counter).to.equal(2);
 
             expect(seq).to.deep.equal([
-                'start dispatch action',
-                'start dispatch action',
-                'end dispatch action (create mutation)',
+                'start handle action',
+                'start handle action',
+                'end handle action (create mutation)',
                 'mutate state',
-                'end dispatch action (create mutation)',
+                'end handle action (create mutation)',
                 'mutate state'
             ]);
         });
@@ -111,12 +111,12 @@ describe('race conditions', () => {
         
         // setup
         const seq = [];
-        const dispatcher = new Dispatcher();
+        const handler = new Handler();
         
-        dispatcher.reg('increase counter', async state => {
-            seq.push('start dispatch action');
+        handler.reg('increase counter', async state => {
+            seq.push('start handle action');
             await timer(0);
-            seq.push('end dispatch action (create mutation)');
+            seq.push('end handle action (create mutation)');
             return new Patch({
                 type: 'set counter',
                 data: {counter: state.counter + 1}
@@ -138,7 +138,7 @@ describe('race conditions', () => {
 
         const state = {counter: 0};
 
-        const store = new Store(dispatcher, mutator, state);
+        const store = new Store(handler, mutator, state);
 
         // target
         // start both actions simultaneously
@@ -152,11 +152,11 @@ describe('race conditions', () => {
         expect(state.counter).to.equal(1);
 
         expect(seq).to.deep.equal([
-            'start dispatch action',
-            'start dispatch action',
-            'end dispatch action (create mutation)',
+            'start handle action',
+            'start handle action',
+            'end handle action (create mutation)',
             'start mutate state',
-            'end dispatch action (create mutation)', // state read before change
+            'end handle action (create mutation)', // state read before change
             'start mutate state',
             'end mutate state (change state)',
             'end mutate state (change state)'

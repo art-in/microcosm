@@ -46,7 +46,7 @@ let targetStore;
  *      static eventTypes = ['event']
  * }
  *
- * connect.to(new Store(new Dispatcher(), () => {}));
+ * connect.to(new Store(new Handler(), () => {}));
  *
  * const ConnectedVM = connect(dispatch => ({
  *      ['event 1']: data => dispatch({type: 'action 1', data}),

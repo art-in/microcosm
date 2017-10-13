@@ -4,8 +4,8 @@ import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('remove-idea', () => {
     
@@ -29,7 +29,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -84,7 +84,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -117,7 +117,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -150,7 +150,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await dispatch(state, {
+        const patch = await handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -196,7 +196,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -217,7 +217,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -235,7 +235,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'uknown'}
         });
@@ -256,7 +256,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = dispatch(state, {
+        const promise = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'root'}
         });

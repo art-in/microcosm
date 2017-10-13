@@ -4,6 +4,6 @@ describe('state', () => {
     require('./Store');
 
     require('./combine-mutators.test');
-    require('./Dispatcher.test');
+    require('./Handler.test');
     require('./Patch.test');
 });

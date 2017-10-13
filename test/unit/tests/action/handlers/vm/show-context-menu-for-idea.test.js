@@ -3,15 +3,15 @@ import {expect} from 'test/utils';
 import Point from 'src/vm/shared/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
 
-import dispatcher from 'src/action/dispatcher';
-const dispatch = dispatcher.dispatch.bind(dispatcher);
+import handler from 'src/action/handler';
+const handle = handler.handle.bind(handler);
 
 describe('show-context-menu-for-idea', () => {
 
     it('should show context menu with certain items', async () => {
 
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -39,7 +39,7 @@ describe('show-context-menu-for-idea', () => {
     it('should show context menu in certain position', async () => {
 
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -61,7 +61,7 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'create-idea' action`, async () => {
 
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -88,7 +88,7 @@ describe('show-context-menu-for-idea', () => {
         `'show-association-tails-lookup' action`, async () => {
         
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -115,7 +115,7 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'remove-idea' action`, async () => {
     
         // setup
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -141,7 +141,7 @@ describe('show-context-menu-for-idea', () => {
     it('should NOT show menu if target idea is shaded', async () => {
 
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -156,7 +156,7 @@ describe('show-context-menu-for-idea', () => {
     it('should target only vm and view state layers', async () => {
         
         // target
-        const patch = await dispatch(null, {
+        const patch = await handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),

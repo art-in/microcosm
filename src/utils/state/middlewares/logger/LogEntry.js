@@ -16,13 +16,13 @@ export default class LogEntry {
      */
     perf = {
         /**
-         * Time before processing action
+         * Time before dispatching action
          * @type {number} - unix epoch
          */
         start: undefined,
 
         /**
-         * Time after processing action
+         * Time after dispatching action
          * @type {number} - unix epoch
          */
         end: undefined
@@ -81,14 +81,14 @@ export default class LogEntry {
      * @type {boolean}
      */
     get failed() {
-        return this.dispatchFailed || this.mutationFailed;
+        return this.handlerFailed || this.mutationFailed;
     }
 
     /**
-     * Indicates dispatch failed
+     * Indicates handler failed
      * @type {boolean}
      */
-    dispatchFailed = false;
+    handlerFailed = false;
 
     /**
      * Indicates mutation failed
@@ -97,7 +97,7 @@ export default class LogEntry {
     mutationFailed = false;
 
     /**
-     * Error from dispatch or mutation if failed
+     * Error from handler or mutation if failed
      * @type {Error}
      */
     error = undefined;
