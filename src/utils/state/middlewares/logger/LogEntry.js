@@ -1,3 +1,4 @@
+import assert from 'assert';
 import clone from 'clone';
 
 /**
@@ -17,15 +18,24 @@ export default class LogEntry {
     perf = {
         /**
          * Time before dispatching action
-         * @type {number} - unix epoch
+         * @type {number} - milliseconds from time origin
          */
         start: undefined,
 
         /**
          * Time after dispatching action
-         * @type {number} - unix epoch
+         * @type {number} - milliseconds from time origin
          */
-        end: undefined
+        end: undefined,
+
+        /**
+         * Gets total duration of action dispatch
+         */
+        get duration() {
+            assert(this.start !== undefined, `Invalid start time`);
+            assert(this.end !== undefined, `Invalid end time`);
+            return Math.floor(this.end - this.start);
+        }
     };
 
     /**

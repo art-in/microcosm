@@ -41,7 +41,7 @@ export default function(entry) {
     console.groupCollapsed(
         S + `action ` +
         S + `${entry.action.type} ` +
-        S + `(${entry.perf.end - entry.perf.start} ms)` +
+        S + `(${entry.perf.duration} ms)` +
         S + (entry.failed ? ` [failed in ${failSource}]` : ''),
 
         (entry.failed ? color.red : color.gray) + font.normal,

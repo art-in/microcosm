@@ -19,7 +19,7 @@ export default function(events) {
 
         entry.prevState = state;
         entry.action = action;
-        entry.perf.start = Date.now();
+        entry.perf.start = performance.now();
     });
 
     events.on('before-mutation', opts => {
@@ -33,7 +33,7 @@ export default function(events) {
     events.on('after-dispatch', opts => {
         const {state} = required(opts);
 
-        entry.perf.end = Date.now();
+        entry.perf.end = performance.now();
         entry.nextState = state;
 
         log(entry);
@@ -42,7 +42,7 @@ export default function(events) {
     events.on('handler-fail', opts => {
         const {error} = required(opts);
         
-        entry.perf.end = Date.now();
+        entry.perf.end = performance.now();
         entry.handlerFailed = true;
         entry.error = error;
         
@@ -52,7 +52,7 @@ export default function(events) {
     events.on('mutation-fail', opts => {
         const {error} = required(opts);
         
-        entry.perf.end = Date.now();
+        entry.perf.end = performance.now();
         entry.mutationFailed = true;
         entry.error = error;
 

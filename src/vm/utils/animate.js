@@ -40,16 +40,16 @@ export default function animate(opts) {
 
     // animate
     const range = to - from;
-    const startTime = Date.now();
+    const startTime = performance.now();
     const endTime = startTime + duration;
     const stepDurations = [];
 
     const callNextStep = () => {
 
-        const beforeStep = Date.now();
+        const beforeStep = performance.now();
         scheduleAnimationStep(async () => {
 
-            const now = Date.now();
+            const now = performance.now();
             const timeElapsed = now - startTime;
             const timeRatio = timeElapsed / duration;
 
@@ -74,7 +74,7 @@ export default function animate(opts) {
 
             try {
                 await onStep(value);
-                const stepDuration = Date.now() - beforeStep;
+                const stepDuration = performance.now() - beforeStep;
                 stepDurations.push(stepDuration);
             } catch (e) {
                 reject(e);
