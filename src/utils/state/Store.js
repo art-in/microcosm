@@ -52,6 +52,8 @@ export default class Store {
      */
     async dispatch(action) {
 
+        // TODO: set performance marks for timeline debug
+
         // prevent race conditions
         // split dispatches between separate tasks, to ensure sync actions
         // (or async ones resolved immediately) are dispatched atomically,

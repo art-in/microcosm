@@ -5,5 +5,6 @@ describe('utils', () => {
 
     require('./AsyncTaskQueue.test');
     require('./required-params.test');
+    require('./update-object.test');
 
 });

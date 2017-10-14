@@ -1,4 +1,4 @@
-import {expect} from 'test/utils';
+import {expect, combinePatches} from 'test/utils';
 import {spy} from 'sinon';
 
 import Patch from 'utils/state/Patch';
@@ -141,7 +141,7 @@ describe('Handler', () => {
     
             // combine mutations to single patch,
             // since it easier to test mutations from single patch
-            const patch = Patch.combine(patches);
+            const patch = combinePatches(mutate, resPatch);
     
             // check mutations count
             expect(patch).to.have.length(4);

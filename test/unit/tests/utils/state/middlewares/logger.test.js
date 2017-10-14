@@ -109,7 +109,7 @@ describe('logger', () => {
 
     });
 
-    describe('logging action failed on handler', () => {
+    describe('logging action failed in handler', () => {
 
         beforeEach(() => {
             
@@ -149,7 +149,7 @@ describe('logger', () => {
 
         it('should log fail source', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
-                RegExp(`${S} \\[failed on handler\\]`));
+                RegExp(`${S} \\[failed in handler\\]`));
         });
 
         it('should log prev state', () => {
@@ -181,7 +181,7 @@ describe('logger', () => {
         });
     });
 
-    describe('logging action failed on mutation', () => {
+    describe('logging action failed in mutator', () => {
         
         beforeEach(() => {
             
@@ -223,7 +223,7 @@ describe('logger', () => {
 
         it('should log fail source', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
-                RegExp(`${S} \\[failed on mutation\\]`));
+                RegExp(`${S} \\[failed in mutator\\]`));
         });
 
         it('should log prev state', () => {

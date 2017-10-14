@@ -33,14 +33,16 @@ export default function(entry) {
     }
     
     if (entry.mutationFailed) {
-        failSource = `mutation`;
+        failSource = `mutator`;
     }
 
+    // TODO: gray out actions without patches
+    // TODO: show child actions
     console.groupCollapsed(
         S + `action ` +
         S + `${entry.action.type} ` +
         S + `(${entry.perf.end - entry.perf.start} ms)` +
-        S + (entry.failed ? ` [failed on ${failSource}]` : ''),
+        S + (entry.failed ? ` [failed in ${failSource}]` : ''),
 
         (entry.failed ? color.red : color.gray) + font.normal,
         (entry.failed ? color.red : color.black) + font.bold,

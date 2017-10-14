@@ -99,6 +99,14 @@ export default connect(dispatch => ({
         const {lookup, suggestion} = data;
         const action = lookup.onSelectAction({suggestion});
         dispatch(action);
-    }
+    },
+
+    ['wheel']: data => dispatch({
+        type: 'on-graph-wheel',
+        data: {
+            pos: data.pos,
+            up: data.up
+        }
+    })
 
 }))(VM);

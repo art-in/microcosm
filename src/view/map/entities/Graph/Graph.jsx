@@ -76,18 +76,15 @@ export default class Graph extends Component {
     }
 
     onWheel = e => {
-
-        const {graph} = this.props;
         const bodyMargin = getBodyMargin();
 
         const viewportX = e.clientX - bodyMargin.left;
         const viewportY = e.clientY - bodyMargin.top;
 
-        // convert viewport position to canvas position
-        const x = graph.viewbox.x + viewportX / graph.viewbox.scale;
-        const y = graph.viewbox.y + viewportY / graph.viewbox.scale;
-
-        this.props.graph.onWheel(e.deltaY <= 0, new Point(x, y));
+        this.props.graph.onWheel({
+            up: e.deltaY <= 0,
+            pos: new Point(viewportX, viewportY)
+        });
     }
 
     onNodeMouseDown = (node, e) => {

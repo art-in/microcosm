@@ -1,11 +1,8 @@
 import EventedViewModel from 'vm/utils/EventedViewModel';
 
-import Point from 'vm/shared/Point';
 import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
-
-import animate from 'vm/utils/animate';
 
 /**
  * Graph view model.
@@ -51,7 +48,9 @@ export default class Graph extends EventedViewModel {
 
         'association-tails-lookup-suggestion-selected',
 
-        'context-menu-item-selected'
+        'context-menu-item-selected',
+
+        'wheel'
     ]
     
     /**
@@ -101,6 +100,8 @@ export default class Graph extends EventedViewModel {
         scaleMin: 0.2,
         scaleMax: Infinity
     };
+
+    zoomInProgress = false;
 
     /**
      * Panning state
@@ -274,10 +275,10 @@ export default class Graph extends EventedViewModel {
     /**
      * Handles mouse wheel event
      * @param {boolean} up
-     * @param {Point} pos - target canvas point of mouse event
+     * @param {Point} pos - target viewport position of mouse event
      */
-    onWheel(up, pos) {
-        this.animateZoom(up, pos);
+    onWheel({up, pos}) {
+        this.emit('wheel', {up, pos});
     }
 
     /**
@@ -494,81 +495,6 @@ export default class Graph extends EventedViewModel {
             node.pos.x = pos.x;
             node.pos.y = pos.y;
         }
-
-        this.emit('change');
-    }
-
-    /**
-     * Animates zoom
-     * @param {bool} up 
-     * @param {Point} pos - target canvas point
-     */
-    async animateZoom(up, pos) {
-        
-        if (this.zoomInProgress || !this.canScaleMore(up)) {
-            return;
-        }
-
-        this.zoomInProgress = true;
-
-        const scaleStep = 0.5;
-        const targetScale = this.viewbox.scale +
-            ((up ? 1 : -1) * scaleStep * this.viewbox.scale);
-
-        await animate({
-            from: this.viewbox.scale,
-            to: targetScale,
-            duration: 250,
-
-            onStep: scale => {
-                this.zoom(scale, pos);
-            }
-        });
-
-        await this.emit('viewbox-scale-change', {
-            graphId: this.id,
-            scale: this.viewbox.scale,
-            pos: new Point(this.viewbox.x, this.viewbox.y)
-        });
-
-        this.zoomInProgress = false;
-    }
-
-    /**
-     * Changes scale of the graph
-     * @param {number} scale - target scale
-     * @param {Point} pos - target canvas point to zoom into/out from
-     */
-    zoom(scale, pos) {
-        const viewbox = this.viewbox;
-
-        if (!this.canScaleMore(scale > this.viewbox.scale)) {
-            // do not scale out of limits
-            return;
-        }
-
-        viewbox.scale = scale;
-
-        const {width: prevWidth, height: prevHeight} = viewbox;
-
-        this.recomputeViewboxSize();
-
-        // space that will be hidden/shown by zoom
-        const hiddenWidth = prevWidth - viewbox.width;
-        const hiddenHeight = prevHeight - viewbox.height;
-
-        // zoom position on viewbox (ie. not on canvas)
-        const viewboxX = pos.x - viewbox.x;
-        const viewboxY = pos.y - viewbox.y;
-
-        // how much of hidden/shown space we should use
-        // to shift viewbox depending on zoom position
-        const shiftFactorX = viewboxX / prevWidth;
-        const shiftFactorY = viewboxY / prevHeight;
-
-        // shift viewbox toward zoom position
-        viewbox.x += hiddenWidth * shiftFactorX;
-        viewbox.y += hiddenHeight * shiftFactorY;
 
         this.emit('change');
     }
