@@ -1,6 +1,4 @@
 import EventEmitter from 'events';
-import nextTask from 'utils/next-task';
-
 import perf from 'utils/perf';
 
 /**
@@ -56,25 +54,6 @@ export default class Store {
 
         const dispatchId = perf.startGroup(`🚀 ${action.type}`);
 
-        // prevent race conditions
-        // split dispatches between separate tasks, to ensure sync actions
-        // (or async ones resolved immediately) are dispatched atomically,
-        // in case several dispatches initiated from same task.
-        // ie. create-mutation-apply-mutation microtasks of two dispatches
-        // are not mixed up, 
-        //
-        // ⤷ [task: dispatch 1]
-        // ⤷ [microtask: create mutation (action handler)]
-        // ⤷ [microtask: apply mutation (mutator)]
-        // ---
-        // ⤷ [task: dispatch 2]
-        // ⤷ [microtask: create mutation (action handler)]
-        // ⤷ [microtask: apply mutation (mutator)]
-        // ---
-        // ⤷ etc...
-        //
-        await nextTask();
-
         // subscribe middlewares to dispatch events
         const events = new EventEmitter();
         this._middlewares.forEach(m => m(events));
@@ -103,7 +82,7 @@ export default class Store {
         // this applies only to dispatches which run concurrently.
         // while this is not the case for parent-child action relations.
         // because parent action can always await full dispatch process of
-        // child action, and then read state.
+        // child action, and then read the state.
         //
         // still some parts of state can have async interface (eg. database),
         // and so - async mutators is OK, but those async parts should have 
