@@ -1,6 +1,8 @@
 import EventEmitter from 'events';
 import nextTask from 'utils/next-task';
 
+import perf from 'utils/perf';
+
 /**
  * Application state container.
  */
@@ -52,7 +54,7 @@ export default class Store {
      */
     async dispatch(action) {
 
-        // TODO: set performance marks for timeline debug
+        const dispatchId = perf.startGroup(`🚀 ${action.type}`);
 
         // prevent race conditions
         // split dispatches between separate tasks, to ensure sync actions
@@ -113,7 +115,10 @@ export default class Store {
                 // mutation, eg. when sending only intermediate mutations
                 return;
             }
-            
+
+            const mutations = patch.map(m => m.type).join(', ');
+            const mutateId = perf.start(`❗ ${mutations}`, dispatchId);
+
             events.emit('before-mutation', {state, patch});
 
             try {
@@ -139,7 +144,10 @@ export default class Store {
 
             } catch (error) {
                 events.emit('mutation-fail', {error});
+                perf.endGroup(dispatchId);
                 throw error;
+            } finally {
+                perf.end(mutateId);
             }
         };
 
@@ -158,13 +166,16 @@ export default class Store {
         
         } catch (error) {
             events.emit('handler-fail', {error});
+            perf.endGroup(dispatchId);
             throw error;
         }
-
+        
         // apply resulting mutation
         await mutate(patch);
 
         events.emit('after-dispatch', {state});
+
+        perf.endGroup(dispatchId);
 
         return state;
     }
