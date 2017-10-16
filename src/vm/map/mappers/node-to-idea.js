@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import Node from 'vm/map/entities/Node';
 import Idea from 'model/entities/Idea';

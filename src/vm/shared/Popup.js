@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import Point from 'vm/shared/Point';
 import EventedViewModel from 'vm/utils/EventedViewModel';

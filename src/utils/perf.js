@@ -44,7 +44,7 @@
  * perf.endGroup(groupId)
  *  
  */
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import guid from 'utils/guid';
 

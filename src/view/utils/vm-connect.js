@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import assert from 'assert';
+import assert from 'utils/assert';
 import React, {Component} from 'react';
 
 /**

@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 import LogEntry from './LogEntry';
 
 // console style tag

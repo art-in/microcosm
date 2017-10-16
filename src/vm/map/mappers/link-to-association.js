@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import Link from 'vm/map/entities/Link';
 import Association from 'model/entities/Association';

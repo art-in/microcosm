@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 import toModel from 'data/mappers/dbo-to-idea';
 import toDbo from 'data/mappers/idea-to-dbo';
 

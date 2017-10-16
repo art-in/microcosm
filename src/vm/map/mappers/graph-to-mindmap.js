@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import GraphVM from 'vm/map/entities/Graph';
 import Mindmap from 'model/entities/Mindmap';

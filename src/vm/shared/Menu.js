@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'utils/assert';
 
 import EventedViewModel from 'vm/utils/EventedViewModel';
 import MenuItem from 'vm/shared/MenuItem';
