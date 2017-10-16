@@ -10,8 +10,10 @@ export default function combineMutators(mutators) {
             return;
         }
     
-        for (const mutator of mutators) {
-            await mutator(state, patch);
-        }
+        // run all mutations concurrently, so sync mutators
+        // are not postponed by async ones, and will apply
+        // right away in current task
+        await Promise.all(
+            mutators.map(m => m(state, patch)));
     };
 }
