@@ -8,7 +8,7 @@ const handle = handler.handle.bind(handler);
 
 describe('set-idea-color', () => {
     
-    it('should set idea color', async () => {
+    it('should set idea color', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -20,7 +20,7 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-color',
             data: {
                 ideaId: 'id',
@@ -38,7 +38,7 @@ describe('set-idea-color', () => {
 
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -50,7 +50,7 @@ describe('set-idea-color', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-color',
             data: {
                 ideaId: 'id',

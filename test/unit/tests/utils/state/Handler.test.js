@@ -61,44 +61,19 @@ describe('Handler', () => {
             expect(handler2.callCount).to.equal(0);
         });
 
-        it('should return patch', async () => {
-
-            // setup
-            const handler = new Handler();
-
-            handler.reg('action', (state, data) => {
-                return new Patch({
-                    type: 'mutation',
-                    data
-                });
-            });
-
-            // target
-            const patch = await handler.handle({state: 1}, {
-                type: 'action',
-                data: 'data'
-            });
-
-            // check
-            expect(patch).to.be.instanceOf(Patch);
-            expect(patch).to.have.length(1);
-            expect(patch['mutation']).to.exist;
-            expect(patch['mutation'][0].data).to.equal('data');
-        });
-
-        it('should allow to test intermediate mutations', async () => {
+        it('should allow to test intermediate mutations', () => {
             
             // setup
             const handler = new Handler();
             
-            handler.reg('action', async (state, data, dispatch, mutate) => {
+            handler.reg('action', (state, data, dispatch, mutate) => {
     
-                await mutate(new Patch({
+                mutate(new Patch({
                     type: 'intermediate mutation 1',
                     data: 1
                 }));
     
-                await mutate(new Patch([{
+                mutate(new Patch([{
                     type: 'intermediate mutation 2',
                     data: 2
                 }, {
@@ -118,7 +93,7 @@ describe('Handler', () => {
             const mutate = spy();
             
             // target
-            const resPatch = await handler.handle(
+            const resPatch = handler.handle(
                 state,
                 {type: 'action'},
                 dispatch,
@@ -165,57 +140,155 @@ describe('Handler', () => {
             expect(patch['resulting mutation'][0].data).to.equal(4);
         });
 
-        it('should fail if unknown action', async () => {
+        it('should fail if unknown action', () => {
 
             // setup
             const handler = new Handler();
 
             // target
-            const promise = handler.handle({}, {
+            const result = () => handler.handle({}, {
                 type: 'action',
                 data: {}
             });
 
             // check
-            await expect(promise).to.be.rejectedWith(
+            expect(result).to.throw(
                 'Unknown action type \'action\'');
         });
 
-        it('should fail if action handler returns invalid patch', async () => {
-            
-            // setup
-            const handler = new Handler();
+        describe('sync action handlers', () => {
 
-            handler.reg('action', (state, data) => 'WRONG VALUE');
-
-            // target
-            const promise = handler.handle({}, {
-                type: 'action'
+            it('should return patch', () => {
+                
+                // setup
+                const handler = new Handler();
+    
+                handler.reg('action', (state, data) => {
+                    return new Patch({
+                        type: 'mutation',
+                        data
+                    });
+                });
+    
+                // target
+                const patch = handler.handle({state: 1}, {
+                    type: 'action',
+                    data: 'data'
+                });
+    
+                // check
+                expect(patch).to.be.instanceOf(Patch);
+                expect(patch).to.have.length(1);
+                expect(patch['mutation']).to.exist;
+                expect(patch['mutation'][0].data).to.equal('data');
             });
 
-            // check
-            await expect(promise).to.be.rejectedWith(
-                `Action handler should return undefined or ` +
-                `instance of a Patch, but returned 'WRONG VALUE'`);
+            it('should fail if handler returns invalid patch', () => {
+                
+                // setup
+                const handler = new Handler();
+    
+                handler.reg('action', (state, data) => 'WRONG VALUE');
+    
+                // target
+                const result = () => handler.handle({}, {
+                    type: 'action'
+                });
+    
+                // check
+                expect(result).to.throw(
+                    `Action handler should return undefined or ` +
+                    `instance of a Patch, but returned 'WRONG VALUE'`);
+            });
+    
+            it('should fail if handler passes invalid patch ' +
+                'to intermediate mutation', () => {
+                
+                // setup
+                const handler = new Handler();
+    
+                handler.reg('action', (state, data, dispatch, mutate) =>
+                    mutate('WRONG VALUE'));
+    
+                // target
+                const result = () => handler.handle({}, {
+                    type: 'action'
+                });
+    
+                // check
+                expect(result).to.throw(
+                    `Action handler should pass instance of a Patch ` +
+                    `as intermediate mutation, but passed 'WRONG VALUE'`);
+            });
+
         });
 
-        it('should fail if action handler passes invalid patch ' +
-            'to intermediate mutation', async () => {
-            
-            // setup
-            const handler = new Handler();
+        describe('async action handlers', () => {
 
-            handler.reg('action', (state, data) => 'WRONG VALUE');
-
-            // target
-            const promise = handler.handle({}, {
-                type: 'action'
+            it('should promise patch', async () => {
+                
+                // setup
+                const handler = new Handler();
+    
+                handler.reg('action', async (state, data) => {
+                    return new Patch({
+                        type: 'mutation',
+                        data
+                    });
+                });
+    
+                // target
+                const patch = await handler.handle({state: 1}, {
+                    type: 'action',
+                    data: 'data'
+                });
+    
+                // check
+                expect(patch).to.be.instanceOf(Patch);
+                expect(patch).to.have.length(1);
+                expect(patch['mutation']).to.exist;
+                expect(patch['mutation'][0].data).to.equal('data');
             });
 
-            // check
-            await expect(promise).to.be.rejectedWith(
-                `Action handler should return undefined or ` +
-                `instance of a Patch, but returned 'WRONG VALUE'`);
+            it('should fail if handler returns invalid patch', async () => {
+                
+                // setup
+                const handler = new Handler();
+    
+                handler.reg('action', async (state, data) => 'WRONG VALUE');
+    
+                // target
+                const promise = handler.handle({}, {
+                    type: 'action'
+                });
+    
+                // check
+                await expect(promise).to.be.rejectedWith(
+                    `Action handler should return undefined or ` +
+                    `instance of a Patch, but returned 'WRONG VALUE'`);
+            });
+
+            it('should fail if handler passes invalid patch ' +
+                'to intermediate mutation', async () => {
+                
+                // setup
+                const handler = new Handler();
+
+                handler.reg('action', async (state, data, dispatch, mutate) => {
+                    mutate('WRONG VALUE');
+                });
+
+                // target
+                const promise = handler.handle({}, {
+                    type: 'action'
+                });
+
+                // check
+                await expect(promise).to.be.rejectedWith(
+                    `Action handler should pass instance of a Patch ` +
+                    `as intermediate mutation, but passed 'WRONG VALUE'`);
+            });
+
         });
 
     });

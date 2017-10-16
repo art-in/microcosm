@@ -5,10 +5,10 @@ const handle = handler.handle.bind(handler);
 
 describe('show-color-picker-for-idea', () => {
 
-    it('should show color picker', async () => {
+    it('should show color picker', () => {
 
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -21,10 +21,10 @@ describe('show-color-picker-for-idea', () => {
         expect(data.onSelectAction).to.be.a('function');
     });
 
-    it(`should set action getter`, async () => {
+    it(`should set action getter`, () => {
 
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });
@@ -44,10 +44,10 @@ describe('show-color-picker-for-idea', () => {
 
     });
 
-    it('should target only vm and view state layers', async () => {
+    it('should target only vm and view state layers', () => {
         
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-color-picker-for-idea',
             data: {ideaId: 'idea'}
         });

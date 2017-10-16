@@ -8,7 +8,7 @@ const handle = handler.handle.bind(handler);
 
 describe('set-association-value', () => {
     
-    it('should set association value', async () => {
+    it('should set association value', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -21,7 +21,7 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-association-value',
             data: {
                 assocId: 'id',
@@ -39,7 +39,7 @@ describe('set-association-value', () => {
         });
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
        
         // setup
         const mindmap = new Mindmap();
@@ -52,7 +52,7 @@ describe('set-association-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-association-value',
             data: {
                 assocId: 'id',

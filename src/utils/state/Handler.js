@@ -59,9 +59,10 @@ export default class Handler {
      * @param {object} action
      * @param {function} [dispatch]
      * @param {function} [mutate]
-     * @return {promise.<Patch>}
+     * @return {promise.<Patch>|Patch} if target handler is async promise patch,
+     *                                 if target handler is sync - sync patch.
      */
-    async handle(state, action, dispatch, mutate) {
+    handle(state, action, dispatch, mutate) {
         const {type} = required(action);
         const {data} = action;
 
@@ -72,30 +73,39 @@ export default class Handler {
             throw Error(`Unknown action type '${type}'`);
         }
 
-        const validatedMutate = async patch => {
+        const validatedMutate = patch => {
             if (!(patch instanceof Patch)) {
                 throw Error(
                     `Action handler should pass instance of a Patch ` +
                     `as intermediate mutation, but passed '${patch}'`);
             }
 
-            await mutate(patch);
+            return mutate(patch);
         };
 
-        const patch = await handlerDescriptor.handler(
+        const res = handlerDescriptor.handler(
             state,
             data,
             dispatch,
             validatedMutate
         );
 
-        if (patch !== undefined && !(patch instanceof Patch)) {
-            throw Error(
-                `Action handler should return undefined or ` +
-                `instance of a Patch, but returned '${patch}'`);
-        }
+        const handleResult = patch => {
+            if (patch !== undefined && !(patch instanceof Patch)) {
+                throw Error(
+                    `Action handler should return undefined or ` +
+                    `instance of a Patch, but returned '${patch}'`);
+            }
 
-        return patch || new Patch();
+            return patch || new Patch();
+        };
+
+        // do not schedule microtask if handler is not async
+        if (res instanceof Promise) {
+            return res.then(handleResult);
+        } else {
+            return handleResult(res);
+        }
     }
 
     /**

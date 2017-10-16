@@ -9,7 +9,7 @@ const handle = handler.handle.bind(handler);
 
 describe('create-cross-association', () => {
 
-    it('should add association to mindmap', async () => {
+    it('should add association to mindmap', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -24,7 +24,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -43,7 +43,7 @@ describe('create-cross-association', () => {
         expect(data.assoc.toId).to.equal('tail');
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -58,7 +58,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -73,7 +73,7 @@ describe('create-cross-association', () => {
         expect(patch.hasTarget('view')).to.be.true;
     });
 
-    it('should fail if head ideas was not found', async () => {
+    it('should fail if head ideas was not found', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -86,7 +86,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -95,11 +95,11 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Head idea 'head' was not found for cross-association`);
     });
 
-    it('should fail if tail ideas was not found', async () => {
+    it('should fail if tail ideas was not found', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -112,7 +112,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -121,11 +121,11 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Tail idea 'tail' was not found for cross-association`);
     });
 
-    it('should fail if self-association', async () => {
+    it('should fail if self-association', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -140,7 +140,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -149,11 +149,11 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Unable to add self-association on idea 'head'`);
     });
 
-    it('should fail if duplicate association', async () => {
+    it('should fail if duplicate association', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -180,7 +180,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -189,12 +189,12 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Unable to create duplicate association ` +
             `between ideas 'head' and 'tail'`);
     });
 
-    it('should fail if association to parent', async () => {
+    it('should fail if association to parent', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -221,7 +221,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'tail',
@@ -230,12 +230,12 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Unable to create association from idea 'tail' ` +
             `to its parent idea 'head'`);
     });
 
-    it('should fail if association to root', async () => {
+    it('should fail if association to root', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -251,7 +251,7 @@ describe('create-cross-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-cross-association',
             data: {
                 headIdeaId: 'head',
@@ -260,7 +260,7 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Unable to create association from idea 'head' ` +
             `to root idea 'tail'`);
     });

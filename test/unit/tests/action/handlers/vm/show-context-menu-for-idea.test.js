@@ -8,10 +8,10 @@ const handle = handler.handle.bind(handler);
 
 describe('show-context-menu-for-idea', () => {
 
-    it('should show context menu with certain items', async () => {
+    it('should show context menu with certain items', () => {
 
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -36,10 +36,10 @@ describe('show-context-menu-for-idea', () => {
         }]);
     });
 
-    it('should show context menu in certain position', async () => {
+    it('should show context menu in certain position', () => {
 
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -58,10 +58,10 @@ describe('show-context-menu-for-idea', () => {
         });
     });
 
-    it(`should set item which creates 'create-idea' action`, async () => {
+    it(`should set item which creates 'create-idea' action`, () => {
 
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -85,10 +85,10 @@ describe('show-context-menu-for-idea', () => {
     });
 
     it(`should set item which creates ` +
-        `'show-association-tails-lookup' action`, async () => {
+        `'show-association-tails-lookup' action`, () => {
         
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -112,10 +112,10 @@ describe('show-context-menu-for-idea', () => {
         });
     });
 
-    it(`should set item which creates 'remove-idea' action`, async () => {
+    it(`should set item which creates 'remove-idea' action`, () => {
     
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(100, 200),
@@ -138,10 +138,10 @@ describe('show-context-menu-for-idea', () => {
         });
     });
 
-    it('should NOT show menu if target idea is shaded', async () => {
+    it('should NOT show menu if target idea is shaded', () => {
 
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),
@@ -153,10 +153,10 @@ describe('show-context-menu-for-idea', () => {
         expect(patch).to.have.length(0);
     });
 
-    it('should target only vm and view state layers', async () => {
+    it('should target only vm and view state layers', () => {
         
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point(0, 0),

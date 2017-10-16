@@ -137,4 +137,88 @@ describe('.dispatch()', () => {
         expect(state).to.deep.equal({counter: 1});
     });
 
+    it('should fail if async handler fails', async () => {
+        
+        // setup
+        const handler = new Handler();
+
+        handler.reg('action', async () => {
+            throw Error('boom');
+        });
+
+        const state = createState();
+        const mutator = () => state;
+
+        const store = new Store(handler, mutator, state);
+
+        // target
+        const promise = store.dispatch({type: 'action'});
+
+        // check
+        await expect(promise).to.be.rejectedWith('boom');
+    });
+
+    it('should fail if sync handler fails', async () => {
+        
+        // setup
+        const handler = new Handler();
+
+        handler.reg('action', () => {
+            throw Error('boom');
+        });
+
+        const state = createState();
+        const mutator = () => state;
+
+        const store = new Store(handler, mutator, state);
+
+        // target
+        const promise = store.dispatch({type: 'action'});
+
+        // check
+        await expect(promise).to.be.rejectedWith('boom');
+    });
+
+    it('should fail if async mutator fails', async () => {
+        
+        // setup
+        const handler = new Handler();
+
+        handler.reg('action', () => new Patch({type: 'mutation'}));
+
+        const state = createState();
+        const mutator = async () => {
+            throw Error('boom');
+        };
+
+        const store = new Store(handler, mutator, state);
+
+        // target
+        const promise = store.dispatch({type: 'action'});
+
+        // check
+        await expect(promise).to.be.rejectedWith('boom');
+    });
+
+    it('should fail if sync mutator fails', async () => {
+        
+        // setup
+        const handler = new Handler();
+        
+        handler.reg('action', () => new Patch({type: 'mutation'}));
+
+        const state = createState();
+        const mutator = () => {
+            throw Error('boom');
+        };
+
+        const store = new Store(handler, mutator, state);
+
+        // target
+        const promise = store.dispatch({type: 'action'});
+
+        // check
+        await expect(promise).to.be.rejectedWith('boom');
+    });
+
 });

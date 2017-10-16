@@ -8,7 +8,7 @@ const handle = handler.handle.bind(handler);
 
 describe('set-idea-value', () => {
     
-    it('should update idea value', async () => {
+    it('should update idea value', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -20,7 +20,7 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
@@ -37,7 +37,7 @@ describe('set-idea-value', () => {
         });
     });
 
-    it('should not mutate if same value', async () => {
+    it('should not mutate if same value', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -49,7 +49,7 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
@@ -61,7 +61,7 @@ describe('set-idea-value', () => {
         expect(patch).to.have.length(0);
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -73,7 +73,7 @@ describe('set-idea-value', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',

@@ -3,6 +3,44 @@ import perf from 'utils/perf';
 
 /**
  * Application state container.
+ * 
+ * Q: why sync mutators are better then async mutators?
+ * A: because async mutators can lead to race conditions.
+ * 
+ * Since mutation now divided into two phases, (1) create mutation 
+ * in action handler and (2) apply mutation in mutator,
+ * mutations are no longer atomic, and those phases can be executed
+ * in separate tasks/microtasks, which can mix with another actions.
+ * 
+ * eg. while awaiting async task inside process of applying patch,
+ * there can be executed async task of another action handler,
+ * which can read previous state (race condition).
+ * 
+ * although we can put handlers and mutators in same task queue
+ * to block handler from start until async mutators are fully
+ * done, but we cannot block them if handler is already running.
+ * 
+ * only confident way to avoid race conditions - is to make
+ * create-mutation-apply-mutation atomic (ie. to apply in the
+ * same task). and to do that mutators should be sync.
+ * 
+ * it ensures any action handler A, when reading state and 
+ * sending mutation (intermediate or resulting) basing on that state,
+ * that there is no other action handler B, which already produced
+ * patch to change part of the state that handler A is reading
+ * 
+ * still some parts of state can have async interface (eg. database),
+ * and so - async mutators are OK, but those async parts should have 
+ * cache-like nature, and should not be read from action handlers (!)
+ * 
+ * simple rules to avoid race conditions:
+ * 
+ * 1. if action handler dispatches action and after that reads
+ *    the state (eg. to create mutation or dispatch another action),
+ *    that dispatch should be awaited
+ * 2. if some part of the state is read from action handlers,
+ *    then mutator serving that part of the state should be sync
+ *   
  */
 export default class Store {
 
@@ -62,36 +100,13 @@ export default class Store {
 
         const state = this._state;
 
-        // mutate
-        // Q: why sync mutators are better then async mutators?
-        // A: because async mutators can lead to race conditions.
-        // ie. break atomicity of create-mutation-apply-mutation process
-        // 
-        // while awaiting async task inside process of applying patch,
-        // there can be executed async tasks of another action handlers,
-        // which can read previous state (race condition).
-        // although we can put handlers and mutators in same task queue
-        // to block handler from start until async mutators are fully
-        // done, but we cannot block them if handler is already running.
-        //
-        // this ensures any action handler A, when reading state
-        // in the last task before returning patch (after last await),
-        // there is no other action handler B, which already produced
-        // patch to change part of the state that handler A is reading
-        //
-        // this applies only to dispatches which run concurrently.
-        // while this is not the case for parent-child action relations.
-        // because parent action can always await full dispatch process of
-        // child action, and then read the state.
-        //
-        // still some parts of state can have async interface (eg. database),
-        // and so - async mutators is OK, but those async parts should have 
-        // cache-like nature, and should not be read from action handlers (!)
-        const mutate = async patch => {
+        // applies intermediate and resulting mutations
+        const mutate = patch => {
             if (patch.length === 0) {
                 // skip empty patches
                 // happens when action handler does not return resulting
-                // mutation, eg. when sending only intermediate mutations
+                // mutation, eg. when only sending intermediate mutations
+                // or dispatching child actions
                 return;
             }
 
@@ -100,33 +115,36 @@ export default class Store {
 
             events.emit('before-mutation', {state, patch});
 
-            try {
-                // awaiting mutator to:
-                // - catch errors from async mutations
-                // - allow parent action to await full dispatch of
-                //   child action (including async mutation)
-                const mutationResult = this._mutator(state, patch);
-
-                events.emit('after-mutation', {state});
-
-                // postpond awaiting async mutation before emitting
-                // after-mutation event. otherwise when calling
-                // series of sync mutations from same task, we come
-                // here in next microtask - after they all applied.
-                // but we need to catch intermediate states between
-                // those mutations for middleware event.
-                // note: await always schedules microtask, even if
-                // righthand is not a promise.
-                if (mutationResult instanceof Promise) {
-                    await mutationResult;
-                }
-
-            } catch (error) {
+            const onMutationError = error => {
                 events.emit('mutation-fail', {error});
-                perf.endGroup(dispatchId);
-                throw error;
-            } finally {
                 perf.end(mutateId);
+                throw error;
+            };
+
+            const onMutationSuccess = () => {
+                events.emit('after-mutation', {state});
+                perf.end(mutateId);
+            };
+
+            let mutationResult;
+            try {
+                mutationResult = this._mutator(state, patch);
+
+                // do not schedule microtask if mutator is not async
+                if (mutationResult instanceof Promise) {
+                    return mutationResult
+                        // async error
+                        .catch(onMutationError)
+                        // async success
+                        .then(onMutationSuccess);
+                } else {
+                    // sync success
+                    onMutationSuccess();
+                    return;
+                }
+            } catch (error) {
+                // sync error
+                onMutationError(error);
             }
         };
 
@@ -136,13 +154,20 @@ export default class Store {
         let patch;
         try {
             // pass mutator func to allow intermediate mutations
-            patch = await this._handler
+            const res = this._handler
                 .handle(
                     state,
                     action,
                     dispatch,
                     mutate);
         
+            // do not schedule microtask if handler is not async
+            if (res instanceof Promise) {
+                patch = await res;
+            } else {
+                patch = res;
+            }
+
         } catch (error) {
             events.emit('handler-fail', {error});
             perf.endGroup(dispatchId);
@@ -150,8 +175,18 @@ export default class Store {
         }
         
         // apply resulting mutation
-        await mutate(patch);
-
+        try {
+            const res = mutate(patch);
+            
+            // do not schedule microtask if mutator is not async
+            if (res instanceof Promise) {
+                await res;
+            }
+        } catch (error) {
+            perf.endGroup(dispatchId);
+            throw error;
+        }
+        
         events.emit('after-dispatch', {state});
 
         perf.endGroup(dispatchId);

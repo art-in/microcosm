@@ -11,7 +11,7 @@ const handle = handler.handle.bind(handler);
 
 describe('search-association-tails-for-lookup', () => {
 
-    it('should set suggestions to lookup', async () => {
+    it('should set suggestions to lookup', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -33,7 +33,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -51,7 +51,7 @@ describe('search-association-tails-for-lookup', () => {
         expect(data.suggestions[0].data).to.deep.equal({ideaId: 'tail'});
     });
 
-    it('should NOT set head idea', async () => {
+    it('should NOT set head idea', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -72,7 +72,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -89,7 +89,7 @@ describe('search-association-tails-for-lookup', () => {
         expect(data.suggestions[0].data.ideaId).to.equal('tail');
     });
 
-    it('should NOT set child ideas', async () => {
+    it('should NOT set child ideas', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -122,7 +122,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -138,7 +138,7 @@ describe('search-association-tails-for-lookup', () => {
         expect(data.suggestions).to.have.length(0);
     });
 
-    it('should NOT set parent ideas', async () => {
+    it('should NOT set parent ideas', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -171,7 +171,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -187,7 +187,7 @@ describe('search-association-tails-for-lookup', () => {
         expect(data.suggestions).to.have.length(0);
     });
 
-    it('should NOT set root idea', async () => {
+    it('should NOT set root idea', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -210,7 +210,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: 'idea',
@@ -226,7 +226,7 @@ describe('search-association-tails-for-lookup', () => {
         expect(data.suggestions).to.have.length(0);
     });
 
-    it('should target only vm and view state layers', async () => {
+    it('should target only vm and view state layers', () => {
         
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -248,7 +248,7 @@ describe('search-association-tails-for-lookup', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'search-association-tails-for-lookup',
             data: {
                 phrase: '#FOUND#',

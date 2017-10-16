@@ -7,7 +7,7 @@ const handle = handler.handle.bind(handler);
 
 describe('set-mindmap-position', () => {
     
-    it('should set mindmap position', async () => {
+    it('should set mindmap position', () => {
 
         // setup
         const mindmap = new Mindmap({
@@ -19,7 +19,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
@@ -41,7 +41,7 @@ describe('set-mindmap-position', () => {
 
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap({
@@ -53,7 +53,7 @@ describe('set-mindmap-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',

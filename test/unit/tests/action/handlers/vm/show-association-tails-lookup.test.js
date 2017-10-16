@@ -8,10 +8,10 @@ const handle = handler.handle.bind(handler);
 
 describe('show-association-tails-lookup', () => {
     
-    it('should hide context menu', async () => {
+    it('should hide context menu', () => {
 
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(0, 0),
@@ -23,10 +23,10 @@ describe('show-association-tails-lookup', () => {
         expect(patch[0].type).to.equal('hide-context-menu');
     });
 
-    it('should show lookup in certain position', async () => {
+    it('should show lookup in certain position', () => {
         
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -44,10 +44,10 @@ describe('show-association-tails-lookup', () => {
         });
     });
 
-    it(`should set on select 'create-cross-association' action`, async () => {
+    it(`should set on select 'create-cross-association' action`, () => {
 
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -74,10 +74,10 @@ describe('show-association-tails-lookup', () => {
     });
 
     it(`should set on phrase change ` +
-        `'search-association-tails-for-lookup' action`, async () => {
+        `'search-association-tails-for-lookup' action`, () => {
         
         // setup
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),
@@ -101,10 +101,10 @@ describe('show-association-tails-lookup', () => {
         });
     });
 
-    it('should target only vm and view state layers', async () => {
+    it('should target only vm and view state layers', () => {
         
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
                 pos: new Point(100, 200),

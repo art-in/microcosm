@@ -8,7 +8,7 @@ const handle = handler.handle.bind(handler);
 
 describe('set-idea-position', () => {
     
-    it('should set idea position', async () => {
+    it('should set idea position', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -21,7 +21,7 @@ describe('set-idea-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-position',
             data: {
                 ideaId: 'id',
@@ -43,7 +43,7 @@ describe('set-idea-position', () => {
 
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -56,7 +56,7 @@ describe('set-idea-position', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'set-idea-position',
             data: {
                 ideaId: 'id',

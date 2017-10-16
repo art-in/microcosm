@@ -9,7 +9,7 @@ const handle = handler.handle.bind(handler);
 
 describe('create-idea', () => {
     
-    it('should add idea to mindmap', async () => {
+    it('should add idea to mindmap', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -18,7 +18,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {type: 'create-idea', data: {}});
+        const patch = handle(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch).to.have.length(1);
@@ -31,7 +31,7 @@ describe('create-idea', () => {
         expect(data.idea.y).to.equal(0);
     });
 
-    it('should add association with parent idea', async () => {
+    it('should add association with parent idea', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -41,7 +41,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
         });
@@ -61,7 +61,7 @@ describe('create-idea', () => {
         expect(data.assoc.toId).to.be.ok;
     });
 
-    it('should set idea position from parent position', async () => {
+    it('should set idea position from parent position', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
@@ -71,7 +71,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'parent'}
         });
@@ -85,7 +85,7 @@ describe('create-idea', () => {
         expect(data.idea.y).to.be.equal(120);
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -94,7 +94,7 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {type: 'create-idea', data: {}});
+        const patch = handle(state, {type: 'create-idea', data: {}});
 
         // check
         expect(patch.hasTarget('data')).to.be.true;
@@ -103,7 +103,7 @@ describe('create-idea', () => {
         expect(patch.hasTarget('view')).to.be.true;
     });
 
-    it('should fail if parent idea not found', async () => {
+    it('should fail if parent idea not found', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -111,14 +111,14 @@ describe('create-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'create-idea',
             data: {parentIdeaId: 'not exist'}
         });
 
         // check
-        await expect(promise).to.be
-            .rejectedWith(`Idea with ID 'not exist' not found in mindmap`);
+        expect(result).to.throw(
+            `Idea with ID 'not exist' not found in mindmap`);
     });
 
 });

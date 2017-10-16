@@ -9,7 +9,7 @@ const handle = handler.handle.bind(handler);
 
 describe('remove-idea', () => {
     
-    it('should remove idea', async () => {
+    it('should remove idea', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -29,7 +29,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -41,7 +41,7 @@ describe('remove-idea', () => {
         expect(mutation.data).to.deep.equal({id: 'die'});
     });
 
-    it('should remove incoming associations', async () => {
+    it('should remove incoming associations', () => {
 
         // setup
         //
@@ -84,7 +84,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -97,7 +97,7 @@ describe('remove-idea', () => {
         expect(patch['remove-association'][1].data).to.deep.equal({id: 'b'});
     });
 
-    it('should remove idea before associations', async () => {
+    it('should remove idea before associations', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -117,7 +117,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -130,7 +130,7 @@ describe('remove-idea', () => {
         expect(mutations[1].type).to.equal('remove-association');
     });
 
-    it('should target all state layers', async () => {
+    it('should target all state layers', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -150,7 +150,7 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
@@ -162,7 +162,7 @@ describe('remove-idea', () => {
         expect(patch.hasTarget('view')).to.be.true;
     });
 
-    it('should fail if outgoing associations exist', async () => {
+    it('should fail if outgoing associations exist', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -196,17 +196,17 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `Unable to remove idea 'die' with outgoing associations`);
     });
 
-    it('should fail if no incoming associations found', async () => {
+    it('should fail if no incoming associations found', () => {
         
         // setup
         const mindmap = new Mindmap();
@@ -217,17 +217,17 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'die'}
         });
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             `No incoming associations found for idea 'die'`);
     });
 
-    it('should fail if idea not found', async () => {
+    it('should fail if idea not found', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -235,17 +235,17 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'uknown'}
         });
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             'Idea with ID \'uknown\' not found in mindmap');
     });
 
-    it('should fail if idea is root', async () => {
+    it('should fail if idea is root', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -256,13 +256,13 @@ describe('remove-idea', () => {
         const state = {model: {mindmap}};
 
         // target
-        const promise = handle(state, {
+        const result = () => handle(state, {
             type: 'remove-idea',
             data: {ideaId: 'root'}
         });
 
         // check
-        await expect(promise).to.be.rejectedWith(
+        expect(result).to.throw(
             'Unable to remove root idea');
     });
 

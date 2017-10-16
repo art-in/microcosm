@@ -12,7 +12,7 @@ const handle = handler.handle.bind(handler);
 
 describe('show-context-menu-for-association', () => {
 
-    it('should show context menu with certain items', async () => {
+    it('should show context menu with certain items', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
@@ -21,7 +21,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -43,7 +43,7 @@ describe('show-context-menu-for-association', () => {
         }]);
     });
 
-    it('should show context menu in certain position', async () => {
+    it('should show context menu in certain position', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
@@ -52,7 +52,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(100, 200),
@@ -73,7 +73,7 @@ describe('show-context-menu-for-association', () => {
     });
 
     it(`should set item which creates ` +
-        `'show-color-picker-for-idea' action`, async () => {
+        `'show-color-picker-for-idea' action`, () => {
 
         // setup
         const tailIdea = new Idea({id: 'idea'});
@@ -85,7 +85,7 @@ describe('show-context-menu-for-association', () => {
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
 
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -109,7 +109,7 @@ describe('show-context-menu-for-association', () => {
         });
     });
 
-    it('should NOT set menu if target association is shaded', async () => {
+    it('should NOT set menu if target association is shaded', () => {
 
         // setup
         const assoc = new Association({id: 'assoc'});
@@ -118,7 +118,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),
@@ -131,7 +131,7 @@ describe('show-context-menu-for-association', () => {
         expect(patch).to.have.length(0);
     });
 
-    it('should target only vm and view state layers', async () => {
+    it('should target only vm and view state layers', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
@@ -140,7 +140,7 @@ describe('show-context-menu-for-association', () => {
         const state = {model: {mindmap}};
 
         // target
-        const patch = await handle(state, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point(0, 0),

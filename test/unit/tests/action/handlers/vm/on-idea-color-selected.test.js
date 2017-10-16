@@ -6,13 +6,13 @@ const handle = handler.handle.bind(handler);
 
 describe('on-idea-color-selected', () => {
 
-    it('should dispatch set-idea-color', async () => {
+    it('should dispatch set-idea-color', () => {
 
         // setup
         const dispatch = spy();
 
         // target
-        await handle(null, {
+        handle(null, {
             type: 'on-idea-color-selected',
             data: {
                 ideaId: 'idea',
@@ -30,10 +30,10 @@ describe('on-idea-color-selected', () => {
         expect(args.data.color).to.equal('red');
     });
 
-    it('should hide color picker', async () => {
+    it('should hide color picker', () => {
         
         // target
-        const patch = await handle(null, {
+        const patch = handle(null, {
             type: 'on-idea-color-selected',
             data: {
                 ideaId: 'idea',

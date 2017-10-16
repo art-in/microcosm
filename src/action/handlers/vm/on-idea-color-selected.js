@@ -11,7 +11,7 @@ import Patch from 'utils/state/Patch';
  * @param {function} dispatch
  * @return {Patch}
 */
-export default async function onIdeaColorSelected(state, data, dispatch) {
+export default function onIdeaColorSelected(state, data, dispatch) {
     const {ideaId, color} = required(data);
 
     dispatch({
