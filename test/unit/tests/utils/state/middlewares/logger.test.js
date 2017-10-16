@@ -1,8 +1,9 @@
-import {expect} from 'chai';
+import {expect, timer} from 'test/utils';
 import {stub} from 'sinon';
 import EventEmitter from 'events';
 
 import Patch from 'src/utils/state/Patch';
+import Action from 'src/utils/state/Action';
 
 import logger from 'src/utils/state/middlewares/logger';
 
@@ -23,25 +24,28 @@ describe('logger', () => {
         console.groupEnd.restore();
     });
 
+    afterEach(() => {
+        console.groupCollapsed.reset();
+        console.log.reset();
+        console.groupEnd.reset();
+    });
+
     describe('logging successful action', () => {
   
         beforeEach(() => {
         
-            // reset console
-            console.groupCollapsed.reset();
-            console.log.reset();
-            console.groupEnd.reset();
-    
             // setup
             const dispatchEvents = new EventEmitter();
             
-            logger(dispatchEvents);
+            const middleware = logger();
     
-            const action = {type: 'my-action', data: 'A'};
+            const action = new Action({type: 'my-action', data: 'A'});
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const nextState = {model: 'next model', vm: 'next vm'};
     
+            middleware.onDispatch(dispatchEvents, action);
+
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
             dispatchEvents.emit('before-mutation', {state: nextState, patch});
             dispatchEvents.emit('after-mutation', {state: nextState});
@@ -54,7 +58,7 @@ describe('logger', () => {
             expect(console.groupEnd.callCount).to.equal(1);
         });
     
-        it('should log action name', () => {
+        it('should log action type', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
@@ -78,7 +82,8 @@ describe('logger', () => {
             expect(console.log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action`));
             
-            expect(console.log.getCall(1).args[2]).to.deep.equal({
+            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[2]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
@@ -113,20 +118,17 @@ describe('logger', () => {
 
         beforeEach(() => {
             
-            // reset console
-            console.groupCollapsed.reset();
-            console.log.reset();
-            console.groupEnd.reset();
-    
             // setup
             const dispatchEvents = new EventEmitter();
             
-            logger(dispatchEvents);
+            const middleware = logger();
     
-            const action = {type: 'my-action', data: 'A'};
+            const action = new Action({type: 'my-action', data: 'A'});
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const error = new Error('boom');
     
+            middleware.onDispatch(dispatchEvents, action);
+
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
             dispatchEvents.emit('handler-fail', {error});
         });
@@ -137,7 +139,7 @@ describe('logger', () => {
             expect(console.groupEnd.callCount).to.equal(1);
         });
     
-        it('should log action name', () => {
+        it('should log action type', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
@@ -166,7 +168,8 @@ describe('logger', () => {
             expect(console.log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action`));
             
-            expect(console.log.getCall(1).args[2]).to.deep.equal({
+            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[2]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
@@ -185,20 +188,17 @@ describe('logger', () => {
         
         beforeEach(() => {
             
-            // reset console
-            console.groupCollapsed.reset();
-            console.log.reset();
-            console.groupEnd.reset();
-    
             // setup
             const dispatchEvents = new EventEmitter();
             
-            logger(dispatchEvents);
+            const middleware = logger();
     
-            const action = {type: 'my-action', data: 'A'};
+            const action = new Action({type: 'my-action', data: 'A'});
             const prevState = {model: 'prev model', vm: 'prev vm'};
             const patch = new Patch({type: 'my-mutation', data: 'M'});
             const error = new Error('boom');
+
+            middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
             dispatchEvents.emit('before-mutation', {state: prevState, patch});
@@ -211,7 +211,7 @@ describe('logger', () => {
             expect(console.groupEnd.callCount).to.equal(1);
         });
     
-        it('should log action name', () => {
+        it('should log action type', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
@@ -240,7 +240,8 @@ describe('logger', () => {
             expect(console.log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action`));
             
-            expect(console.log.getCall(1).args[2]).to.deep.equal({
+            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[2]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
@@ -261,6 +262,229 @@ describe('logger', () => {
         it('should NOT log next state', () => {
             expect(console.log.getCall(3)).to.not.exist;
         });
+    });
+
+    describe('throttling', () => {
+
+        it('should log unthrottled actions', () => {
+            
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware = logger();
+
+            const dispatch = action => {
+
+                const events = new EventEmitter();
+                middleware.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const throttledAction = new Action({
+                type: 'throttled-action',
+                throttleLog: true
+            });
+
+            const unthrottledAction = new Action({
+                type: 'unthrottled-action'
+            });
+
+            // target
+            dispatch(throttledAction);
+            dispatch(throttledAction); // throttled
+
+            dispatch(unthrottledAction);
+            dispatch(unthrottledAction);
+            
+            // check
+            expect(console.groupCollapsed.callCount).to.equal(3);
+        });
+
+        it('should NOT log throttled actions', () => {
+
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware = logger();
+
+            const dispatch = action => {
+
+                const events = new EventEmitter();
+                middleware.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const action = new Action({
+                type: 'action',
+                throttleLog: true
+            });
+
+            // target
+            dispatch(action);
+            dispatch(action); // throttled
+            
+            // check
+            expect(console.groupCollapsed.callCount).to.equal(1);
+        });
+
+        it('should resume log of throttled action after delay', async () => {
+            
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware = logger();
+
+            const dispatch = action => {
+
+                const events = new EventEmitter();
+                middleware.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const action = new Action({
+                type: 'action',
+                throttleLog: 10
+            });
+
+            // target
+            dispatch(action);
+            dispatch(action); // throttled
+
+            await timer(10);
+
+            dispatch(action);
+            dispatch(action); // throttled
+            
+            expect(console.groupCollapsed.callCount).to.equal(2);
+        });
+
+        it('should NOT mix throttle state between action types', () => {
+
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware = logger();
+
+            const dispatch = action => {
+
+                const events = new EventEmitter();
+                middleware.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const action1 = new Action({
+                type: 'action 1',
+                throttleLog: true
+            });
+
+            const action2 = new Action({
+                type: 'action 2',
+                throttleLog: true
+            });
+
+            // target
+            dispatch(action1);
+            dispatch(action2);
+            
+            // check
+            expect(console.groupCollapsed.callCount).to.equal(2);
+        });
+
+        it('should NOT mix throttle state between instances', () => {
+            
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware1 = logger();
+            const middleware2 = logger();
+
+            const dispatch1 = action => {
+
+                const events = new EventEmitter();
+                middleware1.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const dispatch2 = action => {
+                
+                const events = new EventEmitter();
+                middleware2.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const action = new Action({
+                type: 'action',
+                throttleLog: true
+            });
+
+            // target
+            dispatch1(action);
+            dispatch2(action);
+            
+            // check
+            expect(console.groupCollapsed.callCount).to.equal(2);
+        });
+
+        it('should log number of throttled action', async () => {
+
+            // setup
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const nextState = {model: 'next model', vm: 'next vm'};
+    
+            const middleware = logger();
+
+            const dispatch = action => {
+
+                const events = new EventEmitter();
+                middleware.onDispatch(events, action);
+                
+                events.emit('before-dispatch', {state: prevState, action});
+                events.emit('after-dispatch', {state: nextState});
+            };
+
+            const action = new Action({
+                type: 'action',
+                throttleLog: 10
+            });
+
+            // target
+            dispatch(action);
+            dispatch(action); // throttled
+            dispatch(action); // throttled
+
+            await timer(10);
+            dispatch(action);
+
+            await timer(10);
+            dispatch(action);
+
+            // check
+            const logHeader1 = console.groupCollapsed.firstCall.args[0];
+            const logHeader2 = console.groupCollapsed.secondCall.args[0];
+            const logHeader3 = console.groupCollapsed.thirdCall.args[0];
+            
+            expect(logHeader1).to.not.contain(`throttled`);
+            expect(logHeader2).to.contain(`[throttled: 2]`);
+            expect(logHeader3).to.not.contain(`throttled`);
+        });
+
     });
 
 });

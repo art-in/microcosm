@@ -113,7 +113,8 @@ export default connect(dispatch => ({
         type: 'on-graph-viewport-resize',
         data: {
             size: data.size
-        }
+        },
+        throttleLog: true
     })
 
 }))(VM);

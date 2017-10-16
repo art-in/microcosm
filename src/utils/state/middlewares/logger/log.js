@@ -9,7 +9,8 @@ const color = {
     black: 'color: black;',
     red: 'color: red;',
     green: 'color: green;',
-    blue: 'color: blue;'
+    blue: 'color: blue;',
+    purple: 'color: purple;'
 };
 
 const font = {
@@ -36,17 +37,21 @@ export default function(entry) {
         failSource = `mutator`;
     }
 
+    const {action, perf, failed, throttledCount} = entry;
+
     // TODO: gray out actions without patches
     // TODO: show child actions
     console.groupCollapsed(
         S + `action ` +
-        S + `${entry.action.type} ` +
-        S + `(${entry.perf.duration} ms)` +
-        S + (entry.failed ? ` [failed in ${failSource}]` : ''),
+        S + `${action.type} ` +
+        S + `(${perf.duration} ms)` +
+        S + (throttledCount ? ` [throttled: ${throttledCount}]` : '') +
+        S + (failed ? ` [failed in ${failSource}]` : ''),
 
-        (entry.failed ? color.red : color.gray) + font.normal,
-        (entry.failed ? color.red : color.black) + font.bold,
-        (entry.failed ? color.red : color.gray) + font.normal,
+        (failed ? color.red : color.gray) + font.normal,
+        (failed ? color.red : color.black) + font.bold,
+        (failed ? color.red : color.gray) + font.normal,
+        (failed ? color.red : color.purple) + font.normal,
         color.red + font.normal);
 
     console.log(

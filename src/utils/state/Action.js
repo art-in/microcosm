@@ -17,6 +17,12 @@ export default class Action {
     data = undefined;
 
     /**
+     * Indicates whether logger should throttle actions of this type
+     * @type {boolean|number} true for default delay or custom delay
+     */
+    throttleLog = undefined;
+
+    /**
      * Constructor
      * @param {object} [opts]
      */

@@ -113,6 +113,13 @@ export default class LogEntry {
     error = undefined;
 
     /**
+     * Number of actions of same type
+     * that were throttled before this one
+     * @type {number}
+     */
+    throttledCount = 0;
+
+    /**
      * Constructor
      */
     constructor() {

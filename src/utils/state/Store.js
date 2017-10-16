@@ -81,7 +81,7 @@ export default class Store {
         this._handler = handler;
         this._mutator = mutator;
         this._state = initialState;
-        this._middlewares = middlewares;
+        this._middlewares = middlewares.map(m => m());
     }
 
     /**
@@ -100,7 +100,7 @@ export default class Store {
 
         // subscribe middlewares to dispatch events
         const events = new EventEmitter();
-        this._middlewares.forEach(m => m(events));
+        this._middlewares.forEach(m => m.onDispatch(events, action));
 
         const dispatch = this.dispatch.bind(this);
 
