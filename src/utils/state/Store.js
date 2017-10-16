@@ -1,6 +1,8 @@
 import EventEmitter from 'events';
 import perf from 'utils/perf';
 
+import Action from './Action';
+
 /**
  * Application state container.
  * 
@@ -85,10 +87,14 @@ export default class Store {
     /**
      * Dispatches action
      * 
-     * @param {object} action
+     * @param {Action|object} action
      * @return {Promise.<object>} new state
      */
     async dispatch(action) {
+
+        if (!(action instanceof Action)) {
+            action = new Action(action);
+        }
 
         const dispatchId = perf.startGroup(`🚀 ${action.type}`);
 

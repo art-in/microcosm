@@ -2,9 +2,10 @@ import {expect} from 'chai';
 import {spy, stub} from 'sinon';
 import {createState, timer} from 'test/utils';
 
-import Store from 'utils/state/Store';
-import Handler from 'utils/state/Handler';
-import Patch from 'utils/state/Patch';
+import Store from 'src/utils/state/Store';
+import Handler from 'src/utils/state/Handler';
+import Patch from 'src/utils/state/Patch';
+import Action from 'src/utils/state/Action';
 
 describe('.dispatch()', () => {
 
@@ -62,6 +63,26 @@ describe('.dispatch()', () => {
             state,
             patch
         ]);
+    });
+
+    it('should allow to pass instance of Action', async () => {
+        
+        // setup
+        const handler = new Handler();
+        const handle = handler.handle = spy(handler.handle);
+
+        handler.reg('action', () => {});
+
+        const state = createState();
+        const mutator = () => state;
+
+        const store = new Store(handler, mutator, state);
+
+        // target
+        await store.dispatch(new Action({type: 'action'}));
+
+        // check
+        expect(handle.callCount).to.equal(1);
     });
 
     it(`should promise to handle async action and apply async mutation`,
@@ -219,6 +240,17 @@ describe('.dispatch()', () => {
 
         // check
         await expect(promise).to.be.rejectedWith('boom');
+    });
+
+    it('should fail if invalid action received', async () => {
+
+        const store = new Store(new Handler(), () => {});
+
+        const promise = store.dispatch({type: 'A', invalidProp: 0});
+
+        await expect(promise).to.be.rejectedWith(
+            `Invalid instance properties: ` +
+            `Target object does not have property 'invalidProp' to update`);
     });
 
 });
