@@ -50,7 +50,9 @@ export default class Graph extends EventedViewModel {
 
         'context-menu-item-selected',
 
-        'wheel'
+        'wheel',
+
+        'viewport-resize'
     ]
     
     /**
@@ -223,19 +225,6 @@ export default class Graph extends EventedViewModel {
     }
 
     /**
-     * Sets viewport size
-     * @param {object} opts
-     * @param {number} opts.width
-     * @param {number} opts.height
-     */
-    setViewportSize({width, height}) {
-        this.viewport.width = width;
-        this.viewport.height = height;
-
-        this.recomputeViewboxSize();
-    }
-
-    /**
      * Handles click event
      */
     onClick() {
@@ -267,9 +256,7 @@ export default class Graph extends EventedViewModel {
      * @param {object} size
      */
     onViewportResize(size) {
-        this.setViewportSize(size);
-
-        this.emit('change');
+        this.emit('viewport-resize', {size});
     }
 
     /**
@@ -511,19 +498,4 @@ export default class Graph extends EventedViewModel {
         );
     }
 
-    /**
-     * Recomputes viewbox size
-     */
-    recomputeViewboxSize() {
-        const viewbox = this.viewbox;
-
-        const {min, max, round} = Math;
-
-        viewbox.scale = max(viewbox.scaleMin, viewbox.scale);
-        viewbox.scale = min(viewbox.scaleMax, viewbox.scale);
-        viewbox.scale = round(viewbox.scale * 100) / 100;
-
-        viewbox.width = round(this.viewport.width / viewbox.scale);
-        viewbox.height = round(this.viewport.height / viewbox.scale);
-    }
 }

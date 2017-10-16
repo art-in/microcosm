@@ -1,4 +1,5 @@
 import assert from 'assert';
+import clone from 'clone';
 import required from 'utils/required-params';
 
 import computeViewboxSize from './compute-graph-viewbox-size';
@@ -29,15 +30,18 @@ export default function zoomGraph(opts) {
 
     const {width: prevWidth, height: prevHeight} = vb;
 
-    const viewbox = computeViewboxSize({viewbox: vb, viewport, scale});
+    let newViewbox = clone(vb);
+    newViewbox.scale = scale;
+
+    newViewbox = computeViewboxSize({viewbox: newViewbox, viewport});
 
     // space that will be hidden/shown by zoom
-    const hiddenWidth = prevWidth - viewbox.width;
-    const hiddenHeight = prevHeight - viewbox.height;
+    const hiddenWidth = prevWidth - newViewbox.width;
+    const hiddenHeight = prevHeight - newViewbox.height;
 
     // zoom position on viewbox (ie. not on canvas)
-    const viewboxX = pos.x - viewbox.x;
-    const viewboxY = pos.y - viewbox.y;
+    const viewboxX = pos.x - newViewbox.x;
+    const viewboxY = pos.y - newViewbox.y;
 
     // how much of hidden/shown space we should use
     // to shift viewbox depending on zoom position
@@ -45,8 +49,8 @@ export default function zoomGraph(opts) {
     const shiftFactorY = viewboxY / prevHeight;
 
     // shift viewbox toward zoom position
-    viewbox.x += hiddenWidth * shiftFactorX;
-    viewbox.y += hiddenHeight * shiftFactorY;
+    newViewbox.x += hiddenWidth * shiftFactorX;
+    newViewbox.y += hiddenHeight * shiftFactorY;
 
-    return viewbox;
+    return newViewbox;
 }

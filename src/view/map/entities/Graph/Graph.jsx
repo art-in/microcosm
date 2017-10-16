@@ -42,10 +42,6 @@ export default class Graph extends Component {
         );
     }
 
-    componentWillReceiveProps = nextProps => {
-        nextProps.graph.setViewportSize(this.getViewportSize());
-    }
-
     componentDidMount = () => {
         // For now detect viewport resize by window 'resize'.
         // eslint-disable-next-line max-len

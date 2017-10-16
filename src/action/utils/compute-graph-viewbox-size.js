@@ -8,11 +8,10 @@ import required from 'utils/required-params';
  * @param {object} opts
  * @param {object} opts.viewport
  * @param {object} opts.viewbox
- * @param {object} opts.scale
  * @return {object}
  */
 export default function computeViewboxSize(opts) {
-    const {viewport, viewbox: vb, scale} = required(opts);
+    const {viewport, viewbox: vb} = required(opts);
 
     assert(viewport.width > 0, `Invalid viewport width '${viewport.width}'`);
     assert(viewport.height > 0, `Invalid viewport height '${viewport.height}'`);
@@ -20,8 +19,6 @@ export default function computeViewboxSize(opts) {
     const {min, max, round} = Math;
 
     const viewbox = clone(vb);
-
-    viewbox.scale = scale;
 
     viewbox.scale = max(viewbox.scaleMin, viewbox.scale);
     viewbox.scale = min(viewbox.scaleMax, viewbox.scale);

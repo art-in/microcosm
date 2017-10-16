@@ -107,6 +107,13 @@ export default connect(dispatch => ({
             pos: data.pos,
             up: data.up
         }
+    }),
+
+    ['viewport-resize']: data => dispatch({
+        type: 'on-graph-viewport-resize',
+        data: {
+            size: data.size
+        }
     })
 
 }))(VM);

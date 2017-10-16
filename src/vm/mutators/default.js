@@ -7,7 +7,7 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
 export default function defaultMutator(state) {
 
     // save vm specific part of state
-    const {zoomInProgress} = state.vm.main.mindmap.graph;
+    const {zoomInProgress, viewbox, viewport} = state.vm.main.mindmap.graph;
 
     // by default, remap from model as simpliest coding
     // approach (not best performance though).
@@ -21,5 +21,8 @@ export default function defaultMutator(state) {
 
     // since remapping from model clears vm specific part of state
     // (like state of dropdowns, lookups, etc), we need to restore it
-    state.vm.main.mindmap.graph.zoomInProgress = zoomInProgress;
+    const {graph} = state.vm.main.mindmap;
+    graph.zoomInProgress = zoomInProgress;
+    graph.viewbox = viewbox;
+    graph.viewport = viewport;
 }
