@@ -80,12 +80,14 @@ export default class Patch {
 
     /**
      * Adds mutations
-     * @param {Mutation|object} mutationObj
+     * @param {Mutation|object} mutation
      */
-    push(mutationObj) {
+    push(mutation) {
         
-        // TODO: validate param scheme
-        const mutation = new Mutation(mutationObj);
+        if (!(mutation instanceof Mutation)) {
+            // TODO: validate param scheme
+            mutation = new Mutation(mutation);
+        }
 
         this[this.length] = mutation;
 

@@ -6,12 +6,7 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
 export default class Link extends EventedViewModel {
 
     static eventTypes = [
-
-        // state changed
-        'change',
-
-        // link title changed
-        'title-change'
+        'change'
     ]
 
     /**
@@ -93,34 +88,6 @@ export default class Link extends EventedViewModel {
      */
     get color() {
         return this.to.color;
-    }
-
-    /**
-     * Handles title click event
-     */
-    onTitleClick() {
-        if (this.title.editable && !this.title.editing) {
-            this.title.editing = true;
-            this.emit('change');
-        }
-    }
-
-    /**
-     * Handles title blur event
-     */
-    onTitleBlur() {
-        if (this.title.editable && this.title.editing) {
-            this.title.editing = false;
-            this.emit('change');
-        }
-    }
-
-    /**
-     * Handles title change event
-     * @param {string} title
-     */
-    onTitleChange(title) {
-        this.emit('title-change', title);
     }
 
 }

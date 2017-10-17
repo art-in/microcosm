@@ -10,11 +10,13 @@ export default class Node extends EventedViewModel {
 
     static eventTypes = [
 
-        // state changed
         'change',
 
-        // node title changed
-        'title-change'
+        'title-change',
+
+        'title-double-click',
+
+        'title-blur'
     ];
 
     /**
@@ -120,28 +122,14 @@ export default class Node extends EventedViewModel {
      * Handles title click event
      */
     onTitleClick() {
-        if (this.shaded ||
-            !this.title.editable ||
-            this.title.editing) {
-            return;
-        }
-            
-        this.title.editing = true;
-        this.emit('change');
+        this.emit('title-double-click');
     }
 
     /**
      * Handles title blur event
      */
     onTitleBlur() {
-        if (this.shaded ||
-            !this.title.editable ||
-            !this.title.editing) {
-            return;
-        }
-            
-        this.title.editing = false;
-        this.emit('change');
+        this.emit('title-blur');
     }
 
     /**

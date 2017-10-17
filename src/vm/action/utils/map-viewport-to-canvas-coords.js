@@ -1,5 +1,7 @@
 import Point from 'vm/shared/Point';
 
+import mapToViewboxCoords from './map-viewport-to-viewbox-coords';
+
 /**
  * Maps viewport coordinates to canvas coordinates
  * 
@@ -9,10 +11,10 @@ import Point from 'vm/shared/Point';
  */
 export default function mapViewportToCanvasCoords(pos, viewbox) {
 
-    const {x: viewportX, y: viewportY} = pos;
+    const posOnViewbox = mapToViewboxCoords(pos, viewbox);
 
-    const x = viewbox.x + viewportX / viewbox.scale;
-    const y = viewbox.y + viewportY / viewbox.scale;
+    const x = viewbox.x + posOnViewbox.x;
+    const y = viewbox.y + posOnViewbox.y;
 
     return new Point(x, y);
 }

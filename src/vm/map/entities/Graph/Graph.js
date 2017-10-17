@@ -35,13 +35,10 @@ export default class Graph extends EventedViewModel {
 
         'node-menu-idea-remove',
 
-        // graph clicked
         'click',
 
-        // node was right clicked
         'node-rightclick',
 
-        // link was right clicked
         'link-rightclick',
 
         'association-tails-lookup-phrase-changed',
@@ -52,7 +49,23 @@ export default class Graph extends EventedViewModel {
 
         'wheel',
 
-        'viewport-resize'
+        'viewport-resize',
+
+        'node-mouse-down',
+
+        'mouse-up',
+
+        'mouse-move',
+
+        'mouse-leave',
+
+        'mouse-down',
+
+        'key-press',
+
+        'node-title-double-click',
+
+        'node-title-blur'
     ]
     
     /**
@@ -118,9 +131,9 @@ export default class Graph extends EventedViewModel {
      */
     drag = {
         active: false,
-        item: null,
-        startX: null,
-        startY: null
+        node: undefined,
+        startX: undefined,
+        startY: undefined
     };
 
     /**
@@ -207,10 +220,21 @@ export default class Graph extends EventedViewModel {
      * @param {Node} node
      */
     addNodeHandlers(node) {
-        node.on('title-change', title => this.emit('node-title-change', {
-            nodeId: node.id,
-            title
-        }));
+        node.on('title-change',
+            title => this.emit('node-title-change', {
+                nodeId: node.id,
+                title
+            }));
+
+        node.on('title-double-click',
+            () => this.emit('node-title-double-click', {
+                nodeId: node.id
+            }));
+
+        node.on('title-blur',
+            () => this.emit('node-title-blur', {
+                nodeId: node.id
+            }));
     }
 
     /**
@@ -218,10 +242,6 @@ export default class Graph extends EventedViewModel {
      * @param {Link} link
      */
     addLinkHandlers(link) {
-        link.on('title-change', title => this.emit('link-title-change', {
-            linkId: link.id,
-            title
-        }));
     }
 
     /**
@@ -271,143 +291,39 @@ export default class Graph extends EventedViewModel {
      * @param {string} keyCode
      */
     onKeyPress(keyCode) {
-        let panKeyStep = 20;
-        let viewboxChanged = false;
-
-        panKeyStep /= this.viewbox.scale;
-
-        switch (keyCode) {
-        case 'ArrowDown':
-            this.onPan({shiftY: -panKeyStep});
-            viewboxChanged = true;
-            break;
-        case 'ArrowUp':
-            this.onPan({shiftY: panKeyStep});
-            viewboxChanged = true;
-            break;
-        case 'ArrowLeft':
-            this.onPan({shiftX: panKeyStep});
-            viewboxChanged = true;
-            break;
-        case 'ArrowRight':
-            this.onPan({shiftX: -panKeyStep});
-            viewboxChanged = true;
-            break;
-        default:
-            // skip
-        }
-
-        if (viewboxChanged) {
-            this.emit('viewbox-position-change', {
-                graphId: this.id,
-                pos: {
-                    x: this.viewbox.x,
-                    y: this.viewbox.y
-                }
-            });
-        }
+        this.emit('key-press', {keyCode});
     }
 
     /**
      * Handles pan start event
      */
-    onPanStart() {
-        this.pan.active = true;
+    onMouseDown({button}) {
+        this.emit('mouse-down', {button});
     }
 
     /**
-     * Handles pan event
-     * @param {object} opts
+     * @param {string} data
      */
-    onPan({shiftX = 0, shiftY = 0}) {
-        this.pan.shifted = true;
+    onNodeMouseDown(data) {
+        this.emit('node-mouse-down', data);
+    }
 
-        this.viewbox.x -= shiftX;
-        this.viewbox.y -= shiftY;
-
-        this.emit('change');
+    /** */
+    onMouseUp() {
+        this.emit('mouse-up');
     }
 
     /**
-     * Handles pan stop event
+     * @param {object} data
      */
-    onPanStop() {
-        if (this.pan.active && this.pan.shifted) {
-            this.emit('viewbox-position-change', {
-                graphId: this.id,
-                pos: {
-                    x: this.viewbox.x,
-                    y: this.viewbox.y
-                }
-            });
-        }
-
-        this.pan.active = false;
-        this.pan.shifted = false;
+    onMouseMove({viewportShift}) {
+        this.emit('mouse-move', {viewportShift});
     }
 
     /**
-     * Handles drag start event
-     * @param {Node} node
      */
-    onDragStart(node) {
-        if (node.shaded) {
-            // prevent actions on shaded nodes
-            return;
-        }
-
-        this.drag = {
-            active: true,
-            node: node,
-            startX: node.pos.x,
-            startY: node.pos.y
-        };
-    }
-
-    /**
-     * Handles drag event
-     * @param {object} opts
-     */
-    onDrag({shiftX, shiftY}) {
-        if (!this.drag.active) {
-            return;
-        }
-
-        this.moveNode({
-            nodeId: this.drag.node.id,
-            shift: {x: shiftX, y: shiftY}
-        });
-    }
-
-    /**
-     * Handles drag stop event
-     */
-    onDragStop() {
-        if (!this.drag.active) {
-            return;
-        }
-
-        this.drag.active = false;
-        this.emit('node-position-change', {
-            nodeId: this.drag.node.id,
-            pos: this.drag.node.pos
-        });
-    }
-
-    /**
-     * Handles drag revert event (cancel dragging)
-     */
-    onDragRevert() {
-        if (!this.drag.active) {
-            return;
-        }
-
-        this.drag.active = false;
-
-        this.moveNode({
-            nodeId: this.drag.node.id,
-            pos: {x: this.drag.startX, y: this.drag.startY}
-        });
+    onMouseLeave() {
+        this.emit('mouse-leave');
     }
 
     /**
@@ -442,37 +358,6 @@ export default class Graph extends EventedViewModel {
             lookup: this.associationTailsLookup,
             suggestion
         });
-    }
-
-    /**
-     * Gets node
-     * @param {string} nodeId
-     * @return {Node}
-     */
-    getNode(nodeId) {
-        const node = this.nodes.find(n => n.id === nodeId);
-        if (!node) {
-            throw Error(`No node with such id found: ${nodeId}`);
-        }
-        return node;
-    }
-
-    /**
-     * Moves node position
-     * @param {object} opts
-     */
-    moveNode({nodeId, pos, shift}) {
-        const node = this.getNode(nodeId);
-
-        if (shift) {
-            node.pos.x += shift.x;
-            node.pos.y += shift.y;
-        } else {
-            node.pos.x = pos.x;
-            node.pos.y = pos.y;
-        }
-
-        this.emit('change');
     }
 
 }

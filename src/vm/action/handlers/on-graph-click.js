@@ -1,16 +1,31 @@
 import Patch from 'utils/state/Patch';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-mutation';
 
 /**
  * Handles graph click event
  * 
- * @param {function} dispatch
+ * @param {object} state
  * @return {Patch}
  */
-export default function() {
-    return Patch.combine([
-        view('update-color-picker', {active: false}),
-        view('update-context-menu', {popup: {active: false}}),
-        view('update-association-tails-lookup', {popup: {active: false}})
-    ]);
+export default function(state) {
+    const {vm: {main: {mindmap: {graph}}}} = state;
+    
+    const patch = new Patch();
+
+    if (graph.colorPicker.active) {
+        patch.push(view('update-color-picker',
+            {active: false}));
+    }
+    
+    if (graph.contextMenu.popup.active) {
+        patch.push(view('update-context-menu',
+            {popup: {active: false}}));
+    }
+    
+    if (graph.associationTailsLookup.popup.active) {
+        patch.push(view('update-association-tails-lookup',
+            {popup: {active: false}}));
+    }
+    
+    return patch;
 }

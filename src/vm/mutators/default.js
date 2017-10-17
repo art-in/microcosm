@@ -7,7 +7,11 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
 export default function defaultMutator(state) {
 
     // save vm specific part of state
-    const {zoomInProgress, viewbox, viewport} = state.vm.main.mindmap.graph;
+    const {
+        zoomInProgress,
+        viewbox: {width: vbWidth, height: vbHeight},
+        viewport
+    } = state.vm.main.mindmap.graph;
 
     // by default, remap from model as simpliest coding
     // approach (not best performance though).
@@ -23,6 +27,7 @@ export default function defaultMutator(state) {
     // (like state of dropdowns, lookups, etc), we need to restore it
     const {graph} = state.vm.main.mindmap;
     graph.zoomInProgress = zoomInProgress;
-    graph.viewbox = viewbox;
+    graph.viewbox.width = vbWidth;
+    graph.viewbox.height = vbHeight;
     graph.viewport = viewport;
 }

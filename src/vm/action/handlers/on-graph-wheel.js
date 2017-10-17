@@ -10,10 +10,16 @@ import required from 'utils/required-params';
  * @param {function} dispatch
  */
 export default function onGraphWheel(state, data, dispatch) {
+    const {vm: {main: {mindmap: {graph}}}} = state;
     const {up, pos} = required(data);
     
+    if (graph.zoomInProgress) {
+        return;
+    }
+
     dispatch({
         type: 'animate-graph-zoom',
-        data: {up, pos}
+        data: {up, pos},
+        throttleLog: true
     });
 }

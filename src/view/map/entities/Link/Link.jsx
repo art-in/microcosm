@@ -85,9 +85,8 @@ export default class Link extends Component {
                             rotation={ titleRotation }
                             value={ link.title.value }
                             editable={ link.title.editing }
-                            onDoubleClick={ link.onTitleClick.bind(link) }
-                            onBlur={ link.onTitleBlur.bind(link) }
-                            onChange={ link.onTitleChange.bind(link) } /> : null
+                            onDoubleClick={ link.onTitleClick.bind(link) } />
+                        : null
                 }
 
             </Group>

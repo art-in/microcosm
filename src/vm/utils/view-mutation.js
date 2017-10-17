@@ -1,33 +1,31 @@
 import assert from 'utils/assert';
-
-import Patch from 'utils/state/Patch';
-
-// TODO: rename to 'view-patch'
-//       to be close to 'view-mutation'
+import Mutation from 'utils/state/Mutation';
 
 /**
- * Creates patch which targets only vm and view layers.
- * Allows to express view patches in less lines.
+ * Creates mutation which targets only vm and view layers.
+ * Allows to express view mutations in less lines.
  * 
  * @example
  * // before
- * mutate(new Patch({
+ * const patch = new Patch();
+ * patch.push({
  *      type: 'update-graph',
  *      data: {viewbox},
  *      targets: ['vm', 'view']
- * }));
+ * });
  * 
  * // after
- * mutate(view('update-graph', {viewbox}));
+ * const patch = new Patch();
+ * patch.push(view('update-graph', {viewbox}))
  * 
  * @param {string} mutationType
  * @param {object} [mutationData]
  * @return {Patch}
  */
-export default function patchView(mutationType, mutationData) {
+export default function viewMutation(mutationType, mutationData) {
     assert(typeof mutationType === 'string');
-
-    return new Patch({
+    
+    return new Mutation({
         type: mutationType,
         data: mutationData,
         targets: ['vm', 'view']

@@ -36,6 +36,7 @@ export default class Graph extends Component {
 
         const bodyMargin = getBodyMargin();
 
+        // get rid of paddings/margings
         return new Point(
             e.pageX - viewportRect.left - bodyMargin.left,
             e.pageY - viewportRect.top - bodyMargin.top
@@ -43,21 +44,20 @@ export default class Graph extends Component {
     }
 
     componentDidMount = () => {
-        // For now detect viewport resize by window 'resize'.
+        // for now detect viewport resize by window 'resize'.
         // eslint-disable-next-line max-len
         // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
         window.addEventListener('resize', this.onResize);
 
-        // Only after viewport being mount we can get its size,
-        // recalculate viewbox and render again with viewbox set.
+        // only after viewport mount we can get its size,
+        // recalculate viewbox and render again with viewbox set
         this.onResize();
 
-        // Focus viewport
+        // focus viewport
         this.viewport.focus();
     }
 
     onNodeRightClick = (node, e) => {
-
         this.props.graph.onNodeRightClick(node, this.getClickPos(e));
         e.preventDefault();
     }
@@ -74,6 +74,7 @@ export default class Graph extends Component {
     onWheel = e => {
         const bodyMargin = getBodyMargin();
 
+        // get rid of body margin
         const viewportX = e.clientX - bodyMargin.left;
         const viewportY = e.clientY - bodyMargin.top;
 
@@ -84,11 +85,11 @@ export default class Graph extends Component {
     }
 
     onNodeMouseDown = (node, e) => {
-        // left button only
-        if (e.nativeEvent.which === 1) {
-            this.props.graph.onDragStart(node);
-            e.stopPropagation();
-        }
+        this.props.graph.onNodeMouseDown({
+            node,
+            button: e.nativeEvent.which === 1 ? 'left' : 'right'
+        });
+        e.stopPropagation();
     }
 
     onMouseMove = e => {
@@ -96,48 +97,27 @@ export default class Graph extends Component {
         const {nativeEvent: event} = e;
         const pageScale = getPageScale();
 
-        // convert value of position shift between several coordinate systems:
-        // a. Browser Viewport (page can be zoomed)
-        // b. SVG Viewport (viewbox can be zoomed, ie. differ from viewport)
-        // c. SVG Current User Space (target measures on drawing canvas)
-        const shiftX = event.movementX / pageScale / graph.viewbox.scale;
-        const shiftY = event.movementY / pageScale / graph.viewbox.scale;
+        // get rid of browser page scale
+        const viewportShiftX = event.movementX / pageScale;
+        const viewportShiftY = event.movementY / pageScale;
 
-        if (graph.drag.active) {
-            graph.onDrag({shiftX, shiftY});
-        }
-
-        if (graph.pan.active) {
-            graph.onPan({shiftX, shiftY});
-        }
+        graph.onMouseMove({
+            viewportShift: new Point(viewportShiftX, viewportShiftY)
+        });
     }
 
     onMouseUp = () => {
-        const graph = this.props.graph;
-
-        if (graph.drag.active) {
-            graph.onDragStop();
-        }
-        
-        if (graph.pan.active) {
-            graph.onPanStop();
-        }
+        this.props.graph.onMouseUp();
     }
 
-    onViewportMouseDown = e => {
-        // left button only
-        if (e.nativeEvent.which === 1) {
-            this.props.graph.onPanStart();
-        }
+    onMouseDown = e => {
+        this.props.graph.onMouseDown({
+            button: e.nativeEvent.which === 1 ? 'left' : 'right'
+        });
     }
 
     onKeyPress = e => {
         this.props.graph.onKeyPress(e.key);
-    }
-
-    onDragStart = e => {
-        e.preventDefault();
-        e.stopPropagation();
     }
 
     render() {
@@ -177,13 +157,12 @@ export default class Graph extends Component {
                     className={ classes.svg }
                     onMouseUp={ this.onMouseUp }
                     onMouseMove={ this.onMouseMove }
-                    onMouseLeave={ graph.onDragRevert.bind(graph) }
+                    onMouseLeave={ graph.onMouseLeave.bind(graph) }
                     onWheel={ this.onWheel }
-                    onMouseDown={ this.onViewportMouseDown }
+                    onMouseDown={ this.onMouseDown }
                     onClick={ graph.onClick.bind(graph) }
                     onKeyDown={ this.onKeyPress }
                     tabIndex={ 0 }
-                    onDragStart={ this.onDragStart }
                     {...other}>
 
                     <Group id={'links'}>{links}</Group>
