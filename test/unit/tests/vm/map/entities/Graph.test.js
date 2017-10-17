@@ -42,7 +42,7 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([{
+        expect(dispatch.firstCall.args).to.containSubset([{
             type: 'set-idea-value',
             data: {
                 ideaId: 'id',
@@ -83,7 +83,7 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([{
+        expect(dispatch.firstCall.args).to.containSubset([{
             type: 'action',
             data: {phrase: 'test'}
         }]);
@@ -124,7 +124,7 @@ describe('Graph', () => {
 
         // check
         expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.deep.equal([{
+        expect(dispatch.firstCall.args).to.containSubset([{
             type: 'action',
             data: {ideaId: 'tail'}
         }]);

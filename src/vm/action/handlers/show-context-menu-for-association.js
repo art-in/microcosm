@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 import getAssociation from 'action/utils/get-association';
 import MenuItem from 'vm/shared/MenuItem';

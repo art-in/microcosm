@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 import mapToViewboxCoords from 'vm/action/utils/map-viewport-to-viewbox-coords';
 import getNode from 'vm/action/utils/get-node';

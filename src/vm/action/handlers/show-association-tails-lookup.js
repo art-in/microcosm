@@ -1,7 +1,7 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 /**
  * Shows association tails lookup

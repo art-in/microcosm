@@ -2,9 +2,6 @@ import assert from 'utils/assert';
 
 import Patch from 'utils/state/Patch';
 
-// TODO: rename to 'view-patch'
-//       to be close to 'view-mutation'
-
 /**
  * Creates patch which targets only vm and view layers.
  * Allows to express view patches in less lines.
@@ -24,7 +21,7 @@ import Patch from 'utils/state/Patch';
  * @param {object} [mutationData]
  * @return {Patch}
  */
-export default function patchView(mutationType, mutationData) {
+export default function viewPatch(mutationType, mutationData) {
     assert(typeof mutationType === 'string');
 
     return new Patch({

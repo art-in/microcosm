@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 /**
  * Handles idea color selected with color picker

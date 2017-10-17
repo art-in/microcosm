@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 /**
  * Handles mouse down event on graph

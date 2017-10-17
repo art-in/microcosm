@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/patch-view';
+import view from 'vm/utils/view-patch';
 
 import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
