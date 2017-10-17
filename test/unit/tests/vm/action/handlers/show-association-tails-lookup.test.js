@@ -3,7 +3,7 @@ import {expect} from 'test/utils';
 import Point from 'src/vm/shared/Point';
 import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
-import handler from 'src/action/handler';
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('show-association-tails-lookup', () => {

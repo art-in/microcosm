@@ -317,6 +317,28 @@ describe('Handler', () => {
             expect(handlerFunc2.callCount).to.equal(1);
         });
 
+        it('should consume handler arrays', () => {
+            
+            // setup
+            const handler1 = new Handler();
+            const handler2 = new Handler();
+
+            const handlerFunc1 = spy();
+            const handlerFunc2 = spy();
+
+            handler1.reg('action 1', handlerFunc1);
+            handler2.reg('action 2', handlerFunc2);
+
+            // target
+            const result = Handler.combine([handler1, handler2]);
+
+            // check
+            result.handle(null, {type: 'action 2'});
+
+            expect(handlerFunc1.callCount).to.equal(0);
+            expect(handlerFunc2.callCount).to.equal(1);
+        });
+
     });
 
 });

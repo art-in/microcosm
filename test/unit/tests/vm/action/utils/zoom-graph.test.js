@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import zoomGraph from 'action/utils/zoom-graph';
+import zoomGraph from 'vm/action/utils/zoom-graph';
 
 describe('zoom-graph', () => {
 

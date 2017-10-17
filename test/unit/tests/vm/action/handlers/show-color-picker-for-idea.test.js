@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import handler from 'src/action/handler';
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('show-color-picker-for-idea', () => {

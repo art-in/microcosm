@@ -2,7 +2,7 @@ import clone from 'clone';
 import required from 'utils/required-params';
 
 import patch from 'vm/utils/patch-view';
-import computeViewbox from 'action/utils/compute-graph-viewbox-size';
+import computeViewbox from 'vm/action/utils/compute-graph-viewbox-size';
 
 /**
  * Handlers graph viewport resize event

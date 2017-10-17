@@ -1,10 +1,10 @@
 import {expect, createState, combinePatches} from 'test/utils';
 import {spy} from 'sinon';
+
 import update from 'src/utils/update-object';
+import Point from 'src/vm/shared/Point';
 
-import Point from 'vm/shared/Point';
-
-import handler from 'src/action/handler';
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('animate-graph-zoom', () => {

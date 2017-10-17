@@ -1,5 +1,5 @@
-import assert from 'utils/assert';
 import clone from 'clone';
+import assert from 'utils/assert';
 import required from 'utils/required-params';
 
 /**

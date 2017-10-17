@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import {spy} from 'sinon';
 
-import handler from 'src/action/handler';
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('on-idea-color-selected', () => {

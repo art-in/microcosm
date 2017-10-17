@@ -1,8 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
-import MenuItem from 'vm/shared/MenuItem';
 
 import getAssociation from 'action/utils/get-association';
+import MenuItem from 'vm/shared/MenuItem';
 
 /**
  * Shows context menu for association

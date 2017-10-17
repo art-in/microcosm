@@ -1,7 +1,5 @@
 describe('handlers', () => {
     
-    require('./vm');
-
     require('./create-cross-association.test');
     require('./create-idea.test');
     require('./init.test');

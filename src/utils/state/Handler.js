@@ -113,7 +113,10 @@ export default class Handler {
      * @param {array.<Handler>} handlers
      * @return {Handler}
      */
-    static combine(...handlers) {
+    static combine(...args) {
+
+        // flatten arrays
+        const handlers = args.reduce((res, a) => res.concat(a), []);
 
         assert(handlers.every(g => g instanceof Handler),
             'Each argument should be instance of Handler');

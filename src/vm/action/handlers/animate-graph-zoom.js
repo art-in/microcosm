@@ -1,11 +1,12 @@
 import required from 'utils/required-params';
-import patch from 'vm/utils/patch-view';
 
-import zoomGraph from 'action/utils/zoom-graph';
-import checkScaleLimits from 'action/utils/check-graph-scale-limits';
-import mapCoordsToCanvas from 'action/utils/map-viewport-to-canvas-coords';
+import patch from 'vm/utils/patch-view';
 import animate from 'vm/utils/animate';
 import Point from 'vm/shared/Point';
+
+import zoomGraph from 'vm/action/utils/zoom-graph';
+import checkScaleLimits from 'vm/action/utils/check-graph-scale-limits';
+import mapCoordsToCanvas from 'vm/action/utils/map-viewport-to-canvas-coords';
 
 /**
  * Animates graph scale towards certain canvas position

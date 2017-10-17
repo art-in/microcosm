@@ -1,3 +1,3 @@
-Action handlers    
+Common actions
 
-Actions is the only way of changing app state  
+Theses actions affects all layers of the state

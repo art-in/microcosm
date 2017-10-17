@@ -3,10 +3,9 @@ import {expect} from 'test/utils';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
+import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
-import LookupSuggestion from 'vm/shared/LookupSuggestion';
-
-import handler from 'src/action/handler';
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('search-association-tails-for-lookup', () => {

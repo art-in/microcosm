@@ -1,7 +1,7 @@
-import Patch from 'utils/state/Patch';
-import MenuItem from 'vm/shared/MenuItem';
-
 import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
+
+import MenuItem from 'vm/shared/MenuItem';
 
 /** 
  * Shows context menu for idea
