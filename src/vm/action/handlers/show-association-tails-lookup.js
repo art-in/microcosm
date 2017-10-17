@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import view from 'vm/utils/patch-view';
+
 /**
  * Shows association tails lookup
  * which helps selecting tail idea for cross-association
@@ -14,22 +16,27 @@ import Patch from 'utils/state/Patch';
 export default function(state, data) {
     const {pos, headIdeaId} = required(data);
 
-    const patch = new Patch();
+    return Patch.combine([
 
-    // TODO: add ability to dispatch actions from another actions
-    //       move hide-menu/show-lookup to separate action
-    //      'select-menu-item-add-association'
-    patch.push({
-        type: 'hide-context-menu',
-        targets: ['vm', 'view']
-    });
+        view('update-context-menu', {
+            popup: {active: false}
+        }),
 
-    patch.push({
-        type: 'show-association-tails-lookup',
-        data: {
-            pos,
+        view('update-association-tails-lookup', {
+            
+            popup: {
+                active: true,
+                pos
+            },
+            lookup: {
+                phrase: '',
+                suggestions: [],
+                activeSuggesionId: null,
+                nothingFoundLabelShown: false,
+                focused: true
+            },
             onSelectAction: ({suggestion}) => ({
-                type: 'create-cross-association',
+                type: 'on-association-tails-lookup-select',
                 data: {
                     headIdeaId,
                     tailIdeaId: suggestion.data.ideaId
@@ -42,9 +49,6 @@ export default function(state, data) {
                     phrase
                 }
             })
-        },
-        targets: ['vm', 'view']
-    });
-
-    return patch;
+        })
+    ]);
 }

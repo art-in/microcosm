@@ -45,28 +45,4 @@ export default class ContextMenu extends EventedViewModel {
         this.retransmit(this.menu, 'itemSelected');
     }
 
-    /**
-     * Sets menu items
-     * @param {array.<MenuItem>} items
-     */
-    setItems(items) {
-        this.menu.setItems(items);
-    }
-
-    /**
-     * Activates menu
-     * @param {object} opts
-     * @param {Point}  opts.pos
-     */
-    activate({pos}) {
-        this.popup.activate({pos});
-    }
-
-    /**
-     * Deactivates menu
-     */
-    deactivate() {
-        this.popup.deactivate();
-    }
-
 }

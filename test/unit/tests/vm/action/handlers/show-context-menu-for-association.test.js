@@ -32,13 +32,13 @@ describe('show-context-menu-for-association', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-context-menu'][0];
 
-        expect(type).to.equal('show-context-menu');
-        expect(data.menuItems).to.have.length(1);
-        
-        expect(data.menuItems.every(i => i instanceof MenuItem)).to.be.ok;
-        expect(data.menuItems).to.containSubset([{
+        expect(data.popup.active).to.equal(true);
+
+        expect(data.menu.items).to.have.length(1);
+        expect(data.menu.items[0]).to.be.instanceOf(MenuItem);
+        expect(data.menu.items).to.containSubset([{
             displayValue: 'set color'
         }]);
     });
@@ -62,11 +62,10 @@ describe('show-context-menu-for-association', () => {
         });
 
         // check
-        expect(patch).to.have.length(1);
-        const {data} = patch[0];
+        const {data} = patch['update-context-menu'][0];
 
-        expect(data.pos).to.be.instanceOf(Point);
-        expect(data.pos).to.containSubset({
+        expect(data.popup.pos).to.be.instanceOf(Point);
+        expect(data.popup.pos).to.containSubset({
             x: 100,
             y: 200
         });
@@ -94,7 +93,8 @@ describe('show-context-menu-for-association', () => {
             }
         });
 
-        const item = patch[0].data.menuItems
+        const menuMutation = patch['update-context-menu'][0];
+        const item = menuMutation.data.menu.items
             .find(i => i.displayValue === 'set color');
             
         // target

@@ -32,15 +32,6 @@ export default class Menu extends EventedViewModel {
     }
 
     /**
-     * Sets menu items
-     * @param {array.<MenuItem>} items
-     */
-    setItems(items) {
-        assert(items.every(i => i instanceof MenuItem));
-        this.items = items;
-    }
-
-    /**
      * Handles menu item selected event
      * @param {MenuItem} item
      */

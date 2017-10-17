@@ -4,6 +4,7 @@ import {expect} from 'test/utils';
 import Store from 'utils/state/Store';
 import Handler from 'utils/state/Handler';
 import {connect} from 'src/vm/utils/store-connect';
+import updateObject from 'utils/update-object';
 
 import Graph from 'src/vm/map/entities/Graph';
 import Node from 'src/vm/map/entities/Node';
@@ -49,7 +50,7 @@ describe('Graph', () => {
             }}]);
     });
 
-    it(`should dispatch action on phrase changed ` +
+    it(`should dispatch action on phrase change ` +
         `in association tails lookup`, async () => {
         
         // setup
@@ -61,8 +62,12 @@ describe('Graph', () => {
         const graph = new Graph();
 
         graph.associationTailsLookup.popup.on('change', spy());
-        graph.associationTailsLookup.activate({
-            pos: new Point(0, 0),
+
+        updateObject(graph.associationTailsLookup, {
+
+            popup: {
+                pos: new Point(0, 0)
+            },
             onSelectAction: () => {},
             onPhraseChangeAction: ({phrase}) => ({
                 type: 'action',
@@ -96,8 +101,11 @@ describe('Graph', () => {
         const graph = new Graph();
 
         graph.associationTailsLookup.popup.on('change', spy());
-        graph.associationTailsLookup.activate({
-            pos: new Point(0, 0),
+
+        updateObject(graph.associationTailsLookup, {
+            popup: {
+                pos: new Point(0, 0)
+            },
             onSelectAction: ({suggestion}) => ({
                 type: 'action',
                 data: {ideaId: suggestion.data.ideaId}

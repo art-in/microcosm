@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import view from 'vm/utils/patch-view';
 
 import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
@@ -47,9 +47,12 @@ export default function searchAssociationTailsForLookup(state, data) {
             data: {ideaId: i.id}
         }));
 
-    return new Patch({
-        type: 'set-suggestions-to-association-tails-lookup',
-        data: {suggestions},
-        targets: ['vm', 'view']
+    return view('update-association-tails-lookup', {
+        lookup: {
+            suggestions,
+            highlightedSuggestionId: null,
+            loading: false,
+            nothingFoundLabelShown: !suggestions.length
+        }
     });
 }

@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import view from 'vm/utils/patch-view';
 
 /**
  * Shows color picker
@@ -12,17 +12,15 @@ import Patch from 'utils/state/Patch';
 export default function showColorPickerForIdea(state, data) {
     const {ideaId} = required(data);
 
-    return new Patch({
-        type: 'show-color-picker',
-        data: {
-            onSelectAction: ({color}) => ({
-                type: 'on-idea-color-selected',
-                data: {
-                    ideaId,
-                    color
-                }
-            })
-        },
-        targets: ['vm', 'view']
+    return view('update-color-picker', {
+        
+        active: true,
+        onSelectAction: ({color}) => ({
+            type: 'on-idea-color-selected',
+            data: {
+                ideaId,
+                color
+            }
+        })
     });
 }

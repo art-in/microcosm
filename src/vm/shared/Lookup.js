@@ -1,7 +1,4 @@
-import assert from 'utils/assert';
-
 import EventedViewModel from 'vm/utils/EventedViewModel';
-import LookupSuggestion from './LookupSuggestion';
 
 import debounce from 'debounce';
 
@@ -61,6 +58,8 @@ export default class Lookup extends EventedViewModel {
     placeholder = undefined;
 
     nothingFoundLabelShown = false;
+
+    activeSuggesionId = undefined;
 
     /**
      * Constructor
@@ -185,34 +184,6 @@ export default class Lookup extends EventedViewModel {
 
             const newSuggestion = this.suggestions[nextIdx];
             this.highlightedSuggestionId = newSuggestion.id;
-            this.emit('change');
-        }
-    }
-
-    /**
-     * Sets suggestions
-     * @param {array.<Suggestion>} suggestions 
-     */
-    setSuggestions(suggestions) {
-        assert(suggestions.every(s => s instanceof LookupSuggestion));
-
-        this.suggestions = suggestions;
-        
-        this.highlightedSuggestionId = null;
-        this.loading = false;
-
-        this.nothingFoundLabelShown = !suggestions.length;
-        
-        this.emit('change');
-    }
-
-    /**
-     * Focus lookup input
-     */
-    focus() {
-        this.focused = true;
-
-        if (this.shown) {
             this.emit('change');
         }
     }

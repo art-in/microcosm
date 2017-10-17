@@ -32,15 +32,25 @@ export default function updateObject(target, source) {
                 `Target object does not have property '${prop}' to update`);
         }
 
+        const targetProp = target[prop];
+        const sourceProp = source[prop];
+
         // check types
-        const targetType = typeof target[prop];
-        const sourceType = typeof source[prop];
+        let targetType = typeof targetProp;
+        let sourceType = typeof sourceProp;
+
+        // hack-fix js types
+        targetType = Array.isArray(targetProp) ? 'array' : targetType;
+        sourceType = Array.isArray(sourceProp) ? 'array' : sourceType;
+
+        targetType = targetProp === null ? 'null' : targetType;
+        sourceType = sourceProp === null ? 'null' : sourceType;
 
         // allow to initialize target properties
         // allow to clean target properties
         // do not allow changing target types
-        if (target[prop] !== undefined &&
-            source[prop] !== null &&
+        if (targetProp !== undefined &&
+            sourceProp !== null &&
             targetType !== sourceType) {
             throw Error(
                 `Target prop '${prop}' has type '${targetType}' ` +
@@ -48,13 +58,33 @@ export default function updateObject(target, source) {
         }
 
         // apply update
-        if (typeof target[prop] === 'object' &&
-            typeof source[prop] === 'object') {
+        if (Array.isArray(targetProp) &&
+            Array.isArray(sourceProp)) {
             
-            // deep update
-            updateObject(target[prop], source[prop]);
+            // do not allow changing type of array items 
+            if (targetProp.length && sourceProp.length) {
+                const targetItemType = typeof targetProp[0];
+                const sourceItemType = typeof sourceProp[0];
+
+                if (targetItemType !== sourceItemType) {
+                    throw Error(
+                        `Items of target array '${prop}' has type ` +
+                        `'${targetItemType}' but items of source array ` +
+                        `has type '${sourceItemType}'`);
+                }
+            }
+            
+            // replace array
+            target[prop] = sourceProp;
+
+        } else
+        if (typeof targetProp === 'object' &&
+            typeof sourceProp === 'object') {
+            
+            // deep update object
+            updateObject(targetProp, sourceProp);
         } else {
-            target[prop] = source[prop];
+            target[prop] = sourceProp;
         }
     }
 

@@ -115,6 +115,10 @@ export default connect(dispatch => ({
             size: data.size
         },
         throttleLog: true
+    }),
+
+    ['click']: () => dispatch({
+        type: 'on-graph-click'
     })
 
 }))(VM);

@@ -1,7 +1,7 @@
 import clone from 'clone';
 import required from 'utils/required-params';
 
-import patch from 'vm/utils/patch-view';
+import view from 'vm/utils/patch-view';
 import computeViewbox from 'vm/action/utils/compute-graph-viewbox-size';
 
 /**
@@ -27,5 +27,5 @@ export default function(state, data) {
 
     const vb = computeViewbox({viewbox, viewport});
 
-    return patch('update-graph', {viewbox: vb, viewport});
+    return view('update-graph', {viewbox: vb, viewport});
 }

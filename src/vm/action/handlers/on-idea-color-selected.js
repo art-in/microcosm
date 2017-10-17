@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import view from 'vm/utils/patch-view';
 
 /**
  * Handles idea color selected with color picker
@@ -19,8 +19,5 @@ export default function onIdeaColorSelected(state, data, dispatch) {
         data: {ideaId, color}
     });
 
-    return new Patch({
-        type: 'hide-color-picker',
-        targets: ['vm', 'view']
-    });
+    return view('update-color-picker', {active: false});
 }

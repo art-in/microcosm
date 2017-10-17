@@ -15,10 +15,11 @@ describe('show-color-picker-for-idea', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
 
-        expect(type).to.equal('show-color-picker');
-        expect(data.onSelectAction).to.be.a('function');
+        expect(patch['update-color-picker']).to.have.length(1);
+        expect(patch['update-color-picker'][0].data).to.containSubset({
+            active: true
+        });
     });
 
     it(`should set action getter`, () => {
@@ -29,7 +30,8 @@ describe('show-color-picker-for-idea', () => {
             data: {ideaId: 'idea'}
         });
 
-        const {data: {onSelectAction}} = patch[0];
+        const pickerMutation = patch['update-color-picker'][0];
+        const {data: {onSelectAction}} = pickerMutation;
         
         // target
         const action = onSelectAction({color: 'red'});

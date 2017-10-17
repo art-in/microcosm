@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import view from 'vm/utils/patch-view';
 
 import getAssociation from 'action/utils/get-association';
 import MenuItem from 'vm/shared/MenuItem';
@@ -25,9 +25,9 @@ export default function showContextMenuForAssociation(state, data) {
 
     const assoc = getAssociation(mindmap, associationId);
 
-    const menuItems = [];
+    const items = [];
 
-    menuItems.push(
+    items.push(
         new MenuItem({
             displayValue: 'set color',
             onSelectAction: () => ({
@@ -38,9 +38,13 @@ export default function showContextMenuForAssociation(state, data) {
 
     // TODO: menu item 'remove-association'
     
-    return new Patch({
-        type: 'show-context-menu',
-        data: {pos, menuItems},
-        targets: ['vm', 'view']
+    return view('update-context-menu', {
+        popup: {
+            active: true,
+            pos
+        },
+        menu: {
+            items
+        }
     });
 }

@@ -228,9 +228,7 @@ export default class Graph extends EventedViewModel {
      * Handles click event
      */
     onClick() {
-        this.contextMenu.deactivate();
-        this.colorPicker.deactivate();
-        this.associationTailsLookup.deactivate();
+        this.emit('click');
     }
 
     /**
@@ -417,14 +415,10 @@ export default class Graph extends EventedViewModel {
      * @param {string} color
      */
     onPickerColorSelected(color) {
-
         this.emit('picker-color-change', {
             picker: this.colorPicker,
             color
         });
-      
-        // TODO: deactivate through action
-        this.colorPicker.deactivate();
     }
 
     /**
@@ -432,7 +426,6 @@ export default class Graph extends EventedViewModel {
      * @param {*} data 
      */
     onAssociationTailsLookupPhraseChanged({phrase}) {
-
         this.emit('association-tails-lookup-phrase-changed', {
             lookup: this.associationTailsLookup,
             phrase
@@ -445,14 +438,10 @@ export default class Graph extends EventedViewModel {
      * @param {LookupSuggestion} data.suggestion
      */
     onAssociationTailsLookupSuggestionSelected({suggestion}) {
-
         this.emit('association-tails-lookup-suggestion-selected', {
             lookup: this.associationTailsLookup,
             suggestion
         });
-
-        // TODO: deactivate through action
-        this.associationTailsLookup.deactivate();
     }
 
     /**
@@ -484,18 +473,6 @@ export default class Graph extends EventedViewModel {
         }
 
         this.emit('change');
-    }
-
-    /**
-     * Checks whether scale limits allow to scale more up or down
-     * @param {bool} up
-     * @return {bool}
-     */
-    canScaleMore(up) {
-        return (
-            (up && this.viewbox.scale < this.viewbox.scaleMax) ||
-            (!up && this.viewbox.scale > this.viewbox.scaleMin)
-        );
     }
 
 }

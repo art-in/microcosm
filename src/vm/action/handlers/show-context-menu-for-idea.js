@@ -1,5 +1,5 @@
 import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import view from 'vm/utils/patch-view';
 
 import MenuItem from 'vm/shared/MenuItem';
 
@@ -21,9 +21,9 @@ export default function showContextMenuForIdea(state, data) {
         return;
     }
 
-    const menuItems = [];
+    const items = [];
 
-    menuItems.push(
+    items.push(
         new MenuItem({
             displayValue: 'add idea',
             onSelectAction: () => ({
@@ -32,7 +32,7 @@ export default function showContextMenuForIdea(state, data) {
             })
         }));
     
-    menuItems.push(
+    items.push(
         new MenuItem({
             displayValue: 'add-association',
             onSelectAction: () => ({
@@ -41,7 +41,7 @@ export default function showContextMenuForIdea(state, data) {
             })
         }));
     
-    menuItems.push(
+    items.push(
         new MenuItem({
             displayValue: 'remove-idea',
             onSelectAction: () => ({
@@ -50,9 +50,13 @@ export default function showContextMenuForIdea(state, data) {
             })
         }));
 
-    return new Patch({
-        type: 'show-context-menu',
-        data: {pos, menuItems},
-        targets: ['vm', 'view']
+    return view('update-context-menu', {
+        popup: {
+            active: true,
+            pos
+        },
+        menu: {
+            items
+        }
     });
 }

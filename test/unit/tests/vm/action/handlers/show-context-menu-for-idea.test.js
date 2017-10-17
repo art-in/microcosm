@@ -21,13 +21,11 @@ describe('show-context-menu-for-idea', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-context-menu'][0];
 
-        expect(type).to.equal('show-context-menu');
-        expect(data.menuItems).to.have.length(3);
-        
-        expect(data.menuItems.every(i => i instanceof MenuItem)).to.be.ok;
-        expect(data.menuItems).to.containSubset([{
+        expect(data.menu.items).to.have.length(3);
+        expect(data.menu.items.every(i => i instanceof MenuItem)).to.be.ok;
+        expect(data.menu.items).to.containSubset([{
             displayValue: 'add idea'
         }, {
             displayValue: 'add-association'
@@ -36,7 +34,7 @@ describe('show-context-menu-for-idea', () => {
         }]);
     });
 
-    it('should show context menu in certain position', () => {
+    it('should show context menu popup in certain position', () => {
 
         // target
         const patch = handle(null, {
@@ -48,11 +46,10 @@ describe('show-context-menu-for-idea', () => {
             }});
 
         // check
-        expect(patch).to.have.length(1);
-        const {data} = patch[0];
+        const {data} = patch['update-context-menu'][0];
 
-        expect(data.pos).to.be.instanceOf(Point);
-        expect(data.pos).to.containSubset({
+        expect(data.popup.pos).to.be.instanceOf(Point);
+        expect(data.popup.pos).to.containSubset({
             x: 100,
             y: 200
         });
@@ -69,7 +66,8 @@ describe('show-context-menu-for-idea', () => {
                 shaded: false
             }});
 
-        const item = patch[0].data.menuItems
+        const menuMutation = patch['update-context-menu'][0];
+        const item = menuMutation.data.menu.items
             .find(i => i.displayValue === 'add idea');
 
         // target
@@ -96,7 +94,8 @@ describe('show-context-menu-for-idea', () => {
                 shaded: false
             }});
 
-        const item = patch[0].data.menuItems
+        const menuMutation = patch['update-context-menu'][0];
+        const item = menuMutation.data.menu.items
             .find(i => i.displayValue === 'add-association');
 
         // target
@@ -123,7 +122,8 @@ describe('show-context-menu-for-idea', () => {
                 shaded: false
             }});
 
-        const item = patch[0].data.menuItems
+        const menuMutation = patch['update-context-menu'][0];
+        const item = menuMutation.data.menu.items
             .find(i => i.displayValue === 'remove-idea');
 
         // target

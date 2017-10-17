@@ -1,6 +1,6 @@
 import required from 'utils/required-params';
 
-import patch from 'vm/utils/patch-view';
+import view from 'vm/utils/patch-view';
 import animate from 'vm/utils/animate';
 import Point from 'vm/shared/Point';
 
@@ -32,7 +32,7 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
         return;
     }
 
-    mutate(patch('update-graph', {zoomInProgress: true}));
+    mutate(view('update-graph', {zoomInProgress: true}));
 
     // convert coordinates from viewport to canvas
     const pos = mapCoordsToCanvas(viewportPos, viewbox);
@@ -54,7 +54,7 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
                 scale,
                 pos
             });
-            await mutate(patch('update-graph', {viewbox}));
+            await mutate(view('update-graph', {viewbox}));
         }
     });
 
@@ -67,5 +67,5 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
         }
     });
 
-    return patch('update-graph', {zoomInProgress: false});
+    return view('update-graph', {zoomInProgress: false});
 }

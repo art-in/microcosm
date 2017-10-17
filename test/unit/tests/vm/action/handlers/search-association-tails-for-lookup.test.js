@@ -42,12 +42,11 @@ describe('search-association-tails-for-lookup', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
-               
-        expect(type).to.equal('set-suggestions-to-association-tails-lookup');
-        expect(data.suggestions).to.have.length(1);
-        expect(data.suggestions[0]).to.be.instanceOf(LookupSuggestion);
-        expect(data.suggestions[0].data).to.deep.equal({ideaId: 'tail'});
+        const {data} = patch['update-association-tails-lookup'][0];
+        
+        expect(data.lookup.suggestions).to.have.length(1);
+        expect(data.lookup.suggestions[0]).to.be.instanceOf(LookupSuggestion);
+        expect(data.lookup.suggestions[0].data).to.deep.equal({ideaId: 'tail'});
     });
 
     it('should NOT set head idea', () => {
@@ -80,12 +79,10 @@ describe('search-association-tails-for-lookup', () => {
         });
 
         // check
-        expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-association-tails-lookup'][0];
 
-        expect(type).to.equal('set-suggestions-to-association-tails-lookup');
-        expect(data.suggestions).to.have.length(1);
-        expect(data.suggestions[0].data.ideaId).to.equal('tail');
+        expect(data.lookup.suggestions).to.have.length(1);
+        expect(data.lookup.suggestions[0].data.ideaId).to.equal('tail');
     });
 
     it('should NOT set child ideas', () => {
@@ -131,10 +128,9 @@ describe('search-association-tails-for-lookup', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-association-tails-lookup'][0];
 
-        expect(type).to.equal('set-suggestions-to-association-tails-lookup');
-        expect(data.suggestions).to.have.length(0);
+        expect(data.lookup.suggestions).to.have.length(0);
     });
 
     it('should NOT set parent ideas', () => {
@@ -180,10 +176,9 @@ describe('search-association-tails-for-lookup', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-association-tails-lookup'][0];
 
-        expect(type).to.equal('set-suggestions-to-association-tails-lookup');
-        expect(data.suggestions).to.have.length(0);
+        expect(data.lookup.suggestions).to.have.length(0);
     });
 
     it('should NOT set root idea', () => {
@@ -219,10 +214,9 @@ describe('search-association-tails-for-lookup', () => {
 
         // check
         expect(patch).to.have.length(1);
-        const {type, data} = patch[0];
+        const {data} = patch['update-association-tails-lookup'][0];
 
-        expect(type).to.equal('set-suggestions-to-association-tails-lookup');
-        expect(data.suggestions).to.have.length(0);
+        expect(data.lookup.suggestions).to.have.length(0);
     });
 
     it('should target only vm and view state layers', () => {

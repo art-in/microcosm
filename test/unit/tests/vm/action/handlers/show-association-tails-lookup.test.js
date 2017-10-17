@@ -19,8 +19,10 @@ describe('show-association-tails-lookup', () => {
             }});
 
         // check
-        expect(patch).to.have.length(2);
-        expect(patch[0].type).to.equal('hide-context-menu');
+        expect(patch['update-context-menu']).to.have.length(1);
+        expect(patch['update-context-menu'][0].data).to.deep.equal({
+            popup: {active: false}
+        });
     });
 
     it('should show lookup in certain position', () => {
@@ -34,17 +36,21 @@ describe('show-association-tails-lookup', () => {
             }});
 
         // check
-        expect(patch).to.have.length(2);
-        const {type, data} = patch[1];
+        const lookupMutations = patch['update-association-tails-lookup'];
+        expect(lookupMutations).to.have.length(1);
 
-        expect(type).to.equal('show-association-tails-lookup');
-        expect(data.pos).to.containSubset({
-            x: 100,
-            y: 200
+        expect(lookupMutations[0].data).to.containSubset({
+            popup: {
+                active: true,
+                pos: {
+                    x: 100,
+                    y: 200
+                }
+            }
         });
     });
 
-    it(`should set on select 'create-cross-association' action`, () => {
+    it(`should set on-select action getter`, () => {
 
         // setup
         const patch = handle(null, {
@@ -54,7 +60,8 @@ describe('show-association-tails-lookup', () => {
                 headIdeaId: 'head idea'
             }});
 
-        const {data: {onSelectAction}} = patch[1];
+        const lookupMutation = patch['update-association-tails-lookup'][0];
+        const {data: {onSelectAction}} = lookupMutation;
 
         // target
         const action = onSelectAction({
@@ -66,15 +73,14 @@ describe('show-association-tails-lookup', () => {
         
         // check
         expect(action).to.containSubset({
-            type: 'create-cross-association',
+            type: 'on-association-tails-lookup-select',
             data: {
                 headIdeaId: 'head idea',
                 tailIdeaId: 'tail idea'
             }});
     });
 
-    it(`should set on phrase change ` +
-        `'search-association-tails-for-lookup' action`, () => {
+    it(`should set on-phrase-change action getter`, () => {
         
         // setup
         const patch = handle(null, {
@@ -84,7 +90,8 @@ describe('show-association-tails-lookup', () => {
                 headIdeaId: 'head idea'
             }});
 
-        const {data: {onPhraseChangeAction}} = patch[1];
+        const lookupMutation = patch['update-association-tails-lookup'][0];
+        const {data: {onPhraseChangeAction}} = lookupMutation;
 
         // target
         const action = onPhraseChangeAction({

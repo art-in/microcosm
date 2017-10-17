@@ -32,6 +32,9 @@ describe('on-idea-color-selected', () => {
 
     it('should hide color picker', () => {
         
+        // setup
+        const dispatch = spy();
+
         // target
         const patch = handle(null, {
             type: 'on-idea-color-selected',
@@ -39,10 +42,15 @@ describe('on-idea-color-selected', () => {
                 ideaId: 'idea',
                 color: 'red'
             }
-        }, spy());
+        }, dispatch);
 
         // check
-        expect(patch['hide-color-picker']).to.exist;
+        expect(patch).to.have.length(1);
+        
+        expect(patch['update-color-picker']).to.exist;
+        expect(patch['update-color-picker'][0].data).to.deep.equal({
+            active: false
+        });
     });
 
 });
