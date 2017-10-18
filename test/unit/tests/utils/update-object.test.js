@@ -47,16 +47,6 @@ describe('update-object', () => {
             `but source has type 'number'`);
     });
 
-    it('should fail if updating null to object', () => {
-        
-        const target = {nested: null};
-        const result = () => updateObject(target, {nested: {}});
-
-        expect(result).to.throw(
-            `Target prop 'nested' has type 'null' ` +
-            `but source has type 'object'`);
-    });
-
     it('should fail if updating array to object', () => {
         
         const target = {nested: []};

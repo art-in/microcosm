@@ -43,13 +43,12 @@ export default function updateObject(target, source) {
         targetType = Array.isArray(targetProp) ? 'array' : targetType;
         sourceType = Array.isArray(sourceProp) ? 'array' : sourceType;
 
-        targetType = targetProp === null ? 'null' : targetType;
-        sourceType = sourceProp === null ? 'null' : sourceType;
-
-        // allow to initialize target properties
-        // allow to clean target properties
+        // allow to initialize target properties (undefined)
+        // allow to change previously cleaned props (null)
+        // allow to clean target properties (null)
         // do not allow changing target types
         if (targetProp !== undefined &&
+            targetProp !== null &&
             sourceProp !== null &&
             targetType !== sourceType) {
             throw Error(
