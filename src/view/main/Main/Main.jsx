@@ -12,11 +12,6 @@ export default class Main extends Component {
         vm: PropTypes.instanceOf(MainVM).isRequired
     };
 
-    componentDidMount() {
-        // console.debug(this.props.vm);
-        // this.props.vm.onMount();
-    }
-    
     render() {
         
         return (

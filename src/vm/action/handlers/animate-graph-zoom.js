@@ -4,9 +4,10 @@ import view from 'vm/utils/view-patch';
 import animate from 'vm/utils/animate';
 import Point from 'vm/shared/Point';
 
-import zoomGraph from 'vm/action/utils/zoom-graph';
-import checkScaleLimits from 'vm/action/utils/check-graph-scale-limits';
-import mapCoordsToCanvas from 'vm/action/utils/map-viewport-to-canvas-coords';
+import zoomGraph from 'vm/map/entities/Graph/methods/zoom';
+import checkScaleLimits from 'vm/map/entities/Graph/methods/check-scale-limits';
+import mapToCanvasCoords from
+    'vm/map/entities/Graph/methods/map-viewport-to-canvas-coords';
 
 /**
  * Animates graph scale towards certain canvas position
@@ -35,7 +36,7 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
     mutate(view('update-graph', {zoomInProgress: true}));
 
     // convert coordinates from viewport to canvas
-    const pos = mapCoordsToCanvas(viewportPos, viewbox);
+    const pos = mapToCanvasCoords(viewportPos, viewbox);
 
     const scaleStep = 0.5;
     const targetScale = viewbox.scale +

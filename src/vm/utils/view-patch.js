@@ -8,14 +8,14 @@ import Patch from 'utils/state/Patch';
  * 
  * @example
  * // before
- * mutate(new Patch({
+ * return new Patch({
  *      type: 'update-graph',
  *      data: {viewbox},
  *      targets: ['vm', 'view']
- * }));
+ * });
  * 
  * // after
- * mutate(view('update-graph', {viewbox}));
+ * return view('update-graph', {viewbox});
  * 
  * @param {string} mutationType
  * @param {object} [mutationData]

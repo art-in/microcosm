@@ -1,5 +1,5 @@
 describe('entities', () => {
 
-    require('./Graph.test');
+    require('./Graph');
 
 });

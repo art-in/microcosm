@@ -10,6 +10,7 @@ export default class EditableField extends Component {
         style: PropTypes.object,
         selectOnFocus: PropTypes.bool,
         focusOnMount: PropTypes.bool,
+        
         onChange: PropTypes.func.isRequired,
         onReturn: PropTypes.func
     }
@@ -65,15 +66,14 @@ export default class EditableField extends Component {
     }
 
     onKeyDown = e => {
-        // 'Return'
-        if (e.keyCode == 13 && !e.ctrlKey) {
+        
+        if (e.key === 'Enter' && !e.ctrlKey) {
             e.preventDefault();
             this.emitChange();
             this.props.onReturn && this.props.onReturn();
         }
 
-        // 'Return + CTRL'
-        if (e.keyCode == 13 && e.ctrlKey) {
+        if (e.key === 'Enter' && e.ctrlKey) {
             e.preventDefault();
             document.execCommand('insertHTML', false, '<br><br>');
         }

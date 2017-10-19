@@ -33,7 +33,8 @@ export default function createState() {
             main
         },
         view: {
-            root: document.createElement('div')
+            root: document.createElement('div'),
+            storeDispatch: () => {}
         }
     };
 }

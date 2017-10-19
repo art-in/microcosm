@@ -1,5 +1,5 @@
 /**
- * Lookup suggestion vm 
+ * Lookup suggestion
  */
 export default class LookupSuggestion {
 

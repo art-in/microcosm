@@ -12,6 +12,8 @@ import pms from 'utils/pms';
  * @param {number}   opts.to       - target value
  * @param {number}   opts.duration - approximate animation duration (ms)
  * @param {function} opts.onStep
+ * @param {function} [opts.scheduleAnimationStep] - step scheduler
+ *                   (default: requestAnimationFrame)
  * @return {Promise}
  */
 export default function animate(opts) {
@@ -54,7 +56,7 @@ export default function animate(opts) {
             const timeRatio = timeElapsed / duration;
 
             // guess how many more steps we can make, taking
-            // into account average duration of previous steps
+            // average duration of previous steps into account
             const stepDurationSum = stepDurations.reduce((s, d) => s + d, 0);
             const stepDurationAvg = stepDurationSum ?
                 stepDurationSum / stepDurations.length : 1;

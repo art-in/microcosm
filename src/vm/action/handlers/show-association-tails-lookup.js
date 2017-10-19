@@ -1,7 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
-
 import view from 'vm/utils/view-patch';
+
+import showLookup from 'vm/shared/Lookup/methods/show-lookup';
 
 /**
  * Shows association tails lookup
@@ -23,31 +24,27 @@ export default function(state, data) {
         }),
 
         view('update-association-tails-lookup', {
-            
             popup: {
                 active: true,
                 pos
             },
-            lookup: {
-                phrase: '',
-                suggestions: [],
-                activeSuggesionId: null,
-                nothingFoundLabelShown: false,
-                focused: true
-            },
-            onSelectAction: ({suggestion}) => ({
-                type: 'on-association-tails-lookup-select',
-                data: {
-                    headIdeaId,
-                    tailIdeaId: suggestion.data.ideaId
-                }
-            }),
-            onPhraseChangeAction: ({phrase}) => ({
-                type: 'search-association-tails-for-lookup',
-                data: {
-                    headIdeaId,
-                    phrase
-                }
+            lookup: showLookup({
+
+                onSelectAction: ({suggestion}) => ({
+                    type: 'create-cross-association',
+                    data: {
+                        headIdeaId,
+                        tailIdeaId: suggestion.data.ideaId
+                    }
+                }),
+
+                onPhraseChangeAction: ({phrase}) => ({
+                    type: 'search-association-tails-for-lookup',
+                    data: {
+                        headIdeaId,
+                        phrase
+                    }
+                })
             })
         })
     ]);

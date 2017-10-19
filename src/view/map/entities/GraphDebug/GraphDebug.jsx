@@ -17,19 +17,14 @@ export default class GraphDebug extends Component {
         const {round} = Math;
         
         return (
-            <div id={'debug'} className={ classes.root }>
-                { `viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
-                    `(${round(viewbox.width)}; ${round(viewbox.height)})` }
-                <br />
-                { `scale: ${viewbox.scale}` }
-                <br />
-                { `drag: ${graph.drag.active}` }
-                <br />
-                { `pan: ${graph.pan.active}` }
-                <br />
-                { `focus depth: ${graph.focusDepth}` }
-                <br />
-                { `rendered height: ${graph.height}` }
+            <div id={'debug'} className={classes.root}>
+                {`viewbox: (${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
+                    `(${round(viewbox.width)}; ${round(viewbox.height)})`}
+                <br />{`scale: ${viewbox.scale}`}
+                <br />{`drag: ${graph.drag.active}`}
+                <br />{`pan: ${graph.pan.active}`}
+                <br />{`focus depth: ${graph.focusDepth}`}
+                <br />{`rendered height: ${graph.height}`}
             </div>
         );
     }

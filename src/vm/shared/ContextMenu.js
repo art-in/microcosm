@@ -1,26 +1,12 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 import Menu from './Menu';
 import Popup from './Popup';
 
 /**
- * Context menu view model
- * Menu shown inside free-flow popup
+ * Context menu
  */
-export default class ContextMenu extends EventedViewModel {
-
-    static eventTypes = [
-        'change',
-        'itemSelected'
-    ];
-
-    /**
-     * Is shown?
-     * @type {bool}
-     */
-    get active() {
-        return this.popup && this.popup.active;
-    }
+export default class ContextMenu extends ViewModel {
 
     /**
      * Popup container
@@ -33,16 +19,23 @@ export default class ContextMenu extends EventedViewModel {
     menu = undefined;
 
     /**
+     * Is shown?
+     * @type {bool}
+     */
+    get active() {
+        return this.popup && this.popup.active;
+    }
+
+    /**
      * Constructor
      * @param {object}           [opts]
      * @param {array.<MenuItem>} [opts.items]
      */
     constructor({items = []} = {}) {
         super();
+        
         this.popup = new Popup();
         this.menu = new Menu({items});
-
-        this.retransmit(this.menu, 'itemSelected');
     }
 
 }

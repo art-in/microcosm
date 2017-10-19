@@ -13,12 +13,14 @@ export default class ContextMenu extends Component {
 
     static propTypes = {
         cmenu: PropTypes.instanceOf(ContextMenuVM).isRequired,
-        className: PropTypes.string
+        className: PropTypes.string,
+        
+        onItemSelect: PropTypes.func.isRequired
     }
 
     render() {
 
-        const {cmenu, className, ...other} = this.props;
+        const {cmenu, className, onItemSelect, ...other} = this.props;
         const {popup, menu} = cmenu;
 
         return (
@@ -27,7 +29,8 @@ export default class ContextMenu extends Component {
                 {...other}>
 
                 <Menu menu={menu}
-                    className={classes.menu} />
+                    className={classes.menu}
+                    onItemSelect={onItemSelect} />
         
             </Popup>
         );

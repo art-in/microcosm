@@ -1,8 +1,8 @@
 /**
  * Main view model
  * 
- * Represents root app dispatching component,
- * that can show login form, preferences form, mindmap etc.
+ * Represents root app component, that can show
+ * login form, preferences form, mindmap etc.
  */
 export default class Main {
 
@@ -12,11 +12,4 @@ export default class Main {
      */
     mindmap;
     
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return '[Main VM]';
-    }
 }

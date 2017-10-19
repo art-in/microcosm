@@ -16,7 +16,7 @@
  * Note 1: result should be balanced with node depth downscaling logic.
  * Otherwise eg. if nodes will be downscaled faster than
  * focused graph depth, while zooming, graph will focus
- * smaller and smaller nodes until they can be seen.
+ * smaller and smaller nodes until they cannot be seen.
  * 
  * Calculus: 
  * Sn  - Scale of node

@@ -8,7 +8,9 @@ import classes from './ColorPicker.css';
 export default class ColorPicker extends Component {
     
     static propTypes = {
-        picker: PropTypes.instanceOf(ColorPickerVM).isRequired
+        picker: PropTypes.instanceOf(ColorPickerVM).isRequired,
+        
+        onChange: PropTypes.func.isRequired
     }
 
     componentDidUpdate() {
@@ -26,7 +28,8 @@ export default class ColorPicker extends Component {
     }
 
     onChange = e => {
-        this.props.picker.onColorSelected(e.currentTarget.value);
+        const color = e.currentTarget.value;
+        this.props.onChange({color});
     }
     
     render() {

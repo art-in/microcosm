@@ -1,8 +1,9 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 
-import mapToViewboxCoords from 'vm/action/utils/map-viewport-to-viewbox-coords';
 import getNode from 'vm/action/utils/get-node';
+import mapToViewboxCoords from
+    'vm/map/entities/Graph/methods/map-viewport-to-viewbox-coords';
 
 /**
  * Handles mouse move on graph
@@ -19,7 +20,7 @@ export default function(state, data, dispatch) {
 
     const viewboxShift = mapToViewboxCoords(viewportShift, graph.viewbox);
 
-    // drag node
+    // drag node step
     if (graph.drag.active) {
 
         const node = getNode(graph, graph.drag.node.id);
@@ -33,7 +34,7 @@ export default function(state, data, dispatch) {
         });
     }
 
-    // pan
+    // pan step
     if (graph.pan.active) {
 
         return view('update-graph', {

@@ -1,24 +1,12 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 import Popup from './Popup';
 import Lookup from './Lookup';
 
-/** */
-export default class LookupPopup extends EventedViewModel {
-
-    static eventTypes = [
-        'change',
-        'phrase-changed',
-        'suggestion-selected'
-    ];
-
-    /**
-     * Is shown?
-     * @type {bool}
-     */
-    get active() {
-        return this.popup && this.popup.active;
-    }
+/**
+ * Lookup popup
+ */
+export default class LookupPopup extends ViewModel {
 
     /**
      * Popup container
@@ -33,16 +21,12 @@ export default class LookupPopup extends EventedViewModel {
     lookup = undefined;
 
     /**
-     * Gets action after suggestion selected
-     * @type {function}
+     * Is shown?
+     * @type {bool}
      */
-    onSelectAction = undefined;
-
-    /**
-     * Gets action after phrase changed
-     * @type {function}
-     */
-    onPhraseChangeAction = undefined;
+    get active() {
+        return this.popup && this.popup.active;
+    }
 
     /**
      * Constructor
@@ -52,9 +36,6 @@ export default class LookupPopup extends EventedViewModel {
         super();
         this.popup = new Popup();
         this.lookup = new Lookup(inputPlaceholder);
-
-        this.retransmit(this.lookup, 'phrase-changed');
-        this.retransmit(this.lookup, 'suggestion-selected');
     }
 
 }

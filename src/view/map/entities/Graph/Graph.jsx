@@ -23,7 +23,28 @@ import classes from './Graph.css';
 export default class Graph extends Component {
 
     static propTypes = {
-        graph: PropTypes.instanceOf(GraphVM).isRequired
+        graph: PropTypes.instanceOf(GraphVM).isRequired,
+        
+        // own events
+        onClick: PropTypes.func.isRequired,
+        onWheel: PropTypes.func.isRequired,
+        onMouseUp: PropTypes.func.isRequired,
+        onMouseMove: PropTypes.func.isRequired,
+        onMouseLeave: PropTypes.func.isRequired,
+        onMouseDown: PropTypes.func.isRequired,
+        onKeyPress: PropTypes.func.isRequired,
+        onViewportResize: PropTypes.func.isRequired,
+
+        // child events
+        onContextMenuItemSelect: PropTypes.func.isRequired,
+        onAssociationTailsLookupPhraseChange: PropTypes.func.isRequired,
+        onAssociationTailsLookupKeyDown: PropTypes.func.isRequired,
+        onAssociationTailsLookupSuggestionSelect: PropTypes.func.isRequired,
+        onColorPickerChange: PropTypes.func.isRequired,
+
+        onNodeMouseDown: PropTypes.func.isRequired,
+        onNodeRightClick: PropTypes.func.isRequired,
+        onLinkRightClick: PropTypes.func.isRequired
     }
 
     getViewportSize = () => {
@@ -58,17 +79,17 @@ export default class Graph extends Component {
     }
 
     onNodeRightClick = (node, e) => {
-        this.props.graph.onNodeRightClick(node, this.getClickPos(e));
+        this.props.onNodeRightClick({node, pos: this.getClickPos(e)});
         e.preventDefault();
     }
 
     onLinkRightClick = (link, e) => {
-        this.props.graph.onLinkRightClick(link, this.getClickPos(e));
+        this.props.onLinkRightClick({link, pos: this.getClickPos(e)});
         e.preventDefault();
     }
 
     onResize = () => {
-        this.props.graph.onViewportResize(this.getViewportSize());
+        this.props.onViewportResize({size: this.getViewportSize()});
     }
 
     onWheel = e => {
@@ -78,14 +99,14 @@ export default class Graph extends Component {
         const viewportX = e.clientX - bodyMargin.left;
         const viewportY = e.clientY - bodyMargin.top;
 
-        this.props.graph.onWheel({
+        this.props.onWheel({
             up: e.deltaY <= 0,
             pos: new Point(viewportX, viewportY)
         });
     }
 
     onNodeMouseDown = (node, e) => {
-        this.props.graph.onNodeMouseDown({
+        this.props.onNodeMouseDown({
             node,
             button: e.nativeEvent.which === 1 ? 'left' : 'right'
         });
@@ -93,7 +114,6 @@ export default class Graph extends Component {
     }
 
     onMouseMove = e => {
-        const {graph} = this.props;
         const {nativeEvent: event} = e;
         const pageScale = getPageScale();
 
@@ -101,79 +121,96 @@ export default class Graph extends Component {
         const viewportShiftX = event.movementX / pageScale;
         const viewportShiftY = event.movementY / pageScale;
 
-        graph.onMouseMove({
+        this.props.onMouseMove({
             viewportShift: new Point(viewportShiftX, viewportShiftY)
         });
     }
 
-    onMouseUp = () => {
-        this.props.graph.onMouseUp();
-    }
-
     onMouseDown = e => {
-        this.props.graph.onMouseDown({
+        this.props.onMouseDown({
             button: e.nativeEvent.which === 1 ? 'left' : 'right'
         });
     }
 
     onKeyPress = e => {
-        this.props.graph.onKeyPress(e.key);
+        const key = e.key;
+        this.props.onKeyPress({key});
+    }
+
+    onContextMenuItemSelect = ({item}) => {
+        this.props.onContextMenuItemSelect({item});
     }
 
     render() {
-        const {graph, ...other} = this.props;
-        
+        const {
+            graph,
+            
+            onClick,
+            onMouseUp,
+            onMouseLeave,
+            onAssociationTailsLookupPhraseChange,
+            onAssociationTailsLookupKeyDown,
+            onAssociationTailsLookupSuggestionSelect,
+            onColorPickerChange
+        } = this.props;
+
         const viewbox = graph.viewbox;
 
         const nodes = graph.nodes.map(node => {
             return (
                 <Node
-                    key={ node.id }
-                    node={ node }
-                    onMouseDown={ this.onNodeMouseDown.bind(null, node) }
-                    onContextMenu={ this.onNodeRightClick.bind(null, node) }/>
+                    key={node.id}
+                    node={node}
+                    onMouseDown={this.onNodeMouseDown.bind(null, node)}
+                    onContextMenu={this.onNodeRightClick.bind(null, node)}/>
             );
         });
 
         const links = graph.links.map(link => {
             return (
                 <Link
-                    key={ link.id }
-                    link={ link }
-                    onContextMenu={ this.onLinkRightClick.bind(null, link) }/>
+                    key={link.id}
+                    link={link}
+                    onContextMenu={this.onLinkRightClick.bind(null, link)}/>
             );
         });
 
         return (
             <div>
-                {
-                    graph.debug &&
-                        <GraphDebug graph={graph} />
-                }
+                {graph.debug && <GraphDebug graph={graph} />}
+
                 <Svg nodeRef={node => this.viewport = node}
-                    viewBox={ `${viewbox.x} ${viewbox.y} ` +
-                        `${viewbox.width} ${viewbox.height}` }
-                    preserveAspectRatio={ 'xMidYMid meet' }
-                    className={ classes.svg }
-                    onMouseUp={ this.onMouseUp }
-                    onMouseMove={ this.onMouseMove }
-                    onMouseLeave={ graph.onMouseLeave.bind(graph) }
-                    onWheel={ this.onWheel }
-                    onMouseDown={ this.onMouseDown }
-                    onClick={ graph.onClick.bind(graph) }
-                    onKeyDown={ this.onKeyPress }
-                    tabIndex={ 0 }
-                    {...other}>
+                    viewBox={`${viewbox.x} ${viewbox.y} ` +
+                        `${viewbox.width} ${viewbox.height}`}
+                    preserveAspectRatio={'xMidYMid meet'}
+                    className={classes.svg}
+                    onMouseUp={onMouseUp}
+                    onMouseMove={this.onMouseMove}
+                    onMouseLeave={onMouseLeave}
+                    onWheel={this.onWheel}
+                    onMouseDown={this.onMouseDown}
+                    onClick={onClick}
+                    onKeyDown={this.onKeyPress}
+                    tabIndex={0}>
 
                     <Group id={'links'}>{links}</Group>
                     <Group id={'nodes'}>{nodes}</Group>
                 </Svg>
 
                 <div id={'menus'}>
-                    <ContextMenu cmenu={ graph.contextMenu } />
-                    <ColorPicker picker={ graph.colorPicker } />
+                    <ContextMenu
+                        cmenu={graph.contextMenu}
+                        onItemSelect={this.onContextMenuItemSelect} />
+
+                    <ColorPicker picker={graph.colorPicker}
+                        onChange={onColorPickerChange} />
+                    
                     <LookupPopup
-                        lookupPopup={graph.associationTailsLookup} />
+                        lookupPopup={graph.associationTailsLookup}
+                        onPhraseChange={onAssociationTailsLookupPhraseChange}
+                        onKeyDown={onAssociationTailsLookupKeyDown}
+                        onSuggestionSelect=
+                            {onAssociationTailsLookupSuggestionSelect} />
                 </div>
             </div>
         );

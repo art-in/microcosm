@@ -1,23 +1,17 @@
 import mapObject from 'utils/map-object';
 
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 import Point from 'vm/shared/Point';
 
 /**
- * Node view model
+ * Node
  */
-export default class Node extends EventedViewModel {
+export default class Node extends ViewModel {
 
-    static eventTypes = [
-
-        'change',
-
-        'title-change',
-
-        'title-double-click',
-
-        'title-blur'
-    ];
+    /**
+     * Debug state
+     */
+    debug = true;
 
     /**
      * Node ID
@@ -83,11 +77,6 @@ export default class Node extends EventedViewModel {
     linksOut = [];
 
     /**
-     * Debug state
-     */
-    debug = false;
-
-    /**
      * Indicates that node has less importance
      * (ie. grayed out)
      */
@@ -102,42 +91,6 @@ export default class Node extends EventedViewModel {
         if (obj) {
             mapObject(this, obj);
         }
-    }
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Node` +
-            (this.isRoot ? '* ' : ' ') +
-            `(${this.id}) ` +
-            `(${this.pos.x} x ${this.pos.y}) ` +
-            `(incoming links: ${this.linksIn.length}}) ` +
-            `(outgoing links: ${this.linksOut.length}}) ` +
-            `(${this.title})]`;
-    }
-
-    /**
-     * Handles title click event
-     */
-    onTitleClick() {
-        this.emit('title-double-click');
-    }
-
-    /**
-     * Handles title blur event
-     */
-    onTitleBlur() {
-        this.emit('title-blur');
-    }
-
-    /**
-     * Handles title change event
-     * @param {string} title
-     */
-    onTitleChange(title) {
-        this.emit('title-change', title);
     }
 
 }

@@ -1,4 +1,4 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * Mindmap view model
@@ -6,24 +6,12 @@ import EventedViewModel from 'vm/utils/EventedViewModel';
  * Represents root mindmap component, which can show
  * mindmap in different forms (map, list, etc)
  */
-export default class Mindmap extends EventedViewModel {
-
-    static eventTypes = [
-        'change'
-    ]
+export default class Mindmap extends ViewModel {
 
     /**
      * Graph model
      * @type {Graph}
      */
     graph;
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Mindmap VM]`;
-    }
 
 }

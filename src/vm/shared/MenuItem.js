@@ -1,7 +1,7 @@
 import assert from 'utils/assert';
 
 /**
- * Menu item view model
+ * Menu item
  */
 export default class MenuItem {
 

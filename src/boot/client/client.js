@@ -9,8 +9,6 @@ import initialState from './initial-state';
 import logger from 'utils/state/middlewares/logger';
 import combine from 'utils/state/combine-mutators';
 
-import {connect} from 'vm/utils/store-connect';
-
 import mutateData from 'data/mutators';
 import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
@@ -38,7 +36,7 @@ async function start() {
         initialState,
         [logger]);
 
-    connect.to(store);
+    const storeDispatch = store.dispatch.bind(store);
 
     // warm up state
     await store.dispatch({
@@ -50,7 +48,8 @@ async function start() {
                 mindmaps: new PouchDB('mindmaps')
             },
             view: {
-                root: document.querySelector('#root')
+                root: document.querySelector('#root'),
+                storeDispatch
             }
         }});
 }

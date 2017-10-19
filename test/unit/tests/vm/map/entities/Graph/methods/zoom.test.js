@@ -1,8 +1,8 @@
 import {expect} from 'test/utils';
 
-import zoomGraph from 'vm/action/utils/zoom-graph';
+import zoom from 'src/vm/map/entities/Graph/methods/zoom';
 
-describe('zoom-graph', () => {
+describe('zoom', () => {
 
     describe('move viewbox towards zoom point', () => {
 
@@ -17,7 +17,7 @@ describe('zoom-graph', () => {
             // |       |        |
             // |_______|_______x|
             //
-            const viewbox = zoomGraph({
+            const viewbox = zoom({
                 viewbox: {
                     x: 0,
                     y: 0,
@@ -56,7 +56,7 @@ describe('zoom-graph', () => {
             // |    |__________||
             // |________________|
             //
-            const viewbox = zoomGraph({
+            const viewbox = zoom({
                 viewbox: {
                     x: 0,
                     y: 0,
@@ -95,7 +95,7 @@ describe('zoom-graph', () => {
             // |  |__________|  |
             // |________________|
             //
-            const viewbox = zoomGraph({
+            const viewbox = zoom({
                 viewbox: {
                     x: 0,
                     y: 0,
@@ -127,7 +127,7 @@ describe('zoom-graph', () => {
 
     it('should fail if viewbox width is zero', () => {
         
-        const result = () => zoomGraph({
+        const result = () => zoom({
             viewbox: {
                 x: 0,
                 y: 0,

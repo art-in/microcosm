@@ -7,12 +7,12 @@ import Point from 'vm/shared/Point';
  * 
  * @param {object} state
  * @param {object} data
- * @param {string} data.keyCode
+ * @param {string} data.key
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;
-    const {keyCode} = required(data);
+    const {key} = required(data);
     
     let panKeyStep = 20;
 
@@ -21,21 +21,21 @@ export default function(state, data, dispatch) {
     const pos = new Point(graph.viewbox.x, graph.viewbox.y);
     let moved = false;
 
-    switch (keyCode) {
+    switch (key) {
     case 'ArrowDown':
-        pos.y = pos.y - panKeyStep;
-        moved = true;
-        break;
-    case 'ArrowUp':
         pos.y = pos.y + panKeyStep;
         moved = true;
         break;
+    case 'ArrowUp':
+        pos.y = pos.y - panKeyStep;
+        moved = true;
+        break;
     case 'ArrowLeft':
-        pos.x = pos.x + panKeyStep;
+        pos.x = pos.x - panKeyStep;
         moved = true;
         break;
     case 'ArrowRight':
-        pos.x = pos.x - panKeyStep;
+        pos.x = pos.x + panKeyStep;
         moved = true;
         break;
     default:

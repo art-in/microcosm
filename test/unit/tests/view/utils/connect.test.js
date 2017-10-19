@@ -3,7 +3,7 @@ import {expect} from 'test/utils';
 import {spy} from 'sinon';
 import {mount} from 'enzyme';
 
-import EventedViewModel from 'src/vm/utils/EventedViewModel';
+import ViewModel from 'src/vm/utils/ViewModel';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -15,17 +15,17 @@ describe('connect', () => {
     it(`should update view on view-model 'change' events`, () => {
 
         // setup view-model
-        class ViewModel extends EventedViewModel {
+        class VM extends ViewModel {
             static eventTypes = ['change']
             someProp = 'INITIAL'
         }
 
-        const vm = new ViewModel();
+        const vm = new VM();
 
         // setup view
         class View extends Component {
             static propTypes = {
-                myVM: PropTypes.instanceOf(ViewModel).isRequired
+                myVM: PropTypes.instanceOf(VM).isRequired
             }
             render() {
                 return <span>{this.props.myVM.someProp}</span>;
@@ -57,12 +57,12 @@ describe('connect', () => {
     it('should dispatch store actions on view events', () => {
 
         // setup view-model
-        class ViewModel extends EventedViewModel {
+        class VM extends ViewModel {
             static eventTypes = ['change']
             someProp = 'vm prop value'
         }
 
-        const vm = new ViewModel();
+        const vm = new VM();
 
         // setup view
         class View extends Component {

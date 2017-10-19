@@ -1,16 +1,12 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
- * Popup view model
+ * Popup
  */
-export default class Popup extends EventedViewModel {
-
-    static eventTypes = [
-        'change'
-    ];
+export default class Popup extends ViewModel {
 
     /**
-     * Is shown/focused?
+     * Is shown?
      */
     active = false;
 

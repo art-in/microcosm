@@ -1,1 +1,1 @@
-export default from './Graph.connect';
+export default from './Graph';

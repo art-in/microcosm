@@ -2,8 +2,8 @@ import assert from 'utils/assert';
 import clone from 'clone';
 import required from 'utils/required-params';
 
-import computeViewboxSize from './compute-graph-viewbox-size';
-import checkScaleLimits from './check-graph-scale-limits';
+import computeViewboxSize from './compute-viewbox-size';
+import checkScaleLimits from './check-scale-limits';
 
 /**
  * Changes graph scale towards certain canvas position

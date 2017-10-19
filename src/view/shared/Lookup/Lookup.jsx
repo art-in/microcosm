@@ -11,20 +11,20 @@ export default class Lookup extends Component {
 
     static propTypes = {
         lookup: PropTypes.instanceOf(LookupVM).isRequired,
-        className: PropTypes.string
+        className: PropTypes.string,
+        
+        onPhraseChange: PropTypes.func.isRequired,
+        onKeyDown: PropTypes.func.isRequired,
+        onSuggestionSelect: PropTypes.func.isRequired
     }
 
     onPhraseChange = e => {
-        this.props.lookup.onPhraseChange(e.target.value);
+        const phrase = e.target.value;
+        this.props.onPhraseChange({phrase});
     }
 
     componentDidMount() {
-        this.props.lookup.onShown();
         this.ensureFocus();
-    }
-
-    componentWillUnmount() {
-        this.props.lookup.onHidden();
     }
 
     componentDidUpdate() {
@@ -37,19 +37,21 @@ export default class Lookup extends Component {
         }
     }
 
-    onKeyPress = e => {
-        this.props.lookup.onKeyPress(e.key);
+    onKeyDown = e => {
+        const key = e.key;
+        this.props.onKeyDown({key});
 
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        // is view too smart here
+        if (key === 'ArrowDown' || key === 'ArrowUp') {
             e.preventDefault();
         }
     }
 
     render() {
         const {lookup, className} = this.props;
+        const {onSuggestionSelect} = this.props;
         const {
             highlightedSuggestionId: highlightId,
-            onSuggestionSelected: onSelected,
             placeholder,
             nothingFoundLabelShown
         } = lookup;
@@ -62,8 +64,7 @@ export default class Lookup extends Component {
                     ref={el => this.input = el}
                     placeholder={placeholder}
                     onChange={this.onPhraseChange}
-                    onBlur={lookup.onBlur.bind(lookup)}
-                    onKeyDown={this.onKeyPress} />
+                    onKeyDown={this.onKeyDown} />
 
                 {lookup.suggestions.length ?
                     <div className={classes.suggestions}>
@@ -73,7 +74,8 @@ export default class Lookup extends Component {
                                 suggestion={s}
                                 className={classes.suggestion}
                                 highlight={s.id === highlightId}
-                                onSelected={onSelected.bind(lookup, s.id)} />)}
+                                onSelected={onSuggestionSelect
+                                    .bind(null, {suggestion: s})} />)}
                     </div> : null}
 
                 {nothingFoundLabelShown ?

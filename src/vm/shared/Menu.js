@@ -1,17 +1,12 @@
 import assert from 'utils/assert';
 
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 import MenuItem from 'vm/shared/MenuItem';
 
 /**
- * Menu view model
+ * Menu
  */
-export default class Menu extends EventedViewModel {
-
-    static eventTypes = [
-        'change',
-        'itemSelected'
-    ];
+export default class Menu extends ViewModel {
 
     /**
      * Menu items

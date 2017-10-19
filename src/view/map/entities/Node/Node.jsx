@@ -17,12 +17,22 @@ export default class Node extends Component {
 
     static propTypes = {
         node: PropTypes.instanceOf(NodeVM).isRequired,
-        className: PropTypes.string
+        className: PropTypes.string,
+        
+        onTitleDoubleClick: PropTypes.func.isRequired,
+        onTitleBlur: PropTypes.func.isRequired,
+        onTitleChange: PropTypes.func.isRequired
     }
 
     render() {
         
-        const {node, className, ...other} = this.props;
+        const {
+            node,
+            className,
+            onTitleDoubleClick,
+            onTitleBlur,
+            onTitleChange,
+            ...other} = this.props;
 
         const textAreaWidth = 200;
         const textAreaHeight = 25;
@@ -52,9 +62,9 @@ export default class Node extends Component {
                             height={ textAreaHeight }
                             value={ node.title.value }
                             editable={ node.title.editing }
-                            onDoubleClick={ node.onTitleClick.bind(node) }
-                            onBlur={ node.onTitleBlur.bind(node) }
-                            onChange={ node.onTitleChange.bind(node) } />
+                            onDoubleClick={ onTitleDoubleClick }
+                            onBlur={ onTitleBlur }
+                            onChange={ onTitleChange } />
                         : null
                 }
 

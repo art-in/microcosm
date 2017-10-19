@@ -61,7 +61,7 @@ describe('show-association-tails-lookup', () => {
             }});
 
         const lookupMutation = patch['update-association-tails-lookup'][0];
-        const {data: {onSelectAction}} = lookupMutation;
+        const {data: {lookup: {onSelectAction}}} = lookupMutation;
 
         // target
         const action = onSelectAction({
@@ -73,7 +73,7 @@ describe('show-association-tails-lookup', () => {
         
         // check
         expect(action).to.containSubset({
-            type: 'on-association-tails-lookup-select',
+            type: 'create-cross-association',
             data: {
                 headIdeaId: 'head idea',
                 tailIdeaId: 'tail idea'
@@ -91,7 +91,7 @@ describe('show-association-tails-lookup', () => {
             }});
 
         const lookupMutation = patch['update-association-tails-lookup'][0];
-        const {data: {onPhraseChangeAction}} = lookupMutation;
+        const {data: {lookup: {onPhraseChangeAction}}} = lookupMutation;
 
         // target
         const action = onPhraseChangeAction({

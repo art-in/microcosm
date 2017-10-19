@@ -1,26 +1,14 @@
-import assert from 'utils/assert';
 import {EventEmitter} from 'events';
-import retransmitEvent from 'utils/retransmit-event';
 
 /**
- * Wraps EventEmitter to check integrity of events on view model
+ * Base class for view-models
+ * 
+ * Wraps EventEmitter to notify view about changes
+ * 
+ * - fails on subscribing to same event several times
+ * - warns on emitting event that no one listens to
  */
-export default class EventedViewModel extends EventEmitter {
-
-    /**
-     * constructor
-     */
-    constructor() {
-        super();
-
-        if (typeof this.constructor.eventTypes !== 'object' ||
-            typeof this.constructor.eventTypes.length !== 'number') {
-            
-            throw Error(
-                `No 'eventTypes' static member found ` +
-                `on '${this.constructor.displayName}' view model`);
-        }
-    }
+export default class ViewModel extends EventEmitter {
 
     /**
      * Gets class display name
@@ -62,12 +50,6 @@ export default class EventedViewModel extends EventEmitter {
      */
     addListener(eventType, ...args) {
         
-        if (!this.hasEventType(eventType)) {
-            throw Error(
-                `No '${eventType}' event to listen on ` +
-                `'${this.constructor.displayName}' view model`);
-        }
-
         if (this.hasListeners(eventType)) {
             throw Error(
                 `'${this.constructor.displayName}' view model ` +
@@ -87,22 +69,4 @@ export default class EventedViewModel extends EventEmitter {
         return super.listeners(eventType).length !== 0;
     }
 
-    /**
-     * Checks whether view model can initiate particular event
-     * @param {*} eventType
-     * @return {boolean}
-     */
-    hasEventType(eventType) {
-        return this.constructor.eventTypes.some(e => e === eventType);
-    }
-
-    /**
-     * Re-emits event from another viewmodel
-     * @param {EventedViewModel} vm 
-     * @param {string} eventType 
-     */
-    retransmit(vm, eventType) {
-        assert(vm instanceof EventedViewModel);
-        retransmitEvent(eventType, vm, this);
-    }
 }

@@ -16,8 +16,7 @@ export default function(state, data, dispatch) {
     // stop dragging node
     if (graph.drag.active) {
 
-        // TODO: do not dispatch if position was not shifted,
-        //       same as pan
+        // TODO: do not dispatch if position was not shifted (same as pan)
         dispatch({
             type: 'set-idea-position',
             data: {

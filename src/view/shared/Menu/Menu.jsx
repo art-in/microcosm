@@ -12,17 +12,19 @@ export default class Menu extends Component {
 
     static propTypes = {
         menu: PropTypes.instanceOf(MenuVM).isRequired,
-        className: PropTypes.string
+        className: PropTypes.string,
+        
+        onItemSelect: PropTypes.func.isRequired
     }
 
     render() {
 
-        const {menu, className, ...other} = this.props;
+        const {menu, className, onItemSelect, ...other} = this.props;
 
         const items = menu.items.map(item => {
             return (<MenuItem key={ item.id }
                 item={ item }
-                onClick={ menu.onItemSelected.bind(menu, item) } />);
+                onClick={onItemSelect.bind(null, {item})} />);
         });
 
         return (

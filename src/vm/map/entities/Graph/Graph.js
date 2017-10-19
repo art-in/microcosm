@@ -1,92 +1,23 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 
 /**
- * Graph view model.
- *
- * Canvas - infinite 2D logical space containing all objects of the scene
- * Viewbox - logical rectangle fragment of canvas mapped to viewport
- *           its size and position regulated with zooming and panning
- *           aspect ratio of viewbox equals to aspect ratio of viewport
- * Viewport - physical rectangle surface of rendering engine
+ * Graph
  */
-export default class Graph extends EventedViewModel {
+export default class Graph extends ViewModel {
 
-    static eventTypes = [
-        
-        'change',
-
-        'node-title-change',
-
-        'link-title-change',
-
-        'node-position-change',
-
-        'viewbox-position-change',
-
-        'viewbox-scale-change',
-
-        'picker-color-change',
-        
-        'node-menu-idea-add',
-
-        'node-menu-idea-remove',
-
-        'click',
-
-        'node-rightclick',
-
-        'link-rightclick',
-
-        'association-tails-lookup-phrase-changed',
-
-        'association-tails-lookup-suggestion-selected',
-
-        'context-menu-item-selected',
-
-        'wheel',
-
-        'viewport-resize',
-
-        'node-mouse-down',
-
-        'mouse-up',
-
-        'mouse-move',
-
-        'mouse-leave',
-
-        'mouse-down',
-
-        'key-press',
-
-        'node-title-double-click',
-
-        'node-title-blur'
-    ]
-    
     /**
-     * 
+     * Debug state
      */
-    constructor() {
-        super();
+    debug = true;
 
-        this.contextMenu.on('itemSelected', menuItem =>
-            this.emit('context-menu-item-selected', {menuItem}));
-
-        this.colorPicker.on('colorSelected',
-            this.onPickerColorSelected.bind(this));
-
-        this.associationTailsLookup.on('phrase-changed',
-            this.onAssociationTailsLookupPhraseChanged.bind(this));
-
-        this.associationTailsLookup.on('suggestion-selected',
-            this.onAssociationTailsLookupSuggestionSelected.bind(this));
-    }
-
+    /**
+     * ID
+     * @type {string}
+     */
     id = undefined;
 
     /**
@@ -137,54 +68,16 @@ export default class Graph extends EventedViewModel {
     };
 
     /**
-     * Debug state
+     * Nodes
+     * @type {array.<Node>}
      */
-    debug = true;
+    nodes = [];
 
     /**
-     * Stringifies instance
-     * @return {string}
+     * Links
+     * @type {array.<Link>}
      */
-    toString() {
-        return `[Graph (${this.nodes}) (${this.links})]`;
-    }
-
-    _nodes = [];
-    _link = [];
-
-    /**
-     * Nodes getter
-     */
-    get nodes() {
-        return this._nodes;
-    }
-
-    /**
-     * Nodes setter
-     * @param {array} nodes
-     */
-    set nodes(nodes) {
-        nodes.forEach(this.addNodeHandlers.bind(this));
-        nodes.forEach(n => n.debug = this.debug);
-        this._nodes = nodes;
-    }
-
-    /**
-     * Links getter
-     */
-    get links() {
-        return this._links;
-    }
-
-    /**
-     * Links setter
-     * @param {array} links`
-     */
-    set links(links) {
-        links.forEach(this.addLinkHandlers.bind(this));
-        links.forEach(l => l.debug = this.debug);
-        this._links = links;
-    }
+    link = [];
 
     /**
      * Depth of nodes which resulting size 
@@ -214,150 +107,5 @@ export default class Graph extends EventedViewModel {
      * @type {LookupPopup}
      */
     associationTailsLookup = new LookupPopup('target idea...')
-
-    /**
-     * Binds node events
-     * @param {Node} node
-     */
-    addNodeHandlers(node) {
-        node.on('title-change',
-            title => this.emit('node-title-change', {
-                nodeId: node.id,
-                title
-            }));
-
-        node.on('title-double-click',
-            () => this.emit('node-title-double-click', {
-                nodeId: node.id
-            }));
-
-        node.on('title-blur',
-            () => this.emit('node-title-blur', {
-                nodeId: node.id
-            }));
-    }
-
-    /**
-     * Binds link events
-     * @param {Link} link
-     */
-    addLinkHandlers(link) {
-    }
-
-    /**
-     * Handles click event
-     */
-    onClick() {
-        this.emit('click');
-    }
-
-    /**
-     * Handles node right click event
-     * @param {Node} node
-     * @param {object} pos
-     */
-    onNodeRightClick(node, pos) {
-        this.emit('node-rightclick', {pos, node});
-    }
-
-    /**
-     * Handles link right click event
-     * @param {Link} link
-     * @param {object} pos
-     */
-    onLinkRightClick(link, pos) {
-        this.emit('link-rightclick', {pos, link});
-    }
-
-    /**
-     * Handles viewport resize event
-     * @param {object} size
-     */
-    onViewportResize(size) {
-        this.emit('viewport-resize', {size});
-    }
-
-    /**
-     * Handles mouse wheel event
-     * @param {boolean} up
-     * @param {Point} pos - target viewport position of mouse event
-     */
-    onWheel({up, pos}) {
-        this.emit('wheel', {up, pos});
-    }
-
-    /**
-     * Handles key press event
-     * @param {string} keyCode
-     */
-    onKeyPress(keyCode) {
-        this.emit('key-press', {keyCode});
-    }
-
-    /**
-     * Handles pan start event
-     */
-    onMouseDown({button}) {
-        this.emit('mouse-down', {button});
-    }
-
-    /**
-     * @param {string} data
-     */
-    onNodeMouseDown(data) {
-        this.emit('node-mouse-down', data);
-    }
-
-    /** */
-    onMouseUp() {
-        this.emit('mouse-up');
-    }
-
-    /**
-     * @param {object} data
-     */
-    onMouseMove({viewportShift}) {
-        this.emit('mouse-move', {viewportShift});
-    }
-
-    /**
-     */
-    onMouseLeave() {
-        this.emit('mouse-leave');
-    }
-
-    /**
-     * Handles color selected event
-     * @param {string} color
-     */
-    onPickerColorSelected(color) {
-        this.emit('picker-color-change', {
-            picker: this.colorPicker,
-            color
-        });
-    }
-
-    /**
-     * Handles phrase changed event from association tails lookup
-     * @param {*} data 
-     */
-    onAssociationTailsLookupPhraseChanged({phrase}) {
-        this.emit('association-tails-lookup-phrase-changed', {
-            lookup: this.associationTailsLookup,
-            phrase
-        });
-    }
-
-    /**
-     * Handles suggestion selected event from association tails lookup
-     * @param {object} data
-     * @param {LookupSuggestion} data.suggestion
-     */
-    onAssociationTailsLookupSuggestionSelected({suggestion}) {
-        this.emit('association-tails-lookup-suggestion-selected', {
-            lookup: this.associationTailsLookup,
-            suggestion
-        });
-    }
 
 }

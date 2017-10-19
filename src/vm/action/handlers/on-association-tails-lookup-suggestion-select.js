@@ -12,16 +12,15 @@ import view from 'vm/utils/view-patch';
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-    const {headIdeaId, tailIdeaId} = required(data);
+    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {suggestion} = required(data);
     
-    dispatch({
-        type: 'create-cross-association',
-        data: {
-            headIdeaId,
-            tailIdeaId
-        }
-    });
+    const lookup = graph.associationTailsLookup.lookup;
 
+    const action = lookup.onSelectAction({suggestion});
+    dispatch(action);
+
+    // hide popup
     return view('update-association-tails-lookup', {
         popup: {active: false}
     });

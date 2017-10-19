@@ -1,13 +1,14 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
- * Link view model
+ * Link
  */
-export default class Link extends EventedViewModel {
+export default class Link extends ViewModel {
 
-    static eventTypes = [
-        'change'
-    ]
+    /**
+     * Debug state
+     */
+    debug = true;
 
     /**
      * Start node
@@ -39,41 +40,10 @@ export default class Link extends EventedViewModel {
     };
 
     /**
-     * Debug state
-     */
-    debug = false;
-
-    /**
      * Indicates that link has less importance
      * (ie. grayed out)
      */
     shaded = false;
-
-    /**
-     * constructor
-     * @param {Node} fromNode
-     * @param {Node} toNode
-     */
-    constructor(fromNode, toNode) {
-        super();
-
-        this.from = fromNode;
-        this.to = toNode;
-    }
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Link` +
-            (this.isRooted ? '* ' : ' ') +
-            `(${this.id}) ` +
-            `(${this.from.pos.x} x ${this.from.pos.y}) - ` +
-            `(${this.to.pos.x} x ${this.to.pos.y}) ` +
-            `(${this.color}) ` +
-            `(${this.title})]`;
-    }
 
     /**
      * Indicates that head node is root
@@ -88,6 +58,18 @@ export default class Link extends EventedViewModel {
      */
     get color() {
         return this.to.color;
+    }
+
+    /**
+     * constructor
+     * @param {Node} fromNode
+     * @param {Node} toNode
+     */
+    constructor(fromNode, toNode) {
+        super();
+
+        this.from = fromNode;
+        this.to = toNode;
     }
 
 }

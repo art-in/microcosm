@@ -1,21 +1,12 @@
-import EventedViewModel from 'vm/utils/EventedViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
- * Color picker view model
+ * Color picker
  */
-export default class ColorPicker extends EventedViewModel {
-
-    static eventTypes = [
-
-        // state changed
-        'change',
-
-        // color selected
-        'colorSelected'
-    ]
+export default class ColorPicker extends ViewModel {
 
     /**
-     * Is picker shown/focused?
+     * Is picker shown?
      */
     active = false;
 
@@ -24,13 +15,4 @@ export default class ColorPicker extends EventedViewModel {
      * @type {function}
      */
     onSelectAction = undefined;
-    
-    /**
-     * Handles color selection event
-     * @param {string} color
-     */
-    onColorSelected(color) {
-        this.emit('colorSelected', color);
-    }
-
 }
