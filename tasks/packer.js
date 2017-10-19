@@ -39,19 +39,17 @@ function getPackConfig(opts) {
 
     const entries = [];
     const plugins = [];
-    const loaders = {js: []};
     const resolveModules = [];
 
     if (opts.watch) {
         entries.push(
             `webpack-dev-server/client?` +
                 `http://${opts.serv.host}:${opts.serv.port}/`,
-            'webpack/hot/only-dev-server'
+            'webpack/hot/dev-server'
         );
 
+        plugins.push(new webpack.NamedModulesPlugin());
         plugins.push(new webpack.HotModuleReplacementPlugin());
-
-        loaders.js.push('react-hot-loader');
     }
 
     if (opts.isProduction) {
@@ -63,6 +61,7 @@ function getPackConfig(opts) {
     }
 
     entries.push('babel-polyfill');
+    entries.push('react-hot-loader/patch');
 
     if (opts.entry) {
         // entry point not always required
@@ -90,9 +89,9 @@ function getPackConfig(opts) {
         module: {
             rules: [{
                 test: /\.(js|jsx)$/,
-                use: loaders.js.concat([
-                    {loader: 'babel-loader'}
-                ]),
+                use: [{
+                    loader: 'babel-loader'
+                }],
                 exclude: [/node_modules/]
             }, {
                 test: /\.css$/,
@@ -134,6 +133,7 @@ function pack(opts) {
 
     if (opts.watch) {
 
+        // TODO: comment dev server options
         const server = new WebpackDevServer(compiler, {
             publicPath: '/build/',
             contentBase: opts.serv.public,
@@ -141,7 +141,10 @@ function pack(opts) {
             filename: opts.output.name,
             hot: true,
             proxy: {},
-            stats: 'minimal'
+            stats: 'minimal',
+
+            // do not spam browser log
+            clientLogLevel: 'warning'
         });
 
         server.listen(opts.serv.port, opts.serv.host, function(err) {

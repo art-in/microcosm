@@ -1,0 +1,5 @@
+{
+    // restore transpiling to 'commonjs' from root config.
+    // need to transpile until nodejs supports es2015 modules natively.
+    "presets": [["es2015", {"modules": "commonjs"}]]
+}

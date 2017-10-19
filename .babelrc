@@ -1,6 +1,15 @@
 {
-    "presets": ["es2015", "react"],
+    "presets": [
+        // do not transpile es2015 modules syntax to 'commonjs'.
+        // it's required for react hot-loader to work.
+        // for client, webpack supports modules syntax and will
+        // remove it while bundling. server should stick with 'commonjs'.
+        ["es2015", {"modules": false}],
+        "react"
+    ],
     "plugins": [
+        "react-hot-loader/babel",
+
         "transform-class-properties",
         "transform-export-extensions",
         "transform-object-rest-spread",
