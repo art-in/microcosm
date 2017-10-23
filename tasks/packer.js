@@ -133,14 +133,24 @@ function pack(opts) {
 
     if (opts.watch) {
 
-        // TODO: comment dev server options
+        // dev server 
+        // - serves static files without need of backend server
+        // - builds src modules into in-memory bundle 
+        // - rebuilds bundle on-the-fly when src modules changed
         const server = new WebpackDevServer(compiler, {
+
+            // requests to this URL path will be
+            // served with in-memory bundle
             publicPath: '/build/',
+
+            // file system path to serve static files from
             contentBase: opts.serv.public,
+            
             historyApiFallback: true,
-            filename: opts.output.name,
+
+            // enable hot module replacement
             hot: true,
-            proxy: {},
+            
             stats: 'minimal',
 
             // do not spam browser log
