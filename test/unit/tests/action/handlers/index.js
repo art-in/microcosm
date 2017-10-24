@@ -3,6 +3,7 @@ describe('handlers', () => {
     require('./create-cross-association.test');
     require('./create-idea.test');
     require('./init.test');
+    require('./remove-association.test');
     require('./remove-idea.test');
     require('./set-association-value.test');
     require('./set-idea-color.test');

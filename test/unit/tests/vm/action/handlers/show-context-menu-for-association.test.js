@@ -16,6 +16,8 @@ describe('show-context-menu-for-association', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
+        assoc.to = new Idea();
+
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
@@ -36,10 +38,12 @@ describe('show-context-menu-for-association', () => {
 
         expect(data.popup.active).to.equal(true);
 
-        expect(data.menu.items).to.have.length(1);
-        expect(data.menu.items[0]).to.be.instanceOf(MenuItem);
+        expect(data.menu.items).to.have.length(2);
+        data.menu.items.forEach(i => expect(i).to.be.instanceOf(MenuItem));
         expect(data.menu.items).to.containSubset([{
             displayValue: 'set color'
+        }, {
+            displayValue: 'remove association'
         }]);
     });
 
@@ -47,6 +51,8 @@ describe('show-context-menu-for-association', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
+        assoc.to = new Idea();
+
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
@@ -135,6 +141,8 @@ describe('show-context-menu-for-association', () => {
         
         // setup
         const assoc = new Association({id: 'assoc'});
+        assoc.to = new Idea();
+
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
         const state = {model: {mindmap}};
@@ -154,6 +162,37 @@ describe('show-context-menu-for-association', () => {
         expect(patch.hasTarget('model')).to.be.false;
         expect(patch.hasTarget('vm')).to.be.true;
         expect(patch.hasTarget('view')).to.be.true;
+    });
+
+    it(`should disable 'remove' item if last incoming association`, () => {
+
+        // setup
+        const assoc = new Association({id: 'assoc'});
+        const tail = new Idea();
+        tail.associationsIn = [assoc];
+        assoc.to = tail;
+
+        const mindmap = new Mindmap();
+        mindmap.associations.set(assoc.id, assoc);
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = handle(state, {
+            type: 'show-context-menu-for-association',
+            data: {
+                pos: new Point(0, 0),
+                associationId: 'assoc',
+                shaded: false
+            }
+        });
+
+        // check
+        const {data} = patch['update-context-menu'][0];
+        const item = data.menu.items
+            .find(i => i.displayValue === 'remove association');
+
+        expect(item).to.exist;
+        expect(item.enabled).to.equal(false);
     });
 
 });

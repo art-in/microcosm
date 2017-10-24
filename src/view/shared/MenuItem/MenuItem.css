@@ -1,7 +1,17 @@
 .item {
     padding: 5px;
+    cursor: pointer;
 }
 
 .item:hover {
     background-color: lightgray
+}
+
+.item.disabled {
+    color: gray;
+    cursor: default;
+}
+
+.item.disabled:hover {
+    background-color: initial;
 }

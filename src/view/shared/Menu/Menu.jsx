@@ -24,7 +24,7 @@ export default class Menu extends Component {
         const items = menu.items.map(item => {
             return (<MenuItem key={ item.id }
                 item={ item }
-                onClick={onItemSelect.bind(null, {item})} />);
+                onSelect={onItemSelect.bind(null, {item})} />);
         });
 
         return (

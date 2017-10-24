@@ -35,9 +35,20 @@ export default function showContextMenuForAssociation(state, data) {
                 data: {ideaId: assoc.to.id}
             })
         }));
-
-    // TODO: menu item 'remove-association'
     
+    items.push(
+        new MenuItem({
+            displayValue: 'remove association',
+
+            // prevent removing last incoming association,
+            // because it leads to hanging ideas
+            enabled: assoc.to.associationsIn.length !== 1,
+            onSelectAction: () => ({
+                type: 'remove-association',
+                data: {assocId: assoc.id}
+            })
+        }));
+
     return view('update-context-menu', {
         popup: {
             active: true,

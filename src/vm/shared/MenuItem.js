@@ -1,4 +1,4 @@
-import assert from 'utils/assert';
+import initProps from 'utils/init-props';
 
 /**
  * Menu item
@@ -13,24 +13,26 @@ export default class MenuItem {
     /**
      * Display value
      */
-    displayValue;
+    displayValue = undefined;
+
+    /**
+     * Indicates item is ready to be selected
+     * @type {boolean}
+     */
+    enabled = true;
 
     /**
      * Gets action after item selected
      * @type {function}
      */
-    onSelectAction = null;
+    onSelectAction = undefined;
 
     /**
      * Constructor
-     * @param {object} opts
+     * @param {object} [props]
      */
-    constructor({displayValue, onSelectAction}) {
-        assert(displayValue !== undefined);
-        assert(onSelectAction !== undefined);
-
-        this.displayValue = displayValue;
-        this.onSelectAction = onSelectAction.bind(this, this);
+    constructor(props) {
+        initProps(this, props);
     }
 
 }

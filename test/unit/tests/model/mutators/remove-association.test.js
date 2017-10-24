@@ -65,7 +65,7 @@ describe('remove-association', () => {
         expect(assocs[0].id).to.equal('live');
     });
 
-    it('should remove association from head idea', () => {
+    it('should remove outgoing association from head idea', () => {
         
         // setup graph
         //
@@ -112,6 +112,70 @@ describe('remove-association', () => {
         expect(idea.associationsOut).to.be.empty;
     });
 
+    it('should remove association between head and tail ideas', () => {
+        
+        // setup graph
+        //
+        //  (root) --> (head) --> (tail)
+        //    |                     ^
+        //    -----------------------
+        //
+        const mindmap = new Mindmap();
+
+        const ideaRoot = new Idea({id: 'root', isRoot: true});
+        const ideaHead = new Idea({id: 'head'});
+        const ideaTail = new Idea({id: 'tail'});
+
+        const assocRootToHead = new Association({
+            id: 'root to head',
+            from: ideaRoot,
+            to: ideaHead
+        });
+
+        const assocRootToTail = new Association({
+            id: 'root to tail',
+            from: ideaRoot,
+            to: ideaTail
+        });
+
+        const assocHeadToTail = new Association({
+            id: 'head to tail',
+            from: ideaHead,
+            to: ideaTail
+        });
+
+        ideaRoot.associationsOut = [assocRootToHead, assocRootToTail];
+        ideaHead.associationsIn = [assocRootToHead];
+        ideaHead.associationsOut = [assocHeadToTail];
+        ideaTail.associationsIn = [assocHeadToTail, assocRootToTail];
+
+        mindmap.ideas.set(ideaRoot.id, ideaRoot);
+        mindmap.ideas.set(ideaHead.id, ideaHead);
+        mindmap.ideas.set(ideaTail.id, ideaTail);
+        mindmap.associations.set(assocRootToHead.id, assocRootToHead);
+        mindmap.associations.set(assocRootToTail.id, assocRootToTail);
+        mindmap.associations.set(assocHeadToTail.id, assocHeadToTail);
+        mindmap.root = ideaRoot;
+
+        const state = {model: {mindmap}};
+
+        const patch = new Patch({
+            type: 'remove-association',
+            data: {id: 'head to tail'}
+        });
+
+        // target
+        mutate(state, patch);
+
+        // check
+        const head = state.model.mindmap.ideas.get('head');
+        const tail = state.model.mindmap.ideas.get('tail');
+
+        expect(head.associationsOut).to.be.empty;
+        expect(tail.associationsIn).to.have.length(1);
+        expect(tail.associationsIn[0].id).to.equal('root to tail');
+    });
+
     it('should fail if association was not found', () => {
         
         // setup graph
@@ -153,7 +217,7 @@ describe('remove-association', () => {
             `Association 'die' was not found`);
     });
 
-    it('should fail if association has no head idea', () => {
+    it('should fail if association miss reference to head idea', () => {
         
         // setup graph
         //
@@ -200,7 +264,7 @@ describe('remove-association', () => {
             `Association 'die' has no reference to head idea`);
     });
 
-    it('should fail if association has tail idea', () => {
+    it('should fail if last association for tail idea ', () => {
         
         // setup graph
         //
@@ -221,11 +285,12 @@ describe('remove-association', () => {
         const assocDie = new Association({
             id: 'die',
             from: ideaHead,
-            to: ideaTail // has reference to tail
+            to: ideaTail
         });
 
         ideaRoot.associationsOut = [assocLive];
         ideaHead.associationsOut = [assocDie];
+        ideaTail.associationsIn = [assocDie];
 
         mindmap.ideas.set(ideaRoot.id, ideaRoot);
         mindmap.ideas.set(ideaHead.id, ideaHead);
@@ -245,11 +310,11 @@ describe('remove-association', () => {
 
         // check
         expect(result).to.throw(
-            `Association 'die' cannot be removed ` +
-            `because it has reference to tail idea`);
+            `Association 'die' cannot be removed because ` +
+            `it is the last incoming association for idea 'tail'`);
     });
 
-    it('should fail if head idea has no association', () => {
+    it('should fail if head idea miss reference to association', () => {
         
         // setup graph
         //
@@ -295,5 +360,68 @@ describe('remove-association', () => {
         expect(result).to.throw(
             `Head idea 'head' has no reference ` +
             `to outgoing association 'die'`);
+    });
+
+    it('should fail if tail idea miss reference to association', () => {
+        
+        // setup graph
+        //
+        //  (root) --> (head) --> (tail)
+        //    |                     ^
+        //    -----------------------
+        //
+        const mindmap = new Mindmap();
+
+        const ideaRoot = new Idea({id: 'root', isRoot: true});
+        const ideaHead = new Idea({id: 'head'});
+        const ideaTail = new Idea({id: 'tail'});
+
+        const assocRootToHead = new Association({
+            id: 'root to head',
+            from: ideaRoot,
+            to: ideaHead
+        });
+
+        const assocRootToTail = new Association({
+            id: 'root to tail',
+            from: ideaRoot,
+            to: ideaTail
+        });
+
+        const assocHeadToTail = new Association({
+            id: 'head to tail',
+            from: ideaHead,
+            to: ideaTail
+        });
+
+        ideaRoot.associationsOut = [assocRootToHead, assocRootToTail];
+        ideaHead.associationsIn = [assocRootToHead];
+        ideaHead.associationsOut = [assocHeadToTail];
+
+        // target incoming association missed (same assoc twice)
+        ideaTail.associationsIn = [assocRootToTail, assocRootToTail];
+
+        mindmap.ideas.set(ideaRoot.id, ideaRoot);
+        mindmap.ideas.set(ideaHead.id, ideaHead);
+        mindmap.ideas.set(ideaTail.id, ideaTail);
+        mindmap.associations.set(assocRootToHead.id, assocRootToHead);
+        mindmap.associations.set(assocRootToTail.id, assocRootToTail);
+        mindmap.associations.set(assocHeadToTail.id, assocHeadToTail);
+        mindmap.root = ideaRoot;
+
+        const state = {model: {mindmap}};
+
+        const patch = new Patch({
+            type: 'remove-association',
+            data: {id: 'head to tail'}
+        });
+
+        // target
+        const result = () => mutate(state, patch);
+
+        // check
+        expect(result).to.throw(
+            `Tail idea 'tail' has no reference to ` +
+            `incoming association 'head to tail'`);
     });
 });
