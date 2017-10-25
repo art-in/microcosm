@@ -41,6 +41,7 @@ export default function showContextMenuForIdea(state, data) {
             })
         }));
     
+    // TODO: disable if root or has outgoing assocs
     items.push(
         new MenuItem({
             displayValue: 'remove-idea',

@@ -7,7 +7,9 @@ describe('update-object', () => {
     it('should update properties of target object', () => {
 
         const target = {a: 1, b: 3};
-        updateObject(target, {b: 2});
+        const source = {b: 2};
+
+        updateObject(target, source);
         
         expect(target).to.deep.equal({a: 1, b: 2});
     });
@@ -15,7 +17,9 @@ describe('update-object', () => {
     it('should update props of nested objects', () => {
 
         const target = {nested: {a: 1}};
-        updateObject(target, {nested: {a: 2}});
+        const source = {nested: {a: 2}};
+
+        updateObject(target, source);
         
         expect(target).to.deep.equal({nested: {a: 2}});
     });
@@ -23,9 +27,49 @@ describe('update-object', () => {
     it('should replace nested arrays', () => {
         
         const target = {nested: [1, 2, 3]};
-        updateObject(target, {nested: [4]});
+        const source = {nested: [4]};
+        
+        updateObject(target, source);
         
         expect(target).to.deep.equal({nested: [4]});
+    });
+
+    it('shold ignore prototype props of source', () => {
+
+        const target = {a: 'original', b: 'original'};
+        const source = {a: 'updated'};
+        Object.setPrototypeOf(source, {b: 'updated'});
+
+        updateObject(target, source);
+
+        expect(target.a).to.equal('updated');
+        expect(target.b).to.equal('original');
+    });
+
+    it(`should NOT update prop if 'shouldUpdate' returns false`, () => {
+
+        const target = {a: 'original', b: 'original'};
+        const source = {a: 'updated', b: 'updated'};
+        const propHandler = (prop, targetValue, sourceValue) => {
+            if (prop === 'b') {
+                return false;
+            }
+        };
+
+        updateObject(target, source, propHandler);
+
+        expect(target.a).to.equal('updated');
+        expect(target.b).to.equal('original');
+    });
+
+    it('should update object to null', () => {
+        
+        const target = {a: {}};
+        const source = {a: null};
+
+        updateObject(target, source);
+
+        expect(target.a).to.equal(null);
     });
 
     it('should fail if target prop not found', () => {
@@ -61,14 +105,6 @@ describe('update-object', () => {
         
         const target = {a: undefined};
         const result = () => updateObject(target, {a: 1});
-
-        expect(result).to.not.throw();
-    });
-
-    it('should NOT fail if source prop is null', () => {
-        
-        const target = {a: 1};
-        const result = () => updateObject(target, {a: null});
 
         expect(result).to.not.throw();
     });

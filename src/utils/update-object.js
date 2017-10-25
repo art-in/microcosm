@@ -1,3 +1,5 @@
+import noop from 'utils/noop';
+
 /**
  * Updates object props deeply and safely
  * 
@@ -21,35 +23,50 @@
  * 
  * @param {object} target 
  * @param {object} source
+ * @param {function} [shouldUpdate] - custom prop handler. return false to
+ *                        prevent prop update. updates all props by default
  */
-export default function updateObject(target, source) {
+export default function updateObject(target, source, shouldUpdate = noop) {
 
     for (const prop in source) {
 
+        if (!source.hasOwnProperty(prop)) {
+            // ignore prototype props
+            continue;
+        }
+
+        const targetValue = target[prop];
+        const sourceValue = source[prop];
+
+        if (shouldUpdate(prop, targetValue, sourceValue) === false) {
+            // ignore due to custom handler
+            continue;
+        }
+
         // do not allow creating new props in target
-        if (!(prop in target)) {
+        if (!target.hasOwnProperty(prop)) {
             throw Error(
                 `Target object does not have property '${prop}' to update`);
         }
 
-        const targetProp = target[prop];
-        const sourceProp = source[prop];
-
         // check types
-        let targetType = typeof targetProp;
-        let sourceType = typeof sourceProp;
+        let targetType = typeof targetValue;
+        let sourceType = typeof sourceValue;
 
         // hack-fix js types
-        targetType = Array.isArray(targetProp) ? 'array' : targetType;
-        sourceType = Array.isArray(sourceProp) ? 'array' : sourceType;
+        targetType = targetValue === null ? 'null' : targetType;
+        sourceType = sourceValue === null ? 'null' : sourceType;
+
+        targetType = Array.isArray(targetValue) ? 'array' : targetType;
+        sourceType = Array.isArray(sourceValue) ? 'array' : sourceType;
 
         // allow to initialize target properties (undefined)
         // allow to change previously cleaned props (null)
         // allow to clean target properties (null)
         // do not allow changing target types
-        if (targetProp !== undefined &&
-            targetProp !== null &&
-            sourceProp !== null &&
+        if (targetValue !== undefined &&
+            targetValue !== null &&
+            sourceValue !== null &&
             targetType !== sourceType) {
             throw Error(
                 `Target prop '${prop}' has type '${targetType}' ` +
@@ -57,13 +74,13 @@ export default function updateObject(target, source) {
         }
 
         // apply update
-        if (Array.isArray(targetProp) &&
-            Array.isArray(sourceProp)) {
+        if (targetType === 'array' &&
+            sourceType === 'array') {
             
             // do not allow changing type of array items 
-            if (targetProp.length && sourceProp.length) {
-                const targetItemType = typeof targetProp[0];
-                const sourceItemType = typeof sourceProp[0];
+            if (targetValue.length && sourceValue.length) {
+                const targetItemType = typeof targetValue[0];
+                const sourceItemType = typeof sourceValue[0];
 
                 if (targetItemType !== sourceItemType) {
                     throw Error(
@@ -74,16 +91,16 @@ export default function updateObject(target, source) {
             }
             
             // replace array
-            target[prop] = sourceProp;
+            target[prop] = sourceValue;
 
         } else
-        if (typeof targetProp === 'object' &&
-            typeof sourceProp === 'object') {
+        if (targetType === 'object' &&
+            sourceType === 'object') {
             
             // deep update object
-            updateObject(targetProp, sourceProp);
+            updateObject(targetValue, sourceValue, shouldUpdate);
         } else {
-            target[prop] = sourceProp;
+            target[prop] = sourceValue;
         }
     }
 

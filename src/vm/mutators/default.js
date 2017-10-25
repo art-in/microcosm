@@ -1,4 +1,5 @@
 import toGraph from 'vm/map/mappers/mindmap-to-graph';
+import update from 'utils/update-object';
 
 /**
  * Applies all mutations that do not have correspoding mutators
@@ -10,7 +11,7 @@ export default function defaultMutator(state) {
     const {
         zoomInProgress,
         viewbox: {width: vbWidth, height: vbHeight},
-        viewport
+        viewport: {width: vpWidth, height: vpHeight}
     } = state.vm.main.mindmap.graph;
 
     // by default, remap from model as simpliest coding
@@ -26,20 +27,21 @@ export default function defaultMutator(state) {
     // update existing graph vm instead of replacing it,
     // so vm stays bound to view.
     const graph = state.vm.main.mindmap.graph;
-    for (const prop in newGraph) {
-        if (!newGraph.hasOwnProperty(prop) || prop.startsWith('_')) {
-            // ignore props from prototype and private props
-            // (ie. state of event emitter)
-            continue;
-        }
-
-        graph[prop] = newGraph[prop];
-    }
+    update(graph, newGraph, (prop, targetValue, sourceValue) =>
+        // do not copy internal state of event emitter
+        prop !== '_events' &&
+        prop !== '_maxListeners' &&
+        // do not copy uninitialized props
+        sourceValue !== undefined
+    );
 
     // since remapping from model clears vm specific part of state
     // (like state of dropdowns, lookups, etc), we need to restore them
     graph.zoomInProgress = zoomInProgress;
+    
     graph.viewbox.width = vbWidth;
     graph.viewbox.height = vbHeight;
-    graph.viewport = viewport;
+
+    graph.viewport.width = vpWidth;
+    graph.viewport.height = vpHeight;
 }

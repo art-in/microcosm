@@ -2,6 +2,7 @@ import view from 'vm/utils/view-mutation';
 
 import Patch from 'utils/state/Patch';
 import getNode from 'vm/action/utils/get-node';
+import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 
 /**
  * Handles mouse leave action on graph
@@ -21,7 +22,7 @@ export default function(state, data) {
     
     return new Patch([
 
-        // move node back at starting point
+        // move node back to starting point
         view('update-node', {
             id: node.id,
             pos: {
@@ -31,8 +32,6 @@ export default function(state, data) {
         }),
 
         // stop dragging
-        view('update-graph', {
-            drag: {active: false}
-        })
+        view('update-graph', stopDrag())
     ]);
 }

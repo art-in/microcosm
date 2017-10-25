@@ -1,6 +1,7 @@
 import view from 'vm/utils/view-patch';
 
 import Point from 'vm/shared/Point';
+import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 
 /**
  * Handles mouse up event on graph
@@ -25,11 +26,7 @@ export default function(state, data, dispatch) {
             }
         });
 
-        return view('update-graph', {
-            drag: {
-                active: false
-            }
-        });
+        return view('update-graph', stopDrag());
     }
     
     // stop panning
