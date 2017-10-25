@@ -21,11 +21,23 @@ export default function defaultMutator(state) {
     // almost all nodes because of shading)
     // instead of doing clever patches on existing graph,
     // it is simplier to rebuild whole graph from stratch.
-    state.vm.main.mindmap.graph = toGraph(state.model.mindmap);
+    const newGraph = toGraph(state.model.mindmap);
+
+    // update existing graph vm instead of replacing it,
+    // so vm stays bound to view.
+    const graph = state.vm.main.mindmap.graph;
+    for (const prop in newGraph) {
+        if (!newGraph.hasOwnProperty(prop) || prop.startsWith('_')) {
+            // ignore props from prototype and private props
+            // (ie. state of event emitter)
+            continue;
+        }
+
+        graph[prop] = newGraph[prop];
+    }
 
     // since remapping from model clears vm specific part of state
-    // (like state of dropdowns, lookups, etc), we need to restore it
-    const {graph} = state.vm.main.mindmap;
+    // (like state of dropdowns, lookups, etc), we need to restore them
     graph.zoomInProgress = zoomInProgress;
     graph.viewbox.width = vbWidth;
     graph.viewbox.height = vbHeight;

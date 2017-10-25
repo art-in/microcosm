@@ -1,5 +1,8 @@
 /**
  * Maps props of source object to target object
+ *
+ * TODO: replace with update-object
+ * 
  * @param {object} target
  * @param {object} source
  * @return {object}
