@@ -1,5 +1,5 @@
 import createID from 'utils/create-id';
-import mapObject from 'utils/map-object';
+import initProps from 'utils/init-props';
 
 /**
  * Mindmap model
@@ -55,12 +55,10 @@ export default class Mindmap {
 
     /**
      * constructor
-     * @param {object} obj
+     * @param {object} [props]
      */
-    constructor(obj) {
-        if (obj) {
-            mapObject(this, obj);
-        }
+    constructor(props) {
+        initProps(this, props);
     }
 
     /**

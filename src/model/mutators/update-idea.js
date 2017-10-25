@@ -1,4 +1,4 @@
-import mapObject from 'utils/map-object';
+import update from 'utils/update-object';
 
 /**
  * Updates idea
@@ -16,5 +16,5 @@ export default function updateIdea(state, data) {
         throw Error(`Idea '${patch.id}' was not found`);
     }
 
-    mapObject(idea, patch);
+    update(idea, patch);
 }

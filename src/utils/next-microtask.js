@@ -8,5 +8,7 @@
  * @return {Promise}
  */
 export default function nextMicrotask() {
+    // TODO: not need to create promise,
+    //       awaiting anything will schedule microtask
     return Promise.resolve();
 }

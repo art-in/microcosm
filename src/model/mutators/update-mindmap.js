@@ -1,4 +1,4 @@
-import mapObject from 'utils/map-object';
+import update from 'utils/update-object';
 
 /**
  * Updates mindmap
@@ -10,5 +10,5 @@ export default function updateMindmap(state, data) {
     const {model: {mindmap}} = state;
     const patch = data;
 
-    mapObject(mindmap, patch);
+    update(mindmap, patch);
 }

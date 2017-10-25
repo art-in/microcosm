@@ -1,4 +1,4 @@
-import mapObject from 'utils/map-object';
+import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 import Point from 'vm/shared/Point';
@@ -84,13 +84,11 @@ export default class Node extends ViewModel {
 
     /**
      * constructor
-     * @param {object} obj
+     * @param {object} [props]
      */
-    constructor(obj) {
+    constructor(props) {
         super();
-        if (obj) {
-            mapObject(this, obj);
-        }
+        initProps(this, props);
     }
 
 }

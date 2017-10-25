@@ -56,6 +56,8 @@ const measures = new Map();
 const charCodeA = 65;
 const charCount = 26;
 
+// TODO: skip all methods if production environment
+
 /**
  * Starts group of performance measures
  * 

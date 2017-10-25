@@ -1,4 +1,4 @@
-import mapObject from 'utils/map-object';
+import update from 'utils/update-object';
 
 /**
  * Updates association
@@ -16,5 +16,5 @@ export default function updateAssociation(state, data) {
         throw Error(`Association '${patch.id}' was not found`);
     }
 
-    mapObject(assoc, patch);
+    update(assoc, patch);
 }
