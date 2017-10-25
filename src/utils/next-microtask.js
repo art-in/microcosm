@@ -8,7 +8,7 @@
  * @return {Promise}
  */
 export default function nextMicrotask() {
-    // TODO: not need to create promise,
-    //       awaiting anything will schedule microtask
-    return Promise.resolve();
+    // awaiting anything will schedule microtask
+    // https://github.com/tc39/ecmascript-asyncawait/issues/33
+    return 0;
 }
