@@ -61,6 +61,7 @@ export default class Text extends Component {
         // and for now go with 'dangerouslySetInnerHTML'
         // https://github.com/facebook/react/issues/2250
 
+        // TODO (perf): remove random id
         // Chrome does not redraw textPath on path change
         // when <text> and <defs> are in different <g>-groups ...
         // Force redraw by setting random id attr.

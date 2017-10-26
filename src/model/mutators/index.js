@@ -10,13 +10,13 @@ const mutators = regMutatorsFolder(context);
  * @param {Patch} patch
  */
 export default function mutate(state, patch) {
-    for (const mutation of patch) {
-        if (mutation.hasTarget('model')) {
-            const {type, data} = mutation;
+    patch
+        .filter(m => m.hasTarget('model'))
+        .forEach(m => {
+            const {type, data} = m;
             if (!mutators[type]) {
                 throw Error(`Unknown mutation '${type}'`);
             }
             mutators[type](state, data);
-        }
-    }
+        });
 }

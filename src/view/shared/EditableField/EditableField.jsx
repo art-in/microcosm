@@ -26,6 +26,8 @@ export default class EditableField extends Component {
     }
 
     componentDidMount() {
+        // TODO (perf): react warns here on perf timeline
+        //       'Warning: Scheduled cascading update'
         this.setState({
             editHtml: this.props.html
         });

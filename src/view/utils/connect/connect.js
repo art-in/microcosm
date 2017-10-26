@@ -93,6 +93,8 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                     // return promise to be able to
                     // await view updates on vm changes
                     new Promise(resolve => {
+                        // TODO (perf): setState instead of forceUpdate,
+                        // because forceUpdate ignores shouldComponentUpdate
                         this.forceUpdate(resolve);
                     });
                 

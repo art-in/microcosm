@@ -80,6 +80,15 @@ export default class Patch {
     }
 
     /**
+     * Filter mutations
+     * @param {*} args
+     * @return {*}
+     */
+    filter(...args) {
+        return this.mutations.filter(...args);
+    }
+
+    /**
      * Adds mutations
      * @param {Mutation|object} mutation
      */

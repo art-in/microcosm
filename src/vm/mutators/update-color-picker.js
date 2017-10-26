@@ -10,6 +10,4 @@ export default function updateColorPicker(state, data) {
     const {colorPicker} = state.vm.main.mindmap.graph;
 
     update(colorPicker, data);
-
-    colorPicker.emit('change');
 }

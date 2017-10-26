@@ -12,15 +12,15 @@ const mutators = regMutatorsFolder(context);
  * @param {Patch} patch
  */
 export default function mutate(state, patch) {
-    for (const mutation of patch) {
-        if (mutation.hasTarget('vm')) {
-            const {type, data} = mutation;
+    patch
+        .filter(m => m.hasTarget('vm'))
+        .forEach(m => {
+            const {type, data} = m;
             if (mutators[type]) {
                 mutators[type](state, data);
             } else {
                 // TODO: do not apply default mutation several times
                 defaultMutator(state, data);
             }
-        }
-    }
+        });
 }

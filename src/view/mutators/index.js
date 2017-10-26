@@ -11,37 +11,76 @@ import Provider from 'view/utils/connect/Provider';
  * @param {Patch} patch
  */
 export default function mutate(state, patch) {
+    patch
+        .filter(m => m.hasTarget('view'))
+        .forEach(m => apply(state, m));
+}
+
+/**
+ * Applies single mutation to state
+ * @param {object} state
+ * @param {Mutation} mutation
+ */
+function apply(state, mutation) {
+
+    const {graph} = state.vm.main.mindmap;
+    const {data} = mutation;
+
+    switch (mutation.type) {
     
-    if ([...patch].some(m => !m.hasTarget('view'))) {
-        // do not apply patch if some mutations
-        // not targeting view layer
-        return;
-    }
-
-    if (patch['init']) {
-        const mutation = patch['init'][0];
-        const {root, storeDispatch} = required(mutation.data.view);
-
+    case 'init': {
+        const {root, storeDispatch} = required(data.view);
+        
         state.view.root = root;
         state.view.storeDispatch = storeDispatch;
+
+        mount(state);
+
+        // register webpack hot module replacement
+        /* eslint-disable no-undef */
+        if (module.hot) {
+            module.hot.accept('view/main/Main', () => mount(state));
+        }
+
+        break;
     }
 
-    // eslint-disable-next-line require-jsdoc
-    const render = () => {
-        // always re-map from viewmodel
-        // react will do all clever patches on view
-        ReactDom.render(
-            <Provider dispatch={state.view.storeDispatch}>
-                <Main vm={state.vm.main} />
-            </Provider>,
-            state.view.root);
-    };
+    case 'update-graph':
+    case 'update-mindmap':
+    case 'add-association':
+    case 'add-idea':
+    case 'remove-idea':
+    case 'remove-association':
+    case 'update-idea':
+    case 'update-association':
+    case 'update-node':
+        graph.emit('change');
+        break;
+    
+    case 'update-association-tails-lookup':
+        graph.associationTailsLookup.emit('change');
+        break;
 
-    render();
+    case 'update-color-picker':
+        graph.colorPicker.emit('change');
+        break;
 
-    // webpack hot module replacement
-    /* eslint-disable no-undef */
-    if (module.hot) {
-        module.hot.accept('view/main/Main', () => render());
+    case 'update-context-menu':
+        graph.contextMenu.emit('change');
+        break;
+
+    default: throw Error(`Unknown mutation '${mutation.type}'`);
     }
+}
+
+/**
+ * Mounts component tree
+ * @param {object} state
+ */
+function mount(state) {
+    ReactDom.render(
+        <Provider dispatch={state.view.storeDispatch}>
+            <Main vm={state.vm.main} />
+        </Provider>,
+        state.view.root);
 }

@@ -10,6 +10,4 @@ export default function updateContextMenu(state, data) {
     const {contextMenu} = state.vm.main.mindmap.graph;
 
     update(contextMenu, data);
-
-    contextMenu.emit('change');
 }

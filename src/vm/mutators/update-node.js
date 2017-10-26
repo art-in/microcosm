@@ -11,6 +11,4 @@ export default function updateGraph(state, data) {
     const node = graph.nodes.find(n => n.id === data.id);
 
     update(node, data);
-
-    node.emit('change');
 }

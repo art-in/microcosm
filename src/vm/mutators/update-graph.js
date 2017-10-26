@@ -10,6 +10,4 @@ export default function updateGraph(state, data) {
     const {graph} = state.vm.main.mindmap;
 
     update(graph, data);
-
-    graph.emit('change');
 }

@@ -32,7 +32,7 @@ export default async function mutate(state, patch) {
 /**
  * Applies single mutation to state
  * @param {object} state
- * @param {{type, data}} mutation
+ * @param {Mutation} mutation
  */
 async function apply(state, mutation) {
 
