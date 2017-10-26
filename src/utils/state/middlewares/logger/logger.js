@@ -11,7 +11,9 @@ import log from './log';
 const DEFAULT_TROTTLE_DELAY = 1000;
 
 /**
- * Creates new instance of console logger middleware
+ * Creates new instance of logger middleware.
+ * 
+ * Logs each dispatch to console.
  * 
  * @param {EventEmitter} events - dispatch events
  * @return {object} middleware instance

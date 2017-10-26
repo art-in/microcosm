@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import perf from 'utils/perf';
+import guid from 'utils/guid';
 
 import Action from './Action';
 
@@ -96,8 +96,6 @@ export default class Store {
             action = new Action(action);
         }
 
-        const dispatchId = perf.startGroup(`🚀 ${action.type}`);
-
         // subscribe middlewares to dispatch events
         const events = new EventEmitter();
         this._middlewares.forEach(m => m.onDispatch(events, action));
@@ -116,20 +114,18 @@ export default class Store {
                 return;
             }
 
-            const mutations = patch.map(m => m.type).join(', ');
-            const mutateId = perf.start(`❗ ${mutations}`, dispatchId);
-
-            events.emit('before-mutation', {state, patch});
+            // it is possible to initiate several mutations during one dispatch,
+            // so we need to uniquely identify each mutation
+            const mutationId = guid();
+            events.emit('before-mutation', {mutationId, state, patch});
 
             const onMutationError = error => {
-                events.emit('mutation-fail', {error});
-                perf.end(mutateId);
+                events.emit('mutation-fail', {mutationId, error});
                 throw error;
             };
 
             const onMutationSuccess = () => {
-                events.emit('after-mutation', {state});
-                perf.end(mutateId);
+                events.emit('after-mutation', {mutationId, state});
             };
 
             let mutationResult;
@@ -176,26 +172,18 @@ export default class Store {
 
         } catch (error) {
             events.emit('handler-fail', {error});
-            perf.endGroup(dispatchId);
             throw error;
         }
         
         // apply resulting mutation
-        try {
-            const res = mutate(patch);
-            
-            // do not schedule microtask if mutator is not async
-            if (res instanceof Promise) {
-                await res;
-            }
-        } catch (error) {
-            perf.endGroup(dispatchId);
-            throw error;
-        }
+        const mutationRes = mutate(patch);
         
-        events.emit('after-dispatch', {state});
+        // do not schedule microtask if mutator is not async
+        if (mutationRes instanceof Promise) {
+            await mutationRes;
+        }
 
-        perf.endGroup(dispatchId);
+        events.emit('after-dispatch', {state});
 
         return state;
     }

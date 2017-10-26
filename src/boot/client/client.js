@@ -6,8 +6,10 @@ import Hander from 'utils/state/Handler';
 import commonHandler from 'action/handler';
 import vmHandler from 'vm/action/handler';
 import initialState from './initial-state';
-import logger from 'utils/state/middlewares/logger';
 import combine from 'utils/state/combine-mutators';
+
+import logger from 'utils/state/middlewares/logger';
+import perf from 'utils/state/middlewares/perf';
 
 import mutateData from 'data/mutators';
 import mutateModel from 'model/mutators';
@@ -34,7 +36,9 @@ async function start() {
             mutateView
         ]),
         initialState,
-        [logger]);
+
+        // TODO: do not apply debug middlewares in prod env
+        [logger, perf]);
 
     const storeDispatch = store.dispatch.bind(store);
 

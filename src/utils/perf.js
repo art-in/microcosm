@@ -19,7 +19,7 @@
  *    which can be mixed with tasks of another async calls. it is
  *    hard to understand what task corresponds to what async call.
  *    custom block can start at the beginning of async call and
- *    end when call end, to draw single undivided block for entire
+ *    end when call end, drawing single undivided block for entire
  *    async process.
  * 5. each custom measure block shows its own duration
  *
@@ -55,8 +55,6 @@ const measures = new Map();
 
 const charCodeA = 65;
 const charCount = 26;
-
-// TODO: skip all methods if production environment
 
 /**
  * Starts group of performance measures

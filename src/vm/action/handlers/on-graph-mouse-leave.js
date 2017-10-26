@@ -14,6 +14,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 export default function(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;
 
+    // TODO: cancel pan too
     if (!graph.drag.active) {
         return;
     }

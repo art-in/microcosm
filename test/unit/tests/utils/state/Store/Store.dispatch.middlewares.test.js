@@ -2,10 +2,13 @@ import {expect} from 'chai';
 import {spy} from 'sinon';
 import clone from 'clone';
 
-import Store from 'utils/state/Store';
-import Handler from 'utils/state/Handler';
-import Patch from 'utils/state/Patch';
-import Action from 'utils/state/Action';
+import isGuid from 'test/utils/is-guid';
+import timer from 'test/utils/timer';
+
+import Store from 'src/utils/state/Store';
+import Handler from 'src/utils/state/Handler';
+import Patch from 'src/utils/state/Patch';
+import Action from 'src/utils/state/Action';
 
 describe('middlewares', () => {
 
@@ -257,6 +260,7 @@ describe('middlewares', () => {
                 counter: 1
             }
         });
+        expect(isGuid(args[0].mutationId)).to.be.true;
     });
 
     it(`should emit 'after-mutation' for resulting mutation`, async () => {
@@ -295,10 +299,9 @@ describe('middlewares', () => {
 
         // check patch
         expect(args[0]).to.containSubset({
-            state: {
-                counter: 2
-            }
+            state: {counter: 2}
         });
+        expect(isGuid(args[0].mutationId)).to.be.true;
     });
 
     it(`should emit 'before-mutation' for intermediate mutations`, async () => {
@@ -342,11 +345,13 @@ describe('middlewares', () => {
             patch: {mutations: [{type: 'mutation'}]},
             state: {counter: 0}
         });
+        expect(isGuid(firstCallArgs.mutationId)).to.be.true;
 
         expect(secondCallArgs).to.containSubset({
             patch: {mutations: [{type: 'mutation'}]},
             state: {counter: 1}
         });
+        expect(isGuid(secondCallArgs.mutationId)).to.be.true;
     });
 
     it(`should emit 'after-mutation' for intermediate mutations`, async () => {
@@ -389,10 +394,77 @@ describe('middlewares', () => {
         expect(firstCallArgs).to.containSubset({
             state: {counter: 1}
         });
+        expect(isGuid(firstCallArgs.mutationId)).to.be.true;
 
         expect(secondCallArgs).to.containSubset({
             state: {counter: 2}
         });
+        expect(isGuid(secondCallArgs.mutationId)).to.be.true;
+    });
+
+    it(`should emit 'mutation' events with unique mutation IDs`, async () => {
+        
+        // setup
+        const handler = new Handler();
+        handler.reg('action', async (_, __, ___, mutate) => {
+
+            // start both mutations concurrently
+            await Promise.all([
+                mutate(new Patch({type: 'mutation'})),
+                mutate(new Patch({type: 'mutation'}))
+            ]);
+        });
+
+        const state = {};
+        const mutator = async state => {
+            // make async mutator so both mutations are intersected
+            await timer(0);
+        };
+
+        // setup middleware
+        const onEvent = spy();
+        const middleware = () => ({onDispatch: events => {
+            events.on('before-mutation', onEvent.bind(null, 'before-mutation'));
+            events.on('after-mutation', onEvent.bind(null, 'after-mutation'));
+        }});
+        
+        // setup store
+        const store = new Store(
+            handler,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action'});
+
+        // check
+        expect(onEvent.callCount).to.equal(4);
+
+        const firstCallArgs = onEvent.getCall(0).args;
+        const secondCallArgs = onEvent.getCall(1).args;
+        const thirdCallArgs = onEvent.getCall(2).args;
+        const fourthCallArgs = onEvent.getCall(3).args;
+
+        // events for both mutations are mixed up
+        expect(firstCallArgs[0]).to.equal('before-mutation');
+        expect(secondCallArgs[0]).to.equal('before-mutation');
+        expect(thirdCallArgs[0]).to.equal('after-mutation');
+        expect(fourthCallArgs[0]).to.equal('after-mutation');
+
+        // but their mutation IDs still uniquely identify each mutation
+        expect(isGuid(firstCallArgs[1].mutationId)).to.be.true;
+        expect(isGuid(secondCallArgs[1].mutationId)).to.be.true;
+
+        expect(firstCallArgs[1].mutationId)
+            .to.not.equal(secondCallArgs[1].mutationId);
+
+        expect(firstCallArgs[1].mutationId)
+            .to.equal(thirdCallArgs[1].mutationId);
+
+        expect(secondCallArgs[1].mutationId)
+            .to.equal(fourthCallArgs[1].mutationId);
     });
 
     it(`should emit 'handler-fail' event when handler failed`, async () => {
@@ -470,6 +542,7 @@ describe('middlewares', () => {
 
         expect(args).to.have.length(1);
         expect(args[0]).to.containSubset({error: {message: 'boom'}});
+        expect(isGuid(args[0].mutationId)).to.be.true;
     });
 
 });
