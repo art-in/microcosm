@@ -24,6 +24,14 @@ window.PouchDB = PouchDB;
  */
 async function start() {
 
+    const middlewares = [];
+
+    if (process.env.NODE_ENV !== 'production') {
+        middlewares.push(logger);
+        middlewares.push(perf);
+    }
+
+    // init store
     const store = new Store(
         Hander.combine([
             commonHandler,
@@ -36,9 +44,7 @@ async function start() {
             mutateView
         ]),
         initialState,
-
-        // TODO: do not apply debug middlewares in prod env
-        [logger, perf]);
+        middlewares);
 
     const storeDispatch = store.dispatch.bind(store);
 
