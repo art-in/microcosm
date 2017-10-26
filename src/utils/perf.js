@@ -92,15 +92,16 @@ function startGroup(label) {
  * Ends group of performance measures
  * 
  * @param {string} groupId - Id received on the group start
+ * @param {string} [labelSuffix] - additional string for group label
 */
-export function endGroup(groupId) {
+export function endGroup(groupId, labelSuffix) {
 
     const group = groups.get(groupId);
     if (!group) {
         throw Error(`Measure group '${groupId}' was not found`);
     }
 
-    end(group.perfId);
+    end(group.perfId, labelSuffix);
     groups.delete(groupId);
 }
 
@@ -140,8 +141,9 @@ function start(label, groupId) {
  * Ends performance measure
  * 
  * @param {string} perfId - measure Id received on the start
+ * @param {string} [labelSuffix] - additional string for measure label
  */
-function end(perfId) {
+function end(perfId, labelSuffix) {
 
     const measure = measures.get(perfId);
     if (!measure) {
@@ -159,7 +161,13 @@ function end(perfId) {
         }
     }
 
-    const measureLabel = `${sGroupId}${measure.label}${sGroupMeasureNumber}`;
+    let suffix = '';
+    if (labelSuffix) {
+        suffix = ` [${labelSuffix}]`;
+    }
+
+    const label = measure.label;
+    const measureLabel = `${sGroupId}${label}${sGroupMeasureNumber}${suffix}`;
 
     performance.measure(measureLabel, perfId);
 

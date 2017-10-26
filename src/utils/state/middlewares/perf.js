@@ -2,6 +2,7 @@ import perf from 'utils/perf';
 
 const dispatchEmoj = '🚀';
 const mutateEmoj = '❗';
+const failEmoj = '💥';
 
 /**
  * Creates new instance of performance middleware.
@@ -46,17 +47,14 @@ export default () => ({
         });
     
         events.on('mutation-fail', ({mutationId}) => {
-            // TODO: mark failed measure
-            perf.end(perfMutationIds.get(mutationId));
+            perf.end(perfMutationIds.get(mutationId), `failed ${failEmoj}`);
             perfMutationIds.delete(mutationId);
 
-            // TODO: mark failed group
-            perf.endGroup(perfDispatchId);
+            perf.endGroup(perfDispatchId, `failed in mutator ${failEmoj}`);
         });
     
         events.on('handler-fail', () => {
-            // TODO: mark failed group
-            perf.endGroup(perfDispatchId);
+            perf.endGroup(perfDispatchId, `failed in handler ${failEmoj}`);
         });
     }
 
