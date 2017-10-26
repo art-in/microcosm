@@ -27,7 +27,6 @@ export default connect(
 
         onContextMenuItemSelect: ({item}) => {
             const action = item.onSelectAction();
-            action.throttleLog = true;
             dispatch(action);
         },
 
@@ -49,7 +48,6 @@ export default connect(
         onColorPickerChange: ({color}) => {
             const picker = props.graph.colorPicker;
             const action = picker.onSelectAction({color});
-            action.throttleLog = true;
             dispatch(action);
         },
 
