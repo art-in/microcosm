@@ -120,6 +120,12 @@ export default class LogEntry {
     throttledCount = 0;
 
     /**
+     * Child actions that were initiated by this action
+     * @type {array.{Action|object}}
+     */
+    childActions = [];
+
+    /**
      * Constructor
      */
     constructor() {

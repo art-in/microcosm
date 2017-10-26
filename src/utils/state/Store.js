@@ -100,7 +100,11 @@ export default class Store {
         const events = new EventEmitter();
         this._middlewares.forEach(m => m.onDispatch(events, action));
 
-        const dispatch = this.dispatch.bind(this);
+        // child actions dispatch
+        const dispatch = (action, ...args) => {
+            events.emit('child-action', {action});
+            return this.dispatch(action, ...args);
+        };
 
         const state = this._state;
 

@@ -30,7 +30,7 @@ describe('logger', () => {
         console.groupEnd.reset();
     });
 
-    describe('logging successful action', () => {
+    describe('successful action', () => {
   
         beforeEach(() => {
         
@@ -114,7 +114,7 @@ describe('logger', () => {
 
     });
 
-    describe('logging action failed in handler', () => {
+    describe('action failed in handler', () => {
 
         beforeEach(() => {
             
@@ -184,7 +184,7 @@ describe('logger', () => {
         });
     });
 
-    describe('logging action failed in mutator', () => {
+    describe('action failed in mutator', () => {
         
         beforeEach(() => {
             
@@ -487,7 +487,7 @@ describe('logger', () => {
 
     });
 
-    describe('mutation targets', () => {
+    describe('action with specific mutation targets', () => {
 
         it('should log targets', () => {
 
@@ -516,7 +516,7 @@ describe('logger', () => {
             expect(logHeader).to.contain(`[targets: T]`);
         });
 
-        it('should not log targets if no specific target', () => {
+        it('should NOT log targets if no specific target', () => {
             
             // setup
             const dispatchEvents = new EventEmitter();
@@ -538,6 +538,62 @@ describe('logger', () => {
             const logHeader = console.groupCollapsed.firstCall.args[0];
 
             expect(logHeader).to.not.contain(`[targets:`);
+        });
+
+    });
+
+    describe('action with child actions', () => {
+        
+        it('should log child actions', () => {
+
+            // setup
+            const events = new EventEmitter();
+            
+            const middleware = logger();
+    
+            const parentAction = new Action({type: 'parent-action'});
+            const childAction1 = new Action({type: 'child-action-1'});
+            const childAction2 = new Action({type: 'child-action-2'});
+
+            const state = {};
+    
+            // target
+            middleware.onDispatch(events, parentAction);
+
+            events.emit('before-dispatch', {state, action: parentAction});
+            events.emit('child-action', {action: childAction1});
+            events.emit('child-action', {action: childAction2});
+            events.emit('after-dispatch', {state});
+
+            // check
+            const logHeader = console.groupCollapsed.firstCall.args[0];
+
+            expect(logHeader).to.contain(
+                `[child: child-action-1, child-action-2]`);
+        });
+
+        it('should NOT log child actions if no one were dispatched', () => {
+            
+            // setup
+            const events = new EventEmitter();
+
+            const middleware = logger();
+
+            const action = new Action({type: 'parent-action'});
+
+            const state = {};
+
+            // target
+            middleware.onDispatch(events, action);
+
+            events.emit('before-dispatch', {state, action});
+            events.emit('after-dispatch', {state});
+
+            // check
+            const logHeader = console.groupCollapsed.firstCall.args[0];
+
+            expect(logHeader).to.not.contain(
+                `[child:`);
         });
 
     });

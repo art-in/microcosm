@@ -127,6 +127,11 @@ function logDispatch(state, events, throttledCount) {
             patch;
     });
 
+    events.on('child-action', opts => {
+        const {action} = required(opts);
+        entry.childActions.push(action);
+    });
+
     events.on('after-dispatch', opts => {
         const {state} = required(opts);
 

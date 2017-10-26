@@ -467,6 +467,55 @@ describe('middlewares', () => {
             .to.equal(fourthCallArgs[1].mutationId);
     });
 
+    it(`should emit 'child-action' for child action dispatches`, async () => {
+        
+        // setup
+        const handler = new Handler();
+
+        handler.reg('parent action',
+            async (_, __, dispatch) =>
+                void await dispatch({type: 'child action'}));
+
+        handler.reg('child action',
+            () => new Patch({type: 'child mutation'}));
+
+        const mutator = () => {};
+        const state = {};
+
+        // setup middleware
+        const inst = [];
+        const middleware = spy(() => ({onDispatch: events => {
+            const instance = {onChildAction: spy()};
+            events.on('child-action', instance.onChildAction);
+            inst.push(instance);
+        }}));
+
+        // setup store
+        const store = new Store(
+            handler,
+            mutator,
+            state,
+            [middleware]);
+        
+        // target
+        await store.dispatch({type: 'parent action'});
+
+        // check
+        expect(inst).to.have.length(2);
+
+        // parent action dispatches child action
+        expect(inst[0].onChildAction.callCount).to.equal(1);
+
+        const childActionCallArgs = inst[0].onChildAction.firstCall.args;
+        expect(childActionCallArgs.length).to.equal(1);
+
+        expect(childActionCallArgs[0].action).to.exist;
+        expect(childActionCallArgs[0].action.type).to.equal('child action');
+
+        // child action dispatches nothing
+        expect(inst[1].onChildAction.callCount).to.equal(0);
+    });
+
     it(`should emit 'handler-fail' event when handler failed`, async () => {
         
         // setup

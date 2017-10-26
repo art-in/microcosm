@@ -6,13 +6,17 @@ const S = '%c';
 
 const color = {
     gray: 'color: gray;',
-    lightgray: 'color: lightgray;',
     black: 'color: black;',
     red: 'color: red;',
     green: 'color: green;',
     blue: 'color: blue;',
     purple: 'color: purple;',
-    orange: 'color: darkorange;'
+    orange: 'color: darkorange;',
+
+    lightGray: 'color: lightgray;',
+    lightPurple: 'color: #ca6cca;',
+    lightOrange: 'color: #ffab44;',
+    lightPink: 'color: #ff7c93;'
 };
 
 const font = {
@@ -101,6 +105,8 @@ function getHeader(entry) {
             `that mutate specific parts of state (eg. view only)`);
     }
 
+    const childActions = entry.childActions.map(a => a.type).join(', ');
+
     // color utils
 
     const getColorForHeaderShared = defaultColor => {
@@ -110,19 +116,18 @@ function getHeader(entry) {
 
         } else if (!hasMutations) {
             // grayout actions with no mutations
-            return color.lightgray;
-
-        } else {
-            return defaultColor;
+            return color.lightGray;
         }
+        
+        return defaultColor;
     };
 
     const getColorForHeaderPartMain = defaultColor => {
         if (targets) {
-            return color.orange;
-        } else {
-            return getColorForHeaderShared(defaultColor);
+            defaultColor = color.orange;
         }
+
+        return getColorForHeaderShared(defaultColor);
     };
 
     const getColorForHeaderPartOptional = defaultColor => {
@@ -142,17 +147,18 @@ function getHeader(entry) {
 
     const headerPartOptional =
         /* 5 */ S + (throttled ? `[throttled: ${throttled}]` : '').padEnd(17) +
-        /* 6 */ S + (targets ? `[targets: ${targets}]` : '').padEnd(20);
+        /* 6 */ S + (targets ? `[targets: ${targets}]` : '').padEnd(20) +
+        /* 7 */ S + (childActions ? `[child: ${childActions}]` : '').padEnd(30);
 
-    // TODO: show child actions
     return [
         headerPartMain + headerPartOptional,
 
         /* 1 */ getColorForHeaderPartMain(color.gray) + font.normal,
         /* 2 */ getColorForHeaderPartMain(color.black) + font.bold,
         /* 3 */ getColorForHeaderPartMain(color.gray) + font.normal,
-        /* 4 */ getColorForHeaderPartOptional(color.red) + font.normal,
-        /* 5 */ getColorForHeaderPartOptional(color.purple) + font.normal,
-        /* 6 */ getColorForHeaderPartOptional(color.orange) + font.normal
+        /* 4 */ getColorForHeaderPartMain(color.red) + font.normal,
+        /* 5 */ getColorForHeaderPartOptional(color.lightPurple) + font.normal,
+        /* 6 */ getColorForHeaderPartOptional(color.lightOrange) + font.normal,
+        /* 7 */ getColorForHeaderPartOptional(color.lightPink) + font.normal
     ];
 }
