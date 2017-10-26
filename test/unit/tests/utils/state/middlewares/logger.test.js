@@ -67,7 +67,7 @@ describe('logger', () => {
             expect(console.groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S}\\(\\d ms\\)`));
         });
-    
+        
         it('should log prev state', () => {
             expect(console.log.getCall(0).args[0]).to.match(
                 RegExp(`${S}prev state`));
@@ -483,6 +483,61 @@ describe('logger', () => {
             expect(logHeader1).to.not.contain(`throttled`);
             expect(logHeader2).to.contain(`[throttled: 2]`);
             expect(logHeader3).to.not.contain(`throttled`);
+        });
+
+    });
+
+    describe('mutation targets', () => {
+
+        it('should log targets', () => {
+
+            // setup
+            const dispatchEvents = new EventEmitter();
+            
+            const middleware = logger();
+    
+            const action = new Action({type: 'my-action'});
+            const state = {};
+            const patch = new Patch({
+                type: 'my-mutation',
+                targets: ['T'] // specific target
+            });
+    
+            // target
+            middleware.onDispatch(dispatchEvents, action);
+
+            dispatchEvents.emit('before-dispatch', {state, action});
+            dispatchEvents.emit('before-mutation', {state, patch});
+            dispatchEvents.emit('after-dispatch', {state});
+
+            // check
+            const logHeader = console.groupCollapsed.firstCall.args[0];
+
+            expect(logHeader).to.contain(`[targets: T]`);
+        });
+
+        it('should not log targets if no specific target', () => {
+            
+            // setup
+            const dispatchEvents = new EventEmitter();
+            
+            const middleware = logger();
+    
+            const action = new Action({type: 'my-action'});
+            const state = {};
+            const patch = new Patch({type: 'my-mutation'}); // no specific tgt
+    
+            // target
+            middleware.onDispatch(dispatchEvents, action);
+
+            dispatchEvents.emit('before-dispatch', {state, action});
+            dispatchEvents.emit('before-mutation', {state, patch});
+            dispatchEvents.emit('after-dispatch', {state});
+
+            // check
+            const logHeader = console.groupCollapsed.firstCall.args[0];
+
+            expect(logHeader).to.not.contain(`[targets:`);
         });
 
     });

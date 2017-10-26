@@ -10,7 +10,8 @@ const color = {
     red: 'color: red;',
     green: 'color: green;',
     blue: 'color: blue;',
-    purple: 'color: purple;'
+    purple: 'color: purple;',
+    orange: 'color: darkorange;'
 };
 
 const font = {
@@ -41,18 +42,36 @@ export default function(entry) {
 
     // TODO: gray out actions without patches
     // TODO: show child actions
-    console.groupCollapsed(
-        S + `action ` +
-        S + `${action.type} ` +
-        S + `(${perf.duration} ms)` +
-        S + (throttledCount ? ` [throttled: ${throttledCount}]` : '') +
-        S + (failed ? ` [failed in ${failSource}]` : ''),
+    let targets;
 
-        (failed ? color.red : color.gray) + font.normal,
-        (failed ? color.red : color.black) + font.bold,
-        (failed ? color.red : color.gray) + font.normal,
-        (failed ? color.red : color.purple) + font.normal,
-        color.red + font.normal);
+    const throttled = throttledCount;
+
+    if (entry.patch) {
+        targets = entry.patch.getTargets().join(', ');
+    }
+
+    let mainPart =
+        /* 1 */ S + `action ` +
+        /* 2 */ S + `${action.type} ` +
+        /* 3 */ S + `(${perf.duration} ms)`;
+
+    mainPart = mainPart.padEnd(50);
+
+    const optionsPart =
+        /* 4 */ S + (throttled ? ` [throttled: ${throttled}]` : '').padEnd(17) +
+        /* 5 */ S + (targets ? ` [targets: ${targets}]` : '').padEnd(17) +
+        /* 6 */ S + (failed ? ` [failed in ${failSource}]` : '').padEnd(17);
+
+    console.groupCollapsed(
+        mainPart +
+        optionsPart,
+
+        /* 1 */ (failed ? color.red : color.gray) + font.normal,
+        /* 2 */ (failed ? color.red : color.black) + font.bold,
+        /* 3 */ (failed ? color.red : color.gray) + font.normal,
+        /* 4 */ (failed ? color.red : color.purple) + font.normal,
+        /* 5 */ (failed ? color.red : color.orange) + font.normal,
+        /* 6 */ color.red + font.normal);
 
     console.log(
         S + 'prev state'.padEnd(20),

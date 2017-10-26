@@ -241,7 +241,7 @@ describe('Patch', () => {
             expect(patch.hasTarget('target X')).to.be.true;
         });
 
-        it('should return false if all mutations has passed target', () => {
+        it('should return false if not all mutations has passed target', () => {
             
             // setup
             const patch = new Patch();
@@ -254,6 +254,35 @@ describe('Patch', () => {
             expect(patch.hasTarget('target X')).to.be.false;
         });
 
+    });
+
+    describe('.getTargets()', () => {
+
+        it('should return all targets from all mutations', () => {
+
+            // setup
+            const patch = new Patch();
+            
+            patch.push({type: 'type 1', targets: ['X']});
+            patch.push({type: 'type 2', targets: ['Y', 'Z']});
+
+            // target / check
+            expect(patch.getTargets()).to.deep.equal(['X', 'Y', 'Z']);
+        });
+
+        
+        it('should return empty array if some mutation has no targets', () => {
+            
+            // setup
+            const patch = new Patch();
+            
+            patch.push({type: 'type 1', targets: ['X']});
+            patch.push({type: 'type 2', targets: ['Y', 'Z']});
+            patch.push({type: 'type 3'}); // all targets
+
+            // target / check
+            expect(patch.getTargets()).to.deep.equal([]);
+        });
     });
 
 });

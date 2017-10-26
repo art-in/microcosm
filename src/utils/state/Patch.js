@@ -1,4 +1,5 @@
 import assert from 'utils/assert';
+import dedup from 'utils/dedup-array';
 
 import Mutation from './Mutation';
 
@@ -126,7 +127,32 @@ export default class Patch {
      * @return {bool}
      */
     hasTarget(target) {
+        // TODO: revisit. from method signature it's more appropriate
+        //       to test for 'some' here, not 'every'
         return this.mutations.every(m => m.hasTarget(target));
+    }
+
+    /**
+     * Gets all unique targets from all mutations
+     * @return {array} empty if at least one underlying mutation
+     *                 targets whole state
+     */
+    getTargets() {
+
+        let mutationTargets = this
+            .map(m => m.targets);
+
+        if (mutationTargets.some(targets => targets === undefined)) {
+            // one of mutations has no specific target (targets whole state),
+            // then parent patch targets whole state too.
+            return [];
+        }
+
+        // flatten arrays
+        mutationTargets = mutationTargets
+            .reduce((acc, targets) => acc.concat(targets), []);
+
+        return dedup(mutationTargets);
     }
 
 }
