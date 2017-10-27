@@ -13,6 +13,11 @@ import mutateModel from 'src/model/mutators';
 import mutateVM from 'src/vm/mutators';
 import mutateView from 'src/view/mutators';
 
+import React from 'react';
+import ReactDom from 'react-dom';
+import Provider from 'view/utils/connect/Provider';
+import MainView from 'src/view/main/Main';
+
 describe('combine-mutators', () => {
 
     let state;
@@ -37,6 +42,13 @@ describe('combine-mutators', () => {
         state.model.mindmap.root = rootIdea;
         state.model.mindmap.ideas.set('parent', rootIdea);
         
+        // setup view
+        ReactDom.render(
+            <Provider dispatch={state.view.storeDispatch}>
+                <MainView vm={state.vm.main} />
+            </Provider>,
+            state.view.root);
+
         // setup patch
         const patch = new Patch();
 
