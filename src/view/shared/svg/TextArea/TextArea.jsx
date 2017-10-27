@@ -33,6 +33,8 @@ export default class TextArea extends Component {
             editable,
             ...other} = this.props;
 
+        // we need foreignObject here to be able to render
+        // contenteditable element, since svg does not allow that
         return (
             <foreignObject
                 transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
@@ -41,7 +43,7 @@ export default class TextArea extends Component {
                 {
                     editable ?
                         <EditableField style={{width, height}}
-                            html={ value }
+                            html={value}
                             tag='div'
                             focusOnMount={ true }
                             onChange={ onChange }

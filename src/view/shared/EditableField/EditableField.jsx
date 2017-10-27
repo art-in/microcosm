@@ -1,78 +1,82 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import noop from 'utils/noop';
+
 export default class EditableField extends Component {
 
     static propTypes = {
         tag: PropTypes.string,
         html: PropTypes.string,
+
         className: PropTypes.string,
         style: PropTypes.object,
+
+        // should select all inner text when focused
         selectOnFocus: PropTypes.bool,
+        // should be focused when mounted
         focusOnMount: PropTypes.bool,
         
         onChange: PropTypes.func.isRequired,
-        onReturn: PropTypes.func
+        onBlur: PropTypes.func
     }
 
     static defaultProps = {
         tag: 'div',
         selectOnFocus: true,
-        focusOnMount: false
+        focusOnMount: false,
+        onBlur: noop
     }
 
     state = {
-        editHtml: ''
+        html: ''
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {html: props.html};
+        this.lastHtml = props.html;
     }
 
     componentDidMount() {
-        // TODO (perf): react warns here on perf timeline
-        //       'Warning: Scheduled cascading update'
-        this.setState({
-            editHtml: this.props.html
-        });
-        this.lastHtml = this.props.html;
-
         if (this.props.focusOnMount) {
             this.input.focus();
         }
     }
 
     componentWillUnmount() {
-        this.emitChange();
+        // unmount can happen before current input changes are saved.
+        // because 'mousedown' outside happens before (!) 'blur' inside.
+        // we need to ensure all changes are saved before unmount.
+        this.emitChangeIfChanged();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState.editHtml !== this.input.innerHTML;
+        return nextState.html !== this.input.innerHTML;
     }
 
-    onInput = () => {
-        const html = this.input.innerHTML;
-        this.setState({
-            editHtml: html
-        });
+    onBlur = () => {
+        this.emitChangeIfChanged();
+        this.props.onBlur();
     }
 
     onFocus = () => {
         if (this.props.selectOnFocus) {
-            setTimeout(() => {
-                const node = this.input;
-                const range = document.createRange();
-                range.selectNodeContents(node);
+            const node = this.input;
+            const range = document.createRange();
+            range.selectNodeContents(node);
 
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }, 10);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
         }
     }
 
     onKeyDown = e => {
-        
         if (e.key === 'Enter' && !e.ctrlKey) {
             e.preventDefault();
-            this.emitChange();
-            this.props.onReturn && this.props.onReturn();
+            this.emitChangeIfChanged();
         }
 
         if (e.key === 'Enter' && e.ctrlKey) {
@@ -83,9 +87,15 @@ export default class EditableField extends Component {
         e.stopPropagation();
     }
 
-    emitChange = () => {
-        const html = this.state.editHtml;
+    onInput = () => {
+        const html = this.input.innerHTML;
+        this.setState({html});
+    }
+
+    emitChangeIfChanged = () => {
+        const html = this.state.html;
         if (this.lastHtml !== html) {
+            // emit change only if value was really changed
             this.props.onChange(html);
             this.lastHtml = html;
         }
@@ -96,15 +106,21 @@ export default class EditableField extends Component {
         delete other.html;
         delete other.focusOnMount;
         delete other.selectOnFocus;
+        delete other.onBlur;
 
+        // do not use jsx here, to allow customizing element tag.
+        // since many tags can be contenteditable (span, div, etc.)
         return React.createElement(tag, Object.assign({
             contentEditable: true,
-            dangerouslySetInnerHTML: {__html: this.state.editHtml},
-            onInput: this.onInput,
+
+            // contenteditable node can contain valid html inside,
+            // like <br>, <b>, <i>, etc.
+            dangerouslySetInnerHTML: {__html: this.state.html},
+            ref: node => this.input = node,
+            onBlur: this.onBlur,
             onFocus: this.onFocus,
             onKeyDown: this.onKeyDown,
-            onBlur: this.emitChange,
-            ref: node => this.input = node
+            onInput: this.onInput
         }, {...other}));
     }
 
