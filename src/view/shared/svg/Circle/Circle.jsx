@@ -7,16 +7,18 @@ export default class Circle extends Component {
 
     static propTypes = {
         pos: PropTypes.instanceOf(Point),
-        radius: PropTypes.number.isRequired
+        radius: PropTypes.number.isRequired,
+        className: PropTypes.string
     }
 
     render() {
-        const {pos, radius, ...other} = this.props;
+        const {pos, radius, className, ...other} = this.props;
         delete other.classes;
 
         return (
-            <circle r={ radius }
-                cx={ pos && pos.x } cy={ pos && pos.y }
+            <circle className={className}
+                r={radius}
+                cx={pos && pos.x} cy={pos && pos.y}
                 {...other} />
         );
     }

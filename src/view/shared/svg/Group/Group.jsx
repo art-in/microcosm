@@ -31,10 +31,12 @@ export default class Group extends Component {
             transforms.push(`scale(${scale})`);
         }
 
+        const transform = transforms.length ? transforms.join(' ') : null;
+
         return (
             <g className={className}
                 id={id}
-                transform={transforms.join(' ')}
+                transform={transform}
                 {...other}>
 
                 {children}

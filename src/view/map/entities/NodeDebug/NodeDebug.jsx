@@ -5,6 +5,7 @@ import cx from 'classnames';
 import Group from 'view/shared/svg/Group';
 import NodeVM from 'vm/map/entities/Node';
 import Text from 'view/shared/svg/Text';
+import Point from 'vm/shared/Point';
 
 import classes from './NodeDebug.css';
 
@@ -25,7 +26,7 @@ export default class NodeDebug extends Component {
 
         const lines = [
             `id = ${node.id.slice(0, 5)}`,
-            `(${round(node.pos.x)} * ${round(node.pos.y)})`,
+            `pos = [${round(node.pos.x)} x ${round(node.pos.y)}]`,
             `depth = ${node.depth}`,
             `scale = ${node.scale}`
         ];
@@ -37,10 +38,12 @@ export default class NodeDebug extends Component {
                 {lines.map((line, idx) =>
                     <Text text={line}
                         key={line}
-                        className={ classes.line }
-                        transform={`translate(` +
-                            `-${node.radius + 10}` +
-                            ` ${node.radius + 10 + idx * 13})` } />)}
+                        className={classes.line}
+                        pos={new Point(
+                            -25,
+                            node.radius + 10 + idx * 13
+                        )}
+                    />)}
 
             </Group>
         );

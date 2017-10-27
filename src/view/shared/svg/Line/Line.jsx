@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 
 import Point from 'vm/shared/Point';
 
-export const reversedPathIdPostfix = '_reversed';
-
 export default class Line extends Component {
 
     static propTypes = {
-        id: PropTypes.string,
         pos1: PropTypes.instanceOf(Point).isRequired,
         pos2: PropTypes.instanceOf(Point).isRequired,
         width: PropTypes.oneOfType([
@@ -32,11 +29,8 @@ export default class Line extends Component {
             width,
             ...other} = this.props;
 
-        delete other.id;
         delete other.pos1;
         delete other.pos2;
-
-        const id = this.props.id || Math.random();
 
         // Variable Stroke Width (VSW) not supported by SVG (#26).
         // Currenly we need to variate start and end widths only.
@@ -75,29 +69,12 @@ export default class Line extends Component {
         const pos2 = new Point(targetPos2.x - dxEnd, targetPos2.y - dyEnd);
         const pos3 = new Point(targetPos2.x + dxEnd, targetPos2.y + dyEnd);
 
-        // React does not (want to?) support namespaced attributes...
-        // In 0.14 we will use 'xlinkHref'
-        // and for now go with 'dangerouslySetInnerHTML'
-        // https://github.com/facebook/react/issues/2250
-
-        // Create two paths: normal one for drawing line itself,
-        // and reversed - for later use (e.g. inverted textPath).
         return (
-            <g {...other}
-                dangerouslySetInnerHTML={{
-                    __html: `
-                    <defs>
-                    <path id='${id}'
-                        class='${className}'
-                        d='M ${pos1.x} ${pos1.y} L ${pos2.x} ${pos2.y} ` +
-                        `${pos3.x} ${pos3.y} L ${pos4.x} ${pos4.y} z'  />
-
-                    <path id='${id}${reversedPathIdPostfix}'
-                            class='${className}'
-                            d='M ${pos2.x} ${pos2.y} L ${pos1.x} ${pos1.y}' />
-                    </defs>
-                    <use xlink:href='#${id}' />`
-                }} />
+            <path
+                className={className}
+                d={`M ${pos1.x} ${pos1.y} L ${pos2.x} ${pos2.y} ` +
+                     `${pos3.x} ${pos3.y} L ${pos4.x} ${pos4.y} z`}
+                {...other}/>
         );
     }
 

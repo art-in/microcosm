@@ -5,16 +5,19 @@ export default class Svg extends Component {
 
     static propTypes = {
         nodeRef: PropTypes.func,
-        children: PropTypes.arrayOf(PropTypes.element)
+        children: PropTypes.arrayOf(PropTypes.element),
+        className: PropTypes.string
     }
 
     render() {
 
-        const {nodeRef, ...other} = this.props;
+        const {nodeRef, className, ...other} = this.props;
 
         return (
 
-            <svg ref={nodeRef} {...other}>
+            <svg className={className}
+                ref={nodeRef}
+                {...other}>
 
                 { this.props.children }
 

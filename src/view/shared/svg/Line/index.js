@@ -1,1 +1,1 @@
-export default, {reversedPathIdPostfix} from './Line';
+export default from './Line';
