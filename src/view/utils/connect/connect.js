@@ -93,8 +93,9 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                     // return promise to be able to
                     // await view updates on vm changes
                     new Promise(resolve => {
-                        // TODO (perf): setState instead of forceUpdate,
-                        // because forceUpdate ignores shouldComponentUpdate
+                        // forceUpdate will only skip shouldComponentUpdate for
+                        // this wrapper component, while child components will
+                        // still receive all normal lifecycle hooks.
                         this.forceUpdate(resolve);
                     });
                 
