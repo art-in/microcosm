@@ -31,7 +31,6 @@ export default class Graph extends Component {
         onMouseUp: PropTypes.func.isRequired,
         onMouseMove: PropTypes.func.isRequired,
         onMouseLeave: PropTypes.func.isRequired,
-        onMouseDown: PropTypes.func.isRequired,
         onKeyPress: PropTypes.func.isRequired,
         onViewportResize: PropTypes.func.isRequired,
 
@@ -114,21 +113,22 @@ export default class Graph extends Component {
     }
 
     onMouseMove = e => {
-        const {nativeEvent: event} = e;
-        const pageScale = getPageScale();
+        const {nativeEvent: event, buttons} = e;
 
-        // get rid of browser page scale
-        const viewportShiftX = event.movementX / pageScale;
-        const viewportShiftY = event.movementY / pageScale;
+        // get shift
+        const pageScale = getPageScale();
+        const viewportShift = new Point(
+            // get rid of browser page scale
+            event.movementX / pageScale,
+            event.movementY / pageScale
+        );
+
+        // get mouse buttons state
+        const pressedMouseButton = buttons === 1 ? 'left' : null;
 
         this.props.onMouseMove({
-            viewportShift: new Point(viewportShiftX, viewportShiftY)
-        });
-    }
-
-    onMouseDown = e => {
-        this.props.onMouseDown({
-            button: e.nativeEvent.which === 1 ? 'left' : 'right'
+            viewportShift,
+            pressedMouseButton
         });
     }
 
@@ -188,7 +188,6 @@ export default class Graph extends Component {
                     onMouseMove={this.onMouseMove}
                     onMouseLeave={onMouseLeave}
                     onWheel={this.onWheel}
-                    onMouseDown={this.onMouseDown}
                     onClick={onClick}
                     onKeyDown={this.onKeyPress}
                     tabIndex={0}>

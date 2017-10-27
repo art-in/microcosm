@@ -1,5 +1,8 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/view-patch';
+import Patch from 'utils/state/Patch';
+
+import viewPatch from 'vm/utils/view-patch';
+import view from 'vm/utils/view-mutation';
 
 import getNode from 'vm/action/utils/get-node';
 import mapToViewboxCoords from
@@ -10,13 +13,14 @@ import mapToViewboxCoords from
  * 
  * @param {object} state
  * @param {object} data
- * @param {Point} data.viewportShift
+ * @param {Point}  data.viewportShift
+ * @param {string} data.pressedMouseButton - left or null
  * @param {function} dispatch
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;
-    const {viewportShift} = required(data);
+    const {viewportShift, pressedMouseButton} = required(data);
 
     const viewboxShift = mapToViewboxCoords(viewportShift, graph.viewbox);
 
@@ -25,7 +29,7 @@ export default function(state, data, dispatch) {
 
         const node = getNode(graph, graph.drag.node.id);
         
-        return view('update-node', {
+        return viewPatch('update-node', {
             id: node.id,
             pos: {
                 x: node.pos.x + viewboxShift.x,
@@ -34,17 +38,26 @@ export default function(state, data, dispatch) {
         });
     }
 
-    // pan step
-    if (graph.pan.active) {
+    // pan
+    if (pressedMouseButton === 'left') {
 
-        return view('update-graph', {
-            pan: {
-                shifted: true
-            },
+        const patch = new Patch();
+
+        // activate panning if not yet activated
+        if (!graph.pan.active) {
+            patch.push(view('update-graph', {
+                pan: {active: true}
+            }));
+        }
+
+        // make pan step
+        patch.push(view('update-graph', {
             viewbox: {
                 x: graph.viewbox.x - viewboxShift.x,
                 y: graph.viewbox.y - viewboxShift.y
             }
-        });
+        }));
+
+        return patch;
     }
 }

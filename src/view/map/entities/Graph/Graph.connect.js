@@ -79,20 +79,14 @@ export default connect(
             throttleLog: 5000
         }),
 
-        onMouseMove: ({viewportShift}) => dispatch({
+        onMouseMove: ({viewportShift, pressedMouseButton}) => dispatch({
             type: 'on-graph-mouse-move',
-            data: {viewportShift},
+            data: {viewportShift, pressedMouseButton},
             throttleLog: 10000
         }),
 
         onMouseLeave: () => dispatch({
             type: 'on-graph-mouse-leave',
-            throttleLog: 5000
-        }),
-
-        onMouseDown: ({button}) => dispatch({
-            type: 'on-graph-mouse-down',
-            data: {button},
             throttleLog: 5000
         }),
 

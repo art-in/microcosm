@@ -53,8 +53,7 @@ export default class Graph extends ViewModel {
      * Panning state
      */
     pan = {
-        active: false,
-        shifted: false
+        active: false
     };
 
     /**

@@ -18,6 +18,7 @@ export default function(state, data, dispatch) {
     if (graph.drag.active) {
 
         // TODO: do not dispatch if position was not shifted (same as pan)
+        //       update: pan is guaranteed to be shifted if active
         dispatch({
             type: 'set-idea-position',
             data: {
@@ -32,21 +33,16 @@ export default function(state, data, dispatch) {
     // stop panning
     if (graph.pan.active) {
 
-        if (graph.pan.shifted) {
-            dispatch({
-                type: 'set-mindmap-position',
-                data: {
-                    mindmapId: graph.id,
-                    pos: new Point(graph.viewbox.x, graph.viewbox.y)
-                }
-            });
-        }
+        dispatch({
+            type: 'set-mindmap-position',
+            data: {
+                mindmapId: graph.id,
+                pos: new Point(graph.viewbox.x, graph.viewbox.y)
+            }
+        });
 
         return view('update-graph', {
-            pan: {
-                active: false,
-                shifted: false
-            }
+            pan: {active: false}
         });
     }
 }
