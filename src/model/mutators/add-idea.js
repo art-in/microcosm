@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import values from 'utils/get-map-values';
 
+import getNodeDepth from 'utils/graph/get-node-depth';
+
 /**
  * Adds idea
  * 
@@ -45,17 +47,7 @@ export default function addIdea(state, data) {
         incomingAssocs.forEach(a => a.to = idea);
         idea.associationsIn = incomingAssocs;
 
-        // set depth (min parent depth + 1)
-        const parents = incomingAssocs.map(assoc => assoc.from);
-        const parentDepths = parents.map(parent => {
-            if (parent.depth === undefined) {
-                throw Error(`Parent idea '${parent.id}' does not have depth`);
-            }
-
-            return parent.depth;
-        });
-
-        idea.depth = Math.min(...parentDepths) + 1;
+        idea.depth = getNodeDepth(idea);
     }
 
     idea.associationsOut = [];

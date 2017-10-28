@@ -1,22 +1,36 @@
 /**
- * Calculates and sets depths of all nodes in the graph.
+ * Calculates and sets depths of all nodes in the graph (or sub-graph).
  * 
  * Depth = distance from root
- * Distance = minimal lenght of path between nodes
+ * Distance = minimal length of path between nodes
  * 
  * Uses Dijkstra algorithm
  * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
  * Dijkstra algorithm: BFS + priority queue.
  * 
- * @param {object} rootNode 
- * @return {object} root node
+ * @param {object} startNode - can be graph root node to calc entire graph
+ *                             or any graph node to calc particular sub-graph
+ * @param {number} startDepth - depth of start node
+ * @return {object} start node
  */
-export default function calcDepths(rootNode) {
+export default function calcDepths(startNode, startDepth) {
 
-    rootNode.depth = 0;
+    // ensure start depth is passed and it is valid number
+    if (!Number.isInteger(startDepth)) {
+        throw Error(`Invalid start depth '${startNode.depth}'`);
+    }
+
+    // depths calculated for nodes.
+    // map(key - node, value - calculated depth)
+    // separate depths storage is needed to make sure
+    // previous node depths do not interfere with this pass.
+    const depths = new Map();
+
+    startNode.depth = startDepth;
+    depths.set(startNode, startDepth);
 
     const queue = [];
-    queue.unshift(rootNode);
+    queue.unshift(startNode);
 
     const visitedNodes = new Set();
 
@@ -31,11 +45,14 @@ export default function calcDepths(rootNode) {
         const successors = currentNode.linksOut.map(l => l.to);
         successors.forEach(successor => {
 
-            const depth = currentNode.depth + 1;
+            const depth = depths.get(currentNode) + 1;
             
-            if (successor.depth === undefined ||
-                successor.depth > depth) {
+            const successorDepth = depths.get(successor);
+
+            if (successorDepth === undefined ||
+                successorDepth > depth) {
                 successor.depth = depth;
+                depths.set(successor, depth);
             }
 
             if (!visitedNodes.has(successor)) {
@@ -45,5 +62,5 @@ export default function calcDepths(rootNode) {
         });
     }
 
-    return rootNode;
+    return startNode;
 }

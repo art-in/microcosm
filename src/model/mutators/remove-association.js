@@ -1,5 +1,8 @@
 import required from 'utils/required-params';
 
+import calcDepths from 'utils/graph/calc-depths';
+import getNodeDepth from 'utils/graph/get-node-depth';
+
 /**
  * Removes association
  * 
@@ -47,8 +50,7 @@ export default function removeAssociation(state, data) {
     // before association, to prevent hanging idea situation
 
     if (assoc.to) {
-        // remove association, in case tail idea is
-        // connected to graph through another association
+        // unbind tail from cross-association
 
         if (assoc.to.associationsIn.length === 1) {
             // hanging ideas are not allowed
@@ -69,6 +71,12 @@ export default function removeAssociation(state, data) {
     
         tailIdeaAssocsIn.splice(index, 1);
     
+        // recalculate idea depths in tail sub-graph.
+        // recalc only if removing cross-association. removing association 
+        // as part of removing idea will not change depths of other ideas.
+        const depth = getNodeDepth(assoc.to);
+        calcDepths(assoc.to, depth);
+
         assoc.toId = null;
         assoc.to = null;
     }

@@ -33,7 +33,7 @@ describe('calc-depths', () => {
         ideaC.associationsOut = [assocCtoD];
 
         // target
-        const root = calcDepths(ideaA);
+        const root = calcDepths(ideaA, 0);
 
         // check
         expect(root).to.containSubset({
@@ -51,6 +51,96 @@ describe('calc-depths', () => {
                     associationsOut: [{
                         to: {
                             id: 'D',
+                            depth: 2
+                        }
+                    }]
+                }
+            }]
+        });
+    });
+
+    it('should ignore previous depths', () => {
+
+        // setup graph
+        //
+        //   (A) --> (B) --> (C)
+        //
+        const ideaA = new Idea({id: 'A', isRoot: true});
+        const ideaB = new Idea({id: 'B'});
+        const ideaC = new Idea({id: 'C'});
+
+        const assocAtoB = new Association({from: ideaA, to: ideaB});
+        const assocBtoC = new Association({from: ideaB, to: ideaC});
+
+        ideaA.associationsOut = [assocAtoB];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+        ideaC.associationsIn = [assocBtoC];
+
+        // set previous depths
+        ideaA.depth = 3;
+        ideaB.depth = 2;
+        ideaC.depth = 1;
+
+        // target
+        const root = calcDepths(ideaA, 0);
+
+        // check
+        expect(root).to.containSubset({
+            id: 'A',
+            depth: 0,
+            associationsOut: [{
+                to: {
+                    id: 'B',
+                    depth: 1,
+                    associationsOut: [{
+                        to: {
+                            id: 'C',
+                            depth: 2
+                        }
+                    }]
+                }
+            }]
+        });
+    });
+
+    it('should set depths to all nodes in sub-graph', () => {
+        
+        // setup graph
+        //
+        //   (A) --> (B) --> (C)
+        //
+        const ideaA = new Idea({id: 'A', isRoot: true});
+        const ideaB = new Idea({id: 'B'});
+        const ideaC = new Idea({id: 'C'});
+
+        const assocAtoB = new Association({from: ideaA, to: ideaB});
+        const assocBtoC = new Association({from: ideaB, to: ideaC});
+
+        ideaA.associationsOut = [assocAtoB];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+        ideaC.associationsIn = [assocBtoC];
+
+        // set previous depths
+        ideaA.depth = 'not visited';
+        ideaB.depth = undefined;
+        ideaC.depth = undefined;
+
+        // target
+        calcDepths(ideaB, 1);
+
+        // check
+        expect(ideaA).to.containSubset({
+            id: 'A',
+            depth: 'not visited',
+            associationsOut: [{
+                to: {
+                    id: 'B',
+                    depth: 1,
+                    associationsOut: [{
+                        to: {
+                            id: 'C',
                             depth: 2
                         }
                     }]
@@ -84,7 +174,7 @@ describe('calc-depths', () => {
         ideaC.associationsOut = [assocCtoA];
 
         // target
-        const root = calcDepths(ideaA);
+        const root = calcDepths(ideaA, 0);
 
         // check
         expect(root).to.containSubset({

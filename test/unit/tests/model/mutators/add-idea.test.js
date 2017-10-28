@@ -416,6 +416,6 @@ describe('add-idea', () => {
 
         // check
         expect(result).to.throw(
-            `Parent idea 'root' does not have depth`);
+            `Node predecessor has invalid depth 'undefined'`);
     });
 });
