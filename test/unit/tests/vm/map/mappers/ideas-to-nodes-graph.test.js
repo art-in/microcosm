@@ -3,7 +3,11 @@ import {expect} from 'chai';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
+import Node from 'src/vm/map/entities/Node';
+import Link from 'src/vm/map/entities/Link';
+
 import mapGraph from 'src/vm/map/mappers/ideas-to-nodes-graph';
+import traverse from 'src/utils/graph/traverse-graph';
 
 describe('ideas-to-nodes-graph', () => {
 
@@ -26,68 +30,71 @@ describe('ideas-to-nodes-graph', () => {
         const idea2 = new Idea({id: 'idea 2', depth: 1});
         const idea3 = new Idea({id: 'idea 3', depth: 2});
 
-        const assoc1 = new Association({
-            id: 'assoc 1',
+        const assocRootTo1 = new Association({
+            id: 'assoc root to 1',
             from: rootIdea,
             to: idea1
         });
 
-        const assoc2 = new Association({
-            id: 'assoc 2',
+        const assocRootTo2 = new Association({
+            id: 'assoc root to 2',
             from: rootIdea,
             to: idea2
         });
 
-        rootIdea.associationsOut = [
-            assoc1,
-            assoc2
-        ];
-
-        const assoc3 = new Association({
-            id: 'assoc 3',
+        const assoc2to3 = new Association({
+            id: 'assoc 2 to 3',
             from: idea2,
             to: idea3
         });
 
-        idea1.associationsOut = [];
-        idea3.associationsOut = [];
-        idea2.associationsOut = [
-            assoc3
-        ];
+        rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
+        idea1.associationsIn = [assocRootTo1];
+        idea2.associationsIn = [assocRootTo2];
+        idea2.associationsOut = [assoc2to3];
+        idea3.associationsIn = [assoc2to3];
 
         // target
         const {rootNode} = mapGraph(rootIdea);
 
         // check
         expect(rootNode).to.exist;
+
+        // check types
+        traverse(rootNode, node => {
+            expect(node).to.be.instanceOf(Node);
+            node.linksIn.forEach(l => expect(l).to.be.instanceOf(Link));
+            node.linksOut.forEach(l => expect(l).to.be.instanceOf(Link));
+        });
+
+        // check structure
         expect(rootNode).to.containSubset({
             id: 'root idea',
             linksIn: [],
             linksOut: [{
-                id: 'assoc 1',
+                id: 'assoc root to 1',
                 from: {id: 'root idea'},
                 to: {
                     id: 'idea 1',
-                    linksIn: [{id: 'assoc 1'}]
+                    linksIn: [{id: 'assoc root to 1'}]
                 }
             }, {
-                id: 'assoc 2',
+                id: 'assoc root to 2',
                 from: {id: 'root idea'},
                 to: {
                     id: 'idea 2',
-                    linksIn: [{id: 'assoc 2'}],
+                    linksIn: [{id: 'assoc root to 2'}],
                     linksOut: [{
-                        id: 'assoc 3',
+                        id: 'assoc 2 to 3',
                         from: {id: 'idea 2'},
                         to: {
                             id: 'idea 3',
-                            linksIn: [{id: 'assoc 3'}]
+                            linksIn: [{id: 'assoc 2 to 3'}]
                         }
                     }]
                 }
             }]
         });
-
     });
 
     it('should map cyclic graph', () => {
@@ -133,6 +140,16 @@ describe('ideas-to-nodes-graph', () => {
         const {rootNode} = mapGraph(rootIdea);
 
         // check
+        expect(rootNode).to.exist;
+
+        // check types
+        traverse(rootNode, node => {
+            expect(node).to.be.instanceOf(Node);
+            node.linksIn.forEach(l => expect(l).to.be.instanceOf(Link));
+            node.linksOut.forEach(l => expect(l).to.be.instanceOf(Link));
+        });
+
+        // check structure
         expect(rootNode).to.exist;
         expect(rootNode).to.containSubset({
             id: 'root idea',
@@ -210,6 +227,9 @@ describe('ideas-to-nodes-graph', () => {
         const {nodes, links} = mapGraph(rootIdea);
 
         // check
+        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
+        links.forEach(l => expect(l).to.be.instanceOf(Link));
+
         expect(nodes).to.have.length(4);
         expect(links).to.have.length(3);
     });

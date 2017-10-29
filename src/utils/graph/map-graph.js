@@ -85,7 +85,7 @@ allLinks) {
 
         // add link to tail node as incoming link
         link.to.linksIn = link.to.linksIn || [];
-        link.to.linksIn.push(originalLink);
+        link.to.linksIn.push(link);
         
         // add link to head node as outgoing link
         linksOut.push(link);
