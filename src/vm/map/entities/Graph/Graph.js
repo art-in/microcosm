@@ -95,7 +95,19 @@ export default class Graph extends ViewModel {
     focusDepth = undefined;
 
     /**
-     * Lenght of longest path from root to leaf node
+     * Starting depth for shaded nodes.
+     * @type {number}
+     */
+    shadeDepth = undefined;
+
+    /**
+     * Starting depth for hidden nodes.
+     * @type {number}
+     */
+    hideDepth = undefined;
+
+    /**
+     * Length of longest path from root to leaf node
      * @type {number}
      */
     height = undefined;

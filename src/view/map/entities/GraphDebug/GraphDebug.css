@@ -3,5 +3,19 @@
     left: 5px; 
     top: 5px;
     color: #D00;
-    width: 300px;
+    width: 250px;
+    border-right: 1px solid red;
+    border-bottom: 1px solid red;
+    line-height: 25px;
+}
+
+.title {
+    display: inline-block;
+    min-width: 130px;
+    vertical-align: top;
+}
+
+.value {
+    display: inline-block;
+    max-width: 120px;
 }

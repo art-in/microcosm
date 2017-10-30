@@ -23,27 +23,31 @@ export default function mindmapToGraph(mindmap) {
     let rootNode;
     let nodes = [];
     let links = [];
-    let maxDepth = 0;
     let focusDepth = 0;
+    let shadeDepth = 0;
+    let hideDepth = 0;
+    let height = 0;
 
     if (mindmap.root) {
 
         // calc depth shading limits
-        // nodes below focused depth should be shaded
-        // nodes below max depth should be hidden
+        // nodes on shade depth and below should be shaded
+        // nodes on hide depth and below should be hidden
         focusDepth = getFocusDepth(mindmap.scale);
-        const shadeDepth = focusDepth;
-        maxDepth = focusDepth + 3;
+        shadeDepth = focusDepth + 1;
+        hideDepth = shadeDepth + 3;
+
+        const titlesHiddenDepth = shadeDepth + 1;
 
         // map mindmap to graph
         const res = mapGraph({
             node: mindmap.root,
-            depthMax: maxDepth,
+            depthMax: hideDepth - 1,
             mapLink: assoc => {
                 const link = assocToLink(assoc);
 
                 // depth shading
-                link.shaded = assoc.to.depth > shadeDepth;
+                link.shaded = assoc.to.depth >= shadeDepth;
 
                 return link;
             },
@@ -51,8 +55,8 @@ export default function mindmapToGraph(mindmap) {
                 const node = ideaToNode(idea);
 
                 // depth shading
-                node.shaded = idea.depth > shadeDepth;
-                node.title.visible = idea.depth - shadeDepth < 2;
+                node.shaded = idea.depth >= shadeDepth;
+                node.title.visible = idea.depth < titlesHiddenDepth;
 
                 return node;
             }
@@ -61,6 +65,9 @@ export default function mindmapToGraph(mindmap) {
         rootNode = res.rootNode;
         nodes = res.nodes;
         links = res.links;
+
+        // get length of path from root to deepest node
+        height = nodes.reduce((max, n) => Math.max(max, n.depth), 0);
 
         // travers graph
         // set color on main sub graph
@@ -83,8 +90,12 @@ export default function mindmapToGraph(mindmap) {
     graph.viewbox.scale = mindmap.scale;
 
     graph.root = rootNode;
-    graph.height = maxDepth;
+
     graph.focusDepth = focusDepth;
+    graph.shadeDepth = shadeDepth;
+    graph.hideDepth = hideDepth;
+
+    graph.height = height;
 
     return graph;
 }

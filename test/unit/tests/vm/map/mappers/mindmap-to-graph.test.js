@@ -17,14 +17,14 @@ describe('mindmap-to-graph', () => {
         // setup graph
         //
         //        (root)            // visible idea (focus depth)
-        //   ---------------------  // visible depth end, shaded depth start
+        //   ---------------------  // visible depth end, shade depth start
         //           v              // shaded assoc
         //        (idea 1) <--      // shaded idea and assoc
         //           v        |     // shaded assoc
         //        (idea 2)    |     // shaded idea
         //           v        |     // shaded assoc
         //        (idea 3)    |     // shaded idea
-        //   -----------------|---  // shaded depth end, hidden depth start
+        //   -----------------|---  // shade depth end, hide depth start
         //           v        |     // hidden assoc
         //        (idea 4)    |     // hidden idea
         //           v        |     // hidden assoc
@@ -139,7 +139,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.scale).to.equal(1/4);
     });
 
-    it('should shade nodes on shaded depth', () => {
+    it('should shade nodes on shade depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -162,7 +162,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.shaded).to.equal(true);
     });
 
-    it('should shade links on shaded depth', () => {
+    it('should shade links on shade depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -183,7 +183,7 @@ describe('mindmap-to-graph', () => {
         expect(link2to3.shaded).to.equal(true);
     });
     
-    it('should hide node titles on shaded depth', () => {
+    it('should hide node titles on shade depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -206,7 +206,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.title.visible).to.be.false;
     });
 
-    it('should hide nodes on hidden depth', () => {
+    it('should hide nodes on hide depth', () => {
 
         const mindmap = setupMindmap();
         
@@ -229,7 +229,7 @@ describe('mindmap-to-graph', () => {
         expect(node4).to.not.exist;
     });
 
-    it('should hide links on hidden depth', () => {
+    it('should hide links on hide depth', () => {
         
         const mindmap = setupMindmap();
         
@@ -252,8 +252,8 @@ describe('mindmap-to-graph', () => {
         expect(link3to4).to.not.exist;
     });
 
-    it('should show nodes/links on hidden depth ' +
-        'if they target nodes on visible/shaded depth', () => {
+    it('should show nodes/links on hide depth ' +
+        'if they target nodes on visible/shade depth', () => {
 
         const mindmap = setupMindmap();
         
