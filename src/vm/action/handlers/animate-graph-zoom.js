@@ -64,7 +64,10 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
         data: {
             mindmapId: graph.id,
             scale: graph.viewbox.scale,
-            pos: new Point(graph.viewbox.x, graph.viewbox.y)
+            pos: new Point({
+                x: graph.viewbox.x,
+                y: graph.viewbox.y
+            })
         }
     });
 

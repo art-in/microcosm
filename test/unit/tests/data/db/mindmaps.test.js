@@ -148,10 +148,11 @@ describe('mindmaps', () => {
 
             db.post({_id: 'i'});
 
-            const mindmap = new Mindmap();
-            mindmap.id = 'i';
-            mindmap.X = 'unknown';
-
+            const mindmap = {
+                id: 'i',
+                X: 'unknown'
+            };
+            
             // target
             await mindmapDB.update(db, mindmap);
 

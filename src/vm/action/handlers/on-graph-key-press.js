@@ -18,7 +18,7 @@ export default function(state, data, dispatch) {
 
     panKeyStep /= graph.viewbox.scale;
 
-    const pos = new Point(graph.viewbox.x, graph.viewbox.y);
+    const pos = new Point({x: graph.viewbox.x, y: graph.viewbox.y});
     let moved = false;
 
     switch (key) {

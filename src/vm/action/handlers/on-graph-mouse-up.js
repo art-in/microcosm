@@ -37,7 +37,7 @@ export default function(state, data, dispatch) {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: graph.id,
-                pos: new Point(graph.viewbox.x, graph.viewbox.y)
+                pos: new Point({x: graph.viewbox.x, y: graph.viewbox.y})
             }
         });
 

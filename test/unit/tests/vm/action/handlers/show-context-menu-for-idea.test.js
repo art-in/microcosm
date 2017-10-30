@@ -14,7 +14,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 ideaId: 'idea',
                 shaded: false
             }});
@@ -40,7 +40,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(100, 200),
+                pos: new Point({x: 100, y: 200}),
                 ideaId: 'idea',
                 shaded: false
             }});
@@ -61,7 +61,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 ideaId: 'idea',
                 shaded: false
             }});
@@ -89,7 +89,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(100, 200),
+                pos: new Point({x: 100, y: 200}),
                 ideaId: 'idea',
                 shaded: false
             }});
@@ -117,7 +117,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(100, 200),
+                pos: new Point({x: 100, y: 200}),
                 ideaId: 'idea',
                 shaded: false
             }});
@@ -144,7 +144,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 ideaId: 'idea',
                 shaded: true
             }});
@@ -159,7 +159,7 @@ describe('show-context-menu-for-idea', () => {
         const patch = handle(null, {
             type: 'show-context-menu-for-idea',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 ideaId: 'idea',
                 shaded: false
             }});

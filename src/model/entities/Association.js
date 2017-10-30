@@ -1,5 +1,5 @@
+import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
-import initProps from 'utils/init-props';
 
 /**
  * Association model
@@ -11,6 +11,11 @@ export default class Association {
      * @type {string}
      */
     id = createID();
+
+    /**
+     * ID of parent mindmap
+     */
+    mindmapId = undefined;
 
     /**
      * ID of start idea
@@ -45,21 +50,10 @@ export default class Association {
     value = undefined;
 
     /**
-     * constructor
+     * Constructor
      * @param {object} [props]
      */
     constructor(props) {
-        initProps(this, props);
-    }
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Association ` +
-            `(${this.id}) ` +
-            `(${this.from} - ${this.to}) ` +
-            `(${this.value})]`;
+        initInstance(this, props);
     }
 }

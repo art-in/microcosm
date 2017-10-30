@@ -1,5 +1,5 @@
+import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
-import initProps from 'utils/init-props';
 
 /**
  * Mindmap model
@@ -54,21 +54,10 @@ export default class Mindmap {
     root = undefined;
 
     /**
-     * constructor
+     * Constructor
      * @param {object} [props]
      */
     constructor(props) {
-        initProps(this, props);
+        initInstance(this, props);
     }
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Mindmap ` +
-            `(${this.x} - ${this.y}) (${this.scale})` +
-            `]`;
-    }
-
 }

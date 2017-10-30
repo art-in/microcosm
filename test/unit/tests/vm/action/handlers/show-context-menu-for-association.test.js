@@ -26,7 +26,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 associationId: 'assoc',
                 shaded: false
             }
@@ -61,7 +61,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(100, 200),
+                pos: new Point({x: 100, y: 200}),
                 associationId: 'assoc',
                 shaded: false
             }
@@ -93,7 +93,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 associationId: 'assoc',
                 shaded: false
             }
@@ -127,7 +127,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 associationId: 'assoc',
                 shaded: true
             }
@@ -151,7 +151,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 associationId: 'assoc',
                 shaded: false
             }
@@ -180,7 +180,7 @@ describe('show-context-menu-for-association', () => {
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
-                pos: new Point(0, 0),
+                pos: new Point({x: 0, y: 0}),
                 associationId: 'assoc',
                 shaded: false
             }

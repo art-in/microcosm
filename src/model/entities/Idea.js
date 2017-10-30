@@ -1,5 +1,5 @@
+import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
-import initProps from 'utils/init-props';
 
 /**
  * Idea model
@@ -106,24 +106,10 @@ export default class Idea {
     color = undefined;
 
     /**
-     * constructor
+     * Constructor
      * @param {object} [props]
      */
     constructor(props) {
-        initProps(this, props);
+        initInstance(this, props);
     }
-
-    /**
-     * Stringifies instance
-     * @return {string}
-     */
-    toString() {
-        return `[Idea` +
-            (this.isRoot ? `* ` : ` `) +
-            `(mm: ${this.mindmapId}) ` +
-            `(${this.id}) ` +
-            `(${this.x} x ${this.y}) ` +
-            `(${this.value})]`;
-    }
-
 }

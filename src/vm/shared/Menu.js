@@ -1,7 +1,6 @@
-import assert from 'utils/assert';
+import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
-import MenuItem from 'vm/shared/MenuItem';
 
 /**
  * Menu
@@ -15,18 +14,6 @@ export default class Menu extends ViewModel {
     items = [];
 
     /**
-     * Constructor
-     * @param {object}            [opts]
-     * @param {array.<MenuItems>} [opts.items]
-     */
-    constructor({items = []} = {}) {
-        super();
-
-        assert(items.every(i => i instanceof MenuItem));
-        this.items = items;
-    }
-
-    /**
      * Handles menu item selected event
      * @param {MenuItem} item
      */
@@ -34,4 +21,12 @@ export default class Menu extends ViewModel {
         this.emit('itemSelected', item);
     }
 
+    /**
+     * Constructor
+     * @param {object} [props]
+     */
+    constructor(props) {
+        super();
+        initInstance(this, props);
+    }
 }

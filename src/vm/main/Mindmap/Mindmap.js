@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -12,6 +14,14 @@ export default class Mindmap extends ViewModel {
      * Graph model
      * @type {Graph}
      */
-    graph;
+    graph = undefined;
 
+    /**
+     * Constructor
+     * @param {object} [props]
+     */
+    constructor(props) {
+        super();
+        initInstance(this, props);
+    }
 }

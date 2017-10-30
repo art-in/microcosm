@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 /**
  * Point (position) on 2D surface
  */
@@ -15,12 +17,9 @@ export default class Point {
 
     /**
      * Constructor
-     * @param {number} x
-     * @param {number} y
+     * @param {object} [props]
      */
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(props) {
+        initInstance(this, props);
     }
-
 }

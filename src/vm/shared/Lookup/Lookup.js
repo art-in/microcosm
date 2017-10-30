@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -66,6 +68,8 @@ export default class Lookup extends ViewModel {
      */
     constructor(inputPlaceholder) {
         super();
+        initInstance(this);
+        
         this.placeholder = inputPlaceholder;
     }
 

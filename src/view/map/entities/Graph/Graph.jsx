@@ -57,10 +57,10 @@ export default class Graph extends Component {
         const bodyMargin = getBodyMargin();
 
         // get rid of paddings/margings
-        return new Point(
-            e.pageX - viewportRect.left - bodyMargin.left,
-            e.pageY - viewportRect.top - bodyMargin.top
-        );
+        return new Point({
+            x: e.pageX - viewportRect.left - bodyMargin.left,
+            y: e.pageY - viewportRect.top - bodyMargin.top
+        });
     }
 
     componentDidMount = () => {
@@ -100,7 +100,7 @@ export default class Graph extends Component {
 
         this.props.onWheel({
             up: e.deltaY <= 0,
-            pos: new Point(viewportX, viewportY)
+            pos: new Point({x: viewportX, y: viewportY})
         });
     }
 
@@ -117,11 +117,11 @@ export default class Graph extends Component {
 
         // get shift
         const pageScale = getPageScale();
-        const viewportShift = new Point(
+        const viewportShift = new Point({
             // get rid of browser page scale
-            event.movementX / pageScale,
-            event.movementY / pageScale
-        );
+            x: event.movementX / pageScale,
+            y: event.movementY / pageScale
+        });
 
         // get mouse buttons state
         const pressedMouseButton = buttons === 1 ? 'left' : null;

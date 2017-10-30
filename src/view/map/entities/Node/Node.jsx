@@ -36,10 +36,10 @@ export default class Node extends Component {
 
         const textAreaWidth = 200;
         const textAreaHeight = 25;
-        const textAreaPos = new Point();
-
-        textAreaPos.x = -(textAreaWidth / 2);
-        textAreaPos.y = -(node.radius + textAreaHeight);
+        const textAreaPos = new Point({
+            x: -(textAreaWidth / 2),
+            y: -(node.radius + textAreaHeight)
+        });
 
         return (
             <Group

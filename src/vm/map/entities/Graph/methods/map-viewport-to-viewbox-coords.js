@@ -14,5 +14,5 @@ export default function(pos, viewbox) {
     const x = pos.x / viewbox.scale;
     const y = pos.y / viewbox.scale;
 
-    return new Point(x, y);
+    return new Point({x, y});
 }

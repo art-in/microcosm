@@ -39,10 +39,10 @@ export default class NodeDebug extends Component {
                     <Text text={line}
                         key={line}
                         className={classes.line}
-                        pos={new Point(
-                            -25,
-                            node.radius + 10 + idx * 13
-                        )}
+                        pos={new Point({
+                            x: -25,
+                            y: node.radius + 10 + idx * 13
+                        })}
                     />)}
 
             </Group>

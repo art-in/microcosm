@@ -1,4 +1,4 @@
-import initProps from 'utils/init-props';
+import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
 import Point from 'vm/shared/Point';
@@ -21,7 +21,7 @@ export default class Node extends ViewModel {
     /**
      * Node position
      */
-    pos = new Point(0, 0);
+    pos = new Point({x: 0, y: 0});
 
     /**
      * Node radius
@@ -83,12 +83,11 @@ export default class Node extends ViewModel {
     shaded = false;
 
     /**
-     * constructor
+     * Constructor
      * @param {object} [props]
      */
     constructor(props) {
         super();
-        initProps(this, props);
+        initInstance(this, props);
     }
-
 }

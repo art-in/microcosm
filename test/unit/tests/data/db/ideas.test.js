@@ -148,9 +148,10 @@ describe('ideas', () => {
 
             db.post({_id: 'i'});
 
-            const idea = new Idea();
-            idea.id = 'i';
-            idea.X = 'unknown';
+            const idea = {
+                id: 'i',
+                X: 'unknown'
+            };
 
             // target
             await ideaDB.update(db, idea);

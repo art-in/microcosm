@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 /**
  * Main view model
  * 
@@ -10,6 +12,13 @@ export default class Main {
      * Mindmap view model
      * @type {Mindmap}
      */
-    mindmap;
+    mindmap = undefined;
     
+    /**
+     * Constructor
+     * @param {object} [props]
+     */
+    constructor(props) {
+        initInstance(this, props);
+    }
 }

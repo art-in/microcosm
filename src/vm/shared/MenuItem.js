@@ -1,4 +1,4 @@
-import initProps from 'utils/init-props';
+import initInstance from 'utils/init-instance';
 
 /**
  * Menu item
@@ -32,7 +32,6 @@ export default class MenuItem {
      * @param {object} [props]
      */
     constructor(props) {
-        initProps(this, props);
+        initInstance(this, props);
     }
-
 }

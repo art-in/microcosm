@@ -16,5 +16,5 @@ export default function mapViewportToCanvasCoords(pos, viewbox) {
     const x = viewbox.x + posOnViewbox.x;
     const y = viewbox.y + posOnViewbox.y;
 
-    return new Point(x, y);
+    return new Point({x, y});
 }

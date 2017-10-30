@@ -98,9 +98,10 @@ describe('associations', () => {
 
             db.post({_id: 'i'});
 
-            const assoc = new Association();
-            assoc.id = 'i';
-            assoc.X = 'unknown';
+            const assoc = {
+                id: 'i',
+                X: 'unknown'
+            };
 
             // target
             await assocDB.update(db, assoc);

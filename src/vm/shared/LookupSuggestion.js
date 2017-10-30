@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 /**
  * Lookup suggestion
  */
@@ -23,13 +25,9 @@ export default class LookupSuggestion {
 
     /**
      * Constructor
-     * @param {object}   data
-     * @param {string}   data.displayName 
-     * @param {*}        data.data
+     * @param {object} [props]
      */
-    constructor({displayName, data}) {
-        this.displayName = displayName;
-        this.data = data;
+    constructor(props) {
+        initInstance(this, props);
     }
-
 }

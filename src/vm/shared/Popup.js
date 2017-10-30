@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -16,4 +18,12 @@ export default class Popup extends ViewModel {
      */
     pos = undefined;
 
+    /**
+     * Constructor
+     * @param {object} [props]
+     */
+    constructor(props) {
+        super();
+        initInstance(this, props);
+    }
 }

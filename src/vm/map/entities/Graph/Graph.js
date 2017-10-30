@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 import ViewModel from 'vm/utils/ViewModel';
 
 import ColorPicker from 'vm/shared/ColorPicker';
@@ -76,7 +78,14 @@ export default class Graph extends ViewModel {
      * Links
      * @type {array.<Link>}
      */
-    link = [];
+    links = [];
+
+    /**
+     * Root of nodes graph
+     * Note: available only after graph is build
+     * @type {Node}
+     */
+    root = undefined;
 
     /**
      * Depth of nodes which resulting size 
@@ -107,4 +116,12 @@ export default class Graph extends ViewModel {
      */
     associationTailsLookup = new LookupPopup('target idea...')
 
+    /**
+     * Constructor
+     * @param {object} [props]
+     */
+    constructor(props) {
+        super();
+        initInstance(this, props);
+    }
 }

@@ -1,3 +1,5 @@
+import initInstance from 'utils/init-instance';
+
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -14,13 +16,13 @@ export default class Link extends ViewModel {
      * Start node
      * @type {Node}
      */
-    from;
+    from = undefined;
 
     /**
      * End node
      * @type {Node}
      */
-    to;
+    to = undefined;
 
     /**
      * ID of link
@@ -61,15 +63,11 @@ export default class Link extends ViewModel {
     }
 
     /**
-     * constructor
-     * @param {Node} fromNode
-     * @param {Node} toNode
+     * Constructor
+     * @param {object} [props]
      */
-    constructor(fromNode, toNode) {
+    constructor(props) {
         super();
-
-        this.from = fromNode;
-        this.to = toNode;
+        initInstance(this, props);
     }
-
 }

@@ -63,11 +63,23 @@ export default class Line extends Component {
         const dxEnd = -sin(titleRotation) * widthEnd / 2;
         const dyEnd = cos(titleRotation) * widthEnd / 2;
 
-        const pos1 = new Point(targetPos1.x - dxStart, targetPos1.y - dyStart);
-        const pos4 = new Point(targetPos1.x + dxStart, targetPos1.y + dyStart);
+        const pos1 = new Point({
+            x: targetPos1.x - dxStart,
+            y: targetPos1.y - dyStart
+        });
+        const pos4 = new Point({
+            x: targetPos1.x + dxStart,
+            y: targetPos1.y + dyStart
+        });
 
-        const pos2 = new Point(targetPos2.x - dxEnd, targetPos2.y - dyEnd);
-        const pos3 = new Point(targetPos2.x + dxEnd, targetPos2.y + dyEnd);
+        const pos2 = new Point({
+            x: targetPos2.x - dxEnd,
+            y: targetPos2.y - dyEnd
+        });
+        const pos3 = new Point({
+            x: targetPos2.x + dxEnd,
+            y: targetPos2.y + dyEnd
+        });
 
         return (
             <path
