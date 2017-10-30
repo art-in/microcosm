@@ -1,25 +1,28 @@
+import required from 'utils/required-params';
+
 /**
- * Generic function for mapping graph of one entities
- * to graph of another entities
+ * Generic function for mapping graph of entities of one type
+ * to graph of entities of another type
  * 
- * @param {object} opts
- * @param {object} opts.originalNode
+ * @param {object}   opts
+ * @param {object}   opts.originalNode
  * @param {function} opts.mapNode
  * @param {function} opts.mapLink
- * @param {number} [opts.depthMax=infinity] - max depth limit (inclusive)
+ * @param {number}   [opts.depthMax=infinity] - max depth limit (inclusive)
  * @return {{rootNode, nodes, links}}
  */
-export default function(opts) {
+export default function mapGraph(opts) {
 
     const nodes = [];
     const links = [];
-    const visitedOriginalNodes = new Map();
 
-    const rootNode = mapGraph(
-        opts,
-        visitedOriginalNodes,
-        nodes,
-        links);
+    const internalOpts = {
+        visitedOriginalNodes: new Map(),
+        allNodes: nodes,
+        allLinks: links
+    };
+
+    const rootNode = mapGraphInternal(opts, internalOpts);
 
     return {
         rootNode,
@@ -29,30 +32,37 @@ export default function(opts) {
 }
 
 /**
- * Private map
- * @param {object} opts
- * @param {object} opts.originalNode
+ * Internal map
+ * @param {object}   opts
+ * @param {object}   opts.originalNode
  * @param {function} opts.mapNode
  * @param {function} opts.mapLink
- * @param {number} [opts.depthMax=infinity]
+ * @param {number}   [opts.depthMax=infinity]
  * 
- * @param {Map} visitedOriginalNodes 
- * @param {array} allNodes 
- * @param {array} allLinks 
+ * @param {object} internalOpts
+ * @param {Map}    internalOpts.visitedOriginalNodes 
+ * @param {array}  internalOpts.allNodes 
+ * @param {array}  internalOpts.allLinks 
  * @return {{rootNode, nodes, links}}
  */
-function mapGraph({
-    node: originalNode,
-    mapNode,
-    mapLink,
-    depthMax = Infinity
-},
-visitedOriginalNodes = new Map(),
-allNodes,
-allLinks) {
+function mapGraphInternal(opts, internalOpts) {
     
+    const {
+        node: originalNode,
+        mapNode,
+        mapLink
+    } = required(opts);
+
+    const depthMax = opts.depthMax || Infinity;
+
+    const {
+        visitedOriginalNodes,
+        allNodes,
+        allLinks
+    } = required(internalOpts);
+
     // check if node was already visited
-    // to not fail into infinite loop in graph cycles
+    // to not fall into infinite loop in graph cycles
     let node = visitedOriginalNodes.get(originalNode);
     if (node) {
         return node;
@@ -62,39 +72,56 @@ allLinks) {
     node = mapNode(originalNode);
     visitedOriginalNodes.set(originalNode, node);
 
-    const linksOut = [];
+    allNodes.push(node);
 
-    // map links and target nodes (recursively)
+    if (originalNode.depth > depthMax) {
+        // do not map links of predecessor nodes below depth limit
+        return node;
+    }
+
+    // map predecessor nodes.
+    // always map all incoming links and predecessor nodes
+    // even if they are below depth limit
+    originalNode.linksIn.forEach(originalLink => {
+        const link = mapLink(originalLink);
+        
+        link.to = node;
+        link.from = mapGraphInternal({
+            node: originalLink.from,
+            mapNode,
+            mapLink,
+            depthMax
+        }, {
+            visitedOriginalNodes,
+            allNodes,
+            allLinks
+        });
+
+        // bind link to head/tail nodes
+        link.from.linksOut.push(link);
+        link.to.linksIn.push(link);
+
+        allLinks.push(link);
+    });
+
+    // map successor nodes.
     originalNode.linksOut.forEach(originalLink => {
         if (originalLink.to.depth > depthMax) {
-            // do not map deeper
+            // do not map successor node below depth limit
             return;
         }
 
-        const link = mapLink(originalLink);
-        link.from = node;
-        link.to = mapGraph({
+        mapGraphInternal({
             node: originalLink.to,
             mapNode,
             mapLink,
             depthMax
-        },
-        visitedOriginalNodes,
-        allNodes,
-        allLinks);
-
-        // add link to tail node as incoming link
-        link.to.linksIn = link.to.linksIn || [];
-        link.to.linksIn.push(link);
-        
-        // add link to head node as outgoing link
-        linksOut.push(link);
-        allLinks.push(link);
+        }, {
+            visitedOriginalNodes,
+            allNodes,
+            allLinks
+        });
     });
-
-    node.linksOut = linksOut;
-
-    allNodes.push(node);
 
     return node;
 }

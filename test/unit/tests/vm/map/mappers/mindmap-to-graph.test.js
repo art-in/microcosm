@@ -16,15 +16,19 @@ describe('mindmap-to-graph', () => {
 
         // setup graph
         //
-        //        (root)
-        //           |
-        //        (idea 1)
-        //           |            
-        //        (idea 2)
-        //           |
-        //        (idea 3)
-        //           |
-        //        (idea 4)
+        //        (root)            // visible idea (focus depth)
+        //   ---------------------  // visible depth end, shaded depth start
+        //           v              // shaded assoc
+        //        (idea 1) <--      // shaded idea and assoc
+        //           v        |     // shaded assoc
+        //        (idea 2)    |     // shaded idea
+        //           v        |     // shaded assoc
+        //        (idea 3)    |     // shaded idea
+        //   -----------------|---  // shaded depth end, hidden depth start
+        //           v        |     // hidden assoc
+        //        (idea 4)    |     // hidden idea
+        //           v        |     // hidden assoc
+        //        (idea 5) ----     // shaded idea (targets visible)
         //
         const rootIdea = new Idea({
             id: 'root',
@@ -36,6 +40,7 @@ describe('mindmap-to-graph', () => {
         const idea2 = new Idea({id: 'idea 2', depth: 2});
         const idea3 = new Idea({id: 'idea 3', depth: 3});
         const idea4 = new Idea({id: 'idea 4', depth: 4});
+        const idea5 = new Idea({id: 'idea 5', depth: 5});
 
         const assocRootTo1 = new Association({
             id: 'assoc root to 1',
@@ -61,18 +66,34 @@ describe('mindmap-to-graph', () => {
             to: idea4
         });
 
+        const assoc4to5 = new Association({
+            id: 'assoc 4 to 5',
+            from: idea4,
+            to: idea5
+        });
+
+        const assoc5to1 = new Association({
+            id: 'assoc 5 to 1',
+            from: idea5,
+            to: idea1
+        });
+
         rootIdea.associationsOut = [assocRootTo1];
 
-        idea1.associationsIn = [assocRootTo1];
+        idea1.associationsIn = [assocRootTo1, assoc5to1];
         idea1.associationsOut = [assoc1to2];
         
-        idea2.associtionsIn = [assoc1to2];
+        idea2.associationsIn = [assoc1to2];
         idea2.associationsOut = [assoc2to3];
         
         idea3.associationsIn = [assoc2to3];
         idea3.associationsOut = [assoc3to4];
         
-        idea4.associtionsIn = [assoc3to4];
+        idea4.associationsIn = [assoc3to4];
+        idea4.associationsOut = [assoc4to5];
+
+        idea5.associationsIn = [assoc4to5];
+        idea5.associationsOut = [assoc5to1];
 
         const mindmap = new Mindmap();
 
@@ -81,11 +102,14 @@ describe('mindmap-to-graph', () => {
         mindmap.ideas.set(idea2.id, idea2);
         mindmap.ideas.set(idea3.id, idea3);
         mindmap.ideas.set(idea4.id, idea4);
+        mindmap.ideas.set(idea5.id, idea5);
 
         mindmap.associations.set(assocRootTo1.id, assocRootTo1);
         mindmap.associations.set(assoc1to2.id, assoc1to2);
         mindmap.associations.set(assoc2to3.id, assoc2to3);
         mindmap.associations.set(assoc3to4.id, assoc3to4);
+        mindmap.associations.set(assoc4to5.id, assoc4to5);
+        mindmap.associations.set(assoc5to1.id, assoc5to1);
 
         mindmap.root = rootIdea;
         
@@ -115,7 +139,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.scale).to.equal(1/4);
     });
 
-    it('should shade nodes deeper focus depth', () => {
+    it('should shade nodes on shaded depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -138,7 +162,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.shaded).to.equal(true);
     });
 
-    it('should shade links deeper focus depth', () => {
+    it('should shade links on shaded depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -159,7 +183,7 @@ describe('mindmap-to-graph', () => {
         expect(link2to3.shaded).to.equal(true);
     });
     
-    it('should hide node titles deeper focus depth', () => {
+    it('should hide node titles on shaded depth', () => {
         
         const mindmap = setupMindmap();
 
@@ -182,7 +206,7 @@ describe('mindmap-to-graph', () => {
         expect(node3.title.visible).to.be.false;
     });
 
-    it('should not contain nodes deeper shade depth', () => {
+    it('should hide nodes on hidden depth', () => {
 
         const mindmap = setupMindmap();
         
@@ -205,7 +229,7 @@ describe('mindmap-to-graph', () => {
         expect(node4).to.not.exist;
     });
 
-    it('should not contain links deeper shade depth', () => {
+    it('should hide links on hidden depth', () => {
         
         const mindmap = setupMindmap();
         
@@ -226,6 +250,27 @@ describe('mindmap-to-graph', () => {
         expect(link1to2).to.exist;
         expect(link2to3).to.exist;
         expect(link3to4).to.not.exist;
+    });
+
+    it('should show nodes/links on hidden depth ' +
+        'if they target nodes on visible/shaded depth', () => {
+
+        const mindmap = setupMindmap();
+        
+        // target
+        const graph = toGraph(mindmap);
+
+        // check
+        expect(graph).to.exist;
+
+        const node5 = graph.nodes.find(i => i.id === 'idea 5');
+        const link5to1 = graph.links.find(l => l.id === 'assoc 5 to 1');
+
+        expect(node5).to.exist;
+        expect(link5to1).to.exist;
+
+        expect(node5.shaded).to.be.true;
+        expect(link5to1.shaded).to.be.true;
     });
 
 });
