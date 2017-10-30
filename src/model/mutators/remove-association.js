@@ -1,7 +1,6 @@
 import required from 'utils/required-params';
 
 import calcDepths from 'utils/graph/calc-depths';
-import getNodeDepth from 'utils/graph/get-node-depth';
 
 /**
  * Removes association
@@ -71,11 +70,10 @@ export default function removeAssociation(state, data) {
     
         tailIdeaAssocsIn.splice(index, 1);
     
-        // recalculate idea depths in tail sub-graph.
+        // recalculate idea depths.
         // recalc only if removing cross-association. removing association 
         // as part of removing idea will not change depths of other ideas.
-        const depth = getNodeDepth(assoc.to);
-        calcDepths(assoc.to, depth);
+        calcDepths(mindmap.root);
 
         assoc.toId = null;
         assoc.to = null;

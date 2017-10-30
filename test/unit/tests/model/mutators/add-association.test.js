@@ -205,8 +205,9 @@ describe('add-association', () => {
     it('should recalculate idea depths', () => {
 
         // setup
-        //
-        //   (A) --> (B) --> (C) --> (D)
+        //     ______________________________
+        //    /                              \
+        //   (A) --> (B) --> (C) --> (D) --> (E)
         //    \_______________/
         //        new assoc
         //
@@ -216,12 +217,20 @@ describe('add-association', () => {
         const ideaB = new Idea({id: 'B', depth: 1});
         const ideaC = new Idea({id: 'C', depth: 2});
         const ideaD = new Idea({id: 'D', depth: 3});
+        const ideaE = new Idea({id: 'E', depth: 1});
 
         const assocAtoB = new Association({
             fromId: ideaA.id,
             from: ideaA,
             toId: ideaB.id,
             to: ideaB
+        });
+
+        const assocAtoE = new Association({
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaE.id,
+            to: ideaE
         });
 
         const assocBtoC = new Association({
@@ -238,21 +247,33 @@ describe('add-association', () => {
             to: ideaD
         });
 
-        ideaA.associationsOut = [assocAtoB];
+        const assocDtoE = new Association({
+            fromId: ideaD.id,
+            from: ideaD,
+            toId: ideaE.id,
+            to: ideaE
+        });
+
+        ideaA.associationsOut = [assocAtoB, assocAtoE];
         ideaB.associationsIn = [assocAtoB];
         ideaB.associationsOut = [assocBtoC];
         ideaC.associationsIn = [assocBtoC];
         ideaC.associationsOut = [assocCtoD];
         ideaD.associationsIn = [assocCtoD];
+        ideaD.associationsOut = [assocDtoE];
+        ideaE.associationsIn = [assocDtoE, assocAtoE];
 
         mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindmap.associations.set(assocAtoE.id, assocAtoE);
         mindmap.associations.set(assocBtoC.id, assocBtoC);
         mindmap.associations.set(assocCtoD.id, assocCtoD);
+        mindmap.associations.set(assocDtoE.id, assocDtoE);
 
         mindmap.ideas.set(ideaA.id, ideaA);
         mindmap.ideas.set(ideaB.id, ideaB);
         mindmap.ideas.set(ideaC.id, ideaC);
         mindmap.ideas.set(ideaD.id, ideaD);
+        mindmap.ideas.set(ideaE.id, ideaE);
         mindmap.root = ideaA;
 
         const state = {model: {mindmap}};
@@ -275,6 +296,7 @@ describe('add-association', () => {
         expect(mindmap.ideas.get('B').depth).to.equal(1);
         expect(mindmap.ideas.get('C').depth).to.equal(1); // actualized
         expect(mindmap.ideas.get('D').depth).to.equal(2); // actualized
+        expect(mindmap.ideas.get('E').depth).to.equal(1);
     });
 
     it('should fail if head idea was not found', () => {

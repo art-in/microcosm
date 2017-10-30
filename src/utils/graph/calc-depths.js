@@ -1,5 +1,5 @@
 /**
- * Calculates and sets depths of all nodes in the graph (or sub-graph).
+ * Calculates and sets depths of all nodes in the graph.
  * 
  * Depth = distance from root
  * Distance = minimal length of path between nodes
@@ -8,17 +8,10 @@
  * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
  * Dijkstra algorithm: BFS + priority queue.
  * 
- * @param {object} startNode - can be graph root node to calc entire graph
- *                             or any graph node to calc particular sub-graph
- * @param {number} startDepth - depth of start node
- * @return {object} start node
+ * @param {object} rootNode
+ * @return {object} root node
  */
-export default function calcDepths(startNode, startDepth) {
-
-    // ensure start depth is passed and it is valid number
-    if (!Number.isInteger(startDepth)) {
-        throw Error(`Invalid start depth '${startNode.depth}'`);
-    }
+export default function calcDepths(rootNode) {
 
     // depths calculated for nodes.
     // map(key - node, value - calculated depth)
@@ -26,11 +19,11 @@ export default function calcDepths(startNode, startDepth) {
     // previous node depths do not interfere with this pass.
     const depths = new Map();
 
-    startNode.depth = startDepth;
-    depths.set(startNode, startDepth);
+    rootNode.depth = 0;
+    depths.set(rootNode, 0);
 
     const queue = [];
-    queue.unshift(startNode);
+    queue.unshift(rootNode);
 
     const visitedNodes = new Set();
 
@@ -62,5 +55,5 @@ export default function calcDepths(startNode, startDepth) {
         });
     }
 
-    return startNode;
+    return rootNode;
 }

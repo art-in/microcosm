@@ -1,7 +1,6 @@
 import required from 'utils/required-params';
 
 import calcDepths from 'utils/graph/calc-depths';
-import getNodeDepth from 'utils/graph/get-node-depth';
 
 /**
  * Adds association
@@ -42,10 +41,9 @@ export default function addAssociation(state, data) {
         tail.associationsIn = tail.associationsIn || [];
         tail.associationsIn.push(assoc);
 
-        // recalculate idea depths in tail sub-graph.
+        // recalculate idea depths.
         // recalc only if this is cross-association between existing ideas,
         // because depth of new idea will be calculated while adding idea.
-        const depth = getNodeDepth(assoc.to);
-        calcDepths(assoc.to, depth);
+        calcDepths(mindmap.root);
     }
 }

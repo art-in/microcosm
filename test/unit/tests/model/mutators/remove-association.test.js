@@ -178,8 +178,9 @@ describe('remove-association', () => {
     it('should recalculate idea depths', () => {
         
         // setup
-        //
-        //   (A) --> (B) --> (C) --> (D)
+        //     ______________________________
+        //    /                              \
+        //   (A) --> (B) --> (C) --> (D) --> (E)
         //    \_______________/
         //        to remove
         //
@@ -189,6 +190,7 @@ describe('remove-association', () => {
         const ideaB = new Idea({id: 'B', depth: 1});
         const ideaC = new Idea({id: 'C', depth: 1});
         const ideaD = new Idea({id: 'D', depth: 2});
+        const ideaE = new Idea({id: 'E', depth: 1});
 
         const assocAtoB = new Association({
             fromId: ideaA.id,
@@ -205,6 +207,13 @@ describe('remove-association', () => {
             to: ideaC
         });
 
+        const assocAtoE = new Association({
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaE.id,
+            to: ideaE
+        });
+
         const assocBtoC = new Association({
             fromId: ideaB.id,
             from: ideaB,
@@ -219,22 +228,34 @@ describe('remove-association', () => {
             to: ideaD
         });
 
-        ideaA.associationsOut = [assocAtoB, assocAtoC];
+        const assocDtoE = new Association({
+            fromId: ideaD.id,
+            from: ideaD,
+            toId: ideaE.id,
+            to: ideaE
+        });
+
+        ideaA.associationsOut = [assocAtoB, assocAtoC, assocAtoE];
         ideaB.associationsIn = [assocAtoB];
         ideaB.associationsOut = [assocBtoC];
         ideaC.associationsIn = [assocBtoC, assocAtoC];
         ideaC.associationsOut = [assocCtoD];
         ideaD.associationsIn = [assocCtoD];
+        ideaD.associationsOut = [assocDtoE];
+        ideaE.associationsIn = [assocDtoE, assocAtoE];
 
         mindmap.associations.set(assocAtoB.id, assocAtoB);
-        mindmap.associations.set(assocBtoC.id, assocBtoC);
         mindmap.associations.set(assocAtoC.id, assocAtoC);
+        mindmap.associations.set(assocAtoE.id, assocAtoE);
+        mindmap.associations.set(assocBtoC.id, assocBtoC);
         mindmap.associations.set(assocCtoD.id, assocCtoD);
+        mindmap.associations.set(assocDtoE.id, assocDtoE);
 
         mindmap.ideas.set(ideaA.id, ideaA);
         mindmap.ideas.set(ideaB.id, ideaB);
         mindmap.ideas.set(ideaC.id, ideaC);
         mindmap.ideas.set(ideaD.id, ideaD);
+        mindmap.ideas.set(ideaE.id, ideaE);
         mindmap.root = ideaA;
 
         const state = {model: {mindmap}};
@@ -252,6 +273,7 @@ describe('remove-association', () => {
         expect(mindmap.ideas.get('B').depth).to.equal(1);
         expect(mindmap.ideas.get('C').depth).to.equal(2); // actualized
         expect(mindmap.ideas.get('D').depth).to.equal(3); // actualized
+        expect(mindmap.ideas.get('E').depth).to.equal(1);
     });
 
     it('should fail if association was not found', () => {

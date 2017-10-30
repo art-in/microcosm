@@ -25,7 +25,7 @@ export default function init(state, data) {
     const mindmap = mindmaps[0];
 
     mindmap.root = buildGraph(ideas, associations);
-    mindmap.root = calcDepths(mindmap.root, 0);
+    calcDepths(mindmap.root);
     
     associations.forEach(a => mindmap.associations.set(a.id, a));
     ideas.forEach(i => mindmap.ideas.set(i.id, i));

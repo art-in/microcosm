@@ -104,51 +104,6 @@ describe('calc-depths', () => {
         });
     });
 
-    it('should set depths to all nodes in sub-graph', () => {
-        
-        // setup graph
-        //
-        //   (A) --> (B) --> (C)
-        //
-        const ideaA = new Idea({id: 'A', isRoot: true});
-        const ideaB = new Idea({id: 'B'});
-        const ideaC = new Idea({id: 'C'});
-
-        const assocAtoB = new Association({from: ideaA, to: ideaB});
-        const assocBtoC = new Association({from: ideaB, to: ideaC});
-
-        ideaA.associationsOut = [assocAtoB];
-        ideaB.associationsIn = [assocAtoB];
-        ideaB.associationsOut = [assocBtoC];
-        ideaC.associationsIn = [assocBtoC];
-
-        // set previous depths
-        ideaA.depth = 'not visited';
-        ideaB.depth = undefined;
-        ideaC.depth = undefined;
-
-        // target
-        calcDepths(ideaB, 1);
-
-        // check
-        expect(ideaA).to.containSubset({
-            id: 'A',
-            depth: 'not visited',
-            associationsOut: [{
-                to: {
-                    id: 'B',
-                    depth: 1,
-                    associationsOut: [{
-                        to: {
-                            id: 'C',
-                            depth: 2
-                        }
-                    }]
-                }
-            }]
-        });
-    });
-
     it('should not fail with cyclic graphs', () => {
         
         // setup graph
