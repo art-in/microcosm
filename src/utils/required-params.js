@@ -37,7 +37,7 @@
 export default function requiredParams(params) {
 
     if (params == null || typeof params !== 'object') {
-        throw Error('Invalid params object received');
+        throw Error(`Invalid params object received '${params}'`);
     }
 
     if (process.env.NODE_ENV === 'production') {

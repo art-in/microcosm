@@ -79,7 +79,7 @@ describe('required-params', () => {
 
         // check
         expect(result).to.throw(
-            `Invalid params object received`);
+            `Invalid params object received 'undefined'`);
     });
     
     it('should not create proxy in prod environment', () => {
