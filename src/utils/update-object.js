@@ -69,7 +69,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
             sourceValue !== null &&
             targetType !== sourceType) {
             throw Error(
-                `Target prop '${prop}' has type '${targetType}' ` +
+                `Target prop '${prop}' has type '${targetType}', ` +
                 `but source has type '${sourceType}'`);
         }
 
@@ -79,14 +79,31 @@ export default function updateObject(target, source, shouldUpdate = noop) {
             
             // do not allow changing type of array items 
             if (targetValue.length && sourceValue.length) {
-                const targetItemType = typeof targetValue[0];
-                const sourceItemType = typeof sourceValue[0];
 
+                const targetItemValue = targetValue[0];
+                const sourceItemValue = sourceValue[0];
+
+                const targetItemType = typeof targetItemValue;
+                const sourceItemType = typeof sourceItemValue;
+
+                // check data type
                 if (targetItemType !== sourceItemType) {
                     throw Error(
                         `Items of target array '${prop}' has type ` +
-                        `'${targetItemType}' but items of source array ` +
+                        `'${targetItemType}', but items of source array ` +
                         `has type '${sourceItemType}'`);
+                }
+
+                // check constructor of object items
+                if (targetItemType === 'object' &&
+                    sourceItemType === 'object' &&
+                    (targetItemValue.constructor !==
+                     sourceItemValue.constructor)) {
+                    throw Error(
+                        `Objects of target array '${prop}' were constructed ` +
+                        `by '${targetItemValue.constructor.name}', but ` +
+                        `objects of source array constructed by ` +
+                        `'${sourceItemValue.constructor.name}'`);
                 }
             }
             
@@ -97,6 +114,16 @@ export default function updateObject(target, source, shouldUpdate = noop) {
         if (targetType === 'object' &&
             sourceType === 'object') {
             
+            // check object constructor.
+            // allow source constructor to be genenic object (simple patch).
+            if (sourceValue.constructor !== Object &&
+                targetValue.constructor !== sourceValue.constructor) {
+                throw Error(
+                    `Target prop '${prop}' has object constructed by ` +
+                    `'${targetValue.constructor.name}', but source object ` +
+                    `constructed by '${sourceValue.constructor.name}'`);
+            }
+
             // deep update object
             updateObject(targetValue, sourceValue, shouldUpdate);
         } else {

@@ -87,7 +87,7 @@ describe('update-object', () => {
         const result = () => updateObject(target, {nested: 2});
 
         expect(result).to.throw(
-            `Target prop 'nested' has type 'object' ` +
+            `Target prop 'nested' has type 'object', ` +
             `but source has type 'number'`);
     });
 
@@ -97,7 +97,7 @@ describe('update-object', () => {
         const result = () => updateObject(target, {nested: {}});
 
         expect(result).to.throw(
-            `Target prop 'nested' has type 'array' ` +
+            `Target prop 'nested' has type 'array', ` +
             `but source has type 'object'`);
     });
 
@@ -115,8 +115,69 @@ describe('update-object', () => {
         const result = () => updateObject(target, {nested: ['3', '4']});
         
         expect(result).throw(
-            `Items of target array 'nested' has type 'number' ` +
+            `Items of target array 'nested' has type 'number', ` +
             `but items of source array has type 'string'`);
+    });
+
+    it('should fail if nested object is from different constructor', () => {
+        
+        /* eslint-disable require-jsdoc */
+        class A {
+            prop = undefined
+        }
+        class B {
+            prop = undefined
+        }
+
+        const a = new A(); a.prop = 1;
+        const b = new B(); b.prop = 2;
+
+        const target = {obj: a};
+        const source = {obj: b};
+
+        const result = () => updateObject(target, source);
+        
+        expect(result).throw(
+            `Target prop 'obj' has object constructed by 'A', ` +
+            `but source object constructed by 'B'`);
+    });
+
+    it('should NOT fail if source nested object is generic object', () => {
+        
+        /* eslint-disable require-jsdoc */
+        class A {
+            prop = undefined
+        }
+
+        const a = new A(); a.prop = 1;
+        const b = {prop: 2};
+
+        const target = {obj: a};
+        const source = {obj: b};
+
+        updateObject(target, source);
+        
+        expect(target).to.deep.equal({obj: {prop: 2}});
+    });
+
+    it('should fail if array objects are from different constructor', () => {
+        
+        /* eslint-disable require-jsdoc */
+        class A {
+            prop = undefined
+        }
+
+        const a = new A(); a.prop = 1;
+        const b = {prop: 2};
+
+        const target = {arr: [a]};
+        const source = {arr: [b]};
+
+        const result = () => updateObject(target, source);
+        
+        expect(result).throw(
+            `Objects of target array 'arr' were constructed by 'A', ` +
+            `but objects of source array constructed by 'Object'`);
     });
 
 });
