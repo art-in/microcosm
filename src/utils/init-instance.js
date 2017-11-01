@@ -1,5 +1,6 @@
 import assert from 'utils/assert';
 import initProps from 'utils/init-props';
+import guardObjectProps from 'utils/guard-object-props';
 
 /**
  * Initializes new class instance
@@ -15,12 +16,8 @@ import initProps from 'utils/init-props';
  * @param {object} [propsObj]
  */
 export default function initInstance(instance, propsObj) {
-
     assert(typeof instance === 'object', `Invalid instance '${instance}'`);
-
-    // seal all class instances to prevent
-    // unintentional extensions by mistyped prop names
-    Object.seal(instance);
-
+    
+    guardObjectProps(instance);
     initProps(instance, propsObj);
 }
