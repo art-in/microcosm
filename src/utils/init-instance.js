@@ -8,16 +8,19 @@ import guardObjectProps from 'utils/guard-object-props';
  * @example
  * class A {
  *      constructor(props) {
- *          initInstance(this, props)
+ *          return initInstance(this, props)
  *      }
  * }
  * 
  * @param {object} instance 
  * @param {object} [propsObj]
+ * @return {object} instance
  */
 export default function initInstance(instance, propsObj) {
     assert(typeof instance === 'object', `Invalid instance '${instance}'`);
     
-    guardObjectProps(instance);
-    initProps(instance, propsObj);
+    const guardedInstance = guardObjectProps(instance);
+    initProps(guardedInstance, propsObj);
+
+    return guardedInstance;
 }
