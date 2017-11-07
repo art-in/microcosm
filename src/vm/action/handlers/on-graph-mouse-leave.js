@@ -20,19 +20,25 @@ export default function(state, data) {
     }
 
     const node = getNode(graph, graph.drag.node.id);
-    
-    return new Patch([
+    const nodes = graph.drag.nodes;
 
-        // move node back to starting point
+    const patch = new Patch();
+
+    // move node and child sub-tree back to starting point
+    const dx = node.pos.x - graph.drag.startX;
+    const dy = node.pos.y - graph.drag.startY;
+
+    nodes.forEach(n => patch.push(
         view('update-node', {
-            id: node.id,
+            id: n.id,
             pos: {
-                x: graph.drag.startX,
-                y: graph.drag.startY
+                x: n.pos.x - dx,
+                y: n.pos.y - dy
             }
-        }),
+        })));
 
-        // stop dragging
-        view('update-graph', stopDrag())
-    ]);
+    // stop dragging
+    patch.push(view('update-graph', stopDrag()));
+
+    return patch;
 }

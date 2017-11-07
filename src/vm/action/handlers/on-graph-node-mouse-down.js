@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 
+import getDescendants from 'utils/graph/get-descendants';
+
 /**
  * Handles mouse down event on graph node
  * 
@@ -24,11 +26,16 @@ export default function(state, data, dispatch) {
         return;
     }
 
+    // drag child sub-tree
+    const descendants = getDescendants(node);
+
     // start dragging
     return view('update-graph', {
         drag: {
             active: true,
-            node: node,
+            node,
+            nodes: [node, ...descendants],
+
             startX: node.pos.x,
             startY: node.pos.y
         }

@@ -8,6 +8,7 @@ export default function() {
         drag: {
             active: false,
             node: null,
+            nodes: null,
             startX: null,
             startY: null
         }

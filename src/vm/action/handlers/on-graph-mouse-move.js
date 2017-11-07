@@ -1,10 +1,7 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
-import viewPatch from 'vm/utils/view-patch';
 import view from 'vm/utils/view-mutation';
-
-import getNode from 'vm/action/utils/get-node';
 import mapToViewboxCoords from
     'vm/map/entities/Graph/methods/map-viewport-to-viewbox-coords';
 
@@ -27,15 +24,20 @@ export default function(state, data, dispatch) {
     // drag node step
     if (graph.drag.active) {
 
-        const node = getNode(graph, graph.drag.node.id);
-        
-        return viewPatch('update-node', {
-            id: node.id,
-            pos: {
-                x: node.pos.x + viewboxShift.x,
-                y: node.pos.y + viewboxShift.y
-            }
+        const patch = new Patch();
+
+        // move target node and child sub-tree
+        graph.drag.nodes.forEach(n => {
+            patch.push(view('update-node', {
+                id: n.id,
+                pos: {
+                    x: n.pos.x + viewboxShift.x,
+                    y: n.pos.y + viewboxShift.y
+                }
+            }));
         });
+
+        return patch;
     }
 
     // pan

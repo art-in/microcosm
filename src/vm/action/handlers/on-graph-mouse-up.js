@@ -1,6 +1,6 @@
 import view from 'vm/utils/view-patch';
 
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 
 /**
@@ -19,11 +19,13 @@ export default function(state, data, dispatch) {
 
         // TODO: do not dispatch if position was not shifted (same as pan)
         //       update: pan is guaranteed to be shifted if active
+        const node = graph.drag.node;
+
         dispatch({
             type: 'set-idea-position',
             data: {
-                ideaId: graph.drag.node.id,
-                pos: graph.drag.node.pos
+                ideaId: node.id,
+                pos: new Point(node.pos)
             }
         });
 
