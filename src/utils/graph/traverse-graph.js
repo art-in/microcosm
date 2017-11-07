@@ -1,27 +1,36 @@
+import required from 'utils/required-params';
+
 /**
  * Generic function for graph traversal
  * 
- * @param {object} node - root node
- * @param {function} visit - function to call on each node
- * @param {string} [mode='dfs-pre'] - dfs-pre  - depth-first search pre-order
- *                                    dfs-post - depth-first search post order
- *                                    bfs      - breadth-first search
+ * Algorithms:
+ * 
+ * dfs-pre  - depth-first search pre-order
+ * dfs-post - depth-first search post order
+ * bfs      - breadth-first search
+ * 
+ * @param {object}   opts
+ * @param {object}   opts.node - root node
+ * @param {function} opts.visit - function to call on each node
+ * @param {string}   [opts.alg='dfs-pre']
+ * @param {boolean}  [opts.isTree=false] - traverse graph as tree
  */
-export default function traverseGraph(
-    node,
-    visit,
-    mode = 'dfs-pre') {
+export default function traverseGraph(opts) {
     
-    switch (mode) {
+    const {node, visit} = required(opts);
+    const alg = opts.alg || 'dfs-pre';
+    const isTree = opts.isTree || false;
+
+    switch (alg) {
     case 'dfs-pre':
     case 'dfs-post':
-        dfs(node, visit, mode);
+        dfs(node, visit, alg, isTree);
         break;
     case 'bfs':
-        bfs(node, visit);
+        bfs(node, visit, isTree);
         break;
     default:
-        throw Error(`Unknown traversal mode '${mode}'`);
+        throw Error(`Unknown traversal algorithm '${alg}'`);
     }
 }
 
@@ -30,29 +39,35 @@ export default function traverseGraph(
  * 
  * @param {object} node 
  * @param {function} visit 
- * @param {string} mode 
+ * @param {string} alg 
+ * @param {boolean} isTree
  * @param {Set} visitedNodes 
  */
-function dfs(node, visit, mode, visitedNodes = new Set()) {
+function dfs(node, visit, alg, isTree, visitedNodes = new Set()) {
     if (visitedNodes.has(node)) {
         return;
     }
 
     visitedNodes.add(node);
 
-    if (mode === 'dfs-pre') {
+    if (alg === 'dfs-pre') {
         visit(node);
     }
 
-    node.linksOut.forEach(link => {
+    const linksOut = isTree ?
+        node.linksToChilds :
+        node.linksOut;
+
+    linksOut.forEach(link => {
         dfs(
             link.to,
             visit,
-            mode,
+            alg,
+            isTree,
             visitedNodes);
     });
     
-    if (mode === 'dfs-post') {
+    if (alg === 'dfs-post') {
         visit(node);
     }
 }
@@ -61,9 +76,10 @@ function dfs(node, visit, mode, visitedNodes = new Set()) {
  * Breadth-first search (BFS)
  * 
  * @param {object} node 
- * @param {function} visit 
+ * @param {function} visit
+ * @param {boolean} isTree
  */
-function bfs(node, visit) {
+function bfs(node, visit, isTree) {
 
     const visitedNodes = new Set();
 
@@ -77,7 +93,11 @@ function bfs(node, visit) {
         visit(currentNode);
         visitedNodes.add(currentNode);
 
-        currentNode.linksOut
+        const linksOut = isTree ?
+            currentNode.linksToChilds :
+            currentNode.linksOut;
+
+        linksOut
             .filter(l => !visitedNodes.has(l.to))
             .forEach(l => queue.unshift(l.to));
     }

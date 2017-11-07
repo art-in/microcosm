@@ -1,247 +1,192 @@
-import {expect} from 'chai';
+import {expect} from 'test/utils';
 
-import Idea from 'src/model/entities/Idea';
-import Association from 'src/model/entities/Association';
-
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 import traverse from 'src/utils/graph/traverse-graph';
 
 describe('traverse-graph', () => {
 
-    describe('should visit each node once', () => {
+    // eslint-disable-next-line require-jsdoc
+    function setupGraph() {
 
-        // eslint-disable-next-line require-jsdoc
-        function setupGraph() {
-            // setup tree graph
-            //
-            //       (root idea)
-            //         /     \
-            //    (idea 1)  (idea 3)
-            //       /         \
-            //   (idea 2)     (idea 4)
-            //
-            const rootIdea = new Idea({id: 'root idea', isRoot: true});
-            const idea1 = new Idea({id: 'idea 1'});
-            const idea2 = new Idea({id: 'idea 2'});
-            const idea3 = new Idea({id: 'idea 3'});
-            const idea4 = new Idea({id: 'idea 4'});
+        // setup tree graph
+        //
+        //           (A)
+        //          /   \
+        //        (B)   (C) <------
+        //        /        \       \
+        //      (D)         (E) --> (F) --> (G)
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C   D   E   F   G
+            /* A */ '0   1   1   0   0   0   0',
+            /* B */ '0   0   0   1   0   0   0',
+            /* C */ '0   0   0   0   1   0   0',
+            /* D */ '0   0   0   0   0   0   0',
+            /* E */ '0   0   0   0   0   1   0',
+            /* F */ '0   0   1   0   0   0   1',
+            /* G */ '0   0   0   0   0   0   0'
+        ]);
 
-            const assocRootTo1 = new Association({
-                from: rootIdea,
-                to: idea1
-            });
+        return {root, nodes, links};
+    }
 
-            const assocRootTo3 = new Association({
-                from: rootIdea,
-                to: idea3
-            });
+    describe('depth-first pre-order', () => {
 
-            const assoc1to2 = new Association({
-                from: idea1,
-                to: idea2
-            });
-
-            const assoc3to4 = new Association({
-                from: idea3,
-                to: idea4
-            });
-
-            rootIdea.associationsOut = [assocRootTo1, assocRootTo3];
-            idea1.associationsIn = [assocRootTo1];
-            idea1.associationsOut = [assoc1to2];
-            idea2.associationsIn = [assoc1to2];
-            idea3.associationsIn = [assocRootTo3];
-            idea3.associationsOut = [assoc3to4];
-            idea4.associationsIn = [assoc3to4];
-
-            return rootIdea;
-        }
-
-        it('depth-first pre-order', () => {
-
+        it('should visit each node', () => {
+            
             // setup
-            const rootIdea = setupGraph();
+            const {root} = setupGraph();
             const visited = [];
-
+    
             // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'dfs-pre');
-
+            traverse({
+                node: root,
+                visit: idea => visited.push(idea.id),
+                alg: 'dfs-pre'
+            });
+    
             // check
             expect(visited).to.deep.equal([
-                'root idea',
-                'idea 1',
-                'idea 2',
-                'idea 3',
-                'idea 4'
+                'A',
+                'B',
+                'D',
+                'C',
+                'E',
+                'F',
+                'G'
             ]);
         });
 
-        it('depth-first post-order', () => {
+        it('should visit nodes in tree mode', () => {
 
             // setup
-            const rootIdea = setupGraph();
+            const {nodes} = setupGraph();
             const visited = [];
 
-            // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'dfs-post');
-
-            // check
-            expect(visited).to.deep.equal([
-                'idea 2',
-                'idea 1',
-                'idea 4',
-                'idea 3',
-                'root idea'
-            ]);
-        });
-        
-        it('breadth-first', () => {
-
-            // setup
-            const rootIdea = setupGraph();
-            const visited = [];
+            const nodeE = nodes.find(n => n.id === 'E');
 
             // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'bfs');
-
+            traverse({
+                node: nodeE,
+                visit: idea => visited.push(idea.id),
+                alg: 'dfs-pre',
+                isTree: true
+            });
+    
             // check
+            // unlike graph - tree does not go from F to C
             expect(visited).to.deep.equal([
-                'root idea',
-                'idea 1',
-                'idea 3',
-                'idea 2',
-                'idea 4'
+                'E',
+                'F',
+                'G'
             ]);
         });
 
     });
+
+    describe('depth-first post-order', () => {
+
+        it('should visit each node', () => {
+            
+            // setup
+            const {root} = setupGraph();
+            const visited = [];
     
-    describe('should traverse graph with cycles', () => {
-
-        // eslint-disable-next-line require-jsdoc
-        function setupGraph() {
-            // setup tree graph
-            //
-            //       (root idea)
-            //         /     \
-            //    (idea 1)  (idea 2) <------
-            //                 \            \
-            //               (idea 3) --> (idea 4)
-            //
-            const rootIdea = new Idea({id: 'root idea', isRoot: true});
-            const idea1 = new Idea({id: 'idea 1'});
-            const idea2 = new Idea({id: 'idea 2'});
-            const idea3 = new Idea({id: 'idea 3'});
-            const idea4 = new Idea({id: 'idea 4'});
-
-            const assocRootTo1 = new Association({
-                from: rootIdea,
-                to: idea1
-            });
-
-            const assocRootTo2 = new Association({
-                from: rootIdea,
-                to: idea2
-            });
-
-            const assoc2to3 = new Association({
-                from: idea2,
-                to: idea3
-            });
-
-            const assoc3to4 = new Association({
-                from: idea3,
-                to: idea4
-            });
-
-            const assoc4to2 = new Association({
-                from: idea4,
-                to: idea2
-            });
-
-            rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
-            idea1.associationsIn = [assocRootTo1];
-            idea2.associationsIn = [assocRootTo2, assoc4to2];
-            idea2.associationsOut = [assoc2to3];
-            idea3.associationsIn = [assoc2to3];
-            idea3.associationsOut = [assoc3to4];
-            idea4.associationsIn = [assoc3to4];
-            idea4.associationsOut = [assoc4to2];
-
-            return rootIdea;
-        }
-
-        it('depth-first pre-order', () => {
-            
-            // setup
-            const rootIdea = setupGraph();
-            const visited = [];
-
             // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'dfs-pre');
-
+            traverse({
+                node: root,
+                visit: idea => visited.push(idea.id),
+                alg: 'dfs-post'
+            });
+    
             // check
             expect(visited).to.deep.equal([
-                'root idea',
-                'idea 1',
-                'idea 2',
-                'idea 3',
-                'idea 4'
+                'D',
+                'B',
+                'G',
+                'F',
+                'E',
+                'C',
+                'A'
             ]);
         });
 
-        it('depth-first post-order', () => {
+        it('should visit nodes in tree mode', () => {
             
             // setup
-            const rootIdea = setupGraph();
+            const {nodes} = setupGraph();
             const visited = [];
 
-            // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'dfs-post');
+            const nodeE = nodes.find(n => n.id === 'E');
 
+            // target
+            traverse({
+                node: nodeE,
+                visit: idea => visited.push(idea.id),
+                alg: 'dfs-post',
+                isTree: true
+            });
+    
             // check
+            // unlike graph - tree does not go from F to C
             expect(visited).to.deep.equal([
-                'idea 1',
-                'idea 4',
-                'idea 3',
-                'idea 2',
-                'root idea'
+                'G',
+                'F',
+                'E'
             ]);
         });
 
-        it('breadth-first', () => {
+    });
+
+    describe('breadth-first', () => {
+
+        it('should visit each node', () => {
             
             // setup
-            const rootIdea = setupGraph();
+            const {root} = setupGraph();
             const visited = [];
-
+    
             // target
-            traverse(
-                rootIdea,
-                idea => visited.push(idea.id),
-                'bfs');
-
+            traverse({
+                node: root,
+                visit: idea => visited.push(idea.id),
+                alg: 'bfs'
+            });
+    
             // check
             expect(visited).to.deep.equal([
-                'root idea',
-                'idea 1',
-                'idea 2',
-                'idea 3',
-                'idea 4'
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G'
+            ]);
+        });
+
+        it('should visit nodes in tree mode', () => {
+            
+            // setup
+            const {nodes} = setupGraph();
+            const visited = [];
+
+            const nodeE = nodes.find(n => n.id === 'E');
+
+            // target
+            traverse({
+                node: nodeE,
+                visit: idea => visited.push(idea.id),
+                alg: 'bfs',
+                isTree: true
+            });
+    
+            // check
+            // unlike graph - tree does not go from F to C
+            expect(visited).to.deep.equal([
+                'E',
+                'F',
+                'G'
             ]);
         });
 
