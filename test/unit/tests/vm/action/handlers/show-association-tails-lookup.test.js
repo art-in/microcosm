@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import Point from 'src/vm/shared/Point';
+import Point from 'src/model/entities/Point';
 import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
 import handler from 'src/vm/action/handler';

@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Group from 'view/shared/svg/Group';
 import NodeVM from 'vm/map/entities/Node';
 import Text from 'view/shared/svg/Text';
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 import classes from './NodeDebug.css';
 
@@ -18,22 +18,29 @@ export default class NodeDebug extends Component {
 
     render() {
         const {className, node, ...other} = this.props;
-        const {round} = Math;
 
         if (!node.debug) {
             return null;
         }
 
+        // eslint-disable-next-line require-jsdoc
+        const round = num => Math.round(num * 100) / 100;
+
         const lines = [
             `id = ${node.id.slice(0, 5)}`,
-            `pos = [${round(node.pos.x)} x ${round(node.pos.y)}]`,
-            `depth = ${node.depth}`,
-            `scale = ${node.scale}`
+            `pos = [${Math.round(node.pos.x)} x ${Math.round(node.pos.y)}]`,
+            `rpw = ${round(node.debugInfo.rootPathWeight)}`,
+            `scale = ${round(node.scale)}`
         ];
+
+        // when node downscaled - upscale debug info back,
+        // so it always stays normal size
+        const scale = 1 / node.scale;
 
         return (
             <Group className={cx(classes.root, className)}
-                {...other}>
+                {...other}
+                scale={scale}>
 
                 {lines.map((line, idx) =>
                     <Text text={line}
@@ -41,7 +48,7 @@ export default class NodeDebug extends Component {
                         className={classes.line}
                         pos={new Point({
                             x: -25,
-                            y: node.radius + 10 + idx * 13
+                            y: node.radius + (10 / scale) + idx * 8
                         })}
                     />)}
 

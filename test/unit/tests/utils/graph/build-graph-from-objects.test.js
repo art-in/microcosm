@@ -2,9 +2,10 @@ import {expect} from 'chai';
 
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
-import build from 'src/model/utils/build-ideas-graph';
 
-describe('build-ideas-graph', () => {
+import buildGraphFromObjects from 'src/utils/graph/build-graph-from-objects';
+
+describe('build-graph-from-objects', () => {
 
     it('should build from tree graph', () => {
 
@@ -26,7 +27,11 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const graph = build(ideas, assocs);
+        const graph = buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(graph).to.exist;
@@ -93,7 +98,11 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const graph = build(ideas, assocs);
+        const graph = buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(graph).to.exist;
@@ -148,7 +157,11 @@ describe('build-ideas-graph', () => {
         const assocs = [];
 
         // target
-        const graph = build(ideas, assocs);
+        const graph = buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(graph).to.exist;
@@ -169,10 +182,14 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const result = () => build(ideas, assocs);
+        const result = () => buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
-        expect(result).to.throw('No root idea was found');
+        expect(result).to.throw('No root node was found');
     });
 
     it('should fail if head idea was not found for association', () => {
@@ -190,11 +207,15 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const result = () => build(ideas, assocs);
+        const result = () => buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(result).to.throw(
-            `Head idea 'idea X' of association 'assoc 1' was not found`);
+            `Head node 'idea X' of link 'assoc 1' was not found`);
     });
 
     it('should fail if tail idea was not found for association', () => {
@@ -212,11 +233,15 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const result = () => build(ideas, assocs);
+        const result = () => buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(result).to.throw(
-            `Tail idea 'idea Y' of association 'assoc 2' was not found`);
+            `Tail node 'idea Y' of link 'assoc 2' was not found`);
     });
 
     it('should fail if not all ideas can be reached from root idea', () => {
@@ -235,11 +260,16 @@ describe('build-ideas-graph', () => {
         ];
 
         // target
-        const result = () => build(ideas, assocs);
+        const result = () => buildGraphFromObjects({
+            nodes: ideas,
+            links: assocs,
+            isRootNode: idea => idea.isRoot
+        });
 
         // check
         expect(result).to.throw(
-            `Some ideas cannot be reached from root: ` +
+            `Some nodes cannot be reached from root: ` +
             `'idea A', 'idea B'`);
     });
+
 });

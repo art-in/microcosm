@@ -35,10 +35,11 @@ export default class ContextMenu extends ViewModel {
      */
     constructor({items = []} = {}) {
         super();
-        initInstance(this);
-
+        
         this.popup = new Popup();
         this.menu = new Menu({items});
+
+        return initInstance(this);
     }
 
 }

@@ -23,7 +23,7 @@ describe('set-mindmap-scale', () => {
             data: {
                 mindmapId: 'id',
                 scale: 2,
-                pos: {}
+                pos: {x: 10, y: 10}
             }
         });
 
@@ -32,7 +32,8 @@ describe('set-mindmap-scale', () => {
         expect(patch['update-mindmap']).to.exist;
         expect(patch['update-mindmap'][0].data).to.containSubset({
             id: 'id',
-            scale: 2
+            scale: 2,
+            pos: {x: 10, y: 10}
         });
 
     });
@@ -65,8 +66,7 @@ describe('set-mindmap-scale', () => {
         expect(patch['update-mindmap']).to.exist;
         expect(patch['update-mindmap'][0].data).to.containSubset({
             id: 'id',
-            x: 100,
-            y: 200
+            pos: {x: 100, y: 200}
         });
 
     });

@@ -1,5 +1,5 @@
 describe('utils', () => {
 
-    require('./get-graph-focus-depth.test');
+    require('./get-graph-focus-weight-for-scale.test');
 
 });

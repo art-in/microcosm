@@ -2,8 +2,8 @@ Logic for presenting mindmap as geo-like map:
 graph of ideas mapped to 2D space (map), with ability to zoom.  
 
 Each node has its own 2D coordinates on the map.  
-Node size is defined by its depth in the graph.  
-Deeper node in the graph - smaller it gets on the map.  
+Node size is defined by its root path weight (RPW) in the graph.  
+Greater RPW node has - smaller it gets on the map.  
 
 ---
 

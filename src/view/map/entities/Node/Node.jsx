@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 import NodeVM from 'vm/map/entities/Node';
 
 import Group from 'view/shared/svg/Group';
@@ -34,7 +34,7 @@ export default class Node extends Component {
             onTitleChange,
             ...other} = this.props;
 
-        const textAreaWidth = 200;
+        const textAreaWidth = 30;
         const textAreaHeight = 25;
         const textAreaPos = new Point({
             x: -(textAreaWidth / 2),
@@ -50,7 +50,7 @@ export default class Node extends Component {
                 scale={node.scale}>
 
                 <Circle className={classes.circle}
-                    style={{fill: node.color || 'lightgray'}}
+                    style={{fill: node.color}}
                     radius={ node.radius }
                     {...other} />
 

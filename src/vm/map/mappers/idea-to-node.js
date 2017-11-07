@@ -1,10 +1,8 @@
 import assert from 'utils/assert';
 
-import Point from 'vm/shared/Point';
 import Node from 'vm/map/entities/Node';
 import Idea from 'model/entities/Idea';
-
-import getScaleForDepth from '../utils/get-node-scale-for-depth';
+import Point from 'model/entities/Point';
 
 /**
  * Maps idea model to node view model
@@ -18,18 +16,17 @@ export default function ideaToNode(idea) {
     const node = new Node();
 
     node.id = idea.id;
-    node.pos = new Point({x: idea.x, y: idea.y});
+    
     node.title.value = idea.value;
     node.isRoot = idea.isRoot;
-    node.depth = idea.depth;
-
-    node.color = idea.isRoot ?
-        'yellow' :
-        (idea.color || node.color);
+    node.color = idea.color;
     
     node.radius = 10;
     
-    node.scale = getScaleForDepth(node.depth);
+    node.isRoot = idea.isRoot;
+    node.pos = new Point(idea.pos);
+
+    node.debugInfo.rootPathWeight = idea.rootPathWeight;
 
     return node;
 }

@@ -28,6 +28,6 @@ export default class LookupSuggestion {
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

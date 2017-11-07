@@ -1,486 +1,634 @@
 import {expect} from 'chai';
 
-import Idea from 'src/model/entities/Idea';
-import Association from 'src/model/entities/Association';
-
 import Node from 'src/vm/map/entities/Node';
 import Link from 'src/vm/map/entities/Link';
 
 import mapGraph from 'src/utils/graph/map-graph';
-import traverse from 'src/utils/graph/traverse-graph';
 
 import ideaToNode from 'src/vm/map/mappers/idea-to-node';
 import assocToLink from 'src/vm/map/mappers/association-to-link';
 
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
+
 describe('map-graph', () => {
 
-    it('should map tree graph', () => {
+    it('should map graph', () => {
         
-        // setup tree graph
+        // setup graph
+        //  
+        //        (B)
+        //       ^ ^ \
+        //      /  |  \
+        //     /   |   v
+        //   (A) ----> (C) --> (E)
+        //     \   |   ^    \   |
+        //      \  |  /      \  |
+        //       v | /        v v
+        //        (D)          (F)
         //
-        //       (root idea)
-        //         /     \
-        //    (idea 1)  (idea 2)
-        //                 \
-        //               (idea 3)
-        //
-        const rootIdea = new Idea({
-            id: 'root idea',
-            isRoot: true,
-            depth: 0
-        });
-        const idea1 = new Idea({id: 'idea 1', depth: 1});
-        const idea2 = new Idea({id: 'idea 2', depth: 1});
-        const idea3 = new Idea({id: 'idea 3', depth: 2});
-
-        const assocRootTo1 = new Association({
-            id: 'assoc root to 1',
-            from: rootIdea,
-            to: idea1
-        });
-
-        const assocRootTo2 = new Association({
-            id: 'assoc root to 2',
-            from: rootIdea,
-            to: idea2
-        });
-
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
-        idea1.associationsIn = [assocRootTo1];
-        idea2.associationsIn = [assocRootTo2];
-        idea2.associationsOut = [assoc2to3];
-        idea3.associationsIn = [assoc2to3];
+        const {root} = buildGraph([
+            //       A   B      C      D     E   F
+            /* A */ '0   2      1      0.5   0   0',
+            /* B */ '0   0      0.125  0     0   0',
+            /* C */ '0   0      0      0     1   1',
+            /* D */ '0   0.125  1      0     0   0',
+            /* E */ '0   0      0      0     0   1',
+            /* F */ '0   0      0      0     0   0'
+        ]);
 
         // target
-        const {rootNode} = mapGraph({
-            node: rootIdea,
+        const {rootNode, nodes, links} = mapGraph({
+            node: root,
             mapNode: ideaToNode,
             mapLink: assocToLink
         });
 
         // check
         expect(rootNode).to.exist;
+        expect(nodes).to.have.length(6);
+        expect(links).to.have.length(9);
 
         // check types
-        traverse(rootNode, node => {
-            expect(node).to.be.instanceOf(Node);
-            node.linksIn.forEach(l => expect(l).to.be.instanceOf(Link));
-            node.linksOut.forEach(l => expect(l).to.be.instanceOf(Link));
-        });
+        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
+        links.forEach(l => expect(l).to.be.instanceOf(Link));
 
-        // check structure
-        expect(rootNode).to.containSubset({
-            id: 'root idea',
-            linksIn: [],
-            linksOut: [{
-                id: 'assoc root to 1',
-                from: {id: 'root idea'},
-                to: {
-                    id: 'idea 1',
-                    linksIn: [{id: 'assoc root to 1'}]
-                }
-            }, {
-                id: 'assoc root to 2',
-                from: {id: 'root idea'},
-                to: {
-                    id: 'idea 2',
-                    linksIn: [{id: 'assoc root to 2'}],
-                    linksOut: [{
-                        id: 'assoc 2 to 3',
-                        from: {id: 'idea 2'},
-                        to: {
-                            id: 'idea 3',
-                            linksIn: [{id: 'assoc 2 to 3'}]
-                        }
-                    }]
-                }
-            }]
-        });
+        // check references
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+        const nodeE = nodes.find(n => n.id === 'E');
+        const nodeF = nodes.find(n => n.id === 'F');
+        
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkAtoD = links.find(l => l.id === 'A to D');
+        const linkBtoC = links.find(l => l.id === 'B to C');
+        const linkCtoE = links.find(l => l.id === 'C to E');
+        const linkCtoF = links.find(l => l.id === 'C to F');
+        const linkDtoB = links.find(l => l.id === 'D to B');
+        const linkDtoC = links.find(l => l.id === 'D to C');
+        const linkEtoF = links.find(l => l.id === 'E to F');
+
+        // check root
+        expect(nodeA).to.equal(rootNode);
+
+        // check link A to B
+        expect(linkAtoB.from).to.equal(nodeA);
+        expect(linkAtoB.to).to.equal(nodeB);
+        expect(linkAtoB.weight).to.equal(2);
+
+        // check link A to C
+        expect(linkAtoC.from).to.equal(nodeA);
+        expect(linkAtoC.to).to.equal(nodeC);
+        expect(linkAtoC.weight).to.equal(1);
+
+        // check link A to D
+        expect(linkAtoD.from).to.equal(nodeA);
+        expect(linkAtoD.to).to.equal(nodeD);
+        expect(linkAtoD.weight).to.equal(0.5);
+
+        // check link B to C
+        expect(linkBtoC.from).to.equal(nodeB);
+        expect(linkBtoC.to).to.equal(nodeC);
+        expect(linkBtoC.weight).to.equal(0.125);
+
+        // check link C to E
+        expect(linkCtoE.from).to.equal(nodeC);
+        expect(linkCtoE.to).to.equal(nodeE);
+        expect(linkCtoE.weight).to.equal(1);
+
+        // check link C to F
+        expect(linkCtoF.from).to.equal(nodeC);
+        expect(linkCtoF.to).to.equal(nodeF);
+        expect(linkCtoF.weight).to.equal(1);
+
+        // check link D to B
+        expect(linkDtoB.from).to.equal(nodeD);
+        expect(linkDtoB.to).to.equal(nodeB);
+        expect(linkDtoB.weight).to.equal(0.125);
+
+        // check link D to C
+        expect(linkDtoC.from).to.equal(nodeD);
+        expect(linkDtoC.to).to.equal(nodeC);
+        expect(linkDtoC.weight).to.equal(1);
+
+        // check link E to F
+        expect(linkEtoF.from).to.equal(nodeE);
+        expect(linkEtoF.to).to.equal(nodeF);
+        expect(linkEtoF.weight).to.equal(1);
+
+        // check node A
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(3);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC, linkAtoD]);
+
+        expect(nodeA.linkFromParent).to.equal(null);
+        expect(nodeA.linksToChilds).to.have.length(1);
+        expect(nodeA.linksToChilds).to.have.members([linkAtoD]);
+
+        // check node B
+        expect(nodeB.linksIn).to.have.length(2);
+        expect(nodeB.linksIn).to.have.members([linkAtoB, linkDtoB]);
+        expect(nodeB.linksOut).to.have.length(1);
+        expect(nodeB.linksOut).to.have.members([linkBtoC]);
+
+        expect(nodeB.linkFromParent.id).to.equal(linkDtoB.id);
+        expect(nodeB.linksToChilds).to.have.length(1);
+        expect(nodeB.linksToChilds[0]).to.equal(linkBtoC);
+
+        // check node C
+        expect(nodeC.linksIn).to.have.length(3);
+        expect(nodeC.linksIn).to.have.members([linkAtoC, linkBtoC, linkDtoC]);
+        expect(nodeC.linksOut).to.have.length(2);
+        expect(nodeC.linksOut).to.have.members([linkCtoE, linkCtoF]);
+
+        expect(nodeC.linkFromParent).to.equal(linkBtoC);
+        expect(nodeC.linksToChilds).to.have.length(2);
+        expect(nodeC.linksToChilds).to.have.members([linkCtoE, linkCtoF]);
+
+        // check node D
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkAtoD]);
+        expect(nodeD.linksOut).to.have.length(2);
+        expect(nodeD.linksOut).to.have.members([linkDtoB, linkDtoC]);
+
+        expect(nodeD.linkFromParent).to.equal(linkAtoD);
+        expect(nodeD.linksToChilds).to.have.length(1);
+        expect(nodeD.linksToChilds[0]).to.equal(linkDtoB);
+
+        // check node E
+        expect(nodeE.linksIn).to.have.length(1);
+        expect(nodeE.linksIn).to.have.members([linkCtoE]);
+        expect(nodeE.linksOut).to.have.length(1);
+        expect(nodeE.linksOut).to.have.members([linkEtoF]);
+
+        expect(nodeE.linkFromParent).to.equal(linkCtoE);
+        expect(nodeE.linksToChilds).to.have.length(0);
+
+        // check node F
+        expect(nodeF.linksIn).to.have.length(2);
+        expect(nodeF.linksIn).to.have.members([linkCtoF, linkEtoF]);
+        expect(nodeF.linksOut).to.have.length(0);
+
+        expect(nodeF.linkFromParent).to.equal(linkCtoF);
+        expect(nodeF.linksToChilds).to.have.length(0);
+
+        // check weights
+        expect(nodeA.debugInfo.rootPathWeight).to.equal(0);
+        expect(nodeB.debugInfo.rootPathWeight).to.equal(0.625);
+        expect(nodeC.debugInfo.rootPathWeight).to.equal(0.75);
+        expect(nodeD.debugInfo.rootPathWeight).to.equal(0.5);
+        expect(nodeE.debugInfo.rootPathWeight).to.equal(1.75);
+        expect(nodeF.debugInfo.rootPathWeight).to.equal(1.75);
     });
 
-    it('should map cyclic graph', () => {
+    it('should support graphs with cycles', () => {
 
-        // setup cyclic graph
+        // setup graph
         //
-        //     (idea 1) --> (idea 2)
-        //           ^       /
-        //            \     v
-        //            (idea 3) --> (idea 4)
+        // (A) --> (B) --> (C)
+        //           ^     /
+        //            \   v
+        //             (D)
         //
-        const idea1 = new Idea({id: 'idea 1', isRoot: true});
-        const idea2 = new Idea({id: 'idea 2'});
-        const idea3 = new Idea({id: 'idea 3'});
-        const idea4 = new Idea({id: 'idea 4'});
-
-        const assoc1to2 = new Association({
-            id: 'assoc 1 to 2',
-            from: idea1,
-            to: idea2
-        });
-
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        const assoc3to1 = new Association({
-            id: 'assoc 3 to 1',
-            from: idea3,
-            to: idea1
-        });
-
-        const assoc3to4 = new Association({
-            id: 'assoc 3 to 4',
-            from: idea3,
-            to: idea4
-        });
-
-        idea1.associationsIn = [assoc3to1];
-        idea1.associationsOut = [assoc1to2];
-        idea2.associationsIn = [assoc1to2];
-        idea2.associationsOut = [assoc2to3];
-        idea3.associationsIn = [assoc2to3];
-        idea3.associationsOut = [assoc3to1, assoc3to4];
-        idea4.associationsIn = [assoc3to4];
+        const {root} = buildGraph([
+            /*       A  B  C  D */
+            /* A */ '0  1  0  0',
+            /* B */ '0  0  1  0',
+            /* C */ '0  0  0  1',
+            /* D */ '0  1  0  0'
+        ]);
 
         // target
-        const {rootNode} = mapGraph({
-            node: idea1,
+        const {rootNode, nodes, links} = mapGraph({
+            node: root,
             mapNode: ideaToNode,
             mapLink: assocToLink
         });
 
         // check
         expect(rootNode).to.exist;
+        expect(nodes).to.have.length(4);
+        expect(links).to.have.length(4);
 
         // check types
-        traverse(rootNode, node => {
-            expect(node).to.be.instanceOf(Node);
-            node.linksIn.forEach(l => expect(l).to.be.instanceOf(Link));
-            node.linksOut.forEach(l => expect(l).to.be.instanceOf(Link));
-        });
+        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
+        links.forEach(l => expect(l).to.be.instanceOf(Link));
 
-        // check structure
-        expect(rootNode).to.exist;
-        expect(rootNode).to.containSubset({
-            id: 'idea 1',
-            linksIn: [{id: 'assoc 3 to 1'}],
-            linksOut: [{
-                id: 'assoc 1 to 2',
-                from: {id: 'idea 1'},
-                to: {
-                    id: 'idea 2',
-                    linksIn: [{id: 'assoc 1 to 2'}],
-                    linksOut: [{
-                        id: 'assoc 2 to 3',
-                        from: {id: 'idea 2'},
-                        to: {
-                            id: 'idea 3',
-                            linksIn: [{id: 'assoc 2 to 3'}],
-                            linksOut: [{
-                                id: 'assoc 3 to 1',
-                                from: {id: 'idea 3'},
-                                to: {id: 'idea 1'}
-                            }, {
-                                id: 'assoc 3 to 4',
-                                from: {id: 'idea 3'},
-                                to: {
-                                    id: 'idea 4',
-                                    linksIn: [{id: 'assoc 3 to 4'}]
-                                }
-                            }]
-                        }
-                    }]
-                }
-            }]
-        });
+        // check references
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+        
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkBtoC = links.find(l => l.id === 'B to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+        const linkDtoB = links.find(l => l.id === 'D to B');
+        
+        // check node A
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(1);
+        expect(nodeA.linksOut).to.have.members([linkAtoB]);
 
+        expect(nodeA.linkFromParent).to.equal(null);
+        expect(nodeA.linksToChilds).to.have.length(1);
+        expect(nodeA.linksToChilds).to.have.members([linkAtoB]);
+
+        // check node B
+        expect(nodeB.linksIn).to.have.length(2);
+        expect(nodeB.linksIn).to.have.members([linkAtoB, linkDtoB]);
+        expect(nodeB.linksOut).to.have.length(1);
+        expect(nodeB.linksOut).to.have.members([linkBtoC]);
+
+        expect(nodeB.linkFromParent).to.equal(linkAtoB);
+        expect(nodeB.linksToChilds).to.have.length(1);
+        expect(nodeB.linksToChilds).to.have.members([linkBtoC]);
+
+        // check node C
+        expect(nodeC.linksIn).to.have.length(1);
+        expect(nodeC.linksIn).to.have.members([linkBtoC]);
+        expect(nodeC.linksOut).to.have.length(1);
+        expect(nodeC.linksOut).to.have.members([linkCtoD]);
+
+        expect(nodeC.linkFromParent).to.equal(linkBtoC);
+        expect(nodeC.linksToChilds).to.have.length(1);
+        expect(nodeC.linksToChilds).to.have.members([linkCtoD]);
+
+        // check node D
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkCtoD]);
+        expect(nodeD.linksOut).to.have.length(1);
+        expect(nodeD.linksOut).to.have.members([linkDtoB]);
+
+        expect(nodeD.linkFromParent).to.equal(linkCtoD);
+        expect(nodeD.linksToChilds).to.have.length(0);
+
+        // check weights
+        expect(nodeA.debugInfo.rootPathWeight).to.equal(0);
+        expect(nodeB.debugInfo.rootPathWeight).to.equal(1);
+        expect(nodeC.debugInfo.rootPathWeight).to.equal(2);
+        expect(nodeD.debugInfo.rootPathWeight).to.equal(3);
     });
 
-    it('should return list of nodes and links', () => {
+    it('should map links from focus to shade zone', () => {
         
         // setup tree graph
         //
-        //         (root)
-        //         /     \
-        //    (idea 1)  (idea 2)
-        //                 \
-        //               (idea 3)
+        //         (A)
+        //        /   \           focus zone
+        //      (B)   (C)
+        //    ----------\--------------------
+        //               \
+        //               (D)      shade zone
         //
-        const rootIdea = new Idea({id: 'root', isRoot: true});
-        const idea1 = new Idea({id: 'idea 1'});
-        const idea2 = new Idea({id: 'idea 2'});
-        const idea3 = new Idea({id: 'idea 3'});
-
-        const assocRootTo1 = new Association({
-            id: 'assoc root to 1',
-            from: rootIdea,
-            to: idea1
-        });
-
-        const assocRootTo2 = new Association({
-            id: 'assoc root to 2',
-            from: rootIdea,
-            to: idea2
-        });
-
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
-        idea1.associationsIn = [assocRootTo1];
-        idea2.associationsIn = [assocRootTo2];
-        idea2.associationsOut = [assoc2to3];
-        idea3.associationsIn = [assoc2to3];
+        const {root} = buildGraph([
+            /*       A  B    C   D */
+            /* A */ '0  50  100  0',
+            /* B */ '0  0   0    0',
+            /* C */ '0  0   0    1',
+            /* D */ '0  0   0    0'
+        ]);
 
         // target
         const {nodes, links} = mapGraph({
-            node: rootIdea,
+            node: root,
             mapNode: ideaToNode,
-            mapLink: assocToLink
+            mapLink: assocToLink,
+            focusZoneMax: 100,
+            shadeZoneAmount: 100
         });
 
         // check
-        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
-        links.forEach(l => expect(l).to.be.instanceOf(Link));
-
         expect(nodes).to.have.length(4);
         expect(links).to.have.length(3);
+
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
+
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
+
+        expect(nodeC.linksIn).to.have.length(1);
+        expect(nodeC.linksIn).to.have.members([linkAtoC]);
+        expect(nodeC.linksOut).to.have.length(1);
+        expect(nodeC.linksOut).to.have.members([linkCtoD]);
+
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkCtoD]);
+        expect(nodeD.linksOut).to.have.length(0);
     });
 
-    it('should NOT map nodes/links below depth limit', () => {
+    it('should map links from shade to focus zone', () => {
         
         // setup tree graph
         //
-        //       (root idea)
-        //         /     \
-        //    (idea 1)  (idea 2)
-        //                 \
-        //               (idea 3)
+        //         (A)
+        //        /   \                   focus zone
+        //      (B)   (C) <------
+        //    -------------------\------------------
+        //               \        \
+        //               (D) ---> (E)      shade zone
         //
-        const rootIdea = new Idea({
-            id: 'root',
-            isRoot: true,
-            depth: 0
-        });
-
-        const idea1 = new Idea({id: 'idea 1', depth: 1});
-        const idea2 = new Idea({id: 'idea 2', depth: 1});
-        const idea3 = new Idea({id: 'idea 3', depth: 2});
-
-        const assocRootTo1 = new Association({
-            id: 'assoc root to 1',
-            from: rootIdea,
-            to: idea1
-        });
-
-        const assocRootTo2 = new Association({
-            id: 'assoc root to 2',
-            from: rootIdea,
-            to: idea2
-        });
-
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
-        idea1.associationsIn = [assocRootTo1];
-        idea2.associationsIn = [assocRootTo2];
-        idea2.associationsOut = [assoc2to3];
-        idea3.associationsIn = [assoc2to3];
+        const {root} = buildGraph([
+            /*       A  B    C   D  E */
+            /* A */ '0  50  100  0  0',
+            /* B */ '0  0   0    0  0',
+            /* C */ '0  0   0    1  0',
+            /* D */ '0  0   0    0  1',
+            /* E */ '0  0   100  0  0'
+        ]);
 
         // target
-        const {rootNode, nodes, links} = mapGraph({
-            node: rootIdea,
+        const {nodes, links} = mapGraph({
+            node: root,
             mapNode: ideaToNode,
             mapLink: assocToLink,
-            depthMax: 1
+            focusZoneMax: 100,
+            shadeZoneAmount: 100
         });
 
         // check
-        const nodeRoot = nodes.find(n => n.id === 'root');
-        const node1 = nodes.find(n => n.id === 'idea 1');
-        const node2 = nodes.find(n => n.id === 'idea 2');
-        const node3 = nodes.find(n => n.id === 'idea 3');
+        expect(nodes).to.have.length(5);
+        expect(links).to.have.length(5);
 
-        const linkRootTo1 = links.find(l => l.id === 'assoc root to 1');
-        const linkRootTo2 = links.find(l => l.id === 'assoc root to 2');
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+        const nodeE = nodes.find(n => n.id === 'E');
 
-        // check types
-        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
-        links.forEach(l => expect(l).to.be.instanceOf(Link));
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+        const linkDtoE = links.find(l => l.id === 'D to E');
+        const linkEtoC = links.find(l => l.id === 'E to C');
 
-        // check root
-        const root = nodes.find(n => n.id === 'root');
-        expect(rootNode).to.equal(root);
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
 
-        // check nodes
-        expect(nodes).to.have.length(3);
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
 
-        expect(nodeRoot).to.exist;
-        expect(node1).to.exist;
-        expect(node2).to.exist;
-        expect(node3).to.not.exist;
+        expect(nodeC.linksIn).to.have.length(2);
+        expect(nodeC.linksIn).to.have.members([linkAtoC, linkEtoC]);
+        expect(nodeC.linksOut).to.have.length(1);
+        expect(nodeC.linksOut).to.have.members([linkCtoD]);
 
-        expect(nodeRoot.linksIn).to.have.length(0);
-        expect(nodeRoot.linksOut).to.have.length(2);
-        expect(nodeRoot.linksOut).to.have.members([linkRootTo1, linkRootTo2]);
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkCtoD]);
+        expect(nodeD.linksOut).to.have.length(1);
+        expect(nodeD.linksOut).to.have.members([linkDtoE]);
 
-        expect(node1.linksIn).to.have.length(1);
-        expect(node1.linksIn).to.have.members([linkRootTo1]);
-        expect(node1.linksOut).to.have.length(0);
+        expect(nodeE.linksIn).to.have.length(1);
+        expect(nodeE.linksIn).to.have.members([linkDtoE]);
+        expect(nodeE.linksOut).to.have.length(1);
+        expect(nodeE.linksOut).to.have.members([linkEtoC]);
+    });
+
+    it('should map links from focus to hide zone', () => {
         
-        expect(node2.linksIn).to.have.length(1);
-        expect(node2.linksIn).to.have.members([linkRootTo2]);
-        expect(node2.linksOut).to.have.length(0);
+        // setup tree graph
+        //
+        //         (A)
+        //        /   \
+        //      (B)   (C)         focus zone
+        //             |
+        //    ---------|---------------------
+        //             v
+        //            (D)         hide zone
+        //
+        const {root} = buildGraph([
+            /*       A  B    C   D */
+            /* A */ '0  50  100  0',
+            /* B */ '0  0   0    0',
+            /* C */ '0  0   0    1',
+            /* D */ '0  0   0    0'
+        ]);
 
-        // check links
+        // target
+        const {nodes, links} = mapGraph({
+            node: root,
+            mapNode: ideaToNode,
+            mapLink: assocToLink,
+            focusZoneMax: 100
+        });
+
+        // check
+        expect(nodes).to.have.length(4);
+        expect(links).to.have.length(3);
+
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
+
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
+
+        expect(nodeC.linksIn).to.have.length(1);
+        expect(nodeC.linksIn).to.have.members([linkAtoC]);
+        expect(nodeC.linksOut).to.have.length(1);
+        expect(nodeC.linksOut).to.have.members([linkCtoD]);
+
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkCtoD]);
+        expect(nodeD.linksOut).to.have.length(0);
+    });
+
+    it('should map links from hide to focus zone', () => {
+        
+        // setup tree graph
+        //
+        //         (A)
+        //        /   \                   focus zone
+        //      (B)   (C) <------
+        //    -------------------\------------------
+        //               \        \
+        //               (D) ###> (E)      hide zone
+        //
+        const {root} = buildGraph([
+            /*       A  B    C   D  E */
+            /* A */ '0  50  100  0  0',
+            /* B */ '0  0   0    0  0',
+            /* C */ '0  0   0    1  0',
+            /* D */ '0  0   0    0  1',
+            /* E */ '0  0   100  0  0'
+        ]);
+
+        // target
+        const {nodes, links} = mapGraph({
+            node: root,
+            mapNode: ideaToNode,
+            mapLink: assocToLink,
+            focusZoneMax: 100
+        });
+
+        // check
+        expect(nodes).to.have.length(5);
+        expect(links).to.have.length(4);
+
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
+        const nodeD = nodes.find(n => n.id === 'D');
+        const nodeE = nodes.find(n => n.id === 'E');
+
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+        const linkEtoC = links.find(l => l.id === 'E to C');
+
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
+
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
+
+        expect(nodeC.linksIn).to.have.length(2);
+        expect(nodeC.linksIn).to.have.members([linkAtoC, linkEtoC]);
+        expect(nodeC.linksOut).to.have.length(1);
+        expect(nodeC.linksOut).to.have.members([linkCtoD]);
+
+        expect(nodeD.linksIn).to.have.length(1);
+        expect(nodeD.linksIn).to.have.members([linkCtoD]);
+        expect(nodeD.linksOut).to.have.length(0);
+
+        expect(nodeE.linksIn).to.have.length(0);
+        expect(nodeE.linksOut).to.have.length(1);
+        expect(nodeE.linksOut).to.have.members([linkEtoC]);
+    });
+
+    it('should NOT map links from shade to hide zone', () => {
+        
+        // setup tree graph
+        //
+        //         (A)            focus zone
+        //    ------------------------------
+        //        /   \           shade zone
+        //      (B)   (C)
+        //    ----------#--------------------
+        //               v        hide zone
+        //               #D
+        //
+        const {root} = buildGraph([
+            /*       A  B    C   D */
+            /* A */ '0  50  100  0',
+            /* B */ '0  0   0    0',
+            /* C */ '0  0   0    1',
+            /* D */ '0  0   0    0'
+        ]);
+
+        // target
+        const {nodes, links} = mapGraph({
+            node: root,
+            mapNode: ideaToNode,
+            mapLink: assocToLink,
+            focusZoneMax: 10,
+            shadeZoneAmount: 90
+        });
+
+        // check
+        expect(nodes).to.have.length(3);
         expect(links).to.have.length(2);
 
-        expect(linkRootTo1.from).to.equal(nodeRoot);
-        expect(linkRootTo1.to).to.equal(node1);
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
 
-        expect(linkRootTo2.from).to.equal(nodeRoot);
-        expect(linkRootTo2.to).to.equal(node2);
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
+
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
+
+        expect(nodeC.linksIn).to.have.length(1);
+        expect(nodeC.linksIn).to.have.members([linkAtoC]);
+        expect(nodeC.linksOut).to.have.length(0);
     });
 
-    it('should map nodes/links below depth limit if ' +
-       'they are targeting nodes above depth limit', () => {
+    it('should NOT map links from hide to shade zone', () => {
         
         // setup tree graph
         //
-        //       (root idea)
-        //         /     \
-        //    (idea 1)  (idea 2) <------
-        //                 \            \
-        //               (idea 3) ---> (idea 4)
+        //         (A)                    focus zone
+        //    --------------------------------------
+        //        /   \                   shade zone
+        //      (B)   (C)  <#####
+        //    ----------#--------#------------------
+        //               #        #       hide zone
+        //               #D ####> #E      
         //
-        const rootIdea = new Idea({
-            id: 'root',
-            isRoot: true,
-            depth: 0
-        });
-
-        const idea1 = new Idea({id: 'idea 1', depth: 1});
-        const idea2 = new Idea({id: 'idea 2', depth: 1});
-        const idea3 = new Idea({id: 'idea 3', depth: 2});
-        const idea4 = new Idea({id: 'idea 4', depth: 3});
-
-        const assocRootTo1 = new Association({
-            id: 'assoc root to 1',
-            from: rootIdea,
-            to: idea1
-        });
-
-        const assocRootTo2 = new Association({
-            id: 'assoc root to 2',
-            from: rootIdea,
-            to: idea2
-        });
-
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        const assoc3to4 = new Association({
-            id: 'assoc 3 to 4',
-            from: idea3,
-            to: idea4
-        });
-
-        const assoc4to2 = new Association({
-            id: 'assoc 4 to 2',
-            from: idea4,
-            to: idea2
-        });
-
-        rootIdea.associationsOut = [assocRootTo1, assocRootTo2];
-        idea1.associationsIn = [assocRootTo1];
-        idea2.associationsIn = [assocRootTo2, assoc4to2];
-        idea2.associationsOut = [assoc2to3];
-        idea3.associationsIn = [assoc2to3];
-        idea3.associationsOut = [assoc3to4];
-        idea4.associationsIn = [assoc3to4];
-        idea4.associationsOut = [assoc4to2];
+        const {root} = buildGraph([
+            /*       A  B    C   D  E */
+            /* A */ '0  50  100  0  0',
+            /* B */ '0  0   0    0  0',
+            /* C */ '0  0   0    1  0',
+            /* D */ '0  0   0    0  1',
+            /* E */ '0  0   100  0  0'
+        ]);
 
         // target
-        const {rootNode, nodes, links} = mapGraph({
-            node: rootIdea,
+        const {nodes, links} = mapGraph({
+            node: root,
             mapNode: ideaToNode,
             mapLink: assocToLink,
-            depthMax: 1
+            focusZoneMax: 10,
+            shadeZoneAmount: 90
         });
 
         // check
-        const nodeRoot = nodes.find(n => n.id === 'root');
-        const node1 = nodes.find(n => n.id === 'idea 1');
-        const node2 = nodes.find(n => n.id === 'idea 2');
-        const node3 = nodes.find(n => n.id === 'idea 3');
-        const node4 = nodes.find(n => n.id === 'idea 4');
+        expect(nodes).to.have.length(3);
+        expect(links).to.have.length(2);
 
-        const linkRootTo1 = links.find(l => l.id === 'assoc root to 1');
-        const linkRootTo2 = links.find(l => l.id === 'assoc root to 2');
-        const link4to2 = links.find(l => l.id === 'assoc 4 to 2');
+        const nodeA = nodes.find(n => n.id === 'A');
+        const nodeB = nodes.find(n => n.id === 'B');
+        const nodeC = nodes.find(n => n.id === 'C');
 
-        // check types
-        nodes.forEach(n => expect(n).to.be.instanceOf(Node));
-        links.forEach(l => expect(l).to.be.instanceOf(Link));
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
 
-        // check root
-        const root = nodes.find(n => n.id === 'root');
-        expect(rootNode).to.equal(root);
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(2);
+        expect(nodeA.linksOut).to.have.members([linkAtoB, linkAtoC]);
 
-        // check nodes
-        expect(nodes).to.have.length(4);
+        expect(nodeB.linksIn).to.have.length(1);
+        expect(nodeB.linksIn).to.have.members([linkAtoB]);
+        expect(nodeB.linksOut).to.have.length(0);
 
-        expect(nodeRoot).to.exist;
-        expect(node1).to.exist;
-        expect(node2).to.exist;
-        expect(node3).to.not.exist;
-        expect(node4).to.exist;
-
-        expect(nodeRoot.linksIn).to.have.length(0);
-        expect(nodeRoot.linksOut).to.have.length(2);
-        expect(nodeRoot.linksOut).to.have.members([linkRootTo1, linkRootTo2]);
-
-        expect(node1.linksIn).to.have.length(1);
-        expect(node1.linksIn).to.have.members([linkRootTo1]);
-        expect(node1.linksOut).to.have.length(0);
-        
-        expect(node2.linksIn).to.have.length(2);
-        expect(node2.linksIn).to.have.members([linkRootTo2, link4to2]);
-        expect(node2.linksOut).to.have.length(0);
-
-        expect(node4.linksIn).to.have.length(0);
-        expect(node4.linksOut).to.have.length(1);
-        expect(node4.linksOut).to.have.members([link4to2]);
-
-        // check links
-        expect(links).to.have.length(3);
-
-        expect(linkRootTo1.from).to.equal(nodeRoot);
-        expect(linkRootTo1.to).to.equal(node1);
-
-        expect(linkRootTo2.from).to.equal(nodeRoot);
-        expect(linkRootTo2.to).to.equal(node2);
-
-        expect(link4to2.from).to.equal(node4);
-        expect(link4to2.to).to.equal(node2);
+        expect(nodeC.linksIn).to.have.length(1);
+        expect(nodeC.linksIn).to.have.members([linkAtoC]);
+        expect(nodeC.linksOut).to.have.length(0);
     });
 
 });

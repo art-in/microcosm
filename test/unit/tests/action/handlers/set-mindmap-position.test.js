@@ -1,6 +1,7 @@
 import {expect} from 'test/utils';
 
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
@@ -12,8 +13,7 @@ describe('set-mindmap-position', () => {
         // setup
         const mindmap = new Mindmap({
             id: 'id',
-            x: 100,
-            y: 100
+            pos: new Point({x: 100, y: 100})
         });
 
         const state = {model: {mindmap}};
@@ -23,10 +23,7 @@ describe('set-mindmap-position', () => {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
-                pos: {
-                    x: 200,
-                    y: 200
-                }
+                pos: new Point({x: 200, y: 200})
             }
         });
 
@@ -35,8 +32,7 @@ describe('set-mindmap-position', () => {
         expect(patch['update-mindmap']).to.exist;
         expect(patch['update-mindmap'][0].data).to.deep.equal({
             id: 'id',
-            x: 200,
-            y: 200
+            pos: {x: 200, y: 200}
         });
 
     });
@@ -46,8 +42,7 @@ describe('set-mindmap-position', () => {
         // setup
         const mindmap = new Mindmap({
             id: 'id',
-            x: 100,
-            y: 100
+            pos: new Point({x: 100, y: 100})
         });
 
         const state = {model: {mindmap}};
@@ -57,10 +52,7 @@ describe('set-mindmap-position', () => {
             type: 'set-mindmap-position',
             data: {
                 mindmapId: 'id',
-                pos: {
-                    x: 200,
-                    y: 200
-                }
+                pos: {x: 200, y: 200}
             }
         });
 

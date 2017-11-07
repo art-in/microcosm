@@ -52,7 +52,7 @@ describe('associations', () => {
             expect(result[0].value).to.equal('test');
         });
 
-        it('should fail on dublicates', async () => {
+        it('should fail on duplicates', async () => {
 
             // setup
             const db = createDB();

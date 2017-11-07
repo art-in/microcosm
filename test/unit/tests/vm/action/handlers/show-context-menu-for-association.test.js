@@ -4,7 +4,7 @@ import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import Point from 'src/vm/shared/Point';
+import Point from 'src/model/entities/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
 
 import handler from 'src/vm/action/handler';
@@ -38,11 +38,9 @@ describe('show-context-menu-for-association', () => {
 
         expect(data.popup.active).to.equal(true);
 
-        expect(data.menu.items).to.have.length(2);
+        expect(data.menu.items).to.have.length(1);
         data.menu.items.forEach(i => expect(i).to.be.instanceOf(MenuItem));
         expect(data.menu.items).to.containSubset([{
-            displayValue: 'set color'
-        }, {
             displayValue: 'remove association'
         }]);
     });
@@ -74,44 +72,6 @@ describe('show-context-menu-for-association', () => {
         expect(data.popup.pos).to.containSubset({
             x: 100,
             y: 200
-        });
-    });
-
-    it(`should set item which creates ` +
-        `'show-color-picker-for-idea' action`, () => {
-
-        // setup
-        const tailIdea = new Idea({id: 'idea'});
-        const assoc = new Association({id: 'assoc'});
-        assoc.toId = tailIdea.id;
-        assoc.to = tailIdea;
-
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
-
-        const patch = handle(state, {
-            type: 'show-context-menu-for-association',
-            data: {
-                pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc',
-                shaded: false
-            }
-        });
-
-        const menuMutation = patch['update-context-menu'][0];
-        const item = menuMutation.data.menu.items
-            .find(i => i.displayValue === 'set color');
-            
-        // target
-        const action = item.onSelectAction();
-
-        // check
-        expect(action).to.containSubset({
-            type: 'show-color-picker-for-idea',
-            data: {
-                ideaId: 'idea'
-            }
         });
     });
 

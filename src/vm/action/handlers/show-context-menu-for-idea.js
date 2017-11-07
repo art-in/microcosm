@@ -34,6 +34,15 @@ export default function showContextMenuForIdea(state, data) {
     
     items.push(
         new MenuItem({
+            displayValue: 'set color',
+            onSelectAction: () => ({
+                type: 'show-color-picker-for-idea',
+                data: {ideaId}
+            })
+        }));
+
+    items.push(
+        new MenuItem({
             displayValue: 'add-association',
             onSelectAction: () => ({
                 type: 'show-association-tails-lookup',

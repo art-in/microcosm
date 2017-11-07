@@ -5,6 +5,7 @@ import mutate from 'data/mutators';
 import Patch from 'utils/state/Patch';
 import Idea from 'model/entities/Idea';
 import Association from 'model/entities/Association';
+import Point from 'model/entities/Point';
 
 describe('mutators', () => {
 
@@ -56,7 +57,11 @@ describe('mutators', () => {
             const patch = new Patch({
                 type: 'add-idea',
                 data: {
-                    idea: new Idea({id: 'id', value: 'test'})
+                    idea: new Idea({
+                        id: 'id',
+                        value: 'test',
+                        pos: new Point({x: 0, y: 0})
+                    })
                 }});
     
             // target

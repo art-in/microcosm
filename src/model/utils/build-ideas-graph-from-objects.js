@@ -1,14 +1,14 @@
-import buildGraph from 'utils/graph/build-graph';
+import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
 
 /**
- * Constructs graph structure from ideas and associations
+ * Builds object graph from ideas and associations objects
  * 
  * After extracting from storage, domain models only has IDs
  * of related entities.
- * In graph each model has direct link to related entity model,
+ * In object graph each model has direct link to related entity model,
  * eg. associations obtain references to corresponding from/to ideas
  * 
- * Build graph is much performant for graph algorithms,
+ * Object graph is much performant for graph algorithms,
  * since you do not have to search entity lists each time when traversing graph
  * 
  * @param {array.<Idea>} ideas
@@ -16,11 +16,9 @@ import buildGraph from 'utils/graph/build-graph';
  * @return {Idea} root idea
  */
 export default function(ideas, associations) {
-    return buildGraph(
-        ideas,
-        associations,
-        'idea',
-        'association',
-        idea => idea.isRoot
-    );
+    return buildGraphFromObjects({
+        nodes: ideas,
+        links: associations,
+        isRootNode: idea => idea.isRoot
+    });
 }

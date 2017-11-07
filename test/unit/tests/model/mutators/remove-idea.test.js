@@ -27,24 +27,27 @@ describe('remove-idea', () => {
         const ideaDie = new Idea({id: 'die'});
 
         const assocRootToLive = new Association({
-            fromId: 'root',
+            fromId: rootIdea.id,
             from: rootIdea,
-            toId: 'live',
-            to: ideaLive
+            toId: ideaLive.id,
+            to: ideaLive,
+            weight: 1
         });
 
         const assocLiveToDie = new Association({
-            fromId: 'live',
+            fromId: ideaLive.id,
             from: ideaLive,
-            toId: 'die',
-            to: ideaDie
+            toId: ideaDie.id,
+            to: ideaDie,
+            weight: 1
         });
 
         const assocRootToDie = new Association({
             fromId: 'root',
             from: rootIdea,
             toId: 'die',
-            to: ideaDie
+            to: ideaDie,
+            weight: 1
         });
 
         rootIdea.associationsOut = [assocRootToDie, assocRootToLive];

@@ -26,14 +26,33 @@ export default class Idea {
      * @type {boolean}
      */
     isRoot = false;
-
+    
     /**
-     * Distance from root
-     * @type {number}
+     * Value
+     * @type {string}
      */
-    depth = undefined;
+    value = undefined;
 
     /**
+     * Color
+     * @type {string}
+     */
+    color = undefined;
+
+    /**
+     * Position on mindmap.
+     * TODO: consider preserving pos relative to parent idea,
+     *       to decrease amount of updates when moving idea
+     *       and entire child sub-tree.
+     * @type {Point}
+     */
+    pos = undefined;
+
+    // region Dynamic props (computed on run, not saved to db)
+
+    /**
+     * TODO: remove extensions, leave interface props only
+     * TODO: set undefined instead of empty array
      * List of outgoing associations
      * Note: available only after graph is build
      * @type {array.<Association>}
@@ -82,34 +101,36 @@ export default class Idea {
     }
 
     /**
-     * X position on mindmap canvas
+     * [Node interface]
+     * Link to parent idea.
+     * Note: available only after graph is weighted
+     * @type {Link}
+     */
+    linkFromParent = undefined;
+    
+    /**
+     * [Node interface]
+     * Links to child ideas.
+     * Note: available only after graph is weighted
+     * @type {array.<Link>}
+     */
+    linksToChilds = undefined;
+
+    /**
+     * [Node interface]
+     * Weight of minimal path from root (RPW).
+     * Note: available only after graph is weighted
      * @type {number}
      */
-    x = undefined;
+    rootPathWeight = undefined;
 
-    /**
-     * Y position on mindmap canvas
-     * @type {number}
-     */
-    y = undefined;
-
-    /**
-     * Value
-     * @type {string}
-     */
-    value = undefined;
-
-    /**
-     * Color
-     * @type {string}
-     */
-    color = undefined;
+    // endregion
 
     /**
      * Constructor
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

@@ -1,4 +1,4 @@
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 import mapToViewboxCoords from './map-viewport-to-viewbox-coords';
 

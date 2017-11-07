@@ -27,6 +27,6 @@ export default class Menu extends ViewModel {
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

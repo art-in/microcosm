@@ -3,6 +3,7 @@ import {expect} from 'test/utils';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
+import Point from 'src/model/entities/Point';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
@@ -14,8 +15,16 @@ describe('create-cross-association', () => {
         // setup
         const mindmap = new Mindmap({id: 'm'});
         
-        const ideaHead = new Idea({id: 'head', isRoot: true});
-        const ideaTail = new Idea({id: 'tail'});
+        const ideaHead = new Idea({
+            id: 'head',
+            isRoot: true,
+            pos: new Point({x: 0, y: 0})
+        });
+
+        const ideaTail = new Idea({
+            id: 'tail',
+            pos: new Point({x: 10, y: 10})
+        });
 
         mindmap.ideas.set(ideaHead.id, ideaHead);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -41,6 +50,7 @@ describe('create-cross-association', () => {
         expect(data.assoc.mindmapId).to.equal('m');
         expect(data.assoc.fromId).to.equal('head');
         expect(data.assoc.toId).to.equal('tail');
+        expect(data.assoc.weight).to.be.closeTo(14, 0.2);
     });
 
     it('should target all state layers', () => {
@@ -48,8 +58,16 @@ describe('create-cross-association', () => {
         // setup
         const mindmap = new Mindmap({id: 'm'});
         
-        const ideaHead = new Idea({id: 'head', isRoot: true});
-        const ideaTail = new Idea({id: 'tail'});
+        const ideaHead = new Idea({
+            id: 'head',
+            isRoot: true,
+            pos: new Point({x: 0, y: 0})
+        });
+
+        const ideaTail = new Idea({
+            id: 'tail',
+            pos: new Point({x: 10, y: 10})
+        });
 
         mindmap.ideas.set(ideaHead.id, ideaHead);
         mindmap.ideas.set(ideaTail.id, ideaTail);

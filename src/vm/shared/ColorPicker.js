@@ -24,6 +24,6 @@ export default class ColorPicker extends ViewModel {
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

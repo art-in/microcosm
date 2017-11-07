@@ -4,6 +4,7 @@ import combine from 'src/utils/state/combine-mutators';
 
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
+import Point from 'src/model/entities/Point';
 import Patch from 'src/utils/state/Patch';
 
 import values from 'src/utils/get-map-values';
@@ -27,21 +28,28 @@ describe('combine-mutators', () => {
         state = createState();
         
         // setup data
-        await state.data.ideas.put(
-            {_id: 'parent', isRoot: true});
+        await state.data.ideas.put({
+            _id: 'parent',
+            isRoot: true,
+            pos: {x: 0, y: 0}
+        });
 
         // setup model
         const rootIdea = new Idea({
             id: 'parent',
             isRoot: true,
-            depth: 0,
-            x: 0,
-            y: 0
+            rootPathWeight: 0,
+            pos: new Point({x: 0, y: 0})
         });
 
+        rootIdea.linkFromParent = null;
+        rootIdea.linksToChilds = [];
+
         state.model.mindmap.root = rootIdea;
-        state.model.mindmap.ideas.set('parent', rootIdea);
+        state.model.mindmap.ideas.set(rootIdea.id, rootIdea);
         
+        state.model.mindmap.scale = 1;
+
         // setup view
         ReactDom.render(
             <Provider dispatch={state.view.storeDispatch}>
@@ -58,7 +66,8 @@ describe('combine-mutators', () => {
                 assoc: new Association({
                     id: 'assoc',
                     fromId: 'parent',
-                    toId: 'child'
+                    toId: 'child',
+                    weight: 1
                 })
             }});
 
@@ -67,8 +76,7 @@ describe('combine-mutators', () => {
             data: {
                 idea: new Idea({
                     id: 'child',
-                    x: 10,
-                    y: 10
+                    pos: new Point({x: 0, y: 1})
                 })
             }});
 

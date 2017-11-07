@@ -1,7 +1,7 @@
 import required from 'utils/required-params';
 import values from 'utils/get-map-values';
 
-import getNodeDepth from 'utils/graph/get-node-depth';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
 
 /**
  * Adds idea
@@ -25,11 +25,13 @@ export default function addIdea(state, data) {
 
         mindmap.root = idea;
 
-        // no incomming associations needed
-        // for root idea
+        // init link arrays
         idea.associationsIn = [];
+        idea.associationsOut = [];
+        idea.linkFromParent = null;
+        idea.linksToChilds = [];
 
-        idea.depth = 0;
+        idea.rootPathWeight = 0;
 
     } else {
 
@@ -43,12 +45,11 @@ export default function addIdea(state, data) {
             throw Error(
                 `No incoming associations found for idea '${idea.id}'`);
         }
-
         incomingAssocs.forEach(a => a.to = idea);
         idea.associationsIn = incomingAssocs;
-
-        idea.depth = getNodeDepth(idea);
     }
 
     idea.associationsOut = [];
+
+    weighRootPaths(mindmap.root);
 }

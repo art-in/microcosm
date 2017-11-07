@@ -1,6 +1,21 @@
 import required from 'utils/required-params';
 
-import calcDepths from 'utils/graph/calc-depths';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
+
+// TODO: move all logic from mutators to action handlers.
+// - if mutator updates not only target entity, but other entities too
+//   (like re-weighting root paths), then it is impossible to preserve that 
+//   subsequent changes to db. if logic which decides what should be changed
+//   would be located in action handler instead - it can clearly state what
+//   should be updated in db (or model only).
+//   eg. if needed to preserve relative position of ideas instead of absolute,
+//   we need to re-evaluate minimum spanning tree after associations or position
+//   changed. it can change parent and as so - its relative position.
+//   that change has to be computed in action handler and not in model mutator
+//   so we can mutate data layer too.
+// - if consistency checks made in action handler, data layer will not be
+//   corrupted with invalid data (data mutated before model)
+// - also it should be easier to test (FP style)
 
 /**
  * Adds association
@@ -12,6 +27,13 @@ import calcDepths from 'utils/graph/calc-depths';
 export default function addAssociation(state, data) {
     const {model: {mindmap}} = state;
     const {assoc} = required(data);
+
+    // ensure association weight was set and it is valid
+    if (!Number.isFinite(assoc.weight) || assoc.weight < 0) {
+        throw Error(
+            `Failed to add association '${assoc.id}' with invalid weight ` +
+            `'${assoc.weight}'`);
+    }
 
     mindmap.associations.set(assoc.id, assoc);
 
@@ -41,9 +63,6 @@ export default function addAssociation(state, data) {
         tail.associationsIn = tail.associationsIn || [];
         tail.associationsIn.push(assoc);
 
-        // recalculate idea depths.
-        // recalc only if this is cross-association between existing ideas,
-        // because depth of new idea will be calculated while adding idea.
-        calcDepths(mindmap.root);
+        weighRootPaths(mindmap.root);
     }
 }

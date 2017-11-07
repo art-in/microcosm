@@ -1,6 +1,6 @@
 import required from 'utils/required-params';
 
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 /**
  * Handles key press event on graph

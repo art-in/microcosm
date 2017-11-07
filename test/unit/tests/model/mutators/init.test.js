@@ -5,6 +5,7 @@ import values from 'src/utils/get-map-values';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
 
 import mutate from 'model/mutators';
 
@@ -17,11 +18,18 @@ describe('init', () => {
 
         const entities = {
             ideas: [
-                new Idea({id: 'head', isRoot: true}),
-                new Idea({id: 'tail'})
+                new Idea({
+                    id: 'head',
+                    isRoot: true,
+                    pos: new Point({x: 0, y: 0})
+                }),
+                new Idea({
+                    id: 'tail',
+                    pos: new Point({x: 100, y: 100})
+                })
             ],
             associations: [
-                new Association({fromId: 'head', toId: 'tail'})
+                new Association({fromId: 'head', toId: 'tail', weight: 1})
             ],
             mindmaps: [
                 new Mindmap()
@@ -43,18 +51,25 @@ describe('init', () => {
         expect(assocs).to.have.length(1);
     });
 
-    it('should get mindmap with calculated ideas depths', () => {
+    it('should get mindmap with calculated idea root path weights', () => {
         
         // setup
         const state = {model: {mindmap: undefined}};
 
         const entities = {
             ideas: [
-                new Idea({id: 'head', isRoot: true}),
-                new Idea({id: 'tail'})
+                new Idea({
+                    id: 'head',
+                    isRoot: true,
+                    pos: new Point({x: 0, y: 0})
+                }),
+                new Idea({
+                    id: 'tail',
+                    pos: new Point({x: 0, y: 100})
+                })
             ],
             associations: [
-                new Association({fromId: 'head', toId: 'tail'})
+                new Association({fromId: 'head', toId: 'tail', weight: 100})
             ],
             mindmaps: [
                 new Mindmap()
@@ -69,11 +84,11 @@ describe('init', () => {
         // check
         expect(state.model.mindmap.root).to.containSubset({
             id: 'head',
-            depth: 0,
+            rootPathWeight: 0,
             associationsOut: [{
                 to: {
                     id: 'tail',
-                    depth: 1
+                    rootPathWeight: 100
                 }
             }]
         });

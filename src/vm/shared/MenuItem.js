@@ -32,6 +32,6 @@ export default class MenuItem {
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

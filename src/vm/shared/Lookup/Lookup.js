@@ -64,13 +64,11 @@ export default class Lookup extends ViewModel {
 
     /**
      * Constructor
-     * @param {string} inputPlaceholder 
+     * @param {object} [props]
      */
-    constructor(inputPlaceholder) {
+    constructor(props) {
         super();
-        initInstance(this);
-        
-        this.placeholder = inputPlaceholder;
+        return initInstance(this, props);
     }
 
 }

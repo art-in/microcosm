@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 export default class Circle extends Component {
 

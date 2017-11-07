@@ -1,7 +1,6 @@
 import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
-import Point from 'vm/shared/Point';
 
 /**
  * Node
@@ -14,14 +13,28 @@ export default class Node extends ViewModel {
     debug = true;
 
     /**
+     * Info for debug purposes only (eg. render on debug pane)
+     */ 
+    debugInfo = {
+
+        /**
+         * Weight of minimal path from root (RPW).
+         * @type {number}
+         */
+        rootPathWeight: undefined
+
+    };
+
+    /**
      * Node ID
      */
     id = undefined;
     
     /**
-     * Node position
+     * Position of node on canvas.
+     * @type {Point}
      */
-    pos = new Point({x: 0, y: 0});
+    pos = undefined;
 
     /**
      * Node radius
@@ -35,7 +48,7 @@ export default class Node extends ViewModel {
      * Scale 1 - is normal size
      * @type {number}
      */
-    scale = 1;
+    scale = undefined;
 
     /**
      * Node title state
@@ -55,39 +68,52 @@ export default class Node extends ViewModel {
 
     /**
      * Node color
+     * @type {string}
      */
-    color = '';
+    color = undefined;
 
     /**
-     * Distance from root
-     * @type {number}
-     */
-    depth = undefined;
-
-    /**
+     * [Node interface]
      * Incoming links
      * @type {array.<Link>}
      */
-    linksIn = [];
+    linksIn = undefined;
 
     /**
+     * [Node interface]
      * Outgoing links
      * @type {array.<Link>}
      */
-    linksOut = [];
+    linksOut = undefined;
+    
+    /**
+     * [Node interface]
+     * Link to parent idea.
+     * Note: available only after graph is weighted
+     * @type {Link}
+     */
+    linkFromParent = undefined;
+
+    /**
+     * [Node interface]
+     * Links to child ideas.
+     * Note: available only after graph is weighted
+     * @type {array.<Link>}
+     */
+    linksToChilds = undefined;
 
     /**
      * Indicates that node has less importance
      * (ie. grayed out)
      */
     shaded = false;
-
+    
     /**
      * Constructor
      * @param {object} [props]
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

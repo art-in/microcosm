@@ -4,6 +4,7 @@ import mutate from 'model/mutators';
 
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
 
 describe('update-mindmap', () => {
 
@@ -13,7 +14,7 @@ describe('update-mindmap', () => {
         const mindmap = new Mindmap({
             id: 'id',
             scale: 1,
-            x: 100
+            pos: new Point({x: 100, y: 0})
         });
 
         const state = {model: {mindmap}};
@@ -30,7 +31,7 @@ describe('update-mindmap', () => {
         expect(state.model.mindmap).to.containSubset({
             id: 'id',
             scale: 2,
-            x: 100
+            pos: {x: 100}
         });
     });
 

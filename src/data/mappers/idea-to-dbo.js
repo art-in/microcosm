@@ -1,5 +1,7 @@
 import deleteUndefinedProps from 'utils/delete-undefined-props';
 
+import pointToDbo from './point-to-dbo';
+
 /**
  * Maps idea model to dbo
  * @param {Idea|object} model - model or patch
@@ -10,13 +12,12 @@ export default function ideaToDbo(model) {
 
     dbo._id = model.id;
     dbo.mindmapId = model.mindmapId;
-    dbo.x = model.x;
-    dbo.y = model.y;
-    dbo.value = model.value;
     dbo.isRoot = model.isRoot || undefined;
+    dbo.value = model.value;
     dbo.color = model.color || undefined;
+    dbo.pos = model.pos && pointToDbo(model.pos);
 
     deleteUndefinedProps(dbo);
-    
+
     return dbo;
 }

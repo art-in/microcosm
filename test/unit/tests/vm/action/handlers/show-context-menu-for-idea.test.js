@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import Point from 'src/vm/shared/Point';
+import Point from 'src/model/entities/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
 
 import handler from 'src/vm/action/handler';
@@ -23,10 +23,12 @@ describe('show-context-menu-for-idea', () => {
         expect(patch).to.have.length(1);
         const {data} = patch['update-context-menu'][0];
 
-        expect(data.menu.items).to.have.length(3);
+        expect(data.menu.items).to.have.length(4);
         expect(data.menu.items.every(i => i instanceof MenuItem)).to.be.ok;
         expect(data.menu.items).to.containSubset([{
             displayValue: 'add idea'
+        }, {
+            displayValue: 'set color'
         }, {
             displayValue: 'add-association'
         }, {
@@ -78,6 +80,35 @@ describe('show-context-menu-for-idea', () => {
             type: 'create-idea',
             data: {
                 parentIdeaId: 'idea'
+            }
+        });
+    });
+
+    it(`should set item which creates ` +
+        `'show-color-picker-for-idea' action`, () => {
+
+        // target
+        const patch = handle(null, {
+            type: 'show-context-menu-for-idea',
+            data: {
+                pos: new Point({x: 0, y: 0}),
+                ideaId: 'idea',
+                shaded: false
+            }
+        });
+
+        const menuMutation = patch['update-context-menu'][0];
+        const item = menuMutation.data.menu.items
+            .find(i => i.displayValue === 'set color');
+            
+        // target
+        const action = item.onSelectAction();
+
+        // check
+        expect(action).to.containSubset({
+            type: 'show-color-picker-for-idea',
+            data: {
+                ideaId: 'idea'
             }
         });
     });

@@ -20,6 +20,6 @@ export default class Point {
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

@@ -32,14 +32,15 @@ export default class LookupPopup extends ViewModel {
 
     /**
      * Constructor
-     * @param {string} inputPlaceholder 
+     * @param {string} placeholder - input placeholder 
      */
-    constructor(inputPlaceholder) {
+    constructor(placeholder) {
         super();
-        initInstance(this);
-
+        
         this.popup = new Popup();
-        this.lookup = new Lookup(inputPlaceholder);
+        this.lookup = new Lookup({placeholder});
+
+        return initInstance(this);
     }
 
 }

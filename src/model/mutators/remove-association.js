@@ -1,6 +1,6 @@
 import required from 'utils/required-params';
 
-import calcDepths from 'utils/graph/calc-depths';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
 
 /**
  * Removes association
@@ -69,13 +69,10 @@ export default function removeAssociation(state, data) {
         }
     
         tailIdeaAssocsIn.splice(index, 1);
-    
-        // recalculate idea depths.
-        // recalc only if removing cross-association. removing association 
-        // as part of removing idea will not change depths of other ideas.
-        calcDepths(mindmap.root);
 
         assoc.toId = null;
         assoc.to = null;
+
+        weighRootPaths(mindmap.root);
     }
 }

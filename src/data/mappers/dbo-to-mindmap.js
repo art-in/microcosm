@@ -1,5 +1,7 @@
 import Mindmap from 'model/entities/Mindmap';
 
+import dboToPoint from './dbo-to-point';
+
 /**
  * Maps dbo to mindmap model
  * @param {object} dbo
@@ -9,8 +11,7 @@ export default function dboToMindmap(dbo) {
     const model = new Mindmap();
 
     model.id = dbo._id;
-    model.x = dbo.x;
-    model.y = dbo.y;
+    model.pos = dboToPoint(dbo.pos);
     model.scale = dbo.scale;
     
     return model;

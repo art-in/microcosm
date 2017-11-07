@@ -13,47 +13,57 @@ export default class Association {
     id = createID();
 
     /**
-     * ID of parent mindmap
-     */
-    mindmapId = undefined;
-
-    /**
-     * ID of start idea
-     * @type {string}
-     */
-    fromId = undefined;
-
-    /**
-     * Start idea
-     * Note: available only after graph is build
-     * @type {Idea}
-     */
-    from = undefined;
-
-    /**
-     * ID of end idea
-     * @type {string}
-     */
-    toId = undefined;
-
-    /**
-     * End idea
-     * Note: available only after graph is build
-     * @type {Idea}
-     */
-    to = undefined;
-
-    /**
      * Value
      * @type {string}
      */
     value = undefined;
 
     /**
+     * ID of parent mindmap
+     */
+    mindmapId = undefined;
+
+    /**
+     * ID of head idea
+     * @type {string}
+     */
+    fromId = undefined;
+
+    /**
+     * ID of tail idea
+     * @type {string}
+     */
+    toId = undefined;
+
+    // region Dynamic props (computed on run, not saved to db)
+
+    /**
+     * Head idea
+     * Note: available only after graph is build
+     * @type {Idea}
+     */
+    from = undefined;
+
+    /**
+     * Tail idea
+     * Note: available only after graph is build
+     * @type {Idea}
+     */
+    to = undefined;
+
+    /**
+     * Weight
+     * @type {number}
+     */
+    weight = undefined;
+
+    // endregion
+
+    /**
      * Constructor
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

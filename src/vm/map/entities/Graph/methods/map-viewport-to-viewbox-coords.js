@@ -1,5 +1,5 @@
 import assert from 'utils/assert';
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 /**
  * Maps viewport coordinates to viewbox coordinates

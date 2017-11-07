@@ -1,8 +1,8 @@
 .root {}
 
 .circle {
-    stroke: #BBB;
-    stroke-width: 1
+    stroke: gray;
+    stroke-width: 0.75
 }
 
 .title {

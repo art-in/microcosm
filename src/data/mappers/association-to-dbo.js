@@ -13,6 +13,7 @@ export default function associationToDbo(model) {
     dbo.fromId = model.fromId;
     dbo.toId = model.toId;
     dbo.value = model.value;
+    dbo.weight = model.weight;
 
     deleteUndefinedProps(dbo);
 

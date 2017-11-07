@@ -1,8 +1,8 @@
 .root {}
 
 .line {
-    stroke: #BBB;
-    stroke-width: 1;
+    stroke: gray;
+    stroke-width: 0.4;
 }
 
 .title {
@@ -25,5 +25,5 @@
 
 .root.shaded .line {
     opacity: 0.5;
-    stroke-width: 0.1;
+    stroke-width: 0.25;
 }

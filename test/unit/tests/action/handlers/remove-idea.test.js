@@ -242,7 +242,7 @@ describe('remove-idea', () => {
 
         // check
         expect(result).to.throw(
-            'Idea with ID \'uknown\' not found in mindmap');
+            'Idea \'uknown\' was not found in mindmap');
     });
 
     it('should fail if idea is root', () => {

@@ -17,6 +17,30 @@ export default class Graph extends ViewModel {
     debug = true;
 
     /**
+     * Info for debug purposes only (eg. render on debug pane)
+     */ 
+    debugInfo = {
+
+        /**
+         * Focus weight zone
+         * @type {string}
+         */
+        focusZone: undefined,
+    
+        /**
+         * Shade weight zone
+         * @type {string}
+         */
+        shadeZone: undefined,
+
+        /**
+         * Hide weight zone
+         * @type {string}
+         */
+        hideZone: undefined
+    };
+
+    /**
      * ID
      * @type {string}
      */
@@ -64,6 +88,7 @@ export default class Graph extends ViewModel {
     drag = {
         active: false,
         node: undefined,
+        nodes: undefined,
         startX: undefined,
         startY: undefined
     };
@@ -88,31 +113,6 @@ export default class Graph extends ViewModel {
     root = undefined;
 
     /**
-     * Depth of nodes which resulting size 
-     * is close to original for current viewbox scale
-     * @type {number}
-     */
-    focusDepth = undefined;
-
-    /**
-     * Starting depth for shaded nodes.
-     * @type {number}
-     */
-    shadeDepth = undefined;
-
-    /**
-     * Starting depth for hidden nodes.
-     * @type {number}
-     */
-    hideDepth = undefined;
-
-    /**
-     * Length of longest path from root to leaf node
-     * @type {number}
-     */
-    height = undefined;
-
-    /**
      * Context menu of links
      */
     contextMenu = new ContextMenu();
@@ -134,6 +134,6 @@ export default class Graph extends ViewModel {
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

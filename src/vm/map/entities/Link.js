@@ -13,16 +13,22 @@ export default class Link extends ViewModel {
     debug = true;
 
     /**
-     * Start node
+     * Head node
      * @type {Node}
      */
     from = undefined;
 
     /**
-     * End node
+     * Tail node
      * @type {Node}
      */
     to = undefined;
+
+    /**
+     * Measure of closeness of head and tail nodes
+     * @type {number}
+     */
+    weight = undefined;
 
     /**
      * ID of link
@@ -68,6 +74,6 @@ export default class Link extends ViewModel {
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

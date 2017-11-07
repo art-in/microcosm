@@ -1,22 +1,18 @@
-import traverseGraph from './traverse-graph';
+import required from 'utils/required-params';
+import traverseGraph from 'utils/graph/traverse-graph';
 
 /**
  * Generic function for building object graph
- * from nodes/links object arrays
+ * from arrays of node and link objects
  * 
- * @param {array.<object>} nodes - generic nodes
- * @param {array.<object>} links - generic links
- * @param {string} nodeName - name of nodes (for error messages)
- * @param {string} linkName - name of link (for error messages)
- * @param {function} isRootNode - checks if passed node is graph root
+ * @param {object}         opts
+ * @param {array.<object>} opts.nodes - generic nodes
+ * @param {array.<object>} opts.links - generic links
+ * @param {function}       opts.isRootNode - checks if passed node is graph root
  * @return {object} root node
  */
-export default function buildGraph(
-    nodes,
-    links,
-    nodeName,
-    linkName,
-    isRootNode) {
+export default function buildGraph(opts) {
+    const {nodes, links, isRootNode} = required(opts);
 
     let rootNode = null;
 
@@ -39,15 +35,15 @@ export default function buildGraph(
         const nodeHead = nodes.find(i => i.id === link.fromId);
         if (!nodeHead) {
             throw Error(
-                `Head ${nodeName} '${link.fromId}' ` +
-                `of ${linkName} '${link.id}' was not found`);
+                `Head node '${link.fromId}' ` +
+                `of link '${link.id}' was not found`);
         }
 
         const nodeTail = nodes.find(i => i.id === link.toId);
         if (!nodeTail) {
             throw Error(
-                `Tail ${nodeName} '${link.toId}' ` +
-                `of ${linkName} '${link.id}' was not found`);
+                `Tail node '${link.toId}' ` +
+                `of link '${link.id}' was not found`);
         }
 
         link.from = nodeHead;
@@ -77,16 +73,17 @@ export default function buildGraph(
 
     // check root exists
     if (!rootNode) {
-        throw Error(`No root ${nodeName} was found`);
+        throw Error(`No root node was found`);
     }
 
     // check all nodes can be reached from the root
     visitedNodes.clear();
-    traverseGraph(
-        rootNode,
-        node => {
+    traverseGraph({
+        node: rootNode,
+        visit: node => {
             visitedNodes.add(node);
-        });
+        }
+    });
 
     const notVisitedNodes = nodes
         .filter(n => !visitedNodes.has(n))
@@ -94,7 +91,7 @@ export default function buildGraph(
 
     if (notVisitedNodes.length) {
         throw Error(
-            `Some ${nodeName}s cannot be reached from root: '` +
+            `Some nodes cannot be reached from root: '` +
             `${notVisitedNodes.join('\', \'')}'`);
     }
 

@@ -3,6 +3,8 @@ import Association from 'model/entities/Association';
 
 import Patch from 'utils/state/Patch';
 
+import weighAssociation from 'model/utils/weigh-association';
+
 /**
  * Creates association between two existing ideas
  * 
@@ -59,6 +61,8 @@ export default function createCrossAssociation(state, data) {
     assoc.mindmapId = mindmap.id;
     assoc.fromId = headIdeaId;
     assoc.toId = tailIdeaId;
+
+    assoc.weight = weighAssociation(head.pos, tail.pos);
 
     return new Patch({
         type: 'add-association',

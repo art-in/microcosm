@@ -22,7 +22,6 @@ export default function setMindmapPosition(state, data) {
         type: 'update-mindmap',
         data: {
             id: mindmapId,
-            x: pos.x,
-            y: pos.y
+            pos
         }});
 }

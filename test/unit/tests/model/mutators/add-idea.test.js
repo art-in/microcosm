@@ -14,96 +14,107 @@ describe('add-idea', () => {
     it('should add idea to ideas map', () => {
 
         // setup
-        const rootIdea = new Idea({
-            id: 'root',
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
-            depth: 0
+            rootPathWeight: 0,
+            linksToChilds: []
         });
-        const assoc = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1'
+        const assocAtoB = new Association({
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: 'B',
+            weight: 1
         });
-        rootIdea.associationsOut = [assoc];
+        ideaA.associationsOut = [assocAtoB];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.associations.set(assoc.id, assoc);
+        mindmap.root = ideaA;
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea 1', value: 'test'})
+                idea: new Idea({id: 'B', value: 'test'})
             }});
 
         // target
         mutate(state, patch);
 
         // check
-        const ideas = values(state.model.mindmap.ideas);
+        const ideaB = mindmap.ideas.get('B');
 
-        expect(ideas).to.have.length(2);
-        expect(ideas[1]).to.containSubset({
-            id: 'idea 1',
-            value: 'test'
-        });
+        expect(ideaB).to.exist;
+        expect(ideaB.value).to.equal('test');
     });
 
     it('should set idea to incoming associations', () => {
         
         // setup graph
         //
-        // (root) --> (idea 1) --> (idea X)
-        //    |                        ^
-        //    --------------------------
+        //   (A) --> (B) --> (C)*new
+        //    |_______________^
         //
-        const rootIdea = new Idea({
-            id: 'root',
+        //
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
-            depth: 0
+            rootPathWeight: 0
         });
-        const idea1 = new Idea({
-            id: 'idea 1',
-            depth: 1
+        const ideaB = new Idea({
+            id: 'B',
+            rootPathWeight: 1
         });
 
-        const assoc1 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1',
-            to: idea1
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaB.id,
+            to: ideaB,
+            weight: 1
         });
-        const assoc2 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea X'
+        const assocAtoC = new Association({
+            id: 'A to C',
+            fromId: ideaA,
+            from: ideaA,
+            toId: 'C',
+            weight: 1
         });
-        const assoc3 = new Association({
-            fromId: 'idea 1',
-            from: idea1,
-            toId: 'idea X'
+        const assocBtoC = new Association({
+            id: 'B to C',
+            fromId: ideaB.id,
+            from: ideaB,
+            toId: 'C',
+            weight: 1
         });
-        rootIdea.associationsOut = [assoc1, assoc2];
-        idea1.associationsIn = [assoc1];
-        idea1.associationsOut = [assoc3];
+
+        ideaA.associationsOut = [assocAtoB, assocAtoC];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+
+        ideaA.linkFromParent = null;
+        ideaA.linksToChilds = [assocAtoB];
+        ideaB.linkFromParent = assocAtoB;
+        ideaB.linksToChilds = [];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.associations.set(assoc1.id, assoc1);
-        mindmap.associations.set(assoc2.id, assoc2);
-        mindmap.associations.set(assoc3.id, assoc3);
+        mindmap.root = ideaA;
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.ideas.set(ideaB.id, ideaB);
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindmap.associations.set(assocAtoC.id, assocAtoC);
+        mindmap.associations.set(assocBtoC.id, assocBtoC);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea X'})
+                idea: new Idea({id: 'C'})
             }});
 
         // target
@@ -114,11 +125,11 @@ describe('add-idea', () => {
 
         expect(associations).to.have.length(3);
         expect(associations).to.containSubset([{
-            from: {id: 'root'},
-            to: {id: 'idea X'}
+            from: {id: 'A'},
+            to: {id: 'C'}
         }, {
-            from: {id: 'idea 1'},
-            to: {id: 'idea X'}
+            from: {id: 'B'},
+            to: {id: 'C'}
         }]);
     });
 
@@ -126,178 +137,251 @@ describe('add-idea', () => {
         
         // setup graph
         //
-        // (root) --> (idea 1) --> (idea X)
-        //    |                        ^
-        //    --------------------------
+        //   (A) --> (B) --> (C)*new
+        //    |_______________^
         //
-        const rootIdea = new Idea({
-            id: 'root',
+        //
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
-            depth: 0
+            rootPathWeight: 0
         });
-        const idea1 = new Idea({
-            id: 'idea 1',
-            depth: 1
+        const ideaB = new Idea({
+            id: 'B',
+            rootPathWeight: 1
         });
 
-        const assoc1 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1',
-            to: idea1
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaB.id,
+            to: ideaB,
+            weight: 1
         });
-        const assoc2 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea X'
+        const assocAtoC = new Association({
+            id: 'A to C',
+            fromId: ideaA,
+            from: ideaA,
+            toId: 'C',
+            weight: 1
         });
-        const assoc3 = new Association({
-            fromId: 'idea 1',
-            from: idea1,
-            toId: 'idea X'
+        const assocBtoC = new Association({
+            id: 'B to C',
+            fromId: ideaB.id,
+            from: ideaB,
+            toId: 'C',
+            weight: 1
         });
-        rootIdea.associationsOut = [assoc1, assoc2];
-        idea1.associationsIn = [assoc1];
-        idea1.associationsOut = [assoc3];
+
+        ideaA.associationsOut = [assocAtoB, assocAtoC];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+
+        ideaA.linkFromParent = null;
+        ideaA.linksToChilds = [assocAtoB];
+        ideaB.linkFromParent = assocAtoB;
+        ideaB.linksToChilds = [];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.associations.set(assoc1.id, assoc1);
-        mindmap.associations.set(assoc2.id, assoc2);
-        mindmap.associations.set(assoc3.id, assoc3);
+        mindmap.root = ideaA;
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.ideas.set(ideaB.id, ideaB);
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindmap.associations.set(assocAtoC.id, assocAtoC);
+        mindmap.associations.set(assocBtoC.id, assocBtoC);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea X'})
+                idea: new Idea({id: 'C'})
             }});
 
         // target
         mutate(state, patch);
         
         // check
-        const idea = state.model.mindmap.ideas.get('idea X');
+        const ideaC = state.model.mindmap.ideas.get('C');
 
-        expect(idea.associationsIn).to.have.length(2);
-        expect(idea.associationsIn).to.containSubset([{
-            from: {id: 'root'},
-            to: {id: 'idea X'}
+        expect(ideaC.associationsIn).to.have.length(2);
+        expect(ideaC.associationsIn).to.containSubset([{
+            from: {id: 'A'},
+            to: {id: 'C'}
         }, {
-            from: {id: 'idea 1'},
-            to: {id: 'idea X'}
+            from: {id: 'B'},
+            to: {id: 'C'}
         }]);
     });
 
     it('should set empty outgoing associations to idea', () => {
         
-        // setup
-        const rootIdea = new Idea({
-            id: 'root',
+        // setup graph
+        //
+        //   (A) --> (B) --> (C)*new
+        //    |_______________^
+        //
+        //
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
-            depth: 0
+            rootPathWeight: 0
         });
-        const assoc = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1'
+        const ideaB = new Idea({
+            id: 'B',
+            rootPathWeight: 1
         });
-        rootIdea.associationsOut = [assoc];
+
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaB.id,
+            to: ideaB,
+            weight: 1
+        });
+        const assocAtoC = new Association({
+            id: 'A to C',
+            fromId: ideaA,
+            from: ideaA,
+            toId: 'C',
+            weight: 1
+        });
+        const assocBtoC = new Association({
+            id: 'B to C',
+            fromId: ideaB.id,
+            from: ideaB,
+            toId: 'C',
+            weight: 1
+        });
+
+        ideaA.associationsOut = [assocAtoB, assocAtoC];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+
+        ideaA.linkFromParent = null;
+        ideaA.linksToChilds = [assocAtoB];
+        ideaB.linkFromParent = assocAtoB;
+        ideaB.linksToChilds = [];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.associations.set(assoc.id, assoc);
+        mindmap.root = ideaA;
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.ideas.set(ideaB.id, ideaB);
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindmap.associations.set(assocAtoC.id, assocAtoC);
+        mindmap.associations.set(assocBtoC.id, assocBtoC);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea 1', value: 'test'})
+                idea: new Idea({id: 'C'})
             }});
 
         // target
         mutate(state, patch);
 
         // check
-        const ideas = values(state.model.mindmap.ideas);
-
-        expect(ideas).to.have.length(2);
-        expect(ideas[1].associationsOut).to.be.empty;
+        const ideaC = mindmap.ideas.get('C');
+        
+        expect(ideaC.associationsOut).to.be.empty;
     });
 
-    it('should set idea depth', () => {
+    it('should set root path weight and parent-child refs', () => {
         
         // setup graph
         //
-        // (root) --> (idea 1) --> (idea X)
-        //    |                        ^
-        //    --------------------------
+        //   (A) --> (B) --> (C)*new
+        //     \______________^
+        //    
         //
-        const rootIdea = new Idea({
-            id: 'root',
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
-            depth: 0
+            rootPathWeight: 0
         });
-        const idea1 = new Idea({
-            id: 'idea 1',
-            depth: 1
-        });
-
-        const assoc1 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1',
-            to: idea1
-        });
-        const assoc2 = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea X'
-        });
-        const assoc3 = new Association({
-            fromId: 'idea 1',
-            from: idea1,
-            toId: 'idea X'
+        const ideaB = new Idea({
+            id: 'B',
+            rootPathWeight: 1
         });
 
-        rootIdea.associationsOut = [assoc1, assoc2];
-        idea1.associationsIn = [assoc1];
-        idea1.associationsOut = [assoc3];
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaB.id,
+            to: ideaB,
+            weight: 1
+        });
+        const assocAtoC = new Association({
+            id: 'A to C',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: 'C',
+            weight: 1
+        });
+        const assocBtoC = new Association({
+            id: 'B to C',
+            fromId: ideaB.id,
+            from: ideaB,
+            toId: 'C',
+            weight: 1
+        });
+
+        ideaA.associationsOut = [assocAtoB, assocAtoC];
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.associationsOut = [assocBtoC];
+
+        ideaA.linkFromParent = null;
+        ideaA.linksToChilds = [assocAtoB];
+
+        ideaB.linkFromParent = assocAtoB;
+        ideaB.linksToChilds = [];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.associations.set(assoc1.id, assoc1);
-        mindmap.associations.set(assoc2.id, assoc2);
-        mindmap.associations.set(assoc3.id, assoc3);
+        
+        mindmap.root = ideaA;
+
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.ideas.set(ideaB.id, ideaC);
+
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindmap.associations.set(assocAtoC.id, assocAtoC);
+        mindmap.associations.set(assocBtoC.id, assocBtoC);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea X'})
+                idea: new Idea({id: 'C'})
             }});
 
         // target
         mutate(state, patch);
 
         // check
-        const ideas = values(state.model.mindmap.ideas);
+        const ideaC = mindmap.ideas.get('C');
 
-        expect(ideas).to.containSubset([{
-            id: 'idea X',
-            depth: 1
-        }]);
+        expect(ideaA.rootPathWeight).to.equal(0);
+        expect(ideaB.rootPathWeight).to.equal(1);
+        expect(ideaC.rootPathWeight).to.equal(1);
+
+        expect(ideaA.linkFromParent).to.equal(null);
+        expect(ideaA.linksToChilds).to.have.length(2);
+        expect(ideaA.linksToChilds).to.have.members([assocAtoB, assocAtoC]);
+
+        expect(ideaB.linkFromParent).to.equal(assocAtoB);
+        expect(ideaB.linksToChilds).to.have.length(0);
+        
+        expect(ideaC.linkFromParent).to.equal(assocAtoC);
+        expect(ideaC.linksToChilds).to.have.length(0);
     });
 
-    it('should set root idea depth to zero', () => {
+    it('should set root path weight for root to zero', () => {
         
         // setup
         const state = {model: {mindmap: new Mindmap()}};
@@ -316,7 +400,7 @@ describe('add-idea', () => {
 
         expect(ideas).to.containSubset([{
             id: 'root',
-            depth: 0
+            rootPathWeight: 0
         }]);
     });
 
@@ -387,28 +471,32 @@ describe('add-idea', () => {
         });
     });
 
-    it('should fail if parent idea does not have depth', () => {
+    it('should fail if incoming association does not have weight', () => {
         
         // setup
-        const rootIdea = new Idea({id: 'root'});
-        const assoc = new Association({
-            fromId: 'root',
-            from: rootIdea,
-            toId: 'idea 1'
+        const ideaA = new Idea({
+            id: 'A',
+            rootPathWeight: 0
         });
-        rootIdea.associationsOut = [assoc];
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: 'B'
+        });
+        ideaA.associationsOut = [assocAtoB];
 
         const mindmap = new Mindmap();
-        mindmap.root = rootIdea;
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.associations.set(assoc.id, assoc);
+        mindmap.root = ideaA;
+        mindmap.ideas.set(ideaA.id, ideaA);
+        mindmap.associations.set(assocAtoB.id, assocAtoB);
 
         const state = {model: {mindmap}};
 
         const patch = new Patch({
             type: 'add-idea',
             data: {
-                idea: new Idea({id: 'idea 1', value: 'test'})
+                idea: new Idea({id: 'B', value: 'test'})
             }});
 
         // target
@@ -416,6 +504,7 @@ describe('add-idea', () => {
 
         // check
         expect(result).to.throw(
-            `Node predecessor has invalid depth 'undefined'`);
+            `Link 'A to B' has invalid weight 'undefined'`);
     });
+
 });

@@ -3,6 +3,7 @@ import {expect} from 'test/utils';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
+import Point from 'src/model/entities/Point';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
@@ -27,8 +28,7 @@ describe('create-idea', () => {
         expect(type).to.equal('add-idea');
         expect(data.idea).to.be.instanceOf(Idea);
         expect(data.idea.mindmapId).to.equal('m');
-        expect(data.idea.x).to.equal(0);
-        expect(data.idea.y).to.equal(0);
+        expect(data.idea.pos).to.containSubset({x: 0, y: 0});
     });
 
     it('should add association with parent idea', () => {
@@ -36,7 +36,10 @@ describe('create-idea', () => {
         // setup
         const mindmap = new Mindmap({id: 'm'});
 
-        mindmap.ideas.set('parent', new Idea({id: 'parent'}));
+        mindmap.ideas.set('parent', new Idea({
+            id: 'parent',
+            pos: new Point({x: 0, y: 0})
+        }));
 
         const state = {model: {mindmap}};
 
@@ -61,12 +64,15 @@ describe('create-idea', () => {
         expect(data.assoc.toId).to.be.ok;
     });
 
-    it('should set idea position from parent position', () => {
+    it('should set idea position relative to parent', () => {
 
         // setup
         const mindmap = new Mindmap({id: 'm'});
 
-        mindmap.ideas.set('parent', new Idea({id: 'parent', x: 10, y: 20}));
+        mindmap.ideas.set('parent', new Idea({
+            id: 'parent',
+            pos: {x: 10, y: 20}
+        }));
 
         const state = {model: {mindmap}};
 
@@ -81,8 +87,7 @@ describe('create-idea', () => {
         const {data} = mutation;
         
         expect(data.idea).to.be.instanceOf(Idea);
-        expect(data.idea.x).to.be.equal(110);
-        expect(data.idea.y).to.be.equal(120);
+        expect(data.idea.pos).to.containSubset({x: 110, y: 120});
     });
 
     it('should target all state layers', () => {
@@ -118,7 +123,7 @@ describe('create-idea', () => {
 
         // check
         expect(result).to.throw(
-            `Idea with ID 'not exist' not found in mindmap`);
+            `Idea 'not exist' was not found in mindmap`);
     });
 
 });

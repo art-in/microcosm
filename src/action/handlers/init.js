@@ -7,6 +7,7 @@ import * as mindmapDB from 'data/db/mindmaps';
 
 import Mindmap from 'model/entities/Mindmap';
 import Idea from 'model/entities/Idea';
+import Point from 'model/entities/Point';
 
 /**
  * Inits state
@@ -21,8 +22,7 @@ export default async function init(state, data) {
     if (!(await db.mindmaps.info()).doc_count) {
         // mindmap database is empty, creating one
         await mindmapDB.add(db.mindmaps, new Mindmap({
-            x: 0,
-            y: 0,
+            pos: new Point({x: 0, y: 0}),
             scale: 1
         }));
     }
@@ -31,8 +31,8 @@ export default async function init(state, data) {
         // ideas database is empty, creating root idea
         await ideaDB.add(db.ideas, new Idea({
             isRoot: true,
-            x: 0,
-            y: 0
+            pos: new Point({x: 0, y: 0}),
+            color: 'white'
         }));
     }
 

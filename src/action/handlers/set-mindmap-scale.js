@@ -24,7 +24,6 @@ export default function setMindmapScale(state, data) {
         data: {
             id: mindmapId,
             scale,
-            x: pos.x,
-            y: pos.y
+            pos: {x: pos.x, y: pos.y}
         }});
 }

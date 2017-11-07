@@ -1,7 +1,7 @@
 import required from 'utils/required-params';
 
-import calcDepths from 'utils/graph/calc-depths';
-import buildGraph from 'model/utils/build-ideas-graph';
+import buildGraph from 'model/utils/build-ideas-graph-from-objects';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
 
 /**
  * Inits model state
@@ -24,9 +24,11 @@ export default function init(state, data) {
     // TDB: get first mindmap
     const mindmap = mindmaps[0];
 
+    // init graph
     mindmap.root = buildGraph(ideas, associations);
-    calcDepths(mindmap.root);
-    
+    weighRootPaths(mindmap.root);
+
+    // init maps
     associations.forEach(a => mindmap.associations.set(a.id, a));
     ideas.forEach(i => mindmap.ideas.set(i.id, i));
 

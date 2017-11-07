@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import LinkVM from 'vm/map/entities/Link';
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 import Group from 'view/shared/svg/Group';
 import Line from 'view/shared/svg/Line';
@@ -23,7 +23,7 @@ export default class Link extends Component {
         
         const titlePartOfLink = 0.75;
         const titleHeight = 25;
-        const linkStartWidth = 5 * link.from.scale;
+        const linkStartWidth = 10 * link.from.scale;
         const linkEndWidth = 2 * link.from.scale;
         
         // Using editable/rectangular TextArea for now.
@@ -50,7 +50,7 @@ export default class Link extends Component {
         // rotate title with the link
         const titleRotation = atan2(dy, dx) * 180 / PI;
         const titleWidth = linkLength * titlePartOfLink;
-        const titlePos = new Point(posFrom.x, posFrom.y);
+        const titlePos = new Point({x: posFrom.x, y: posFrom.y});
 
         // shift title to the center of the link
         titlePos.x += dx * (1 - titlePartOfLink) / 2;
@@ -70,7 +70,7 @@ export default class Link extends Component {
 
                 <Line id={ link.id }
                     className={ cx(classes.line, className) }
-                    style={{fill: link.color || 'lightgray'}}
+                    style={{fill: link.color}}
                     pos1={ link.from.pos }
                     pos2={ link.to.pos }
                     width={{start: linkStartWidth, end: linkEndWidth}}

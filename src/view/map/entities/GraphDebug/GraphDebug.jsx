@@ -24,10 +24,9 @@ export default class GraphDebug extends Component {
             ['scale', viewbox.scale],
             ['drag', graph.drag.active.toString()],
             ['pan', graph.pan.active.toString()],
-            ['focus depth', graph.focusDepth],
-            ['shade depths', `[${graph.shadeDepth} - ${graph.hideDepth - 1}]`],
-            ['hide depths', `[${graph.hideDepth} - Infinity]`],
-            ['rendered height', graph.height]
+            ['focus zone', graph.debugInfo.focusZone],
+            ['shade zone', graph.debugInfo.shadeZone],
+            ['hide zone', graph.debugInfo.hideZone]
         ];
 
         return (

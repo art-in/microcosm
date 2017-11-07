@@ -1,145 +1,144 @@
 import {expect} from 'chai';
 
-import Idea from 'src/model/entities/Idea';
-import Association from 'src/model/entities/Association';
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
+
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
 import toGraph from 'src/vm/map/mappers/mindmap-to-graph';
 
 describe('mindmap-to-graph', () => {
 
-    /**
-     * Setup mindmap for tests
-     * @return {Mindmap}
-     */
+    // eslint-disable-next-line
     function setupMindmap() {
 
         // setup graph
         //
-        //        (root)            // visible idea (focus depth)
-        //   ---------------------  // visible depth end, shade depth start
-        //           v              // shaded assoc
-        //        (idea 1) <--      // shaded idea and assoc
-        //           v        |     // shaded assoc
-        //        (idea 2)    |     // shaded idea
-        //           v        |     // shaded assoc
-        //        (idea 3)    |     // shaded idea
-        //   -----------------|---  // shade depth end, hide depth start
-        //           v        |     // hidden assoc
-        //        (idea 4)    |     // hidden idea
-        //           v        |     // hidden assoc
-        //        (idea 5) ----     // shaded idea (targets visible)
+        //        ----- (A) --> (C)            
+        //       |       |   /
+        //       |       |  /
+        //       |       v v           focus zone
+        //       |   -> (B) <---- 
+        //   ----|--|----|--------|--------------- 
+        //       |  |    v        | 
+        //       |  |   (D) <---  |     
+        //       |  |    |      | |    shade zone
+        //       |  |    v      | |     
+        //       |   -- (E)     | |     
+        //   ----|-------|------|-|---------------  
+        //       |       v      | |     
+        //       |      (F) ----  |    hide zone 
+        //       |       |        |
+        //       |       v        |     
+        //       |      (G) ------  
+        //       |       |
+        //       |       v
+        //        ----> (H)
         //
-        const rootIdea = new Idea({
-            id: 'root',
-            isRoot: true,
-            depth: 0
-        });
+        const {root, nodes, links} = buildGraph([
+            //       A   B      C      D     E    F   G    H
+            /* A */ '0   2000   500    0     0    0   0    2001',
+            /* B */ '0   0      0      1     0    0   0    0',
+            /* C */ '0   500    0      0     0    0   0    0',
+            /* D */ '0   0      0      0     499  0   0    0',
+            /* E */ '0   500    0      0     0    1   0    0',
+            /* F */ '0   0      0      500   0    0   1    0',
+            /* G */ '0   2000   0      0     0    0   0    498',
+            /* H */ '0   0      0      0     0    0   0    0'
+        ]);
 
-        const idea1 = new Idea({id: 'idea 1', depth: 1});
-        const idea2 = new Idea({id: 'idea 2', depth: 2});
-        const idea3 = new Idea({id: 'idea 3', depth: 3});
-        const idea4 = new Idea({id: 'idea 4', depth: 4});
-        const idea5 = new Idea({id: 'idea 5', depth: 5});
+        const ideaA = nodes.find(n => n.id === 'A');
+        const ideaB = nodes.find(n => n.id === 'B');
+        const ideaC = nodes.find(n => n.id === 'C');
+        const ideaD = nodes.find(n => n.id === 'D');
+        const ideaE = nodes.find(n => n.id === 'E');
+        const ideaF = nodes.find(n => n.id === 'F');
+        const ideaG = nodes.find(n => n.id === 'G');
+        const ideaH = nodes.find(n => n.id === 'H');
 
-        const assocRootTo1 = new Association({
-            id: 'assoc root to 1',
-            from: rootIdea,
-            to: idea1
-        });
+        // set positions
+        ideaA.pos = new Point({x: 0, y: 0});
+        ideaB.pos = new Point({x: 0, y: 1000});
+        ideaC.pos = new Point({x: 500, y: 0});
+        ideaD.pos = new Point({x: 0, y: 1001});
+        ideaE.pos = new Point({x: 0, y: 1500});
+        ideaF.pos = new Point({x: 0, y: 1501});
+        ideaG.pos = new Point({x: 0, y: 1502});
+        ideaH.pos = new Point({x: 0, y: 2000});
 
-        const assoc1to2 = new Association({
-            id: 'assoc 1 to 2',
-            from: idea1,
-            to: idea2
-        });
+        // set colors
+        ideaA.color = 'red';
+        ideaD.color = 'green';
+        ideaF.color = 'blue';
 
-        const assoc2to3 = new Association({
-            id: 'assoc 2 to 3',
-            from: idea2,
-            to: idea3
-        });
-
-        const assoc3to4 = new Association({
-            id: 'assoc 3 to 4',
-            from: idea3,
-            to: idea4
-        });
-
-        const assoc4to5 = new Association({
-            id: 'assoc 4 to 5',
-            from: idea4,
-            to: idea5
-        });
-
-        const assoc5to1 = new Association({
-            id: 'assoc 5 to 1',
-            from: idea5,
-            to: idea1
-        });
-
-        rootIdea.associationsOut = [assocRootTo1];
-
-        idea1.associationsIn = [assocRootTo1, assoc5to1];
-        idea1.associationsOut = [assoc1to2];
-        
-        idea2.associationsIn = [assoc1to2];
-        idea2.associationsOut = [assoc2to3];
-        
-        idea3.associationsIn = [assoc2to3];
-        idea3.associationsOut = [assoc3to4];
-        
-        idea4.associationsIn = [assoc3to4];
-        idea4.associationsOut = [assoc4to5];
-
-        idea5.associationsIn = [assoc4to5];
-        idea5.associationsOut = [assoc5to1];
-
+        // setup mindmap
         const mindmap = new Mindmap();
 
-        mindmap.ideas.set(rootIdea.id, rootIdea);
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
-        mindmap.ideas.set(idea3.id, idea3);
-        mindmap.ideas.set(idea4.id, idea4);
-        mindmap.ideas.set(idea5.id, idea5);
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
 
-        mindmap.associations.set(assocRootTo1.id, assocRootTo1);
-        mindmap.associations.set(assoc1to2.id, assoc1to2);
-        mindmap.associations.set(assoc2to3.id, assoc2to3);
-        mindmap.associations.set(assoc3to4.id, assoc3to4);
-        mindmap.associations.set(assoc4to5.id, assoc4to5);
-        mindmap.associations.set(assoc5to1.id, assoc5to1);
-
-        mindmap.root = rootIdea;
-        
-        mindmap.scale = 1;
+        mindmap.scale = 2;
+        mindmap.pos = new Point({x: 0, y: 0});
 
         return mindmap;
     }
 
-    it('should set smaller scale for deeper nodes', () => {
-
+    it('should hide nodes and links in hide zone', () => {
+        
         const mindmap = setupMindmap();
         
         // target
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
-        
-        const rootNode = graph.nodes.find(n => n.id === 'root');
-        const node1 = graph.nodes.find(n => n.id === 'idea 1');
-        const node2 = graph.nodes.find(n => n.id === 'idea 2');
-        const node3 = graph.nodes.find(n => n.id === 'idea 3');
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeF = graph.nodes.find(n => n.id === 'F');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        expect(rootNode.scale).to.equal(1);
-        expect(node1.scale).to.equal(1/2);
-        expect(node2.scale).to.equal(1/3);
-        expect(node3.scale).to.equal(1/4);
+        const linkAtoB = graph.links.find(l => l.id === 'A to B');
+        const linkAtoC = graph.links.find(l => l.id === 'A to C');
+        const linkAtoH = graph.links.find(l => l.id === 'A to H');
+        const linkBtoD = graph.links.find(l => l.id === 'B to D');
+        const linkCtoB = graph.links.find(l => l.id === 'C to B');
+        const linkDtoE = graph.links.find(l => l.id === 'D to E');
+        const linkEtoB = graph.links.find(l => l.id === 'E to B');
+        const linkEtoF = graph.links.find(l => l.id === 'E to F');
+        const linkFtoD = graph.links.find(l => l.id === 'F to D');
+        const linkFtoG = graph.links.find(l => l.id === 'F to G');
+        const linkGtoB = graph.links.find(l => l.id === 'G to B');
+        const linkGtoH = graph.links.find(l => l.id === 'G to H');
+
+        expect(nodeA).to.exist;
+        expect(nodeB).to.exist;
+        expect(nodeC).to.exist;
+        expect(nodeD).to.exist;
+        expect(nodeE).to.exist;
+        expect(nodeF).to.not.exist;
+        expect(nodeG).to.exist;
+        expect(nodeH).to.exist;
+
+        expect(linkAtoB).to.exist;
+        expect(linkAtoC).to.exist;
+        expect(linkAtoH).to.exist;
+        expect(linkBtoD).to.exist;
+        expect(linkCtoB).to.exist;
+        expect(linkDtoE).to.exist;
+        expect(linkEtoB).to.exist;
+        expect(linkEtoF).to.not.exist;
+        expect(linkFtoD).to.not.exist;
+        expect(linkFtoG).to.not.exist;
+        expect(linkGtoB).to.exist;
+        expect(linkGtoH).to.not.exist;
+
     });
 
-    it('should shade nodes on shade depth', () => {
+    it('should shade nodes and links in shade zone', () => {
         
         const mindmap = setupMindmap();
 
@@ -147,22 +146,42 @@ describe('mindmap-to-graph', () => {
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        const rootNode = graph.nodes.find(n => n.id === 'root');
-        const node1 = graph.nodes.find(n => n.id === 'idea 1');
-        const node2 = graph.nodes.find(n => n.id === 'idea 2');
-        const node3 = graph.nodes.find(n => n.id === 'idea 3');
+        const linkAtoB = graph.links.find(l => l.id === 'A to B');
+        const linkAtoC = graph.links.find(l => l.id === 'A to C');
+        const linkAtoH = graph.links.find(l => l.id === 'A to H');
+        const linkBtoD = graph.links.find(l => l.id === 'B to D');
+        const linkCtoB = graph.links.find(l => l.id === 'C to B');
+        const linkDtoE = graph.links.find(l => l.id === 'D to E');
+        const linkEtoB = graph.links.find(l => l.id === 'E to B');
+        const linkGtoB = graph.links.find(l => l.id === 'G to B');
 
-        expect(graph.focusDepth).to.equal(0);
+        expect(nodeA.shaded).to.be.false;
+        expect(nodeB.shaded).to.be.false;
+        expect(nodeC.shaded).to.be.false;
+        expect(nodeD.shaded).to.be.true;
+        expect(nodeE.shaded).to.be.true;
+        expect(nodeG.shaded).to.be.true;
+        expect(nodeH.shaded).to.be.true;
 
-        expect(rootNode.shaded).to.equal(false);
-        expect(node1.shaded).to.equal(true);
-        expect(node2.shaded).to.equal(true);
-        expect(node3.shaded).to.equal(true);
+        expect(linkAtoB.shaded).to.be.false;
+        expect(linkAtoC.shaded).to.be.false;
+        expect(linkAtoH.shaded).to.be.false;
+        expect(linkBtoD.shaded).to.be.false;
+        expect(linkCtoB.shaded).to.be.false;
+        expect(linkDtoE.shaded).to.be.true;
+        expect(linkEtoB.shaded).to.be.false;
+        expect(linkGtoB.shaded).to.be.false;
     });
 
-    it('should shade links on shade depth', () => {
+    it('should hide node titles in shade zone', () => {
         
         const mindmap = setupMindmap();
 
@@ -170,90 +189,81 @@ describe('mindmap-to-graph', () => {
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        const linkRootTo1 = graph.links.find(l => l.id === 'assoc root to 1');
-        const link1to2 = graph.links.find(l => l.id === 'assoc 1 to 2');
-        const link2to3 = graph.links.find(l => l.id === 'assoc 2 to 3');
-
-        expect(graph.focusDepth).to.equal(0);
-
-        expect(linkRootTo1.shaded).to.equal(true);
-        expect(link1to2.shaded).to.equal(true);
-        expect(link2to3.shaded).to.equal(true);
-    });
-    
-    it('should hide node titles on shade depth', () => {
-        
-        const mindmap = setupMindmap();
-
-        // target
-        const graph = toGraph(mindmap);
-
-        // check
-        expect(graph).to.exist;
-
-        const rootNode = graph.nodes.find(n => n.id === 'root');
-        const node1 = graph.nodes.find(n => n.id === 'idea 1');
-        const node2 = graph.nodes.find(n => n.id === 'idea 2');
-        const node3 = graph.nodes.find(n => n.id === 'idea 3');
-
-        expect(graph.focusDepth).to.equal(0);
-
-        expect(rootNode.title.visible).to.be.true;
-        expect(node1.title.visible).to.be.true;
-        expect(node2.title.visible).to.be.false;
-        expect(node3.title.visible).to.be.false;
+        expect(nodeA.title.visible).to.be.true;
+        expect(nodeB.title.visible).to.be.true;
+        expect(nodeC.title.visible).to.be.true;
+        expect(nodeD.title.visible).to.be.false;
+        expect(nodeE.title.visible).to.be.false;
+        expect(nodeG.title.visible).to.be.false;
+        expect(nodeH.title.visible).to.be.false;
     });
 
-    it('should hide nodes on hide depth', () => {
-
+    it('should set nodes position', () => {
+        
         const mindmap = setupMindmap();
         
         // target
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        const rootNode = graph.nodes.find(n => n.id === 'root');
-        const node1 = graph.nodes.find(n => n.id === 'idea 1');
-        const node2 = graph.nodes.find(n => n.id === 'idea 2');
-        const node3 = graph.nodes.find(n => n.id === 'idea 3');
-        const node4 = graph.nodes.find(n => n.id === 'idea 4');
-
-        expect(rootNode).to.exist;
-        expect(node1).to.exist;
-        expect(node2).to.exist;
-        expect(node3).to.exist;
-        expect(node4).to.not.exist;
+        expect(nodeA.pos).to.containSubset({x: 0, y: 0});
+        expect(nodeB.pos).to.containSubset({x: 0, y: 1000});
+        expect(nodeC.pos).to.containSubset({x: 500, y: 0});
+        expect(nodeD.pos).to.containSubset({x: 0, y: 1001});
+        expect(nodeE.pos).to.containSubset({x: 0, y: 1500});
+        expect(nodeG.pos).to.containSubset({x: 0, y: 1502});
+        expect(nodeH.pos).to.containSubset({x: 0, y: 2000});
     });
 
-    it('should hide links on hide depth', () => {
-        
+    it('should set nodes scale', () => {
+
         const mindmap = setupMindmap();
         
         // target
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        const linkRootTo1 = graph.links.find(l => l.id === 'assoc root to 1');
-        const link1to2 = graph.links.find(l => l.id === 'assoc 1 to 2');
-        const link2to3 = graph.links.find(l => l.id === 'assoc 2 to 3');
-        const link3to4 = graph.links.find(l => l.id === 'assoc 3 to 4');
+        expect(nodeA.scale).to.be.greaterThan(nodeC.scale);
+        expect(nodeC.scale).to.be.greaterThan(nodeB.scale);
+        expect(nodeB.scale).to.be.greaterThan(nodeD.scale);
+        expect(nodeD.scale).to.be.greaterThan(nodeE.scale);
+        expect(nodeE.scale).to.be.greaterThan(nodeG.scale);
+        expect(nodeG.scale).to.be.greaterThan(nodeH.scale);
 
-        expect(graph.focusDepth).to.equal(0);
-
-        expect(linkRootTo1).to.exist;
-        expect(link1to2).to.exist;
-        expect(link2to3).to.exist;
-        expect(link3to4).to.not.exist;
+        expect(nodeA.scale).to.equal(1); //               RPW = 0
+        expect(nodeB.scale).to.equal(1/2); //             RPW = 1000
+        expect(nodeC.scale).to.equal(1/1.5); //           RPW = 500
+        expect(nodeD.scale).to.be.closeTo(1/2, 0.1); //   RPW = 1001
+        expect(nodeE.scale).to.equal(1/2.5); //           RPW = 1500
+        expect(nodeG.scale).to.be.closeTo(1/2.5, 0.1); // RPW = 1502
+        expect(nodeH.scale).to.equal(1/3); //             RPW = 2000
     });
 
-    it('should show nodes/links on hide depth ' +
-        'if they target nodes on visible/shade depth', () => {
+    it('should set nodes color', () => {
 
         const mindmap = setupMindmap();
         
@@ -261,16 +271,21 @@ describe('mindmap-to-graph', () => {
         const graph = toGraph(mindmap);
 
         // check
-        expect(graph).to.exist;
+        const nodeA = graph.nodes.find(n => n.id === 'A');
+        const nodeB = graph.nodes.find(n => n.id === 'B');
+        const nodeC = graph.nodes.find(n => n.id === 'C');
+        const nodeD = graph.nodes.find(n => n.id === 'D');
+        const nodeE = graph.nodes.find(n => n.id === 'E');
+        const nodeG = graph.nodes.find(n => n.id === 'G');
+        const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        const node5 = graph.nodes.find(i => i.id === 'idea 5');
-        const link5to1 = graph.links.find(l => l.id === 'assoc 5 to 1');
-
-        expect(node5).to.exist;
-        expect(link5to1).to.exist;
-
-        expect(node5.shaded).to.be.true;
-        expect(link5to1.shaded).to.be.true;
+        expect(nodeA.color).to.equal('red');
+        expect(nodeB.color).to.equal('red');
+        expect(nodeC.color).to.equal('red');
+        expect(nodeD.color).to.equal('green');
+        expect(nodeE.color).to.equal('green');
+        expect(nodeG.color).to.equal('blue');
+        expect(nodeH.color).to.equal('blue');
     });
 
 });

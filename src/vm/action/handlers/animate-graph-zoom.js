@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 
 import view from 'vm/utils/view-patch';
 import animate from 'vm/utils/animate';
-import Point from 'vm/shared/Point';
+import Point from 'model/entities/Point';
 
 import zoomGraph from 'vm/map/entities/Graph/methods/zoom';
 import checkScaleLimits from 'vm/map/entities/Graph/methods/check-scale-limits';

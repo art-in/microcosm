@@ -1,7 +1,9 @@
 import {expect, createDB} from 'test/utils';
 
-import * as ideaDB from 'src/data/db/ideas';
 import Idea from 'src/model/entities/Idea';
+import Point from 'src/model/entities/Point';
+
+import * as ideaDB from 'src/data/db/ideas';
 
 describe('ideas', () => {
 
@@ -14,7 +16,8 @@ describe('ideas', () => {
 
             await db.put({
                 _id: '123',
-                value: 'test'
+                value: 'test',
+                pos: {x: 100, y: 200}
             });
 
             // target
@@ -23,6 +26,8 @@ describe('ideas', () => {
             // check
             expect(result).to.be.instanceOf(Idea);
             expect(result.value).to.equal('test');
+            expect(result.pos).to.be.instanceOf(Point);
+            expect(result.pos).to.containSubset({x: 100, y: 200});
         });
 
         it('should fail if item does not exist', async () => {
@@ -72,6 +77,7 @@ describe('ideas', () => {
 
             const idea = new Idea();
             idea.value = 'test';
+            idea.pos = {x: 0, y: 0};
 
             // target
             await ideaDB.add(db, idea);
@@ -93,6 +99,7 @@ describe('ideas', () => {
 
             const idea = new Idea();
             idea.value = 'test';
+            idea.pos = {x: 0, y: 0};
 
             // target
             await ideaDB.add(db, idea);
@@ -102,7 +109,7 @@ describe('ideas', () => {
             expect(result).to.deep.equal(idea);
         });
 
-        it('should fail on dublicates', async () => {
+        it('should fail on duplicates', async () => {
 
             // setup
             const db = createDB();
@@ -110,6 +117,7 @@ describe('ideas', () => {
 
             const idea = new Idea();
             idea.id = '123';
+            idea.pos = {x: 0, y: 0};
             
             // target
             const promise = ideaDB.add(db, idea);
@@ -132,6 +140,7 @@ describe('ideas', () => {
             const idea = new Idea();
             idea.id = '123';
             idea.value = 'test 2';
+            idea.pos = {x: 0, y: 0};
 
             // target
             await ideaDB.update(db, idea);
@@ -150,6 +159,7 @@ describe('ideas', () => {
 
             const idea = {
                 id: 'i',
+                pos: {x: 0, y: 0},
                 X: 'unknown'
             };
 
@@ -227,41 +237,6 @@ describe('ideas', () => {
             const result = await db.allDocs();
             
             expect(result.rows).to.be.empty;
-        });
-
-    });
-
-    describe('.countRoot()', () => {
-
-        it('should return number of root ideas', async () => {
-
-            // setup
-            const db = createDB();
-
-            await db.post({isRoot: true});
-            await db.post({isRoot: true});
-            await db.post({isRoot: false});
-
-            // target
-            const result = await ideaDB.countRoot(db);
-
-            // check
-            expect(result).to.equal(2);
-        });
-
-        it('should skip idea with passed ID', async () => {
-            
-            // setup
-            const db = createDB();
-
-            await db.put({_id: '123', isRoot: true});
-            await db.put({_id: '321', isRoot: true});
-
-            // target
-            const result = await ideaDB.countRoot(db, '123');
-
-            // check
-            expect(result).to.equal(1);
         });
 
     });

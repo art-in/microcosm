@@ -16,6 +16,8 @@ export default function associationToLink(assoc) {
 
     link.id = assoc.id;
     link.title.value = assoc.value;
+    
+    link.weight = assoc.weight;
 
     return link;
 }

@@ -1,7 +1,9 @@
 import {expect, createDB} from 'test/utils';
 
-import * as mindmapDB from 'src/data/db/mindmaps';
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
+
+import * as mindmapDB from 'src/data/db/mindmaps';
 
 describe('mindmaps', () => {
 
@@ -70,8 +72,10 @@ describe('mindmaps', () => {
             // setup
             const db = createDB();
 
-            const mindmap = new Mindmap();
-            mindmap.scale = 2;
+            const mindmap = new Mindmap({
+                scale: 2,
+                pos: new Point({x: 0, y: 0})
+            });
 
             // target
             await mindmapDB.add(db, mindmap);
@@ -91,8 +95,10 @@ describe('mindmaps', () => {
             // setup
             const db = createDB();
 
-            const mindmap = new Mindmap();
-            mindmap.scale = 2;
+            const mindmap = new Mindmap({
+                scale: 2,
+                pos: new Point({x: 0, y: 0})
+            });
 
             // target
             await mindmapDB.add(db, mindmap);
@@ -102,14 +108,16 @@ describe('mindmaps', () => {
             expect(result).to.deep.equal(mindmap);
         });
 
-        it('should fail on dublicates', async () => {
+        it('should fail on duplicates', async () => {
 
             // setup
             const db = createDB();
             db.put({_id: '123'});
 
-            const mindmap = new Mindmap();
-            mindmap.id = '123';
+            const mindmap = new Mindmap({
+                id: '123',
+                pos: new Point({x: 0, y: 0})
+            });
             
             // target
             const promise = mindmapDB.add(db, mindmap);
@@ -129,9 +137,11 @@ describe('mindmaps', () => {
 
             db.post({_id: '123', value: 'test 1'});
 
-            const mindmap = new Mindmap();
-            mindmap.id = '123';
-            mindmap.scale = 2;
+            const mindmap = new Mindmap({
+                id: '123',
+                scale: 2,
+                pos: new Point({x: 0, y: 0})
+            });
 
             // target
             await mindmapDB.update(db, mindmap);
@@ -150,6 +160,7 @@ describe('mindmaps', () => {
 
             const mindmap = {
                 id: 'i',
+                pos: new Point({x: 0, y: 0}),
                 X: 'unknown'
             };
             

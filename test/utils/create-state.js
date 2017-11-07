@@ -1,6 +1,7 @@
 import {createDB} from 'test/utils';
 
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
 import MainVM from 'src/vm/main/Main';
 import MindmapVM from 'src/vm/main/Mindmap';
 
@@ -14,6 +15,7 @@ export default function createState() {
 
     // model
     const mindmap = new Mindmap();
+    mindmap.pos = new Point({x: 0, y: 0});
 
     // view model
     const main = new MainVM();

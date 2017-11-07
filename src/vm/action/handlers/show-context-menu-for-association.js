@@ -29,15 +29,6 @@ export default function showContextMenuForAssociation(state, data) {
 
     items.push(
         new MenuItem({
-            displayValue: 'set color',
-            onSelectAction: () => ({
-                type: 'show-color-picker-for-idea',
-                data: {ideaId: assoc.to.id}
-            })
-        }));
-    
-    items.push(
-        new MenuItem({
             displayValue: 'remove association',
 
             // prevent removing last incoming association,

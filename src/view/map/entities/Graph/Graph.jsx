@@ -5,8 +5,8 @@ import getBodyMargin from 'view/utils/dom/get-body-margin';
 import getElementSize from 'view/utils/dom/get-element-size';
 import getPageScale from 'view/utils/dom/get-page-scale';
 
+import Point from 'model/entities/Point';
 import GraphVM from 'vm/map/entities/Graph';
-import Point from 'vm/shared/Point';
 
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';

@@ -13,6 +13,7 @@ export default function dboToAssociation(dbo) {
     model.fromId = dbo.fromId;
     model.toId = dbo.toId;
     model.value = dbo.value;
+    model.weight = dbo.weight;
 
     return model;
 }

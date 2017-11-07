@@ -7,6 +7,8 @@ import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
+
 import values from 'src/utils/get-map-values';
 
 describe('add-association', () => {
@@ -16,8 +18,8 @@ describe('add-association', () => {
         // setup
         const mindmap = new Mindmap();
         
-        const ideaHead = new Idea({id: 'head', depth: 0, isRoot: true});
-        const ideaTail = new Idea({id: 'tail', depth: 1});
+        const ideaHead = new Idea({id: 'head', isRoot: true});
+        const ideaTail = new Idea({id: 'tail'});
 
         mindmap.ideas.set(ideaHead.id, ideaHead);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -32,7 +34,8 @@ describe('add-association', () => {
                     id: 'assoc',
                     value: 'test',
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -54,8 +57,8 @@ describe('add-association', () => {
         // setup
         const mindmap = new Mindmap();
         
-        const headIdea = new Idea({id: 'head', depth: 0, isRoot: true});
-        const ideaTail = new Idea({id: 'tail', depth: 1});
+        const headIdea = new Idea({id: 'head', isRoot: true});
+        const ideaTail = new Idea({id: 'tail'});
 
         mindmap.ideas.set(headIdea.id, headIdea);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -69,7 +72,8 @@ describe('add-association', () => {
                 assoc: new Association({
                     id: 'assoc',
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -91,8 +95,8 @@ describe('add-association', () => {
         // setup
         const mindmap = new Mindmap();
         
-        const headIdea = new Idea({id: 'head', depth: 0, isRoot: true});
-        const ideaTail = new Idea({id: 'tail', depth: 1});
+        const headIdea = new Idea({id: 'head', isRoot: true});
+        const ideaTail = new Idea({id: 'tail'});
 
         mindmap.ideas.set(headIdea.id, headIdea);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -106,7 +110,8 @@ describe('add-association', () => {
                 assoc: new Association({
                     id: 'assoc',
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -128,8 +133,8 @@ describe('add-association', () => {
         // setup
         const mindmap = new Mindmap();
         
-        const headIdea = new Idea({id: 'head', depth: 0, isRoot: true});
-        const ideaTail = new Idea({id: 'tail', depth: 1});
+        const headIdea = new Idea({id: 'head', isRoot: true});
+        const ideaTail = new Idea({id: 'tail'});
 
         mindmap.ideas.set(headIdea.id, headIdea);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -143,7 +148,8 @@ describe('add-association', () => {
                 assoc: new Association({
                     id: 'assoc',
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -167,8 +173,8 @@ describe('add-association', () => {
         // setup
         const mindmap = new Mindmap();
         
-        const headIdea = new Idea({id: 'head', depth: 0, isRoot: true});
-        const ideaTail = new Idea({id: 'tail', depth: 1});
+        const headIdea = new Idea({id: 'head', isRoot: true});
+        const ideaTail = new Idea({id: 'tail'});
 
         mindmap.ideas.set(headIdea.id, headIdea);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -182,7 +188,8 @@ describe('add-association', () => {
                 assoc: new Association({
                     id: 'assoc',
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -202,7 +209,7 @@ describe('add-association', () => {
 
     });
 
-    it('should recalculate idea depths', () => {
+    it('should update minimal root paths', () => {
 
         // setup
         //     ______________________________
@@ -211,71 +218,21 @@ describe('add-association', () => {
         //    \_______________/
         //        new assoc
         //
+        const {root, nodes, links} = buildGraph([
+            //       A   B      C      D     E
+            /* A */ '0   1      0      0     1',
+            /* B */ '0   0      1      0     0',
+            /* C */ '0   0      0      1     0',
+            /* D */ '0   0      0      0     1',
+            /* E */ '0   0      0      0     0'
+        ]);
+
         const mindmap = new Mindmap();
         
-        const ideaA = new Idea({id: 'A', depth: 0, isRoot: true});
-        const ideaB = new Idea({id: 'B', depth: 1});
-        const ideaC = new Idea({id: 'C', depth: 2});
-        const ideaD = new Idea({id: 'D', depth: 3});
-        const ideaE = new Idea({id: 'E', depth: 1});
-
-        const assocAtoB = new Association({
-            fromId: ideaA.id,
-            from: ideaA,
-            toId: ideaB.id,
-            to: ideaB
-        });
-
-        const assocAtoE = new Association({
-            fromId: ideaA.id,
-            from: ideaA,
-            toId: ideaE.id,
-            to: ideaE
-        });
-
-        const assocBtoC = new Association({
-            fromId: ideaB.id,
-            from: ideaB,
-            toId: ideaC.id,
-            to: ideaC
-        });
-
-        const assocCtoD = new Association({
-            fromId: ideaC.id,
-            from: ideaC,
-            toId: ideaD.id,
-            to: ideaD
-        });
-
-        const assocDtoE = new Association({
-            fromId: ideaD.id,
-            from: ideaD,
-            toId: ideaE.id,
-            to: ideaE
-        });
-
-        ideaA.associationsOut = [assocAtoB, assocAtoE];
-        ideaB.associationsIn = [assocAtoB];
-        ideaB.associationsOut = [assocBtoC];
-        ideaC.associationsIn = [assocBtoC];
-        ideaC.associationsOut = [assocCtoD];
-        ideaD.associationsIn = [assocCtoD];
-        ideaD.associationsOut = [assocDtoE];
-        ideaE.associationsIn = [assocDtoE, assocAtoE];
-
-        mindmap.associations.set(assocAtoB.id, assocAtoB);
-        mindmap.associations.set(assocAtoE.id, assocAtoE);
-        mindmap.associations.set(assocBtoC.id, assocBtoC);
-        mindmap.associations.set(assocCtoD.id, assocCtoD);
-        mindmap.associations.set(assocDtoE.id, assocDtoE);
-
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.ideas.set(ideaC.id, ideaC);
-        mindmap.ideas.set(ideaD.id, ideaD);
-        mindmap.ideas.set(ideaE.id, ideaE);
-        mindmap.root = ideaA;
-
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
         const state = {model: {mindmap}};
 
         // setup patch (add cross-association)
@@ -283,8 +240,10 @@ describe('add-association', () => {
             type: 'add-association',
             data: {
                 assoc: new Association({
+                    id: 'A to C',
                     fromId: 'A',
-                    toId: 'C'
+                    toId: 'C',
+                    weight: 1
                 })
             }});
 
@@ -292,11 +251,40 @@ describe('add-association', () => {
         mutate(state, patch);
 
         // check
-        expect(mindmap.ideas.get('A').depth).to.equal(0);
-        expect(mindmap.ideas.get('B').depth).to.equal(1);
-        expect(mindmap.ideas.get('C').depth).to.equal(1); // actualized
-        expect(mindmap.ideas.get('D').depth).to.equal(2); // actualized
-        expect(mindmap.ideas.get('E').depth).to.equal(1);
+        const ideaA = mindmap.ideas.get('A');
+        const ideaB = mindmap.ideas.get('B');
+        const ideaC = mindmap.ideas.get('C');
+        const ideaD = mindmap.ideas.get('D');
+        const ideaE = mindmap.ideas.get('E');
+
+        const assocAtoB = mindmap.associations.get('A to B');
+        const assocAtoC = mindmap.associations.get('A to C');
+        const assocAtoE = mindmap.associations.get('A to E');
+        const assocCtoD = mindmap.associations.get('C to D');
+
+        expect(ideaA.rootPathWeight).to.equal(0);
+        expect(ideaB.rootPathWeight).to.equal(1);
+        expect(ideaC.rootPathWeight).to.equal(1); // updated
+        expect(ideaD.rootPathWeight).to.equal(2); // updated
+        expect(ideaE.rootPathWeight).to.equal(1);
+
+        expect(ideaA.linkFromParent).to.equal(null);
+        expect(ideaA.linksToChilds).to.have.length(3); // updated
+        expect(ideaA.linksToChilds)
+            .to.have.members([assocAtoB, assocAtoC, assocAtoE]);
+
+        expect(ideaB.linkFromParent).to.equal(assocAtoB);
+        expect(ideaB.linksToChilds).to.have.length(0); // updated
+
+        expect(ideaC.linkFromParent).to.equal(assocAtoC); // updated
+        expect(ideaC.linksToChilds).to.have.length(1);
+        expect(ideaC.linksToChilds).to.have.members([assocCtoD]);
+
+        expect(ideaD.linkFromParent).to.equal(assocCtoD);
+        expect(ideaD.linksToChilds).to.have.length(0);
+
+        expect(ideaE.linkFromParent).to.equal(assocAtoE);
+        expect(ideaE.linksToChilds).to.have.length(0);
     });
 
     it('should fail if head idea was not found', () => {
@@ -318,7 +306,8 @@ describe('add-association', () => {
             data: {
                 assoc: new Association({
                     fromId: 'XXX',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 
@@ -347,7 +336,8 @@ describe('add-association', () => {
             data: {
                 assoc: new Association({
                     fromId: 'head',
-                    toId: 'tail'
+                    toId: 'tail',
+                    weight: 1
                 })
             }});
 

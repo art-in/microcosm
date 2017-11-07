@@ -77,24 +77,3 @@ export async function removeAll(db) {
     const data = await db.allDocs();
     await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
 }
-
-/**
- * Gets count of root ideas
- * @param {PouchDB} db
- * @param {string} [exceptIdeaId] - idea to not take into account
- * @return {promise.<number>}
- */
-export async function countRoot(db, exceptIdeaId) {
-
-    const query = {isRoot: true};
-
-    if (exceptIdeaId) {
-        query._id = {$ne: exceptIdeaId};
-    }
-    
-    const data = await db.find({
-        selector: query
-    });
-
-    return data.docs.length;
-}

@@ -24,6 +24,6 @@ export default class Popup extends ViewModel {
      */
     constructor(props) {
         super();
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }

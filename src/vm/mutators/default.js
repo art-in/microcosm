@@ -25,7 +25,7 @@ export default function defaultMutator(state) {
     const newGraph = toGraph(state.model.mindmap);
 
     // update existing graph vm instead of replacing it,
-    // so vm stays bound to view.
+    // so vm stays bound to view (child object arrays still replaced).
     const graph = state.vm.main.mindmap.graph;
     update(graph, newGraph, (prop, targetValue, sourceValue) =>
         // do not copy internal state of event emitter

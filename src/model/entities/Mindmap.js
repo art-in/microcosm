@@ -17,17 +17,11 @@ export default class Mindmap {
     mindmapId = undefined;
 
     /**
-     * X position of viewbox on the canvas
+     * Position of viewbox on the canvas
      * @type {number}
      */
-    x = undefined;
-
-    /**
-     * Y position of viewbox on the canvas
-     * @type {number}
-     */
-    y = undefined;
-
+    pos = undefined;
+    
     /**
      * Scale of viewbox on the canvas
      * @type {number}
@@ -58,6 +52,6 @@ export default class Mindmap {
      * @param {object} [props]
      */
     constructor(props) {
-        initInstance(this, props);
+        return initInstance(this, props);
     }
 }
