@@ -129,6 +129,23 @@ describe('Patch', () => {
             });
         });
 
+        it('should add single mutation (in short form)', () => {
+            
+            // target
+            const patch = new Patch('a', 1);
+
+            // check
+            const mutations = [...patch];
+
+            expect(mutations).to.have.length(1);
+            expect(mutations[0]).to.be.instanceOf(Mutation);
+            expect(mutations[0]).to.containSubset({
+                type: 'a',
+                data: 1,
+                targets: undefined
+            });
+        });
+
         it('should add multiple mutations', () => {
 
             // target
@@ -168,25 +185,53 @@ describe('Patch', () => {
 
             // target
             patch.push({type: 'type 1', data: 'data 1'});
-            patch.push({type: 'type 2', data: 'data 2', targets: ['target 2']});
 
+            patch.push({
+                type: 'type 2',
+                data: 'data 2',
+                targets: ['target 2']
+            });
+
+            patch.push(new Mutation({
+                type: 'type 3',
+                data: 'data 3',
+                targets: ['target 3a', 'target 3b']
+            }));
+
+            patch.push('type 4', 'data 4');
+            
             // check
             const mutations = [...patch];
 
-            expect(mutations).to.have.length(2);
+            expect(mutations).to.have.length(4);
 
             expect(mutations[0]).to.be.instanceOf(Mutation);
             expect(mutations[1]).to.be.instanceOf(Mutation);
+            expect(mutations[2]).to.be.instanceOf(Mutation);
+            expect(mutations[3]).to.be.instanceOf(Mutation);
 
             expect(mutations[0]).to.containSubset({
                 type: 'type 1',
                 data: 'data 1',
                 targets: undefined
             });
+
             expect(mutations[1]).to.containSubset({
                 type: 'type 2',
                 data: 'data 2',
                 targets: ['target 2']
+            });
+
+            expect(mutations[2]).to.containSubset({
+                type: 'type 3',
+                data: 'data 3',
+                targets: ['target 3a', 'target 3b']
+            });
+
+            expect(mutations[3]).to.containSubset({
+                type: 'type 4',
+                data: 'data 4',
+                targets: undefined
             });
         });
 

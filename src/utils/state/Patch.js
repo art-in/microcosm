@@ -12,18 +12,20 @@ import Mutation from './Mutation';
  * how-ecmascript-5-still-does-not-allow-to-subclass-an-array/
  * 
  * @example multiple mutations with push
- * const patch = new Patch();
- * patch.push({type: 'a', data: 1});
- * patch.push({type: 'b', data: 2, targets: ['vm', 'view']});
+ * const patch = new Patch()
+ * patch.push({type: 'a', data: 1})
+ * patch.push({type: 'b', data: 2, targets: ['vm', 'view']})
+ * patch.push('c', 3)
  *
  * @example single mutation with constructor
- * const patch = new Patch({type: 'a', data: 1});
+ * const patch = new Patch({type: 'a', data: 1})
+ * const patch = new Patch('b', 2)
  *
  * @example multiple mutations with constructor
  * new Patch([
  *  {type: 'a', data: 1},
  *  {type: 'b', data: 2}
- * ]);
+ * ])
  */
 export default class Patch {
 
@@ -33,11 +35,11 @@ export default class Patch {
      * Constructor
      * @param {array.<Mutation>|Mutation} [mutations]
      */
-    constructor(mutations) {
+    constructor(mutations, ...rest) {
         if (mutations) {
             if (!Array.isArray(mutations)) {
                 // single mutation
-                this.push(mutations);
+                this.push(mutations, ...rest);
             } else {
                 // multiple mutations
                 mutations.forEach(m => this.push(m));
@@ -92,11 +94,15 @@ export default class Patch {
      * Adds mutations
      * @param {Mutation|object} mutation
      */
-    push(mutation) {
+    push(mutation, ...rest) {
         
         if (!(mutation instanceof Mutation)) {
             // TODO: validate param scheme
-            mutation = new Mutation(mutation);
+            if (typeof mutation === 'string') {
+                mutation = new Mutation({type: mutation, data: rest[0]});
+            } else {
+                mutation = new Mutation(mutation);
+            }
         }
 
         this[this.length] = mutation;
