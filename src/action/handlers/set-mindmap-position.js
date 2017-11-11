@@ -18,10 +18,8 @@ export default function setMindmapPosition(state, data) {
         throw Error('Setting position of not loaded mindmap');
     }
 
-    return new Patch({
-        type: 'update-mindmap',
-        data: {
-            id: mindmapId,
-            pos
-        }});
+    return new Patch('update-mindmap', {
+        id: mindmapId,
+        pos
+    });
 }

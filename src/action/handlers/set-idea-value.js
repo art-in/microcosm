@@ -18,10 +18,13 @@ export default function setIdeaValue(state, data) {
     
     const idea = getIdea(mindmap, ideaId);
 
-    if (idea.value != value) {
-        return new Patch({
-            type: 'update-idea',
-            data: {id: ideaId, value}
-        });
+    if (idea.value === value) {
+        // was not changed
+        return;
     }
+
+    return new Patch('update-idea', {
+        id: ideaId,
+        value
+    });
 }

@@ -52,7 +52,9 @@ export async function add(db, idea) {
 export async function update(db, model) {
     const existing = await db.get(model.id);
     const dbo = toDbo(model);
-    
+
+    // TODO: ignore get/put if patch is empty
+
     await db.put({
         ...existing,
         ...dbo

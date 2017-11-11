@@ -1,8 +1,10 @@
 import {expect} from 'test/utils';
+import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
-import Association from 'src/model/entities/Association';
+
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
@@ -11,148 +13,180 @@ describe('remove-idea', () => {
     
     it('should remove idea', () => {
 
-        // setup
+        // setup graph
+        //
+        //  (A) --> (B) --> (C)
+        //    \_____________/
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
+
         const mindmap = new Mindmap();
-
-        const ideaLive = new Idea({id: 'live'});
-        const ideaDie = new Idea({id: 'die'});
-
-        const assoc = new Association({fromId: 'live', toId: 'die'});
-
-        ideaLive.associationsOut = [assoc];
-        ideaDie.associationsIn = [assoc];
-
-        mindmap.ideas.set('live', ideaLive);
-        mindmap.ideas.set('die', ideaDie);
-        mindmap.associations.set(assoc.id, assoc);
-
+        
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
         const state = {model: {mindmap}};
 
         // target
         const patch = handle(state, {
             type: 'remove-idea',
-            data: {ideaId: 'die'}
+            data: {ideaId: 'C'}
         });
 
         // check
-        expect(patch).to.have.length(2);
-
-        const mutation = patch['remove-idea'][0];
-        expect(mutation.data).to.deep.equal({id: 'die'});
+        const mutations = patch['remove-idea'];
+        
+        expect(mutations).to.have.length(1);
+        expect(mutations[0].data).to.deep.equal({id: 'C'});
     });
 
     it('should remove incoming associations', () => {
 
-        // setup
+        // setup graph
         //
-        // (live 1) --a--→ (die)
-        // (live 2) --b--↗
+        //  (A) --> (B) --> (C)
+        //    \_____________/
         //
-        const ideaLive1 = new Idea({id: 'live 1'});
-        const ideaLive2 = new Idea({id: 'live 2'});
-        const ideaDie = new Idea({id: 'die'});
-
-        const assocA = new Association({
-            id: 'a',
-            fromId: ideaLive1.id,
-            from: ideaLive1,
-            toId: ideaDie.id,
-            to: ideaDie
-        });
-
-        const assocB = new Association({
-            id: 'b',
-            fromId: ideaLive2.id,
-            from: ideaLive2,
-            toId: ideaDie.id,
-            to: ideaDie
-        });
-
-        ideaLive1.associationsOut = [assocA];
-        ideaLive2.associationsOut = [assocB];
-        ideaDie.associationsIn = [assocA, assocB];
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
 
         const mindmap = new Mindmap();
-
-        mindmap.associations.set(assocA.id, assocA);
-        mindmap.associations.set(assocB.id, assocB);
-
-        mindmap.ideas.set(ideaLive1.id, ideaLive1);
-        mindmap.ideas.set(ideaLive2.id, ideaLive2);
-        mindmap.ideas.set(ideaDie.id, ideaDie);
-
-        const state = {model: {mindmap}};
-
-        // target
-        const patch = handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'die'}
-        });
-
-        // check
-        expect(patch).to.have.length(3);
-
-        expect(patch['remove-idea'][0].data).to.deep.equal({id: 'die'});
-        expect(patch['remove-association'][0].data).to.deep.equal({id: 'a'});
-        expect(patch['remove-association'][1].data).to.deep.equal({id: 'b'});
-    });
-
-    it('should remove idea before associations', () => {
         
-        // setup
-        const mindmap = new Mindmap();
-
-        const ideaLive = new Idea({id: 'live'});
-        const ideaDie = new Idea({id: 'die'});
-
-        const assoc = new Association({fromId: 'live', toId: 'die'});
-
-        ideaLive.associationsOut = [assoc];
-        ideaDie.associationsIn = [assoc];
-
-        mindmap.ideas.set('live', ideaLive);
-        mindmap.ideas.set('die', ideaDie);
-        mindmap.associations.set(assoc.id, assoc);
-
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
         const state = {model: {mindmap}};
 
         // target
         const patch = handle(state, {
             type: 'remove-idea',
-            data: {ideaId: 'die'}
+            data: {ideaId: 'C'}
         });
 
         // check
-        const mutations = [...patch];
+        const mutations = patch['remove-association'];
+
         expect(mutations).to.have.length(2);
 
-        expect(mutations[0].type).to.equal('remove-idea');
-        expect(mutations[1].type).to.equal('remove-association');
+        expect(mutations[0].data).to.deep.equal({id: 'A to C'});
+        expect(mutations[1].data).to.deep.equal({id: 'B to C'});
+    });
+
+    it('should update successor ideas', () => {
+
+        // setup graph
+        //
+        //  (A) --> (B) --> (C)
+        //    \_____________/
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
+
+        const assocAtoB = links.find(l => l.id === 'A to B');
+
+        const mindmap = new Mindmap();
+        
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = handle(state, {
+            type: 'remove-idea',
+            data: {ideaId: 'C'}
+        });
+
+        // check
+        const mutations = patch['update-idea'];
+
+        expect(mutations).to.have.length(2);
+        expect(mutations[0].data).to.deep.equal({
+            id: 'A',
+            linksToChilds: [assocAtoB],
+            associationsOut: [assocAtoB]
+        });
+        expect(mutations[1].data).to.deep.equal({
+            id: 'B',
+            associationsOut: []
+        });
+    });
+
+    it('should NOT mutate state', () => {
+
+        // setup graph
+        //
+        //  (A) --> (B) --> (C)
+        //    \_____________/
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
+
+        const mindmap = new Mindmap();
+        
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
+        const state = {model: {mindmap}};
+        const stateBefore = clone(state);
+
+        // target
+        handle(state, {
+            type: 'remove-idea',
+            data: {ideaId: 'C'}
+        });
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should target all state layers', () => {
 
-        // setup
+        // setup graph
+        //
+        //  (A) --> (B) --> (C)
+        //    \_____________/
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
+
         const mindmap = new Mindmap();
         
-        const ideaLive = new Idea({id: 'live'});
-        const ideaDie = new Idea({id: 'die'});
-
-        const assoc = new Association({fromId: 'live', toId: 'die'});
-
-        ideaLive.associationsOut = [assoc];
-        ideaDie.associationsIn = [assoc];
-
-        mindmap.ideas.set('live', ideaLive);
-        mindmap.ideas.set('die', ideaDie);
-        mindmap.associations.set(assoc.id, assoc);
-
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
         const state = {model: {mindmap}};
 
         // target
         const patch = handle(state, {
             type: 'remove-idea',
-            data: {ideaId: 'die'}
+            data: {ideaId: 'C'}
         });
 
         // check
@@ -164,46 +198,35 @@ describe('remove-idea', () => {
 
     it('should fail if outgoing associations exist', () => {
 
-        // setup
+        // setup graph
+        //
+        //  (A) --> (B) --> (C)
+        //    \_____________/
+        //
+        const {root, nodes, links} = buildGraph([
+            //       A   B   C
+            /* A */ '0   1   1',
+            /* B */ '0   0   1',
+            /* C */ '0   0   0'
+        ]);
+
         const mindmap = new Mindmap();
-
-        // [live 1] --a--> [die] --b--> [live 2]
-        const ideaLive1 = new Idea({id: 'live 1'});
-        const ideaDie = new Idea({id: 'die'});
-        const ideaLive2 = new Idea({id: 'live 2'});
-
-        mindmap.ideas.set(ideaLive1.id, ideaLive1);
-        mindmap.ideas.set(ideaDie.id, ideaDie);
-        mindmap.ideas.set(ideaLive2.id, ideaLive2);
-
-        const assocLive = new Association({
-            fromId: 'live 1',
-            toId: 'die'
-        });
-
-        const assocDie = new Association({
-            fromId: 'die',
-            toId: 'live 2'
-        });
-
-        ideaLive1.associationsOut = [assocLive];
-        ideaDie.associationsOut = [assocDie];
-        ideaLive2.associationsOut = [];
-
-        mindmap.associations.set(assocLive.id, assocLive);
-        mindmap.associations.set(assocDie.id, assocDie);
-
+        
+        mindmap.root = root;
+        nodes.forEach(n => mindmap.ideas.set(n.id, n));
+        links.forEach(l => mindmap.associations.set(l.id, l));
+    
         const state = {model: {mindmap}};
 
         // target
         const result = () => handle(state, {
             type: 'remove-idea',
-            data: {ideaId: 'die'}
+            data: {ideaId: 'B'}
         });
 
         // check
         expect(result).to.throw(
-            `Unable to remove idea 'die' with outgoing associations`);
+            `Unable to remove idea 'B' with outgoing associations`);
     });
 
     it('should fail if no incoming associations found', () => {
@@ -211,20 +234,20 @@ describe('remove-idea', () => {
         // setup
         const mindmap = new Mindmap();
 
-        mindmap.ideas.set('live', new Idea({id: 'live'}));
-        mindmap.ideas.set('die', new Idea({id: 'die'}));
+        mindmap.ideas.set('A', new Idea({id: 'A'}));
+        mindmap.ideas.set('B', new Idea({id: 'B'}));
 
         const state = {model: {mindmap}};
 
         // target
         const result = () => handle(state, {
             type: 'remove-idea',
-            data: {ideaId: 'die'}
+            data: {ideaId: 'B'}
         });
 
         // check
         expect(result).to.throw(
-            `No incoming associations found for idea 'die'`);
+            `No incoming associations found for idea 'B'`);
     });
 
     it('should fail if idea not found', () => {

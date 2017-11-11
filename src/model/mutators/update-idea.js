@@ -1,7 +1,5 @@
 import update from 'utils/update-object';
 
-import weighRootPaths from 'utils/graph/weigh-root-paths';
-
 /**
  * Updates idea
  * 
@@ -19,8 +17,4 @@ export default function updateIdea(state, data) {
     }
 
     update(idea, patch);
-
-    if (patch.pos) {
-        weighRootPaths(mindmap.root);
-    }
 }

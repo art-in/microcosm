@@ -1,12 +1,12 @@
 import {expect} from 'test/utils';
 
-import mutate from 'model/mutators';
+import values from 'src/utils/get-map-values';
 
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
 
-import values from 'src/utils/get-map-values';
+import mutate from 'model/mutators';
 
 describe('update-association', () => {
     
@@ -56,8 +56,7 @@ describe('update-association', () => {
         const result = () => mutate(state, patch);
 
         // check
-        expect(result).to.throw(
-            `Association 'id' was not found`);
+        expect(result).to.throw(`Association 'id' was not found`);
     });
 
 });

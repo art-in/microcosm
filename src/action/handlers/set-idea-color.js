@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import getIdea from 'action/utils/get-idea';
+
 /**
  * Sets idea color
  * 
@@ -11,12 +13,18 @@ import Patch from 'utils/state/Patch';
  * @return {Patch}
  */
 export default function setIdeaColor(state, data) {
+    const {model: {mindmap}} = state;
     const {ideaId, color} = required(data);
 
-    return new Patch({
-        type: 'update-idea',
-        data: {
-            id: ideaId,
-            color
-        }});
+    const idea = getIdea(mindmap, ideaId);
+    
+    if (idea.color === color) {
+        // was not changed
+        return;
+    }
+    
+    return new Patch('update-idea', {
+        id: ideaId,
+        color
+    });
 }

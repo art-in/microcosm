@@ -1,4 +1,5 @@
 import {expect} from 'test/utils';
+import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
@@ -11,12 +12,13 @@ describe('set-association-value', () => {
     it('should set association value', () => {
 
         // setup
-        const mindmap = new Mindmap();
-
-        mindmap.associations.set('id', new Association({
-            id: 'id',
+        const assoc = new Association({
+            id: 'assoc',
             value: 'old'
-        }));
+        });
+
+        const mindmap = new Mindmap();
+        mindmap.associations.set(assoc.id, assoc);
 
         const state = {model: {mindmap}};
 
@@ -24,7 +26,7 @@ describe('set-association-value', () => {
         const patch = handle(state, {
             type: 'set-association-value',
             data: {
-                assocId: 'id',
+                assocId: 'assoc',
                 value: 'new'
             }
         });
@@ -34,9 +36,36 @@ describe('set-association-value', () => {
 
         expect(patch['update-association']).to.exist;
         expect(patch['update-association'][0].data).to.deep.equal({
-            id: 'id',
+            id: 'assoc',
             value: 'new'
         });
+    });
+
+    it('should NOT mutate state', () => {
+        
+        // setup
+        const assoc = new Association({
+            id: 'assoc',
+            value: 'old'
+        });
+
+        const mindmap = new Mindmap();
+        mindmap.associations.set(assoc.id, assoc);
+
+        const state = {model: {mindmap}};
+        const stateBefore = clone(state);
+
+        // target
+        handle(state, {
+            type: 'set-association-value',
+            data: {
+                assocId: 'assoc',
+                value: 'new'
+            }
+        });
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should target all state layers', () => {

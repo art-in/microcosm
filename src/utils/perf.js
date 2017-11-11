@@ -12,7 +12,7 @@
  *    which often is 'anonymous'. while custom label can be much descriptive
  *    and also can contain some dynamic info (eg. call params).
  * 3. only necessary info.
- *    default timeline have many irrelevant blocks for utility function calls
+ *    default timeline has many irrelevant blocks for utility function calls
  *    (eg. to babel runtime). custom timeline highlights only what is necessary.
  * 4. async call blocks.
  *    async function calls drawn as series of unrelated task-blocks,
@@ -23,22 +23,22 @@
  *    async process.
  * 5. each custom measure block shows its own duration
  *
- * @example single measure block
+ * @example single measure
  * 
  * const workId = perf.start('some work')
- * ... some work ...
+ * // some work
  * perf.end(workId)
  *
- * @example group of measure blocks
+ * @example group of measures
  * 
  * const groupId = perf.startGroup('some work group')
  * 
  * const workId1 = perf.start('some work 1', groupId)
- * ... some work 1 ...
+ * // some work 1
  * perf.end(workId1)
  * 
  * const workId2 = perf.start('some work 2', groupId)
- * ... some work 2 ...
+ * // some work 2
  * perf.end(workId2)
  * 
  * perf.endGroup(groupId)

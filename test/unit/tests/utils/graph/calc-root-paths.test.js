@@ -20,25 +20,24 @@ describe('calc-root-paths', () => {
         ]);
 
         // target
-        const result = calcRootPaths(root);
+        const result = calcRootPaths({root});
 
         // check
-        expect(result).to.exist;
         expect(result).to.have.length(2);
         
-        const dataForA = result.find(e => e.node.id === 'A');
-        const dataForB = result.find(e => e.node.id === 'B');
+        const dataA = result.find(e => e.node.id === 'A');
+        const dataB = result.find(e => e.node.id === 'B');
 
-        expect(dataForA.rootPathWeight).to.equal(0);
-        expect(dataForA.linkFromParent).to.equal(null);
-        expect(dataForA.linksToChilds).to.have.length(1);
-        expect(dataForA.linksToChilds[0]).to.be.instanceOf(Association);
-        expect(dataForA.linksToChilds[0].id).to.equal('A to B');
+        expect(dataA.rootPathWeight).to.equal(0);
+        expect(dataA.linkFromParent).to.equal(null);
+        expect(dataA.linksToChilds).to.have.length(1);
+        expect(dataA.linksToChilds[0]).to.be.instanceOf(Association);
+        expect(dataA.linksToChilds[0].id).to.equal('A to B');
 
-        expect(dataForB.rootPathWeight).to.equal(1);
-        expect(dataForB.linkFromParent).to.be.instanceOf(Association);
-        expect(dataForB.linkFromParent.id).to.equal('A to B');
-        expect(dataForB.linksToChilds).to.have.length(0);
+        expect(dataB.rootPathWeight).to.equal(1);
+        expect(dataB.linkFromParent).to.be.instanceOf(Association);
+        expect(dataB.linkFromParent.id).to.equal('A to B');
+        expect(dataB.linksToChilds).to.have.length(0);
     });
 
     it('should calculate root path weights', () => {
@@ -66,7 +65,7 @@ describe('calc-root-paths', () => {
         ]);
 
         // target
-        const result = calcRootPaths(root);
+        const result = calcRootPaths({root});
 
         // check
         expect(result).to.have.length(6);
@@ -97,7 +96,7 @@ describe('calc-root-paths', () => {
         //       v | /        v v
         //        (D)          (F)
         //
-        const {root} = buildGraph([
+        const {root, links} = buildGraph([
             //       A   B      C      D     E   F
             /* A */ '0   2      1      0.5   0   0',
             /* B */ '0   0      0.125  0     0   0',
@@ -107,53 +106,46 @@ describe('calc-root-paths', () => {
             /* F */ '0   0      0      0     0   0'
         ]);
 
+        const linkAtoD = links.find(l => l.id === 'A to D');
+        const linkDtoB = links.find(l => l.id === 'D to B');
+        const linkBtoC = links.find(l => l.id === 'B to C');
+        const linkCtoE = links.find(l => l.id === 'C to E');
+        const linkCtoF = links.find(l => l.id === 'C to F');
+
         // target
-        const result = calcRootPaths(root);
+        const result = calcRootPaths({root});
 
         // check
         expect(result).to.have.length(6);
 
-        const nodeA = result.find(d => d.node.id === 'A');
-        const nodeB = result.find(d => d.node.id === 'B');
-        const nodeC = result.find(d => d.node.id === 'C');
-        const nodeD = result.find(d => d.node.id === 'D');
-        const nodeE = result.find(d => d.node.id === 'E');
-        const nodeF = result.find(d => d.node.id === 'F');
-        
-        const linkAtoD = nodeA.linksToChilds[0];
-        const linkDtoB = nodeD.linksToChilds[0];
-        const linkBtoC = nodeB.linksToChilds[0];
-        const linkCtoE = nodeC.linksToChilds[0];
-        const linkCtoF = nodeC.linksToChilds[1];
+        const dataA = result.find(d => d.node.id === 'A');
+        const dataB = result.find(d => d.node.id === 'B');
+        const dataC = result.find(d => d.node.id === 'C');
+        const dataD = result.find(d => d.node.id === 'D');
+        const dataE = result.find(d => d.node.id === 'E');
+        const dataF = result.find(d => d.node.id === 'F');
 
-        expect(linkAtoD.id).to.equal('A to D');
-        expect(linkDtoB.id).to.equal('D to B');
-        expect(linkBtoC.id).to.equal('B to C');
-        expect(linkCtoE.id).to.equal('C to E');
-        expect(linkCtoF.id).to.equal('C to F');
+        expect(dataA.linkFromParent).to.equal(null);
+        expect(dataA.linksToChilds).to.have.length(1);
+        expect(dataA.linksToChilds).to.have.members([linkAtoD]);
 
-        expect(nodeA.linkFromParent).to.equal(null);
-        expect(nodeA.linksToChilds).to.have.length(1);
-        expect(nodeA.linksToChilds[0]).to.equal(linkAtoD);
+        expect(dataB.linkFromParent).to.equal(linkDtoB);
+        expect(dataB.linksToChilds).to.have.length(1);
+        expect(dataB.linksToChilds).to.have.members([linkBtoC]);
 
-        expect(nodeB.linkFromParent).to.equal(linkDtoB);
-        expect(nodeB.linksToChilds).to.have.length(1);
-        expect(nodeB.linksToChilds[0]).to.equal(linkBtoC);
+        expect(dataC.linkFromParent).to.equal(linkBtoC);
+        expect(dataC.linksToChilds).to.have.length(2);
+        expect(dataC.linksToChilds).to.have.members([linkCtoE, linkCtoF]);
 
-        expect(nodeC.linkFromParent).to.equal(linkBtoC);
-        expect(nodeC.linksToChilds).to.have.length(2);
-        expect(nodeC.linksToChilds[0]).to.equal(linkCtoE);
-        expect(nodeC.linksToChilds[1]).to.equal(linkCtoF);
+        expect(dataD.linkFromParent).to.equal(linkAtoD);
+        expect(dataD.linksToChilds).to.have.length(1);
+        expect(dataD.linksToChilds).to.have.members([linkDtoB]);
 
-        expect(nodeD.linkFromParent).to.equal(linkAtoD);
-        expect(nodeD.linksToChilds).to.have.length(1);
-        expect(nodeD.linksToChilds[0]).to.equal(linkDtoB);
+        expect(dataE.linkFromParent).to.equal(linkCtoE);
+        expect(dataE.linksToChilds).to.have.length(0);
 
-        expect(nodeE.linkFromParent).to.equal(linkCtoE);
-        expect(nodeE.linksToChilds).to.have.length(0);
-
-        expect(nodeF.linkFromParent).to.equal(linkCtoF);
-        expect(nodeF.linksToChilds).to.have.length(0);
+        expect(dataF.linkFromParent).to.equal(linkCtoF);
+        expect(dataF.linksToChilds).to.have.length(0);
     });
 
     it('should support graph with cycles', () => {
@@ -165,7 +157,7 @@ describe('calc-root-paths', () => {
         //            \   v
         //             (D)
         //
-        const {root} = buildGraph([
+        const {root, links} = buildGraph([
             //       A  B  C  D
             /* A */ '0  1  0  0',
             /* B */ '0  0  1  0',
@@ -173,42 +165,104 @@ describe('calc-root-paths', () => {
             /* D */ '0  1  0  0'
         ]);
 
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkBtoC = links.find(l => l.id === 'B to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+
         // target
-        const result = calcRootPaths(root);
+        const result = calcRootPaths({root});
 
         // check
-        const nodeA = result.find(d => d.node.id === 'A');
-        const nodeB = result.find(d => d.node.id === 'B');
-        const nodeC = result.find(d => d.node.id === 'C');
-        const nodeD = result.find(d => d.node.id === 'D');
+        expect(result).to.have.length(4);
 
-        const linkAtoB = nodeA.linksToChilds[0];
-        const linkBtoC = nodeB.linksToChilds[0];
-        const linkCtoD = nodeC.linksToChilds[0];
+        const dataA = result.find(d => d.node.id === 'A');
+        const dataB = result.find(d => d.node.id === 'B');
+        const dataC = result.find(d => d.node.id === 'C');
+        const dataD = result.find(d => d.node.id === 'D');
 
-        expect(linkAtoB.id).to.equal('A to B');
-        expect(linkBtoC.id).to.equal('B to C');
-        expect(linkCtoD.id).to.equal('C to D');
+        expect(dataA.rootPathWeight).to.equal(0);
+        expect(dataB.rootPathWeight).to.equal(1);
+        expect(dataC.rootPathWeight).to.equal(2);
+        expect(dataD.rootPathWeight).to.equal(3);
 
-        expect(nodeA.rootPathWeight).to.equal(0);
-        expect(nodeB.rootPathWeight).to.equal(1);
-        expect(nodeC.rootPathWeight).to.equal(2);
-        expect(nodeD.rootPathWeight).to.equal(3);
+        expect(dataA.linkFromParent).to.equal(null);
+        expect(dataA.linksToChilds).to.have.length(1);
+        expect(dataA.linksToChilds).to.have.members([linkAtoB]);
 
-        expect(nodeA.linkFromParent).to.equal(null);
-        expect(nodeA.linksToChilds).to.have.length(1);
-        expect(nodeA.linksToChilds[0]).to.equal(linkAtoB);
+        expect(dataB.linkFromParent).to.equal(linkAtoB);
+        expect(dataB.linksToChilds).to.have.length(1);
+        expect(dataB.linksToChilds).to.have.members([linkBtoC]);
 
-        expect(nodeB.linkFromParent).to.equal(linkAtoB);
-        expect(nodeB.linksToChilds).to.have.length(1);
-        expect(nodeB.linksToChilds[0]).to.equal(linkBtoC);
+        expect(dataC.linkFromParent).to.equal(linkBtoC);
+        expect(dataC.linksToChilds).to.have.length(1);
+        expect(dataC.linksToChilds).to.have.members([linkCtoD]);
 
-        expect(nodeC.linkFromParent).to.equal(linkBtoC);
-        expect(nodeC.linksToChilds).to.have.length(1);
-        expect(nodeC.linksToChilds[0]).to.equal(linkCtoD);
+        expect(dataD.linkFromParent).to.equal(linkCtoD);
+        expect(dataD.linksToChilds).to.have.length(0);
+    });
 
-        expect(nodeD.linkFromParent).to.equal(linkCtoD);
-        expect(nodeD.linksToChilds).to.have.length(0);
+    it('should ignore specified links', () => {
+
+        // setup graph
+        //     ______________________________
+        //    /                              \
+        //   (A) --> (B) --> (C) --> (D) --> (E)
+        //    \_______________/
+        //        to ignore
+        //
+        const {root, links} = buildGraph([
+            //       A   B      C      D     E
+            /* A */ '0   1      1      0     1',
+            /* B */ '0   0      1      0     0',
+            /* C */ '0   0      0      1     0',
+            /* D */ '0   0      0      0     1',
+            /* E */ '0   0      0      0     0'
+        ]);
+
+        const linkAtoB = links.find(l => l.id === 'A to B');
+        const linkAtoC = links.find(l => l.id === 'A to C');
+        const linkAtoE = links.find(l => l.id === 'A to E');
+        const linkBtoC = links.find(l => l.id === 'B to C');
+        const linkCtoD = links.find(l => l.id === 'C to D');
+
+        // target
+        const result = calcRootPaths({
+            root,
+            ignoreLinks: [linkAtoC]
+        });
+
+        // check
+        expect(result).to.have.length(5);
+
+        const dataA = result.find(d => d.node.id === 'A');
+        const dataB = result.find(d => d.node.id === 'B');
+        const dataC = result.find(d => d.node.id === 'C');
+        const dataD = result.find(d => d.node.id === 'D');
+        const dataE = result.find(d => d.node.id === 'E');
+
+        expect(dataA.rootPathWeight).to.equal(0);
+        expect(dataB.rootPathWeight).to.equal(1);
+        expect(dataC.rootPathWeight).to.equal(2);
+        expect(dataD.rootPathWeight).to.equal(3);
+        expect(dataE.rootPathWeight).to.equal(1);
+
+        expect(dataA.linkFromParent).to.equal(null);
+        expect(dataA.linksToChilds).to.have.length(2);
+        expect(dataA.linksToChilds).to.have.members([linkAtoB, linkAtoE]);
+
+        expect(dataB.linkFromParent).to.equal(linkAtoB);
+        expect(dataB.linksToChilds).to.have.length(1);
+        expect(dataB.linksToChilds).to.have.members([linkBtoC]);
+
+        expect(dataC.linkFromParent).to.equal(linkBtoC);
+        expect(dataC.linksToChilds).to.have.length(1);
+        expect(dataC.linksToChilds).to.have.members([linkCtoD]);
+
+        expect(dataD.linkFromParent).to.equal(linkCtoD);
+        expect(dataD.linksToChilds).to.have.length(0);
+
+        expect(dataE.linkFromParent).to.equal(linkAtoE);
+        expect(dataE.linksToChilds).to.have.length(0);
     });
 
 });

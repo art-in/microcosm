@@ -2,9 +2,11 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import getDescendants from 'utils/graph/get-descendants';
-import getIdea from 'action/utils/get-idea';
 import weighAssociation from 'model/utils/weigh-association';
 import isValidPosition from 'model/utils/is-valid-position';
+import getRootPathsPatch from 'action/utils/get-root-paths-patch';
+import normalizePatch from 'action/utils/normalize-patch';
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Sets position of idea and its child-subtree
@@ -19,7 +21,7 @@ export default function setIdeaPosition(state, data) {
     const {model: {mindmap}} = state;
     const {ideaId, pos} = required(data);
 
-    const patch = new Patch();
+    let patch = new Patch();
 
     const idea = getIdea(mindmap, ideaId);
 
@@ -27,9 +29,16 @@ export default function setIdeaPosition(state, data) {
     const dx = pos.x - idea.pos.x;
     const dy = pos.y - idea.pos.y;
 
+    if (dx === 0 && dy === 0) {
+        // position was not changed
+        return;
+    }
+
     // move entire child-subtree with parent idea
     const descendants = getDescendants(idea);
     const movedIdeas = [idea, ...descendants];
+
+    const assocWeights = [];
 
     movedIdeas.forEach(idea => {
 
@@ -43,7 +52,6 @@ export default function setIdeaPosition(state, data) {
         };
 
         // re-weigh all related associations
-        const assocWeights = [];
         idea.associationsIn.forEach(assoc => {
             if (movedIdeas.includes(assoc.from)) {
                 // do not update weight of associations between moved ideas.
@@ -53,7 +61,7 @@ export default function setIdeaPosition(state, data) {
             }
 
             assocWeights.push({
-                id: assoc.id,
+                assoc,
                 weight: weighAssociation(assoc.from.pos, newPos)
             });
         });
@@ -64,29 +72,34 @@ export default function setIdeaPosition(state, data) {
             }
 
             assocWeights.push({
-                id: assoc.id,
+                assoc,
                 weight: weighAssociation(newPos, assoc.to.pos)
             });
         });
 
-        assocWeights.forEach(w => patch.push({
-            type: 'update-association',
-            data: {
-                id: w.id,
-                weight: w.weight
-            }
-        }));
-
         // update idea
-        patch.push({
-            type: 'update-idea',
-            data: {
-                id: idea.id,
-                pos: newPos
-            }
+        patch.push('update-idea', {
+            id: idea.id,
+            pos: newPos
         });
-
     });
 
-    return patch;
+    assocWeights.forEach(w =>
+        patch.push('update-association', {
+            id: w.assoc.id,
+            weight: w.weight
+        }));
+
+    // update root paths
+    const rootPathsPatch = getRootPathsPatch({
+        root: mindmap.root,
+        replaceLinkWeights: assocWeights.map(aw => ({
+            link: aw.assoc,
+            weight: aw.weight
+        }))
+    });
+
+    patch = Patch.combine(patch, rootPathsPatch);
+    
+    return normalizePatch(patch);
 }

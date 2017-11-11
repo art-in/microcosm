@@ -5,7 +5,8 @@ import timer from './timer';
  * 
  * @example
  * await nextTask();
- * // code here will run in microtask which follows next task
+ * // code here will run in next task
+ * // (to be more precise - in microtask after next task)
  * 
  * @return {Promise}
  */

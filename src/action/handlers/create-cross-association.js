@@ -1,9 +1,12 @@
 import required from 'utils/required-params';
-import Association from 'model/entities/Association';
-
 import Patch from 'utils/state/Patch';
 
+import getIdea from 'action/utils/get-idea';
+import getRootPathsPatch from 'action/utils/get-root-paths-patch';
+import normalizePatch from 'action/utils/normalize-patch';
 import weighAssociation from 'model/utils/weigh-association';
+
+import Association from 'model/entities/Association';
 
 /**
  * Creates association between two existing ideas
@@ -18,20 +21,10 @@ export default function createCrossAssociation(state, data) {
     const {model: {mindmap}} = state;
     const {headIdeaId, tailIdeaId} = required(data);
 
+    const head = getIdea(mindmap, headIdeaId);
+    const tail = getIdea(mindmap, tailIdeaId);
+
     // check integrity
-
-    const head = mindmap.ideas.get(headIdeaId);
-    if (!head) {
-        throw Error(
-            `Head idea '${headIdeaId}' was not found for cross-association`);
-    }
-
-    const tail = mindmap.ideas.get(tailIdeaId);
-    if (!tail) {
-        throw Error(
-            `Tail idea '${tailIdeaId}' was not found for cross-association`);
-    }
-
     if (headIdeaId === tailIdeaId) {
         throw Error(`Unable to add self-association on idea '${headIdeaId}'`);
     }
@@ -45,7 +38,7 @@ export default function createCrossAssociation(state, data) {
     if (head.associationsIn.some(a => a.from === tail)) {
         throw Error(
             `Unable to create association from idea '${headIdeaId}' ` +
-            `to its parent idea '${tailIdeaId}'`);
+            `to its predecessor idea '${tailIdeaId}'`);
     }
 
     if (tail.isRoot) {
@@ -55,17 +48,41 @@ export default function createCrossAssociation(state, data) {
     }
 
     // add association
+    let patch = new Patch();
 
-    const assoc = new Association();
-    
-    assoc.mindmapId = mindmap.id;
-    assoc.fromId = headIdeaId;
-    assoc.toId = tailIdeaId;
-
-    assoc.weight = weighAssociation(head.pos, tail.pos);
-
-    return new Patch({
-        type: 'add-association',
-        data: {assoc}
+    const assoc = new Association({
+        mindmapId: mindmap.id,
+        fromId: headIdeaId,
+        from: head,
+        toId: tailIdeaId,
+        to: tail,
+        weight: weighAssociation(head.pos, tail.pos)
     });
+
+    // bind to head
+    const newHeadAssocsOut = head.associationsOut.concat([assoc]);
+
+    patch.push('update-idea', {
+        id: head.id,
+        associationsOut: newHeadAssocsOut
+    });
+
+    // bind to tail
+    patch.push('update-idea', {
+        id: tail.id,
+        associationsIn: tail.associationsIn.concat([assoc])
+    });
+
+    // add association
+    patch.push('add-association', {assoc});
+
+    // update root paths
+    const rootPathsPatch = getRootPathsPatch({
+        root: mindmap.root,
+        replaceLinksOut: [{node: head, linksOut: newHeadAssocsOut}]
+    });
+
+    patch = Patch.combine(patch, rootPathsPatch);
+
+    return normalizePatch(patch);
 }

@@ -1,10 +1,12 @@
 import {expect} from 'test/utils';
 
-import mutate from 'model/mutators';
+import values from 'src/utils/get-map-values';
 
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
+
+import mutate from 'model/mutators';
 
 describe('update-idea', () => {
     
@@ -30,10 +32,10 @@ describe('update-idea', () => {
         mutate(state, patch);
 
         // check
-        const ideas = state.model.mindmap.ideas;
+        const ideas = values(state.model.mindmap.ideas);
 
-        expect([...ideas]).to.have.length(1);
-        expect(ideas.get('id')).to.containSubset({
+        expect(ideas).to.have.length(1);
+        expect(ideas[0]).to.containSubset({
             id: 'id',
             value: 'new',
             color: 'white'
@@ -54,8 +56,7 @@ describe('update-idea', () => {
         const result = () => mutate(state, patch);
 
         // check
-        expect(result).to.throw(
-            `Idea 'id' was not found`);
+        expect(result).to.throw(`Idea 'id' was not found`);
     });
 
 });

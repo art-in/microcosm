@@ -1,4 +1,5 @@
 import {expect} from 'test/utils';
+import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
 
@@ -69,6 +70,31 @@ describe('set-mindmap-scale', () => {
             pos: {x: 100, y: 200}
         });
 
+    });
+
+    it('should NOT mutate state', () => {
+        
+        // setup
+        const mindmap = new Mindmap({
+            id: 'id',
+            scale: 1
+        });
+
+        const state = {model: {mindmap}};
+        const stateBefore = clone(state);
+
+        // target
+        handle(state, {
+            type: 'set-mindmap-scale',
+            data: {
+                mindmapId: 'id',
+                scale: 2,
+                pos: {x: 10, y: 10}
+            }
+        });
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should target all state layers', () => {

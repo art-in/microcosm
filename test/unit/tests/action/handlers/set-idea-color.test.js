@@ -1,4 +1,5 @@
 import {expect} from 'test/utils';
+import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
@@ -11,11 +12,13 @@ describe('set-idea-color', () => {
     it('should set idea color', () => {
 
         // setup
-        const mindmap = new Mindmap();
-        mindmap.ideas.set('id', new Idea({
-            id: 'id',
+        const idea = new Idea({
+            id: 'idea',
             color: 'black'
-        }));
+        });
+
+        const mindmap = new Mindmap();
+        mindmap.ideas.set(idea.id, idea);
 
         const state = {model: {mindmap}};
 
@@ -23,7 +26,7 @@ describe('set-idea-color', () => {
         const patch = handle(state, {
             type: 'set-idea-color',
             data: {
-                ideaId: 'id',
+                ideaId: 'idea',
                 color: 'white'
             }
         });
@@ -32,10 +35,37 @@ describe('set-idea-color', () => {
         expect(patch).to.have.length(1);
         expect(patch['update-idea']).to.exist;
         expect(patch['update-idea'][0].data).to.deep.equal({
-            id: 'id',
+            id: 'idea',
             color: 'white'
         });
 
+    });
+
+    it('should NOT mutate state', () => {
+        
+        // setup
+        const idea = new Idea({
+            id: 'idea',
+            color: 'black'
+        });
+
+        const mindmap = new Mindmap();
+        mindmap.ideas.set(idea.id, idea);
+
+        const state = {model: {mindmap}};
+        const stateBefore = clone(state);
+
+        // target
+        handle(state, {
+            type: 'set-idea-color',
+            data: {
+                ideaId: 'idea',
+                color: 'white'
+            }
+        });
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should target all state layers', () => {

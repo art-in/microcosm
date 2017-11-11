@@ -16,12 +16,15 @@ export default function setAssociationValue(state, data) {
     const {model: {mindmap}} = state;
     const {assocId, value} = required(data);
 
-    const idea = getAssociation(mindmap, assocId);
+    const assoc = getAssociation(mindmap, assocId);
 
-    if (idea.value != value) {
-        return new Patch({
-            type: 'update-association',
-            data: {id: assocId, value}
-        });
+    if (assoc.value === value) {
+        // was not changed
+        return;
     }
+    
+    return new Patch('update-association', {
+        id: assocId,
+        value
+    });
 }

@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import withoutItem from 'utils/get-array-without-item';
+import normalizePatch from 'action/utils/normalize-patch';
 import getIdea from 'action/utils/get-idea';
 
 /**
@@ -19,31 +21,63 @@ export default function removeIdea(state, data) {
 
     const idea = getIdea(mindmap, ideaId);
 
+    // check integrity
     if (idea.isRoot) {
         throw Error('Unable to remove root idea');
     }
 
-    patch.push({
-        type: 'remove-idea',
-        data: {id: ideaId}
-    });
-
     if (idea.associationsOut.length) {
         throw Error(
-            `Unable to remove idea '${idea.id}' ` +
-            `with outgoing associations`);
+            `Unable to remove idea '${idea.id}' with outgoing associations`);
     }
 
-    const incomingAssocs = idea.associationsIn;
-
-    if (!incomingAssocs.length) {
+    if (!idea.associationsIn || !idea.associationsIn.length) {
+        // hanging ideas are not allowed
         throw Error(`No incoming associations found for idea '${idea.id}'`);
     }
 
-    incomingAssocs.forEach(a => patch.push({
-        type: 'remove-association',
-        data: {id: a.id}
-    }));
+    // remove incoming associations
+    idea.associationsIn.forEach(assoc => {
 
-    return patch;
+        // unbind from head
+        const head = assoc.from;
+    
+        if (!head) {
+            throw Error(
+                `Association '${assoc.id}' has no reference to head idea`);
+        }
+    
+        const index = head.associationsOut.indexOf(assoc);
+    
+        if (index === -1) {
+            throw Error(
+                `Head idea '${head.id}' has no reference ` +
+                `to outgoing association '${assoc.id}'`);
+        }
+    
+        patch.push('update-idea', {
+            id: head.id,
+            associationsOut: withoutItem(head.associationsOut, index)
+        });
+
+        // remove association
+        patch.push('remove-association', {id: assoc.id});
+    });
+
+    patch.push('remove-idea', {id: ideaId});
+
+    // update root paths.
+    // since removing idea with outgoing associations is not allowed,
+    // it cannot affect root paths of any other idea, so we do not need to 
+    // recalculate root paths for entire graph.
+    // removing parent-child link is enough.
+    const parent = idea.linkFromParent.from;
+    const index = parent.linksToChilds.indexOf(idea.linkFromParent);
+
+    patch.push('update-idea', {
+        id: parent.id,
+        linksToChilds: withoutItem(parent.linksToChilds, index)
+    });
+
+    return normalizePatch(patch);
 }

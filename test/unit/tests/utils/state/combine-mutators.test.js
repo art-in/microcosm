@@ -29,24 +29,24 @@ describe('combine-mutators', () => {
         
         // setup data
         await state.data.ideas.put({
-            _id: 'parent',
+            _id: 'A',
             isRoot: true,
             pos: {x: 0, y: 0}
         });
 
         // setup model
-        const rootIdea = new Idea({
-            id: 'parent',
+        const ideaA = new Idea({
+            id: 'A',
             isRoot: true,
             rootPathWeight: 0,
             pos: new Point({x: 0, y: 0})
         });
 
-        rootIdea.linkFromParent = null;
-        rootIdea.linksToChilds = [];
+        ideaA.linkFromParent = null;
+        ideaA.linksToChilds = [];
 
-        state.model.mindmap.root = rootIdea;
-        state.model.mindmap.ideas.set(rootIdea.id, rootIdea);
+        state.model.mindmap.root = ideaA;
+        state.model.mindmap.ideas.set(ideaA.id, ideaA);
         
         state.model.mindmap.scale = 1;
 
@@ -60,25 +60,43 @@ describe('combine-mutators', () => {
         // setup patch
         const patch = new Patch();
 
-        patch.push({
-            type: 'add-association',
-            data: {
-                assoc: new Association({
-                    id: 'assoc',
-                    fromId: 'parent',
-                    toId: 'child',
-                    weight: 1
-                })
-            }});
+        const ideaB = new Idea({
+            id: 'B',
+            isRoot: true,
+            rootPathWeight: 0,
+            pos: new Point({x: 0, y: 0})
+        });
+
+        const assocAtoB = new Association({
+            id: 'A to B',
+            fromId: ideaA.id,
+            from: ideaA,
+            toId: ideaB.id,
+            to: ideaB,
+            weight: 1
+        });
+
+        ideaB.associationsIn = [assocAtoB];
+        ideaB.linkFromParent = assocAtoB;
 
         patch.push({
             type: 'add-idea',
             data: {
-                idea: new Idea({
-                    id: 'child',
-                    pos: new Point({x: 0, y: 1})
-                })
+                idea: ideaB
             }});
+
+        patch.push({
+            type: 'add-association',
+            data: {assoc: assocAtoB}});
+
+        patch.push({
+            type: 'update-idea',
+            data: {
+                id: ideaA.id,
+                associationsOut: [assocAtoB],
+                linksToChilds: [assocAtoB]
+            }
+        });
 
         // target
         const mutate = combine([
@@ -112,20 +130,20 @@ describe('combine-mutators', () => {
     it('should mutate viewmodel layer', async () => {
         
         const {vm} = state;
-        const rootNode = vm.main.mindmap.graph.root;
+        const nodeA = vm.main.mindmap.graph.root;
 
-        expect(rootNode.linksIn).to.have.length(0);
-        expect(rootNode.linksOut).to.have.length(1);
+        expect(nodeA.linksIn).to.have.length(0);
+        expect(nodeA.linksOut).to.have.length(1);
 
-        expect(rootNode).to.containSubset({
-            id: 'parent',
+        expect(nodeA).to.containSubset({
+            id: 'A',
             linksOut: [{
-                id: 'assoc',
+                id: 'A to B',
                 from: {
-                    id: 'parent'
+                    id: 'A'
                 },
                 to: {
-                    id: 'child'
+                    id: 'B'
                 }
             }]
         });

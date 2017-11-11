@@ -6,6 +6,7 @@ const mutators = regMutatorsFolder(context);
 
 /**
  * Applies patch to model state
+ * 
  * @param {object} state
  * @param {Patch} patch
  */

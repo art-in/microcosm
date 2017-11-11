@@ -1,7 +1,7 @@
 import PouchDB from 'pouchdb';
 
 import Store from 'utils/state/Store';
-import Hander from 'utils/state/Handler';
+import Handler from 'utils/state/Handler';
 
 import commonHandler from 'action/handler';
 import vmHandler from 'vm/action/handler';
@@ -33,7 +33,7 @@ async function start() {
 
     // init store
     const store = new Store(
-        Hander.combine([
+        Handler.combine([
             commonHandler,
             vmHandler
         ]),

@@ -4,10 +4,10 @@ import calcRootPaths from 'utils/graph/calc-root-paths';
  * Calculates minimal root paths (MRP) for each node in the graph
  * and stores results in graph entities
  * 
- * @param {object} rootNode
+ * @param {object} opts
  */
-export default function weighRootPaths(rootNode) {
-    const weightsData = calcRootPaths(rootNode);
+export default function weighRootPaths(opts) {
+    const weightsData = calcRootPaths(opts);
 
     weightsData.forEach(data => {
         const node = data.node;

@@ -1,21 +1,56 @@
+import required from 'utils/required-params';
 import PriorityQueue from 'utils/PriorityQueue';
 
 /**
  * Calculates minimal root paths (MRP) for each node in the graph.
+ * MRPs form minimal spanning tree (MST) upon the graph.
  * 
  * Uses Dijkstra algorithm (BFS + priority queue)
  * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
  * 
- * @param {object} rootNode
+ * Q: why return MRP data for nodes and not mutate original nodes?
+ * A: this would clear-out previous state of the graph and prevent diff`ing
+ *    to later effectively mutate database.
+ * 
+ * Q: when we know that some parts of the graph should be changed we replacing
+ *    that parts on-the-fly during paths calculations (through 'replace' opts).
+ * Q  a) why not change original graph first and then make calculations?
+ * A  a) we cannot mutate graph state inside action handler, but we can apply
+ *       intermediate mutations in AC and then make calculations. this is
+ *       possible, but it would mean we need to mutate same entities several
+ *       times (eg. when creating cross link first we need to mutate 
+ *       parent node to add new outgoing link, and after that possibly mutate
+ *       same node to add link to child).
+ * Q  b) why not duplicate original graph or create graph in different
+ *       representation (eg. adjacency matrix) with applied changes and then
+ *       calculate paths on that duplicate?
+ * A  b) duplicating original graph or creating it in different representations
+ *       for purposes of on-graph calculations goin to be extremely inefficient,
+ *       since it would need to dupl/create graphs with possibly thousands of
+ *       nodes for each graph mutation. this would produce lots of objects which
+ *       will hurt GC.
+ * 
+ * @param {object} opts
+ * @param {object} opts.rootNode
+ * @param {array} [opts.ignoreLinks]
+ * @param {array} [opts.replaceLinksOut]
+ * @param {array} [opts.replaceLinkWeights]
  * @return {array} MRP data for each node
  */
-export default function calcRootPaths(rootNode) {
+export default function calcRootPaths(opts) {
+
+    const {root} = required(opts);
+    const {
+        ignoreLinks = [],
+        replaceLinksOut = [],
+        replaceLinkWeights = []
+    } = opts;
 
     // key - node,
-    // value - node weight data
-    const weightData = new Map();
+    // value - MRP data
+    const rootPathData = new Map();
 
-    weightData.set(rootNode, {
+    rootPathData.set(root, {
         rootPathWeight: 0,
         linkFromParent: null,
         linksToChilds: []
@@ -23,7 +58,7 @@ export default function calcRootPaths(rootNode) {
 
     const queue = new PriorityQueue();
 
-    queue.addWithPriority(rootNode, 0);
+    queue.addWithPriority(root, 0);
 
     const visitedNodes = new Set();
 
@@ -32,30 +67,50 @@ export default function calcRootPaths(rootNode) {
         // get node with min root path weight
         const predecessor = queue.extractMin();
 
-        const predecessorData = weightData.get(predecessor);
+        const predecessorData = rootPathData.get(predecessor);
 
-        predecessor.linksOut.forEach(link => {
+        // get outgoing links
+        let linksOut;
+        const replace = replaceLinksOut.find(r => r.node === predecessor);
+        if (replace) {
+            linksOut = replace.linksOut;
+        } else {
+            linksOut = predecessor.linksOut;
+        }
+
+        linksOut = linksOut.filter(l => !ignoreLinks.includes(l));
+
+        linksOut.forEach(link => {
 
             const successor = link.to;
 
+            // get link weight
+            let linkWeight;
+            const replace = replaceLinkWeights.find(r => r.link === link);
+            if (replace) {
+                linkWeight = replace.weight;
+            } else {
+                linkWeight = link.weight;
+            }
+
             // ensure link weight is valid
-            if (!Number.isFinite(link.weight) || link.weight < 0) {
+            if (!Number.isFinite(linkWeight) || linkWeight < 0) {
                 throw Error(
-                    `Link '${link.id}' has invalid weight '${link.weight}'`);
+                    `Link '${link.id}' has invalid weight '${linkWeight}'`);
             }
 
             // weight of proposed path (root->...->predecessor->successor)
-            const pathWeight = predecessorData.rootPathWeight + link.weight;
+            const pathWeight = predecessorData.rootPathWeight + linkWeight;
             
             // get existing weight data of successor
-            let successorData = weightData.get(successor);
+            let successorData = rootPathData.get(successor);
             if (!successorData) {
                 successorData = {
                     rootPathWeight: +Infinity,
                     linkFromParent: null,
                     linksToChilds: []
                 };
-                weightData.set(successor, successorData);
+                rootPathData.set(successor, successorData);
             }
 
             // check if proposed path is better then current one
@@ -72,7 +127,7 @@ export default function calcRootPaths(rootNode) {
                 // remove child link from previous parent
                 if (successorData.linkFromParent) {
                     const prevParent = successorData.linkFromParent.from;
-                    const prevParentData = weightData.get(prevParent);
+                    const prevParentData = rootPathData.get(prevParent);
                     const links = prevParentData.linksToChilds;
                     const linkIdx = links.indexOf(successorData.linkFromParent);
                     links.splice(linkIdx, 1);
@@ -97,10 +152,11 @@ export default function calcRootPaths(rootNode) {
         });
     }
 
-    return [...weightData.entries()].map(entry => ({
-        node: entry[0],
-        rootPathWeight: entry[1].rootPathWeight,
-        linkFromParent: entry[1].linkFromParent,
-        linksToChilds: entry[1].linksToChilds
+    // return MRP data
+    return [...rootPathData.entries()].map(e => ({
+        node: e[0],
+        rootPathWeight: e[1].rootPathWeight,
+        linkFromParent: e[1].linkFromParent,
+        linksToChilds: e[1].linksToChilds
     }));
 }

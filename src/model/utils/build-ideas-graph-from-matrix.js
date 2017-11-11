@@ -27,7 +27,7 @@ export default function buildIdeasGraphFromMatrix(matrix) {
         LinkConstructor: Association
     });
 
-    weighRootPaths(root);
+    weighRootPaths({root});
 
     return {root, nodes, links};
 }

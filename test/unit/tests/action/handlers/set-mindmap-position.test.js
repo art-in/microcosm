@@ -1,4 +1,5 @@
 import {expect} from 'test/utils';
+import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Point from 'src/model/entities/Point';
@@ -35,6 +36,30 @@ describe('set-mindmap-position', () => {
             pos: {x: 200, y: 200}
         });
 
+    });
+
+    it('should NOT mutate state', () => {
+
+        // setup
+        const mindmap = new Mindmap({
+            id: 'id',
+            pos: new Point({x: 100, y: 100})
+        });
+
+        const state = {model: {mindmap}};
+        const stateBefore = clone(state);
+
+        // target
+        handle(state, {
+            type: 'set-mindmap-position',
+            data: {
+                mindmapId: 'id',
+                pos: new Point({x: 200, y: 200})
+            }
+        });
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should target all state layers', () => {

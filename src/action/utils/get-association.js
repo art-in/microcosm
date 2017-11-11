@@ -10,7 +10,7 @@ export default function getAssociation(mindmap, assocId) {
     const assoc = mindmap.associations.get(assocId);
 
     if (!assoc) {
-        throw Error(`Association with ID '${assocId}' not found in mindmap`);
+        throw Error(`Association '${assocId}' was not found in mindmap`);
     }
 
     return assoc;
