@@ -14,14 +14,33 @@ describe('update-object', () => {
         expect(target).to.deep.equal({a: 1, b: 2});
     });
 
-    it('should update props of nested objects', () => {
+    it('should deep update props of nested objects', () => {
 
-        const target = {nested: {a: 1}};
-        const source = {nested: {a: 2}};
+        const targetObj = {a: 1};
+        const sourceObj = {a: 2};
+
+        const target = {nested: targetObj};
+        const source = {nested: sourceObj};
 
         updateObject(target, source);
         
         expect(target).to.deep.equal({nested: {a: 2}});
+        expect(target.nested).to.equal(targetObj);
+    });
+
+    it('should replace nested objects with class instances', () => {
+        
+        class A {}
+
+        const targetObj = new A();
+        const sourceObj = new A();
+
+        const target = {nested: targetObj};
+        const source = {nested: sourceObj};
+
+        updateObject(target, source);
+
+        expect(target.nested).to.equal(sourceObj);
     });
 
     it('should replace nested arrays', () => {
@@ -121,7 +140,7 @@ describe('update-object', () => {
 
     it('should fail if nested object is from different constructor', () => {
         
-        /* eslint-disable require-jsdoc */
+        
         class A {
             prop = undefined
         }
@@ -144,7 +163,6 @@ describe('update-object', () => {
 
     it('should NOT fail if source nested object is generic object', () => {
         
-        /* eslint-disable require-jsdoc */
         class A {
             prop = undefined
         }
@@ -162,7 +180,6 @@ describe('update-object', () => {
 
     it('should fail if array objects are from different constructor', () => {
         
-        /* eslint-disable require-jsdoc */
         class A {
             prop = undefined
         }
@@ -178,6 +195,45 @@ describe('update-object', () => {
         expect(result).throw(
             `Objects of target array 'arr' were constructed by 'A', ` +
             `but objects of source array constructed by 'Object'`);
+    });
+
+    it('should fail to update object with circular refs', () => {
+        
+        const circular1 = {};
+        const circular2 = {};
+
+        circular1.nested = circular2;
+        circular2.nested = circular1;
+
+        const target = {nested: circular1};
+        const source = {nested: circular2};
+
+        const result = () => updateObject(target, source);
+
+        // falls into infinite loop on deep update nested object props
+        expect(result).to.throw('Maximum call stack size exceeded');
+    });
+
+    it('should NOT fail to update class instance with circular refs', () => {
+        
+        class A {
+            nested = undefined
+        }
+
+        const circular1 = new A();
+        const circular2 = new A();
+
+        circular1.nested = circular2;
+        circular2.nested = circular1;
+
+        const target = {nested: circular1};
+        const source = {nested: circular2};
+
+        updateObject(target, source);
+
+        // not fails because source contains class instance,
+        // which replaces target nested object instead of deep update
+        expect(target.nested).to.equal(circular2);
     });
 
 });

@@ -124,8 +124,19 @@ export default function updateObject(target, source, shouldUpdate = noop) {
                     `constructed by '${sourceValue.constructor.name}'`);
             }
 
-            // deep update object
-            updateObject(targetValue, sourceValue, shouldUpdate);
+            if (sourceValue.constructor === Object) {
+                
+                // source object is generic object (simple patch).
+                // deep update props of target nested object
+                updateObject(targetValue, sourceValue, shouldUpdate);
+
+            } else {
+
+                // source object is class instance.
+                // replace nested object
+                target[prop] = sourceValue;
+            }
+
         } else {
             target[prop] = sourceValue;
         }
