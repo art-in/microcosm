@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import {expect} from 'test/utils';
 import {spy} from 'sinon';
 import {mount} from 'enzyme';

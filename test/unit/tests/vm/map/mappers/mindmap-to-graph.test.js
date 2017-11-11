@@ -9,7 +9,6 @@ import toGraph from 'src/vm/map/mappers/mindmap-to-graph';
 
 describe('mindmap-to-graph', () => {
 
-    // eslint-disable-next-line
     function setupMindmap() {
 
         // setup graph

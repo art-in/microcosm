@@ -5,7 +5,6 @@ import traverse from 'src/utils/graph/traverse-graph';
 
 describe('traverse-graph', () => {
 
-    // eslint-disable-next-line require-jsdoc
     function setupGraph() {
 
         // setup tree graph

@@ -10,7 +10,6 @@ describe('ViewModel', () => {
         it('should execute event handlers (sync)', () => {
 
             // setup
-            // eslint-disable-next-line require-jsdoc
             class TestVM extends ViewModel {
                 static eventTypes = [
                     'test-event'
@@ -32,7 +31,6 @@ describe('ViewModel', () => {
         it('should execute event handlers (async)', async () => {
 
             // setup
-            // eslint-disable-next-line require-jsdoc
             class TestVM extends ViewModel {
                 static eventTypes = [
                     'test-event'
