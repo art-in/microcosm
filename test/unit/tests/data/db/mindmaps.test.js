@@ -1,4 +1,5 @@
 import {expect, createDB} from 'test/utils';
+import {spy} from 'sinon';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Point from 'src/model/entities/Point';
@@ -172,11 +173,33 @@ describe('mindmaps', () => {
             expect(result.X).to.not.exist;
         });
 
+        it('should NOT call db if update object is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            db.get = spy(db.get);
+            db.put = spy(db.put);
+
+            db.post({_id: 'i'});
+
+            const mindmap = {
+                id: 'i'
+            };
+
+            // target
+            await mindmapDB.update(db, mindmap);
+
+            // check
+            expect(db.get.called).to.be.false;
+            expect(db.put.called).to.be.false;
+        });
+
         it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
-            const mindmap = new Mindmap();
+            const mindmap = new Mindmap({scale: 1});
 
             // target
             const promise = mindmapDB.update(db, mindmap);

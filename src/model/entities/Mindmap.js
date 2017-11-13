@@ -12,11 +12,6 @@ export default class Mindmap {
     id = createID();
 
     /**
-     * ID of parent mindmap
-     */
-    mindmapId = undefined;
-
-    /**
      * Position of viewbox on the canvas
      * @type {number}
      */
@@ -27,6 +22,8 @@ export default class Mindmap {
      * @type {number}
      */
     scale = undefined;
+
+    // region Dynamic props (computed on run, not saved to db)
 
     /**
      * Ideas
@@ -46,6 +43,8 @@ export default class Mindmap {
      * @type {Idea}
      */
     root = undefined;
+
+    // endregion
 
     /**
      * Constructor

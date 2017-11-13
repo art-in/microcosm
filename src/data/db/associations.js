@@ -1,6 +1,8 @@
 import toModel from 'data/mappers/dbo-to-association';
 import toDbo from 'data/mappers/association-to-dbo';
 
+import isEmptyDbo from 'data/utils/is-empty-dbo';
+
 /**
  * Gets all associations
  * @param {PouchDB} db
@@ -33,8 +35,16 @@ export async function add(db, assoc) {
  * @param {Association|object} model - model or patch
  */
 export async function update(db, model) {
-    const existing = await db.get(model.id);
+
     const dbo = toDbo(model);
+
+    if (isEmptyDbo(dbo)) {
+        // skip if dbo is empty, which happens when mutation affects
+        // only model props that are not saved to db (dynamic props)
+        return;
+    }
+
+    const existing = await db.get(model.id);
     
     await db.put({
         ...existing,

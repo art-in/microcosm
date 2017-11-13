@@ -1,8 +1,11 @@
 import assert from 'utils/assert';
+
+import Idea from 'model/entities/Idea';
+
 import toModel from 'data/mappers/dbo-to-idea';
 import toDbo from 'data/mappers/idea-to-dbo';
 
-import Idea from 'model/entities/Idea';
+import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets idea
@@ -50,10 +53,15 @@ export async function add(db, idea) {
  * @param {Idea|object} model - model or patch
  */
 export async function update(db, model) {
-    const existing = await db.get(model.id);
     const dbo = toDbo(model);
 
-    // TODO: ignore get/put if patch is empty
+    if (isEmptyDbo(dbo)) {
+        // skip if dbo is empty, which happens when mutation affects
+        // only model props that are not saved to db (dynamic props)
+        return;
+    }
+
+    const existing = await db.get(model.id);
 
     await db.put({
         ...existing,

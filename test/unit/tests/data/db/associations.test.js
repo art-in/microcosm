@@ -1,4 +1,5 @@
 import {expect, createDB} from 'test/utils';
+import {spy} from 'sinon';
 
 import * as assocDB from 'src/data/db/associations';
 import Association from 'src/model/entities/Association';
@@ -111,11 +112,33 @@ describe('associations', () => {
             expect(result.X).to.not.exist;
         });
 
+        it('should NOT call db if update object is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            db.get = spy(db.get);
+            db.put = spy(db.put);
+
+            db.post({_id: 'i'});
+
+            const assoc = {
+                id: 'i'
+            };
+
+            // target
+            await assocDB.update(db, assoc);
+
+            // check
+            expect(db.get.called).to.be.false;
+            expect(db.put.called).to.be.false;
+        });
+
         it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
-            const assoc = new Association();
+            const assoc = new Association({value: 'val'});
 
             // target
             const promise = assocDB.update(db, assoc);

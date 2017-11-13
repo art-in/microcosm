@@ -1,4 +1,5 @@
 import {expect, createDB} from 'test/utils';
+import {spy} from 'sinon';
 
 import Idea from 'src/model/entities/Idea';
 import Point from 'src/model/entities/Point';
@@ -183,11 +184,33 @@ describe('ideas', () => {
             expect(result.X).to.not.exist;
         });
 
+        it('should NOT call db if update object is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            db.get = spy(db.get);
+            db.put = spy(db.put);
+
+            db.post({_id: 'i'});
+
+            const idea = {
+                id: 'i'
+            };
+
+            // target
+            await ideaDB.update(db, idea);
+
+            // check
+            expect(db.get.called).to.be.false;
+            expect(db.put.called).to.be.false;
+        });
+
         it('should fail if item does not exist', async () => {
 
             // setup
             const db = createDB();
-            const idea = new Idea();
+            const idea = new Idea({value: 'val'});
 
             // target
             const promise = ideaDB.update(db, idea);
