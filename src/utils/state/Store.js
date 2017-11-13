@@ -157,6 +157,8 @@ export default class Store {
         events.emit('before-dispatch', {state, action});
         
         // handle action
+        events.emit('before-handler', {state, action});
+
         let patch;
         try {
             // pass mutator func to allow intermediate mutations
@@ -178,6 +180,8 @@ export default class Store {
             events.emit('handler-fail', {error});
             throw error;
         }
+
+        events.emit('after-handler', {state});
         
         // apply resulting mutation
         const mutationRes = mutate(patch);

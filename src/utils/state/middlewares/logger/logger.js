@@ -116,7 +116,40 @@ function logDispatch(state, events, throttledCount) {
         entry.prevState = state;
         entry.action = action;
         entry.throttledCount = throttledCount;
-        entry.perf.start = performance.now();
+        entry.perf.dispatch.start = performance.now();
+    });
+
+    events.on('after-dispatch', opts => {
+        const {state} = required(opts);
+
+        entry.perf.dispatch.end = performance.now();
+        entry.nextState = state;
+
+        log(entry);
+    });
+
+    events.on('before-handler', () => {
+        entry.perf.handler.start = performance.now();
+    });
+
+    events.on('after-handler', () => {
+        entry.perf.handler.end = performance.now();
+    });
+
+    events.on('child-action', opts => {
+        const {action} = required(opts);
+        entry.childActions.push(action);
+    });
+
+    events.on('handler-fail', opts => {
+        const {error} = required(opts);
+        
+        entry.perf.handler.end = performance.now();
+        entry.perf.dispatch.end = performance.now();
+        entry.handlerFailed = true;
+        entry.error = error;
+        
+        log(entry);
     });
 
     events.on('before-mutation', opts => {
@@ -125,36 +158,18 @@ function logDispatch(state, events, throttledCount) {
         entry.patch = entry.patch ?
             Patch.combine(entry.patch, patch) :
             patch;
+        entry.perf.mutation.start = performance.now();
     });
 
-    events.on('child-action', opts => {
-        const {action} = required(opts);
-        entry.childActions.push(action);
-    });
-
-    events.on('after-dispatch', opts => {
-        const {state} = required(opts);
-
-        entry.perf.end = performance.now();
-        entry.nextState = state;
-
-        log(entry);
-    });
-
-    events.on('handler-fail', opts => {
-        const {error} = required(opts);
-        
-        entry.perf.end = performance.now();
-        entry.handlerFailed = true;
-        entry.error = error;
-        
-        log(entry);
+    events.on('after-mutation', opts => {
+        entry.perf.mutation.end = performance.now();
     });
 
     events.on('mutation-fail', opts => {
         const {error} = required(opts);
         
-        entry.perf.end = performance.now();
+        entry.perf.mutation.end = performance.now();
+        entry.perf.dispatch.end = performance.now();
         entry.mutationFailed = true;
         entry.error = error;
 

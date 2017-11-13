@@ -43,16 +43,27 @@ export default function(entry) {
         entry.prevState);
 
     // action
+    const actionTitle =
+        S + 'action ' +
+        S + `(${entry.perf.handler.duration} ms)`;
+
     console.log(
-        S + 'action'.padEnd(20),
+        actionTitle.padEnd(24),
         color.red + font.bold,
+        color.gray + font.normal,
         entry.action);
 
     // patch
     if (!entry.handlerFailed) {
+        const mutationDuration = entry.patch ? entry.perf.mutation.duration : 0;
+        const patchTitle =
+            S + 'patch ' +
+            S + `(${mutationDuration} ms)`;
+        
         console.log(
-            S + 'patch'.padEnd(20),
+            patchTitle.padEnd(24),
             color.blue + font.bold,
+            color.gray + font.normal,
             entry.patch);
     }
     
@@ -139,7 +150,7 @@ function getHeader(entry) {
     let headerPartMain =
         /* 1 */ S + `action ` +
         /* 2 */ S + `${action.type} ` +
-        /* 3 */ S + `(${perf.duration} ms)` +
+        /* 3 */ S + `(${perf.dispatch.duration} ms)` +
         /* 4 */ S + (failed ? ` [failed in ${failSource}]` : '');
 
     // align optional parts

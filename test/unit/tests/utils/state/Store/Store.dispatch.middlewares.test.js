@@ -135,7 +135,7 @@ describe('middlewares', () => {
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
-        const mutator = () => ({counter: 2});
+        const mutator = state => state.counter = 2;
 
         // setup middleware
         const onBeforeDispatch = spy();
@@ -180,7 +180,7 @@ describe('middlewares', () => {
             () => new Patch({type: 'mutation', data: 'data'}));
 
         const state = {counter: 1};
-        const mutator = state => state.counter++;
+        const mutator = state => state.counter = 2;
 
         // setup middleware
         const onAfterDispatch = spy();
@@ -207,10 +207,93 @@ describe('middlewares', () => {
         expect(args).to.have.length(1);
 
         // check patch
-        expect(args[0]).to.deep.equal({
-            state: {
-                counter: 2
-            }
+        expect(args[0].state).to.deep.equal({
+            counter: 2
+        });
+    });
+
+    it(`should emit 'before-handler' event`, async () => {
+
+        // setup
+        const handler = new Handler();
+        handler.reg('action',
+            () => new Patch({type: 'mutation', data: 'data'}));
+
+        const state = {counter: 1};
+        const mutator = state => state.counter = 2;
+
+        // setup middleware
+        const onBeforeHandler = spy();
+        const middleware = () => ({onDispatch: events =>
+            events.on('before-handler', (...args) =>
+                // clone to catch the state at this moment
+                onBeforeHandler(...clone(args)))});
+
+        // setup store
+        const store = new Store(
+            handler,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action', data: 'data'});
+
+        // check
+        expect(onBeforeHandler.callCount).to.equal(1);
+        
+        const args = onBeforeHandler.firstCall.args;
+        expect(args).to.have.length(1);
+
+        // check action
+        expect(args[0].action).to.be.instanceOf(Action);
+        expect(args[0].action).to.containSubset({
+            type: 'action',
+            data: 'data'
+        });
+        expect(args[0].state).to.deep.equal({
+            counter: 1
+        });
+    });
+        
+    it(`should emit 'after-handler' event`, async () => {
+        
+        // setup
+        const handler = new Handler();
+        handler.reg('action',
+            () => new Patch({type: 'mutation', data: 'data'}));
+
+        const state = {counter: 1};
+        const mutator = state => state.counter = 2;
+
+        // setup middleware
+        const onAfterHandler = spy();
+        const middleware = () => ({onDispatch: events =>
+            events.on('after-handler', (...args) =>
+                // clone to catch the state at this moment
+                onAfterHandler(...clone(args)))});
+
+        // setup store
+        const store = new Store(
+            handler,
+            mutator,
+            state, [
+                middleware
+            ]);
+
+        // target
+        await store.dispatch({type: 'action', data: 'data'});
+
+        // check
+        expect(onAfterHandler.callCount).to.equal(1);
+
+        const args = onAfterHandler.firstCall.args;
+        expect(args).to.have.length(1);
+
+        // check patch
+        expect(args[0].state).to.deep.equal({
+            counter: 1
         });
     });
 

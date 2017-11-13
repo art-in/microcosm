@@ -16,25 +16,84 @@ export default class LogEntry {
      * Action dispatching performance info
      */
     perf = {
-        /**
-         * Time before dispatching action
-         * @type {number} - milliseconds from time origin
-         */
-        start: undefined,
+
+        dispatch: {
+
+            /**
+             * Time before dispatching action
+             * @type {number} - milliseconds from origin time
+             */
+            start: undefined,
+
+            /**
+             * Time after dispatching action
+             * @type {number} - milliseconds from origin time
+             */
+            end: undefined,
+
+            /**
+             * Gets total duration of action dispatch
+             */
+            get duration() {
+                assert(this.start !== undefined, `Invalid dispatch start time`);
+                assert(this.end !== undefined, `Invalid dispatch end time`);
+                return Math.floor(this.end - this.start);
+            }
+
+        },
 
         /**
-         * Time after dispatching action
-         * @type {number} - milliseconds from time origin
+         * Performance of handling phase of dispatch
          */
-        end: undefined,
+        handler: {
 
+            /**
+             * Time before handling action
+             * @type {number} - milliseconds from origin time
+             */
+            start: undefined,
+    
+            /**
+             * Time after handling action
+             * @type {number} - milliseconds from origin time
+             */
+            end: undefined,
+    
+            /**
+             * Gets total duration of action handling
+             */
+            get duration() {
+                assert(this.start !== undefined, `Invalid handler start time`);
+                assert(this.end !== undefined, `Invalid handler end time`);
+                return Math.floor(this.end - this.start);
+            }
+        },
+        
         /**
-         * Gets total duration of action dispatch
+         * Performance of state mutation phase of dispatch
          */
-        get duration() {
-            assert(this.start !== undefined, `Invalid start time`);
-            assert(this.end !== undefined, `Invalid end time`);
-            return Math.floor(this.end - this.start);
+        mutation: {
+            
+            /**
+             * Time before state mutation
+             * @type {number} - milliseconds from origin time
+             */
+            start: undefined,
+    
+            /**
+             * Time after state mutation
+             * @type {number} - milliseconds from origin time
+             */
+            end: undefined,
+    
+            /**
+             * Gets total duration of state mutation
+             */
+            get duration() {
+                assert(this.start !== undefined, `Invalid mutation start time`);
+                assert(this.end !== undefined, `Invalid mutation end time`);
+                return Math.floor(this.end - this.start);
+            }
         }
     };
 

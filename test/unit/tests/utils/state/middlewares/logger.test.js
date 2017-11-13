@@ -47,7 +47,9 @@ describe('logger', () => {
             middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
-            dispatchEvents.emit('before-mutation', {state: nextState, patch});
+            dispatchEvents.emit('before-handler', {state: prevState, action});
+            dispatchEvents.emit('after-handler', {state: prevState});
+            dispatchEvents.emit('before-mutation', {state: prevState, patch});
             dispatchEvents.emit('after-mutation', {state: nextState});
             dispatchEvents.emit('after-dispatch', {state: nextState});
         });
@@ -78,22 +80,22 @@ describe('logger', () => {
             });
         });
     
-        it('should log action', () => {
+        it('should log action (with handler duration)', () => {
             expect(console.log.getCall(1).args[0]).to.match(
-                RegExp(`${S}action`));
+                RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[2]).to.containSubset({
+            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
         });
-    
-        it('should log patch', () => {
+
+        it('should log patch (with mutation duration)', () => {
             expect(console.log.getCall(2).args[0]).to.match(
-                RegExp(`${S}patch`));
+                RegExp(`${S}patch ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(2).args[2]).to.containSubset({
+            expect(console.log.getCall(2).args[3]).to.containSubset({
                 mutations: [{
                     type: 'my-mutation',
                     data: 'M'
@@ -111,7 +113,6 @@ describe('logger', () => {
             });
     
         });
-
     });
 
     describe('action failed in handler', () => {
@@ -130,6 +131,7 @@ describe('logger', () => {
             middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
+            dispatchEvents.emit('before-handler', {state: prevState, action});
             dispatchEvents.emit('handler-fail', {error});
         });
 
@@ -164,12 +166,12 @@ describe('logger', () => {
             });
         });
     
-        it('should log action', () => {
+        it('should log action (with handler duration)', () => {
             expect(console.log.getCall(1).args[0]).to.match(
-                RegExp(`${S}action`));
+                RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[2]).to.containSubset({
+            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
@@ -201,6 +203,8 @@ describe('logger', () => {
             middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
+            dispatchEvents.emit('before-handler', {state: prevState, action});
+            dispatchEvents.emit('after-handler', {state: prevState});
             dispatchEvents.emit('before-mutation', {state: prevState, patch});
             dispatchEvents.emit('mutation-fail', {error});
         });
@@ -236,22 +240,22 @@ describe('logger', () => {
             });
         });
     
-        it('should log action', () => {
+        it('should log action (with handler duration)', () => {
             expect(console.log.getCall(1).args[0]).to.match(
-                RegExp(`${S}action`));
+                RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[2]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[2]).to.containSubset({
+            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(console.log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
         });
-    
-        it('should log patch', () => {
+
+        it('should log patch (with mutation duration)', () => {
             expect(console.log.getCall(2).args[0]).to.match(
-                RegExp(`${S}patch`));
+                RegExp(`${S}patch ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(2).args[2]).to.containSubset({
+            expect(console.log.getCall(2).args[3]).to.containSubset({
                 mutations: [{
                     type: 'my-mutation',
                     data: 'M'
@@ -280,6 +284,8 @@ describe('logger', () => {
                 middleware.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -317,6 +323,8 @@ describe('logger', () => {
                 middleware.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -347,6 +355,8 @@ describe('logger', () => {
                 middleware.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -381,6 +391,8 @@ describe('logger', () => {
                 middleware.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -417,6 +429,8 @@ describe('logger', () => {
                 middleware1.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -426,6 +440,8 @@ describe('logger', () => {
                 middleware2.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -456,6 +472,8 @@ describe('logger', () => {
                 middleware.onDispatch(events, action);
                 
                 events.emit('before-dispatch', {state: prevState, action});
+                events.emit('before-handler', {state: prevState, action});
+                events.emit('after-handler', {state: prevState});
                 events.emit('after-dispatch', {state: nextState});
             };
 
@@ -507,7 +525,10 @@ describe('logger', () => {
             middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state, action});
+            dispatchEvents.emit('before-handler', {state, action});
+            dispatchEvents.emit('after-handler', {state});
             dispatchEvents.emit('before-mutation', {state, patch});
+            dispatchEvents.emit('after-mutation', {state});
             dispatchEvents.emit('after-dispatch', {state});
 
             // check
@@ -531,7 +552,10 @@ describe('logger', () => {
             middleware.onDispatch(dispatchEvents, action);
 
             dispatchEvents.emit('before-dispatch', {state, action});
+            dispatchEvents.emit('before-handler', {state, action});
+            dispatchEvents.emit('after-handler', {state});
             dispatchEvents.emit('before-mutation', {state, patch});
+            dispatchEvents.emit('after-mutation', {state});
             dispatchEvents.emit('after-dispatch', {state});
 
             // check
@@ -561,8 +585,12 @@ describe('logger', () => {
             middleware.onDispatch(events, parentAction);
 
             events.emit('before-dispatch', {state, action: parentAction});
+            events.emit('before-handler', {state, action: parentAction});
+
             events.emit('child-action', {action: childAction1});
             events.emit('child-action', {action: childAction2});
+
+            events.emit('after-handler', {state});
             events.emit('after-dispatch', {state});
 
             // check
@@ -587,6 +615,8 @@ describe('logger', () => {
             middleware.onDispatch(events, action);
 
             events.emit('before-dispatch', {state, action});
+            events.emit('before-handler', {state, action});
+            events.emit('after-handler', {state});
             events.emit('after-dispatch', {state});
 
             // check
