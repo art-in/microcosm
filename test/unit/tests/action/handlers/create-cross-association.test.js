@@ -21,14 +21,16 @@ describe('create-cross-association', () => {
         const ideaA = new Idea({
             id: 'A',
             isRoot: true,
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linkFromParent: null,
             linksToChilds: []
         });
 
         const ideaB = new Idea({
             id: 'B',
-            pos: new Point({x: 10, y: 10}),
+            posRel: new Point({x: 10, y: 10}),
+            posAbs: new Point({x: 10, y: 10}),
             linkFromParent: null,
             linksToChilds: []
         });
@@ -74,7 +76,8 @@ describe('create-cross-association', () => {
         const ideaA = new Idea({
             id: 'A',
             isRoot: true,
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linkFromParent: null,
             linksToChilds: [],
             rootPathWeight: 0
@@ -82,7 +85,8 @@ describe('create-cross-association', () => {
 
         const ideaB = new Idea({
             id: 'B',
-            pos: new Point({x: 0, y: 10}),
+            posRel: new Point({x: 0, y: 10}),
+            posAbs: new Point({x: 0, y: 10}),
             linkFromParent: null,
             linksToChilds: [],
             rootPathWeight: 100
@@ -119,7 +123,9 @@ describe('create-cross-association', () => {
             id: 'B',
             associationsIn: [assoc],
             linkFromParent: assoc,
-            rootPathWeight: 10
+            rootPathWeight: 10,
+
+            posRel: {x: 0, y: 10}
         });
     });
 
@@ -148,8 +154,12 @@ describe('create-cross-association', () => {
         const assocAtoE = links.find(l => l.id === 'A to E');
         const assocBtoC = links.find(l => l.id === 'B to C');
 
-        ideaA.pos = new Point({x: 0, y: 0});
-        ideaC.pos = new Point({x: 1, y: 0});
+        // setup positions
+        ideaA.posRel = new Point({x: 0, y: 0});
+        ideaA.posAbs = new Point({x: 0, y: 0});
+
+        ideaC.posRel = new Point({x: 1.9, y: 0});
+        ideaC.posAbs = new Point({x: 1.9, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -193,14 +203,16 @@ describe('create-cross-association', () => {
 
         expect(updateC).to.deep.equal({
             id: 'C',
-            rootPathWeight: 1,
+            rootPathWeight: 1.9,
             linkFromParent: assocAtoC,
-            associationsIn: [assocBtoC, assocAtoC]
+            associationsIn: [assocBtoC, assocAtoC],
+
+            posRel: {x: 1.9, y: 0}
         });
 
         expect(updateD).to.deep.equal({
             id: 'D',
-            rootPathWeight: 2
+            rootPathWeight: 2.9
         });
     });
 
@@ -226,8 +238,11 @@ describe('create-cross-association', () => {
         const ideaA = nodes.find(n => n.id === 'A');
         const ideaC = nodes.find(n => n.id === 'C');
 
-        ideaA.pos = new Point({x: 0, y: 0});
-        ideaC.pos = new Point({x: 1, y: 0});
+        ideaA.posRel = new Point({x: 0, y: 0});
+        ideaA.posAbs = new Point({x: 0, y: 0});
+
+        ideaC.posRel = new Point({x: 1, y: 0});
+        ideaC.posAbs = new Point({x: 1, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -260,14 +275,16 @@ describe('create-cross-association', () => {
         const ideaA = new Idea({
             id: 'A',
             isRoot: true,
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linkFromParent: null,
             linksToChilds: []
         });
 
         const ideaB = new Idea({
             id: 'B',
-            pos: new Point({x: 10, y: 10}),
+            posRel: new Point({x: 10, y: 10}),
+            posAbs: new Point({x: 10, y: 10}),
             linkFromParent: null,
             linksToChilds: []
         });

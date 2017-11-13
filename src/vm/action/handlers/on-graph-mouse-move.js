@@ -30,9 +30,9 @@ export default function(state, data, dispatch) {
         graph.drag.nodes.forEach(n => {
             patch.push(view('update-node', {
                 id: n.id,
-                pos: {
-                    x: n.pos.x + viewboxShift.x,
-                    y: n.pos.y + viewboxShift.y
+                posAbs: {
+                    x: n.posAbs.x + viewboxShift.x,
+                    y: n.posAbs.y + viewboxShift.y
                 }
             }));
         });

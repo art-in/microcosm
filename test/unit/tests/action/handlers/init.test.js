@@ -39,13 +39,13 @@ describe('init', () => {
             new Idea({
                 id: 'A',
                 isRoot: true,
-                pos: new Point({x: 0, y: 0})
+                posRel: new Point({x: 0, y: 0})
             }));
 
         await ideaDB.add(db.ideas,
             new Idea({
                 id: 'B',
-                pos: new Point({x: 0, y: 100})
+                posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDB.add(db.associations,
@@ -145,7 +145,7 @@ describe('init', () => {
         expect(ideas[0].isRoot).to.be.true;
     });
 
-    it('should init mindmap model with idea root path weights', async () => {
+    it('should init model with idea root path weights', async () => {
         
         // setup database
         const db = {
@@ -163,13 +163,13 @@ describe('init', () => {
             new Idea({
                 id: 'A',
                 isRoot: true,
-                pos: new Point({x: 0, y: 0})
+                posRel: new Point({x: 0, y: 0})
             }));
 
         await ideaDB.add(db.ideas,
             new Idea({
                 id: 'B',
-                pos: new Point({x: 0, y: 100})
+                posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDB.add(db.associations,
@@ -207,6 +207,62 @@ describe('init', () => {
         });
     });
 
+    it('should init model with idea absolute positions', async () => {
+        
+        // setup database
+        const db = {
+            ideas: createDB(),
+            associations: createDB(),
+            mindmaps: createDB()
+        };
+
+        await mindmapDB.add(db.mindmaps,
+            new Mindmap({
+                scale: 1
+            }));
+
+        await ideaDB.add(db.ideas,
+            new Idea({
+                id: 'A',
+                isRoot: true,
+                posRel: new Point({x: 10, y: 10})
+            }));
+
+        await ideaDB.add(db.ideas,
+            new Idea({
+                id: 'B',
+                posRel: new Point({x: 0, y: 100})
+            }));
+
+        await assocDB.add(db.associations,
+            new Association({
+                fromId: 'A',
+                toId: 'B',
+                weight: 100
+            }));
+
+        const state = {};
+
+        // target
+        const patch = await handle(state, {
+            type: 'init',
+            data: {
+                db,
+                view: window.document.body
+            }
+        });
+
+        // check
+        expect(patch).to.have.length(1);
+
+        const {mindmap} = patch[0].data.model;
+        const ideaA = mindmap.ideas.get('A');
+        const ideaB = mindmap.ideas.get('B');
+
+        expect(ideaA.posAbs).to.deep.equal({x: 10, y: 10});
+        expect(ideaB.posAbs).to.deep.equal({x: 10, y: 110});
+    });
+
     it('should init vm', async () => {
         
         // setup database
@@ -225,13 +281,13 @@ describe('init', () => {
             new Idea({
                 id: 'A',
                 isRoot: true,
-                pos: new Point({x: 0, y: 0})
+                posRel: new Point({x: 0, y: 0})
             }));
 
         await ideaDB.add(db.ideas,
             new Idea({
                 id: 'B',
-                pos: new Point({x: 0, y: 100})
+                posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDB.add(db.associations,

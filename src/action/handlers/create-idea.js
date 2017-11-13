@@ -24,11 +24,17 @@ export default function createIdea(state, data) {
 
     const parent = getIdea(mindmap, parentIdeaId);
 
+    const posRel = new Point({
+        x: 100,
+        y: 100
+    });
+
     const idea = new Idea({
         mindmapId: mindmap.id,
-        pos: new Point({
-            x: parent.pos.x + 100,
-            y: parent.pos.y + 100
+        posRel,
+        posAbs: new Point({
+            x: parent.posAbs.x + posRel.x,
+            y: parent.posAbs.y + posRel.y
         })
     });
 
@@ -39,7 +45,7 @@ export default function createIdea(state, data) {
         from: parent,
         toId: idea.id,
         to: idea,
-        weight: weighAssociation(parent.pos, idea.pos)
+        weight: weighAssociation(parent.posAbs, idea.posAbs)
     });
 
     // bind to parent

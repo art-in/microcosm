@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import getIdea from 'action/utils/get-idea';
-import getRootPathsPatch from 'action/utils/get-root-paths-patch';
+import patchRootPaths from 'action/utils/patch-root-paths';
 import normalizePatch from 'action/utils/normalize-patch';
 import weighAssociation from 'model/utils/weigh-association';
 
@@ -56,7 +56,7 @@ export default function createCrossAssociation(state, data) {
         from: head,
         toId: tailIdeaId,
         to: tail,
-        weight: weighAssociation(head.pos, tail.pos)
+        weight: weighAssociation(head.posAbs, tail.posAbs)
     });
 
     // bind to head
@@ -77,7 +77,7 @@ export default function createCrossAssociation(state, data) {
     patch.push('add-association', {assoc});
 
     // update root paths
-    const rootPathsPatch = getRootPathsPatch({
+    const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
         replaceLinksOut: [{node: head, linksOut: newHeadAssocsOut}]
     });

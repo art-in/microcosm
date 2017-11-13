@@ -4,7 +4,7 @@ import Patch from 'utils/state/Patch';
 import getDescendants from 'utils/graph/get-descendants';
 import weighAssociation from 'model/utils/weigh-association';
 import isValidPosition from 'model/utils/is-valid-position';
-import getRootPathsPatch from 'action/utils/get-root-paths-patch';
+import patchRootPaths from 'action/utils/patch-root-paths';
 import normalizePatch from 'action/utils/normalize-patch';
 import getIdea from 'action/utils/get-idea';
 
@@ -19,15 +19,15 @@ import getIdea from 'action/utils/get-idea';
  */
 export default function setIdeaPosition(state, data) {
     const {model: {mindmap}} = state;
-    const {ideaId, pos} = required(data);
+    const {ideaId, posAbs} = required(data);
 
     let patch = new Patch();
 
     const idea = getIdea(mindmap, ideaId);
 
     // position delta
-    const dx = pos.x - idea.pos.x;
-    const dy = pos.y - idea.pos.y;
+    const dx = posAbs.x - idea.posAbs.x;
+    const dy = posAbs.y - idea.posAbs.y;
 
     if (dx === 0 && dy === 0) {
         // position was not changed
@@ -36,67 +36,110 @@ export default function setIdeaPosition(state, data) {
 
     // move entire child-subtree with parent idea
     const descendants = getDescendants(idea);
-    const movedIdeas = [idea, ...descendants];
+    const movingIdeas = [idea, ...descendants];
 
-    const assocWeights = [];
+    // update absolute positions of moving nodes and weights of
+    // affected associations
+    const newLinkWeights = [];
+    const newIdeaPositions = [];
+    
+    movingIdeas.forEach(idea => {
 
-    movedIdeas.forEach(idea => {
-
-        if (!isValidPosition(idea.pos)) {
-            throw Error(`Idea '${idea.id}' has invalid position '${idea.pos}'`);
+        if (!isValidPosition(idea.posAbs)) {
+            throw Error(
+                `Idea '${idea.id}' has invalid absolute position ` +
+                `'${idea.pos}'`);
         }
 
-        const newPos = {
-            x: idea.pos.x + dx,
-            y: idea.pos.y + dy
+        const newPosAbs = {
+            x: idea.posAbs.x + dx,
+            y: idea.posAbs.y + dy
         };
 
         // re-weigh all related associations
         idea.associationsIn.forEach(assoc => {
-            if (movedIdeas.includes(assoc.from)) {
-                // do not update weight of associations between moved ideas.
-                // they cannot change since relative position between ideas
-                // is not changing.
+            if (movingIdeas.includes(assoc.from)) {
+                // do not update weight of associations between moving ideas,
+                // since relative position between moving ideas is not changing.
                 return;
             }
 
-            assocWeights.push({
-                assoc,
-                weight: weighAssociation(assoc.from.pos, newPos)
+            newLinkWeights.push({
+                link: assoc,
+                weight: weighAssociation(assoc.from.posAbs, newPosAbs)
             });
         });
     
         idea.associationsOut.forEach(assoc => {
-            if (movedIdeas.includes(assoc.to)) {
+            if (movingIdeas.includes(assoc.to)) {
                 return;
             }
 
-            assocWeights.push({
-                assoc,
-                weight: weighAssociation(newPos, assoc.to.pos)
+            newLinkWeights.push({
+                link: assoc,
+                weight: weighAssociation(newPosAbs, assoc.to.posAbs)
             });
         });
 
-        // update idea
-        patch.push('update-idea', {
-            id: idea.id,
-            pos: newPos
+        newIdeaPositions.push({
+            idea,
+            posAbs: newPosAbs
         });
+
+        // update relative positions of ideas
+        if (idea.isRoot) {
+
+            // absolute position equals to relative for root
+            patch.push('update-idea', {
+                id: idea.id,
+                posRel: {
+                    x: newPosAbs.x,
+                    y: newPosAbs.y
+                }
+            });
+
+        } else {
+
+            // we did not yet updated root paths for new positions,
+            // so parent and relative pos may actually change soon,
+            // and this position and effort will be wasted. ideally we would
+            // need to calc rel positions only for ideas that did not change
+            // their parents (ones that change it will be updated anyway).
+            // but there should not be a lot of parent changes,
+            // so leaving it to keep code a bit simpler.
+            const parent = idea.linkFromParent.from;
+            
+            // only update rel positions between moving ideas and any others,
+            // since relative position between moving ideas is not changing.
+            if (!movingIdeas.includes(parent)) {
+                patch.push('update-idea', {
+                    id: idea.id,
+                    posRel: {
+                        x: newPosAbs.x - parent.posAbs.x,
+                        y: newPosAbs.y - parent.posAbs.y
+                    }
+                });
+            }
+        }
     });
 
-    assocWeights.forEach(w =>
+    newLinkWeights.forEach(w =>
         patch.push('update-association', {
-            id: w.assoc.id,
+            id: w.link.id,
             weight: w.weight
         }));
 
+    newIdeaPositions.forEach(p =>
+        patch.push('update-idea', {
+            id: p.idea.id,
+            posAbs: p.posAbs
+        }));
+
     // update root paths
-    const rootPathsPatch = getRootPathsPatch({
+    const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
-        replaceLinkWeights: assocWeights.map(aw => ({
-            link: aw.assoc,
-            weight: aw.weight
-        }))
+        replaceLinkWeights: newLinkWeights,
+        replaceIdeaPositions: newIdeaPositions
     });
 
     patch = Patch.combine(patch, rootPathsPatch);

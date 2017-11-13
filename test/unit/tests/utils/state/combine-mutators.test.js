@@ -31,7 +31,7 @@ describe('combine-mutators', () => {
         await state.data.ideas.put({
             _id: 'A',
             isRoot: true,
-            pos: {x: 0, y: 0}
+            posRel: {x: 0, y: 0}
         });
 
         // setup model
@@ -39,7 +39,8 @@ describe('combine-mutators', () => {
             id: 'A',
             isRoot: true,
             rootPathWeight: 0,
-            pos: new Point({x: 0, y: 0})
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0})
         });
 
         ideaA.linkFromParent = null;
@@ -64,7 +65,8 @@ describe('combine-mutators', () => {
             id: 'B',
             isRoot: true,
             rootPathWeight: 0,
-            pos: new Point({x: 0, y: 0})
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0})
         });
 
         const assocAtoB = new Association({

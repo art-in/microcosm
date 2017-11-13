@@ -55,15 +55,30 @@ describe('mindmap-to-graph', () => {
         const ideaG = nodes.find(n => n.id === 'G');
         const ideaH = nodes.find(n => n.id === 'H');
 
-        // set positions
-        ideaA.pos = new Point({x: 0, y: 0});
-        ideaB.pos = new Point({x: 0, y: 1000});
-        ideaC.pos = new Point({x: 500, y: 0});
-        ideaD.pos = new Point({x: 0, y: 1001});
-        ideaE.pos = new Point({x: 0, y: 1500});
-        ideaF.pos = new Point({x: 0, y: 1501});
-        ideaG.pos = new Point({x: 0, y: 1502});
-        ideaH.pos = new Point({x: 0, y: 2000});
+        // setup positions
+        ideaA.posAbs = new Point({x: 0, y: 0});
+        ideaA.posRel = new Point({x: 0, y: 0});
+
+        ideaB.posAbs = new Point({x: 0, y: 1000});
+        ideaB.posRel = new Point({x: -500, y: 1000});
+
+        ideaC.posAbs = new Point({x: 500, y: 0});
+        ideaC.posRel = new Point({x: 500, y: 0});
+
+        ideaD.posAbs = new Point({x: 0, y: 1001});
+        ideaD.posRel = new Point({x: 0, y: 1});
+
+        ideaE.posAbs = new Point({x: 0, y: 1500});
+        ideaE.posRel = new Point({x: 0, y: 499});
+
+        ideaF.posAbs = new Point({x: 0, y: 1501});
+        ideaF.posRel = new Point({x: 0, y: 1});
+
+        ideaG.posAbs = new Point({x: 0, y: 1502});
+        ideaG.posRel = new Point({x: 0, y: 1});
+
+        ideaH.posAbs = new Point({x: 0, y: 2000});
+        ideaH.posRel = new Point({x: 0, y: 498});
 
         // set colors
         ideaA.color = 'red';
@@ -221,13 +236,13 @@ describe('mindmap-to-graph', () => {
         const nodeG = graph.nodes.find(n => n.id === 'G');
         const nodeH = graph.nodes.find(n => n.id === 'H');
 
-        expect(nodeA.pos).to.containSubset({x: 0, y: 0});
-        expect(nodeB.pos).to.containSubset({x: 0, y: 1000});
-        expect(nodeC.pos).to.containSubset({x: 500, y: 0});
-        expect(nodeD.pos).to.containSubset({x: 0, y: 1001});
-        expect(nodeE.pos).to.containSubset({x: 0, y: 1500});
-        expect(nodeG.pos).to.containSubset({x: 0, y: 1502});
-        expect(nodeH.pos).to.containSubset({x: 0, y: 2000});
+        expect(nodeA.posAbs).to.containSubset({x: 0, y: 0});
+        expect(nodeB.posAbs).to.containSubset({x: 0, y: 1000});
+        expect(nodeC.posAbs).to.containSubset({x: 500, y: 0});
+        expect(nodeD.posAbs).to.containSubset({x: 0, y: 1001});
+        expect(nodeE.posAbs).to.containSubset({x: 0, y: 1500});
+        expect(nodeG.posAbs).to.containSubset({x: 0, y: 1502});
+        expect(nodeH.posAbs).to.containSubset({x: 0, y: 2000});
     });
 
     it('should set nodes scale', () => {

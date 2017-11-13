@@ -9,6 +9,8 @@ export default class Node extends ViewModel {
 
     /**
      * Debug state
+     * TODO: move flag inside debugInfo object to have
+     *       single 'debug' prop
      */
     debug = true;
 
@@ -21,7 +23,13 @@ export default class Node extends ViewModel {
          * Weight of minimal path from root (RPW).
          * @type {number}
          */
-        rootPathWeight: undefined
+        rootPathWeight: undefined,
+
+        /**
+         * Position relative to parent idea
+         * @type {Point}
+         */
+        posRel: undefined
 
     };
 
@@ -31,10 +39,10 @@ export default class Node extends ViewModel {
     id = undefined;
     
     /**
-     * Position of node on canvas.
+     * Absolute position of node on canvas.
      * @type {Point}
      */
-    pos = undefined;
+    posAbs = undefined;
 
     /**
      * Node radius

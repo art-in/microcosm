@@ -15,7 +15,7 @@ export default function ideaToDbo(model) {
     dbo.isRoot = model.isRoot || undefined;
     dbo.value = model.value;
     dbo.color = model.color || undefined;
-    dbo.pos = model.pos && pointToDbo(model.pos);
+    dbo.posRel = model.posRel && pointToDbo(model.posRel);
 
     deleteUndefinedProps(dbo);
 

@@ -36,8 +36,8 @@ export default function(state, data, dispatch) {
             node,
             nodes: [node, ...descendants],
 
-            startX: node.pos.x,
-            startY: node.pos.y
+            startX: node.posAbs.x,
+            startY: node.posAbs.y
         }
     });
 }

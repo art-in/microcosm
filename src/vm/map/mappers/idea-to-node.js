@@ -24,9 +24,10 @@ export default function ideaToNode(idea) {
     node.radius = 10;
     
     node.isRoot = idea.isRoot;
-    node.pos = new Point(idea.pos);
+    node.posAbs = new Point(idea.posAbs);
 
     node.debugInfo.rootPathWeight = idea.rootPathWeight;
+    node.debugInfo.posRel = idea.posRel;
 
     return node;
 }

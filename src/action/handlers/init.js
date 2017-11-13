@@ -14,6 +14,7 @@ import MindmapVM from 'vm/main/Mindmap';
 
 import buildGraph from 'model/utils/build-ideas-graph-from-objects';
 import weighRootPaths from 'utils/graph/weigh-root-paths';
+import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 
 import toGraph from 'vm/map/mappers/mindmap-to-graph';
 
@@ -40,7 +41,7 @@ export default async function init(state, data) {
         // ideas database is empty, creating root idea
         await ideaDB.add(db.ideas, new Idea({
             isRoot: true,
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
             color: 'white'
         }));
     }
@@ -59,6 +60,7 @@ export default async function init(state, data) {
     // init model
     mindmap.root = buildGraph(ideas, associations);
     weighRootPaths({root: mindmap.root});
+    setAbsolutePositions({root: mindmap.root});
 
     associations.forEach(a => mindmap.associations.set(a.id, a));
     ideas.forEach(i => mindmap.ideas.set(i.id, i));

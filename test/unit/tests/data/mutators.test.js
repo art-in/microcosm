@@ -60,7 +60,7 @@ describe('mutators', () => {
                     idea: new Idea({
                         id: 'id',
                         value: 'test',
-                        pos: new Point({x: 0, y: 0})
+                        posRel: new Point({x: 0, y: 0})
                     })
                 }});
     

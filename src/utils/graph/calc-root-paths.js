@@ -20,7 +20,7 @@ import PriorityQueue from 'utils/PriorityQueue';
  *       possible, but it would mean we need to mutate same entities several
  *       times (eg. when creating cross link first we need to mutate 
  *       parent node to add new outgoing link, and after that possibly mutate
- *       same node to add link to child).
+ *       same node again to add link to child).
  * Q  b) why not duplicate original graph or create graph in different
  *       representation (eg. adjacency matrix) with applied changes and then
  *       calculate paths on that duplicate?
@@ -70,28 +70,17 @@ export default function calcRootPaths(opts) {
         const predecessorData = rootPathData.get(predecessor);
 
         // get outgoing links
-        let linksOut;
-        const replace = replaceLinksOut.find(r => r.node === predecessor);
-        if (replace) {
-            linksOut = replace.linksOut;
-        } else {
-            linksOut = predecessor.linksOut;
-        }
-
-        linksOut = linksOut.filter(l => !ignoreLinks.includes(l));
+        const linksOut = getNodeLinksOut(
+            predecessor,
+            replaceLinksOut,
+            ignoreLinks);
 
         linksOut.forEach(link => {
 
             const successor = link.to;
 
             // get link weight
-            let linkWeight;
-            const replace = replaceLinkWeights.find(r => r.link === link);
-            if (replace) {
-                linkWeight = replace.weight;
-            } else {
-                linkWeight = link.weight;
-            }
+            const linkWeight = getLinkWeight(link, replaceLinkWeights);
 
             // ensure link weight is valid
             if (!Number.isFinite(linkWeight) || linkWeight < 0) {
@@ -159,4 +148,39 @@ export default function calcRootPaths(opts) {
         linkFromParent: e[1].linkFromParent,
         linksToChilds: e[1].linksToChilds
     }));
+}
+
+/**
+ * Gets link weight
+ * @param {object} link 
+ * @param {array} replaceLinkWeights
+ * @return {number}
+ */
+function getLinkWeight(link, replaceLinkWeights) {
+    const replace = replaceLinkWeights.find(r => r.link === link);
+    if (replace) {
+        return replace.weight;
+    } else {
+        return link.weight;
+    }
+}
+
+/**
+ * Gets outgoing links for node
+ * @param {object} node 
+ * @param {array} replaceLinksOut 
+ * @param {array} ignoreLinks 
+ * @return {array}
+ */
+function getNodeLinksOut(node, replaceLinksOut, ignoreLinks) {
+    let linksOut;
+
+    const replace = replaceLinksOut.find(r => r.node === node);
+    if (replace) {
+        linksOut = replace.linksOut;
+    } else {
+        linksOut = node.linksOut;
+    }
+
+    return linksOut.filter(l => !ignoreLinks.includes(l));
 }

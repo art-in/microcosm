@@ -16,7 +16,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linksToChilds: [],
             rootPathWeight: 0
         });
@@ -53,7 +54,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linksToChilds: [],
             rootPathWeight: 0
         });
@@ -88,7 +90,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linksToChilds: [],
             rootPathWeight: 0
         });
@@ -124,7 +127,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: {x: 10, y: 20},
+            posRel: {x: 0, y: 0},
+            posAbs: {x: 10, y: 20},
             linksToChilds: [],
             rootPathWeight: 0
         });
@@ -144,7 +148,8 @@ describe('create-idea', () => {
         const {idea} = patch['add-idea'][0].data;
         
         expect(idea).to.be.instanceOf(Idea);
-        expect(idea.pos).to.containSubset({x: 110, y: 120});
+        expect(idea.posRel).to.containSubset({x: 100, y: 100});
+        expect(idea.posAbs).to.containSubset({x: 110, y: 120});
     });
 
     it('should NOT mutate state', () => {
@@ -152,7 +157,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linksToChilds: [],
             rootPathWeight: 0
         });
@@ -178,7 +184,8 @@ describe('create-idea', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 0, y: 0}),
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
             linksToChilds: [],
             rootPathWeight: 0
         });

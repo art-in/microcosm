@@ -40,15 +40,19 @@ export default class Idea {
     color = undefined;
 
     /**
-     * Position on mindmap.
-     * TODO: consider preserving pos relative to parent idea,
-     *       to decrease amount of updates when moving idea
-     *       and entire child sub-tree.
+     * Position on mindmap relative to parent idea in
+     * minimum spanning tree (MST).
      * @type {Point}
      */
-    pos = undefined;
+    posRel = undefined;
 
     // region Dynamic props (computed on run, not saved to db)
+
+    /**
+     * Absolute position on mindmap.
+     * @type {Point}
+     */
+    posAbs = undefined;
 
     /**
      * TODO: remove extensions, leave interface props only

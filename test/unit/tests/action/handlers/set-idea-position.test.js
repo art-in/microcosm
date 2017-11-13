@@ -17,7 +17,9 @@ describe('set-idea-position', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 1, y: 1}),
+            isRoot: true,
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 1, y: 1}),
             linksToChilds: [],
             linkFromParent: null,
             rootPathWeight: 0
@@ -34,7 +36,7 @@ describe('set-idea-position', () => {
             type: 'set-idea-position',
             data: {
                 ideaId: 'A',
-                pos: new Point({x: 2, y: 2})
+                posAbs: new Point({x: 2, y: 2})
             }
         });
 
@@ -46,7 +48,8 @@ describe('set-idea-position', () => {
 
         expect(updateA).to.deep.equal({
             id: 'A',
-            pos: {x: 2, y: 2}
+            posAbs: {x: 2, y: 2},
+            posRel: {x: 2, y: 2}
         });
     });
 
@@ -66,11 +69,30 @@ describe('set-idea-position', () => {
             /* D */ '0  0  0  0'
         ]);
 
-        nodes.find(i => i.id === 'A').pos = new Point({x: 0, y: 0});
-        nodes.find(i => i.id === 'B').pos = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'C').pos = new Point({x: 2, y: 0});
-        nodes.find(i => i.id === 'D').pos = new Point({x: 2, y: 1});
+        const nodeA = nodes.find(i => i.id === 'A');
+        const nodeB = nodes.find(i => i.id === 'B');
+        const nodeC = nodes.find(i => i.id === 'C');
+        const nodeD = nodes.find(i => i.id === 'D');
 
+        // setup positions
+        const posA = {x: 0, y: 0};
+        const posB = {x: 1, y: 0};
+        const posC = {x: 2, y: 0};
+        const posD = {x: 2, y: 1};
+
+        nodeA.posAbs = new Point(posA);
+        nodeA.posRel = new Point(posA);
+
+        nodeB.posAbs = new Point(posB);
+        nodeB.posRel = new Point(posB);
+
+        nodeC.posAbs = new Point(posC);
+        nodeC.posRel = new Point(posC);
+
+        nodeD.posAbs = new Point(posD);
+        nodeD.posRel = new Point(posD);
+
+        // setup mindmap
         const mindmap = new Mindmap();
 
         mindmap.root = root;
@@ -84,7 +106,7 @@ describe('set-idea-position', () => {
             type: 'set-idea-position',
             data: {
                 ideaId: 'B',
-                pos: new Point({x: 0, y: 1})
+                posAbs: new Point({x: 0, y: 1})
             }
         });
 
@@ -92,13 +114,21 @@ describe('set-idea-position', () => {
         const mutations = patch['update-idea'];
         
         expect(mutations).to.have.length(3);
-        const posB = mutations.find(m => m.data.id === 'B').data.pos;
-        const posC = mutations.find(m => m.data.id === 'C').data.pos;
-        const posD = mutations.find(m => m.data.id === 'D').data.pos;
+        const posAbsB = mutations.find(m => m.data.id === 'B').data.posAbs;
+        const posAbsC = mutations.find(m => m.data.id === 'C').data.posAbs;
+        const posAbsD = mutations.find(m => m.data.id === 'D').data.posAbs;
 
-        expect(posB).to.containSubset({x: 0, y: 1});
-        expect(posC).to.containSubset({x: 1, y: 1});
-        expect(posD).to.containSubset({x: 1, y: 2});
+        const posRelB = mutations.find(m => m.data.id === 'B').data.posRel;
+        const posRelC = mutations.find(m => m.data.id === 'C').data.posRel;
+        const posRelD = mutations.find(m => m.data.id === 'D').data.posRel;
+
+        expect(posAbsB).to.containSubset({x: 0, y: 1});
+        expect(posAbsC).to.containSubset({x: 1, y: 1});
+        expect(posAbsD).to.containSubset({x: 1, y: 2});
+
+        expect(posRelB).to.containSubset({x: 0, y: 1});
+        expect(posRelC).to.equal(undefined);
+        expect(posRelD).to.equal(undefined);
     });
 
     it('should update weights of affected associations', () => {
@@ -120,13 +150,31 @@ describe('set-idea-position', () => {
             /* F */ '0  5  0  0  0  0'
         ]);
 
+        const nodeA = nodes.find(i => i.id === 'A');
+        const nodeB = nodes.find(i => i.id === 'B');
+        const nodeC = nodes.find(i => i.id === 'C');
+        const nodeD = nodes.find(i => i.id === 'D');
+        const nodeE = nodes.find(i => i.id === 'E');
+        const nodeF = nodes.find(i => i.id === 'F');
+
         // setup positions
-        nodes.find(i => i.id === 'A').pos = new Point({x: 0, y: 0});
-        nodes.find(i => i.id === 'B').pos = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'C').pos = new Point({x: 0.5, y: 0.5});
-        nodes.find(i => i.id === 'D').pos = new Point({x: 2, y: 1});
-        nodes.find(i => i.id === 'E').pos = new Point({x: 3, y: 1});
-        nodes.find(i => i.id === 'F').pos = new Point({x: 4, y: 1});
+        nodeA.posAbs = new Point({x: 0, y: 0});
+        nodeA.posRel = new Point({x: 0, y: 0});
+
+        nodeB.posAbs = new Point({x: 1, y: 0});
+        nodeB.posRel = new Point({x: 1, y: 0});
+
+        nodeC.posAbs = new Point({x: 0.5, y: 0.5});
+        nodeC.posRel = new Point({x: 0.5, y: 0.5});
+
+        nodeD.posAbs = new Point({x: 2, y: 1});
+        nodeD.posRel = new Point({x: 1.5, y: 0});
+
+        nodeE.posAbs = new Point({x: 3, y: 1});
+        nodeE.posRel = new Point({x: 1, y: 0});
+
+        nodeF.posAbs = new Point({x: 4, y: 1});
+        nodeF.posRel = new Point({x: 1, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -141,15 +189,16 @@ describe('set-idea-position', () => {
             type: 'set-idea-position',
             data: {
                 ideaId: 'C',
-                pos: new Point({x: 1, y: 0.5})
+                posAbs: new Point({x: 1, y: 0.5})
             }
         });
 
         // check
         const mutations = patch['update-association'];
         
-        // assocs inside child sub-tree were not affected (C to D to E to F)
         expect(mutations).to.have.length(4);
+
+        // assocs inside child sub-tree (C to D to E to F) were not affected
         const updateAtoC = mutations.find(m => m.data.id === 'A to C').data;
         const updateBtoC = mutations.find(m => m.data.id === 'B to C').data;
         const updateBtoE = mutations.find(m => m.data.id === 'B to E').data;
@@ -162,37 +211,65 @@ describe('set-idea-position', () => {
     });
 
     it('should update root paths', () => {
-
+        
         // setup graph
         //
-        //           (A)
-        //          /  |       
-        //         /   |
-        //        /    |
-        //       v     v
-        //    (B) --> (C)
-        //     |     /
-        //     |    /
-        //     |   /
-        //     v  v
-        //     (D) 
-        //     
+        //          (B)
+        //          ^  \
+        //         /    \
+        //        /      \
+        //       /        v
+        //    (A)          (C)
+        //     \ \           ^
+        //      \ \         /
+        //       \ \-----------> (E)
+        //        \       /      /  \
+        //         \     /      /    \
+        //          \   /      /      \
+        //           v /      /        v
+        //           (D) <----         (F)
         //
         const {root, nodes, links} = buildGraph([
-            //       A  B    C  D
-            /* A */ '0  1.4  1  0',
-            /* B */ '0  0    1  1',
-            /* C */ '0  0    0  2',
-            /* D */ '0  0    0  0'
+            //       A  B    C    D    E  F
+            /* A */ '0  1.4  0    2.5  1  0',
+            /* B */ '0  0    1.4  0    0  0',
+            /* C */ '0  0    0    0    0  0',
+            /* D */ '0  0    2.5  0    0  0',
+            /* E */ '0  0    0    1.4  0  1.4',
+            /* F */ '0  0    0    0    0  0'
         ]);
 
-        // setup positions
-        nodes.find(i => i.id === 'A').pos = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'B').pos = new Point({x: 0, y: 1});
-        nodes.find(i => i.id === 'C').pos = new Point({x: 1, y: 1});
-        nodes.find(i => i.id === 'D').pos = new Point({x: 0, y: 2});
+        const nodeA = nodes.find(i => i.id === 'A');
+        const nodeB = nodes.find(i => i.id === 'B');
+        const nodeC = nodes.find(i => i.id === 'C');
+        const nodeD = nodes.find(i => i.id === 'D');
+        const nodeE = nodes.find(i => i.id === 'E');
+        const nodeF = nodes.find(i => i.id === 'F');
 
-        const assocCtoD = links.find(l => l.id === 'C to D');
+        const assocAtoB = links.find(l => l.id === 'A to B');
+        const assocAtoD = links.find(l => l.id === 'A to D');
+        const assocAtoE = links.find(l => l.id === 'A to E');
+        const assocDtoC = links.find(l => l.id === 'D to C');
+        const assocEtoF = links.find(l => l.id === 'E to F');
+
+        // setup positions
+        nodeA.posAbs = new Point({x: 0, y: 1});
+        nodeA.posRel = new Point({x: 0, y: 1});
+
+        nodeB.posAbs = new Point({x: 1, y: 0});
+        nodeB.posRel = new Point({x: 1, y: -1});
+
+        nodeC.posAbs = new Point({x: 2, y: 1});
+        nodeC.posRel = new Point({x: 1, y: 1});
+
+        nodeD.posAbs = new Point({x: 1, y: 2});
+        nodeD.posRel = new Point({x: -1, y: 1});
+
+        nodeE.posAbs = new Point({x: 2, y: 1});
+        nodeE.posRel = new Point({x: 2, y: 0});
+
+        nodeF.posAbs = new Point({x: 3, y: 2});
+        nodeF.posRel = new Point({x: 1, y: 1});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -206,19 +283,27 @@ describe('set-idea-position', () => {
         const patch = handle(state, {
             type: 'set-idea-position',
             data: {
-                ideaId: 'D',
-                pos: new Point({x: 1, y: 2})
+                ideaId: 'E',
+                posAbs: new Point({x: 2, y: 0})
             }
         });
 
         // check
         const mutations = patch['update-idea'];
         
-        expect(mutations).to.have.length(3);
+        expect(mutations).to.have.length(6);
         
+        const updateA = mutations.find(m => m.data.id === 'A').data;
         const updateB = mutations.find(m => m.data.id === 'B').data;
         const updateC = mutations.find(m => m.data.id === 'C').data;
         const updateD = mutations.find(m => m.data.id === 'D').data;
+        const updateE = mutations.find(m => m.data.id === 'E').data;
+        const updateF = mutations.find(m => m.data.id === 'F').data;
+
+        expect(updateA).to.deep.equal({
+            id: 'A',
+            linksToChilds: [assocAtoB, assocAtoD, assocAtoE]
+        });
 
         expect(updateB).to.deep.equal({
             id: 'B',
@@ -227,14 +312,36 @@ describe('set-idea-position', () => {
 
         expect(updateC).to.deep.equal({
             id: 'C',
-            linksToChilds: [assocCtoD]
+            linkFromParent: assocDtoC,
+            rootPathWeight: 2,
+
+            posRel: {x: 1, y: 0}
         });
 
         expect(updateD).to.deep.equal({
             id: 'D',
-            pos: {x: 1, y: 2},
-            linkFromParent: assocCtoD,
-            rootPathWeight: 2
+            linkFromParent: assocAtoD,
+            linksToChilds: [assocDtoC],
+            rootPathWeight: 1,
+
+            posAbs: {x: 1, y: 1},
+            posRel: {x: 1, y: 0}
+        });
+
+        expect(updateE).to.deep.equal({
+            id: 'E',
+            linksToChilds: [assocEtoF],
+            rootPathWeight: Math.sqrt(5),
+
+            posAbs: {x: 2, y: 0},
+            posRel: {x: 2, y: -1}
+        });
+
+        expect(updateF).to.deep.equal({
+            id: 'F',
+            rootPathWeight: Math.sqrt(5) + 1.4,
+
+            posAbs: {x: 3, y: 1}
         });
     });
 
@@ -254,10 +361,10 @@ describe('set-idea-position', () => {
             /* D */ '0  0  0  0'
         ]);
 
-        nodes.find(i => i.id === 'A').pos = new Point({x: 0, y: 0});
-        nodes.find(i => i.id === 'B').pos = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'C').pos = new Point({x: 2, y: 0});
-        nodes.find(i => i.id === 'D').pos = new Point({x: 2, y: 1});
+        nodes.find(i => i.id === 'A').posAbs = new Point({x: 0, y: 0});
+        nodes.find(i => i.id === 'B').posAbs = new Point({x: 1, y: 0});
+        nodes.find(i => i.id === 'C').posAbs = new Point({x: 2, y: 0});
+        nodes.find(i => i.id === 'D').posAbs = new Point({x: 2, y: 1});
 
         const mindmap = new Mindmap();
 
@@ -272,7 +379,7 @@ describe('set-idea-position', () => {
             type: 'set-idea-position',
             data: {
                 ideaId: 'B',
-                pos: new Point({x: 1, y: 0})
+                posAbs: new Point({x: 1, y: 0})
             }
         });
 
@@ -284,32 +391,56 @@ describe('set-idea-position', () => {
         
         // setup graph
         //
-        //           (A)
-        //          /  |       
-        //         /   |
-        //        /    |
-        //       v     v
-        //    (B) --> (C)
-        //     |     /
-        //     |    /
-        //     |   /
-        //     v  v
-        //     (D) 
-        //     
+        //          (B)
+        //          ^  \
+        //         /    \
+        //        /      \
+        //       /        v
+        //    (A)          (C)
+        //     \ \           ^
+        //      \ \         /
+        //       \ \-----------> (E)
+        //        \       /      /  \
+        //         \     /      /    \
+        //          \   /      /      \
+        //           v /      /        v
+        //           (D) <----         (F)
         //
         const {root, nodes, links} = buildGraph([
-            //       A  B    C  D
-            /* A */ '0  1.4  1  0',
-            /* B */ '0  0    1  1',
-            /* C */ '0  0    0  2',
-            /* D */ '0  0    0  0'
+            //       A  B    C    D    E  F
+            /* A */ '0  1.4  0    2.5  1  0',
+            /* B */ '0  0    1.4  0    0  0',
+            /* C */ '0  0    0    0    0  0',
+            /* D */ '0  0    2.5  0    0  0',
+            /* E */ '0  0    0    1.4  0  1.4',
+            /* F */ '0  0    0    0    0  0'
         ]);
 
+        const nodeA = nodes.find(i => i.id === 'A');
+        const nodeB = nodes.find(i => i.id === 'B');
+        const nodeC = nodes.find(i => i.id === 'C');
+        const nodeD = nodes.find(i => i.id === 'D');
+        const nodeE = nodes.find(i => i.id === 'E');
+        const nodeF = nodes.find(i => i.id === 'F');
+
         // setup positions
-        nodes.find(i => i.id === 'A').pos = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'B').pos = new Point({x: 0, y: 1});
-        nodes.find(i => i.id === 'C').pos = new Point({x: 1, y: 1});
-        nodes.find(i => i.id === 'D').pos = new Point({x: 0, y: 2});
+        nodeA.posAbs = new Point({x: 0, y: 1});
+        nodeA.posRel = new Point({x: 0, y: 1});
+
+        nodeB.posAbs = new Point({x: 1, y: 0});
+        nodeB.posRel = new Point({x: 1, y: -1});
+
+        nodeC.posAbs = new Point({x: 2, y: 1});
+        nodeC.posRel = new Point({x: 1, y: 1});
+
+        nodeD.posAbs = new Point({x: 1, y: 2});
+        nodeD.posRel = new Point({x: -1, y: 1});
+
+        nodeE.posAbs = new Point({x: 2, y: 1});
+        nodeE.posRel = new Point({x: 2, y: 0});
+
+        nodeF.posAbs = new Point({x: 3, y: 2});
+        nodeF.posRel = new Point({x: 1, y: 1});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -324,8 +455,8 @@ describe('set-idea-position', () => {
         handle(state, {
             type: 'set-idea-position',
             data: {
-                ideaId: 'D',
-                pos: new Point({x: 1, y: 2})
+                ideaId: 'E',
+                posAbs: new Point({x: 2, y: 0})
             }
         });
 
@@ -338,10 +469,13 @@ describe('set-idea-position', () => {
         // setup
         const ideaA = new Idea({
             id: 'A',
-            pos: new Point({x: 1, y: 1})
+            isRoot: true,
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 1, y: 1}),
+            linksToChilds: [],
+            linkFromParent: null,
+            rootPathWeight: 0
         });
-
-        ideaA.linksToChilds = [];
 
         const mindmap = new Mindmap();
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -354,7 +488,7 @@ describe('set-idea-position', () => {
             type: 'set-idea-position',
             data: {
                 ideaId: 'A',
-                pos: new Point({x: 2, y: 2})
+                posAbs: new Point({x: 2, y: 2})
             }
         });
 

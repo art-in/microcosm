@@ -36,11 +36,11 @@ export default class Link extends Component {
         const {sin, cos, atan2, sqrt, pow, max, PI} = Math;
 
         // flip title so it always above the link
-        const reverseTitle = link.from.pos.x > link.to.pos.x;
+        const reverseTitle = link.from.posAbs.x > link.to.posAbs.x;
 
         const {posFrom, posTo} = {
-            posFrom: reverseTitle ? link.to.pos : link.from.pos,
-            posTo: reverseTitle ? link.from.pos : link.to.pos
+            posFrom: reverseTitle ? link.to.posAbs : link.from.posAbs,
+            posTo: reverseTitle ? link.from.posAbs : link.to.posAbs
         };
 
         const dx = posTo.x - posFrom.x;
@@ -71,8 +71,8 @@ export default class Link extends Component {
                 <Line id={ link.id }
                     className={ cx(classes.line, className) }
                     style={{fill: link.color}}
-                    pos1={ link.from.pos }
-                    pos2={ link.to.pos }
+                    pos1={ link.from.posAbs }
+                    pos2={ link.to.posAbs }
                     width={{start: linkStartWidth, end: linkEndWidth}}
                     {...other} />
 

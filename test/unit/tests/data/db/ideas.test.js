@@ -17,7 +17,7 @@ describe('ideas', () => {
             await db.put({
                 _id: '123',
                 value: 'test',
-                pos: {x: 100, y: 200}
+                posRel: {x: 100, y: 200}
             });
 
             // target
@@ -26,8 +26,8 @@ describe('ideas', () => {
             // check
             expect(result).to.be.instanceOf(Idea);
             expect(result.value).to.equal('test');
-            expect(result.pos).to.be.instanceOf(Point);
-            expect(result.pos).to.containSubset({x: 100, y: 200});
+            expect(result.posRel).to.be.instanceOf(Point);
+            expect(result.posRel).to.containSubset({x: 100, y: 200});
         });
 
         it('should fail if item does not exist', async () => {
@@ -75,9 +75,10 @@ describe('ideas', () => {
             // setup
             const db = createDB();
 
-            const idea = new Idea();
-            idea.value = 'test';
-            idea.pos = {x: 0, y: 0};
+            const idea = new Idea({
+                value: 'test',
+                posRel: {x: 10, y: 20}
+            });
 
             // target
             await ideaDB.add(db, idea);
@@ -90,6 +91,8 @@ describe('ideas', () => {
             expect(result).to.have.length(1);
             expect(result[0]._id).to.equal(idea.id);
             expect(result[0].value).to.equal('test');
+            expect(result[0].posRel.constructor).to.equal(Object);
+            expect(result[0].posRel).to.deep.equal({x: 10, y: 20});
         });
 
         it('should add/get same item', async () => {
@@ -97,9 +100,10 @@ describe('ideas', () => {
             // setup
             const db = createDB();
 
-            const idea = new Idea();
-            idea.value = 'test';
-            idea.pos = {x: 0, y: 0};
+            const idea = new Idea({
+                value: 'test',
+                posRel: {x: 10, y: 20}
+            });
 
             // target
             await ideaDB.add(db, idea);
@@ -115,9 +119,10 @@ describe('ideas', () => {
             const db = createDB();
             db.put({_id: '123'});
 
-            const idea = new Idea();
-            idea.id = '123';
-            idea.pos = {x: 0, y: 0};
+            const idea = new Idea({
+                id: '123',
+                posRel: {x: 10, y: 20}
+            });
             
             // target
             const promise = ideaDB.add(db, idea);
@@ -135,19 +140,26 @@ describe('ideas', () => {
             // setup
             const db = createDB();
 
-            db.post({_id: '123', value: 'test 1'});
+            db.post({
+                _id: '123',
+                value: 'test 1',
+                posRel: {x: 0, y: 0}
+            });
 
-            const idea = new Idea();
-            idea.id = '123';
-            idea.value = 'test 2';
-            idea.pos = {x: 0, y: 0};
+            const update = {
+                id: '123',
+                value: 'test 2',
+                posRel: {x: 0, y: 10}
+            };
 
             // target
-            await ideaDB.update(db, idea);
+            await ideaDB.update(db, update);
 
             // check
             const result = await db.get('123');
+
             expect(result.value).to.equal('test 2');
+            expect(result.posRel).to.deep.equal({x: 0, y: 10});
         });
 
         it('should not store unknown props', async () => {

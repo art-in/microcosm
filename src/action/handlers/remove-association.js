@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import withoutItem from 'utils/get-array-without-item';
-import getRootPathsPatch from 'action/utils/get-root-paths-patch';
+import patchRootPaths from 'action/utils/patch-root-paths';
 import normalizePatch from 'action/utils/normalize-patch';
 import getAssociation from 'action/utils/get-association';
 
@@ -75,7 +75,7 @@ export default function(state, data, dispatch) {
     patch.push('remove-association', {id: assocId});
 
     // update root paths
-    const rootPathsPatch = getRootPathsPatch({
+    const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
         ignoreLinks: [assoc]
     });

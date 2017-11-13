@@ -25,7 +25,7 @@ export default function(state, data, dispatch) {
             type: 'set-idea-position',
             data: {
                 ideaId: node.id,
-                pos: new Point(node.pos)
+                posAbs: new Point(node.posAbs)
             }
         });
 

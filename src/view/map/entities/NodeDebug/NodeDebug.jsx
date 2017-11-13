@@ -26,11 +26,14 @@ export default class NodeDebug extends Component {
         // eslint-disable-next-line require-jsdoc
         const round = num => Math.round(num * 100) / 100;
 
+        const {posAbs, debugInfo: {posRel}} = node;
+
         const lines = [
             `id = ${node.id.slice(0, 5)}`,
-            `pos = [${Math.round(node.pos.x)} x ${Math.round(node.pos.y)}]`,
-            `rpw = ${round(node.debugInfo.rootPathWeight)}`,
-            `scale = ${round(node.scale)}`
+            `scale = ${round(node.scale)}`,
+            `pos abs = [${Math.round(posAbs.x)} x ${Math.round(posAbs.y)}]`,
+            `pos rel = [${Math.round(posRel.x)} x ${Math.round(posRel.y)}]`,
+            `rpw = ${round(node.debugInfo.rootPathWeight)}`
         ];
 
         // when node downscaled - upscale debug info back,

@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 import clone from 'clone';
 
 import Mindmap from 'src/model/entities/Mindmap';
+import Point from 'src/model/entities/Point';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
@@ -109,9 +110,19 @@ describe('remove-association', () => {
             /* E */ '0   0   0   0   0'
         ]);
 
+        const ideaB = nodes.find(n => n.id === 'B');
+        const ideaC = nodes.find(n => n.id === 'C');
+
         const assocAtoB = links.find(l => l.id === 'A to B');
         const assocAtoE = links.find(l => l.id === 'A to E');
         const assocBtoC = links.find(l => l.id === 'B to C');
+
+        // setup positions
+        ideaB.posRel = new Point({x: 1, y: 0});
+        ideaB.posAbs = new Point({x: 1, y: 0});
+
+        ideaC.posRel = new Point({x: 2, y: 0});
+        ideaC.posAbs = new Point({x: 2, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();
@@ -153,7 +164,9 @@ describe('remove-association', () => {
             id: 'C',
             rootPathWeight: 2,
             linkFromParent: assocBtoC,
-            associationsIn: [assocBtoC]
+            associationsIn: [assocBtoC],
+
+            posRel: {x: 1, y: 0}
         });
 
         expect(updateD).to.deep.equal({
@@ -179,6 +192,16 @@ describe('remove-association', () => {
             /* D */ '0   0   0   0   1',
             /* E */ '0   0   0   0   0'
         ]);
+
+        const ideaB = nodes.find(n => n.id === 'B');
+        const ideaC = nodes.find(n => n.id === 'C');
+
+        // setup positions
+        ideaB.posRel = new Point({x: 1, y: 0});
+        ideaB.posAbs = new Point({x: 1, y: 0});
+
+        ideaC.posRel = new Point({x: 2, y: 0});
+        ideaC.posAbs = new Point({x: 2, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();

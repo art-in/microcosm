@@ -46,7 +46,7 @@ export default class Node extends Component {
                 className={cx(
                     classes.root, className,
                     {[classes.shaded]: node.shaded})}
-                pos={node.pos}
+                pos={node.posAbs}
                 scale={node.scale}>
 
                 <Circle className={classes.circle}

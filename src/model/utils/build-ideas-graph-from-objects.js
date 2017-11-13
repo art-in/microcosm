@@ -11,6 +11,8 @@ import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
  * Object graph is much performant for graph algorithms,
  * since you do not have to search entity lists each time when traversing graph
  * 
+ * TODO: rename to build-ideas-graph-from-list (adj matrix vs adj list)
+ * 
  * @param {array.<Idea>} ideas
  * @param {array.<Association>} associations
  * @return {Idea} root idea

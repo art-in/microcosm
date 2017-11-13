@@ -9,6 +9,23 @@ Properties of target graph:
 
 ---
 
+Graph representation.  
+
+Graph represented as [adjacency list](https://en.wikipedia.org/wiki/Adjacency_list)
+in object oriented style: nodes and links are objects of special classes (interfaces below).
+
+Q: why adjacency list and not adjacency matrix?  
+A: list is more efficient in space and time than matrix
+   if we work with large sparse graphs (ie. graphs with relatively small number of links).  
+- matrix consumes more memory than list  
+  (matrix needs n^2 space, while list - number of nodes + links),
+- code serving matrix is less performant  
+  (searching node links with matrix is O(n), while with list - 
+   proportional to degree of node),
+- code serving matrix going to be less readable (I guess).
+
+---
+
 Tree inside the graph.
 
 Upon the graph there is minimum spanning tree (MST) with same root as graph.  
@@ -24,8 +41,7 @@ since any node is also root for sub-tree underneath.
 
 ---
 
-Input graphs should be object graphs of nodes and links objects.  
-Nodes and links objects should follow interfaces below.
+Nodes and links objects should follow these interfaces.
 
 // TODO: fix terminology. use more general terms Vertices and Edges.
 //       to clearly distinguish models, view-models and generic graph entities.

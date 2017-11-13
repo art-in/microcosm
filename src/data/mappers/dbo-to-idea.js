@@ -15,7 +15,7 @@ export default function dboToIdea(dbo) {
     model.isRoot = dbo.isRoot === true;
     model.value = dbo.value;
     model.color = dbo.color;
-    model.pos = dboToPoint(dbo.pos);
+    model.posRel = dboToPoint(dbo.posRel);
 
     return model;
 }
