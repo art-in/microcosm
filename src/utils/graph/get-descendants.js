@@ -1,22 +1,22 @@
 import traverseGraph from 'utils/graph/traverse-graph';
 
 /**
- * Gets descendants of the node.
- * Descendants are all recursive childs of node down the tree.
+ * Gets descendants of the vertex.
+ * Descendants are all recursive childs of vertex down the tree.
  * 
- * @param {object} root node
- * @return {array.<object>} descendant nodes
+ * @param {object} root vertex
+ * @return {array.<object>} descendant vertices
  */
 export default function getDescendants(root) {
 
     const descendants = [];
 
     traverseGraph({
-        node: root,
+        root,
         isTree: true,
-        visit: node => {
-            if (node !== root) {
-                descendants.push(node);
+        visit: vertex => {
+            if (vertex !== root) {
+                descendants.push(vertex);
             }
         }
     });

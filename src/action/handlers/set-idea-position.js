@@ -38,9 +38,9 @@ export default function setIdeaPosition(state, data) {
     const descendants = getDescendants(idea);
     const movingIdeas = [idea, ...descendants];
 
-    // update absolute positions of moving nodes and weights of
+    // update absolute positions of moving ideas and weights of
     // affected associations
-    const newLinkWeights = [];
+    const newAssociationWeights = [];
     const newIdeaPositions = [];
     
     movingIdeas.forEach(idea => {
@@ -64,8 +64,8 @@ export default function setIdeaPosition(state, data) {
                 return;
             }
 
-            newLinkWeights.push({
-                link: assoc,
+            newAssociationWeights.push({
+                edge: assoc,
                 weight: weighAssociation(assoc.from.posAbs, newPosAbs)
             });
         });
@@ -75,8 +75,8 @@ export default function setIdeaPosition(state, data) {
                 return;
             }
 
-            newLinkWeights.push({
-                link: assoc,
+            newAssociationWeights.push({
+                edge: assoc,
                 weight: weighAssociation(newPosAbs, assoc.to.posAbs)
             });
         });
@@ -107,7 +107,7 @@ export default function setIdeaPosition(state, data) {
             // their parents (ones that change it will be updated anyway).
             // but there should not be a lot of parent changes,
             // so leaving it to keep code a bit simpler.
-            const parent = idea.linkFromParent.from;
+            const parent = idea.edgeFromParent.from;
             
             // only update rel positions between moving ideas and any others,
             // since relative position between moving ideas is not changing.
@@ -123,9 +123,9 @@ export default function setIdeaPosition(state, data) {
         }
     });
 
-    newLinkWeights.forEach(w =>
+    newAssociationWeights.forEach(w =>
         patch.push('update-association', {
-            id: w.link.id,
+            id: w.edge.id,
             weight: w.weight
         }));
 
@@ -138,7 +138,7 @@ export default function setIdeaPosition(state, data) {
     // update root paths
     const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
-        replaceLinkWeights: newLinkWeights,
+        replaceEdgeWeights: newAssociationWeights,
         replaceIdeaPositions: newIdeaPositions
     });
 

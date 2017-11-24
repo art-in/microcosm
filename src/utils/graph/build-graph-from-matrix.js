@@ -11,12 +11,12 @@ const charCount = 26;
  * 
  * @param {object}         opts
  * @param {array.<string>} opts.matrix
- * @param {function}       opts.NodeConstructor
- * @param {function}       opts.LinkConstructor
- * @return {object} root node
+ * @param {function}       opts.VertexConstructor
+ * @param {function}       opts.EdgeConstructor
+ * @return {object} root vertex
  */
 export default function buildGraphFromMatrix(opts) {
-    const {matrix: m, NodeConstructor, LinkConstructor} = required(opts);
+    const {matrix: m, VertexConstructor, EdgeConstructor} = required(opts);
 
     // validate input
     if (!Array.isArray(m) ||
@@ -24,89 +24,90 @@ export default function buildGraphFromMatrix(opts) {
         throw Error('Invalid matrix. Expecting array of strings');
     }
 
-    const nodesCount = m.length;
+    const vertexCount = m.length;
 
-    if (nodesCount > charCount) {
-        throw Error(`Invalid matrix. Too much nodes (>${charCount})`);
+    if (vertexCount > charCount) {
+        throw Error(`Invalid matrix. Too much vertices (>${charCount})`);
     }
 
-    // create nodes (A, B, C, etc.)
-    const nodes = [];
-    for (let i = 0; i < nodesCount; i++) {
+    // create vertices (A, B, C, etc.)
+    const vertices = [];
+    for (let i = 0; i < vertexCount; i++) {
         const id = String.fromCharCode(charCodeA + i);
-        const node = new NodeConstructor({id});
-        node.linksIn = [];
-        node.linksOut = [];
-        nodes.push(node);
+        const vertex = new VertexConstructor({id});
+        vertex.edgesIn = [];
+        vertex.edgesOut = [];
+        vertices.push(vertex);
     }
 
     // parse and validate matrix
     // @type {array.<array<number>>}
     const matrix = [];
 
-    m.forEach((line, headNodeIdx) => {
+    m.forEach((line, headVertexIdx) => {
 
-        const headId = nodes[headNodeIdx].id;
+        const headId = vertices[headVertexIdx].id;
 
-        // parse weights of outgoing links
-        const linkWeights = line
+        // parse weights of outgoing edges
+        const edgeWeights = line
             .split(' ')
             .filter(s => s !== '')
-            .map(linkWeightStr => {
-                const linkWeight = Number(linkWeightStr);
-                if (!Number.isFinite(linkWeight) || linkWeight < 0) {
+            .map(edgeWeightStr => {
+                const edgeWeight = Number(edgeWeightStr);
+                if (!Number.isFinite(edgeWeight) || edgeWeight < 0) {
                     throw Error(
-                        `Invalid outgoing link weight '${linkWeightStr}' ` +
-                        `for node '${headId}'`);
+                        `Invalid outgoing edge weight '${edgeWeightStr}' ` +
+                        `for vertex '${headId}'`);
                 }
-                return linkWeight;
+                return edgeWeight;
             });
 
-        if (linkWeights.length !== nodesCount) {
+        if (edgeWeights.length !== vertexCount) {
             throw Error(
-                `Invalid matrix. Wrong number of columns for node '${headId}'`);
+                `Invalid matrix. Wrong number of columns for vertex ` +
+                `'${headId}'`);
         }
 
-        if (linkWeights[headNodeIdx] !== 0) {
+        if (edgeWeights[headVertexIdx] !== 0) {
             throw Error(
                 `Self loops are not allowed. Main diagonal should be zero ` +
-                `for node '${headId}'`);
+                `for vertex '${headId}'`);
         }
 
-        if (linkWeights[0] > 0) {
+        if (edgeWeights[0] > 0) {
             throw Error(
-                `Link towards root is not allowed for node '${headId}'`);
+                `Edge towards root is not allowed for vertex '${headId}'`);
         }
 
-        matrix.push(linkWeights);
+        matrix.push(edgeWeights);
 
-        linkWeights.forEach((w, tailNodeIdx) => {
-            if (matrix[headNodeIdx] !== undefined &&
-                matrix[tailNodeIdx] !== undefined &&
-                matrix[headNodeIdx][tailNodeIdx] > 0 &&
-                matrix[tailNodeIdx][headNodeIdx] > 0) {
+        edgeWeights.forEach((w, tailVertexIdx) => {
+            if (matrix[headVertexIdx] !== undefined &&
+                matrix[tailVertexIdx] !== undefined &&
+                matrix[headVertexIdx][tailVertexIdx] > 0 &&
+                matrix[tailVertexIdx][headVertexIdx] > 0) {
                 throw Error(
-                    `Mutual links are not allowed between nodes ` +
-                    `'${headId}' and '${nodes[tailNodeIdx].id}'`);
+                    `Mutual edges are not allowed between vertices ` +
+                    `'${headId}' and '${vertices[tailVertexIdx].id}'`);
             }
         });
     });
 
-    // bind nodes and links
-    const links = [];
-    matrix.forEach((linkWeights, headNodeIdx) => {
+    // bind vertices and edges
+    const edges = [];
+    matrix.forEach((edgeWeights, headVertexIdx) => {
 
-        linkWeights.forEach((linkWeight, tailNodeIdx) => {
+        edgeWeights.forEach((edgeWeight, tailVertexIdx) => {
 
-            if (linkWeight === 0) {
-                // no link
+            if (edgeWeight === 0) {
+                // no edge
                 return;
             }
 
-            const head = nodes[headNodeIdx];
-            const tail = nodes[tailNodeIdx];
+            const head = vertices[headVertexIdx];
+            const tail = vertices[tailVertexIdx];
 
-            const link = new LinkConstructor({
+            const edge = new EdgeConstructor({
                 id: `${head.id} to ${tail.id}`,
 
                 fromId: head.id,
@@ -114,19 +115,19 @@ export default function buildGraphFromMatrix(opts) {
                 toId: tail.id,
                 to: tail,
 
-                weight: linkWeight
+                weight: edgeWeight
             });
 
-            head.linksOut.push(link);
-            tail.linksIn.push(link);
+            head.edgesOut.push(edge);
+            tail.edgesIn.push(edge);
 
-            links.push(link);
+            edges.push(edge);
         });
     });
 
-    // node 'A' is always root
-    const root = nodes[0];
+    // vertex 'A' is always root
+    const root = vertices[0];
     root.isRoot = true;
 
-    return {root, nodes, links};
+    return {root, vertices, edges};
 }

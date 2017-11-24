@@ -2,13 +2,13 @@ import required from 'utils/required-params';
 import PriorityQueue from 'utils/PriorityQueue';
 
 /**
- * Calculates minimal root paths (MRP) for each node in the graph.
+ * Calculates minimal root paths (MRP) for each vertex in the graph.
  * MRPs form minimal spanning tree (MST) upon the graph.
  * 
  * Uses Dijkstra algorithm (BFS + priority queue)
  * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
  * 
- * Q: why return MRP data for nodes and not mutate original nodes?
+ * Q: why return MRP data for vertices and not mutate original vertices?
  * A: this would clear-out previous state of the graph and prevent diff`ing
  *    to later effectively mutate database.
  * 
@@ -18,86 +18,86 @@ import PriorityQueue from 'utils/PriorityQueue';
  * A  a) we cannot mutate graph state inside action handler, but we can apply
  *       intermediate mutations in AC and then make calculations. this is
  *       possible, but it would mean we need to mutate same entities several
- *       times (eg. when creating cross link first we need to mutate 
- *       parent node to add new outgoing link, and after that possibly mutate
- *       same node again to add link to child).
+ *       times (eg. when creating cross-edge first we need to mutate 
+ *       parent vertex to add new outgoing edge, and after that possibly mutate
+ *       same vertex again to add edge to child).
  * Q  b) why not duplicate original graph or create graph in different
  *       representation (eg. adjacency matrix) with applied changes and then
  *       calculate paths on that duplicate?
  * A  b) duplicating original graph or creating it in different representations
  *       for purposes of on-graph calculations goin to be extremely inefficient,
  *       since it would need to dupl/create graphs with possibly thousands of
- *       nodes for each graph mutation. this would produce lots of objects which
- *       will hurt GC.
+ *       vertices for each graph mutation. this would produce lots of objects
+ *       which will hurt GC.
  * 
  * @param {object} opts
- * @param {object} opts.rootNode
- * @param {array} [opts.ignoreLinks]
- * @param {array} [opts.replaceLinksOut]
- * @param {array} [opts.replaceLinkWeights]
- * @return {array} MRP data for each node
+ * @param {object} opts.root
+ * @param {array} [opts.ignoreEdges]
+ * @param {array} [opts.replaceEdgesOut]
+ * @param {array} [opts.replaceEdgeWeights]
+ * @return {array} MRP data for each vertex
  */
 export default function calcRootPaths(opts) {
 
     const {root} = required(opts);
     const {
-        ignoreLinks = [],
-        replaceLinksOut = [],
-        replaceLinkWeights = []
+        ignoreEdges = [],
+        replaceEdgesOut = [],
+        replaceEdgeWeights = []
     } = opts;
 
-    // key - node,
+    // key - vertex,
     // value - MRP data
     const rootPathData = new Map();
 
     rootPathData.set(root, {
         rootPathWeight: 0,
-        linkFromParent: null,
-        linksToChilds: []
+        edgeFromParent: null,
+        edgesToChilds: []
     });
 
     const queue = new PriorityQueue();
 
     queue.addWithPriority(root, 0);
 
-    const visitedNodes = new Set();
+    const visitedVertices = new Set();
 
     while (queue.length) {
 
-        // get node with min root path weight
+        // get vertex with min root path weight
         const predecessor = queue.extractMin();
 
         const predecessorData = rootPathData.get(predecessor);
 
-        // get outgoing links
-        const linksOut = getNodeLinksOut(
+        // get outgoing edges
+        const edgesOut = getEdgesOutForVertex(
             predecessor,
-            replaceLinksOut,
-            ignoreLinks);
+            replaceEdgesOut,
+            ignoreEdges);
 
-        linksOut.forEach(link => {
+        edgesOut.forEach(edge => {
 
-            const successor = link.to;
+            const successor = edge.to;
 
-            // get link weight
-            const linkWeight = getLinkWeight(link, replaceLinkWeights);
+            // get edge weight
+            const edgeWeight = getEdgeWeight(edge, replaceEdgeWeights);
 
-            // ensure link weight is valid
-            if (!Number.isFinite(linkWeight) || linkWeight < 0) {
+            // ensure edge weight is valid
+            if (!Number.isFinite(edgeWeight) || edgeWeight < 0) {
                 throw Error(
-                    `Link '${link.id}' has invalid weight '${linkWeight}'`);
+                    `Edge '${edge.id}' has invalid weight '${edgeWeight}'`);
             }
 
             // weight of proposed path (root->...->predecessor->successor)
-            const pathWeight = predecessorData.rootPathWeight + linkWeight;
+            const pathWeight = predecessorData.rootPathWeight + edgeWeight;
             
             // get existing weight data of successor
             let successorData = rootPathData.get(successor);
             if (!successorData) {
                 successorData = {
                     rootPathWeight: +Infinity,
-                    linkFromParent: null,
-                    linksToChilds: []
+                    edgeFromParent: null,
+                    edgesToChilds: []
                 };
                 rootPathData.set(successor, successorData);
             }
@@ -113,20 +113,20 @@ export default function calcRootPaths(opts) {
 
                 // update parent-child references
 
-                // remove child link from previous parent
-                if (successorData.linkFromParent) {
-                    const prevParent = successorData.linkFromParent.from;
+                // remove child edge from previous parent
+                if (successorData.edgeFromParent) {
+                    const prevParent = successorData.edgeFromParent.from;
                     const prevParentData = rootPathData.get(prevParent);
-                    const links = prevParentData.linksToChilds;
-                    const linkIdx = links.indexOf(successorData.linkFromParent);
-                    links.splice(linkIdx, 1);
+                    const edges = prevParentData.edgesToChilds;
+                    const edgeIdx = edges.indexOf(successorData.edgeFromParent);
+                    edges.splice(edgeIdx, 1);
                 }
 
-                // add child link to new parent
-                predecessorData.linksToChilds.push(link);
+                // add child edge to new parent
+                predecessorData.edgesToChilds.push(edge);
 
-                // update link from parent
-                successorData.linkFromParent = link;
+                // update edge from parent
+                successorData.edgeFromParent = edge;
 
                 // update priority queue
                 if (queue.has(successor)) {
@@ -134,53 +134,53 @@ export default function calcRootPaths(opts) {
                 }
             }
 
-            if (!visitedNodes.has(successor)) {
+            if (!visitedVertices.has(successor)) {
                 queue.addWithPriority(successor, successorData.rootPathWeight);
-                visitedNodes.add(successor);
+                visitedVertices.add(successor);
             }
         });
     }
 
     // return MRP data
     return [...rootPathData.entries()].map(e => ({
-        node: e[0],
+        vertex: e[0],
         rootPathWeight: e[1].rootPathWeight,
-        linkFromParent: e[1].linkFromParent,
-        linksToChilds: e[1].linksToChilds
+        edgeFromParent: e[1].edgeFromParent,
+        edgesToChilds: e[1].edgesToChilds
     }));
 }
 
 /**
- * Gets link weight
- * @param {object} link 
- * @param {array} replaceLinkWeights
+ * Gets edge weight
+ * @param {object} edge
+ * @param {array} replaceEdgeWeights
  * @return {number}
  */
-function getLinkWeight(link, replaceLinkWeights) {
-    const replace = replaceLinkWeights.find(r => r.link === link);
+function getEdgeWeight(edge, replaceEdgeWeights) {
+    const replace = replaceEdgeWeights.find(r => r.edge === edge);
     if (replace) {
         return replace.weight;
     } else {
-        return link.weight;
+        return edge.weight;
     }
 }
 
 /**
- * Gets outgoing links for node
- * @param {object} node 
- * @param {array} replaceLinksOut 
- * @param {array} ignoreLinks 
+ * Gets outgoing edges for vertex
+ * @param {object} vertex 
+ * @param {array} replaceEdgesOut 
+ * @param {array} ignoreEdges 
  * @return {array}
  */
-function getNodeLinksOut(node, replaceLinksOut, ignoreLinks) {
-    let linksOut;
+function getEdgesOutForVertex(vertex, replaceEdgesOut, ignoreEdges) {
+    let edgesOut;
 
-    const replace = replaceLinksOut.find(r => r.node === node);
+    const replace = replaceEdgesOut.find(r => r.vertex === vertex);
     if (replace) {
-        linksOut = replace.linksOut;
+        edgesOut = replace.edgesOut;
     } else {
-        linksOut = node.linksOut;
+        edgesOut = vertex.edgesOut;
     }
 
-    return linksOut.filter(l => !ignoreLinks.includes(l));
+    return edgesOut.filter(e => !ignoreEdges.includes(e));
 }

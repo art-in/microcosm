@@ -17,26 +17,26 @@ describe('build-graph-from-matrix', () => {
         ];
 
         // target
-        const {root, nodes, links} = buildGraphFromMatrix({
+        const {root, vertices, edges} = buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         // check
         expect(root).to.exist;
-        expect(nodes).to.exist;
-        expect(links).to.exist;
+        expect(vertices).to.exist;
+        expect(edges).to.exist;
 
-        expect(nodes).to.have.length(2);
-        expect(links).to.have.length(1);
+        expect(vertices).to.have.length(2);
+        expect(edges).to.have.length(1);
 
-        nodes.forEach(n => expect(n).to.be.instanceOf(Idea));
-        links.forEach(l => expect(l).to.be.instanceOf(Association));
+        vertices.forEach(n => expect(n).to.be.instanceOf(Idea));
+        edges.forEach(l => expect(l).to.be.instanceOf(Association));
 
-        const ideaA = nodes.find(n => n.id === 'A');
-        const ideaB = nodes.find(n => n.id === 'B');
-        const assocAtoB = links.find(l => l.id === 'A to B');
+        const ideaA = vertices.find(n => n.id === 'A');
+        const ideaB = vertices.find(n => n.id === 'B');
+        const assocAtoB = edges.find(l => l.id === 'A to B');
 
         expect(ideaA).to.exist;
         expect(ideaB).to.exist;
@@ -68,17 +68,17 @@ describe('build-graph-from-matrix', () => {
         ];
 
         // target
-        const {nodes, links} = buildGraphFromMatrix({
+        const {vertices, edges} = buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         // check
-        expect(nodes).to.have.length(3);
-        expect(links).to.have.length(1);
+        expect(vertices).to.have.length(3);
+        expect(edges).to.have.length(1);
 
-        const assocCtoB = links.find(l => l.id === 'C to B');
+        const assocCtoB = edges.find(l => l.id === 'C to B');
         
         expect(assocCtoB).to.exist;
         expect(assocCtoB.weight).to.equal(0.5);
@@ -95,26 +95,26 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
             'Invalid matrix. Expecting array of strings');
     });
     
-    it('should fail when number of nodes is over limit', () => {
+    it('should fail when number of vertices is over limit', () => {
         
         const matrix = Array(27).fill('');
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
-            'Invalid matrix. Too much nodes (>26)');
+            'Invalid matrix. Too much vertices (>26)');
     });
 
     it('should fail on invalid columns/rows number', () => {
@@ -127,15 +127,15 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
-            `Invalid matrix. Wrong number of columns for node 'A'`);
+            `Invalid matrix. Wrong number of columns for vertex 'A'`);
     });
 
-    it('should fail on invalid link weight', () => {
+    it('should fail on invalid edge weight', () => {
         
         const matrix = [
             //       A B
@@ -145,12 +145,12 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
-            `Invalid outgoing link weight 'X' for node 'A'`);
+            `Invalid outgoing edge weight 'X' for vertex 'A'`);
     });
     
     it('should fail on self loops', () => {
@@ -163,16 +163,16 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
             `Self loops are not allowed. Main diagonal should be zero ` +
-            `for node 'A'`);
+            `for vertex 'A'`);
     });
 
-    it('should fail on mutual links', () => {
+    it('should fail on mutual edges', () => {
         
         const matrix = [
             //       A B C
@@ -183,15 +183,15 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
-            `Mutual links are not allowed between nodes 'C' and 'B'`);
+            `Mutual edges are not allowed between vertices 'C' and 'B'`);
     });
 
-    it('should fail on links to root', () => {
+    it('should fail on edges to root', () => {
 
         const matrix = [
             //       A B
@@ -201,12 +201,12 @@ describe('build-graph-from-matrix', () => {
 
         const result = () => buildGraphFromMatrix({
             matrix,
-            NodeConstructor: Idea,
-            LinkConstructor: Association
+            VertexConstructor: Idea,
+            EdgeConstructor: Association
         });
 
         expect(result).to.throw(
-            `Link towards root is not allowed for node 'B'`);
+            `Edge towards root is not allowed for vertex 'B'`);
     });
 
 });

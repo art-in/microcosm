@@ -39,10 +39,10 @@ export default function mindmapToGraph(mindmap) {
         shadeZoneAmount = 500;
 
         const res = mapGraph({
-            node: mindmap.root,
+            vertex: mindmap.root,
             focusZoneMax,
             shadeZoneAmount,
-            mapLink: (assoc, predecessorZone, successorZone) => {
+            mapEdge: (assoc, predecessorZone, successorZone) => {
                 const link = assocToLink(assoc);
 
                 if (predecessorZone !== WeightZone.focus &&
@@ -52,7 +52,7 @@ export default function mindmapToGraph(mindmap) {
                 
                 return link;
             },
-            mapNode: (idea, weightZone) => {
+            mapVertex: (idea, weightZone) => {
                 const node = ideaToNode(idea);
 
                 if (weightZone !== WeightZone.focus) {
@@ -64,9 +64,9 @@ export default function mindmapToGraph(mindmap) {
             }
         });
     
-        rootNode = res.rootNode;
-        nodes = res.nodes;
-        links = res.links;
+        rootNode = res.rootVertex;
+        nodes = res.vertices;
+        links = res.edges;
 
         // set computed props of each mapped node
         const nodesToCompute = new Map();
@@ -76,7 +76,7 @@ export default function mindmapToGraph(mindmap) {
         // nodes visited before children. so each node can safely observe
         // properties of parent node.
         traverseGraph({
-            node: rootNode,
+            root: rootNode,
             isTree: true,
             visit: node => {
                 computeNode(mindmap, nodes, node);
@@ -130,8 +130,8 @@ function computeNode(mindmap, nodes, node) {
 
     if (!node.isRoot) {
         
-        if (node.linkFromParent) {
-            const parentNode = node.linkFromParent.from;
+        if (node.edgeFromParent) {
+            const parentNode = node.edgeFromParent.from;
             parentNodeColor = parentNode.color;
         } else {
 
@@ -140,14 +140,14 @@ function computeNode(mindmap, nodes, node) {
             // mapped only because it targets idea in focus zone, but its
             // parent chain is hidden and not mapped (see docs for mapper).
             // in this case we need to traverse original ideas tree 'by hand'.
-            let parentIdea = idea.linkFromParent.from;
+            let parentIdea = idea.edgeFromParent.from;
 
             parentNodeColor = parentIdea.color;
 
             // if direct parent does not have color then inherit it from
             // closest parent idea that does have color
             while (!parentNodeColor) {
-                parentIdea = parentIdea.linkFromParent.from;
+                parentIdea = parentIdea.edgeFromParent.from;
 
                 if (parentIdea.color) {
                     parentNodeColor = parentIdea.color;

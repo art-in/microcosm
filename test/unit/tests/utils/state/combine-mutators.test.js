@@ -43,8 +43,8 @@ describe('combine-mutators', () => {
             posAbs: new Point({x: 0, y: 0})
         });
 
-        ideaA.linkFromParent = null;
-        ideaA.linksToChilds = [];
+        ideaA.edgeFromParent = null;
+        ideaA.edgesToChilds = [];
 
         state.model.mindmap.root = ideaA;
         state.model.mindmap.ideas.set(ideaA.id, ideaA);
@@ -79,7 +79,7 @@ describe('combine-mutators', () => {
         });
 
         ideaB.associationsIn = [assocAtoB];
-        ideaB.linkFromParent = assocAtoB;
+        ideaB.edgeFromParent = assocAtoB;
 
         patch.push({
             type: 'add-idea',
@@ -96,7 +96,7 @@ describe('combine-mutators', () => {
             data: {
                 id: ideaA.id,
                 associationsOut: [assocAtoB],
-                linksToChilds: [assocAtoB]
+                edgesToChilds: [assocAtoB]
             }
         });
 
@@ -134,12 +134,12 @@ describe('combine-mutators', () => {
         const {vm} = state;
         const nodeA = vm.main.mindmap.graph.root;
 
-        expect(nodeA.linksIn).to.have.length(0);
-        expect(nodeA.linksOut).to.have.length(1);
+        expect(nodeA.edgesIn).to.have.length(0);
+        expect(nodeA.edgesOut).to.have.length(1);
 
         expect(nodeA).to.containSubset({
             id: 'A',
-            linksOut: [{
+            edgesOut: [{
                 id: 'A to B',
                 from: {
                     id: 'A'

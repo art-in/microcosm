@@ -8,6 +8,8 @@ import createID from 'utils/create-id';
  * as soon as babel transform automatically sets 'undefined'
  * to props without default values.
  * https://github.com/babel/babel/issues/5056
+ * 
+ * @implements {Vertex}
  */
 export default class Idea {
 
@@ -40,8 +42,8 @@ export default class Idea {
     color = undefined;
 
     /**
-     * Position on mindmap relative to parent idea in
-     * minimum spanning tree (MST).
+     * Position on mindmap relative to parent idea
+     * in minimum spanning tree (MST).
      * @type {Point}
      */
     posRel = undefined;
@@ -71,59 +73,61 @@ export default class Idea {
     associationsIn = [];
 
     /**
-     * [Node interface]
-     * List of outgoing links
+     * List of outgoing edges
+     * @memberof Vertex
+     * @return {array.<Association>} associations
      */
-    get linksOut() {
+    get edgesOut() {
         return this.associationsOut;
     }
 
     /**
-     * [Node interface]
-     * Sets list of outgoing links
+     * Sets list of outgoing edges
+     * @memberof Vertex
      * @param {array.<Association>} associations
      */
-    set linksOut(associations) {
+    set edgesOut(associations) {
         this.associationsOut = associations;
     }
 
     /**
-     * [Node interface]
-     * List of incoming links
+     * List of incoming edges
+     * @memberof Vertex
+     * @return {array.<Association>} associations
      */
-    get linksIn() {
+    get edgesIn() {
         return this.associationsIn;
     }
 
     /**
-     * [Node interface]
-     * Sets list of incoming links
+     * Sets list of incoming edges
+     * @memberof Vertex
      * @param {array.<Association>} associations
      */
-    set linksIn(associations) {
+    set edgesIn(associations) {
         this.associationsIn = associations;
     }
 
     /**
-     * [Node interface]
-     * Link to parent idea.
+     * Edge from parent idea.
      * Note: available only after graph is weighted
-     * @type {Link}
+     * @memberof Vertex
+     * @type {Edge}
      */
-    linkFromParent = undefined;
+    edgeFromParent = undefined;
     
     /**
-     * [Node interface]
-     * Links to child ideas.
+     * Edges to child ideas.
      * Note: available only after graph is weighted
-     * @type {array.<Link>}
+     * @memberof Vertex
+     * @type {array.<Edge>}
      */
-    linksToChilds = undefined;
+    edgesToChilds = undefined;
 
     /**
-     * [Node interface]
      * Weight of minimal path from root (RPW).
      * Note: available only after graph is weighted
+     * @memberof Vertex
      * @type {number}
      */
     rootPathWeight = undefined;

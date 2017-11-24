@@ -11,7 +11,7 @@ import isValidPosition from 'model/utils/is-valid-position';
  */
 export default function setIdeasAbsolutePositions(opts) {
     traverseGraph({
-        node: opts.root,
+        root: opts.root,
         isTree: true,
         visit: idea => {
 
@@ -24,7 +24,7 @@ export default function setIdeasAbsolutePositions(opts) {
                 // absolute position equals to relative for root
                 idea.posAbs = new Point(idea.posRel);
             } else {
-                const parent = idea.linkFromParent.from;
+                const parent = idea.edgeFromParent.from;
                 idea.posAbs = new Point({
                     x: parent.posAbs.x + idea.posRel.x,
                     y: parent.posAbs.y + idea.posRel.y

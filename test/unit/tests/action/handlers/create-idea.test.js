@@ -18,7 +18,7 @@ describe('create-idea', () => {
             id: 'A',
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -49,14 +49,14 @@ describe('create-idea', () => {
         expect(data.assoc.weight).to.be.closeTo(141, 1);
     });
 
-    it('should update outgoing links of parent idea', () => {
+    it('should update outgoing edges of parent idea', () => {
         
         // setup
         const ideaA = new Idea({
             id: 'A',
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -81,7 +81,7 @@ describe('create-idea', () => {
         expect(data).to.deep.equal({
             id: 'A',
             associationsOut: [assoc],
-            linksToChilds: [assoc]
+            edgesToChilds: [assoc]
         });
     });
 
@@ -92,7 +92,7 @@ describe('create-idea', () => {
             id: 'A',
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -117,8 +117,8 @@ describe('create-idea', () => {
         expect(idea).to.be.instanceOf(Idea);
         expect(idea.mindmapId).to.equal('m');
         expect(idea.associationsIn).to.deep.equal([assoc]);
-        expect(idea.linkFromParent).to.equal(assoc);
-        expect(idea.linksToChilds).to.deep.equal([]);
+        expect(idea.edgeFromParent).to.equal(assoc);
+        expect(idea.edgesToChilds).to.deep.equal([]);
         expect(idea.rootPathWeight).to.be.closeTo(141, 1);
     });
 
@@ -129,7 +129,7 @@ describe('create-idea', () => {
             id: 'A',
             posRel: {x: 0, y: 0},
             posAbs: {x: 10, y: 20},
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -159,7 +159,7 @@ describe('create-idea', () => {
             id: 'A',
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -186,7 +186,7 @@ describe('create-idea', () => {
             id: 'A',
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linksToChilds: [],
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 

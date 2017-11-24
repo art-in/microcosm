@@ -5,7 +5,7 @@ import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
  * 
  * After extracting from storage, domain models only has IDs
  * of related entities.
- * In object graph each model has direct link to related entity model,
+ * In object graph each model has direct ref to related entity model,
  * eg. associations obtain references to corresponding from/to ideas
  * 
  * Object graph is much performant for graph algorithms,
@@ -19,8 +19,8 @@ import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
  */
 export default function(ideas, associations) {
     return buildGraphFromObjects({
-        nodes: ideas,
-        links: associations,
-        isRootNode: idea => idea.isRoot
+        vertices: ideas,
+        edges: associations,
+        isRootVertex: idea => idea.isRoot
     });
 }

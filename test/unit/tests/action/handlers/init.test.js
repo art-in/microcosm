@@ -198,7 +198,7 @@ describe('init', () => {
         expect(data.model.mindmap.root).to.containSubset({
             id: 'A',
             rootPathWeight: 0,
-            linksToChilds: [{
+            edgesToChilds: [{
                 to: {
                     id: 'B',
                     rootPathWeight: 100

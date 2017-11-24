@@ -20,8 +20,8 @@ describe('set-idea-position', () => {
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 1, y: 1}),
-            linksToChilds: [],
-            linkFromParent: null,
+            edgesToChilds: [],
+            edgeFromParent: null,
             rootPathWeight: 0
         });
 
@@ -61,7 +61,7 @@ describe('set-idea-position', () => {
         //             \
         //              \--> (D)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A  B  C  D
             /* A */ '0  1  0  0',
             /* B */ '0  0  1  1',
@@ -69,10 +69,10 @@ describe('set-idea-position', () => {
             /* D */ '0  0  0  0'
         ]);
 
-        const nodeA = nodes.find(i => i.id === 'A');
-        const nodeB = nodes.find(i => i.id === 'B');
-        const nodeC = nodes.find(i => i.id === 'C');
-        const nodeD = nodes.find(i => i.id === 'D');
+        const ideaA = vertices.find(i => i.id === 'A');
+        const ideaB = vertices.find(i => i.id === 'B');
+        const ideaC = vertices.find(i => i.id === 'C');
+        const ideaD = vertices.find(i => i.id === 'D');
 
         // setup positions
         const posA = {x: 0, y: 0};
@@ -80,24 +80,24 @@ describe('set-idea-position', () => {
         const posC = {x: 2, y: 0};
         const posD = {x: 2, y: 1};
 
-        nodeA.posAbs = new Point(posA);
-        nodeA.posRel = new Point(posA);
+        ideaA.posAbs = new Point(posA);
+        ideaA.posRel = new Point(posA);
 
-        nodeB.posAbs = new Point(posB);
-        nodeB.posRel = new Point(posB);
+        ideaB.posAbs = new Point(posB);
+        ideaB.posRel = new Point(posB);
 
-        nodeC.posAbs = new Point(posC);
-        nodeC.posRel = new Point(posC);
+        ideaC.posAbs = new Point(posC);
+        ideaC.posRel = new Point(posC);
 
-        nodeD.posAbs = new Point(posD);
-        nodeD.posRel = new Point(posD);
+        ideaD.posAbs = new Point(posD);
+        ideaD.posRel = new Point(posD);
 
         // setup mindmap
         const mindmap = new Mindmap();
 
         mindmap.root = root;
-        nodes.forEach(i => mindmap.ideas.set(i.id, i));
-        links.forEach(a => mindmap.associations.set(a.id, a));
+        vertices.forEach(i => mindmap.ideas.set(i.id, i));
+        edges.forEach(a => mindmap.associations.set(a.id, a));
 
         const state = {model: {mindmap}};
 
@@ -140,7 +140,7 @@ describe('set-idea-position', () => {
         //       v v             v       \
         //       (C) --> (D) --> (E) --> (F)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A  B  C  D  E  F
             /* A */ '0  1  1  0  0  0',
             /* B */ '0  0  1  0  4  0',
@@ -150,37 +150,37 @@ describe('set-idea-position', () => {
             /* F */ '0  5  0  0  0  0'
         ]);
 
-        const nodeA = nodes.find(i => i.id === 'A');
-        const nodeB = nodes.find(i => i.id === 'B');
-        const nodeC = nodes.find(i => i.id === 'C');
-        const nodeD = nodes.find(i => i.id === 'D');
-        const nodeE = nodes.find(i => i.id === 'E');
-        const nodeF = nodes.find(i => i.id === 'F');
+        const ideaA = vertices.find(i => i.id === 'A');
+        const ideaB = vertices.find(i => i.id === 'B');
+        const ideaC = vertices.find(i => i.id === 'C');
+        const ideaD = vertices.find(i => i.id === 'D');
+        const ideaE = vertices.find(i => i.id === 'E');
+        const ideaF = vertices.find(i => i.id === 'F');
 
         // setup positions
-        nodeA.posAbs = new Point({x: 0, y: 0});
-        nodeA.posRel = new Point({x: 0, y: 0});
+        ideaA.posAbs = new Point({x: 0, y: 0});
+        ideaA.posRel = new Point({x: 0, y: 0});
 
-        nodeB.posAbs = new Point({x: 1, y: 0});
-        nodeB.posRel = new Point({x: 1, y: 0});
+        ideaB.posAbs = new Point({x: 1, y: 0});
+        ideaB.posRel = new Point({x: 1, y: 0});
 
-        nodeC.posAbs = new Point({x: 0.5, y: 0.5});
-        nodeC.posRel = new Point({x: 0.5, y: 0.5});
+        ideaC.posAbs = new Point({x: 0.5, y: 0.5});
+        ideaC.posRel = new Point({x: 0.5, y: 0.5});
 
-        nodeD.posAbs = new Point({x: 2, y: 1});
-        nodeD.posRel = new Point({x: 1.5, y: 0});
+        ideaD.posAbs = new Point({x: 2, y: 1});
+        ideaD.posRel = new Point({x: 1.5, y: 0});
 
-        nodeE.posAbs = new Point({x: 3, y: 1});
-        nodeE.posRel = new Point({x: 1, y: 0});
+        ideaE.posAbs = new Point({x: 3, y: 1});
+        ideaE.posRel = new Point({x: 1, y: 0});
 
-        nodeF.posAbs = new Point({x: 4, y: 1});
-        nodeF.posRel = new Point({x: 1, y: 0});
+        ideaF.posAbs = new Point({x: 4, y: 1});
+        ideaF.posRel = new Point({x: 1, y: 0});
 
         // setup mindmap
         const mindmap = new Mindmap();
         mindmap.root = root;
-        nodes.forEach(i => mindmap.ideas.set(i.id, i));
-        links.forEach(a => mindmap.associations.set(a.id, a));
+        vertices.forEach(i => mindmap.ideas.set(i.id, i));
+        edges.forEach(a => mindmap.associations.set(a.id, a));
 
         const state = {model: {mindmap}};
 
@@ -229,7 +229,7 @@ describe('set-idea-position', () => {
         //           v /      /        v
         //           (D) <----         (F)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A  B    C    D    E  F
             /* A */ '0  1.4  0    2.5  1  0',
             /* B */ '0  0    1.4  0    0  0',
@@ -239,43 +239,43 @@ describe('set-idea-position', () => {
             /* F */ '0  0    0    0    0  0'
         ]);
 
-        const nodeA = nodes.find(i => i.id === 'A');
-        const nodeB = nodes.find(i => i.id === 'B');
-        const nodeC = nodes.find(i => i.id === 'C');
-        const nodeD = nodes.find(i => i.id === 'D');
-        const nodeE = nodes.find(i => i.id === 'E');
-        const nodeF = nodes.find(i => i.id === 'F');
+        const ideaA = vertices.find(i => i.id === 'A');
+        const ideaB = vertices.find(i => i.id === 'B');
+        const ideaC = vertices.find(i => i.id === 'C');
+        const ideaD = vertices.find(i => i.id === 'D');
+        const ideaE = vertices.find(i => i.id === 'E');
+        const ideaF = vertices.find(i => i.id === 'F');
 
-        const assocAtoB = links.find(l => l.id === 'A to B');
-        const assocAtoD = links.find(l => l.id === 'A to D');
-        const assocAtoE = links.find(l => l.id === 'A to E');
-        const assocDtoC = links.find(l => l.id === 'D to C');
-        const assocEtoF = links.find(l => l.id === 'E to F');
+        const assocAtoB = edges.find(l => l.id === 'A to B');
+        const assocAtoD = edges.find(l => l.id === 'A to D');
+        const assocAtoE = edges.find(l => l.id === 'A to E');
+        const assocDtoC = edges.find(l => l.id === 'D to C');
+        const assocEtoF = edges.find(l => l.id === 'E to F');
 
         // setup positions
-        nodeA.posAbs = new Point({x: 0, y: 1});
-        nodeA.posRel = new Point({x: 0, y: 1});
+        ideaA.posAbs = new Point({x: 0, y: 1});
+        ideaA.posRel = new Point({x: 0, y: 1});
 
-        nodeB.posAbs = new Point({x: 1, y: 0});
-        nodeB.posRel = new Point({x: 1, y: -1});
+        ideaB.posAbs = new Point({x: 1, y: 0});
+        ideaB.posRel = new Point({x: 1, y: -1});
 
-        nodeC.posAbs = new Point({x: 2, y: 1});
-        nodeC.posRel = new Point({x: 1, y: 1});
+        ideaC.posAbs = new Point({x: 2, y: 1});
+        ideaC.posRel = new Point({x: 1, y: 1});
 
-        nodeD.posAbs = new Point({x: 1, y: 2});
-        nodeD.posRel = new Point({x: -1, y: 1});
+        ideaD.posAbs = new Point({x: 1, y: 2});
+        ideaD.posRel = new Point({x: -1, y: 1});
 
-        nodeE.posAbs = new Point({x: 2, y: 1});
-        nodeE.posRel = new Point({x: 2, y: 0});
+        ideaE.posAbs = new Point({x: 2, y: 1});
+        ideaE.posRel = new Point({x: 2, y: 0});
 
-        nodeF.posAbs = new Point({x: 3, y: 2});
-        nodeF.posRel = new Point({x: 1, y: 1});
+        ideaF.posAbs = new Point({x: 3, y: 2});
+        ideaF.posRel = new Point({x: 1, y: 1});
 
         // setup mindmap
         const mindmap = new Mindmap();
         mindmap.root = root;
-        nodes.forEach(i => mindmap.ideas.set(i.id, i));
-        links.forEach(a => mindmap.associations.set(a.id, a));
+        vertices.forEach(i => mindmap.ideas.set(i.id, i));
+        edges.forEach(a => mindmap.associations.set(a.id, a));
 
         const state = {model: {mindmap}};
 
@@ -302,17 +302,17 @@ describe('set-idea-position', () => {
 
         expect(updateA).to.deep.equal({
             id: 'A',
-            linksToChilds: [assocAtoB, assocAtoD, assocAtoE]
+            edgesToChilds: [assocAtoB, assocAtoD, assocAtoE]
         });
 
         expect(updateB).to.deep.equal({
             id: 'B',
-            linksToChilds: []
+            edgesToChilds: []
         });
 
         expect(updateC).to.deep.equal({
             id: 'C',
-            linkFromParent: assocDtoC,
+            edgeFromParent: assocDtoC,
             rootPathWeight: 2,
 
             posRel: {x: 1, y: 0}
@@ -320,8 +320,8 @@ describe('set-idea-position', () => {
 
         expect(updateD).to.deep.equal({
             id: 'D',
-            linkFromParent: assocAtoD,
-            linksToChilds: [assocDtoC],
+            edgeFromParent: assocAtoD,
+            edgesToChilds: [assocDtoC],
             rootPathWeight: 1,
 
             posAbs: {x: 1, y: 1},
@@ -330,7 +330,7 @@ describe('set-idea-position', () => {
 
         expect(updateE).to.deep.equal({
             id: 'E',
-            linksToChilds: [assocEtoF],
+            edgesToChilds: [assocEtoF],
             rootPathWeight: Math.sqrt(5),
 
             posAbs: {x: 2, y: 0},
@@ -353,7 +353,7 @@ describe('set-idea-position', () => {
         //             \
         //              \--> (D)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A  B  C  D
             /* A */ '0  1  0  0',
             /* B */ '0  0  1  1',
@@ -361,16 +361,16 @@ describe('set-idea-position', () => {
             /* D */ '0  0  0  0'
         ]);
 
-        nodes.find(i => i.id === 'A').posAbs = new Point({x: 0, y: 0});
-        nodes.find(i => i.id === 'B').posAbs = new Point({x: 1, y: 0});
-        nodes.find(i => i.id === 'C').posAbs = new Point({x: 2, y: 0});
-        nodes.find(i => i.id === 'D').posAbs = new Point({x: 2, y: 1});
+        vertices.find(i => i.id === 'A').posAbs = new Point({x: 0, y: 0});
+        vertices.find(i => i.id === 'B').posAbs = new Point({x: 1, y: 0});
+        vertices.find(i => i.id === 'C').posAbs = new Point({x: 2, y: 0});
+        vertices.find(i => i.id === 'D').posAbs = new Point({x: 2, y: 1});
 
         const mindmap = new Mindmap();
 
         mindmap.root = root;
-        nodes.forEach(i => mindmap.ideas.set(i.id, i));
-        links.forEach(a => mindmap.associations.set(a.id, a));
+        vertices.forEach(i => mindmap.ideas.set(i.id, i));
+        edges.forEach(a => mindmap.associations.set(a.id, a));
 
         const state = {model: {mindmap}};
 
@@ -406,7 +406,7 @@ describe('set-idea-position', () => {
         //           v /      /        v
         //           (D) <----         (F)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A  B    C    D    E  F
             /* A */ '0  1.4  0    2.5  1  0',
             /* B */ '0  0    1.4  0    0  0',
@@ -416,37 +416,37 @@ describe('set-idea-position', () => {
             /* F */ '0  0    0    0    0  0'
         ]);
 
-        const nodeA = nodes.find(i => i.id === 'A');
-        const nodeB = nodes.find(i => i.id === 'B');
-        const nodeC = nodes.find(i => i.id === 'C');
-        const nodeD = nodes.find(i => i.id === 'D');
-        const nodeE = nodes.find(i => i.id === 'E');
-        const nodeF = nodes.find(i => i.id === 'F');
+        const ideaA = vertices.find(i => i.id === 'A');
+        const ideaB = vertices.find(i => i.id === 'B');
+        const ideaC = vertices.find(i => i.id === 'C');
+        const ideaD = vertices.find(i => i.id === 'D');
+        const ideaE = vertices.find(i => i.id === 'E');
+        const ideaF = vertices.find(i => i.id === 'F');
 
         // setup positions
-        nodeA.posAbs = new Point({x: 0, y: 1});
-        nodeA.posRel = new Point({x: 0, y: 1});
+        ideaA.posAbs = new Point({x: 0, y: 1});
+        ideaA.posRel = new Point({x: 0, y: 1});
 
-        nodeB.posAbs = new Point({x: 1, y: 0});
-        nodeB.posRel = new Point({x: 1, y: -1});
+        ideaB.posAbs = new Point({x: 1, y: 0});
+        ideaB.posRel = new Point({x: 1, y: -1});
 
-        nodeC.posAbs = new Point({x: 2, y: 1});
-        nodeC.posRel = new Point({x: 1, y: 1});
+        ideaC.posAbs = new Point({x: 2, y: 1});
+        ideaC.posRel = new Point({x: 1, y: 1});
 
-        nodeD.posAbs = new Point({x: 1, y: 2});
-        nodeD.posRel = new Point({x: -1, y: 1});
+        ideaD.posAbs = new Point({x: 1, y: 2});
+        ideaD.posRel = new Point({x: -1, y: 1});
 
-        nodeE.posAbs = new Point({x: 2, y: 1});
-        nodeE.posRel = new Point({x: 2, y: 0});
+        ideaE.posAbs = new Point({x: 2, y: 1});
+        ideaE.posRel = new Point({x: 2, y: 0});
 
-        nodeF.posAbs = new Point({x: 3, y: 2});
-        nodeF.posRel = new Point({x: 1, y: 1});
+        ideaF.posAbs = new Point({x: 3, y: 2});
+        ideaF.posRel = new Point({x: 1, y: 1});
 
         // setup mindmap
         const mindmap = new Mindmap();
         mindmap.root = root;
-        nodes.forEach(i => mindmap.ideas.set(i.id, i));
-        links.forEach(a => mindmap.associations.set(a.id, a));
+        vertices.forEach(i => mindmap.ideas.set(i.id, i));
+        edges.forEach(a => mindmap.associations.set(a.id, a));
 
         const state = {model: {mindmap}};
         const stateBefore = clone(state);
@@ -472,8 +472,8 @@ describe('set-idea-position', () => {
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 1, y: 1}),
-            linksToChilds: [],
-            linkFromParent: null,
+            edgesToChilds: [],
+            edgeFromParent: null,
             rootPathWeight: 0
         });
 

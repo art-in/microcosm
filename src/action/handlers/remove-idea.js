@@ -70,13 +70,13 @@ export default function removeIdea(state, data) {
     // since removing idea with outgoing associations is not allowed,
     // it cannot affect root paths of any other idea, so we do not need to 
     // recalculate root paths for entire graph.
-    // removing parent-child link is enough.
-    const parent = idea.linkFromParent.from;
-    const index = parent.linksToChilds.indexOf(idea.linkFromParent);
+    // removing parent-child edge is enough.
+    const parent = idea.edgeFromParent.from;
+    const index = parent.edgesToChilds.indexOf(idea.edgeFromParent);
 
     patch.push('update-idea', {
         id: parent.id,
-        linksToChilds: withoutItem(parent.linksToChilds, index)
+        edgesToChilds: withoutItem(parent.edgesToChilds, index)
     });
 
     return normalizePatch(patch);

@@ -23,16 +23,16 @@ describe('create-cross-association', () => {
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         const ideaB = new Idea({
             id: 'B',
             posRel: new Point({x: 10, y: 10}),
             posAbs: new Point({x: 10, y: 10}),
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -78,8 +78,8 @@ describe('create-cross-association', () => {
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linkFromParent: null,
-            linksToChilds: [],
+            edgeFromParent: null,
+            edgesToChilds: [],
             rootPathWeight: 0
         });
 
@@ -87,8 +87,8 @@ describe('create-cross-association', () => {
             id: 'B',
             posRel: new Point({x: 0, y: 10}),
             posAbs: new Point({x: 0, y: 10}),
-            linkFromParent: null,
-            linksToChilds: [],
+            edgeFromParent: null,
+            edgesToChilds: [],
             rootPathWeight: 100
         });
 
@@ -116,13 +116,13 @@ describe('create-cross-association', () => {
         expect(mutations[0].data).to.deep.equal({
             id: 'A',
             associationsOut: [assoc],
-            linksToChilds: [assoc]
+            edgesToChilds: [assoc]
         });
 
         expect(mutations[1].data).to.deep.equal({
             id: 'B',
             associationsIn: [assoc],
-            linkFromParent: assoc,
+            edgeFromParent: assoc,
             rootPathWeight: 10,
 
             posRel: {x: 0, y: 10}
@@ -138,7 +138,7 @@ describe('create-cross-association', () => {
         //    \_______________/
         //         to add
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C   D   E
             /* A */ '0   1   0   0   1',
             /* B */ '0   0   1   0   0',
@@ -147,12 +147,12 @@ describe('create-cross-association', () => {
             /* E */ '0   0   0   0   0'
         ]);
 
-        const ideaA = nodes.find(n => n.id === 'A');
-        const ideaC = nodes.find(n => n.id === 'C');
+        const ideaA = vertices.find(n => n.id === 'A');
+        const ideaC = vertices.find(n => n.id === 'C');
 
-        const assocAtoB = links.find(l => l.id === 'A to B');
-        const assocAtoE = links.find(l => l.id === 'A to E');
-        const assocBtoC = links.find(l => l.id === 'B to C');
+        const assocAtoB = edges.find(l => l.id === 'A to B');
+        const assocAtoE = edges.find(l => l.id === 'A to E');
+        const assocBtoC = edges.find(l => l.id === 'B to C');
 
         // setup positions
         ideaA.posRel = new Point({x: 0, y: 0});
@@ -165,8 +165,8 @@ describe('create-cross-association', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
 
         const state = {model: {mindmap}};
 
@@ -192,19 +192,19 @@ describe('create-cross-association', () => {
 
         expect(updateA).to.deep.equal({
             id: 'A',
-            linksToChilds: [assocAtoB, assocAtoE, assocAtoC],
+            edgesToChilds: [assocAtoB, assocAtoE, assocAtoC],
             associationsOut: [assocAtoB, assocAtoE, assocAtoC]
         });
 
         expect(updateB).to.deep.equal({
             id: 'B',
-            linksToChilds: []
+            edgesToChilds: []
         });
 
         expect(updateC).to.deep.equal({
             id: 'C',
             rootPathWeight: 1.9,
-            linkFromParent: assocAtoC,
+            edgeFromParent: assocAtoC,
             associationsIn: [assocBtoC, assocAtoC],
 
             posRel: {x: 1.9, y: 0}
@@ -225,7 +225,7 @@ describe('create-cross-association', () => {
         //    \_______________/
         //         to add
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C   D   E
             /* A */ '0   1   0   0   1',
             /* B */ '0   0   1   0   0',
@@ -235,8 +235,8 @@ describe('create-cross-association', () => {
         ]);
 
 
-        const ideaA = nodes.find(n => n.id === 'A');
-        const ideaC = nodes.find(n => n.id === 'C');
+        const ideaA = vertices.find(n => n.id === 'A');
+        const ideaC = vertices.find(n => n.id === 'C');
 
         ideaA.posRel = new Point({x: 0, y: 0});
         ideaA.posAbs = new Point({x: 0, y: 0});
@@ -248,8 +248,8 @@ describe('create-cross-association', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
 
         const state = {model: {mindmap}};
         const stateBefore = clone(state);
@@ -277,16 +277,16 @@ describe('create-cross-association', () => {
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             posAbs: new Point({x: 0, y: 0}),
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         const ideaB = new Idea({
             id: 'B',
             posRel: new Point({x: 10, y: 10}),
             posAbs: new Point({x: 10, y: 10}),
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -369,8 +369,8 @@ describe('create-cross-association', () => {
         const ideaA = new Idea({
             id: 'A',
             isRoot: true,
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -408,12 +408,12 @@ describe('create-cross-association', () => {
         });
 
         ideaA.associationsOut = [assocAtoB];
-        ideaA.linkFromParent = null;
-        ideaA.linksToChilds = [assocAtoB];
+        ideaA.edgeFromParent = null;
+        ideaA.edgesToChilds = [assocAtoB];
         
         ideaB.associationsIn = [assocAtoB];
-        ideaB.linkFromParent = assocAtoB;
-        ideaB.linksToChilds = [];
+        ideaB.edgeFromParent = assocAtoB;
+        ideaB.edgesToChilds = [];
 
         // setup mindmap
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -447,13 +447,13 @@ describe('create-cross-association', () => {
         const ideaA = new Idea({
             id: 'A',
             isRoot: true,
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
         const ideaB = new Idea({
             id: 'B',
-            linkFromParent: null,
-            linksToChilds: []
+            edgeFromParent: null,
+            edgesToChilds: []
         });
 
         const assocAtoB = new Association({

@@ -5,7 +5,7 @@ import getDescendants from 'src/utils/graph/get-descendants';
 
 describe('get-descendants', () => {
 
-    it('should return descendants of target node', () => {
+    it('should return descendants of target vertex', () => {
 
         // setup tree graph
         //
@@ -17,7 +17,7 @@ describe('get-descendants', () => {
         //       v       v
         //      (D) --> (E)
         //
-        const {nodes} = buildGraph([
+        const {vertices} = buildGraph([
             //       A   B   C   D   E
             /* A */ '0   1   1   0   0',
             /* B */ '0   0   1   1   0',
@@ -26,17 +26,17 @@ describe('get-descendants', () => {
             /* E */ '0   0   0   0   0'
         ]);
 
-        const nodeB = nodes.find(n => n.id === 'B');
-        const nodeD = nodes.find(n => n.id === 'D');
-        const nodeE = nodes.find(n => n.id === 'E');
+        const vertexB = vertices.find(n => n.id === 'B');
+        const vertexD = vertices.find(n => n.id === 'D');
+        const vertexE = vertices.find(n => n.id === 'E');
 
         // target
-        const result = getDescendants(nodeB);
+        const result = getDescendants(vertexB);
 
         // check
-        // node C is not child of B, but child of A
+        // vertex C is not child of B, but child of A
         expect(result).to.have.length(2);
-        expect(result).to.have.members([nodeD, nodeE]);
+        expect(result).to.have.members([vertexD, vertexE]);
     });
 
 });

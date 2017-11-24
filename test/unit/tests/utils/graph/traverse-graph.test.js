@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
-import traverse from 'src/utils/graph/traverse-graph';
+import traverseGraph from 'src/utils/graph/traverse-graph';
 
 describe('traverse-graph', () => {
 
@@ -15,7 +15,7 @@ describe('traverse-graph', () => {
         //        /        \       \
         //      (D)         (E) --> (F) --> (G)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C   D   E   F   G
             /* A */ '0   1   1   0   0   0   0',
             /* B */ '0   0   0   1   0   0   0',
@@ -26,20 +26,20 @@ describe('traverse-graph', () => {
             /* G */ '0   0   0   0   0   0   0'
         ]);
 
-        return {root, nodes, links};
+        return {root, vertices, edges};
     }
 
     describe('depth-first pre-order', () => {
 
-        it('should visit each node', () => {
+        it('should visit each vertex', () => {
             
             // setup
             const {root} = setupGraph();
             const visited = [];
     
             // target
-            traverse({
-                node: root,
+            traverseGraph({
+                root,
                 visit: idea => visited.push(idea.id),
                 alg: 'dfs-pre'
             });
@@ -56,17 +56,17 @@ describe('traverse-graph', () => {
             ]);
         });
 
-        it('should visit nodes in tree mode', () => {
+        it('should visit vertices in tree mode', () => {
 
             // setup
-            const {nodes} = setupGraph();
+            const {vertices} = setupGraph();
             const visited = [];
 
-            const nodeE = nodes.find(n => n.id === 'E');
+            const vertexE = vertices.find(n => n.id === 'E');
 
             // target
-            traverse({
-                node: nodeE,
+            traverseGraph({
+                root: vertexE,
                 visit: idea => visited.push(idea.id),
                 alg: 'dfs-pre',
                 isTree: true
@@ -85,15 +85,15 @@ describe('traverse-graph', () => {
 
     describe('depth-first post-order', () => {
 
-        it('should visit each node', () => {
+        it('should visit each vertex', () => {
             
             // setup
             const {root} = setupGraph();
             const visited = [];
     
             // target
-            traverse({
-                node: root,
+            traverseGraph({
+                root,
                 visit: idea => visited.push(idea.id),
                 alg: 'dfs-post'
             });
@@ -110,17 +110,17 @@ describe('traverse-graph', () => {
             ]);
         });
 
-        it('should visit nodes in tree mode', () => {
+        it('should visit vertices in tree mode', () => {
             
             // setup
-            const {nodes} = setupGraph();
+            const {vertices} = setupGraph();
             const visited = [];
 
-            const nodeE = nodes.find(n => n.id === 'E');
+            const vertexE = vertices.find(n => n.id === 'E');
 
             // target
-            traverse({
-                node: nodeE,
+            traverseGraph({
+                root: vertexE,
                 visit: idea => visited.push(idea.id),
                 alg: 'dfs-post',
                 isTree: true
@@ -139,15 +139,15 @@ describe('traverse-graph', () => {
 
     describe('breadth-first', () => {
 
-        it('should visit each node', () => {
+        it('should visit each vertex', () => {
             
             // setup
             const {root} = setupGraph();
             const visited = [];
     
             // target
-            traverse({
-                node: root,
+            traverseGraph({
+                root,
                 visit: idea => visited.push(idea.id),
                 alg: 'bfs'
             });
@@ -164,17 +164,17 @@ describe('traverse-graph', () => {
             ]);
         });
 
-        it('should visit nodes in tree mode', () => {
+        it('should visit vertices in tree mode', () => {
             
             // setup
-            const {nodes} = setupGraph();
+            const {vertices} = setupGraph();
             const visited = [];
 
-            const nodeE = nodes.find(n => n.id === 'E');
+            const vertexE = vertices.find(n => n.id === 'E');
 
             // target
-            traverse({
-                node: nodeE,
+            traverseGraph({
+                root: vertexE,
                 visit: idea => visited.push(idea.id),
                 alg: 'bfs',
                 isTree: true

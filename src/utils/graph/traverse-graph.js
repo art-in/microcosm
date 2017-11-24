@@ -10,24 +10,24 @@ import required from 'utils/required-params';
  * bfs      - breadth-first search
  * 
  * @param {object}   opts
- * @param {object}   opts.node - root node
- * @param {function} opts.visit - function to call on each node
+ * @param {object}   opts.root - root vertex
+ * @param {function} opts.visit - function to call on each vertex
  * @param {string}   [opts.alg='dfs-pre']
  * @param {boolean}  [opts.isTree=false] - traverse graph as tree
  */
 export default function traverseGraph(opts) {
     
-    const {node, visit} = required(opts);
+    const {root, visit} = required(opts);
     const alg = opts.alg || 'dfs-pre';
     const isTree = opts.isTree || false;
 
     switch (alg) {
     case 'dfs-pre':
     case 'dfs-post':
-        dfs(node, visit, alg, isTree);
+        dfs(root, visit, alg, isTree);
         break;
     case 'bfs':
-        bfs(node, visit, isTree);
+        bfs(root, visit, isTree);
         break;
     default:
         throw Error(`Unknown traversal algorithm '${alg}'`);
@@ -37,68 +37,68 @@ export default function traverseGraph(opts) {
 /**
  * Depth-first search (DFS)
  * 
- * @param {object} node 
+ * @param {object} vertex 
  * @param {function} visit 
  * @param {string} alg 
  * @param {boolean} isTree
- * @param {Set} visitedNodes 
+ * @param {Set} visitedVertices 
  */
-function dfs(node, visit, alg, isTree, visitedNodes = new Set()) {
-    if (visitedNodes.has(node)) {
+function dfs(vertex, visit, alg, isTree, visitedVertices = new Set()) {
+    if (visitedVertices.has(vertex)) {
         return;
     }
 
-    visitedNodes.add(node);
+    visitedVertices.add(vertex);
 
     if (alg === 'dfs-pre') {
-        visit(node);
+        visit(vertex);
     }
 
-    const linksOut = isTree ?
-        node.linksToChilds :
-        node.linksOut;
+    const edgesOut = isTree ?
+        vertex.edgesToChilds :
+        vertex.edgesOut;
 
-    linksOut.forEach(link => {
+    edgesOut.forEach(edge => {
         dfs(
-            link.to,
+            edge.to,
             visit,
             alg,
             isTree,
-            visitedNodes);
+            visitedVertices);
     });
     
     if (alg === 'dfs-post') {
-        visit(node);
+        visit(vertex);
     }
 }
 
 /**
  * Breadth-first search (BFS)
  * 
- * @param {object} node 
+ * @param {object} vertex 
  * @param {function} visit
  * @param {boolean} isTree
  */
-function bfs(node, visit, isTree) {
+function bfs(vertex, visit, isTree) {
 
-    const visitedNodes = new Set();
+    const visitedVertices = new Set();
 
     const queue = [];
-    queue.unshift(node);
+    queue.unshift(vertex);
 
     while (queue.length) {
 
-        const currentNode = queue.pop();
+        const currentVertex = queue.pop();
 
-        visit(currentNode);
-        visitedNodes.add(currentNode);
+        visit(currentVertex);
+        visitedVertices.add(currentVertex);
 
-        const linksOut = isTree ?
-            currentNode.linksToChilds :
-            currentNode.linksOut;
+        const edgesOut = isTree ?
+            currentVertex.edgesToChilds :
+            currentVertex.edgesOut;
 
-        linksOut
-            .filter(l => !visitedNodes.has(l.to))
+        edgesOut
+            .filter(l => !visitedVertices.has(l.to))
             .forEach(l => queue.unshift(l.to));
     }
 }

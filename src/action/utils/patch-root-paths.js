@@ -17,10 +17,10 @@ export default function patchRootPaths(opts) {
     const rootPathsDiff = diffRootPaths(opts);
 
     rootPathsDiff.forEach(data => {
-        const idea = data.node;
+        const idea = data.vertex;
 
         // eslint-disable-next-line no-unused-vars
-        const {node, ...update} = data;
+        const {vertex, ...update} = data;
 
         patch.push('update-idea', {
             id: idea.id,
@@ -31,13 +31,13 @@ export default function patchRootPaths(opts) {
     // update relative positions for ideas that changed their parents
     rootPathsDiff.forEach(d => {
 
-        if (!d.linkFromParent) {
+        if (!d.edgeFromParent) {
             // only interested in parent change
             return;
         }
 
-        const child = d.node;
-        const parent = d.linkFromParent.from;
+        const child = d.vertex;
+        const parent = d.edgeFromParent.from;
         
         const parentPosAbs = getIdeaPosAbs(parent, replaceIdeaPositions);
         const childPosAbs = getIdeaPosAbs(child, replaceIdeaPositions);

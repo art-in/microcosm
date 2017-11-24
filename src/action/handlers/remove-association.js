@@ -77,7 +77,7 @@ export default function(state, data, dispatch) {
     // update root paths
     const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
-        ignoreLinks: [assoc]
+        ignoreEdges: [assoc]
     });
 
     patch = Patch.combine(patch, rootPathsPatch);

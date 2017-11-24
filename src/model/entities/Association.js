@@ -3,6 +3,8 @@ import createID from 'utils/create-id';
 
 /**
  * Association model
+ * 
+ * @implements {Edge}
  */
 export default class Association {
 
@@ -40,6 +42,7 @@ export default class Association {
     /**
      * Head idea
      * Note: available only after graph is build
+     * @memberof Edge
      * @type {Idea}
      */
     from = undefined;
@@ -47,12 +50,14 @@ export default class Association {
     /**
      * Tail idea
      * Note: available only after graph is build
+     * @memberof Edge
      * @type {Idea}
      */
     to = undefined;
 
     /**
      * Weight
+     * @memberof Edge
      * @type {number}
      */
     weight = undefined;

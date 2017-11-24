@@ -34,7 +34,7 @@ describe('mindmap-to-graph', () => {
         //       |       v
         //        ----> (H)
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B      C      D     E    F   G    H
             /* A */ '0   2000   500    0     0    0   0    2001',
             /* B */ '0   0      0      1     0    0   0    0',
@@ -46,14 +46,14 @@ describe('mindmap-to-graph', () => {
             /* H */ '0   0      0      0     0    0   0    0'
         ]);
 
-        const ideaA = nodes.find(n => n.id === 'A');
-        const ideaB = nodes.find(n => n.id === 'B');
-        const ideaC = nodes.find(n => n.id === 'C');
-        const ideaD = nodes.find(n => n.id === 'D');
-        const ideaE = nodes.find(n => n.id === 'E');
-        const ideaF = nodes.find(n => n.id === 'F');
-        const ideaG = nodes.find(n => n.id === 'G');
-        const ideaH = nodes.find(n => n.id === 'H');
+        const ideaA = vertices.find(n => n.id === 'A');
+        const ideaB = vertices.find(n => n.id === 'B');
+        const ideaC = vertices.find(n => n.id === 'C');
+        const ideaD = vertices.find(n => n.id === 'D');
+        const ideaE = vertices.find(n => n.id === 'E');
+        const ideaF = vertices.find(n => n.id === 'F');
+        const ideaG = vertices.find(n => n.id === 'G');
+        const ideaH = vertices.find(n => n.id === 'H');
 
         // setup positions
         ideaA.posAbs = new Point({x: 0, y: 0});
@@ -89,8 +89,8 @@ describe('mindmap-to-graph', () => {
         const mindmap = new Mindmap();
 
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
 
         mindmap.scale = 2;
         mindmap.pos = new Point({x: 0, y: 0});

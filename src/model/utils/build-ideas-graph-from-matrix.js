@@ -18,16 +18,16 @@ import weighRootPaths from 'utils/graph/weigh-root-paths';
  *    of test utils yet. but basicly yes, this should be in test/utils/ folder.
  * 
  * @param {array.<string>} matrix
- * @return {Idea} root node
+ * @return {{root, vertices, edges}}
 */
 export default function buildIdeasGraphFromMatrix(matrix) {
-    const {root, nodes, links} = buildGraphFromMatrix({
+    const {root, vertices, edges} = buildGraphFromMatrix({
         matrix,
-        NodeConstructor: Idea,
-        LinkConstructor: Association
+        VertexConstructor: Idea,
+        EdgeConstructor: Association
     });
 
     weighRootPaths({root});
 
-    return {root, nodes, links};
+    return {root, vertices, edges};
 }

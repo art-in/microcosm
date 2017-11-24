@@ -7,9 +7,9 @@ import WeightZone from 'utils/graph/WeightZone';
  * to graph of entities of another type
  * 
  * While mapping it is possible to slice particular portion of graph,
- * basing on how far target node is from root (root path weight).
+ * basing on how far target vertex is from root (root path weight).
  * 
- * From perspective of root path weight, all nodes fall into 3 groups
+ * From perspective of root path weight, all vertices fall into 3 groups
  * or weight zones:
  * 
  *     focus zone          (A)--->(B)<
@@ -23,41 +23,41 @@ import WeightZone from 'utils/graph/WeightZone';
  *     hide zone      (E)<#(#)###>(#)####>(F)
  * 
  * 
- *  # - nodes and links that were ignored while mapping
+ *  # - vertices and edges that were ignored while mapping
  * 
  * Slicing uses following rules:
  * 
- * Nodes in focus zone can target nodes in focus, shade or hide zones.
- * Nodes in shade zone can target nodes in shade, focus, but not in hide zone.
- * Nodes in hide zone can target nodes in focus, but not in hide or shade zones.
+ * Vertices in focus zone can target ones in focus, shade or hide zones.
+ * Vertices in shade zone can target ones in shade, focus, but not hide zone.
+ * Vertices in hide zone can target ones in focus, but not hide or shade zones.
  * 
  * Main purposes of slicing are
- * - reduce amount of nodes by hiding too distant ones, while preserving all
- *   incoming and outgoing links for nodes in focus zone.
+ * - reduce amount of vertices by hiding too distant ones, while preserving all
+ *   incoming and outgoing edges for vertices in focus zone.
  * - not slice rougly, but introduce intermediate 'shade' zone with 'relaxed'
  *   slicing rules
  * 
- * Note: mapping can produce graph with nodes unreachable from root.
- * it can happen for nodes located in hide zone, that target nodes
- * in focus zone (F to B link on the scheme)
+ * Note: mapping can produce graph with vertices unreachable from root.
+ * it can happen for vertices located in hide zone, that target vertices
+ * in focus zone (F-B edge on the scheme)
  * 
  * @param {object}   opts
- * @param {object}   opts.originalNode
- * @param {function} opts.mapNode
- * @param {function} opts.mapLink
+ * @param {object}   opts.vertex
+ * @param {function} opts.mapVertex
+ * @param {function} opts.mapEdge
  * @param {number}   [opts.focusZoneMax=infinity] - focus weight zone max
  * @param {number}   [opts.shadeZoneAmount=0]     - shade weight zone amount
- * @return {{rootNode, nodes, links}}
+ * @return {{rootVertex, vertices, edges}}
  */
 export default function mapGraph(opts) {
 
-    const nodes = [];
-    const links = [];
+    const vertices = [];
+    const edges = [];
 
     const internalOpts = {
-        visitedOriginalNodes: new Map(),
-        allNodes: nodes,
-        allLinks: links
+        visitedOriginalVertices: new Map(),
+        allVertices: vertices,
+        allEdges: edges
     };
 
     if (opts.focusZoneMax === undefined) {
@@ -68,147 +68,147 @@ export default function mapGraph(opts) {
         opts.shadeZoneAmount = 0;
     }
 
-    const rootNode = mapGraphInternal(opts, internalOpts);
+    const rootVertex = mapGraphInternal(opts, internalOpts);
 
     return {
-        rootNode,
-        nodes,
-        links
+        rootVertex,
+        vertices,
+        edges
     };
 }
 
 /**
  * Internal map
  * @param {object}   opts
- * @param {object}   opts.originalNode
- * @param {function} opts.mapNode
- * @param {function} opts.mapLink
+ * @param {object}   opts.vertex
+ * @param {function} opts.mapVertex
+ * @param {function} opts.mapEdge
  * @param {number}   opts.focusZoneMax
  * @param {number}   opts.shadeZoneAmount
  * 
  * @param {object} internalOpts
- * @param {Map}    internalOpts.visitedOriginalNodes 
- * @param {array}  internalOpts.allNodes 
- * @param {array}  internalOpts.allLinks 
- * @return {{rootNode, nodes, links}}
+ * @param {Map}    internalOpts.visitedOriginalVertices 
+ * @param {array}  internalOpts.allVertices 
+ * @param {array}  internalOpts.allEdges 
+ * @return {{rootVertex, vertices, edges}}
  */
 function mapGraphInternal(opts, internalOpts) {
 
     const {
-        node: originalNode,
-        mapNode,
-        mapLink,
+        vertex: originalVertex,
+        mapVertex,
+        mapEdge,
         focusZoneMax,
         shadeZoneAmount
     } = required(opts);
 
     const {
-        visitedOriginalNodes,
-        allNodes,
-        allLinks
+        visitedOriginalVertices,
+        allVertices,
+        allEdges
     } = required(internalOpts);
 
-    // check if node was already visited
+    // check if vertex was already visited
     // to not fall into infinite loop in graph cycles
-    let node = visitedOriginalNodes.get(originalNode);
-    if (node) {
-        return node;
+    let vertex = visitedOriginalVertices.get(originalVertex);
+    if (vertex) {
+        return vertex;
     }
 
-    const nodeZone = getWeightZoneForNode(
-        originalNode,
+    const vertexZone = getWeightZoneForVertex(
+        originalVertex,
         focusZoneMax,
         shadeZoneAmount);
 
-    // map node
-    node = mapNode(originalNode, nodeZone);
-    visitedOriginalNodes.set(originalNode, node);
+    // map vertex
+    vertex = mapVertex(originalVertex, vertexZone);
+    visitedOriginalVertices.set(originalVertex, vertex);
 
-    allNodes.push(node);
+    allVertices.push(vertex);
 
-    node.linksIn = [];
-    node.linksOut = [];
+    vertex.edgesIn = [];
+    vertex.edgesOut = [];
 
-    node.linkFromParent = null;
-    node.linksToChilds = [];
+    vertex.edgeFromParent = null;
+    vertex.edgesToChilds = [];
 
-    // map predecessor nodes.
-    originalNode.linksIn.forEach(originalLink => {
+    // map predecessor vertices.
+    originalVertex.edgesIn.forEach(originalEdge => {
 
-        const predecessorZone = getWeightZoneForNode(
-            originalLink.from,
+        const predecessorZone = getWeightZoneForVertex(
+            originalEdge.from,
             focusZoneMax,
             shadeZoneAmount);
 
-        if (!shouldFollowLink(predecessorZone, nodeZone)) {
+        if (!shouldFollowEdge(predecessorZone, vertexZone)) {
             return;
         }
 
-        const link = mapLink(originalLink, predecessorZone, nodeZone);
+        const edge = mapEdge(originalEdge, predecessorZone, vertexZone);
 
-        link.to = node;
-        link.from = mapGraphInternal({
-            node: originalLink.from,
-            mapNode,
-            mapLink,
+        edge.to = vertex;
+        edge.from = mapGraphInternal({
+            vertex: originalEdge.from,
+            mapVertex,
+            mapEdge,
             focusZoneMax,
             shadeZoneAmount
         }, {
-            visitedOriginalNodes,
-            allNodes,
-            allLinks
+            visitedOriginalVertices,
+            allVertices,
+            allEdges
         });
 
-        // bind link to head/tail nodes
-        link.from.linksOut.push(link);
-        link.to.linksIn.push(link);
+        // bind edge to head/tail vertices
+        edge.from.edgesOut.push(edge);
+        edge.to.edgesIn.push(edge);
 
-        // bind link to parent/child nodes
-        if (originalLink.to.linkFromParent === originalLink) {
-            link.to.linkFromParent = link;
-            link.from.linksToChilds.push(link);
+        // bind edge to parent/child vertices
+        if (originalEdge.to.edgeFromParent === originalEdge) {
+            edge.to.edgeFromParent = edge;
+            edge.from.edgesToChilds.push(edge);
         }
 
-        allLinks.push(link);
+        allEdges.push(edge);
     });
 
-    // map successor nodes.
-    originalNode.linksOut.forEach(originalLink => {
-        const successorZone = getWeightZoneForNode(
-            originalLink.to,
+    // map successor vertices.
+    originalVertex.edgesOut.forEach(originalEdge => {
+        const successorZone = getWeightZoneForVertex(
+            originalEdge.to,
             focusZoneMax,
             shadeZoneAmount);
 
-        if (!shouldFollowLink(nodeZone, successorZone)) {
+        if (!shouldFollowEdge(vertexZone, successorZone)) {
             return;
         }
 
         mapGraphInternal({
-            node: originalLink.to,
-            mapNode,
-            mapLink,
+            vertex: originalEdge.to,
+            mapVertex,
+            mapEdge,
             focusZoneMax,
             shadeZoneAmount
         }, {
-            visitedOriginalNodes,
-            allNodes,
-            allLinks
+            visitedOriginalVertices,
+            allVertices,
+            allEdges
         });
     });
 
-    return node;
+    return vertex;
 }
 
 /**
- * Gets weight zone for node
- * @param {Node}   node
+ * Gets weight zone for vertex
+ * @param {Vertex} vertex
  * @param {number} focusZoneMax
  * @param {number} shadeZoneAmount
  * @return {number} weight zone
  */
-function getWeightZoneForNode(node, focusZoneMax, shadeZoneAmount) {
+function getWeightZoneForVertex(vertex, focusZoneMax, shadeZoneAmount) {
 
-    const {rootPathWeight} = node;
+    const {rootPathWeight} = vertex;
 
     // ensure root path weight set
     if (!Number.isFinite(rootPathWeight) || rootPathWeight < 0) {
@@ -226,13 +226,13 @@ function getWeightZoneForNode(node, focusZoneMax, shadeZoneAmount) {
 }
 
 /**
- * Decides whether mapper should follow link while traversing original graph,
+ * Decides whether mapper should follow edge while traversing original graph,
  * or ignore going farther and skip mapping that branch
  * @param {number} predecessorZone
  * @param {number} successorZone
  * @return {boolean}
 */
-function shouldFollowLink(predecessorZone, successorZone) {
+function shouldFollowEdge(predecessorZone, successorZone) {
     const {focus, shade, hide} = WeightZone;
 
     const from = predecessorZone;

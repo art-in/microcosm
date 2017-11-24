@@ -52,13 +52,13 @@ export default function createIdea(state, data) {
     patch.push('update-idea', {
         id: parent.id,
         associationsOut: parent.associationsOut.concat([assoc]),
-        linksToChilds: parent.linksToChilds.concat([assoc])
+        edgesToChilds: parent.edgesToChilds.concat([assoc])
     });
 
     // bind to new idea
     idea.associationsIn.push(assoc);
-    idea.linkFromParent = assoc;
-    idea.linksToChilds = [];
+    idea.edgeFromParent = assoc;
+    idea.edgesToChilds = [];
 
     // ensure parent idea RPW is valid
     if (!Number.isFinite(parent.rootPathWeight)) {

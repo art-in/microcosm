@@ -18,7 +18,7 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
@@ -28,8 +28,8 @@ describe('remove-idea', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
 
@@ -53,7 +53,7 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
@@ -63,8 +63,8 @@ describe('remove-idea', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
 
@@ -90,20 +90,20 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
             /* C */ '0   0   0'
         ]);
 
-        const assocAtoB = links.find(l => l.id === 'A to B');
+        const assocAtoB = edges.find(l => l.id === 'A to B');
 
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
 
@@ -119,7 +119,7 @@ describe('remove-idea', () => {
         expect(mutations).to.have.length(2);
         expect(mutations[0].data).to.deep.equal({
             id: 'A',
-            linksToChilds: [assocAtoB],
+            edgesToChilds: [assocAtoB],
             associationsOut: [assocAtoB]
         });
         expect(mutations[1].data).to.deep.equal({
@@ -135,7 +135,7 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
@@ -145,8 +145,8 @@ describe('remove-idea', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
         const stateBefore = clone(state);
@@ -168,7 +168,7 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
@@ -178,8 +178,8 @@ describe('remove-idea', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
 
@@ -203,7 +203,7 @@ describe('remove-idea', () => {
         //  (A) --> (B) --> (C)
         //    \_____________/
         //
-        const {root, nodes, links} = buildGraph([
+        const {root, vertices, edges} = buildGraph([
             //       A   B   C
             /* A */ '0   1   1',
             /* B */ '0   0   1',
@@ -213,8 +213,8 @@ describe('remove-idea', () => {
         const mindmap = new Mindmap();
         
         mindmap.root = root;
-        nodes.forEach(n => mindmap.ideas.set(n.id, n));
-        links.forEach(l => mindmap.associations.set(l.id, l));
+        vertices.forEach(n => mindmap.ideas.set(n.id, n));
+        edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const state = {model: {mindmap}};
 

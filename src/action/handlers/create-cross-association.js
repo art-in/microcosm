@@ -79,7 +79,7 @@ export default function createCrossAssociation(state, data) {
     // update root paths
     const rootPathsPatch = patchRootPaths({
         root: mindmap.root,
-        replaceLinksOut: [{node: head, linksOut: newHeadAssocsOut}]
+        replaceEdgesOut: [{vertex: head, edgesOut: newHeadAssocsOut}]
     });
 
     patch = Patch.combine(patch, rootPathsPatch);

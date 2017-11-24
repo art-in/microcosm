@@ -3,97 +3,99 @@ import traverseGraph from 'utils/graph/traverse-graph';
 
 /**
  * Generic function for building object graph
- * from arrays of node and link objects
+ * from arrays of vertices and edges objects
  * 
  * @param {object}         opts
- * @param {array.<object>} opts.nodes - generic nodes
- * @param {array.<object>} opts.links - generic links
- * @param {function}       opts.isRootNode - checks if passed node is graph root
- * @return {object} root node
+ * @param {array.<object>} opts.vertices
+ * @param {array.<object>} opts.edges
+ * @param {function}       opts.isRootVertex - checks if passed vertex is root
+ * @return {object} root vertex
  */
 export default function buildGraph(opts) {
-    const {nodes, links, isRootNode} = required(opts);
+    const {vertices, edges, isRootVertex} = required(opts);
 
-    let rootNode = null;
+    let rootVertex = null;
 
-    const visitedNodes = new Set();
+    const visitedVertices = new Set();
 
-    if (links.length === 0 && nodes.length === 1 &&
-        isRootNode(nodes[0])) {
+    if (edges.length === 0 && vertices.length === 1 &&
+        isRootVertex(vertices[0])) {
         
-        // graph of single root node
-        rootNode = nodes[0];
-        rootNode.linksIn = [];
-        rootNode.linksOut = [];
+        // graph of single root vertex
+        rootVertex = vertices[0];
+        rootVertex.edgesIn = [];
+        rootVertex.edgesOut = [];
 
-        return rootNode;
+        return rootVertex;
     }
 
-    links.forEach(link => {
+    edges.forEach(edge => {
 
-        // set head/tail node to link
-        const nodeHead = nodes.find(i => i.id === link.fromId);
-        if (!nodeHead) {
+        // set head/tail vertex to edge
+        const vertexHead = vertices.find(i => i.id === edge.fromId);
+        if (!vertexHead) {
             throw Error(
-                `Head node '${link.fromId}' ` +
-                `of link '${link.id}' was not found`);
+                `Head vertex '${edge.fromId}' ` +
+                `of edge '${edge.id}' was not found`);
         }
 
-        const nodeTail = nodes.find(i => i.id === link.toId);
-        if (!nodeTail) {
+        const vertexTail = vertices.find(i => i.id === edge.toId);
+        if (!vertexTail) {
             throw Error(
-                `Tail node '${link.toId}' ` +
-                `of link '${link.id}' was not found`);
+                `Tail vertex '${edge.toId}' ` +
+                `of edge '${edge.id}' was not found`);
         }
 
-        link.from = nodeHead;
-        link.to = nodeTail;
+        edge.from = vertexHead;
+        edge.to = vertexTail;
         
-        // mark visited nodes
-        visitedNodes.add(nodeHead);
-        visitedNodes.add(nodeTail);
+        // mark visited vertices
+        visitedVertices.add(vertexHead);
+        visitedVertices.add(vertexTail);
 
-        // init links
-        nodeHead.linksIn = nodeHead.linksIn || [];
-        nodeTail.linksIn = nodeTail.linksIn || [];
-        nodeHead.linksOut = nodeHead.linksOut || [];
-        nodeTail.linksOut = nodeTail.linksOut || [];
+        // init edges
+        vertexHead.edgesIn = vertexHead.edgesIn || [];
+        vertexTail.edgesIn = vertexTail.edgesIn || [];
+        vertexHead.edgesOut = vertexHead.edgesOut || [];
+        vertexTail.edgesOut = vertexTail.edgesOut || [];
 
-        // add link to head node as outgoing link
-        nodeHead.linksOut.push(link);
+        // add edge to head vertex as outgoing edge
+        vertexHead.edgesOut.push(edge);
 
-        // add link to tail node as incoming link
-        nodeTail.linksIn.push(link);
+        // add edge to tail vertex as incoming edge
+        vertexTail.edgesIn.push(edge);
 
-        // mark root node
-        if (isRootNode(nodeHead)) {
-            rootNode = nodeHead;
+        // mark root vertex
+        if (isRootVertex(vertexHead)) {
+            rootVertex = vertexHead;
         }
     });
 
     // check root exists
-    if (!rootNode) {
-        throw Error(`No root node was found`);
+    if (!rootVertex) {
+        throw Error(`No root vertex was found`);
     }
 
-    // check all nodes can be reached from the root
-    visitedNodes.clear();
+    // check all vertices can be reached from the root
+    // TODO: this additional validational traversal can hit performance
+    //       for big graphs
+    visitedVertices.clear();
     traverseGraph({
-        node: rootNode,
-        visit: node => {
-            visitedNodes.add(node);
+        root: rootVertex,
+        visit: vertex => {
+            visitedVertices.add(vertex);
         }
     });
 
-    const notVisitedNodes = nodes
-        .filter(n => !visitedNodes.has(n))
+    const notVisitedVertices = vertices
+        .filter(n => !visitedVertices.has(n))
         .map(n => n.id);
 
-    if (notVisitedNodes.length) {
+    if (notVisitedVertices.length) {
         throw Error(
-            `Some nodes cannot be reached from root: '` +
-            `${notVisitedNodes.join('\', \'')}'`);
+            `Some vertices cannot be reached from root: '` +
+            `${notVisitedVertices.join('\', \'')}'`);
     }
 
-    return rootNode;
+    return rootVertex;
 }

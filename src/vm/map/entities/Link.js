@@ -4,6 +4,8 @@ import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * Link
+ * 
+ * @implements {Edge}
  */
 export default class Link extends ViewModel {
 
@@ -14,18 +16,21 @@ export default class Link extends ViewModel {
 
     /**
      * Head node
+     * @memberof Edge
      * @type {Node}
      */
     from = undefined;
 
     /**
      * Tail node
+     * @memberof Edge
      * @type {Node}
      */
     to = undefined;
 
     /**
      * Measure of closeness of head and tail nodes
+     * @memberof Edge
      * @type {number}
      */
     weight = undefined;

@@ -4,6 +4,8 @@ import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * Node
+ * 
+ * @implements {Vertex}
  */
 export default class Node extends ViewModel {
 
@@ -12,7 +14,7 @@ export default class Node extends ViewModel {
      * TODO: move flag inside debugInfo object to have
      *       single 'debug' prop
      */
-    debug = true;
+    debug = false;
 
     /**
      * Info for debug purposes only (eg. render on debug pane)
@@ -52,7 +54,7 @@ export default class Node extends ViewModel {
     /**
      * Scale
      * How much times size of node should be smaller
-     * or bigger then its normal size (ie. radius)
+     * or bigger than its normal size (ie. radius)
      * Scale 1 - is normal size
      * @type {number}
      */
@@ -81,34 +83,34 @@ export default class Node extends ViewModel {
     color = undefined;
 
     /**
-     * [Node interface]
      * Incoming links
+     * @memberof Vertex
      * @type {array.<Link>}
      */
-    linksIn = undefined;
+    edgesIn = undefined;
 
     /**
-     * [Node interface]
      * Outgoing links
+     * @memberof Vertex
      * @type {array.<Link>}
      */
-    linksOut = undefined;
+    edgesOut = undefined;
     
     /**
-     * [Node interface]
      * Link to parent idea.
      * Note: available only after graph is weighted
+     * @memberof Vertex
      * @type {Link}
      */
-    linkFromParent = undefined;
+    edgeFromParent = undefined;
 
     /**
-     * [Node interface]
      * Links to child ideas.
      * Note: available only after graph is weighted
+     * @memberof Vertex
      * @type {array.<Link>}
      */
-    linksToChilds = undefined;
+    edgesToChilds = undefined;
 
     /**
      * Indicates that node has less importance
