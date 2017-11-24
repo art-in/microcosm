@@ -78,7 +78,7 @@ describe('combine-mutators', () => {
             weight: 1
         });
 
-        ideaB.associationsIn = [assocAtoB];
+        ideaB.edgesIn = [assocAtoB];
         ideaB.edgeFromParent = assocAtoB;
 
         patch.push({
@@ -95,7 +95,7 @@ describe('combine-mutators', () => {
             type: 'update-idea',
             data: {
                 id: ideaA.id,
-                associationsOut: [assocAtoB],
+                edgesOut: [assocAtoB],
                 edgesToChilds: [assocAtoB]
             }
         });

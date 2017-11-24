@@ -37,29 +37,29 @@ describe('build-graph-from-objects', () => {
         expect(graph).to.exist;
 
         const idea1 = graph;
-        const idea2 = idea1.associationsOut[0].to;
-        const idea3 = idea1.associationsOut[1].to;
+        const idea2 = idea1.edgesOut[0].to;
+        const idea3 = idea1.edgesOut[1].to;
 
-        expect(idea1.associationsIn).to.have.length(0);
-        expect(idea1.associationsOut).to.have.length(2);
+        expect(idea1.edgesIn).to.have.length(0);
+        expect(idea1.edgesOut).to.have.length(2);
         
-        expect(idea2.associationsIn).to.have.length(1);
-        expect(idea2.associationsOut).to.have.length(0);
+        expect(idea2.edgesIn).to.have.length(1);
+        expect(idea2.edgesOut).to.have.length(0);
 
-        expect(idea3.associationsIn).to.have.length(1);
-        expect(idea3.associationsOut).to.have.length(0);
+        expect(idea3.edgesIn).to.have.length(1);
+        expect(idea3.edgesOut).to.have.length(0);
 
         expect(graph).to.containSubset({
             id: 'idea 1',
-            associationsIn: [],
-            associationsOut: [{
+            edgesIn: [],
+            edgesOut: [{
                 id: 'assoc 1',
                 from: {
                     id: 'idea 1'
                 },
                 to: {
                     id: 'idea 2',
-                    associationsIn: [{id: 'assoc 1'}]
+                    edgesIn: [{id: 'assoc 1'}]
                 }
             }, {
                 id: 'assoc 2',
@@ -68,7 +68,7 @@ describe('build-graph-from-objects', () => {
                 },
                 to: {
                     id: 'idea 3',
-                    associationsIn: [{id: 'assoc 2'}]
+                    edgesIn: [{id: 'assoc 2'}]
                 }
             }]
         });
@@ -108,34 +108,34 @@ describe('build-graph-from-objects', () => {
         expect(graph).to.exist;
         
         const idea1 = graph;
-        const idea2 = idea1.associationsOut[0].to;
-        const idea3 = idea2.associationsOut[0].to;
+        const idea2 = idea1.edgesOut[0].to;
+        const idea3 = idea2.edgesOut[0].to;
 
-        expect(idea1.associationsIn).to.have.length(1);
-        expect(idea1.associationsOut).to.have.length(1);
+        expect(idea1.edgesIn).to.have.length(1);
+        expect(idea1.edgesOut).to.have.length(1);
         
-        expect(idea2.associationsIn).to.have.length(1);
-        expect(idea2.associationsOut).to.have.length(1);
+        expect(idea2.edgesIn).to.have.length(1);
+        expect(idea2.edgesOut).to.have.length(1);
 
-        expect(idea3.associationsIn).to.have.length(1);
-        expect(idea3.associationsOut).to.have.length(1);
+        expect(idea3.edgesIn).to.have.length(1);
+        expect(idea3.edgesOut).to.have.length(1);
 
         expect(graph).to.containSubset({
             id: 'idea 1',
-            associationsIn: [{id: 'assoc 3'}],
-            associationsOut: [{
+            edgesIn: [{id: 'assoc 3'}],
+            edgesOut: [{
                 id: 'assoc 1',
                 from: {id: 'idea 1'},
                 to: {
                     id: 'idea 2',
-                    associationsIn: [{id: 'assoc 1'}],
-                    associationsOut: [{
+                    edgesIn: [{id: 'assoc 1'}],
+                    edgesOut: [{
                         id: 'assoc 2',
                         from: {id: 'idea 2'},
                         to: {
                             id: 'idea 3',
-                            associationsIn: [{id: 'assoc 2'}],
-                            associationsOut: [{
+                            edgesIn: [{id: 'assoc 2'}],
+                            edgesOut: [{
                                 id: 'assoc 3',
                                 from: {id: 'idea 3'},
                                 to: {id: 'idea 1'}

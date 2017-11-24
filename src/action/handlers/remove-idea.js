@@ -26,18 +26,18 @@ export default function removeIdea(state, data) {
         throw Error('Unable to remove root idea');
     }
 
-    if (idea.associationsOut.length) {
+    if (idea.edgesOut.length) {
         throw Error(
             `Unable to remove idea '${idea.id}' with outgoing associations`);
     }
 
-    if (!idea.associationsIn || !idea.associationsIn.length) {
+    if (!idea.edgesIn || !idea.edgesIn.length) {
         // hanging ideas are not allowed
         throw Error(`No incoming associations found for idea '${idea.id}'`);
     }
 
     // remove incoming associations
-    idea.associationsIn.forEach(assoc => {
+    idea.edgesIn.forEach(assoc => {
 
         // unbind from head
         const head = assoc.from;
@@ -47,7 +47,7 @@ export default function removeIdea(state, data) {
                 `Association '${assoc.id}' has no reference to head idea`);
         }
     
-        const index = head.associationsOut.indexOf(assoc);
+        const index = head.edgesOut.indexOf(assoc);
     
         if (index === -1) {
             throw Error(
@@ -57,7 +57,7 @@ export default function removeIdea(state, data) {
     
         patch.push('update-idea', {
             id: head.id,
-            associationsOut: withoutItem(head.associationsOut, index)
+            edgesOut: withoutItem(head.edgesOut, index)
         });
 
         // remove association

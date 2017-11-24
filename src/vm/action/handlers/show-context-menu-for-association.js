@@ -33,7 +33,7 @@ export default function showContextMenuForAssociation(state, data) {
 
             // prevent removing last incoming association,
             // because it leads to hanging ideas
-            enabled: assoc.to.associationsIn.length !== 1,
+            enabled: assoc.to.edgesIn.length !== 1,
             onSelectAction: () => ({
                 type: 'remove-association',
                 data: {assocId: assoc.id}

@@ -106,8 +106,8 @@ describe('search-association-tails-for-lookup', () => {
             to: ideaTail
         });
 
-        ideaHead.associationsOut = [assoc];
-        ideaTail.associationsIn = [assoc];
+        ideaHead.edgesOut = [assoc];
+        ideaTail.edgesIn = [assoc];
 
         mindmap.ideas.set(ideaHead.id, ideaHead);
         mindmap.ideas.set(ideaTail.id, ideaTail);
@@ -154,8 +154,8 @@ describe('search-association-tails-for-lookup', () => {
             to: ideaTail
         });
 
-        ideaHead.associationsOut = [assoc];
-        ideaTail.associationsIn = [assoc];
+        ideaHead.edgesOut = [assoc];
+        ideaTail.edgesIn = [assoc];
 
         mindmap.ideas.set(ideaHead.id, ideaHead);
         mindmap.ideas.set(ideaTail.id, ideaTail);

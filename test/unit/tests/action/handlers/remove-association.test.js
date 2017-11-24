@@ -84,11 +84,11 @@ describe('remove-association', () => {
         expect(mutations).to.have.length(2);
         expect(mutations[0].data).to.deep.equal({
             id: 'B',
-            associationsOut: []
+            edgesOut: []
         });
         expect(mutations[1].data).to.deep.equal({
             id: 'C',
-            associationsIn: [assocAtoC]
+            edgesIn: [assocAtoC]
         });
     });
 
@@ -152,7 +152,7 @@ describe('remove-association', () => {
         expect(updateA).to.deep.equal({
             id: 'A',
             edgesToChilds: [assocAtoB, assocAtoE],
-            associationsOut: [assocAtoB, assocAtoE]
+            edgesOut: [assocAtoB, assocAtoE]
         });
 
         expect(updateB).to.deep.equal({
@@ -164,7 +164,7 @@ describe('remove-association', () => {
             id: 'C',
             rootPathWeight: 2,
             edgeFromParent: assocBtoC,
-            associationsIn: [assocBtoC],
+            edgesIn: [assocBtoC],
 
             posRel: {x: 1, y: 0}
         });
@@ -367,7 +367,7 @@ describe('remove-association', () => {
         edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const ideaB = vertices.find(n => n.id === 'B');
-        ideaB.associationsOut = [];
+        ideaB.edgesOut = [];
 
         const state = {model: {mindmap}};
 
@@ -404,7 +404,7 @@ describe('remove-association', () => {
         edges.forEach(l => mindmap.associations.set(l.id, l));
     
         const ideaC = vertices.find(n => n.id === 'C');
-        ideaC.associationsIn = [];
+        ideaC.edgesIn = [];
 
         const state = {model: {mindmap}};
 

@@ -115,13 +115,13 @@ describe('create-cross-association', () => {
 
         expect(mutations[0].data).to.deep.equal({
             id: 'A',
-            associationsOut: [assoc],
+            edgesOut: [assoc],
             edgesToChilds: [assoc]
         });
 
         expect(mutations[1].data).to.deep.equal({
             id: 'B',
-            associationsIn: [assoc],
+            edgesIn: [assoc],
             edgeFromParent: assoc,
             rootPathWeight: 10,
 
@@ -193,7 +193,7 @@ describe('create-cross-association', () => {
         expect(updateA).to.deep.equal({
             id: 'A',
             edgesToChilds: [assocAtoB, assocAtoE, assocAtoC],
-            associationsOut: [assocAtoB, assocAtoE, assocAtoC]
+            edgesOut: [assocAtoB, assocAtoE, assocAtoC]
         });
 
         expect(updateB).to.deep.equal({
@@ -205,7 +205,7 @@ describe('create-cross-association', () => {
             id: 'C',
             rootPathWeight: 1.9,
             edgeFromParent: assocAtoC,
-            associationsIn: [assocBtoC, assocAtoC],
+            edgesIn: [assocBtoC, assocAtoC],
 
             posRel: {x: 1.9, y: 0}
         });
@@ -407,11 +407,11 @@ describe('create-cross-association', () => {
             to: ideaB
         });
 
-        ideaA.associationsOut = [assocAtoB];
+        ideaA.edgesOut = [assocAtoB];
         ideaA.edgeFromParent = null;
         ideaA.edgesToChilds = [assocAtoB];
         
-        ideaB.associationsIn = [assocAtoB];
+        ideaB.edgesIn = [assocAtoB];
         ideaB.edgeFromParent = assocAtoB;
         ideaB.edgesToChilds = [];
 
@@ -463,8 +463,8 @@ describe('create-cross-association', () => {
             to: ideaB
         });
 
-        ideaA.associationsOut = [assocAtoB];
-        ideaB.associationsIn = [assocAtoB];
+        ideaA.edgesOut = [assocAtoB];
+        ideaB.edgesIn = [assocAtoB];
 
         mindmap.ideas.set(ideaA.id, ideaA);
         mindmap.ideas.set(ideaB.id, ideaB);

@@ -35,7 +35,7 @@ export default function(state, data, dispatch) {
         throw Error(`Association '${assocId}' has no reference to tail idea`);
     }
 
-    if (tail.associationsIn.length === 1) {
+    if (tail.edgesIn.length === 1) {
         // hanging ideas are not allowed
         throw Error(
             `Association '${assocId}' cannot be removed ` +
@@ -44,7 +44,7 @@ export default function(state, data, dispatch) {
     }
 
     // unbind from head
-    let index = head.associationsOut.indexOf(assoc);
+    let index = head.edgesOut.indexOf(assoc);
 
     if (index === -1) {
         throw Error(
@@ -54,11 +54,11 @@ export default function(state, data, dispatch) {
 
     patch.push('update-idea', {
         id: head.id,
-        associationsOut: withoutItem(head.associationsOut, index)
+        edgesOut: withoutItem(head.edgesOut, index)
     });
 
     // unbind from tail
-    index = tail.associationsIn.indexOf(assoc);
+    index = tail.edgesIn.indexOf(assoc);
 
     if (index === -1) {
         throw Error(
@@ -68,7 +68,7 @@ export default function(state, data, dispatch) {
 
     patch.push('update-idea', {
         id: tail.id,
-        associationsIn: withoutItem(tail.associationsIn, index)
+        edgesIn: withoutItem(tail.edgesIn, index)
     });
 
     // remove association

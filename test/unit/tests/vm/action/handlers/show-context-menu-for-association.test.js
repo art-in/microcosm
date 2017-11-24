@@ -129,7 +129,7 @@ describe('show-context-menu-for-association', () => {
         // setup
         const assoc = new Association({id: 'assoc'});
         const tail = new Idea();
-        tail.associationsIn = [assoc];
+        tail.edgesIn = [assoc];
         assoc.to = tail;
 
         const mindmap = new Mindmap();

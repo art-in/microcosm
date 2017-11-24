@@ -45,14 +45,14 @@ describe('build-graph-from-matrix', () => {
         expect(ideaA.isRoot).to.be.true;
         expect(ideaB.isRoot).to.be.false;
 
-        expect(ideaA.associationsIn).to.be.empty;
-        expect(ideaA.associationsOut).to.have.length(1);
+        expect(ideaA.edgesIn).to.be.empty;
+        expect(ideaA.edgesOut).to.have.length(1);
 
-        expect(ideaB.associationsIn).to.have.length(1);
-        expect(ideaB.associationsOut).to.be.empty;
+        expect(ideaB.edgesIn).to.have.length(1);
+        expect(ideaB.edgesOut).to.be.empty;
         
-        expect(ideaA.associationsOut).to.have.members([assocAtoB]);
-        expect(ideaB.associationsIn).to.have.members([assocAtoB]);
+        expect(ideaA.edgesOut).to.have.members([assocAtoB]);
+        expect(ideaB.edgesIn).to.have.members([assocAtoB]);
 
         expect(assocAtoB.weight).to.equal(1);
     });

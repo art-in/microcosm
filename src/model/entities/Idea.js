@@ -57,56 +57,21 @@ export default class Idea {
     posAbs = undefined;
 
     /**
-     * TODO: remove extensions, leave interface props only
      * TODO: set undefined instead of empty array
      * List of outgoing associations
      * Note: available only after graph is build
+     * @memberof Vertex
      * @type {array.<Association>}
      */
-    associationsOut = [];
+    edgesOut = [];
 
     /**
      * List of incoming associations
      * Note: available only after graph is build
+     * @memberof Vertex
      * @type {array.<Association>}
      */
-    associationsIn = [];
-
-    /**
-     * List of outgoing edges
-     * @memberof Vertex
-     * @return {array.<Association>} associations
-     */
-    get edgesOut() {
-        return this.associationsOut;
-    }
-
-    /**
-     * Sets list of outgoing edges
-     * @memberof Vertex
-     * @param {array.<Association>} associations
-     */
-    set edgesOut(associations) {
-        this.associationsOut = associations;
-    }
-
-    /**
-     * List of incoming edges
-     * @memberof Vertex
-     * @return {array.<Association>} associations
-     */
-    get edgesIn() {
-        return this.associationsIn;
-    }
-
-    /**
-     * Sets list of incoming edges
-     * @memberof Vertex
-     * @param {array.<Association>} associations
-     */
-    set edgesIn(associations) {
-        this.associationsIn = associations;
-    }
+    edgesIn = [];
 
     /**
      * Edge from parent idea.

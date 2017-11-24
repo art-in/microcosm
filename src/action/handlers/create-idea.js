@@ -51,12 +51,12 @@ export default function createIdea(state, data) {
     // bind to parent
     patch.push('update-idea', {
         id: parent.id,
-        associationsOut: parent.associationsOut.concat([assoc]),
+        edgesOut: parent.edgesOut.concat([assoc]),
         edgesToChilds: parent.edgesToChilds.concat([assoc])
     });
 
     // bind to new idea
-    idea.associationsIn.push(assoc);
+    idea.edgesIn.push(assoc);
     idea.edgeFromParent = assoc;
     idea.edgesToChilds = [];
 

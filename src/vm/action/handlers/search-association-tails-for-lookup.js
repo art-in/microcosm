@@ -28,11 +28,11 @@ export default function searchAssociationTailsForLookup(state, data) {
     excludeIds.push(headIdeaId);
 
     // exclude child ideas
-    const childIds = headIdea.associationsOut.map(a => a.to.id);
+    const childIds = headIdea.edgesOut.map(a => a.to.id);
     excludeIds.push(...childIds);
 
     // exclude parent ideas
-    const parentIds = headIdea.associationsIn.map(a => a.from.id);
+    const parentIds = headIdea.edgesIn.map(a => a.from.id);
     excludeIds.push(...parentIds);
 
     // exclude root idea

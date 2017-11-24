@@ -57,7 +57,7 @@ export default function setIdeaPosition(state, data) {
         };
 
         // re-weigh all related associations
-        idea.associationsIn.forEach(assoc => {
+        idea.edgesIn.forEach(assoc => {
             if (movingIdeas.includes(assoc.from)) {
                 // do not update weight of associations between moving ideas,
                 // since relative position between moving ideas is not changing.
@@ -70,7 +70,7 @@ export default function setIdeaPosition(state, data) {
             });
         });
     
-        idea.associationsOut.forEach(assoc => {
+        idea.edgesOut.forEach(assoc => {
             if (movingIdeas.includes(assoc.to)) {
                 return;
             }

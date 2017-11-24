@@ -80,7 +80,7 @@ describe('create-idea', () => {
 
         expect(data).to.deep.equal({
             id: 'A',
-            associationsOut: [assoc],
+            edgesOut: [assoc],
             edgesToChilds: [assoc]
         });
     });
@@ -116,7 +116,7 @@ describe('create-idea', () => {
 
         expect(idea).to.be.instanceOf(Idea);
         expect(idea.mindmapId).to.equal('m');
-        expect(idea.associationsIn).to.deep.equal([assoc]);
+        expect(idea.edgesIn).to.deep.equal([assoc]);
         expect(idea.edgeFromParent).to.equal(assoc);
         expect(idea.edgesToChilds).to.deep.equal([]);
         expect(idea.rootPathWeight).to.be.closeTo(141, 1);

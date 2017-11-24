@@ -29,13 +29,13 @@ export default function createCrossAssociation(state, data) {
         throw Error(`Unable to add self-association on idea '${headIdeaId}'`);
     }
 
-    if (head.associationsOut.some(a => a.to === tail)) {
+    if (head.edgesOut.some(a => a.to === tail)) {
         throw Error(
             `Unable to create duplicate association ` +
             `between ideas '${headIdeaId}' and '${tailIdeaId}'`);
     }
 
-    if (head.associationsIn.some(a => a.from === tail)) {
+    if (head.edgesIn.some(a => a.from === tail)) {
         throw Error(
             `Unable to create association from idea '${headIdeaId}' ` +
             `to its predecessor idea '${tailIdeaId}'`);
@@ -60,17 +60,17 @@ export default function createCrossAssociation(state, data) {
     });
 
     // bind to head
-    const newHeadAssocsOut = head.associationsOut.concat([assoc]);
+    const newHeadAssocsOut = head.edgesOut.concat([assoc]);
 
     patch.push('update-idea', {
         id: head.id,
-        associationsOut: newHeadAssocsOut
+        edgesOut: newHeadAssocsOut
     });
 
     // bind to tail
     patch.push('update-idea', {
         id: tail.id,
-        associationsIn: tail.associationsIn.concat([assoc])
+        edgesIn: tail.edgesIn.concat([assoc])
     });
 
     // add association

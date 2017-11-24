@@ -120,11 +120,11 @@ describe('remove-idea', () => {
         expect(mutations[0].data).to.deep.equal({
             id: 'A',
             edgesToChilds: [assocAtoB],
-            associationsOut: [assocAtoB]
+            edgesOut: [assocAtoB]
         });
         expect(mutations[1].data).to.deep.equal({
             id: 'B',
-            associationsOut: []
+            edgesOut: []
         });
     });
 
