@@ -17,6 +17,7 @@ export default function searchIdeas(mindmap, opts) {
         throw Error('Search string is empty');
     }
 
+    // TODO: search case-insensitively
     return values(mindmap.ideas)
         .filter(i =>
             (!excludeIds || !excludeIds.includes(i.id)) &&

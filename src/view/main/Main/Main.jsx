@@ -15,7 +15,7 @@ export default class Main extends Component {
     render() {
         
         return (
-            <main className={classes.main}>
+            <main className={classes.root}>
                 {
                     !this.props.vm.mindmap &&
                     <div>Loading...</div>

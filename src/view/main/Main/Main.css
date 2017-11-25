@@ -1,9 +1,21 @@
-.main {
-    font-family: 'montserrat';
+.root {
     height: 100%;
+
+    /* prevent stretching page eg. by idea menu or lookup suggestions */
+    overflow: hidden;
 }
 
 @font-face {
     font-family: 'montserrat';
+    src: url('./fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'montserrat-light';
     src: url('./fonts/Montserrat-Light.ttf');
+}
+
+.root,
+.root :global(input) {
+    font-family: 'montserrat', sans-serif;
 }

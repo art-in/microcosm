@@ -1,12 +1,36 @@
-.root {}
-
-.input {
-    padding: 2px 5px;
-    margin-bottom: 5px;
+.root {
+    width: 250px;
 }
 
-.suggestions {}
+.input {
+    padding: 5px 7px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.nothing-found {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.suggestions {
+    margin-top: 5px;
+}
+
+.suggestions {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.suggestion {
+    cursor: pointer;
+    padding: 10px 10px;
+
+    /* do not wrap */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 .suggestion + .suggestion {
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid white;
 }

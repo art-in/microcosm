@@ -79,7 +79,7 @@ export default class Lookup extends Component {
                     </div> : null}
 
                 {nothingFoundLabelShown ?
-                    <div>
+                    <div className={classes['nothing-found']}>
                         Nothing found
                     </div> : null}
                 
