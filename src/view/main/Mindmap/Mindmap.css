@@ -1,5 +1,4 @@
-.container {
-    outline: 1px solid red;
+.root {
     height: 100%;
 
     /* Context menus are positioned relatively to Mindmap container.
@@ -7,4 +6,6 @@
        To avoid menus shift - Graph and Mindmap should equal at top-left,
        otherwise wrap Graph and context menus in separate container. */
     position: relative;
+
+    background-image: radial-gradient(#0F5B97 0%, #031020 100%);
 }

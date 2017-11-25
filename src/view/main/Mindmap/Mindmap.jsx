@@ -20,7 +20,7 @@ export default class Mindmap extends Component {
         const {mindmap, className, ...other} = this.props;
         
         return (
-            <div className={ cx(classes.container, className) }
+            <div className={ cx(classes.root, className) }
                 {...other}>
 
                 <Graph graph={ mindmap.graph } />
