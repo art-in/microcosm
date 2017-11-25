@@ -1,4 +1,9 @@
 .main {
-    font-family: Arial;
-    height: 100%
+    font-family: 'montserrat';
+    height: 100%;
+}
+
+@font-face {
+    font-family: 'montserrat';
+    src: url('./fonts/Montserrat-Light.ttf');
 }

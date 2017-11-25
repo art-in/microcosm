@@ -104,6 +104,11 @@ function getPackConfig(opts) {
                         localIdentName: '[name]-[local]'
                     }
                 }]
+            }, {
+                test: /\.(ttf|otf|eot)$/,
+                use: [{
+                    loader: 'url-loader'
+                }]
             }]
         },
         resolve: {
