@@ -14,7 +14,7 @@ export default class Graph extends ViewModel {
     /**
      * Debug state
      */
-    debug = true;
+    debug = false;
 
     /**
      * Info for debug purposes only (eg. render on debug pane)

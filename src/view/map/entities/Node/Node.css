@@ -1,13 +1,10 @@
 .root {}
 
-.circle {
-    stroke: gray;
-    stroke-width: 0.75
-}
+.circle {}
 
 .title {
     font-size: 20px;
-    color: #333;
+    color: white;
     text-align: center;
     overflow: hidden;
 }

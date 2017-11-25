@@ -13,12 +13,19 @@ import NodeDebug from '../NodeDebug';
 
 import classes from './Node.css';
 
+const TEXT_AREA_WIDTH = 200;
+const TEXT_AREA_HEIGHT = 25;
+const TEXT_AREA_POS = new Point({x: -100, y: -25});
+
 export default class Node extends Component {
 
     static propTypes = {
         node: PropTypes.instanceOf(NodeVM).isRequired,
         className: PropTypes.string,
         
+        onMouseDown: PropTypes.func.isRequired,
+        onContextMenu: PropTypes.func.isRequired,
+
         onTitleDoubleClick: PropTypes.func.isRequired,
         onTitleBlur: PropTypes.func.isRequired,
         onTitleChange: PropTypes.func.isRequired
@@ -32,14 +39,11 @@ export default class Node extends Component {
             onTitleDoubleClick,
             onTitleBlur,
             onTitleChange,
+            onMouseDown,
+            onContextMenu,
             ...other} = this.props;
 
-        const textAreaWidth = 30;
-        const textAreaHeight = 25;
-        const textAreaPos = new Point({
-            x: -(textAreaWidth / 2),
-            y: -(node.radius + textAreaHeight)
-        });
+        const gradientId = `node-gradient-${node.id}`;
 
         return (
             <Group
@@ -47,26 +51,36 @@ export default class Node extends Component {
                     classes.root, className,
                     {[classes.shaded]: node.shaded})}
                 pos={node.posAbs}
-                scale={node.scale}>
+                scale={node.scale}
+                onMouseDown={onMouseDown}
+                onContextMenu={onContextMenu}>
 
                 <Circle className={classes.circle}
-                    style={{fill: node.color}}
-                    radius={ node.radius }
+                    radius={node.radius}
+                    fill={`url(#${gradientId})`}
                     {...other} />
 
                 {
                     node.title.visible ?
-                        <TextArea className={ classes.title }
-                            pos={ textAreaPos }
-                            width={ textAreaWidth }
-                            height={ textAreaHeight }
-                            value={ node.title.value }
-                            editable={ node.title.editing }
-                            onDoubleClick={ onTitleDoubleClick }
-                            onBlur={ onTitleBlur }
-                            onChange={ onTitleChange } />
+                        <TextArea className={classes.title}
+                            pos={TEXT_AREA_POS}
+                            width={TEXT_AREA_WIDTH}
+                            height={TEXT_AREA_HEIGHT}
+                            value={node.title.value}
+                            editable={node.title.editing}
+                            onDoubleClick={onTitleDoubleClick}
+                            onBlur={onTitleBlur}
+                            onChange={onTitleChange} />
                         : null
                 }
+
+                <defs>
+                    <radialGradient id={gradientId}>
+                        <stop offset='10%' stopColor={node.color} />
+                        <stop offset='95%' stopColor={node.color}
+                            stopOpacity='0' />
+                    </radialGradient>
+                </defs>
 
                 <NodeDebug node={node} />
 

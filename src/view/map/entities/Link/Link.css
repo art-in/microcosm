@@ -1,9 +1,6 @@
 .root {}
 
-.line {
-    stroke: gray;
-    stroke-width: 0.4;
-}
+.line {}
 
 .title {
     font-size: 20px;

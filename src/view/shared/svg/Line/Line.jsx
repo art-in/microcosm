@@ -56,12 +56,12 @@ export default class Line extends Component {
         const dx = targetPos2.x - targetPos1.x;
         const dy = targetPos2.y - targetPos1.y;
 
-        const titleRotation = atan2(dy, dx);
+        const angleRad = atan2(dy, dx);
 
-        const dxStart = -sin(titleRotation) * widthStart / 2;
-        const dyStart = cos(titleRotation) * widthStart / 2;
-        const dxEnd = -sin(titleRotation) * widthEnd / 2;
-        const dyEnd = cos(titleRotation) * widthEnd / 2;
+        const dxStart = -sin(angleRad) * widthStart / 2;
+        const dyStart = cos(angleRad) * widthStart / 2;
+        const dxEnd = -sin(angleRad) * widthEnd / 2;
+        const dyEnd = cos(angleRad) * widthEnd / 2;
 
         const pos1 = new Point({
             x: targetPos1.x - dxStart,

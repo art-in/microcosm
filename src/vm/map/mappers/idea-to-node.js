@@ -21,7 +21,7 @@ export default function ideaToNode(idea) {
     node.isRoot = idea.isRoot;
     node.color = idea.color;
     
-    node.radius = 10;
+    node.radius = 5;
     
     node.isRoot = idea.isRoot;
     node.posAbs = new Point(idea.posAbs);
