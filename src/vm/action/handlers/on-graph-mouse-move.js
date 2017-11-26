@@ -2,8 +2,7 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import view from 'vm/utils/view-mutation';
-import mapToViewboxCoords from
-    'vm/map/entities/Graph/methods/map-viewport-to-viewbox-coords';
+import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
 
 /**
  * Handles mouse move on graph
@@ -19,7 +18,7 @@ export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {viewportShift, pressedMouseButton} = required(data);
 
-    const viewboxShift = mapToViewboxCoords(viewportShift, graph.viewbox);
+    const viewboxShift = toViewboxCoords(viewportShift, graph.viewbox);
 
     // drag node step
     if (graph.drag.active) {

@@ -15,6 +15,10 @@ export default class GraphDebug extends Component {
         
         const {graph, graph: {viewbox}} = this.props;
         const {round} = Math;
+
+        if (!graph.debug) {
+            return null;
+        }
         
         const lines = [
             ['viewbox',

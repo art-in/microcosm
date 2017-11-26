@@ -53,10 +53,16 @@ function apply(state, mutation) {
     case 'remove-association':
     case 'update-idea':
     case 'update-association':
-    case 'update-node':
+    case 'update-node': // TODO: update only node and related links
         graph.emit('change');
         break;
     
+    case 'update-link': {
+        const link = graph.links.find(l => l.id === data.id);
+        link.emit('change');
+        break;
+    }
+
     case 'update-association-tails-lookup':
         graph.associationTailsLookup.emit('change');
         break;

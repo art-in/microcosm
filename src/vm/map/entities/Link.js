@@ -59,6 +59,22 @@ export default class Link extends ViewModel {
     shaded = false;
 
     /**
+     * Indicates that link should be highlighted
+     * (eg. when mouse hovering over)
+     */
+    highlighted = false;
+
+    /**
+     * Additional popped-up link info
+     * (eg. shows head/tail nodes when mouse hovering over)
+     */
+    tooltip = {
+        visible: false,
+        viewportPos: undefined,
+        value: undefined
+    }
+
+    /**
      * Indicates that head node is root
      * @type {boolean}
      */

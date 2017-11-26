@@ -1,4 +1,5 @@
 import isValidPosition from './is-valid-position';
+import getDistance from 'utils/get-distance-between-points';
 
 /**
  * Gets weight of association
@@ -17,9 +18,5 @@ export default function weighAssociation(headPos, tailPos) {
         throw Error(`Invalid tail position '${tailPos}'`);
     }
 
-    // calc length by pythagorean
-    const dx = tailPos.x - headPos.x;
-    const dy = tailPos.y - headPos.y;
-
-    return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    return getDistance(tailPos, headPos);
 }

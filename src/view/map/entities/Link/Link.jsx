@@ -8,6 +8,8 @@ import Point from 'model/entities/Point';
 import Group from 'view/shared/svg/Group';
 import Line from 'view/shared/svg/Line';
 import TextArea from 'view/shared/svg/TextArea';
+import Tooltip from 'view/shared/Tooltip';
+import Portal from 'view/shared/Portal';
 
 import classes from './Link.css';
 
@@ -19,8 +21,13 @@ const LINE_WIDTH = 0.5;
 export default class Link extends Component {
 
     static propTypes = {
+        className: PropTypes.string,
         link: PropTypes.instanceOf(LinkVM).isRequired,
-        className: PropTypes.string
+        popupContainerId: PropTypes.string.isRequired,
+        mapWindowToViewportCoords: PropTypes.func.isRequired,
+
+        onMouseMove: PropTypes.func.isRequired,
+        onMouseLeave: PropTypes.func.isRequired
     }
 
     getTitlePosition() {
@@ -72,17 +79,38 @@ export default class Link extends Component {
         };
     }
 
-    render() {
-        const {link, className, ...other} = this.props;
-        
-        const {atan2, sqrt, pow} = Math;
+    onMouseMove = e => {
+        const {mapWindowToViewportCoords} = this.props;
 
+        const windowPos = new Point({x: e.clientX, y: e.clientY});
+        const viewportPos = mapWindowToViewportCoords(windowPos);
+
+        this.props.onMouseMove({viewportPos});
+        e.preventDefault();
+    }
+
+    onMouseLeave = e => {
+        this.props.onMouseLeave();
+        e.preventDefault();
+    }
+
+    render() {
+        const {
+            link,
+            className,
+            popupContainerId
+        } = this.props;
+
+        const {highlighted, tooltip} = link;
+    
         const {
             titlePos,
             titleWidth,
             titleHeight,
             titleAngleDeg
         } = this.getTitlePosition();
+
+        const {atan2, sqrt, pow} = Math;
 
         const dx = link.to.posAbs.x - link.from.posAbs.x;
         const dy = link.to.posAbs.y - link.from.posAbs.y;
@@ -93,17 +121,19 @@ export default class Link extends Component {
         const gradientId = `link-gradient-${link.id}`;
 
         return (
-            <Group className={cx(
-                classes.root,
-                {[classes.shaded]: link.shaded})}>
+            <Group
+                className={cx(
+                    classes.root,
+                    {[classes.shaded]: link.shaded})}
+                onMouseMove={this.onMouseMove}
+                onMouseLeave={this.onMouseLeave}>
 
                 <Line
                     className={cx(classes.line, className)}
                     pos1={link.from.posAbs}
                     pos2={link.to.posAbs}
                     width={LINE_WIDTH}
-                    fill={`url(#${gradientId})`}
-                    {...other} />
+                    fill={highlighted ? link.color : `url(#${gradientId})`} />
 
                 {
                     link.title.visible ?
@@ -118,6 +148,25 @@ export default class Link extends Component {
                         : null
                 }
 
+                {tooltip.visible ?
+                    <Portal rootId={popupContainerId}>
+                        <Tooltip className={classes.tooltip}
+                            value={tooltip.value}
+                            style={{
+                                left: `${tooltip.viewportPos.x}px`,
+                                top: `${tooltip.viewportPos.y}px`
+                            }}
+                        />
+                    </Portal>
+                    : null
+                }
+
+                {
+                    // Q: why not keep styling things like gradients in css?
+                    // A: gradients for svg elements cannot be defined in css.
+                    //    unfortunately structure should be mixed up with styles
+                    //    this time
+                }
                 <defs>
                     <linearGradient id={gradientId}
                         gradientTransform={`rotate(${angleDeg})`}

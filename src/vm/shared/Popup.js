@@ -13,7 +13,8 @@ export default class Popup extends ViewModel {
     active = false;
 
     /**
-     * Position on canvas
+     * Position on viewport
+     * TODO: rename to viewportPos to clarify coordinate system
      * @type {Point}
      */
     pos = undefined;

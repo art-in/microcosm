@@ -35,6 +35,7 @@ export default class TextArea extends Component {
 
         // we need foreignObject here to be able to render
         // contenteditable element, since svg does not allow that
+        // TODO: replace with ForeignObject component
         return (
             <foreignObject
                 transform={ (pos ? `translate(${pos.x} ${pos.y}) ` : '') +

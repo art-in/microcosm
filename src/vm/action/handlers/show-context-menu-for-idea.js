@@ -8,7 +8,8 @@ import MenuItem from 'vm/shared/MenuItem';
  * 
  * @param {object} state
  * @param {object} data
- * @param {Point}  data.pos - target canvas position for menu
+ * @param {Point}  data.pos - viewport position of mouse
+ *                            TODO: rename to viewportPos
  * @param {string} data.ideaId - ID of target idea
  * @param {bool}   data.shaded - indicates target idea is shaded
  * @return {Patch}

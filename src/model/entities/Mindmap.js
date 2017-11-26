@@ -3,6 +3,9 @@ import createID from 'utils/create-id';
 
 /**
  * Mindmap model
+ * 
+ * TODO: consider renaming to Mindset to distinguish
+ *       model and view-model (mindmap, list, etc)
  */
 export default class Mindmap {
 

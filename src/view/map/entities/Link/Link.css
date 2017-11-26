@@ -1,6 +1,14 @@
 .root {}
 
-.line {}
+.root:hover {
+    cursor: pointer;
+}
+
+.line {
+    /* thicken hover area */
+    stroke: transparent;
+    stroke-width: 10px;
+}
 
 .title {
     font-size: 20px;
@@ -23,4 +31,8 @@
 .root.shaded .line {
     opacity: 0.5;
     stroke-width: 0.25;
+}
+
+.tooltip {
+    position: absolute;
 }

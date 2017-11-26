@@ -9,7 +9,8 @@ import MenuItem from 'vm/shared/MenuItem';
  * 
  * @param {object} state
  * @param {object} data
- * @param {Point}  data.pos - position on canvas
+ * @param {Point}  data.pos - viewport position of mouse
+ *                            TODO: rename to viewportPos
  * @param {string} data.associationId - ID of target association
  * @param {bool}   data.shaded - indicates target association is shaded
  * @return {Patch}

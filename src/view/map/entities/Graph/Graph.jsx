@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import getBodyMargin from 'view/utils/dom/get-body-margin';
 import getElementSize from 'view/utils/dom/get-element-size';
 import getPageScale from 'view/utils/dom/get-page-scale';
+import toElementCoords from 'view/utils/dom/map-window-to-element-coords';
 
 import Point from 'model/entities/Point';
 import GraphVM from 'vm/map/entities/Graph';
@@ -50,17 +51,8 @@ export default class Graph extends Component {
         return getElementSize(this.viewport);
     }
 
-    getClickPos = e => {
-        // send position depending to this viewport
-        const viewportRect = this.viewport.getBoundingClientRect();
-
-        const bodyMargin = getBodyMargin();
-
-        // get rid of paddings/margings
-        return new Point({
-            x: e.pageX - viewportRect.left - bodyMargin.left,
-            y: e.pageY - viewportRect.top - bodyMargin.top
-        });
+    mapWindowToViewportCoords = windowPos => {
+        return toElementCoords(windowPos, this.viewport);
     }
 
     componentDidMount = () => {
@@ -78,12 +70,18 @@ export default class Graph extends Component {
     }
 
     onNodeRightClick = (node, e) => {
-        this.props.onNodeRightClick({node, pos: this.getClickPos(e)});
+        // TODO: move to Node, pass mapWindowToViewportCoords
+        const windowPos = new Point({x: e.clientX, y: e.clientY});
+        const pos = toElementCoords(windowPos, this.viewport);
+        this.props.onNodeRightClick({node, pos});
         e.preventDefault();
     }
 
     onLinkRightClick = (link, e) => {
-        this.props.onLinkRightClick({link, pos: this.getClickPos(e)});
+        // TODO: move to Link, pass mapWindowToViewportCoords
+        const windowPos = new Point({x: e.clientX, y: e.clientY});
+        const pos = toElementCoords(windowPos, this.viewport);
+        this.props.onLinkRightClick({link, pos});
         e.preventDefault();
     }
 
@@ -105,6 +103,7 @@ export default class Graph extends Component {
     }
 
     onNodeMouseDown = (node, e) => {
+        // TODO: move to Node since it has no ref to Graph
         this.props.onNodeMouseDown({
             node,
             button: e.nativeEvent.which === 1 ? 'left' : 'right'
@@ -156,6 +155,8 @@ export default class Graph extends Component {
 
         const viewbox = graph.viewbox;
 
+        const popupContainerId = `graph-popup-container`;
+
         const nodes = graph.nodes.map(node => {
             return (
                 <Node
@@ -171,13 +172,14 @@ export default class Graph extends Component {
                 <Link
                     key={link.id}
                     link={link}
-                    onContextMenu={this.onLinkRightClick.bind(null, link)}/>
+                    popupContainerId={popupContainerId}
+                    mapWindowToViewportCoords={this.mapWindowToViewportCoords}
+                    onContextMenu={this.onLinkRightClick.bind(null, link)} />
             );
         });
 
         return (
-            <div>
-                {graph.debug && <GraphDebug graph={graph} />}
+            <div className={classes.root}>
 
                 <Svg nodeRef={node => this.viewport = node}
                     viewBox={`${viewbox.x} ${viewbox.y} ` +
@@ -211,6 +213,18 @@ export default class Graph extends Component {
                         onSuggestionSelect=
                             {onAssociationTailsLookupSuggestionSelect} />
                 </div>
+
+                <div id={popupContainerId}>{/*
+                    container for html popup elements (render here with Portal)
+                    - element needs to be positioned above all svg figures,
+                      since svg does not support z-index (eg. popups/tooltips)
+                    - element is easier to render in html instead of svg
+                      (eg. text in the box, since svg does not support box
+                      auto-stretched by text)
+                    - html component can be reused outside svg
+                */}</div>
+
+                <GraphDebug graph={graph} />
             </div>
         );
     }

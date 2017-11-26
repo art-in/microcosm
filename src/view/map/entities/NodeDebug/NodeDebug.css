@@ -1,4 +1,7 @@
-.root {}
+.root {
+    user-select: none;
+    -webkit-user-select: none;
+}
 
 .line {
     font-size: 8px;

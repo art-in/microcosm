@@ -7,6 +7,9 @@
     border-right: 1px solid red;
     border-bottom: 1px solid red;
     line-height: 25px;
+
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .title {
