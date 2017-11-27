@@ -26,7 +26,7 @@ export default function getGraphFocusWeightForScale(viewboxScale) {
         throw Error(`Invalid viewbox scale '${viewboxScale}'`);
     }
 
-    const weight = Math.round((viewboxScale - 1) * nodeDownscaleRate);
+    const weight = (viewboxScale - 1) * nodeDownscaleRate;
 
     // RPW cannot be negative
     return Math.max(weight, 0);

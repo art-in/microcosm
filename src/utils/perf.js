@@ -56,6 +56,38 @@ const measures = new Map();
 const charCodeA = 65;
 const charCount = 26;
 
+
+/**
+ * Generates new unique measure group ID
+ * @return {string}
+ */
+function getGroupId() {
+    
+    if (groups.size >= charCount) {
+        // not enough unique group IDs to start new group.
+        // this can happen since we use finit set of IDs (alphabet letters),
+        // eg. when starting lots of group measures and not ending them
+        // quickly enough. Usually this should not happen, and if it does -
+        // it may highligh problems with code
+        throw Error(`Groups overflow.`);
+    }
+
+    // generate unique group Id ('A', 'B', 'C',...)
+    const groupIdCharCode = charCodeA + (groupCount % charCount);
+    const groupId = String.fromCharCode(groupIdCharCode);
+    groupCount++;
+
+    if (groups.has(groupId)) {
+        // group ID is in use so take next one available.
+        // this can happen with long running task (eg. async animation task)
+        // and lots of small tasks which manage to make full round over all
+        // available IDs before long task is ended
+        return getGroupId();
+    } else {
+        return groupId;
+    }
+}
+
 /**
  * Starts group of performance measures
  * 
@@ -65,15 +97,7 @@ const charCount = 26;
 function startGroup(label) {
     assert(label);
 
-    // generate unique group Id ('A', 'B', 'C',...)
-    const groupIdCharCode = charCodeA + (groupCount % charCount);
-    const groupId = String.fromCharCode(groupIdCharCode);
-    groupCount++;
-
-    if (groups.has(groupId)) {
-        // not enough unique group Ids to start new group
-        throw Error('Groups overflow');
-    }
+    const groupId = getGroupId();
 
     const group = {
         perfId: undefined,

@@ -22,22 +22,22 @@ export default class Graph extends ViewModel {
     debugInfo = {
 
         /**
-         * Focus weight zone
-         * @type {string}
+         * Center of focus zone
+         * @type {number} root path weight
          */
-        focusZone: undefined,
-    
-        /**
-         * Shade weight zone
-         * @type {string}
-         */
-        shadeZone: undefined,
+        focusCenter: undefined,
 
         /**
-         * Hide weight zone
-         * @type {string}
+         * Focus zone max
+         * @type {number} root path weight
          */
-        hideZone: undefined
+        focusZoneMax: undefined,
+    
+        /**
+         * Shade zone max
+         * @type {number} root path weight
+         */
+        shadeZoneMax: undefined
     };
 
     /**

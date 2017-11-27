@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import round from 'utils/round';
 import GraphVM from 'vm/map/entities/Graph';
 
 import classes from './GraphDebug.css';
@@ -14,23 +15,27 @@ export default class GraphDebug extends Component {
     render() {
         
         const {graph, graph: {viewbox}} = this.props;
-        const {round} = Math;
 
         if (!graph.debug) {
             return null;
         }
         
+        const focusZoneMax = round(graph.debugInfo.focusZoneMax);
+        const shadeZoneMax = round(graph.debugInfo.shadeZoneMax);
+
         const lines = [
             ['viewbox',
                 `(${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
                 `(${round(viewbox.width)}; ${round(viewbox.height)})`],
 
-            ['scale', viewbox.scale],
+            ['scale', round(viewbox.scale, 2)],
             ['drag', graph.drag.active.toString()],
             ['pan', graph.pan.active.toString()],
-            ['focus zone', graph.debugInfo.focusZone],
-            ['shade zone', graph.debugInfo.shadeZone],
-            ['hide zone', graph.debugInfo.hideZone]
+
+            ['focus center', round(graph.debugInfo.focusCenter, 2)],
+            ['focus zone', `(Infinity - ${focusZoneMax}]`],
+            ['shade zone', `(${focusZoneMax} - ${shadeZoneMax}]`],
+            ['hide zone', `(${shadeZoneMax} - Infinity)`]
         ];
 
         return (

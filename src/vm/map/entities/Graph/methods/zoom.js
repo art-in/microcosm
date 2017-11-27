@@ -9,14 +9,14 @@ import checkScaleLimits from './check-scale-limits';
  * Changes graph scale towards certain canvas position
  * 
  * @param {object} opts
- * @param {object} opts.viewbox  - graph viewbox
- * @param {object} opts.viewport - graph viewport
- * @param {object} opts.scale    - target scale
- * @param {Point}  opts.pos      - target canvas position
+ * @param {object} opts.viewbox   - graph viewbox
+ * @param {object} opts.viewport  - graph viewport
+ * @param {object} opts.scale     - target scale
+ * @param {Point}  opts.canvasPos - target canvas position
  * @return {object} viewbox
  */
 export default function zoomGraph(opts) {
-    const {viewbox: vb, viewport, scale, pos} = required(opts);
+    const {viewbox: vb, viewport, scale, canvasPos} = required(opts);
 
     if (!checkScaleLimits({viewbox: vb, up: scale > vb.scale})) {
         // do not scale out of limits
@@ -40,8 +40,8 @@ export default function zoomGraph(opts) {
     const hiddenHeight = prevHeight - newViewbox.height;
 
     // zoom position on viewbox (ie. not on canvas)
-    const viewboxX = pos.x - newViewbox.x;
-    const viewboxY = pos.y - newViewbox.y;
+    const viewboxX = canvasPos.x - newViewbox.x;
+    const viewboxY = canvasPos.y - newViewbox.y;
 
     // how much of hidden/shown space we should use
     // to shift viewbox depending on zoom position

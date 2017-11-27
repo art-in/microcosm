@@ -27,7 +27,8 @@ export default class Link extends Component {
         mapWindowToViewportCoords: PropTypes.func.isRequired,
 
         onMouseMove: PropTypes.func.isRequired,
-        onMouseLeave: PropTypes.func.isRequired
+        onMouseLeave: PropTypes.func.isRequired,
+        onClick: PropTypes.func.isRequired
     }
 
     getTitlePosition() {
@@ -86,12 +87,27 @@ export default class Link extends Component {
         const viewportPos = mapWindowToViewportCoords(windowPos);
 
         this.props.onMouseMove({viewportPos});
-        e.preventDefault();
+        e.stopPropagation();
     }
 
     onMouseLeave = e => {
         this.props.onMouseLeave();
-        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    onMouseUp = e => {
+        // do not bubble mouse-ups to Graph when link is clicked
+        e.stopPropagation();
+    }
+
+    onClick = e => {
+        const {mapWindowToViewportCoords} = this.props;
+
+        const windowPos = new Point({x: e.clientX, y: e.clientY});
+        const viewportPos = mapWindowToViewportCoords(windowPos);
+
+        this.props.onClick({viewportPos});
+        e.stopPropagation();
     }
 
     render() {
@@ -126,7 +142,9 @@ export default class Link extends Component {
                     classes.root,
                     {[classes.shaded]: link.shaded})}
                 onMouseMove={this.onMouseMove}
-                onMouseLeave={this.onMouseLeave}>
+                onMouseLeave={this.onMouseLeave}
+                onMouseUp={this.onMouseUp}
+                onClick={this.onClick}>
 
                 <Line
                     className={cx(classes.line, className)}

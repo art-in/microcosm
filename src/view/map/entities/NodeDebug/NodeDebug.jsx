@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
+import round from 'utils/round';
+
 import Group from 'view/shared/svg/Group';
 import NodeVM from 'vm/map/entities/Node';
 import Text from 'view/shared/svg/Text';
@@ -23,17 +25,14 @@ export default class NodeDebug extends Component {
             return null;
         }
 
-        // eslint-disable-next-line require-jsdoc
-        const round = num => Math.round(num * 100) / 100;
-
         const {posAbs, debugInfo: {posRel}} = node;
 
         const lines = [
             `id = ${node.id.slice(0, 5)}`,
-            `scale = ${round(node.scale)}`,
-            `pos abs = [${Math.round(posAbs.x)} x ${Math.round(posAbs.y)}]`,
-            `pos rel = [${Math.round(posRel.x)} x ${Math.round(posRel.y)}]`,
-            `rpw = ${round(node.debugInfo.rootPathWeight)}`
+            `scale = ${round(node.scale, 2)}`,
+            `pos abs = [${round(posAbs.x)} x ${round(posAbs.y)}]`,
+            `pos rel = [${round(posRel.x)} x ${round(posRel.y)}]`,
+            `rpw = ${round(node.debugInfo.rootPathWeight, 2)}`
         ];
 
         // when node downscaled - upscale debug info back,

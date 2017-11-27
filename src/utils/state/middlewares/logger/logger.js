@@ -8,6 +8,7 @@ import EventEmitter from 'events';
 import LogEntry from './LogEntry';
 import log from './log';
 
+const THROTTLING_ENABLED = true;
 const DEFAULT_TROTTLE_DELAY = 1000;
 
 /**
@@ -56,7 +57,7 @@ function throttleLogDispatch(state, events, action) {
         state.throttleState = new Map();
     }
 
-    if (action.throttleLog) {
+    if (THROTTLING_ENABLED && action.throttleLog) {
 
         let throttleState = state.throttleState.get(action.type);
         

@@ -74,6 +74,8 @@ export default class Graph extends Component {
         const windowPos = new Point({x: e.clientX, y: e.clientY});
         const pos = toElementCoords(windowPos, this.viewport);
         this.props.onNodeRightClick({node, pos});
+
+        // TODO: fix preventDefault() to stopPropagation()
         e.preventDefault();
     }
 

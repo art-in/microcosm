@@ -5,15 +5,19 @@ import animate from 'vm/utils/animate';
 
 describe('animate', () => {
 
-    it('should progressively change target value', async () => {
+    it('should progressively change values towards target', async () => {
 
         // setup
         const onStep = spy();
 
         // target
         await animate({
-            from: 1,
-            to: 2,
+            values: [
+                {from: 1, to: 2}, //  A
+                {from: -2, to: 0}, // B
+                {from: 3, to: -2}, // C
+                {from: 1, to: 1} //   D
+            ],
             duration: 50,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 5)
@@ -24,28 +28,40 @@ describe('animate', () => {
 
         const values = onStep.getCalls().map(c => c.args[0]);
 
-        // every previous value should be smaller than next value 
         for (let i = 1; i < values.length; i++) {
-            expect(values[i - 1]).to.be.lte(values[i]);
+            expect(values[i]).to.have.length(4);
+
+            expect(values[i - 1][0]).to.be.lt(values[i][0]); // A
+            expect(values[i - 1][1]).to.be.lt(values[i][1]); // B
+            expect(values[i - 1][2]).to.be.gt(values[i][2]); // C
+            expect(values[i - 1][3]).to.equal(values[i][3]); // D
         }
     });
 
-    it('should pass target value on final step', async () => {
+    it('should pass target values on final step', async () => {
         
         // setup
         const onStep = spy();
 
         // target
         await animate({
-            from: 2,
-            to: -1,
+            values: [
+                {from: 1, to: 2}, //  A
+                {from: -2, to: 0}, // B
+                {from: 3, to: -2} //  C
+            ],
             duration: 50,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
         });
 
         // expect
-        expect(onStep.lastCall.args[0]).to.equal(-1);
+        const finalStepValues = onStep.lastCall.args[0];
+        expect(finalStepValues).to.deep.equal([
+            2, // A
+            0, // B
+            -2 // C
+        ]);
     });
 
     it('should NOT pass starting value on first step', async () => {
@@ -55,26 +71,28 @@ describe('animate', () => {
 
         // target
         await animate({
-            from: 2,
-            to: 1,
+            values: [{from: 2, to: 1}],
             duration: 10,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
         });
 
         // expect
-        expect(onStep.firstCall.args[0]).to.not.equal(2);
+        const firstStepValues = onStep.firstCall.args[0];
+        expect(firstStepValues[0]).to.not.equal(2);
     });
 
-    it('should NOT make steps if values are equal', async () => {
+    it('should NOT make steps if all values are equal', async () => {
         
         // setup
         const onStep = spy();
 
         // target
         await animate({
-            from: 1,
-            to: 1,
+            values: [
+                {from: 1, to: 1},
+                {from: 2, to: 2}
+            ],
             duration: 10,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
@@ -84,15 +102,14 @@ describe('animate', () => {
         expect(onStep.called).to.be.false;
     });
 
-    it(`should fail if invalid starting value`, async () => {
+    it(`should fail if invalid values`, async () => {
         
         // setup
         const onStep = spy();
 
         // target
         const promise = animate({
-            from: undefined,
-            to: 1,
+            values: [null],
             duration: 10,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
@@ -100,7 +117,25 @@ describe('animate', () => {
 
         // expect
         await expect(promise).to.be.rejectedWith(
-            `Invalid 'from' value 'undefined'`);
+            `Invalid values received. Expecting array of {from, to} objects`);
+    });
+
+    it(`should fail if invalid starting value`, async () => {
+        
+        // setup
+        const onStep = spy();
+
+        // target
+        const promise = animate({
+            values: [{from: undefined, to: 1}],
+            duration: 10,
+            onStep,
+            scheduleAnimationStep: cb => setTimeout(cb, 10)
+        });
+
+        // expect
+        await expect(promise).to.be.rejectedWith(
+            `Invalid values received. Expecting array of {from, to} objects`);
     });
 
     it(`should fail if invalid target value`, async () => {
@@ -110,8 +145,7 @@ describe('animate', () => {
 
         // target
         const promise = animate({
-            from: 1,
-            to: 'X',
+            values: [{from: 1, to: 'X'}],
             duration: 10,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
@@ -119,7 +153,7 @@ describe('animate', () => {
 
         // expect
         await expect(promise).to.be.rejectedWith(
-            `Invalid 'to' value 'X'`);
+            `Invalid values received. Expecting array of {from, to} objects`);
     });
 
     it(`should fail if invalid duration`, async () => {
@@ -129,8 +163,7 @@ describe('animate', () => {
 
         // target
         const promise = animate({
-            from: 1,
-            to: 2,
+            values: [{from: 1, to: 2}],
             duration: NaN,
             onStep,
             scheduleAnimationStep: cb => setTimeout(cb, 10)
@@ -138,7 +171,7 @@ describe('animate', () => {
 
         // expect
         await expect(promise).to.be.rejectedWith(
-            `Invalid 'duration' value 'NaN'`);
+            `Invalid duration value 'NaN'`);
     });
 
 });

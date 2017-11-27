@@ -20,6 +20,15 @@ export default connect(
                 linkId: props.link.id
             },
             throttleLog: 5000
+        }),
+
+        onClick: ({viewportPos}) => dispatch({
+            type: 'on-link-click',
+            data: {
+                linkId: props.link.id,
+                viewportPos
+            },
+            throttleLog: 5000
         })
     })
 )(Component);

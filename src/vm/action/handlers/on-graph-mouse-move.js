@@ -45,6 +45,7 @@ export default function(state, data, dispatch) {
         const patch = new Patch();
 
         // activate panning if not yet activated
+        // TODO: normalize patch
         if (!graph.pan.active) {
             patch.push(view('update-graph', {
                 pan: {active: true}

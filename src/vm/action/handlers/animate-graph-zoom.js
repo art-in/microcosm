@@ -12,12 +12,13 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * Animates graph scale towards certain canvas position
  * 
  * @param {object} state
- * @param {object} data
- * @param {object} data.up  - scale up or down
- * @param {object} data.pos - target viewport position
+ * @param {object}   data
+ * @param {object}   data.up  - scale up or down
+ * @param {object}   data.pos - target viewport position
+ *                              TODO: rename to viewportPos
+ * @param {function} [data.scheduleAnimationStep]
  * @param {function} dispatch
  * @param {function} mutate
- * @param {function} scheduleAnimationStep
  * @return {Patch}
 */
 export default async function animateGraphZoom(state, data, dispatch, mutate) {
@@ -35,24 +36,27 @@ export default async function animateGraphZoom(state, data, dispatch, mutate) {
     mutate(view('update-graph', {zoomInProgress: true}));
 
     // convert coordinates from viewport to canvas
-    const pos = toCanvasCoords(viewportPos, viewbox);
+    const canvasPos = toCanvasCoords(viewportPos, viewbox);
 
     const scaleStep = 0.5;
     const targetScale = viewbox.scale +
         ((up ? 1 : -1) * scaleStep * viewbox.scale);
 
+    // animate graph scale
     await animate({
-        from: graph.viewbox.scale,
-        to: targetScale,
+        values: [{
+            from: graph.viewbox.scale,
+            to: targetScale
+        }],
         duration: 250,
         scheduleAnimationStep,
 
-        onStep: async scale => {
+        onStep: async ([scale]) => {
             const viewbox = zoomGraph({
                 viewbox: graph.viewbox,
                 viewport: graph.viewport,
                 scale,
-                pos
+                canvasPos
             });
             await mutate(view('update-graph', {viewbox}));
         }

@@ -27,15 +27,16 @@ export default function mindmapToGraph(mindmap) {
     let rootNode;
     let nodes = [];
     let links = [];
+    let focusCenter = 0;
     let focusZoneMax = 0;
     let shadeZoneAmount = 0;
 
     if (mindmap.root) {
 
         // map graph and slice-out deep pieces basing on current scale
-        const focusWeight = getFocusWeightForScale(mindmap.scale);
+        focusCenter = getFocusWeightForScale(mindmap.scale);
         
-        focusZoneMax = focusWeight;
+        focusZoneMax = focusCenter + 100;
         shadeZoneAmount = 500;
 
         const res = mapGraph({
@@ -102,10 +103,9 @@ export default function mindmapToGraph(mindmap) {
 
     graph.root = rootNode;
 
-    const shadeZoneMax = focusZoneMax + shadeZoneAmount;
-    graph.debugInfo.focusZone = `(Infinity - ${focusZoneMax}]`;
-    graph.debugInfo.shadeZone = `(${focusZoneMax} - ${shadeZoneMax}]`;
-    graph.debugInfo.hideZone = `(${shadeZoneMax} - Infinity)`;
+    graph.debugInfo.focusCenter = focusCenter;
+    graph.debugInfo.focusZoneMax = focusZoneMax;
+    graph.debugInfo.shadeZoneMax = focusZoneMax + shadeZoneAmount;
 
     return graph;
 }
