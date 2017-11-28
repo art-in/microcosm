@@ -33,8 +33,9 @@ export default function guardObjectProps(object) {
 
 // props that should be ignored, since they are requested implicitly
 // by browser js runtime or test framework
+// @type {Array.<string|symbol>}
 const WHITE_LIST = [
-    
+
     // from js runtime (default constructor algorithm)
     Symbol.toPrimitive,
     Symbol.toStringTag,
@@ -55,7 +56,7 @@ const WHITE_LIST = [
 /**
  * Getter hook
  * @param {object} target 
- * @param {string|Symbol} name
+ * @param {string|symbol} name
  * @return {*}
  */
 function onGet(target, name) {

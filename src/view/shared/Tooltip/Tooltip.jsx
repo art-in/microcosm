@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
+// @ts-ignore
 import classes from './Tooltip.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} value
+ * @prop {string} className
+ * 
+ * @extends {Component<Props, *>}
+ */
 export default class Tooltip extends Component {
-
-    static propTypes = {
-        className: PropTypes.string,
-        value: PropTypes.string
-    }
 
     static defaultProps = {
         value: ''
@@ -17,6 +19,7 @@ export default class Tooltip extends Component {
 
     render() {
 
+        // eslint-disable-next-line react/prop-types
         const {className, value, ...other} = this.props;
 
         return (

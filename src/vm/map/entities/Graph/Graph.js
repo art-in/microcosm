@@ -6,6 +6,8 @@ import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 
+import LinkType from 'vm/map/entities/Link';
+
 /**
  * Graph
  */
@@ -95,13 +97,13 @@ export default class Graph extends ViewModel {
 
     /**
      * Nodes
-     * @type {array.<Node>}
+     * @type {Array.<Node>}
      */
     nodes = [];
 
     /**
      * Links
-     * @type {array.<Link>}
+     * @type {Array.<LinkType>}
      */
     links = [];
 

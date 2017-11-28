@@ -9,7 +9,7 @@ export default class LookupSuggestion {
      * Unique id of suggestion
      * @type {string}
      */
-    id = Math.random();
+    id = Math.random().toString();
 
     /**
      * Display name

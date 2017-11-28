@@ -1,6 +1,6 @@
 /**
  * Combines mutators
- * @param {array.<function>} mutators
+ * @param {function[]} mutators
  * @return {function}
  */
 export default function combineMutators(mutators) {

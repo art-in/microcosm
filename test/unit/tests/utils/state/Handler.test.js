@@ -188,7 +188,7 @@ describe('Handler', () => {
                 // setup
                 const handler = new Handler();
     
-                handler.reg('action', (state, data) => 'WRONG VALUE');
+                handler.reg('action', () => 'WRONG VALUE');
     
                 // target
                 const result = () => handler.handle({}, {
@@ -255,7 +255,7 @@ describe('Handler', () => {
                 // setup
                 const handler = new Handler();
     
-                handler.reg('action', async (state, data) => 'WRONG VALUE');
+                handler.reg('action', async () => 'WRONG VALUE');
     
                 // target
                 const promise = handler.handle({}, {

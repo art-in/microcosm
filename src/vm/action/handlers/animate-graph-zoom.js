@@ -1,4 +1,5 @@
 import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
 
 import view from 'vm/utils/view-patch';
 import animate from 'vm/utils/animate';
@@ -19,7 +20,7 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @param {function} [data.scheduleAnimationStep]
  * @param {function} dispatch
  * @param {function} mutate
- * @return {Patch}
+ * @return {Promise.<PatchType>}
 */
 export default async function animateGraphZoom(state, data, dispatch, mutate) {
     const {vm: {main: {mindmap: {graph}}}} = state;

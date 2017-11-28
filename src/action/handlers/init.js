@@ -23,7 +23,7 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
  * 
  * @param {object} state
  * @param {object} data
- * @return {Patch}
+ * @return {Promise.<Patch>}
  */
 export default async function init(state, data) {
     const {db, view} = required(data);

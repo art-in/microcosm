@@ -1,6 +1,7 @@
 import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
+import MenuItemType from 'vm/shared/MenuItem';
 
 import Menu from './Menu';
 import Popup from './Popup';
@@ -22,7 +23,7 @@ export default class ContextMenu extends ViewModel {
 
     /**
      * Is shown?
-     * @type {bool}
+     * @type {boolean}
      */
     get active() {
         return this.popup && this.popup.active;
@@ -31,11 +32,13 @@ export default class ContextMenu extends ViewModel {
     /**
      * Constructor
      * @param {object}           [opts]
-     * @param {array.<MenuItem>} [opts.items]
+     * @param {Array.<MenuItemType>} [opts.items]
      */
-    constructor({items = []} = {}) {
+    constructor(opts = {}) {
         super();
-        
+
+        const {items = []} = opts;
+
         this.popup = new Popup();
         this.menu = new Menu({items});
 

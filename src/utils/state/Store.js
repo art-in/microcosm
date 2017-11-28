@@ -1,5 +1,8 @@
+// @ts-ignore
 import EventEmitter from 'events';
+
 import guid from 'utils/guid';
+import HandlerType from './Handler';
 
 import Action from './Action';
 
@@ -48,7 +51,7 @@ export default class Store {
 
     /**
      * The action handler
-     * @type {Handler}
+     * @type {HandlerType}
      */
     _handler;
 
@@ -71,7 +74,7 @@ export default class Store {
 
     /**
      * Constructor
-     * @param {Handler} handler
+     * @param {HandlerType} handler
      * @param {function} mutator
      * @param {object} [initialState]
      * @param {array} [middlewares]

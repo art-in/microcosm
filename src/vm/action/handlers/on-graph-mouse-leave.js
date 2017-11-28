@@ -8,10 +8,9 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * Handles mouse leave action on graph
  * 
  * @param {object} state
- * @param {object} data
  * @return {Patch}
  */
-export default function(state, data) {
+export default function(state) {
     const {vm: {main: {mindmap: {graph}}}} = state;
 
     // TODO: cancel pan too
@@ -25,15 +24,15 @@ export default function(state, data) {
     const patch = new Patch();
 
     // move node and child sub-tree back to starting point
-    const dx = node.pos.x - graph.drag.startX;
-    const dy = node.pos.y - graph.drag.startY;
+    const dx = node.posAbs.x - graph.drag.startX;
+    const dy = node.posAbs.y - graph.drag.startY;
 
     nodes.forEach(n => patch.push(
         view('update-node', {
             id: n.id,
-            pos: {
-                x: n.pos.x - dx,
-                y: n.pos.y - dy
+            posAbs: {
+                x: n.posAbs.x - dx,
+                y: n.posAbs.y - dy
             }
         })));
 

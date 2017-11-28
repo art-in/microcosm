@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 /**
  * Handles idea color selected with color picker
@@ -9,7 +10,7 @@ import view from 'vm/utils/view-patch';
  * @param {string} data.ideaId
  * @param {string} data.color
  * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
 */
 export default function onIdeaColorSelected(state, data, dispatch) {
     const {ideaId, color} = required(data);

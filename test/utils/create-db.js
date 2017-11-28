@@ -9,7 +9,7 @@ PouchDB.plugin(findPlugin);
 
 /**
  * Creates unique database
- * @return {PouchDB}
+ * @return {PouchDB.Database}
  */
 export default function createDB() {
     return new PouchDB(guid(), {adapter: 'memory'});

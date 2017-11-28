@@ -5,7 +5,7 @@
  * await nextMicrotask();
  * // code here will run in next microtask
  * 
- * @return {Promise}
+ * @return {*}
  */
 export default function nextMicrotask() {
     // awaiting anything will schedule microtask

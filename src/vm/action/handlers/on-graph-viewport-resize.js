@@ -1,5 +1,6 @@
 import clone from 'clone';
 import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
 
 import view from 'vm/utils/view-patch';
 import computeViewbox from 'vm/map/entities/Graph/methods/compute-viewbox-size';
@@ -12,7 +13,7 @@ import computeViewbox from 'vm/map/entities/Graph/methods/compute-viewbox-size';
  * @param {object} data.size
  * @param {number} data.size.width
  * @param {number} data.size.height
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;

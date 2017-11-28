@@ -7,7 +7,7 @@ export default class Action {
 
     /**
      * Type of mutation
-     * @param {string}
+     * @type {string}
      */
     type = undefined;
 

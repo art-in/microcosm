@@ -16,7 +16,6 @@ const DEFAULT_TROTTLE_DELAY = 1000;
  * 
  * Logs each dispatch to console.
  * 
- * @param {EventEmitter} events - dispatch events
  * @return {object} middleware instance
  */
 export default function() {
@@ -102,7 +101,7 @@ function throttleLogDispatch(state, events, action) {
  * Logs dispatch
  * @param {object}       state  - middleware state
  * @param {EventEmitter} events
- * @param {number}       throttledCount - number of actions of same type
+ * @param {number}      [throttledCount] - number of actions of same type
  *                                   that were throttled before this one
  */
 function logDispatch(state, events, throttledCount) {
@@ -162,7 +161,7 @@ function logDispatch(state, events, throttledCount) {
         entry.perf.mutation.start = performance.now();
     });
 
-    events.on('after-mutation', opts => {
+    events.on('after-mutation', () => {
         entry.perf.mutation.end = performance.now();
     });
 

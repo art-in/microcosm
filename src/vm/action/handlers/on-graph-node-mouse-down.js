@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import getDescendants from 'utils/graph/get-descendants';
 
@@ -10,10 +11,9 @@ import getDescendants from 'utils/graph/get-descendants';
  * @param {object} data
  * @param {Node}   data.node
  * @param {string} data.button
- * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
-export default function(state, data, dispatch) {
+export default function(state, data) {
     const {node, button} = required(data);
     
     if (button !== 'left') {

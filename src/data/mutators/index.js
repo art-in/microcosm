@@ -1,8 +1,11 @@
+import PatchType from 'utils/state/Patch';
+import MutationType from 'utils/state/Mutation';
+
+import AsyncTaskQueue from 'utils/AsyncTaskQueue';
+
 import * as ideaDB from '../db/ideas';
 import * as assocDB from '../db/associations';
 import * as mindmapDB from '../db/mindmaps';
-
-import AsyncTaskQueue from 'utils/AsyncTaskQueue';
 
 /**
  * DB mutation queue
@@ -17,7 +20,7 @@ const _queue = new AsyncTaskQueue();
 /**
  * Applies patch to data state
  * @param {object} state
- * @param {Patch} patch
+ * @param {PatchType} patch
  */
 export default async function mutate(state, patch) {
     await Promise.all(patch.map(async function(mutation) {
@@ -32,7 +35,7 @@ export default async function mutate(state, patch) {
 /**
  * Applies single mutation to state
  * @param {object} state
- * @param {Mutation} mutation
+ * @param {MutationType} mutation
  */
 async function apply(state, mutation) {
 

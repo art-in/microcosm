@@ -33,7 +33,8 @@ export default class Patch {
 
     /**
      * Constructor
-     * @param {array.<Mutation>|Mutation} [mutations]
+     * @param {Array.<Mutation>|Mutation|Array.<object>|object} [mutations]
+     * @param {array} rest
      */
     constructor(mutations, ...rest) {
         if (mutations) {
@@ -65,29 +66,32 @@ export default class Patch {
 
     /**
      * Iterates over mutations
-     * @param {*} args
+     * @param {*} func
+     * @param {array} [args]
      * @return {*}
      */
-    forEach(...args) {
-        return this.mutations.forEach(...args);
+    forEach(func, ...args) {
+        return this.mutations.forEach(func, ...args);
     }
 
     /**
      * Map mutations
-     * @param {*} args
+     * @param {*} func
+     * @param {array} [args]
      * @return {*}
      */
-    map(...args) {
-        return this.mutations.map(...args);
+    map(func, ...args) {
+        return this.mutations.map(func, ...args);
     }
 
     /**
      * Filter mutations
-     * @param {*} args
+     * @param {*} func
+     * @param {array} [args]
      * @return {*}
      */
-    filter(...args) {
-        return this.mutations.filter(...args);
+    filter(func, ...args) {
+        return this.mutations.filter(func, ...args);
     }
 
     /**
@@ -117,13 +121,13 @@ export default class Patch {
 
     /**
      * Combines mutations from several patches to single patch
-     * @param {array.<Patch>} patches
+     * @param {Array.<Patch>} patches
      * @return {Patch}
      */
-    static combine(...args) {
+    static combine(...patches) {
         
         // flatten arrays
-        let patches = args.reduce((res, a) => res.concat(a), []);
+        patches = patches.reduce((res, a) => res.concat(a), []);
 
         patches = patches.filter(p => p !== undefined);
 
@@ -139,7 +143,7 @@ export default class Patch {
     /**
      * Checks if all mutations has this target
      * @param {string} target 
-     * @return {bool}
+     * @return {boolean}
      */
     hasTarget(target) {
         // TODO: revisit. from method signature it's more appropriate

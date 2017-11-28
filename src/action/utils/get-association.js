@@ -1,9 +1,12 @@
+import AssociationType from 'model/entities/Association';
+import MindmapType from 'model/entities/Mindmap';
+
 /**
  * Gets association by ID
  *
- * @param {Mindmap} mindmap
+ * @param {MindmapType} mindmap
  * @param {string} assocId
- * @return {Association}
+ * @return {AssociationType}
  */
 export default function getAssociation(mindmap, assocId) {
     

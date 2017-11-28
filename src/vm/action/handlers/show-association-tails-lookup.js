@@ -17,7 +17,7 @@ import showLookup from 'vm/shared/Lookup/methods/show-lookup';
 export default function(state, data) {
     const {pos, headIdeaId} = required(data);
 
-    return Patch.combine([
+    return Patch.combine(
 
         view('update-context-menu', {
             popup: {active: false}
@@ -47,5 +47,5 @@ export default function(state, data) {
                 })
             })
         })
-    ]);
+    );
 }

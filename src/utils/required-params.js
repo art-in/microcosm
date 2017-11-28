@@ -32,7 +32,7 @@
  * }
  * 
  * @param {object} params
- * @return {Proxy}
+ * @return {object}
  */
 export default function requiredParams(params) {
 

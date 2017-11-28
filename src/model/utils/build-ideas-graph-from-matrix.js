@@ -17,7 +17,7 @@ import weighRootPaths from 'utils/graph/weigh-root-paths';
  * A: this util has unit test, and I did not found good place for tests
  *    of test utils yet. but basicly yes, this should be in test/utils/ folder.
  * 
- * @param {array.<string>} matrix
+ * @param {Array.<string>} matrix
  * @return {{root, vertices, edges}}
 */
 export default function buildIdeasGraphFromMatrix(matrix) {

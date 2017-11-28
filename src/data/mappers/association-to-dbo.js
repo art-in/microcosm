@@ -1,8 +1,10 @@
 import deleteUndefinedProps from 'utils/delete-undefined-props';
 
+import AssociationType from 'model/entities/Association';
+
 /**
  * Maps a association model to dbo
- * @param {Association|object} model - model or patch
+ * @param {AssociationType|object} model - model or patch
  * @return {object}
  */
 export default function associationToDbo(model) {

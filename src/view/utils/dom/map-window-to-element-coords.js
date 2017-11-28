@@ -5,7 +5,7 @@ import Point from 'model/entities/Point';
  * Eg. pass svg element to map coordinates to svg viewport
  * 
  * @param {Point} windowPos - pos on browser viewport
- * @param {HtmlElement} element
+ * @param {Element} element
  * @return {Point}
  */
 export default function mapBrowserViewportToElementCoords(

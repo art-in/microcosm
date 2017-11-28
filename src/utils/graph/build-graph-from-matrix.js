@@ -10,7 +10,7 @@ const charCount = 26;
  * A: Because it is possible to align columns without violating lint rules.
  * 
  * @param {object}         opts
- * @param {array.<string>} opts.matrix
+ * @param {Array.<string>} opts.matrix
  * @param {function}       opts.VertexConstructor
  * @param {function}       opts.EdgeConstructor
  * @return {object} root vertex
@@ -41,7 +41,7 @@ export default function buildGraphFromMatrix(opts) {
     }
 
     // parse and validate matrix
-    // @type {array.<array<number>>}
+    // @type {Array.<array<number>>}
     const matrix = [];
 
     m.forEach((line, headVertexIdx) => {

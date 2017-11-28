@@ -1,9 +1,12 @@
+import GraphType from 'vm/map/entities/Graph';
+import NodeType from 'vm/map/entities/Node';
+
 /**
  * Gets node by ID
  *
- * @param {Graph} graph
+ * @param {GraphType} graph
  * @param {string} nodeId
- * @return {Node}
+ * @return {NodeType}
  */
 export default function getNode(graph, nodeId) {
     

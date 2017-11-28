@@ -9,9 +9,9 @@ import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets idea
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {string} ideaId
- * @return {Idea}
+ * @return {Promise.<Idea>}
  */
 export async function get(db, ideaId) {
     const dbo = await db.get(ideaId);
@@ -20,8 +20,8 @@ export async function get(db, ideaId) {
 
 /**
  * Gets all ideas
- * @param {PouchDB} db
- * @return {promise.<array.<Idea>>}
+ * @param {PouchDB.Database} db
+ * @return {Promise.<Array.<Idea>>}
  */
 export async function getAll(db) {
 
@@ -36,7 +36,7 @@ export async function getAll(db) {
 
 /**
  * Adds new idea
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {Idea} idea
  */
 export async function add(db, idea) {
@@ -49,7 +49,7 @@ export async function add(db, idea) {
 
 /**
  * Updates idea
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {Idea|object} model - model or patch
  */
 export async function update(db, model) {
@@ -71,7 +71,7 @@ export async function update(db, model) {
 
 /**
  * Removes idea
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {string} id
  */
 export async function remove(db, id) {
@@ -81,7 +81,7 @@ export async function remove(db, id) {
 
 /**
  * Removes all ideas
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {
     const data = await db.allDocs();

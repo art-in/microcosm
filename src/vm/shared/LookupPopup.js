@@ -24,7 +24,7 @@ export default class LookupPopup extends ViewModel {
 
     /**
      * Is shown?
-     * @type {bool}
+     * @type {boolean}
      */
     get active() {
         return this.popup && this.popup.active;

@@ -1,11 +1,13 @@
-import isValidPosition from './is-valid-position';
 import getDistance from 'utils/get-distance-between-points';
+import PointType from 'model/entities/Point';
+
+import isValidPosition from './is-valid-position';
 
 /**
  * Gets weight of association
  * 
- * @param {Point} headPos
- * @param {Point} tailPos
+ * @param {PointType} headPos
+ * @param {PointType} tailPos
  * @return {number}
  */
 export default function weighAssociation(headPos, tailPos) {

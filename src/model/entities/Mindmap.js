@@ -1,6 +1,10 @@
 import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
 
+import IdeaType from './Idea';
+import AssociationType from './Association';
+import PointType from './Point';
+
 /**
  * Mindmap model
  * 
@@ -16,7 +20,7 @@ export default class Mindmap {
 
     /**
      * Position of viewbox on the canvas
-     * @type {number}
+     * @type {PointType}
      */
     pos = undefined;
     
@@ -30,20 +34,20 @@ export default class Mindmap {
 
     /**
      * Ideas
-     * @type {Map.<Idea>}
+     * @type {Map.<string, IdeaType>}
      */
     ideas = new Map();
 
     /**
      * Associations
-     * @type {Map.<Association>}
+     * @type {Map.<string, AssociationType>}
      */
     associations = new Map();
 
     /**
      * Root of ideas graph
      * Note: available only after graph is build
-     * @type {Idea}
+     * @type {IdeaType}
      */
     root = undefined;
 

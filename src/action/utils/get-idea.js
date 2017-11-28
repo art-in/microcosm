@@ -1,9 +1,12 @@
+import IdeaType from 'model/entities/Idea';
+import MindmapType from 'model/entities/Mindmap';
+
 /**
  * Gets idea by ID
  *
- * @param {Mindmap} mindmap
+ * @param {MindmapType} mindmap
  * @param {string} ideaId
- * @return {Idea}
+ * @return {IdeaType}
  */
 export default function getIdea(mindmap, ideaId) {
     

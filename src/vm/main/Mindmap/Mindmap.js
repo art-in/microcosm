@@ -1,5 +1,6 @@
 import initInstance from 'utils/init-instance';
 
+import GraphType from 'vm/map/entities/Graph';
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -12,7 +13,7 @@ export default class Mindmap extends ViewModel {
 
     /**
      * Graph model
-     * @type {Graph}
+     * @type {GraphType}
      */
     graph = undefined;
 

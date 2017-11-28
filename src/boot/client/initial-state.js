@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Application state structure
  */
@@ -5,13 +7,13 @@ export default {
 
     data: {
 
-        /** @type {PouchDB} */
+        /** @type {PouchDB.Database} */
         ideas: undefined,
 
-        /** @type {PouchDB} */
+        /** @type {PouchDB.Database} */
         associations: undefined,
 
-        /** @type {PouchDB} */
+        /** @type {PouchDB.Database} */
         mindmaps: undefined
     },
 
@@ -29,7 +31,7 @@ export default {
 
     view: {
 
-        /** @type {HtmlElement} */
+        /** @type {Element} */
         root: undefined
     }
 

@@ -1,5 +1,8 @@
 import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
 
+import IdeaType from 'model/entities/Idea';
+import AssociationType from 'model/entities/Association';
+
 /**
  * Builds object graph from ideas and associations objects
  * 
@@ -13,9 +16,9 @@ import buildGraphFromObjects from 'utils/graph/build-graph-from-objects';
  * 
  * TODO: rename to build-ideas-graph-from-list (adj matrix vs adj list)
  * 
- * @param {array.<Idea>} ideas
- * @param {array.<Association>} associations
- * @return {Idea} root idea
+ * @param {Array.<IdeaType>} ideas
+ * @param {Array.<AssociationType>} associations
+ * @return {IdeaType} root idea
  */
 export default function(ideas, associations) {
     return buildGraphFromObjects({

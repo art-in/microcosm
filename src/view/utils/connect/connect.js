@@ -1,9 +1,9 @@
 import {EventEmitter} from 'events';
-import assert from 'utils/assert';
-import noop from 'utils/noop';
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import noop from 'utils/noop';
+
+import ViewModelType from 'vm/utils/ViewModel';
 
 /**
  * HOC, which connects view component to view-model and store.
@@ -21,9 +21,6 @@ import PropTypes from 'prop-types';
 export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
     return CustomComponent => {
 
-        assert(typeof mapPropsToVM === 'function');
-        assert(typeof CustomComponent === 'function');
-        
         /**
          * View model getter
          * @param {object} props
@@ -104,8 +101,12 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                 return onVMChange;
             }
 
+            /**
+             * Unbinds view-model from view component
+             * @param {EventEmitter} vm 
+             * @param {function(any[]): void} onVMChange
+             */
             unbindVM(vm, onVMChange) {
-                assert(typeof onVMChange === 'function');
                 vm.removeListener('change', onVMChange);
             }
 

@@ -180,15 +180,15 @@ describe('animate-graph-zoom', () => {
             scale: 3,
 
             // width/height will be 1.5 times smaller
-            // 100 x 1.5 = 67
-            width: 67,
-            height: 67,
+            // 100 / 1.5 = 67
+            width: 100 / 1.5,
+            height: 100 / 1.5,
 
             // zoom target position was at the corner of the viewport/viewbox,
             // so full hidden area will go to left side (100 - 67 = 33)
             // prev position (50) + hidden area on the left (33) = 83
-            x: 83,
-            y: 83
+            x: (100 - (100 / 1.5)) + 50,
+            y: (100 - (100 / 1.5)) + 50
         });
     });
 

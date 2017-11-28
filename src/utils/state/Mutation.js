@@ -5,7 +5,7 @@ export default class Mutation {
 
     /**
      * Type of mutation
-     * @param {string}
+     * @type {string}
      */
     type = undefined;
 
@@ -17,7 +17,7 @@ export default class Mutation {
     /**
      * Target parts of state to mutate
      * If empty - mutation should be allied to whole state
-     * @param {array.<string>}
+     * @type {Array.<string>}
      */
     targets = undefined;
 
@@ -26,9 +26,11 @@ export default class Mutation {
      * @param {object}         opts
      * @param {string}         opts.type 
      * @param {*}              opts.data 
-     * @param {array.<string>} opts.targets 
+     * @param {Array.<string>} [opts.targets]
      */
-    constructor({type, data, targets}) {
+    constructor(opts) {
+        const {type, data, targets} = opts;
+
         this.type = type;
         this.data = data;
         this.targets = targets;
@@ -37,7 +39,7 @@ export default class Mutation {
     /**
      * Checks if mutation targets specific target
      * @param {string} target 
-     * @return {bool}
+     * @return {boolean}
      */
     hasTarget(target) {
 

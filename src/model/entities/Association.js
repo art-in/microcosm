@@ -1,6 +1,8 @@
 import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
 
+import IdeaType from './Idea';
+
 /**
  * Association model
  * 
@@ -43,7 +45,7 @@ export default class Association {
      * Head idea
      * Note: available only after graph is build
      * @memberof Edge
-     * @type {Idea}
+     * @type {IdeaType}
      */
     from = undefined;
 
@@ -51,7 +53,7 @@ export default class Association {
      * Tail idea
      * Note: available only after graph is build
      * @memberof Edge
-     * @type {Idea}
+     * @type {IdeaType}
      */
     to = undefined;
 

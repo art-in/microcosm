@@ -17,6 +17,7 @@ import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
 // for devtools Fauxton extension
+// @ts-ignore
 window.PouchDB = PouchDB;
 
 /**
@@ -33,10 +34,10 @@ async function start() {
 
     // init store
     const store = new Store(
-        Handler.combine([
+        Handler.combine(
             commonHandler,
             vmHandler
-        ]),
+        ),
         combine([
             mutateData,
             mutateModel,

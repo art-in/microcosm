@@ -1,4 +1,3 @@
-import assert from 'utils/assert';
 import Mutation from 'utils/state/Mutation';
 
 /**
@@ -20,11 +19,9 @@ import Mutation from 'utils/state/Mutation';
  * 
  * @param {string} mutationType
  * @param {object} [mutationData]
- * @return {Patch}
+ * @return {Mutation}
  */
 export default function viewMutation(mutationType, mutationData) {
-    assert(typeof mutationType === 'string');
-    
     return new Mutation({
         type: mutationType,
         data: mutationData,

@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
 
@@ -10,7 +11,7 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @param {object} data
  * @param {string} data.key
  * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;

@@ -499,7 +499,7 @@ describe('middlewares', () => {
         });
 
         const state = {};
-        const mutator = async state => {
+        const mutator = async () => {
             // make async mutator so both mutations are intersected
             await timer(0);
         };

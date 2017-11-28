@@ -1,5 +1,6 @@
-import assert from 'utils/assert';
 import clone from 'clone';
+import assert from 'utils/assert';
+import PatchType from 'utils/state/Patch';
 
 /**
  * Log entry for store action
@@ -99,7 +100,7 @@ export default class LogEntry {
 
     /**
      * State patch
-     * @type {Patch}
+     * @type {PatchType}
      */
     patch = undefined;
 
@@ -180,7 +181,6 @@ export default class LogEntry {
 
     /**
      * Child actions that were initiated by this action
-     * @type {array.{Action|object}}
      */
     childActions = [];
 

@@ -33,7 +33,7 @@ describe('get-graph-focus-weight-for-scale', () => {
 
             // find a node which happend to be in the center
             // of focus zone (focused node)
-            const node = nodes.find(n => n.weight === focusWeight);
+            const node = nodes.find(n => Math.abs(n.weight - focusWeight) < 1);
 
             // calculate resulting scale of focused node
             const resultingScale = node.scale * viewportScale;

@@ -1,6 +1,6 @@
 import required from 'utils/required-params';
-
 import WeightZone from 'utils/graph/WeightZone';
+import VertexType from 'utils/graph/interfaces/Vertex';
 
 /**
  * Generic function for mapping graph of entities of one type
@@ -42,7 +42,7 @@ import WeightZone from 'utils/graph/WeightZone';
  * in focus zone (F-B edge on the scheme)
  * 
  * @param {object}   opts
- * @param {object}   opts.vertex
+ * @param {VertexType}   opts.vertex
  * @param {function} opts.mapVertex
  * @param {function} opts.mapEdge
  * @param {number}   [opts.focusZoneMax=infinity] - focus weight zone max
@@ -68,6 +68,7 @@ export default function mapGraph(opts) {
         opts.shadeZoneAmount = 0;
     }
 
+    // @ts-ignore
     const rootVertex = mapGraphInternal(opts, internalOpts);
 
     return {
@@ -201,7 +202,7 @@ function mapGraphInternal(opts, internalOpts) {
 
 /**
  * Gets weight zone for vertex
- * @param {Vertex} vertex
+ * @param {VertexType} vertex
  * @param {number} focusZoneMax
  * @param {number} shadeZoneAmount
  * @return {number} weight zone

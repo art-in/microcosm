@@ -1,3 +1,5 @@
+import MindmapType from 'model/entities/Mindmap';
+
 import toModel from 'data/mappers/dbo-to-mindmap';
 import toDbo from 'data/mappers/mindmap-to-dbo';
 
@@ -5,9 +7,9 @@ import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets mindmap
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {string} mindmapId
- * @return {Mindmap}
+ * @return {Promise.<MindmapType>}
  */
 export async function get(db, mindmapId) {
     const dbo = await db.get(mindmapId);
@@ -16,8 +18,8 @@ export async function get(db, mindmapId) {
 
 /**
  * Gets all mindmaps
- * @param {PouchDB} db
- * @return {promise.<array.<Mindmap>>}
+ * @param {PouchDB.Database} db
+ * @return {Promise.<Array.<MindmapType>>}
  */
 export async function getAll(db) {
 
@@ -32,8 +34,8 @@ export async function getAll(db) {
 
 /**
  * Adds new mindmap
- * @param {PouchDB} db
- * @param {Mindmap} mindmap
+ * @param {PouchDB.Database} db
+ * @param {MindmapType} mindmap
  */
 export async function add(db, mindmap) {
     const dbo = toDbo(mindmap);
@@ -42,8 +44,8 @@ export async function add(db, mindmap) {
 
 /**
  * Updates mindmap
- * @param {PouchDB} db
- * @param {Mindmap} model - model or patch
+ * @param {PouchDB.Database} db
+ * @param {MindmapType} model - model or patch
  */
 export async function update(db, model) {
 
@@ -65,7 +67,7 @@ export async function update(db, model) {
 
 /**
  * Removes all mindmaps
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {
     const data = await db.allDocs();

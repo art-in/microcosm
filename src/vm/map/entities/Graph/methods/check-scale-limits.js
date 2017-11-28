@@ -6,8 +6,8 @@ import required from 'utils/required-params';
  * 
  * @param {object} opts
  * @param {object} opts.viewbox - graph viewbox
- * @param {bool}   opts.up      - scale up or down
- * @return {bool}
+ * @param {boolean}   opts.up      - scale up or down
+ * @return {boolean}
  */
 export default function checkGraphScaleLimits(opts) {
     const {viewbox, up} = required(opts);

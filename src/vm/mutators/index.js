@@ -1,4 +1,5 @@
 import regMutatorsFolder from 'utils/reg-mutators-folder';
+import PatchType from 'utils/state/Patch';
 
 import defaultMutator from './default';
 
@@ -9,7 +10,7 @@ const mutators = regMutatorsFolder(context);
 /**
  * Applies patch to vm state
  * @param {object} state
- * @param {Patch} patch
+ * @param {PatchType} patch
  */
 export default function mutate(state, patch) {
     patch
@@ -20,7 +21,7 @@ export default function mutate(state, patch) {
                 mutators[type](state, data);
             } else {
                 // TODO: do not apply default mutation several times
-                defaultMutator(state, data);
+                defaultMutator(state);
             }
         });
 }

@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import getAssociation from 'action/utils/get-association';
 import MenuItem from 'vm/shared/MenuItem';
@@ -12,8 +13,8 @@ import MenuItem from 'vm/shared/MenuItem';
  * @param {Point}  data.pos - viewport position of mouse
  *                            TODO: rename to viewportPos
  * @param {string} data.associationId - ID of target association
- * @param {bool}   data.shaded - indicates target association is shaded
- * @return {Patch}
+ * @param {boolean}   data.shaded - indicates target association is shaded
+ * @return {PatchType}
  */
 export default function showContextMenuForAssociation(state, data) {
     const {model: {mindmap}} = state;

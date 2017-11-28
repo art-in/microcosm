@@ -1,11 +1,14 @@
 import initInstance from 'utils/init-instance';
+import VertexType from 'utils/graph/interfaces/Vertex';
 
 import ViewModel from 'vm/utils/ViewModel';
+import LinkType from 'vm/map/entities/Link';
+import PointType from 'model/entities/Point';
 
 /**
  * Node
  * 
- * @implements {Vertex}
+ * @implements {VertexType}
  */
 export default class Node extends ViewModel {
 
@@ -29,7 +32,7 @@ export default class Node extends ViewModel {
 
         /**
          * Position relative to parent idea
-         * @type {Point}
+         * @type {PointType}
          */
         posRel: undefined
 
@@ -42,7 +45,7 @@ export default class Node extends ViewModel {
     
     /**
      * Absolute position of node on canvas.
-     * @type {Point}
+     * @type {PointType}
      */
     posAbs = undefined;
 
@@ -85,14 +88,14 @@ export default class Node extends ViewModel {
     /**
      * Incoming links
      * @memberof Vertex
-     * @type {array.<Link>}
+     * @type {Array.<LinkType>}
      */
     edgesIn = undefined;
 
     /**
      * Outgoing links
      * @memberof Vertex
-     * @type {array.<Link>}
+     * @type {Array.<LinkType>}
      */
     edgesOut = undefined;
     
@@ -100,7 +103,7 @@ export default class Node extends ViewModel {
      * Link to parent idea.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {Link}
+     * @type {LinkType}
      */
     edgeFromParent = undefined;
 
@@ -108,7 +111,7 @@ export default class Node extends ViewModel {
      * Links to child ideas.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {array.<Link>}
+     * @type {Array.<LinkType>}
      */
     edgesToChilds = undefined;
 

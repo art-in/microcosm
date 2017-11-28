@@ -87,4 +87,5 @@ export default async function(state, data, dispatch, mutate) {
 
     // TODO: do not follow link if 
     //       (a) mousedown-on-link (b) pan-graph (c) mouseup-on-link
+    //       try prevent propagation of mouse-moves from Link to Graph
 }

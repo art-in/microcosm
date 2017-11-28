@@ -6,8 +6,8 @@ import traverseGraph from 'utils/graph/traverse-graph';
  * from arrays of vertices and edges objects
  * 
  * @param {object}         opts
- * @param {array.<object>} opts.vertices
- * @param {array.<object>} opts.edges
+ * @param {Array.<object>} opts.vertices
+ * @param {Array.<object>} opts.edges
  * @param {function}       opts.isRootVertex - checks if passed vertex is root
  * @return {object} root vertex
  */

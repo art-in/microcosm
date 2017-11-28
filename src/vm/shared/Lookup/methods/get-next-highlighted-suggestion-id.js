@@ -1,19 +1,17 @@
 import required from 'utils/required-params';
-import assert from 'utils/assert';
 
-import Lookup from 'vm/shared/Lookup';
+import LookupType from 'vm/shared/Lookup';
 
 /**
  * Gets ID of next highlighted suggestion
  * 
  * @param {object} opts
- * @param {Lookup} opts.lookup
- * @param {bool}   opts.forward 
+ * @param {LookupType} opts.lookup
+ * @param {boolean}   opts.forward 
  * @return {number|null} ID of next highlighted suggesion
  */
 export default function getNextHighlightedSuggestionId(opts) {
     const {lookup, forward} = required(opts);
-    assert(lookup instanceof Lookup);
 
     if (!lookup.suggestions.length) {
         // skip since no suggestions

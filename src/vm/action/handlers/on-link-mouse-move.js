@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 import getDistance from 'utils/get-distance-between-points';
@@ -11,7 +12,7 @@ import getDistance from 'utils/get-distance-between-points';
  * @param {object} data
  * @param {string} data.linkId
  * @param {string} data.viewportPos - mouse viewport position
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;

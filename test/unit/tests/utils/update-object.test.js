@@ -69,7 +69,7 @@ describe('update-object', () => {
 
         const target = {a: 'original', b: 'original'};
         const source = {a: 'updated', b: 'updated'};
-        const propHandler = (prop, targetValue, sourceValue) => {
+        const propHandler = prop => {
             if (prop === 'b') {
                 return false;
             }

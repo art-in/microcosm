@@ -1,6 +1,7 @@
 import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
+import PointType from 'model/entities/Point';
 
 /**
  * Popup
@@ -15,7 +16,7 @@ export default class Popup extends ViewModel {
     /**
      * Position on viewport
      * TODO: rename to viewportPos to clarify coordinate system
-     * @type {Point}
+     * @type {PointType}
      */
     pos = undefined;
 

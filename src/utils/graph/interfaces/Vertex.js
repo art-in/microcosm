@@ -1,3 +1,5 @@
+import EdgeType from './Edge';
+
 /**
  * Graph vertex
  * 
@@ -7,27 +9,27 @@ export default class Vertex {
     
     /**
      * Incoming edges
-     * @type {array.<Edge>}
+     * @type {Array.<EdgeType>}
      */
     edgesIn
 
     /**
      * Outgoing edges
-     * @type {array.<Edge>}
+     * @type {Array.<EdgeType>}
      */
     edgesOut
 
     /**
      * Edge from parent vertex in minimum spanning tree (MST).
      * One of incoming edges.
-     * @type {Edge}
+     * @type {EdgeType}
      */
     edgeFromParent
 
     /**
      * Edges to child vertices in minimum spanning tree (MST).
      * Subset of outgoing edges.
-     * @type {array.<Edge>}
+     * @type {Array.<EdgeType>}
      */
     edgesToChilds
 

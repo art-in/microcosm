@@ -52,7 +52,7 @@ export default class AsyncTaskQueue {
      * promise1.then(res => console.log); // 'result 1'
      * promise2.then(res => console.log); // 'result 2'
      * 
-     * @param {fn} fn - sync or async task
+     * @param {function} fn - sync or async task
      * @return {Promise} task result
      */ 
     enqueue(fn) {

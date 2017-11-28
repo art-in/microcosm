@@ -1,5 +1,3 @@
-import assert from 'utils/assert';
-
 import Patch from 'utils/state/Patch';
 
 /**
@@ -22,8 +20,6 @@ import Patch from 'utils/state/Patch';
  * @return {Patch}
  */
 export default function viewPatch(mutationType, mutationData) {
-    assert(typeof mutationType === 'string');
-
     return new Patch({
         type: mutationType,
         data: mutationData,

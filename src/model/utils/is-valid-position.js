@@ -1,7 +1,9 @@
+import PointType from 'model/entities/Point';
+
 /**
  * Checks whether position is valid
  * 
- * @param {Point} pos 
+ * @param {PointType} pos 
  * @return {boolean}
  */
 export default function isValidPosition(pos) {

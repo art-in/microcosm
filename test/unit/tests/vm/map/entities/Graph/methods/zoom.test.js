@@ -32,7 +32,7 @@ describe('zoom', () => {
                     height: 100
                 },
                 scale: 2,
-                pos: {x: 100, y: 100}
+                canvasPos: {x: 100, y: 100}
             });
 
             // check
@@ -71,7 +71,7 @@ describe('zoom', () => {
                     height: 100
                 },
                 scale: 2,
-                pos: {x: 75, y: 50}
+                canvasPos: {x: 75, y: 50}
             });
 
             // check
@@ -110,7 +110,7 @@ describe('zoom', () => {
                     height: 100
                 },
                 scale: 2,
-                pos: {x: 50, y: 50}
+                canvasPos: {x: 50, y: 50}
             });
 
             // check
@@ -142,7 +142,7 @@ describe('zoom', () => {
                 height: 100
             },
             scale: 1,
-            pos: {x: 0, y: 0}
+            canvasPos: {x: 0, y: 0}
         });
 
         // check

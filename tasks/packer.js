@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const assert = require('assert');
 const WebpackDevServer = require('webpack-dev-server');
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 /**
  * Gets config of packing client assets into bundle
  *
@@ -38,8 +40,10 @@ function getPackConfig(opts) {
     }
 
     const entries = [];
-    const plugins = [];
     const resolveModules = [];
+    const plugins = [
+        new ForkTsCheckerWebpackPlugin()
+    ];
 
     if (opts.watch) {
         entries.push(
@@ -174,12 +178,12 @@ function pack(opts) {
     } else {
 
         compiler.run(function(err, stats) {
-            if (err || stats.hasErrors()) {
-                throw new gutil.PluginError('webpack', err);
+            if (err) {
+                gutil.log(err);
+            } else {
+                gutil.log('[webpack]', stats.toString('minimal'));
+                resolve();
             }
-            gutil.log('[webpack]', stats.toString('minimal'));
-            
-            resolve();
         });
     }
 

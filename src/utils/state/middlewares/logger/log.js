@@ -82,7 +82,7 @@ export default function(entry) {
 /**
  * Composes header string
  * @param {LogEntry} entry
- * @return {array.<string>} header + styles
+ * @return {Array.<string>} header + styles
 */
 function getHeader(entry) {
     

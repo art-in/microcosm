@@ -59,7 +59,7 @@ export default class Handler {
      * @param {object} action
      * @param {function} [dispatch]
      * @param {function} [mutate]
-     * @return {promise.<Patch>|Patch} if target handler is async promise patch,
+     * @return {Promise.<Patch>|Patch} if target handler is async promise patch,
      *                                 if target handler is sync - sync patch.
      */
     handle(state, action, dispatch, mutate) {
@@ -110,13 +110,13 @@ export default class Handler {
 
     /**
      * Combines several handlers to single one
-     * @param {array.<Handler>} handlers
+     * @param {Array.<Handler>} handlers
      * @return {Handler}
      */
-    static combine(...args) {
+    static combine(...handlers) {
 
         // flatten arrays
-        const handlers = args.reduce((res, a) => res.concat(a), []);
+        handlers = handlers.reduce((res, a) => res.concat(a), []);
 
         assert(handlers.every(g => g instanceof Handler),
             'Each argument should be instance of Handler');

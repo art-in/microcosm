@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {EventEmitter} from 'events';
 
 /**
@@ -20,12 +22,13 @@ export default class ViewModel extends EventEmitter {
     /**
      * Emits event
      * @param {string} eventType
-     * @param {*} args
+     * @param {array} args
      */
     async emit(eventType, ...args) {
         if (!this.hasListeners(eventType)) {
             console.warn(
                 `Triggering '${eventType}' event on ` +
+                // @ts-ignore
                 `'${this.constructor.displayName}' ` +
                 `view model, but no one listens to it`);
             return;
@@ -37,32 +40,38 @@ export default class ViewModel extends EventEmitter {
 
     /**
      * Adds event handler
-     * @param {*} args
+     * @param {string|symbol} eventType
+     * @param {function(any[]): void} listener
+     * @return {object}
      */
-    on(...args) {
-        this.addListener(...args);
+    on(eventType, listener) {
+        return this.addListener(eventType, listener);
     }
 
     /**
      * Adds event listener
-     * @param {string} eventType
-     * @param {*} args
+     * @param {string|symbol} eventType
+     * @param {function(any[]): void} listener
+     * @return {object}
      */
-    addListener(eventType, ...args) {
+    addListener(eventType, listener) {
         
         if (this.hasListeners(eventType)) {
             throw Error(
+                // @ts-ignore
                 `'${this.constructor.displayName}' view model ` +
                 `already has handler for '${eventType}' event`
             );
         }
 
-        super.on(eventType, ...args);
+        super.on(eventType, listener);
+
+        return this;
     }
 
     /**
      * Checks whether view model has listeners for particular event
-     * @param {string} eventType
+     * @param {string|symbol} eventType
      * @return {boolean}
      */
     hasListeners(eventType) {

@@ -1,5 +1,7 @@
 import initInstance from 'utils/init-instance';
 
+import MindmapType from 'vm/main/Mindmap';
+
 /**
  * Main view model
  * 
@@ -10,7 +12,7 @@ export default class Main {
 
     /**
      * Mindmap view model
-     * @type {Mindmap}
+     * @type {MindmapType}
      */
     mindmap = undefined;
     

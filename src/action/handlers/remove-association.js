@@ -12,10 +12,9 @@ import getAssociation from 'action/utils/get-association';
  * @param {object} state
  * @param {object} data
  * @param {string} data.assocId
- * @param {function} dispatch
  * @return {Patch}
  */
-export default function(state, data, dispatch) {
+export default function(state, data) {
     const {model: {mindmap}} = state;
     const {assocId} = required(data);
     

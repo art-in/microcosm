@@ -50,15 +50,14 @@ export default function updateObject(target, source, shouldUpdate = noop) {
         }
 
         // check types
-        let targetType = typeof targetValue;
-        let sourceType = typeof sourceValue;
 
         // hack-fix js types
-        targetType = targetValue === null ? 'null' : targetType;
-        sourceType = sourceValue === null ? 'null' : sourceType;
+        const getType = val => val === null
+            ? 'null' : Array.isArray(val)
+                ? 'array' : typeof val;
 
-        targetType = Array.isArray(targetValue) ? 'array' : targetType;
-        sourceType = Array.isArray(sourceValue) ? 'array' : sourceType;
+        const targetType = getType(targetValue);
+        const sourceType = getType(sourceValue);
 
         // allow to initialize target properties (undefined)
         // allow to change previously cleaned props (null)

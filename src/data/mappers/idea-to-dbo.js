@@ -1,10 +1,12 @@
 import deleteUndefinedProps from 'utils/delete-undefined-props';
 
+import IdeaType from 'model/entities/Idea';
+
 import pointToDbo from './point-to-dbo';
 
 /**
  * Maps idea model to dbo
- * @param {Idea|object} model - model or patch
+ * @param {IdeaType|object} model - model or patch
  * @return {object}
  */
 export default function ideaToDbo(model) {

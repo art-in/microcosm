@@ -1,4 +1,5 @@
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import Point from 'model/entities/Point';
 import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
@@ -9,7 +10,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * @param {object} state
  * @param {object} data
  * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;

@@ -1,12 +1,19 @@
 import Patch from 'utils/state/Patch';
 import diffRootPaths from 'utils/graph/diff-root-paths';
 
+import PointType from 'model/entities/Point';
+import IdeaType from 'model/entities/Idea';
+
 /**
  * Calculates diff between calculated root paths and current graph state
  * and generates patch for state to fix that diff
  * 
- * @param {object} opts
- * @param {object} opts.replaceIdeaPositions
+ * @param {object}   opts
+ * @param {IdeaType} opts.root
+ * @param {array}   [opts.replaceIdeaPositions]
+ * @param {array}   [opts.replaceEdgeWeights]
+ * @param {array}   [opts.replaceEdgesOut]
+ * @param {array}   [opts.ignoreEdges]
  * @return {Patch} patch
  */
 export default function patchRootPaths(opts) {
@@ -56,9 +63,9 @@ export default function patchRootPaths(opts) {
 
 /**
  * Gets absolute position of idea
- * @param {Idea} idea 
+ * @param {IdeaType} idea 
  * @param {array} replaceIdeaPositions 
- * @return {Point}
+ * @return {PointType}
  */
 function getIdeaPosAbs(idea, replaceIdeaPositions) {
     const replace = replaceIdeaPositions.find(r => r.idea === idea);

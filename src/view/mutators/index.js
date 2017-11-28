@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+
 import required from 'utils/required-params';
+import MutationType from 'utils/state/Mutation';
+import PatchType from 'utils/state/Patch';
 
 import Main from 'view/main/Main';
 import Provider from 'view/utils/connect/Provider';
@@ -8,7 +11,7 @@ import Provider from 'view/utils/connect/Provider';
 /**
  * Applies patch to view state
  * @param {object} state
- * @param {Patch} patch
+ * @param {PatchType} patch
  */
 export default function mutate(state, patch) {
     patch
@@ -19,7 +22,7 @@ export default function mutate(state, patch) {
 /**
  * Applies single mutation to state
  * @param {object} state
- * @param {Mutation} mutation
+ * @param {MutationType} mutation
  */
 function apply(state, mutation) {
 
@@ -85,6 +88,7 @@ function apply(state, mutation) {
  */
 function mount(state) {
     ReactDom.render(
+        // @ts-ignore
         <Provider dispatch={state.view.storeDispatch}>
             <Main vm={state.vm.main} />
         </Provider>,

@@ -1,6 +1,8 @@
+import PointType from 'model/entities/Point';
+
 /**
  * Maps point to dbo
- * @param {Point} point - model
+ * @param {PointType} point - model
  * @return {object}
  */
 export default function pointToDbo(point) {

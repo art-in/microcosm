@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 /**
  * Handles suggestion select event of association tails lookup
@@ -9,7 +10,7 @@ import view from 'vm/utils/view-patch';
  * @param {string} data.headIdeaId
  * @param {string} data.tailIdeaId
  * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;

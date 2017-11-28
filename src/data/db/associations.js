@@ -1,3 +1,5 @@
+import AssociationType from 'model/entities/Association';
+
 import toModel from 'data/mappers/dbo-to-association';
 import toDbo from 'data/mappers/association-to-dbo';
 
@@ -5,8 +7,8 @@ import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets all associations
- * @param {PouchDB} db
- * @return {promise.<array.<Association>>}
+ * @param {PouchDB.Database} db
+ * @return {Promise.<Array.<AssociationType>>}
  */
 export async function getAll(db) {
 
@@ -21,8 +23,8 @@ export async function getAll(db) {
 
 /**
  * Adds new association
- * @param {PouchDB} db
- * @param {Association} assoc
+ * @param {PouchDB.Database} db
+ * @param {Promise.<AssociationType>} assoc
  */
 export async function add(db, assoc) {
     const dbo = toDbo(assoc);
@@ -31,8 +33,8 @@ export async function add(db, assoc) {
 
 /**
  * Updates association
- * @param {PouchDB} db
- * @param {Association|object} model - model or patch
+ * @param {PouchDB.Database} db
+ * @param {AssociationType|object} model - model or patch
  */
 export async function update(db, model) {
 
@@ -54,7 +56,7 @@ export async function update(db, model) {
 
 /**
  * Removes association
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  * @param {string} assocId
  */
 export async function remove(db, assocId) {
@@ -64,7 +66,7 @@ export async function remove(db, assocId) {
 
 /**
  * Removes all association
- * @param {PouchDB} db
+ * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {
     const data = await db.allDocs();

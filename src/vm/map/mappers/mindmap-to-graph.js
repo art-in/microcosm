@@ -1,7 +1,8 @@
 import assert from 'utils/assert';
 
-import GraphVM from 'vm/map/entities/Graph';
 import Mindmap from 'model/entities/Mindmap';
+import Graph from 'vm/map/entities/Graph';
+import NodeType from 'vm/map/entities/Node';
 
 import traverseGraph from 'utils/graph/traverse-graph';
 import mapGraph from 'utils/graph/map-graph';
@@ -88,11 +89,11 @@ export default function mindmapToGraph(mindmap) {
         // some nodes may not be visited when traversing, because mapped
         // graph can have nodes unreachable from root (see docs for mapper).
         // we need to compute them too.
-        const notVisitedNodes = [...nodesToCompute.values()];
+        const notVisitedNodes = [...(nodesToCompute.values())];
         notVisitedNodes.forEach(computeNode.bind(null, mindmap, nodes));
     }
 
-    const graph = new GraphVM();
+    const graph = new Graph();
 
     graph.id = mindmap.id;
     graph.nodes = nodes;
@@ -118,8 +119,8 @@ export default function mindmapToGraph(mindmap) {
  * (eg. node color is inherited from closest node that does have color).
  * 
  * @param {Mindmap} mindmap
- * @param {array.<Node>} nodes - all mapped nodes
- * @param {Node} node          - target node to compute
+ * @param {Array.<NodeType>} nodes - all mapped nodes
+ * @param {NodeType} node          - target node to compute
  */
 function computeNode(mindmap, nodes, node) {
     
@@ -129,7 +130,7 @@ function computeNode(mindmap, nodes, node) {
     let parentNodeColor;
 
     if (!node.isRoot) {
-        
+
         if (node.edgeFromParent) {
             const parentNode = node.edgeFromParent.from;
             parentNodeColor = parentNode.color;

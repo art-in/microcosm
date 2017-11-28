@@ -95,7 +95,7 @@ function getGroupId() {
  * @return {string} groupId
  */
 function startGroup(label) {
-    assert(label);
+    assert(label, `Invalid group label '${label}'`);
 
     const groupId = getGroupId();
 
@@ -137,7 +137,7 @@ export function endGroup(groupId, labelSuffix) {
  * @return {string} measure Id
  */
 function start(label, groupId) {
-    assert(label);
+    assert(label, `Invalid measure label '${label}'`);
 
     const perfId = guid();
     performance.mark(perfId);

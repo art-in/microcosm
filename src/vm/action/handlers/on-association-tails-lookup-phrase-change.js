@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
 
@@ -10,7 +11,7 @@ import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
  * @param {object} data
  * @param {string} data.phrase
  * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;

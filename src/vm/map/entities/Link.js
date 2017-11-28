@@ -1,5 +1,6 @@
 import initInstance from 'utils/init-instance';
 
+import NodeType from 'vm/map/entities/Node';
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -17,14 +18,14 @@ export default class Link extends ViewModel {
     /**
      * Head node
      * @memberof Edge
-     * @type {Node}
+     * @type {NodeType}
      */
     from = undefined;
 
     /**
      * Tail node
      * @memberof Edge
-     * @type {Node}
+     * @type {NodeType}
      */
     to = undefined;
 

@@ -5,7 +5,7 @@ import traverseGraph from 'utils/graph/traverse-graph';
  * Descendants are all recursive childs of vertex down the tree.
  * 
  * @param {object} root vertex
- * @return {array.<object>} descendant vertices
+ * @return {Array.<object>} descendant vertices
  */
 export default function getDescendants(root) {
 

@@ -58,6 +58,15 @@
 
         "arrow-parens": [ 1, "as-needed" ],
 
+        "no-unused-vars": ["error", {
+
+            // allow unused vars with Type at the end, since they really
+            // used in jsdoc type annotations, but eslint does not support
+            // jsdoc as a valid 'use' for vars
+            // https://github.com/eslint/eslint/issues/2813
+            "varsIgnorePattern": ".+Type$"
+        }],
+
         // React
         "jsx-quotes": [ 1, "prefer-single" ],
         "react/jsx-indent": [2, 4],

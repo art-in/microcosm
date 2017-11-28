@@ -1,0 +1,53 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src/",
+
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+
+        // allow to import 'index.js' as module root
+        "moduleResolution": "node",
+
+        // allow to import default export from modules that does not have
+        // explicit default export in es2015 syntax, but instead CommonJS
+        // 'module.exports ='. this auto-resolved as default export by babel
+        // but not by typescript (eg. "import React from 'react'")
+        "allowSyntheticDefaultImports": true,
+
+        // allow object property accessors (get/set)
+        "target": "es6",
+
+        // support jsx (but do not transpile it)
+        "jsx": "preserve",
+
+        "lib": [
+
+            // support latest ecmascript features (+ previous years)
+            "es2017",
+
+            // support DOM refs (window/document, etc.)
+            "dom"
+        ],
+
+        "types": [
+
+            // allow 'require.context'
+            "webpack-env",
+
+            // allow 'process.env.NODE_ENV'
+            "node",
+
+            "pouchdb"
+        ]
+    },
+    "include": [
+        "src/**/*.js",
+        "src/**/*.jsx"
+        // TODO: include test/
+    ],
+    "exclude": [
+        "node_modules",
+        "**/bundle.js"
+    ]
+}

@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import MenuItem from 'vm/shared/MenuItem';
 
@@ -11,8 +12,8 @@ import MenuItem from 'vm/shared/MenuItem';
  * @param {Point}  data.pos - viewport position of mouse
  *                            TODO: rename to viewportPos
  * @param {string} data.ideaId - ID of target idea
- * @param {bool}   data.shaded - indicates target idea is shaded
- * @return {Patch}
+ * @param {boolean}   data.shaded - indicates target idea is shaded
+ * @return {PatchType}
  */
 export default function showContextMenuForIdea(state, data) {
     const {pos, ideaId, shaded} = required(data);

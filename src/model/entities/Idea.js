@@ -1,6 +1,12 @@
 import initInstance from 'utils/init-instance';
 import createID from 'utils/create-id';
 
+import VertexType from 'utils/graph/interfaces/Vertex';
+import EdgeType from 'utils/graph/interfaces/Edge';
+
+import AssociationType from './Association';
+import PointType from './Point';
+
 /**
  * Idea model
  *
@@ -44,7 +50,7 @@ export default class Idea {
     /**
      * Position on mindmap relative to parent idea
      * in minimum spanning tree (MST).
-     * @type {Point}
+     * @type {PointType}
      */
     posRel = undefined;
 
@@ -52,7 +58,7 @@ export default class Idea {
 
     /**
      * Absolute position on mindmap.
-     * @type {Point}
+     * @type {PointType}
      */
     posAbs = undefined;
 
@@ -61,7 +67,7 @@ export default class Idea {
      * List of outgoing associations
      * Note: available only after graph is build
      * @memberof Vertex
-     * @type {array.<Association>}
+     * @type {Array.<AssociationType>}
      */
     edgesOut = [];
 
@@ -69,7 +75,7 @@ export default class Idea {
      * List of incoming associations
      * Note: available only after graph is build
      * @memberof Vertex
-     * @type {array.<Association>}
+     * @type {Array.<AssociationType>}
      */
     edgesIn = [];
 
@@ -77,7 +83,7 @@ export default class Idea {
      * Edge from parent idea.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {Edge}
+     * @type {AssociationType}
      */
     edgeFromParent = undefined;
     
@@ -85,7 +91,7 @@ export default class Idea {
      * Edges to child ideas.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {array.<Edge>}
+     * @type {Array.<AssociationType>}
      */
     edgesToChilds = undefined;
 

@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
@@ -14,7 +15,7 @@ import LookupSuggestion from 'vm/shared/LookupSuggestion';
  * @param {object} data
  * @param {string} data.phrase 
  * @param {string} data.headIdeaId 
- * @return {Patch}
+ * @return {PatchType}
  */
 export default function searchAssociationTailsForLookup(state, data) {
     const {model: {mindmap}} = state;

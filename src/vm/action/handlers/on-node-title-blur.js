@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
 import getNode from 'vm/action/utils/get-node';
 
@@ -9,10 +10,9 @@ import getNode from 'vm/action/utils/get-node';
  * @param {object} state
  * @param {object} data
  * @param {string} data.nodeId
- * @param {function} dispatch
- * @return {Patch}
+ * @return {PatchType}
  */
-export default function(state, data, dispatch) {
+export default function(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {nodeId} = required(data);
     

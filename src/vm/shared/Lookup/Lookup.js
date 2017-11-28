@@ -2,6 +2,8 @@ import initInstance from 'utils/init-instance';
 
 import ViewModel from 'vm/utils/ViewModel';
 
+import LookupSuggestionType from 'vm/shared/LookupSuggestion';
+
 /**
  * Lookup
  */
@@ -15,7 +17,7 @@ export default class Lookup extends ViewModel {
 
     /**
      * Suggestions list
-     * @type {array.<LookupSuggestion>}
+     * @type {Array.<LookupSuggestionType>}
      */
     suggestions = [];
 
@@ -28,13 +30,13 @@ export default class Lookup extends ViewModel {
 
     /**
      * Indicates that lookup is loading suggestions
-     * @type {bool}
+     * @type {boolean}
      */
     loading = false;
 
     /**
      * Indicates that lookup input field is focused
-     * @type {bool}
+     * @type {boolean}
      */
     focused = false;
 

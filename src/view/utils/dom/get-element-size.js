@@ -1,6 +1,6 @@
 /**
  * Gets element size
- * @param {HtmlElement} el
+ * @param {Element} el
  * @return {{width: number, height: number}}}
  */
 export default function getElementSize(el) {

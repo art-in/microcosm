@@ -5,9 +5,9 @@ import required from 'utils/required-params';
  * 
  * @param {object}  state 
  * @param {object}  data 
- * @param {PouchDB} data.ideas
- * @param {PouchDB} data.associations
- * @param {PouchDB} data.mindmaps
+ * @param {PouchDB.Database} data.ideas
+ * @param {PouchDB.Database} data.associations
+ * @param {PouchDB.Database} data.mindmaps
  */
 export default function init(state, data) {
     const {model} = state;

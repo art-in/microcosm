@@ -1,13 +1,15 @@
-import Point from 'model/entities/Point';
 import traverseGraph from 'utils/graph/traverse-graph';
 import isValidPosition from 'model/utils/is-valid-position';
+
+import IdeaType from 'model/entities/Idea';
+import Point from 'model/entities/Point';
 
 /**
  * Calculates absolute positions for ideas due to their relative positions
  * to their parents in minimum spanning tree (MST)
  * 
- * @param {object} opts 
- * @param {Idea}   opts.root
+ * @param {object}   opts 
+ * @param {IdeaType} opts.root
  */
 export default function setIdeasAbsolutePositions(opts) {
     traverseGraph({

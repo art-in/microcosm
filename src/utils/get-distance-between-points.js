@@ -1,8 +1,10 @@
+import PointType from 'model/entities/Point';
+
 /**
  * Calculates distance between two points
  * 
- * @param {Point} point1
- * @param {Point} point2
+ * @param {PointType} point1
+ * @param {PointType} point2
  * @return {number}
  */
 export default function getDistanceBetweenPoints(point1, point2) {

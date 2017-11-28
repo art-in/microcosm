@@ -1,10 +1,12 @@
 import deleteUndefinedProps from 'utils/delete-undefined-props';
 
+import MindmapType from 'model/entities/Mindmap';
+
 import pointToDbo from './point-to-dbo';
 
 /**
  * Maps mindmap model to dbo
- * @param {Mindmap|object} model - model or patch
+ * @param {MindmapType|object} model - model or patch
  * @return {object}
  */
 export default function mindmapToDbo(model) {
