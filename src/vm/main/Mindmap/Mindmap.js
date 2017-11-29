@@ -13,7 +13,7 @@ export default class Mindmap extends ViewModel {
 
     /**
      * Graph model
-     * @type {GraphType}
+     * @type {GraphType|undefined}
      */
     graph = undefined;
 

@@ -13,11 +13,13 @@ export default class ContextMenu extends ViewModel {
 
     /**
      * Popup container
+     * @type {Popup|undefined}
      */
     popup = undefined;
 
     /**
      * Menu
+     * @type {Menu|undefined}
      */
     menu = undefined;
 

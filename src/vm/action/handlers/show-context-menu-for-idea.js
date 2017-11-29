@@ -13,7 +13,7 @@ import MenuItem from 'vm/shared/MenuItem';
  *                            TODO: rename to viewportPos
  * @param {string} data.ideaId - ID of target idea
  * @param {boolean}   data.shaded - indicates target idea is shaded
- * @return {PatchType}
+ * @return {PatchType|undefined}
  */
 export default function showContextMenuForIdea(state, data) {
     const {pos, ideaId, shaded} = required(data);

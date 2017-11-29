@@ -18,11 +18,13 @@ import {nodeDownscaleRate} from './get-node-scale-for-weight';
  * scale closest to 1. But algorithmical approach will always be faster
  * (harder to read though).
  * 
- * @param {number} viewboxScale
+ * @param {number|undefined} viewboxScale
  * @return {number} RPW
 */
 export default function getGraphFocusWeightForScale(viewboxScale) {
-    if (!Number.isFinite(viewboxScale) || viewboxScale <= 0) {
+    
+    if (viewboxScale === undefined || !Number.isFinite(viewboxScale) ||
+        viewboxScale <= 0) {
         throw Error(`Invalid viewbox scale '${viewboxScale}'`);
     }
 

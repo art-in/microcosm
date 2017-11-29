@@ -10,7 +10,7 @@ import getNode from 'vm/action/utils/get-node';
  * @param {object} state
  * @param {object} data
  * @param {string} data.nodeId
- * @return {PatchType}
+ * @return {PatchType|undefined}
  */
 export default function(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;

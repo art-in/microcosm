@@ -19,11 +19,6 @@ export default function buildGraphFromMatrix(opts) {
     const {matrix: m, VertexConstructor, EdgeConstructor} = required(opts);
 
     // validate input
-    if (!Array.isArray(m) ||
-        !m.every(l => typeof l === 'string')) {
-        throw Error('Invalid matrix. Expecting array of strings');
-    }
-
     const vertexCount = m.length;
 
     if (vertexCount > charCount) {

@@ -1,6 +1,7 @@
 import assert from 'utils/assert';
 
 import Mindmap from 'model/entities/Mindmap';
+import IdeaType from 'model/entities/Idea';
 import Graph from 'vm/map/entities/Graph';
 import NodeType from 'vm/map/entities/Node';
 
@@ -124,6 +125,8 @@ export default function mindmapToGraph(mindmap) {
  */
 function computeNode(mindmap, nodes, node) {
     
+    /** @type {IdeaType} */
+    // @ts-ignore
     const idea = mindmap.ideas.get(node.id);
 
     // get required info from parent

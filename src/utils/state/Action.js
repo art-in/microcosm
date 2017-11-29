@@ -7,18 +7,19 @@ export default class Action {
 
     /**
      * Type of mutation
-     * @type {string}
+     * @type {string|undefined}
      */
     type = undefined;
 
     /**
      * Payload data
+     * @type {object|undefined}
      */
     data = undefined;
 
     /**
      * Indicates whether logger should throttle actions of this type
-     * @type {boolean|number} true for default delay or custom delay
+     * @type {boolean|number|undefined} true for default delay or custom delay
      */
     throttleLog = undefined;
 

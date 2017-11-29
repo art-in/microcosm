@@ -12,7 +12,7 @@ export default class Main {
 
     /**
      * Mindmap view model
-     * @type {MindmapType}
+     * @type {MindmapType|undefined}
      */
     mindmap = undefined;
     

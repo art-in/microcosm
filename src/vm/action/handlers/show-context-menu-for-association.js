@@ -14,7 +14,7 @@ import MenuItem from 'vm/shared/MenuItem';
  *                            TODO: rename to viewportPos
  * @param {string} data.associationId - ID of target association
  * @param {boolean}   data.shaded - indicates target association is shaded
- * @return {PatchType}
+ * @return {PatchType|undefined}
  */
 export default function showContextMenuForAssociation(state, data) {
     const {model: {mindmap}} = state;

@@ -12,11 +12,11 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
  * Use when only config required without run,
  * eg. when webpack run by other tool, eg. by karma
  *
- * @param {object} opts
- * @param {string|array} root - module resolve root path
+ * @param {object}  opts
+ * @param {string|array} opts.root - module resolve root path
  * @param {object}  opts.output
- * @param {string} opts.output.path - output bundle path
- * @param {string} opts.output.name - output bundle name
+ * @param {string}  opts.output.path - output bundle path
+ * @param {string}  opts.output.name - output bundle name
  * @param {boolean} opts.isProduction - indicates production environment
  * @param {boolean} [opts.watch=false] - rebuild on changes
  * @param {string}  [opts.entry] - entry module path
@@ -89,7 +89,7 @@ function getPackConfig(opts) {
             filename: opts.output.name,
             publicPath: '/build/'
         },
-        plugins: [].concat(plugins),
+        plugins,
         module: {
             rules: [{
                 test: /\.(js|jsx)$/,

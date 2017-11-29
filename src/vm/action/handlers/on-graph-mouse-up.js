@@ -10,7 +10,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * @param {object} state
  * @param {object} data
  * @param {function} dispatch
- * @return {PatchType}
+ * @return {PatchType|undefined}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;

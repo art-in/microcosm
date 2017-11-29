@@ -88,11 +88,12 @@ describe('Handler', () => {
             });
     
             const state = null;
-            const dispatch = null;
+            const dispatch = () => {};
     
             const mutate = spy();
             
             // target
+            
             const resPatch = handler.handle(
                 state,
                 {type: 'action'},
@@ -116,6 +117,7 @@ describe('Handler', () => {
     
             // combine mutations to single patch,
             // since it easier to test mutations from single patch
+            // @ts-ignore
             const patch = combinePatches(mutate, resPatch);
     
             // check mutations count
@@ -330,7 +332,7 @@ describe('Handler', () => {
             handler2.reg('action 2', handlerFunc2);
 
             // target
-            const result = Handler.combine([handler1, handler2]);
+            const result = Handler.combine(handler1, handler2);
 
             // check
             result.handle(null, {type: 'action 2'});

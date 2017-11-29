@@ -20,13 +20,13 @@ export default class Mindmap {
 
     /**
      * Position of viewbox on the canvas
-     * @type {PointType}
+     * @type {PointType|undefined}
      */
     pos = undefined;
     
     /**
      * Scale of viewbox on the canvas
-     * @type {number}
+     * @type {number|undefined}
      */
     scale = undefined;
 
@@ -47,7 +47,7 @@ export default class Mindmap {
     /**
      * Root of ideas graph
      * Note: available only after graph is build
-     * @type {IdeaType}
+     * @type {IdeaType|undefined}
      */
     root = undefined;
 

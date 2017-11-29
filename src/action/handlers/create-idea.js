@@ -45,6 +45,7 @@ export default function createIdea(state, data) {
         from: parent,
         toId: idea.id,
         to: idea,
+        // @ts-ignore
         weight: weighAssociation(parent.posAbs, idea.posAbs)
     });
 
@@ -61,7 +62,8 @@ export default function createIdea(state, data) {
     idea.edgesToChilds = [];
 
     // ensure parent idea RPW is valid
-    if (!Number.isFinite(parent.rootPathWeight)) {
+    if (parent.rootPathWeight === undefined ||
+        !Number.isFinite(parent.rootPathWeight)) {
         throw Error(
             `Idea '${parent.id}' has invalid root path weight ` +
             `'${parent.rootPathWeight}'`);

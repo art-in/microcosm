@@ -18,31 +18,33 @@ export default class Link extends ViewModel {
     /**
      * Head node
      * @memberof Edge
-     * @type {NodeType}
+     * @type {NodeType|undefined}
      */
     from = undefined;
 
     /**
      * Tail node
      * @memberof Edge
-     * @type {NodeType}
+     * @type {NodeType|undefined}
      */
     to = undefined;
 
     /**
      * Measure of closeness of head and tail nodes
      * @memberof Edge
-     * @type {number}
+     * @type {number|undefined}
      */
     weight = undefined;
 
     /**
      * ID of link
+     * @type {string|undefined}
      */
     id = undefined;
     
     /**
      * Link title state
+     * @type {object}
      */
     title = {
         value: '',
@@ -56,18 +58,21 @@ export default class Link extends ViewModel {
     /**
      * Indicates that link has less importance
      * (ie. grayed out)
+     * @type {boolean}
      */
     shaded = false;
 
     /**
      * Indicates that link should be highlighted
      * (eg. when mouse hovering over)
+     * @type {boolean}
      */
     highlighted = false;
 
     /**
      * Additional popped-up link info
      * (eg. shows head/tail nodes when mouse hovering over)
+     * @type {object}
      */
     tooltip = {
         visible: false,

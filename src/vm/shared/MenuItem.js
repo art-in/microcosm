@@ -7,11 +7,13 @@ export default class MenuItem {
 
     /**
      * Menu item ID
+     * @type {string}
      */
-    id = Math.random();
+    id = Math.random().toString();
 
     /**
      * Display value
+     * @type {string|undefined}
      */
     displayValue = undefined;
 
@@ -23,7 +25,7 @@ export default class MenuItem {
 
     /**
      * Gets action after item selected
-     * @type {function}
+     * @type {function|undefined}
      */
     onSelectAction = undefined;
 

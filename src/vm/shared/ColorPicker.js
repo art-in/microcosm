@@ -9,12 +9,13 @@ export default class ColorPicker extends ViewModel {
 
     /**
      * Is picker shown?
+     * @type {boolean}
      */
     active = false;
 
     /**
      * Gets action after color selected
-     * @type {function}
+     * @type {function|undefined}
      */
     onSelectAction = undefined;
 

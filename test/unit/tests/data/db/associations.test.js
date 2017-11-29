@@ -117,8 +117,8 @@ describe('associations', () => {
             // setup
             const db = createDB();
 
-            db.get = spy(db.get);
-            db.put = spy(db.put);
+            const get = spy(db.get);
+            const put = spy(db.put);
 
             db.post({_id: 'i'});
 
@@ -130,8 +130,8 @@ describe('associations', () => {
             await assocDB.update(db, assoc);
 
             // check
-            expect(db.get.called).to.be.false;
-            expect(db.put.called).to.be.false;
+            expect(get.called).to.be.false;
+            expect(put.called).to.be.false;
         });
 
         it('should fail if item does not exist', async () => {

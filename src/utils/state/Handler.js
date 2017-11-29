@@ -28,6 +28,7 @@ import Patch from './Patch';
  */
 export default class Handler {
 
+    /** @type {Array.<{type, handler}>} */
     _handlers = [];
 
     /**
@@ -59,8 +60,8 @@ export default class Handler {
      * @param {object} action
      * @param {function} [dispatch]
      * @param {function} [mutate]
-     * @return {Promise.<Patch>|Patch} if target handler is async promise patch,
-     *                                 if target handler is sync - sync patch.
+     * @return {Promise<Patch>|Patch} if handler is async - promise patch,
+     *                 if handler is sync - sync patch.
      */
     handle(state, action, dispatch, mutate) {
         const {type} = required(action);
@@ -116,6 +117,7 @@ export default class Handler {
     static combine(...handlers) {
 
         // flatten arrays
+        // @ts-ignore
         handlers = handlers.reduce((res, a) => res.concat(a), []);
 
         assert(handlers.every(g => g instanceof Handler),

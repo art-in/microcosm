@@ -24,7 +24,7 @@ export async function getAll(db) {
 /**
  * Adds new association
  * @param {PouchDB.Database} db
- * @param {Promise.<AssociationType>} assoc
+ * @param {AssociationType} assoc
  */
 export async function add(db, assoc) {
     const dbo = toDbo(assoc);

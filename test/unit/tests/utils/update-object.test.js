@@ -142,10 +142,10 @@ describe('update-object', () => {
         
         
         class A {
-            prop = undefined
+            prop
         }
         class B {
-            prop = undefined
+            prop
         }
 
         const a = new A(); a.prop = 1;
@@ -164,7 +164,7 @@ describe('update-object', () => {
     it('should NOT fail if source nested object is generic object', () => {
         
         class A {
-            prop = undefined
+            prop
         }
 
         const a = new A(); a.prop = 1;
@@ -181,7 +181,7 @@ describe('update-object', () => {
     it('should fail if array objects are from different constructor', () => {
         
         class A {
-            prop = undefined
+            prop
         }
 
         const a = new A(); a.prop = 1;
@@ -217,7 +217,7 @@ describe('update-object', () => {
     it('should NOT fail to update class instance with circular refs', () => {
         
         class A {
-            nested = undefined
+            nested
         }
 
         const circular1 = new A();

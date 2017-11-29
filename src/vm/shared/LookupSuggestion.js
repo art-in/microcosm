@@ -13,7 +13,7 @@ export default class LookupSuggestion {
 
     /**
      * Display name
-     * @type {string}
+     * @type {string|undefined}
      */
     displayName = undefined;
 

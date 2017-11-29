@@ -1,5 +1,7 @@
 import calcRootPaths from 'utils/graph/calc-root-paths';
-import VertexType from 'utils/graph/interfaces/Vertex';
+
+import IdeaType from 'model/entities/Idea';
+import NodeType from 'vm/map/entities/Node';
 
 /**
  * Calculates minimal root paths (MRP) and diffs result with current graph state
@@ -18,11 +20,11 @@ import VertexType from 'utils/graph/interfaces/Vertex';
  *    so currently diff-ing after full calc.
  * 
  * @param {object} opts
- * @param {VertexType} opts.root
- * @param {array} [opts.replaceIdeaPositions]
- * @param {array} [opts.replaceEdgeWeights]
- * @param {array} [opts.replaceEdgesOut]
- * @param {array} [opts.ignoreEdges]
+ * @param {IdeaType|NodeType} opts.root
+ * @param {array}   [opts.replaceIdeaPositions]
+ * @param {array}   [opts.replaceEdgeWeights]
+ * @param {array}   [opts.replaceEdgesOut]
+ * @param {array}   [opts.ignoreEdges]
  * @return {array} MRP data for vertices
 */
 export default function diffRootPaths(opts) {

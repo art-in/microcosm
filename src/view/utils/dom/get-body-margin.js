@@ -9,25 +9,30 @@ document.addEventListener('DOMContentLoaded', function() {
  * @property {number} top
  */
 
+let cache = null;
+
 /**
  * Gets body margin
  * @return {MarginDef}
  */
 export default function getBodyMargin() {
-    // @ts-ignore
-    if (getBodyMargin.cache) {
-        // @ts-ignore
-        return getBodyMargin.cache;
+
+    if (cache) {
+        return cache;
     }
 
-    const bodyStyle = window.getComputedStyle(document.body, null);
+    const {marginLeft, marginTop} =
+        window.getComputedStyle(document.body);
 
-    // @ts-ignore
-    getBodyMargin.cache = {
-        left: parseInt(bodyStyle.marginLeft, 10),
-        top: parseInt(bodyStyle.marginTop, 10)
+    if (marginLeft === null ||
+        marginTop === null) {
+        throw Error(`Invalid body margins '${marginLeft}, ${marginTop}'`);
+    }
+
+    cache = {
+        left: parseInt(marginLeft, 10),
+        top: parseInt(marginTop, 10)
     };
 
-    // @ts-ignore
-    return getBodyMargin.cache;
+    return cache;
 }

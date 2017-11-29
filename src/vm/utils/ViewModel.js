@@ -14,6 +14,7 @@ export default class ViewModel extends EventEmitter {
 
     /**
      * Gets class display name
+     * @type {string}
      */
     static get displayName() {
         return this.name;

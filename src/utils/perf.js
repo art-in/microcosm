@@ -100,6 +100,7 @@ function startGroup(label) {
     const groupId = getGroupId();
 
     const group = {
+        /** @type {string|undefined} */
         perfId: undefined,
         measureLabels: []
     };

@@ -43,20 +43,6 @@ export default function animate(opts) {
     // 2. requestAnimationFrame not called in headless test environment
     scheduleAnimationStep = scheduleAnimationStep || requestAnimationFrame;
 
-    // check params
-    if (!Array.isArray(values) || values.some(
-        val => val == null || typeof val !== 'object' ||
-            isNaN(val.from) || isNaN(val.to))) {
-        
-        return Promise.reject(Error(
-            `Invalid values received. Expecting array of {from, to} objects`));
-    }
-
-    if (isNaN(duration)) {
-        return Promise.reject(Error(
-            `Invalid duration value '${duration}'`));
-    }
-
     const {promise, resolve, reject} = pms();
 
     // animate

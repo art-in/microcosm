@@ -4,8 +4,10 @@
  */
 export default class PriorityQueue {
     
+    /** @type {Array.<{item, priority}>} */
     _entries = [];
 
+    /** @type {Set} */
     _items = new Set();
 
     /**

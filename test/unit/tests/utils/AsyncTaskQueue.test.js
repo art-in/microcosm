@@ -182,9 +182,11 @@ describe('AsyncTaskQueue', () => {
             // setup
             const queue = new AsyncTaskQueue();
             
-            // eslint-disable-next-line no-undef
-            const task1 = () => NOT_DEFINED_ERROR;
-            const task2 = () => {};
+            /* eslint-disable no-undef */
+            // @ts-ignore
+            const task1 = async () => NOT_DEFINED_ERROR;
+            const task2 = async () => {};
+            /* eslint-enable */
 
             // target
             const promise1 = queue.enqueue(task1);
@@ -208,9 +210,12 @@ describe('AsyncTaskQueue', () => {
             // setup
             const queue = new AsyncTaskQueue();
 
-            // eslint-disable-next-line no-undef
+
+            /* eslint-disable no-undef */
+            // @ts-ignore
             const task1 = async () => NOT_DEFINED_ERROR;
             const task2 = async () => {};
+            /* eslint-enable */
 
             // target
             const promise1 = queue.enqueue(task1);

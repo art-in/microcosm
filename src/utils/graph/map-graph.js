@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import WeightZone from 'utils/graph/WeightZone';
-import VertexType from 'utils/graph/interfaces/Vertex';
+
+import IdeaType from 'model/entities/Idea';
+import NodeType from 'vm/map/entities/Node';
 
 /**
  * Generic function for mapping graph of entities of one type
@@ -42,7 +44,7 @@ import VertexType from 'utils/graph/interfaces/Vertex';
  * in focus zone (F-B edge on the scheme)
  * 
  * @param {object}   opts
- * @param {VertexType}   opts.vertex
+ * @param {IdeaType|NodeType} opts.vertex
  * @param {function} opts.mapVertex
  * @param {function} opts.mapEdge
  * @param {number}   [opts.focusZoneMax=infinity] - focus weight zone max
@@ -202,7 +204,7 @@ function mapGraphInternal(opts, internalOpts) {
 
 /**
  * Gets weight zone for vertex
- * @param {VertexType} vertex
+ * @param {IdeaType|NodeType} vertex
  * @param {number} focusZoneMax
  * @param {number} shadeZoneAmount
  * @return {number} weight zone
@@ -212,7 +214,8 @@ function getWeightZoneForVertex(vertex, focusZoneMax, shadeZoneAmount) {
     const {rootPathWeight} = vertex;
 
     // ensure root path weight set
-    if (!Number.isFinite(rootPathWeight) || rootPathWeight < 0) {
+    if (rootPathWeight === undefined || !Number.isFinite(rootPathWeight) ||
+        rootPathWeight < 0) {
         throw Error(`Invalid root path weight '${rootPathWeight}'`);
     }
 

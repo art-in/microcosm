@@ -22,9 +22,9 @@ export default function getNextHighlightedSuggestionId(opts) {
     const currentSuggestion = id && lookup.suggestions.find(s => s.id === id);
 
     if (!currentSuggestion) {
-        if (forward) {
-            return lookup.suggestions[0].id;
-        }
+        // select first
+        return lookup.suggestions[0].id;
+        
     } else {
         const suggestionIdx = lookup.suggestions.indexOf(currentSuggestion);
 

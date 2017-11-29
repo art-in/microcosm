@@ -1,17 +1,33 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src/",
+        
+        "baseUrl": ".",
+            "paths": {
+                "*": [
+                    // module paths relative to root are allowed when building
+                    // tests only, but let ts allow that for all files to keep
+                    // config simpler (otherwise dynamicly change base url by
+                    // passing it from gulp tasks to packer and type plugin)
+                    "*",
+                    "src/*"
+                ]
+        },
 
         "allowJs": true,
         "checkJs": true,
         "noEmit": true,
 
+        // allow only explicit null/undefined type definitions.
+        // TODO: enable when ts bug fixed ("Object is possibly 'undefined'")
+	    // https://github.com/Microsoft/TypeScript/issues/13369
+        // "strictNullChecks": true,
+
         // allow to import 'index.js' as module root
         "moduleResolution": "node",
 
-        // allow to import default export from modules that does not have
+        // allow to import default export from modules that do not have
         // explicit default export in es2015 syntax, but instead CommonJS
-        // 'module.exports ='. this auto-resolved as default export by babel
+        // 'module.exports ='. this is auto-resolved as default export by babel
         // but not by typescript (eg. "import React from 'react'")
         "allowSyntheticDefaultImports": true,
 
@@ -23,7 +39,7 @@
 
         "lib": [
 
-            // support latest ecmascript features (+ previous years)
+            // support latest ecmascript features (+ previous years too)
             "es2017",
 
             // support DOM refs (window/document, etc.)
@@ -38,14 +54,13 @@
             // allow 'process.env.NODE_ENV'
             "node",
 
-            "pouchdb"
+            "pouchdb",
+
+            // support test environment
+            "mocha",
+            "sinon"
         ]
     },
-    "include": [
-        "src/**/*.js",
-        "src/**/*.jsx"
-        // TODO: include test/
-    ],
     "exclude": [
         "node_modules",
         "**/bundle.js"

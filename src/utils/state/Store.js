@@ -69,6 +69,7 @@ export default class Store {
 
     /**
      * List of middlewares
+     * @type {Array.<function>}
      */
     _middlewares = [];
 

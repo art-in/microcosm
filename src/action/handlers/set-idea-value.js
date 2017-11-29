@@ -10,7 +10,7 @@ import getIdea from 'action/utils/get-idea';
  * @param {object} data
  * @param {string} data.ideaId
  * @param {string} data.value
- * @return {Patch}
+ * @return {Patch|undefined}
  */
 export default function setIdeaValue(state, data) {
     const {model: {mindmap}} = state;

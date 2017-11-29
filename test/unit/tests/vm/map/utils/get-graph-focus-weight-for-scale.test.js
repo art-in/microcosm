@@ -35,6 +35,10 @@ describe('get-graph-focus-weight-for-scale', () => {
             // of focus zone (focused node)
             const node = nodes.find(n => Math.abs(n.weight - focusWeight) < 1);
 
+            if (node === undefined) {
+                throw Error('Node with appropritate RPW was not found');
+            }
+
             // calculate resulting scale of focused node
             const resultingScale = node.scale * viewportScale;
 

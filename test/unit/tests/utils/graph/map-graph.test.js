@@ -176,12 +176,12 @@ describe('map-graph', () => {
         expect(vertexF.edgesToChilds).to.have.length(0);
 
         // check weights
-        expect(vertexA.debugInfo.rootPathWeight).to.equal(0);
-        expect(vertexB.debugInfo.rootPathWeight).to.equal(0.625);
-        expect(vertexC.debugInfo.rootPathWeight).to.equal(0.75);
-        expect(vertexD.debugInfo.rootPathWeight).to.equal(0.5);
-        expect(vertexE.debugInfo.rootPathWeight).to.equal(1.75);
-        expect(vertexF.debugInfo.rootPathWeight).to.equal(1.75);
+        expect(vertexA.rootPathWeight).to.equal(0);
+        expect(vertexB.rootPathWeight).to.equal(0.625);
+        expect(vertexC.rootPathWeight).to.equal(0.75);
+        expect(vertexD.rootPathWeight).to.equal(0.5);
+        expect(vertexE.rootPathWeight).to.equal(1.75);
+        expect(vertexF.rootPathWeight).to.equal(1.75);
     });
 
     it('should support graphs with cycles', () => {
@@ -267,10 +267,10 @@ describe('map-graph', () => {
         expect(vertexD.edgesToChilds).to.have.length(0);
 
         // check weights
-        expect(vertexA.debugInfo.rootPathWeight).to.equal(0);
-        expect(vertexB.debugInfo.rootPathWeight).to.equal(1);
-        expect(vertexC.debugInfo.rootPathWeight).to.equal(2);
-        expect(vertexD.debugInfo.rootPathWeight).to.equal(3);
+        expect(vertexA.rootPathWeight).to.equal(0);
+        expect(vertexB.rootPathWeight).to.equal(1);
+        expect(vertexC.rootPathWeight).to.equal(2);
+        expect(vertexD.rootPathWeight).to.equal(3);
     });
 
     it('should map edges from focus to shade zone', () => {

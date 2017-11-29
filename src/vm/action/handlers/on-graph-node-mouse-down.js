@@ -11,7 +11,7 @@ import getDescendants from 'utils/graph/get-descendants';
  * @param {object} data
  * @param {Node}   data.node
  * @param {string} data.button
- * @return {PatchType}
+ * @return {PatchType|undefined}
  */
 export default function(state, data) {
     const {node, button} = required(data);

@@ -31,7 +31,7 @@ describe('mutators', () => {
             const {root} = state.view;
 
             expect(root).to.exist;
-            expect(root).to.be.instanceOf(window.HTMLElement);
+            expect(root).to.be.instanceOf(HTMLElement);
         });
 
     });

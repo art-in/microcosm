@@ -16,23 +16,19 @@ export default class Node extends ViewModel {
      * Debug state
      * TODO: move flag inside debugInfo object to have
      *       single 'debug' prop
+     * @type {boolean}
      */
     debug = false;
 
     /**
      * Info for debug purposes only (eg. render on debug pane)
+     * @type {{posRel}}
      */ 
     debugInfo = {
 
         /**
-         * Weight of minimal path from root (RPW).
-         * @type {number}
-         */
-        rootPathWeight: undefined,
-
-        /**
          * Position relative to parent idea
-         * @type {PointType}
+         * @type {PointType|undefined}
          */
         posRel: undefined
 
@@ -40,17 +36,19 @@ export default class Node extends ViewModel {
 
     /**
      * Node ID
+     * @type {string|undefined}
      */
     id = undefined;
     
     /**
      * Absolute position of node on canvas.
-     * @type {PointType}
+     * @type {PointType|undefined}
      */
     posAbs = undefined;
 
     /**
      * Node radius
+     * @type {number}
      */
     radius = 0;
 
@@ -59,12 +57,13 @@ export default class Node extends ViewModel {
      * How much times size of node should be smaller
      * or bigger than its normal size (ie. radius)
      * Scale 1 - is normal size
-     * @type {number}
+     * @type {number|undefined}
      */
     scale = undefined;
 
     /**
      * Node title state
+     * @type {object}
      */
     title = {
         value: '',
@@ -81,21 +80,21 @@ export default class Node extends ViewModel {
 
     /**
      * Node color
-     * @type {string}
+     * @type {string|undefined}
      */
     color = undefined;
 
     /**
      * Incoming links
      * @memberof Vertex
-     * @type {Array.<LinkType>}
+     * @type {Array.<LinkType>|undefined}
      */
     edgesIn = undefined;
 
     /**
      * Outgoing links
      * @memberof Vertex
-     * @type {Array.<LinkType>}
+     * @type {Array.<LinkType>|undefined}
      */
     edgesOut = undefined;
     
@@ -103,7 +102,7 @@ export default class Node extends ViewModel {
      * Link to parent idea.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {LinkType}
+     * @type {LinkType|undefined}
      */
     edgeFromParent = undefined;
 
@@ -111,13 +110,22 @@ export default class Node extends ViewModel {
      * Links to child ideas.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {Array.<LinkType>}
+     * @type {Array.<LinkType>|undefined}
      */
     edgesToChilds = undefined;
 
     /**
+     * Weight of minimal path from root (RPW).
+     * Note: available only after graph is weighted
+     * @memberof Vertex
+     * @type {number|undefined}
+     */
+    rootPathWeight = undefined;
+
+    /**
      * Indicates that node has less importance
      * (ie. grayed out)
+     * @type {boolean}
      */
     shaded = false;
     

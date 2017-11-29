@@ -26,9 +26,15 @@ import Mutation from './Mutation';
  *  {type: 'a', data: 1},
  *  {type: 'b', data: 2}
  * ])
+ * 
+ * @extends {Array}
  */
 export default class Patch {
 
+    /**
+     * Mutations
+     * @type {Array.<Mutation>}
+     */
     mutations = [];
 
     /**
@@ -121,12 +127,13 @@ export default class Patch {
 
     /**
      * Combines mutations from several patches to single patch
-     * @param {Array.<Patch>} patches
+     * @param {Array.<Patch|Array.<Patch>>} patches
      * @return {Patch}
      */
     static combine(...patches) {
         
         // flatten arrays
+        // @ts-ignore
         patches = patches.reduce((res, a) => res.concat(a), []);
 
         patches = patches.filter(p => p !== undefined);

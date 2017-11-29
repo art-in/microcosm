@@ -49,6 +49,8 @@ describe('required-params', () => {
         }
 
         // target
+
+        // @ts-ignore
         const result = () => test({
             reqParam1: '1'
         });
@@ -75,6 +77,8 @@ describe('required-params', () => {
         }
 
         // target
+
+        // @ts-ignore
         const result = () => test();
 
         // check

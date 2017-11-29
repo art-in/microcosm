@@ -22,6 +22,13 @@ describe('connect', () => {
         const vm = new VM();
 
         // setup view
+
+        /**
+         * @typedef {object} Props
+         * @prop {VM} myVM
+         * 
+         * @extends {Component<Props, *>}
+         */
         class View extends Component {
             static propTypes = {
                 myVM: PropTypes.instanceOf(VM).isRequired
@@ -64,6 +71,13 @@ describe('connect', () => {
         const vm = new VM();
 
         // setup view
+        
+        /**
+         * @typedef {object} Props
+         * @prop {function} onClick
+         * 
+         * @extends {Component<Props, *>}
+         */
         class View extends Component {
             static propTypes = {
                 onClick: PropTypes.func.isRequired

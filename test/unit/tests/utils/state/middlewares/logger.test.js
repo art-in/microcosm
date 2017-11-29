@@ -12,22 +12,31 @@ const S = '%c';
 
 describe('logger', () => {
 
+    /** @type {sinon.SinonStub} */
+    let groupCollapsed;
+
+    /** @type {sinon.SinonStub} */
+    let log;
+
+    /** @type {sinon.SinonStub} */
+    let groupEnd;
+
     before(() => {
-        stub(console, 'groupCollapsed');
-        stub(console, 'log');
-        stub(console, 'groupEnd');
+        groupCollapsed = stub(console, 'groupCollapsed');
+        log = stub(console, 'log');
+        groupEnd = stub(console, 'groupEnd');
     });
 
     after(() => {
-        console.groupCollapsed.restore();
-        console.log.restore();
-        console.groupEnd.restore();
+        groupCollapsed.restore();
+        log.restore();
+        groupEnd.restore();
     });
 
     afterEach(() => {
-        console.groupCollapsed.reset();
-        console.log.reset();
-        console.groupEnd.reset();
+        groupCollapsed.reset();
+        log.reset();
+        groupEnd.reset();
     });
 
     describe('successful action', () => {
@@ -55,47 +64,47 @@ describe('logger', () => {
         });
 
         it('should make collapsed group', () => {
-            expect(console.groupCollapsed.callCount).to.equal(1);
-            expect(console.log.callCount).to.equal(4);
-            expect(console.groupEnd.callCount).to.equal(1);
+            expect(groupCollapsed.callCount).to.equal(1);
+            expect(log.callCount).to.equal(4);
+            expect(groupEnd.callCount).to.equal(1);
         });
     
         it('should log action type', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
         
         it('should log duration', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S}\\(\\d ms\\)`));
         });
         
         it('should log prev state', () => {
-            expect(console.log.getCall(0).args[0]).to.match(
+            expect(log.getCall(0).args[0]).to.match(
                 RegExp(`${S}prev state`));
             
-            expect(console.log.getCall(0).args[2]).to.deep.equal({
+            expect(log.getCall(0).args[2]).to.deep.equal({
                 model: 'prev model',
                 vm: 'prev vm'
             });
         });
     
         it('should log action (with handler duration)', () => {
-            expect(console.log.getCall(1).args[0]).to.match(
+            expect(log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[3]).to.containSubset({
+            expect(log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
         });
 
         it('should log patch (with mutation duration)', () => {
-            expect(console.log.getCall(2).args[0]).to.match(
+            expect(log.getCall(2).args[0]).to.match(
                 RegExp(`${S}patch ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(2).args[3]).to.containSubset({
+            expect(log.getCall(2).args[3]).to.containSubset({
                 mutations: [{
                     type: 'my-mutation',
                     data: 'M'
@@ -104,10 +113,10 @@ describe('logger', () => {
         });
     
         it('should log next state', () => {
-            expect(console.log.getCall(3).args[0]).to.match(
+            expect(log.getCall(3).args[0]).to.match(
                 RegExp(`${S}next state`));
     
-            expect(console.log.getCall(3).args[2]).to.deep.equal({
+            expect(log.getCall(3).args[2]).to.deep.equal({
                 model: 'next model',
                 vm: 'next vm'
             });
@@ -136,53 +145,53 @@ describe('logger', () => {
         });
 
         it('should make collapsed group', () => {
-            expect(console.groupCollapsed.callCount).to.equal(1);
-            expect(console.log.callCount).to.equal(2);
-            expect(console.groupEnd.callCount).to.equal(1);
+            expect(groupCollapsed.callCount).to.equal(1);
+            expect(log.callCount).to.equal(2);
+            expect(groupEnd.callCount).to.equal(1);
         });
     
         it('should log action type', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
         
         it('should log duration', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S}\\(\\d ms\\)`));
         });
 
         it('should log fail source', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S} \\[failed in handler\\]`));
         });
 
         it('should log prev state', () => {
-            expect(console.log.getCall(0).args[0]).to.match(
+            expect(log.getCall(0).args[0]).to.match(
                 RegExp(`${S}prev state`));
             
-            expect(console.log.getCall(0).args[2]).to.deep.equal({
+            expect(log.getCall(0).args[2]).to.deep.equal({
                 model: 'prev model',
                 vm: 'prev vm'
             });
         });
     
         it('should log action (with handler duration)', () => {
-            expect(console.log.getCall(1).args[0]).to.match(
+            expect(log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[3]).to.containSubset({
+            expect(log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
         });
     
         it('should NOT log patch', () => {
-            expect(console.log.getCall(2)).to.not.exist;
+            expect(log.getCall(2)).to.not.exist;
         });
     
         it('should NOT log next state', () => {
-            expect(console.log.getCall(3)).to.not.exist;
+            expect(log.getCall(3)).to.not.exist;
         });
     });
 
@@ -210,52 +219,52 @@ describe('logger', () => {
         });
 
         it('should make collapsed group', () => {
-            expect(console.groupCollapsed.callCount).to.equal(1);
-            expect(console.log.callCount).to.equal(3);
-            expect(console.groupEnd.callCount).to.equal(1);
+            expect(groupCollapsed.callCount).to.equal(1);
+            expect(log.callCount).to.equal(3);
+            expect(groupEnd.callCount).to.equal(1);
         });
     
         it('should log action type', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`^${S}action ${S}my-action`));
         });
         
         it('should log duration', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S}\\(\\d ms\\)`));
         });
 
         it('should log fail source', () => {
-            expect(console.groupCollapsed.firstCall.args[0]).to.match(
+            expect(groupCollapsed.firstCall.args[0]).to.match(
                 RegExp(`${S} \\[failed in mutator\\]`));
         });
 
         it('should log prev state', () => {
-            expect(console.log.getCall(0).args[0]).to.match(
+            expect(log.getCall(0).args[0]).to.match(
                 RegExp(`${S}prev state`));
             
-            expect(console.log.getCall(0).args[2]).to.deep.equal({
+            expect(log.getCall(0).args[2]).to.deep.equal({
                 model: 'prev model',
                 vm: 'prev vm'
             });
         });
     
         it('should log action (with handler duration)', () => {
-            expect(console.log.getCall(1).args[0]).to.match(
+            expect(log.getCall(1).args[0]).to.match(
                 RegExp(`${S}action ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(1).args[3]).to.be.instanceOf(Action);
-            expect(console.log.getCall(1).args[3]).to.containSubset({
+            expect(log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(log.getCall(1).args[3]).to.containSubset({
                 type: 'my-action',
                 data: 'A'
             });
         });
 
         it('should log patch (with mutation duration)', () => {
-            expect(console.log.getCall(2).args[0]).to.match(
+            expect(log.getCall(2).args[0]).to.match(
                 RegExp(`${S}patch ${S}\\(\\d ms\\)`));
             
-            expect(console.log.getCall(2).args[3]).to.containSubset({
+            expect(log.getCall(2).args[3]).to.containSubset({
                 mutations: [{
                     type: 'my-mutation',
                     data: 'M'
@@ -264,7 +273,7 @@ describe('logger', () => {
         });
     
         it('should NOT log next state', () => {
-            expect(console.log.getCall(3)).to.not.exist;
+            expect(log.getCall(3)).to.not.exist;
         });
     });
 
@@ -306,7 +315,7 @@ describe('logger', () => {
             dispatch(unthrottledAction);
             
             // check
-            expect(console.groupCollapsed.callCount).to.equal(3);
+            expect(groupCollapsed.callCount).to.equal(3);
         });
 
         it('should NOT log throttled actions', () => {
@@ -338,7 +347,7 @@ describe('logger', () => {
             dispatch(action); // throttled
             
             // check
-            expect(console.groupCollapsed.callCount).to.equal(1);
+            expect(groupCollapsed.callCount).to.equal(1);
         });
 
         it('should resume log of throttled action after delay', async () => {
@@ -374,7 +383,7 @@ describe('logger', () => {
             dispatch(action);
             dispatch(action); // throttled
             
-            expect(console.groupCollapsed.callCount).to.equal(2);
+            expect(groupCollapsed.callCount).to.equal(2);
         });
 
         it('should NOT mix throttle state between action types', () => {
@@ -411,7 +420,7 @@ describe('logger', () => {
             dispatch(action2);
             
             // check
-            expect(console.groupCollapsed.callCount).to.equal(2);
+            expect(groupCollapsed.callCount).to.equal(2);
         });
 
         it('should NOT mix throttle state between instances', () => {
@@ -455,7 +464,7 @@ describe('logger', () => {
             dispatch2(action);
             
             // check
-            expect(console.groupCollapsed.callCount).to.equal(2);
+            expect(groupCollapsed.callCount).to.equal(2);
         });
 
         it('should log number of throttled action', async () => {
@@ -494,9 +503,9 @@ describe('logger', () => {
             dispatch(action);
 
             // check
-            const logHeader1 = console.groupCollapsed.firstCall.args[0];
-            const logHeader2 = console.groupCollapsed.secondCall.args[0];
-            const logHeader3 = console.groupCollapsed.thirdCall.args[0];
+            const logHeader1 = groupCollapsed.firstCall.args[0];
+            const logHeader2 = groupCollapsed.secondCall.args[0];
+            const logHeader3 = groupCollapsed.thirdCall.args[0];
             
             expect(logHeader1).to.not.contain(`throttled`);
             expect(logHeader2).to.contain(`[throttled: 2]`);
@@ -532,7 +541,7 @@ describe('logger', () => {
             dispatchEvents.emit('after-dispatch', {state});
 
             // check
-            const logHeader = console.groupCollapsed.firstCall.args[0];
+            const logHeader = groupCollapsed.firstCall.args[0];
 
             expect(logHeader).to.contain(`[targets: T]`);
         });
@@ -559,7 +568,7 @@ describe('logger', () => {
             dispatchEvents.emit('after-dispatch', {state});
 
             // check
-            const logHeader = console.groupCollapsed.firstCall.args[0];
+            const logHeader = groupCollapsed.firstCall.args[0];
 
             expect(logHeader).to.not.contain(`[targets:`);
         });
@@ -594,7 +603,7 @@ describe('logger', () => {
             events.emit('after-dispatch', {state});
 
             // check
-            const logHeader = console.groupCollapsed.firstCall.args[0];
+            const logHeader = groupCollapsed.firstCall.args[0];
 
             expect(logHeader).to.contain(
                 `[child: child-action-1, child-action-2]`);
@@ -620,7 +629,7 @@ describe('logger', () => {
             events.emit('after-dispatch', {state});
 
             // check
-            const logHeader = console.groupCollapsed.firstCall.args[0];
+            const logHeader = groupCollapsed.firstCall.args[0];
 
             expect(logHeader).to.not.contain(
                 `[child:`);

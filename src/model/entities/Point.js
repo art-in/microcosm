@@ -7,11 +7,13 @@ export default class Point {
 
     /**
      * X coordinate
+     * @type {number|undefined}
      */
     x = undefined;
 
     /**
      * Y coordinate
+     * @type {number|undefined}
      */
     y = undefined;
 

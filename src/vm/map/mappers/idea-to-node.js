@@ -26,7 +26,8 @@ export default function ideaToNode(idea) {
     node.isRoot = idea.isRoot;
     node.posAbs = new Point(idea.posAbs);
 
-    node.debugInfo.rootPathWeight = idea.rootPathWeight;
+    node.rootPathWeight = idea.rootPathWeight;
+
     node.debugInfo.posRel = idea.posRel;
 
     return node;

@@ -16,7 +16,9 @@ describe('intermediate mutations', () => {
             expect(mutate).to.be.a('function');
         });
 
-        const store = new Store(disp);
+        const mutator = () => {};
+
+        const store = new Store(disp, mutator);
 
         // target
         await store.dispatch({type: 'action'});

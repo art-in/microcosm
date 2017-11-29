@@ -45,7 +45,7 @@ export async function add(db, mindmap) {
 /**
  * Updates mindmap
  * @param {PouchDB.Database} db
- * @param {MindmapType} model - model or patch
+ * @param {MindmapType|object} model - model or patch
  */
 export async function update(db, model) {
 

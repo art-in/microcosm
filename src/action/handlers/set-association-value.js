@@ -10,7 +10,7 @@ import getAssociation from 'action/utils/get-association';
  * @param {object} data
  * @param {string} data.assocId
  * @param {string} data.value
- * @return {Patch}
+ * @return {Patch|undefined}
  */
 export default function setAssociationValue(state, data) {
     const {model: {mindmap}} = state;

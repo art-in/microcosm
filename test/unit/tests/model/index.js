@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 describe('model', () => {
 
     require('./mutators');

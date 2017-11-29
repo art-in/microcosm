@@ -22,8 +22,10 @@
  */
 export default class AsyncTaskQueue {
     
+    /** @type {Array.<{fn, resolve, reject}>} */
     _tasks = [];
 
+    /** @type {{fn, resolve, reject}?|undefined} */
     _currentTask = null;
 
     /**
@@ -78,7 +80,7 @@ export default class AsyncTaskQueue {
     }
 
     /**
-     * 
+     * Executes next task in queue
      */
     _executeNext() {
         if (this._currentTask || this._tasks.length === 0) {

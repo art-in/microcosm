@@ -18,24 +18,25 @@ export default class Association {
 
     /**
      * Value
-     * @type {string}
+     * @type {string|undefined}
      */
     value = undefined;
 
     /**
      * ID of parent mindmap
+     * @type {string|undefined}
      */
     mindmapId = undefined;
 
     /**
      * ID of head idea
-     * @type {string}
+     * @type {string|undefined}
      */
     fromId = undefined;
 
     /**
      * ID of tail idea
-     * @type {string}
+     * @type {string|undefined}
      */
     toId = undefined;
 
@@ -45,7 +46,7 @@ export default class Association {
      * Head idea
      * Note: available only after graph is build
      * @memberof Edge
-     * @type {IdeaType}
+     * @type {IdeaType|undefined}
      */
     from = undefined;
 
@@ -53,14 +54,14 @@ export default class Association {
      * Tail idea
      * Note: available only after graph is build
      * @memberof Edge
-     * @type {IdeaType}
+     * @type {IdeaType|undefined}
      */
     to = undefined;
 
     /**
      * Weight
      * @memberof Edge
-     * @type {number}
+     * @type {number|undefined}
      */
     weight = undefined;
 

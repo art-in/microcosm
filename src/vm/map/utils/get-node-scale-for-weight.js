@@ -5,11 +5,13 @@
  * Ie. how much size of node with this RPW should change relatively
  * to its normal size.
  * 
- * @param {number} rootPathWeight
+ * @param {number|undefined} rootPathWeight
  * @return {number} scale
  */
 export default function getNodeScaleForWeight(rootPathWeight) {
-    if (!Number.isFinite(rootPathWeight) || rootPathWeight < 0) {
+
+    if (rootPathWeight === undefined || !Number.isFinite(rootPathWeight) ||
+        rootPathWeight < 0) {
         throw Error(`Invalid root path weight '${rootPathWeight}'`);
     }
     

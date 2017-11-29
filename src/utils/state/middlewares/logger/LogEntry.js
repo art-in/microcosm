@@ -1,6 +1,7 @@
 import clone from 'clone';
 import assert from 'utils/assert';
 import PatchType from 'utils/state/Patch';
+import ActionType from 'utils/state/Action';
 
 /**
  * Log entry for store action
@@ -9,7 +10,7 @@ export default class LogEntry {
 
     /**
      * Action
-     * @type {{type, data}}
+     * @type {ActionType|undefined}
      */
     action = undefined;
 
@@ -22,13 +23,13 @@ export default class LogEntry {
 
             /**
              * Time before dispatching action
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             start: undefined,
 
             /**
              * Time after dispatching action
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             end: undefined,
 
@@ -50,13 +51,13 @@ export default class LogEntry {
 
             /**
              * Time before handling action
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             start: undefined,
     
             /**
              * Time after handling action
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             end: undefined,
     
@@ -77,13 +78,13 @@ export default class LogEntry {
             
             /**
              * Time before state mutation
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             start: undefined,
     
             /**
              * Time after state mutation
-             * @type {number} - milliseconds from origin time
+             * @type {number|undefined} - milliseconds from origin time
              */
             end: undefined,
     
@@ -100,10 +101,13 @@ export default class LogEntry {
 
     /**
      * State patch
-     * @type {PatchType}
+     * @type {PatchType|undefined}
      */
     patch = undefined;
 
+    /**
+     * @type {object|undefined}
+     */
     _prevState = undefined;
 
     /**
@@ -125,6 +129,9 @@ export default class LogEntry {
         };
     }
 
+    /**
+     * @type {object|undefined}
+     */
     _nextState = undefined;
 
     /**
@@ -168,7 +175,7 @@ export default class LogEntry {
 
     /**
      * Error from handler or mutation if failed
-     * @type {Error}
+     * @type {Error|undefined}
      */
     error = undefined;
 
@@ -181,6 +188,7 @@ export default class LogEntry {
 
     /**
      * Child actions that were initiated by this action
+     * @type {Array.<ActionType>}
      */
     childActions = [];
 

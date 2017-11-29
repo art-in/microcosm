@@ -20,36 +20,38 @@ export default class Graph extends ViewModel {
 
     /**
      * Info for debug purposes only (eg. render on debug pane)
+     * @type {{focusCenter, focusZoneMax, shadeZoneMax}}
      */ 
     debugInfo = {
 
         /**
          * Center of focus zone
-         * @type {number} root path weight
+         * @type {number|undefined} root path weight
          */
         focusCenter: undefined,
 
         /**
          * Focus zone max
-         * @type {number} root path weight
+         * @type {number|undefined} root path weight
          */
         focusZoneMax: undefined,
     
         /**
          * Shade zone max
-         * @type {number} root path weight
+         * @type {number|undefined} root path weight
          */
         shadeZoneMax: undefined
     };
 
     /**
      * ID
-     * @type {string}
+     * @type {string|undefined}
      */
     id = undefined;
 
     /**
      * Drawing surface
+     * @type {object}
      */
     viewport = {
         width: 0,
@@ -58,6 +60,7 @@ export default class Graph extends ViewModel {
     
     /**
      * Fragment of canvas
+     * @type {object}
      */
     viewbox = {
 
@@ -75,10 +78,15 @@ export default class Graph extends ViewModel {
         scaleMax: Infinity
     };
 
+    /**
+     * Indicates zoom animation is in progress
+     * @type {boolean}
+     */
     zoomInProgress = false;
 
     /**
      * Panning state
+     * @type {object}
      */
     pan = {
         active: false
@@ -86,6 +94,7 @@ export default class Graph extends ViewModel {
 
     /**
      * Dragging state
+     * @type {object}
      */
     drag = {
         active: false,
@@ -110,17 +119,19 @@ export default class Graph extends ViewModel {
     /**
      * Root of nodes graph
      * Note: available only after graph is build
-     * @type {Node}
+     * @type {Node|undefined}
      */
     root = undefined;
 
     /**
      * Context menu of links
+     * @type {ContextMenu}
      */
     contextMenu = new ContextMenu();
 
     /**
      * Color picker
+     * @type {ColorPicker}
      */
     colorPicker = new ColorPicker()
 

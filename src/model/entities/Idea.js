@@ -21,11 +21,13 @@ export default class Idea {
 
     /**
      * ID
+     * @type {string}
      */
     id = createID();
 
     /**
      * ID of parent mindmap
+     * @type {string|undefined}
      */
     mindmapId = undefined;
 
@@ -37,20 +39,20 @@ export default class Idea {
     
     /**
      * Value
-     * @type {string}
+     * @type {string|undefined}
      */
     value = undefined;
 
     /**
      * Color
-     * @type {string}
+     * @type {string|undefined}
      */
     color = undefined;
 
     /**
      * Position on mindmap relative to parent idea
      * in minimum spanning tree (MST).
-     * @type {PointType}
+     * @type {PointType|undefined}
      */
     posRel = undefined;
 
@@ -58,7 +60,7 @@ export default class Idea {
 
     /**
      * Absolute position on mindmap.
-     * @type {PointType}
+     * @type {PointType|undefined}
      */
     posAbs = undefined;
 
@@ -83,7 +85,7 @@ export default class Idea {
      * Edge from parent idea.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {AssociationType}
+     * @type {AssociationType?|undefined}
      */
     edgeFromParent = undefined;
     
@@ -91,7 +93,7 @@ export default class Idea {
      * Edges to child ideas.
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {Array.<AssociationType>}
+     * @type {Array.<AssociationType>|undefined}
      */
     edgesToChilds = undefined;
 
@@ -99,7 +101,7 @@ export default class Idea {
      * Weight of minimal path from root (RPW).
      * Note: available only after graph is weighted
      * @memberof Vertex
-     * @type {number}
+     * @type {number|undefined}
      */
     rootPathWeight = undefined;
 

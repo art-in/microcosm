@@ -8,7 +8,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * Handles mouse leave action on graph
  * 
  * @param {object} state
- * @return {Patch}
+ * @return {Patch|undefined}
  */
 export default function(state) {
     const {vm: {main: {mindmap: {graph}}}} = state;

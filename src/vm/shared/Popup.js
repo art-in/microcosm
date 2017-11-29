@@ -10,13 +10,14 @@ export default class Popup extends ViewModel {
 
     /**
      * Is shown?
+     * @type {boolean}
      */
     active = false;
 
     /**
      * Position on viewport
      * TODO: rename to viewportPos to clarify coordinate system
-     * @type {PointType}
+     * @type {PointType|undefined}
      */
     pos = undefined;
 

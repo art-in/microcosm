@@ -15,7 +15,7 @@ import getIdea from 'action/utils/get-idea';
  * @param {object} data
  * @param {string} data.ideaId
  * @param {Point}  data.pos
- * @return {Patch}
+ * @return {Patch|undefined}
  */
 export default function setIdeaPosition(state, data) {
     const {model: {mindmap}} = state;

@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 
 /**
  * Provides store connection to all child components
+ * 
+ * @typedef {object} Props
+ * @prop {function} dispatch
+ * 
+ * @extends {Component<Props, *>}
  */
 export default class Provider extends Component {
     

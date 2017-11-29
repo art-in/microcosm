@@ -5,19 +5,20 @@ export default class Mutation {
 
     /**
      * Type of mutation
-     * @type {string}
+     * @type {string|undefined}
      */
     type = undefined;
 
     /**
      * Payload data
+     * @type {object|undefined}
      */
     data = undefined;
 
     /**
      * Target parts of state to mutate
      * If empty - mutation should be allied to whole state
-     * @type {Array.<string>}
+     * @type {Array.<string>|undefined}
      */
     targets = undefined;
 

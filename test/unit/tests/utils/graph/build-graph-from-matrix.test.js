@@ -84,25 +84,6 @@ describe('build-graph-from-matrix', () => {
         expect(assocCtoB.weight).to.equal(0.5);
     });
 
-    it('should fail on invalid array type', () => {
-        
-        const matrix = [
-            //       A  B  C
-            /* A */ [0, 1, 1],
-            /* B */ [0, 0, 0],
-            /* C */ [0, 0.5, 0]
-        ];
-
-        const result = () => buildGraphFromMatrix({
-            matrix,
-            VertexConstructor: Idea,
-            EdgeConstructor: Association
-        });
-
-        expect(result).to.throw(
-            'Invalid matrix. Expecting array of strings');
-    });
-    
     it('should fail when number of vertices is over limit', () => {
         
         const matrix = Array(27).fill('');

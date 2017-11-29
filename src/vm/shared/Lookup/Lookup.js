@@ -24,7 +24,7 @@ export default class Lookup extends ViewModel {
     /**
      * Id of suggestion highlighed
      * in the list of suggestions
-     * @type {string}
+     * @type {string|undefined}
      */
     highlightedSuggestionId = undefined;
 
@@ -42,7 +42,7 @@ export default class Lookup extends ViewModel {
 
     /**
      * Input placeholder
-     * @type {string}
+     * @type {string|undefined}
      */
     placeholder = undefined;
 
@@ -54,13 +54,13 @@ export default class Lookup extends ViewModel {
 
     /**
      * Gets action after phrase changed
-     * @type {function}
+     * @type {function|undefined}
      */
     onPhraseChangeAction = undefined;
 
     /**
      * Gets action after suggestion selected
-     * @type {function}
+     * @type {function|undefined}
      */
     onSelectAction = undefined;
 

@@ -72,10 +72,13 @@ export default function removeIdea(state, data) {
     // recalculate root paths for entire graph.
     // removing parent-child edge is enough.
     const parent = idea.edgeFromParent.from;
+
+    // @ts-ignore
     const index = parent.edgesToChilds.indexOf(idea.edgeFromParent);
 
     patch.push('update-idea', {
         id: parent.id,
+        // @ts-ignore
         edgesToChilds: withoutItem(parent.edgesToChilds, index)
     });
 

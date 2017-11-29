@@ -3,6 +3,7 @@ import view from 'vm/utils/view-patch';
 import clone from 'clone';
 
 import Point from 'model/entities/Point';
+import NodeType from 'vm/map/entities/Node';
 
 import animate from 'vm/utils/animate';
 import getViewboxSize from 'vm/map/entities/Graph/methods/compute-viewbox-size';
@@ -12,8 +13,8 @@ import getGraphScaleForNode from 'vm/map/utils/get-graph-scale-for-node-scale';
  * Animates graph position and scale to target node
  * 
  * @param {object} state
- * @param {object} data
- * @param {Node}   data.node - target node
+ * @param {object}   data
+ * @param {NodeType} data.node - target node
  * @param {function} dispatch
  * @param {function} mutate
  */
