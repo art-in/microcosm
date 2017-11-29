@@ -1,4 +1,3 @@
-import assert from 'utils/assert';
 import initProps from 'utils/init-props';
 import guardObjectProps from 'utils/guard-object-props';
 
@@ -17,7 +16,6 @@ import guardObjectProps from 'utils/guard-object-props';
  * @return {object} instance
  */
 export default function initInstance(instance, propsObj) {
-    assert(typeof instance === 'object', `Invalid instance '${instance}'`);
     
     const guardedInstance = guardObjectProps(instance);
     initProps(guardedInstance, propsObj);

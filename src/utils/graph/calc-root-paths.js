@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import PriorityQueue from 'utils/PriorityQueue';
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
 /**
  * Calculates minimal root paths (MRP) for each vertex in the graph.
@@ -83,7 +84,7 @@ export default function calcRootPaths(opts) {
             const edgeWeight = getEdgeWeight(edge, replaceEdgeWeights);
 
             // ensure edge weight is valid
-            if (!Number.isFinite(edgeWeight) || edgeWeight < 0) {
+            if (!isValidPathWeight(edgeWeight)) {
                 throw Error(
                     `Edge '${edge.id}' has invalid weight '${edgeWeight}'`);
             }

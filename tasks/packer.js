@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const assert = require('assert');
 const WebpackDevServer = require('webpack-dev-server');
 
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const StaticTypeCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -29,9 +29,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
  */
 function getPackConfig(opts) {
     
-    assert(opts.root);
-    assert(opts.output);
-    assert(opts.isProduction !== undefined);
     if (opts.watch) {
         assert(opts.serv);
         assert(opts.serv.host);
@@ -42,7 +39,7 @@ function getPackConfig(opts) {
     const entries = [];
     const resolveModules = [];
     const plugins = [
-        new ForkTsCheckerWebpackPlugin()
+        new StaticTypeCheckerPlugin()
     ];
 
     if (opts.watch) {

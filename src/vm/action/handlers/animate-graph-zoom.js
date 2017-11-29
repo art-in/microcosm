@@ -21,7 +21,7 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @param {function} dispatch
  * @param {function} mutate
  * @return {Promise.<PatchType|undefined>}
-*/
+ */
 export default async function animateGraphZoom(state, data, dispatch, mutate) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {up, pos: viewportPos} = required(data);

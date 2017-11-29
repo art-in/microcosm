@@ -31,6 +31,8 @@
  *      const {optionalParam} = params;
  * }
  * 
+ * TODO: try typedef generic function function(T): T
+ * 
  * @param {object} params
  * @return {object}
  */

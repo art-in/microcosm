@@ -1,4 +1,3 @@
-import assert from 'utils/assert';
 import required from 'utils/required-params';
 import Patch from './Patch';
 
@@ -75,6 +74,7 @@ export default class Handler {
         }
 
         const validatedMutate = patch => {
+            // TODO: replace with static type checks. create handler func type.
             if (!(patch instanceof Patch)) {
                 throw Error(
                     `Action handler should pass instance of a Patch ` +
@@ -92,6 +92,7 @@ export default class Handler {
         );
 
         const handleResult = patch => {
+            // TODO: replace with static type checks. create handler func type.
             if (patch !== undefined && !(patch instanceof Patch)) {
                 throw Error(
                     `Action handler should return undefined or ` +
@@ -119,9 +120,6 @@ export default class Handler {
         // flatten arrays
         // @ts-ignore
         handlers = handlers.reduce((res, a) => res.concat(a), []);
-
-        assert(handlers.every(g => g instanceof Handler),
-            'Each argument should be instance of Handler');
 
         const handler = new Handler();
 

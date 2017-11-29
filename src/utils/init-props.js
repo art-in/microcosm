@@ -1,4 +1,3 @@
-import assert from 'utils/assert';
 import updateObject from 'utils/update-object';
 
 /**
@@ -19,14 +18,12 @@ import updateObject from 'utils/update-object';
  * @param {object} [propsObj]
  */
 export default function initProps(instance, propsObj) {
+
     if (propsObj === undefined) {
         // props not received
         return;
     }
     
-    assert(typeof instance === 'object', `Invalid instance '${instance}'`);
-    assert(typeof propsObj === 'object', `Invalid props object '${propsObj}'`);
-
     try {
         updateObject(instance, propsObj);
     } catch (e) {

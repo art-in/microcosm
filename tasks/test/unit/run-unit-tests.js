@@ -1,4 +1,3 @@
-const assert = require('assert');
 const KarmaServer = require('karma').Server;
 
 /**
@@ -11,9 +10,6 @@ const KarmaServer = require('karma').Server;
  * @return {Promise}
  */
 function runUnitTests(opts) {
-    
-    assert(opts.packConfig);
-    assert(opts.entry);
 
     let chrome = 'ChromeHeadless';
 

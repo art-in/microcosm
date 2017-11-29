@@ -1,9 +1,8 @@
 import required from 'utils/required-params';
-import assert from 'utils/assert';
 
 import Patch from 'utils/state/Patch';
-import Action from 'utils/state/Action';
-import EventEmitter from 'events';
+import ActionType from 'utils/state/Action';
+import EventEmitterType from 'events';
 
 import LogEntry from './LogEntry';
 import log from './log';
@@ -29,13 +28,10 @@ export default function() {
  * Handles next dispatch
  * 
  * @param {object}       state  - middleware state
- * @param {EventEmitter} events - next dispatch events
- * @param {Action}       action - target action
+ * @param {EventEmitterType} events - next dispatch events
+ * @param {ActionType}       action - target action
  */
 function onDispatch(state, events, action) {
-    assert(events instanceof EventEmitter, `Invalid event emitter '${events}'`);
-    assert(action instanceof Action, `Invalid action '${action}'`);
-
     throttleLogDispatch(state, events, action);
 }
 
@@ -43,8 +39,8 @@ function onDispatch(state, events, action) {
  * Throttles dispatch log
  * 
  * @param {object}       state  - middleware state
- * @param {EventEmitter} events - next dispatch events
- * @param {Action}       action - target action
+ * @param {EventEmitterType} events - next dispatch events
+ * @param {ActionType}       action - target action
 */
 function throttleLogDispatch(state, events, action) {
     if (!state.throttleState) {

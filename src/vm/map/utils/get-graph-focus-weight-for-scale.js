@@ -1,4 +1,5 @@
 import {nodeDownscaleRate} from './get-node-scale-for-weight';
+import isValidScale from 'model/utils/is-valid-scale';
 
 /**
  * Calculates focus weight for graph
@@ -23,8 +24,7 @@ import {nodeDownscaleRate} from './get-node-scale-for-weight';
 */
 export default function getGraphFocusWeightForScale(viewboxScale) {
     
-    if (viewboxScale === undefined || !Number.isFinite(viewboxScale) ||
-        viewboxScale <= 0) {
+    if (!isValidScale(viewboxScale)) {
         throw Error(`Invalid viewbox scale '${viewboxScale}'`);
     }
 

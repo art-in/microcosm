@@ -1,5 +1,6 @@
 import assert from 'utils/assert';
 import required from 'utils/required-params';
+import isValidScale from 'model/utils/is-valid-scale';
 
 /**
  * Checks whether graph scale limits allow to scale more up or down
@@ -12,12 +13,14 @@ import required from 'utils/required-params';
 export default function checkGraphScaleLimits(opts) {
     const {viewbox, up} = required(opts);
 
-    assert(viewbox.scale > 0, `Invalid scale '${viewbox.scale}'`);
-    assert(viewbox.scaleMax > 0, `Invalid scale max '${viewbox.scaleMax }'`);
-    assert(viewbox.scaleMin > 0, `Invalid scale min '${viewbox.scaleMin }'`);
+    const {scale, scaleMin, scaleMax} = viewbox;
+
+    assert(isValidScale(scale), `Invalid scale '${viewbox.scale}'`);
+    assert(isValidScale(scaleMin), `Invalid scale min '${viewbox.scaleMin }'`);
+    assert(isValidScale(scaleMax), `Invalid scale max '${viewbox.scaleMax }'`);
 
     return (
-        (up && viewbox.scale < viewbox.scaleMax) ||
-        (!up && viewbox.scale > viewbox.scaleMin)
+        (up && scale < scaleMax) ||
+        (!up && scale > scaleMin)
     );
 }

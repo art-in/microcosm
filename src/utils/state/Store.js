@@ -1,10 +1,11 @@
-// @ts-ignore
 import EventEmitter from 'events';
 
 import guid from 'utils/guid';
 import HandlerType from './Handler';
 
 import Action from './Action';
+
+import PatchType from './Patch';
 
 /**
  * Application state container.
@@ -69,7 +70,7 @@ export default class Store {
 
     /**
      * List of middlewares
-     * @type {Array.<function>}
+     * @type {Array.<object>}
      */
     _middlewares = [];
 

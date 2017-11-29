@@ -1,4 +1,3 @@
-import assert from 'utils/assert';
 import dedup from 'utils/dedup-array';
 
 import Mutation from './Mutation';
@@ -138,9 +137,6 @@ export default class Patch {
 
         patches = patches.filter(p => p !== undefined);
 
-        assert(patches.every(p => p instanceof Patch),
-            'Each argument should be instance of Patch');
-        
         const mutations = patches.reduce(
             (comb, patch) => ([...comb, ...patch]), []);
 

@@ -1,5 +1,4 @@
-import assert from 'utils/assert';
-import LogEntry from './LogEntry';
+import LogEntryType from './LogEntry';
 
 // console style tag
 const S = '%c';
@@ -26,12 +25,9 @@ const font = {
 
 /**
  * Logs store action to console
- * @param {LogEntry} entry
+ * @param {LogEntryType} entry
  */
 export default function(entry) {
-
-    assert(entry instanceof LogEntry,
-        'Argument should be instance of LogEntry');
 
     // group header
     console.groupCollapsed(...getHeader(entry));
@@ -81,7 +77,7 @@ export default function(entry) {
 
 /**
  * Composes header string
- * @param {LogEntry} entry
+ * @param {LogEntryType} entry
  * @return {Array.<string>} header + styles
 */
 function getHeader(entry) {

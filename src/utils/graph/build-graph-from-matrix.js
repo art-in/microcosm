@@ -1,4 +1,5 @@
 import required from 'utils/required-params';
+import isValidPathWeight from 'utils/graph//is-valid-path-weight';
 
 const charCodeA = 65;
 const charCount = 26;
@@ -49,7 +50,7 @@ export default function buildGraphFromMatrix(opts) {
             .filter(s => s !== '')
             .map(edgeWeightStr => {
                 const edgeWeight = Number(edgeWeightStr);
-                if (!Number.isFinite(edgeWeight) || edgeWeight < 0) {
+                if (!isValidPathWeight(edgeWeight)) {
                     throw Error(
                         `Invalid outgoing edge weight '${edgeWeightStr}' ` +
                         `for vertex '${headId}'`);

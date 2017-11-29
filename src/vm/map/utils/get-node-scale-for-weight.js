@@ -1,3 +1,5 @@
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
+
 /**
  * Calculates node scale according to its root path weight (RPW).
  * Greater RPW - smaller node should be.
@@ -10,8 +12,7 @@
  */
 export default function getNodeScaleForWeight(rootPathWeight) {
 
-    if (rootPathWeight === undefined || !Number.isFinite(rootPathWeight) ||
-        rootPathWeight < 0) {
+    if (!isValidPathWeight(rootPathWeight)) {
         throw Error(`Invalid root path weight '${rootPathWeight}'`);
     }
     

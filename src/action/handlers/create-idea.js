@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
+
 import getIdea from 'action/utils/get-idea';
 import weighAssociation from 'model/utils/weigh-association';
 
@@ -62,8 +64,7 @@ export default function createIdea(state, data) {
     idea.edgesToChilds = [];
 
     // ensure parent idea RPW is valid
-    if (parent.rootPathWeight === undefined ||
-        !Number.isFinite(parent.rootPathWeight)) {
+    if (!isValidPathWeight(parent.rootPathWeight)) {
         throw Error(
             `Idea '${parent.id}' has invalid root path weight ` +
             `'${parent.rootPathWeight}'`);

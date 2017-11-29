@@ -24,8 +24,7 @@ export default function getBodyMargin() {
     const {marginLeft, marginTop} =
         window.getComputedStyle(document.body);
 
-    if (marginLeft === null ||
-        marginTop === null) {
+    if (marginLeft === null || marginTop === null) {
         throw Error(`Invalid body margins '${marginLeft}, ${marginTop}'`);
     }
 

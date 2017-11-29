@@ -17,6 +17,7 @@ export default function regMutatorsFolder(context) {
     context.keys().forEach(modulePath => {
         const module = context(modulePath);
         const type = modulePath.match(/.+\/(.+)\./i)[1];
+        
         if (mutators[type]) {
             throw Error(`Mutation '${type}' already has registered handler`);
         }

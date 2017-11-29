@@ -11,7 +11,7 @@
  */
 export default function guardObjectProps(object) {
 
-    if (object == null || typeof object !== 'object') {
+    if (!object) {
         throw Error(`Invalid object received '${object}'`);
     }
 

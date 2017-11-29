@@ -44,8 +44,6 @@
  * perf.endGroup(groupId)
  *  
  */
-import assert from 'utils/assert';
-
 import guid from 'utils/guid';
 
 const groups = new Map();
@@ -95,7 +93,6 @@ function getGroupId() {
  * @return {string} groupId
  */
 function startGroup(label) {
-    assert(label, `Invalid group label '${label}'`);
 
     const groupId = getGroupId();
 
@@ -138,8 +135,7 @@ export function endGroup(groupId, labelSuffix) {
  * @return {string} measure Id
  */
 function start(label, groupId) {
-    assert(label, `Invalid measure label '${label}'`);
-
+    
     const perfId = guid();
     performance.mark(perfId);
 

@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import WeightZone from 'utils/graph/WeightZone';
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
 import IdeaType from 'model/entities/Idea';
 import NodeType from 'vm/map/entities/Node';
@@ -214,8 +215,7 @@ function getWeightZoneForVertex(vertex, focusZoneMax, shadeZoneAmount) {
     const {rootPathWeight} = vertex;
 
     // ensure root path weight set
-    if (rootPathWeight === undefined || !Number.isFinite(rootPathWeight) ||
-        rootPathWeight < 0) {
+    if (!isValidPathWeight(rootPathWeight)) {
         throw Error(`Invalid root path weight '${rootPathWeight}'`);
     }
 

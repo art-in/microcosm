@@ -14,7 +14,7 @@ import ViewModelType from 'vm/utils/ViewModel';
  * Does not provide automatic updates on state change (like redux).  
  * View-model should explicitly emit 'change' event.
  * 
- * @param {function} mapPropsToVM
+ * @param {function(object): EventEmitter} mapPropsToVM
  * @param {function} mapDispatchToProps
  * @return {function}
  */
@@ -29,6 +29,8 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         const getVM = props => {
             const vm = mapPropsToVM(props);
             
+            // TODO: check types staticly when there is a way to pass
+            // jsdoc @typedef props from .jsx module to .connect module
             if (!(vm instanceof EventEmitter)) {
                 throw Error(
                     `VM '${vm}' of '${CustomComponent.name}' ` +

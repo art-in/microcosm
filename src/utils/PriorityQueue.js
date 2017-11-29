@@ -20,11 +20,12 @@ export default class PriorityQueue {
 
     /**
      * Adds new item with corresponding priority.
-     * @param {object} item
+     * @param {Object.<string, *>} item - item to enqueue. objects allowed only.
+     *        primitives will not work since each item should be unique
+     *        to be able to update their priority properly
      * @param {number} priority
      */
     addWithPriority(item, priority) {
-        validateParams(item, priority);
 
         // get entry position (time - O(log n))
         const idx = binarySearchIndex(this._entries, priority);
@@ -42,7 +43,6 @@ export default class PriorityQueue {
      * @param {number} priority
     */
     updatePriority(item, priority) {
-        validateParams(item, priority);
 
         // find entry by item value (time - O(n))
         const idx = this._entries.findIndex(e => e.item === item);
@@ -92,25 +92,6 @@ export default class PriorityQueue {
     has(item) {
         // check existance (time - O(1))
         return this._items.has(item);
-    }
-}
-
-/**
- * Validates params
- * @param {object} item 
- * @param {number} priority 
- */
-function validateParams(item, priority) {
-
-    // allow object items only.
-    // primitives will not work since each item should be unique
-    // to be able to update item priority properly
-    if (typeof item !== 'object' || item === null) {
-        throw Error(`Invalid item '${item}' received. Object expected.`);
-    }
-    
-    if (!Number.isFinite(priority)) {
-        throw Error(`Invalid priority '${priority}' received`);
     }
 }
 

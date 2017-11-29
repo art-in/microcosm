@@ -93,20 +93,4 @@ describe('PriorityQueue', () => {
             `Unknown item '[object Object]' to update priority for`);
     });
 
-    it('should fail when adding items of primitive types', () => {
-
-        const queue = new PriorityQueue();
-
-        expect(() => queue.addWithPriority('A', 1)).to.throw(
-            `Invalid item 'A' received. Object expected.`);
-    });
-
-    it('should fail when passing invalid priority', () => {
-        
-        const queue = new PriorityQueue();
-
-        expect(() => queue.addWithPriority(A, NaN)).to.throw(
-            `Invalid priority 'NaN' received`);
-    });
-
 });

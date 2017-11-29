@@ -1,6 +1,4 @@
-import assert from 'utils/assert';
-
-import Mindmap from 'model/entities/Mindmap';
+import MindmapType from 'model/entities/Mindmap';
 import IdeaType from 'model/entities/Idea';
 import Graph from 'vm/map/entities/Graph';
 import NodeType from 'vm/map/entities/Node';
@@ -19,12 +17,10 @@ import assocToLink from './association-to-link';
 /**
  * Maps mindmap model to graph view model
  * 
- * @param {Mindmap} mindmap
+ * @param {MindmapType} mindmap
  * @return {Graph}
  */
 export default function mindmapToGraph(mindmap) {
-    assert(mindmap instanceof Mindmap,
-        `Invalid mindmap object '${mindmap}'`);
 
     let rootNode;
     let nodes = [];
@@ -119,7 +115,7 @@ export default function mindmapToGraph(mindmap) {
  * Some props depend to surrounding context and should be computed
  * (eg. node color is inherited from closest node that does have color).
  * 
- * @param {Mindmap} mindmap
+ * @param {MindmapType} mindmap
  * @param {Array.<NodeType>} nodes - all mapped nodes
  * @param {NodeType} node          - target node to compute
  */
