@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import traverseGraph from 'utils/graph/traverse-graph';
 
 /**
@@ -12,7 +11,7 @@ import traverseGraph from 'utils/graph/traverse-graph';
  * @return {object} root vertex
  */
 export default function buildGraph(opts) {
-    const {vertices, edges, isRootVertex} = required(opts);
+    const {vertices, edges, isRootVertex} = opts;
 
     let rootVertex = null;
 

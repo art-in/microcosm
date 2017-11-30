@@ -1,6 +1,5 @@
 import clone from 'clone';
 import assert from 'utils/assert';
-import required from 'utils/required-params';
 
 /**
  * Computes viewbox size
@@ -12,7 +11,7 @@ import required from 'utils/required-params';
  * @return {object}
  */
 export default function computeViewboxSize(opts) {
-    const {viewport, viewbox: vb} = required(opts);
+    const {viewport, viewbox: vb} = opts;
 
     assert(viewport.width > 0, `Invalid viewport width '${viewport.width}'`);
     assert(viewport.height > 0, `Invalid viewport height '${viewport.height}'`);

@@ -1,12 +1,14 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import getIdea from 'action/utils/get-idea';
 
 /**
  * Sets value for idea
  *
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.ideaId
  * @param {string} data.value

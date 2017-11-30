@@ -2,6 +2,8 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import clone from 'clone';
 
+import StateType from 'boot/client/State';
+
 import Point from 'model/entities/Point';
 import NodeType from 'vm/map/entities/Node';
 
@@ -12,7 +14,7 @@ import getGraphScaleForNode from 'vm/map/utils/get-graph-scale-for-node-scale';
 /**
  * Animates graph position and scale to target node
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object}   data
  * @param {NodeType} data.node - target node
  * @param {function} dispatch

@@ -1,13 +1,13 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
 /**
  * Inits model state
  * 
- * @param {object}  state 
- * @param {object}  data 
- * @param {PouchDB.Database} data.ideas
- * @param {PouchDB.Database} data.associations
- * @param {PouchDB.Database} data.mindmaps
+ * @param {StateType} state 
+ * @param {object} data 
+ * @param {object} data.model
  */
 export default function init(state, data) {
     const {model} = state;

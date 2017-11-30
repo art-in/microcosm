@@ -9,6 +9,8 @@ import Mindmap from 'model/entities/Mindmap';
 import Idea from 'model/entities/Idea';
 import Point from 'model/entities/Point';
 
+import StateType from 'boot/client/State';
+
 import MainVM from 'vm/main/Main';
 import MindmapVM from 'vm/main/Mindmap';
 
@@ -21,7 +23,7 @@ import toGraph from 'vm/map/mappers/mindmap-to-graph';
 /**
  * Inits state
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @return {Promise.<Patch>}
  */

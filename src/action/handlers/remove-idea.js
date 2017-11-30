@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import withoutItem from 'utils/get-array-without-item';
 import normalizePatch from 'action/utils/normalize-patch';
 import getIdea from 'action/utils/get-idea';
@@ -8,7 +10,7 @@ import getIdea from 'action/utils/get-idea';
 /**
  * Removes idea with corresponding associations
  *
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {object} data.ideaId
  * @return {Patch}

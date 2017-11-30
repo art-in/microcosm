@@ -1,5 +1,4 @@
 import assert from 'utils/assert';
-import required from 'utils/required-params';
 import isValidScale from 'model/utils/is-valid-scale';
 
 /**
@@ -11,7 +10,7 @@ import isValidScale from 'model/utils/is-valid-scale';
  * @return {boolean}
  */
 export default function checkGraphScaleLimits(opts) {
-    const {viewbox, up} = required(opts);
+    const {viewbox, up} = opts;
 
     const {scale, scaleMin, scaleMax} = viewbox;
 

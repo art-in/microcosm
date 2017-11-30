@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import pms from 'utils/pms';
 
 /**
@@ -34,7 +33,7 @@ import pms from 'utils/pms';
  * @return {Promise}
  */
 export default function animate(opts) {
-    const {values, duration, onStep} = required(opts);
+    const {values, duration, onStep} = opts;
     let {scheduleAnimationStep} = opts;
 
     // made scheduler as optional parameter

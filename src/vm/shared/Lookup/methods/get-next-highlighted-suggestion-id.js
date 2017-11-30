@@ -1,5 +1,3 @@
-import required from 'utils/required-params';
-
 import LookupType from 'vm/shared/Lookup';
 
 /**
@@ -11,7 +9,7 @@ import LookupType from 'vm/shared/Lookup';
  * @return {number|null} ID of next highlighted suggesion
  */
 export default function getNextHighlightedSuggestionId(opts) {
-    const {lookup, forward} = required(opts);
+    const {lookup, forward} = opts;
 
     if (!lookup.suggestions.length) {
         // skip since no suggestions

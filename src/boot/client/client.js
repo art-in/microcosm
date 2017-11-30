@@ -5,7 +5,7 @@ import Handler from 'utils/state/Handler';
 
 import commonHandler from 'action/handler';
 import vmHandler from 'vm/action/handler';
-import initialState from './initial-state';
+import State from './State';
 import combine from 'utils/state/combine-mutators';
 
 import logger from 'utils/state/middlewares/logger';
@@ -44,7 +44,7 @@ async function start() {
             mutateVM,
             mutateView
         ]),
-        initialState,
+        new State(),
         middlewares);
 
     const storeDispatch = store.dispatch.bind(store);

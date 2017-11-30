@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import debounce from 'debounce';
 
 import LookupType from 'vm/shared/Lookup';
@@ -15,7 +14,7 @@ import clearLookup from './clear-lookup';
  * @return {object} lookup update object
 */
 export default function onPhraseChange(opts) {
-    const {phrase, lookup, onPhraseChangeAction} = required(opts);
+    const {phrase, lookup, onPhraseChangeAction} = opts;
 
     let update = null;
 

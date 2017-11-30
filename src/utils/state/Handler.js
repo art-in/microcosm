@@ -1,5 +1,6 @@
-import required from 'utils/required-params';
 import Patch from './Patch';
+
+import ActionType from './Action';
 
 /**
  * Collection of registered action handlers
@@ -51,20 +52,21 @@ export default class Handler {
     [Symbol.iterator]() {
         return this._handlers[Symbol.iterator]();
     }
-    
+
     /**
      * Executes registered handler for an action
      * 
      * @param {object} state
      * @param {object} action
+     * @param {string} action.type
+     * @param {*}     [action.data]
      * @param {function} [dispatch]
      * @param {function} [mutate]
      * @return {Promise<Patch>|Patch} if handler is async - promise patch,
-     *                 if handler is sync - sync patch.
+     *                                if handler is sync - sync patch.
      */
     handle(state, action, dispatch, mutate) {
-        const {type} = required(action);
-        const {data} = action;
+        const {type, data} = action;
 
         const handlerDescriptor = this._handlers
             .find(ah => ah.type === type);

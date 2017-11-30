@@ -1,9 +1,11 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
 /**
  * Removes idea
  * 
- * @param {object} state 
+ * @param {StateType} state 
  * @param {object} data
  * @param {string} data.id
  */

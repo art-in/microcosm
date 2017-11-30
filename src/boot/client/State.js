@@ -1,11 +1,12 @@
-// @ts-nocheck
+import MindmapType from 'model/entities/Mindmap';
+import MainVMType from 'vm/main/Main';
 
 /**
  * Application state structure
  */
-export default {
+export default class State {
 
-    data: {
+    data = {
 
         /** @type {PouchDB.Database} */
         ideas: undefined,
@@ -15,24 +16,24 @@ export default {
 
         /** @type {PouchDB.Database} */
         mindmaps: undefined
-    },
+    }
 
-    model: {
+    model = {
 
-        /** @type {Mindmap} */
+        /** @type {MindmapType} */
         mindmap: undefined
-    },
+    }
 
-    vm: {
+    vm = {
 
-        /** @type {Main} */
+        /** @type {MainVMType} */
         main: undefined
-    },
+    }
 
-    view: {
+    view = {
 
         /** @type {Element} */
         root: undefined
     }
 
-};
+}

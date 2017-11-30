@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 
 import values from 'src/utils/get-map-values';
 
+import State from 'src/boot/client/state';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
@@ -20,7 +21,8 @@ describe('update-association', () => {
             value: 'old'
         }));
 
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = mindmap;
 
         const patch = new Patch({
             type: 'update-association',
@@ -45,7 +47,8 @@ describe('update-association', () => {
         // setup
         const mindmap = new Mindmap();
 
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = mindmap;
 
         const patch = new Patch({
             type: 'update-association',

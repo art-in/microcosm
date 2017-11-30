@@ -1,11 +1,13 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
 import Point from 'model/entities/Point';
 
 /**
  * Handles key press event on graph
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.key
  * @param {function} dispatch

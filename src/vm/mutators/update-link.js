@@ -1,9 +1,11 @@
 import update from 'utils/update-object';
 
+import StateType from 'boot/client/State';
+
 /**
  * Updates link
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  */
 export default function updateLink(state, data) {

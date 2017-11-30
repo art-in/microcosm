@@ -1,9 +1,11 @@
 import toGraph from 'vm/map/mappers/mindmap-to-graph';
 import update from 'utils/update-object';
 
+import StateType from 'boot/client/State';
+
 /**
  * Applies all mutations that do not have correspoding mutators
- * @param {object} state
+ * @param {StateType} state
  */
 export default function defaultMutator(state) {
 

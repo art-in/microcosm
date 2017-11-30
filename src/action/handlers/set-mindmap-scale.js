@@ -1,14 +1,18 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 /**
  * Sets mindmap scale
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.mindmapId
- * @param {number} data.scale - target scale
- * @param {Point}  data.pos - new position of viewbox on canvas
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {string}    data.mindmapId
+ * @param {number}    data.scale - target scale
+ * @param {PointType} data.pos - new position of viewbox on canvas
  * @return {Patch}
  */
 export default function setMindmapScale(state, data) {

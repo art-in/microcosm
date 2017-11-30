@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import withoutItem from 'utils/get-array-without-item';
 import patchRootPaths from 'action/utils/patch-root-paths';
 import normalizePatch from 'action/utils/normalize-patch';
@@ -9,7 +11,7 @@ import getAssociation from 'action/utils/get-association';
 /**
  * Removes association
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.assocId
  * @return {Patch}

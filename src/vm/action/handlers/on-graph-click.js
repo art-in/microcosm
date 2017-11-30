@@ -1,10 +1,12 @@
 import Patch from 'utils/state/Patch';
 import view from 'vm/utils/view-mutation';
 
+import StateType from 'boot/client/State';
+
 /**
  * Handles graph click event
  * 
- * @param {object} state
+ * @param {StateType} state
  * @return {Patch}
  */
 export default function(state) {

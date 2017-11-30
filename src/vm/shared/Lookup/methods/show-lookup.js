@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import clearLookup from './clear-lookup';
 
 /**
@@ -10,7 +9,7 @@ import clearLookup from './clear-lookup';
  * @return {object} lookup update object
  */
 export default function show(opts) {
-    const {onSelectAction, onPhraseChangeAction} = required(opts);
+    const {onSelectAction, onPhraseChangeAction} = opts;
 
     return Object.assign(
         clearLookup(),

@@ -3,6 +3,8 @@ import assert from 'utils/assert';
 import PatchType from 'utils/state/Patch';
 import ActionType from 'utils/state/Action';
 
+import StateType from 'boot/client/State';
+
 /**
  * Log entry for store action
  */
@@ -112,7 +114,7 @@ export default class LogEntry {
 
     /**
      * Gets state before action
-     * @return {object}
+     * @return {StateType}
      */
     get prevState() {
         return this._prevState;
@@ -120,7 +122,7 @@ export default class LogEntry {
 
     /**
      * Sets state before action
-     * @param {object} state
+     * @param {StateType} state
      */
     set prevState(state) {
         this._prevState = {
@@ -136,7 +138,7 @@ export default class LogEntry {
 
     /**
      * Gets state after action
-     * @return {object}
+     * @return {StateType}
      */
     get nextState() {
         return this._nextState;
@@ -144,7 +146,7 @@ export default class LogEntry {
 
     /**
      * Sets state after action
-     * @param {object} state
+     * @param {StateType} state
      */
     set nextState(state) {
         this._nextState = {

@@ -2,16 +2,20 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 import MenuItem from 'vm/shared/MenuItem';
 
 /** 
  * Shows context menu for idea
  * 
- * @param {object} state
- * @param {object} data
- * @param {Point}  data.pos - viewport position of mouse
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {PointType} data.pos - viewport position of mouse
  *                            TODO: rename to viewportPos
- * @param {string} data.ideaId - ID of target idea
+ * @param {string}    data.ideaId - ID of target idea
  * @param {boolean}   data.shaded - indicates target idea is shaded
  * @return {PatchType|undefined}
  */

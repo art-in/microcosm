@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import values from 'utils/get-map-values';
 
 import IdeaType from 'model/entities/Idea';
@@ -13,8 +12,7 @@ import MindmapType from 'model/entities/Mindmap';
  * @return {Array.<IdeaType>}
  */
 export default function searchIdeas(mindmap, opts) {
-    const {phrase} = required(opts);
-    const {excludeIds} = opts;
+    const {phrase, excludeIds} = opts;
     
     if (!phrase) {
         throw Error('Search string is empty');

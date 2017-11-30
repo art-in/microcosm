@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 
 import mutate from 'model/mutators';
 
+import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Point from 'src/model/entities/Point';
@@ -17,7 +18,8 @@ describe('update-mindmap', () => {
             pos: new Point({x: 100, y: 0})
         });
 
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = mindmap;
         
         const patch = new Patch({
             type: 'update-mindmap',

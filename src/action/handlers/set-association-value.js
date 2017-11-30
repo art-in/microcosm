@@ -1,12 +1,14 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import getAssociation from 'action/utils/get-association';
 
 /**
  * Sets association value
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.assocId
  * @param {string} data.value

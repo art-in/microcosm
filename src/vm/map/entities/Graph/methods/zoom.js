@@ -1,6 +1,7 @@
 import assert from 'utils/assert';
 import clone from 'clone';
-import required from 'utils/required-params';
+
+import PointType from 'model/entities/Point';
 
 import computeViewboxSize from './compute-viewbox-size';
 import checkScaleLimits from './check-scale-limits';
@@ -8,15 +9,15 @@ import checkScaleLimits from './check-scale-limits';
 /**
  * Changes graph scale towards certain canvas position
  * 
- * @param {object} opts
- * @param {object} opts.viewbox   - graph viewbox
- * @param {object} opts.viewport  - graph viewport
- * @param {object} opts.scale     - target scale
- * @param {Point}  opts.canvasPos - target canvas position
+ * @param {object}    opts
+ * @param {object}    opts.viewbox   - graph viewbox
+ * @param {object}    opts.viewport  - graph viewport
+ * @param {object}    opts.scale     - target scale
+ * @param {PointType} opts.canvasPos - target canvas position
  * @return {object} viewbox
  */
 export default function zoomGraph(opts) {
-    const {viewbox: vb, viewport, scale, canvasPos} = required(opts);
+    const {viewbox: vb, viewport, scale, canvasPos} = opts;
 
     if (!checkScaleLimits({viewbox: vb, up: scale > vb.scale})) {
         // do not scale out of limits

@@ -2,13 +2,18 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import LookupSuggestionType from 'vm/shared/LookupSuggestion';
+
 /**
  * Handles suggestion select event of association tails lookup
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.headIdeaId
- * @param {string} data.tailIdeaId
+ * @param {StateType} state
+ * @param {object}               data
+ * @param {string}               data.headIdeaId
+ * @param {string}               data.tailIdeaId
+ * @param {LookupSuggestionType} data.suggestion
  * @param {function} dispatch
  * @return {PatchType}
  */

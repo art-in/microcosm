@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 
 import values from 'src/utils/get-map-values';
 
+import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
@@ -21,7 +22,8 @@ describe('update-idea', () => {
             color: 'white'
         }));
 
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = mindmap;
 
         const patch = new Patch({
             type: 'update-idea',
@@ -45,7 +47,8 @@ describe('update-idea', () => {
     it('should fail if target idea was not found', () => {
 
         // setup
-        const state = {model: {mindmap: new Mindmap()}};
+        const state = new State();
+        state.model.mindmap = new Mindmap();
         
         const patch = new Patch({
             type: 'update-idea',

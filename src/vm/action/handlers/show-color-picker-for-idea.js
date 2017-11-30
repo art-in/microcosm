@@ -2,10 +2,12 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 /**
  * Shows color picker
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.ideaId - ID of target idea
  * @return {PatchType}

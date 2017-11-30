@@ -2,6 +2,7 @@ import {expect, createDB} from 'test/utils';
 
 import mutate from 'data/mutators';
 
+import State from 'src/boot/client/State';
 import Patch from 'utils/state/Patch';
 import Idea from 'model/entities/Idea';
 import Association from 'model/entities/Association';
@@ -14,7 +15,7 @@ describe('mutators', () => {
         it('should init db', async () => {
     
             // setup
-            const state = {data: {}};
+            const state = new State();
     
             const patchData = {
                 db: {
@@ -52,7 +53,8 @@ describe('mutators', () => {
         it('should add idea', async () => {
     
             // setup
-            const state = {data: {ideas: createDB()}};
+            const state = new State();
+            state.data.ideas = createDB();
     
             const patch = new Patch({
                 type: 'add-idea',
@@ -90,7 +92,8 @@ describe('mutators', () => {
             const ideasDB = createDB();
             ideasDB.put({_id: 'id', value: 'old', color: 'white'});
     
-            const state = {data: {ideas: ideasDB}};
+            const state = new State();
+            state.data.ideas = ideasDB;
     
             const patch = new Patch({
                 type: 'update-idea',
@@ -118,7 +121,8 @@ describe('mutators', () => {
             const ideasDB = createDB();
             ideasDB.put({_id: 'id', value: 'old', color: 'white'});
     
-            const state = {data: {ideas: ideasDB}};
+            const state = new State();
+            state.data.ideas = ideasDB;
     
             const patch1 = new Patch({
                 type: 'update-idea',
@@ -162,7 +166,8 @@ describe('mutators', () => {
             ideasDB.put({_id: 'live'});
             ideasDB.put({_id: 'die'});
     
-            const state = {data: {ideas: ideasDB}};
+            const state = new State();
+            state.data.ideas = ideasDB;
     
             const patch = new Patch({
                 type: 'remove-idea',
@@ -187,7 +192,8 @@ describe('mutators', () => {
         it('should add association', async () => {
     
             // setup
-            const state = {data: {associations: createDB()}};
+            const state = new State();
+            state.data.associations = createDB();
     
             const patch = new Patch({
                 type: 'add-association',
@@ -220,7 +226,8 @@ describe('mutators', () => {
             const assocDB = createDB();
             assocDB.put({_id: 'id', value: 'old', from: 'from'});
     
-            const state = {data: {associations: assocDB}};
+            const state = new State();
+            state.data.associations = assocDB;
     
             const patch = new Patch({
                 type: 'update-association',
@@ -253,7 +260,8 @@ describe('mutators', () => {
             assocDB.put({_id: 'live'});
             assocDB.put({_id: 'die'});
     
-            const state = {data: {associations: assocDB}};
+            const state = new State();
+            state.data.associations = assocDB;
     
             const patch = new Patch({
                 type: 'remove-association',
@@ -281,7 +289,8 @@ describe('mutators', () => {
             const mindmapDB = createDB();
             mindmapDB.put({_id: 'id', scale: 1, x: 100});
     
-            const state = {data: {mindmaps: mindmapDB}};
+            const state = new State();
+            state.data.mindmaps = mindmapDB;
     
             const patch = new Patch({
                 type: 'update-mindmap',

@@ -1,6 +1,8 @@
 import regMutatorsFolder from 'utils/reg-mutators-folder';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import defaultMutator from './default';
 
 // eslint-disable-next-line no-undef
@@ -9,7 +11,7 @@ const mutators = regMutatorsFolder(context);
 
 /**
  * Applies patch to vm state
- * @param {object} state
+ * @param {StateType} state
  * @param {PatchType} patch
  */
 export default function mutate(state, patch) {

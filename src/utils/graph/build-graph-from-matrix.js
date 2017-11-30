@@ -1,8 +1,18 @@
-import required from 'utils/required-params';
 import isValidPathWeight from 'utils/graph//is-valid-path-weight';
+
+import IdeaType from 'model/entities/Idea';
+import AssocType from 'model/entities/Association';
+
+import NodeType from 'vm/map/entities/Node';
+import LinkType from 'vm/map/entities/Link';
 
 const charCodeA = 65;
 const charCount = 26;
+
+/**
+ * @typedef {{new(...args: any[]): IdeaType|NodeType}} VertexConstructorType
+ * @typedef {{new(...args: any[]): AssocType|LinkType}} EdgeConstructorType
+ */
 
 /**
  * Generic function for building object graph from adjacency matrix
@@ -10,14 +20,14 @@ const charCount = 26;
  * Q: Why input matrix is array of strings and not array of number arrays?
  * A: Because it is possible to align columns without violating lint rules.
  * 
- * @param {object}         opts
- * @param {Array.<string>} opts.matrix
- * @param {function}       opts.VertexConstructor
- * @param {function}       opts.EdgeConstructor
+ * @param {object}                opts
+ * @param {Array.<string>}        opts.matrix
+ * @param {VertexConstructorType} opts.VertexConstructor
+ * @param {EdgeConstructorType}   opts.EdgeConstructor
  * @return {object} root vertex
  */
 export default function buildGraphFromMatrix(opts) {
-    const {matrix: m, VertexConstructor, EdgeConstructor} = required(opts);
+    const {matrix: m, VertexConstructor, EdgeConstructor} = opts;
 
     // validate input
     const vertexCount = m.length;
@@ -30,6 +40,7 @@ export default function buildGraphFromMatrix(opts) {
     const vertices = [];
     for (let i = 0; i < vertexCount; i++) {
         const id = String.fromCharCode(charCodeA + i);
+
         const vertex = new VertexConstructor({id});
         vertex.edgesIn = [];
         vertex.edgesOut = [];

@@ -2,15 +2,19 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import NodeType from 'vm/map/entities/Node';
+
 import getDescendants from 'utils/graph/get-descendants';
 
 /**
  * Handles mouse down event on graph node
  * 
- * @param {object} state
- * @param {object} data
- * @param {Node}   data.node
- * @param {string} data.button
+ * @param {StateType} state
+ * @param {object}   data
+ * @param {NodeType} data.node
+ * @param {string}   data.button
  * @return {PatchType|undefined}
  */
 export default function(state, data) {

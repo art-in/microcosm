@@ -1,12 +1,16 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 /**
  * Handles graph mouse wheel event
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.up  - wheel up or down
- * @param {Point}  data.pos - target viewport position
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {string}    data.up  - wheel up or down
+ * @param {PointType} data.pos - target viewport position
  * @param {function} dispatch
  */
 export default function onGraphWheel(state, data, dispatch) {

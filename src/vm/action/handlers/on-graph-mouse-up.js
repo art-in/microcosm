@@ -1,13 +1,15 @@
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import Point from 'model/entities/Point';
 import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 
 /**
  * Handles mouse up event on graph
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {function} dispatch
  * @return {PatchType|undefined}

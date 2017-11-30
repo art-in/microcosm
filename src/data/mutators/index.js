@@ -1,6 +1,8 @@
 import PatchType from 'utils/state/Patch';
 import MutationType from 'utils/state/Mutation';
 
+import StateType from 'boot/client/State';
+
 import AsyncTaskQueue from 'utils/AsyncTaskQueue';
 
 import * as ideaDB from '../db/ideas';
@@ -19,7 +21,7 @@ const _queue = new AsyncTaskQueue();
 
 /**
  * Applies patch to data state
- * @param {object} state
+ * @param {StateType} state
  * @param {PatchType} patch
  */
 export default async function mutate(state, patch) {
@@ -34,7 +36,7 @@ export default async function mutate(state, patch) {
 
 /**
  * Applies single mutation to state
- * @param {object} state
+ * @param {StateType} state
  * @param {MutationType} mutation
  */
 async function apply(state, mutation) {

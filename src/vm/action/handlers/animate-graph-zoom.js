@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import view from 'vm/utils/view-patch';
 import animate from 'vm/utils/animate';
 import Point from 'model/entities/Point';
@@ -12,7 +14,7 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 /**
  * Animates graph scale towards certain canvas position
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object}   data
  * @param {object}   data.up  - scale up or down
  * @param {object}   data.pos - target viewport position

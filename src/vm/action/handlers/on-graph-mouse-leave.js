@@ -1,5 +1,7 @@
 import view from 'vm/utils/view-mutation';
 
+import StateType from 'boot/client/State';
+
 import Patch from 'utils/state/Patch';
 import getNode from 'vm/action/utils/get-node';
 import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
@@ -7,7 +9,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
 /**
  * Handles mouse leave action on graph
  * 
- * @param {object} state
+ * @param {StateType} state
  * @return {Patch|undefined}
  */
 export default function(state) {

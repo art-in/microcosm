@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 
 import values from 'src/utils/get-map-values';
 
+import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
@@ -13,7 +14,8 @@ describe('add-association', () => {
     it('should add association to mindmap', () => {
 
         // setup
-        const state = {model: {mindmap: new Mindmap()}};
+        const state = new State();
+        state.model.mindmap = new Mindmap();
     
         const patch = new Patch({
             type: 'add-association',

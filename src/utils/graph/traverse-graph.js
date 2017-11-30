@@ -1,5 +1,3 @@
-import required from 'utils/required-params';
-
 /**
  * Generic function for graph traversal
  * 
@@ -17,9 +15,12 @@ import required from 'utils/required-params';
  */
 export default function traverseGraph(opts) {
     
-    const {root, visit} = required(opts);
-    const alg = opts.alg || 'dfs-pre';
-    const isTree = opts.isTree || false;
+    const {
+        root,
+        visit,
+        alg = 'dfs-pre',
+        isTree = false
+    } = opts;
 
     switch (alg) {
     case 'dfs-pre':

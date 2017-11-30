@@ -1,13 +1,17 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 /**
  * Sets mindmap position
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.mindmapId
- * @param {Point}  data.pos - new position of viewbox on canvas
+ * @param {StateType} state
+ * @param {object}     data
+ * @param {string}     data.mindmapId
+ * @param {PointType}  data.pos - new position of viewbox on canvas
  * @return {Patch}
  */
 export default function setMindmapPosition(state, data) {

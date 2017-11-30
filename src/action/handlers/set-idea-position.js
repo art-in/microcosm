@@ -1,6 +1,10 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 import getDescendants from 'utils/graph/get-descendants';
 import weighAssociation from 'model/utils/weigh-association';
 import isValidPosition from 'model/utils/is-valid-position';
@@ -11,10 +15,10 @@ import getIdea from 'action/utils/get-idea';
 /**
  * Sets position of idea and its child-subtree
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.ideaId
- * @param {Point}  data.pos
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {string}    data.ideaId
+ * @param {PointType} data.posAbs
  * @return {Patch|undefined}
  */
 export default function setIdeaPosition(state, data) {

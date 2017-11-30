@@ -2,16 +2,20 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 import getDistance from 'utils/get-distance-between-points';
 
 /**
  * Handles link mouse move event
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.linkId
- * @param {string} data.viewportPos - mouse viewport position
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {string}    data.linkId
+ * @param {PointType} data.viewportPos - mouse viewport position
  * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {

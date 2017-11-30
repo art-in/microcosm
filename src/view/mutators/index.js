@@ -5,12 +5,14 @@ import required from 'utils/required-params';
 import MutationType from 'utils/state/Mutation';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import Main from 'view/main/Main';
 import Provider from 'view/utils/connect/Provider';
 
 /**
  * Applies patch to view state
- * @param {object} state
+ * @param {StateType} state
  * @param {PatchType} patch
  */
 export default function mutate(state, patch) {
@@ -21,7 +23,7 @@ export default function mutate(state, patch) {
 
 /**
  * Applies single mutation to state
- * @param {object} state
+ * @param {StateType} state
  * @param {MutationType} mutation
  */
 function apply(state, mutation) {
@@ -84,7 +86,7 @@ function apply(state, mutation) {
 
 /**
  * Mounts component tree
- * @param {object} state
+ * @param {StateType} state
  */
 function mount(state) {
     ReactDom.render(

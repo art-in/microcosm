@@ -1,16 +1,20 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 import view from 'vm/utils/view-mutation';
 import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
 
 /**
  * Handles mouse move on graph
  * 
- * @param {object} state
- * @param {object} data
- * @param {Point}  data.viewportShift
- * @param {string} data.pressedMouseButton - left or null
+ * @param {StateType} state
+ * @param {object}     data
+ * @param {PointType}  data.viewportShift
+ * @param {string}     data.pressedMouseButton - left or null (TODO: or null?)
  * @return {Patch|undefined}
  */
 export default function(state, data) {

@@ -96,6 +96,8 @@ describe('required-params', () => {
         const params = requiredParams({});
 
         // check
+        
+        // @ts-ignore
         const result = () => params.X;
         expect(result).to.not.throw();
 

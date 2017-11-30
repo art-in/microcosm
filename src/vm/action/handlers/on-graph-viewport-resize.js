@@ -2,13 +2,15 @@ import clone from 'clone';
 import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import view from 'vm/utils/view-patch';
 import computeViewbox from 'vm/map/entities/Graph/methods/compute-viewbox-size';
 
 /**
  * Handlers graph viewport resize event
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {object} data.size
  * @param {number} data.size.width

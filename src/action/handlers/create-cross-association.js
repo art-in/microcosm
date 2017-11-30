@@ -1,17 +1,19 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
+import Association from 'model/entities/Association';
+
 import getIdea from 'action/utils/get-idea';
 import patchRootPaths from 'action/utils/patch-root-paths';
 import normalizePatch from 'action/utils/normalize-patch';
 import weighAssociation from 'model/utils/weigh-association';
 
-import Association from 'model/entities/Association';
-
 /**
  * Creates association between two existing ideas
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.headIdeaId
  * @param {string} data.tailIdeaId

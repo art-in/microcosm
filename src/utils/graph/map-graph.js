@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import WeightZone from 'utils/graph/WeightZone';
 import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
@@ -93,7 +92,7 @@ export default function mapGraph(opts) {
  * @param {object} internalOpts
  * @param {Map}    internalOpts.visitedOriginalVertices 
  * @param {array}  internalOpts.allVertices 
- * @param {array}  internalOpts.allEdges 
+ * @param {array}  internalOpts.allEdges
  * @return {{rootVertex, vertices, edges}}
  */
 function mapGraphInternal(opts, internalOpts) {
@@ -104,13 +103,13 @@ function mapGraphInternal(opts, internalOpts) {
         mapEdge,
         focusZoneMax,
         shadeZoneAmount
-    } = required(opts);
+    } = opts;
 
     const {
         visitedOriginalVertices,
         allVertices,
         allEdges
-    } = required(internalOpts);
+    } = internalOpts;
 
     // check if vertex was already visited
     // to not fall into infinite loop in graph cycles

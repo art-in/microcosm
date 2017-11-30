@@ -2,6 +2,7 @@ import {expect} from 'test/utils';
 
 import values from 'src/utils/get-map-values';
 
+import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
@@ -20,7 +21,8 @@ describe('remove-association', () => {
             value: 'old'
         }));
 
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = mindmap;
 
         const patch = new Patch({
             type: 'remove-association',
@@ -39,9 +41,8 @@ describe('remove-association', () => {
     it('should fail if target association was not found', () => {
         
         // setup
-        const mindmap = new Mindmap();
-
-        const state = {model: {mindmap}};
+        const state = new State();
+        state.model.mindmap = new Mindmap();
 
         const patch = new Patch({
             type: 'remove-association',

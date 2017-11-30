@@ -1,15 +1,19 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
+import PointType from 'model/entities/Point';
+
 import getDistance from 'utils/get-distance-between-points';
 import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 
 /**
  * Handles link click event
  * 
- * @param {object} state
- * @param {object} data
- * @param {string} data.linkId
- * @param {string} data.viewportPos - mouse viewport position
+ * @param {StateType} state
+ * @param {object}    data
+ * @param {string}    data.linkId
+ * @param {PointType} data.viewportPos - mouse viewport position
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {

@@ -2,12 +2,14 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
 
 /**
  * Handles key down event on association tails lookup
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.key
  * @param {function} dispatch

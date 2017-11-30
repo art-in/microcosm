@@ -1,9 +1,11 @@
 import required from 'utils/required-params';
 
+import StateType from 'boot/client/State';
+
 /**
  * Handles change event on node title
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.nodeId
  * @param {string} data.title

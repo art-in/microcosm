@@ -1,5 +1,3 @@
-import required from 'utils/required-params';
-
 import LookupType from 'vm/shared/Lookup';
 
 import clearLookup from './clear-lookup';
@@ -15,7 +13,7 @@ import getNextSuggestionId from './get-next-highlighted-suggestion-id';
  * @return {object} lookup update object
  */
 export default function onKeyDown(opts) {
-    const {key, lookup, onSuggestionSelect} = required(opts);
+    const {key, lookup, onSuggestionSelect} = opts;
 
     let update = {};
 

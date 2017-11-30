@@ -1,6 +1,8 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
 import getIdea from 'action/utils/get-idea';
@@ -13,9 +15,9 @@ import Point from 'model/entities/Point';
 /**
  * Creates idea
  *
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
- * @param {string} [data.parentIdeaId]
+ * @param {string} data.parentIdeaId
  * @return {Patch}
  */
 export default function createIdea(state, data) {

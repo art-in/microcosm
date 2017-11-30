@@ -1,4 +1,3 @@
-import required from 'utils/required-params';
 import PriorityQueue from 'utils/PriorityQueue';
 import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
@@ -40,8 +39,8 @@ import isValidPathWeight from 'utils/graph/is-valid-path-weight';
  */
 export default function calcRootPaths(opts) {
 
-    const {root} = required(opts);
     const {
+        root,
         ignoreEdges = [],
         replaceEdgesOut = [],
         replaceEdgeWeights = []

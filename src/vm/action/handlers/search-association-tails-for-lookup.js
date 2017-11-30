@@ -2,6 +2,8 @@ import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
+import StateType from 'boot/client/State';
+
 import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
 
@@ -11,7 +13,7 @@ import LookupSuggestion from 'vm/shared/LookupSuggestion';
  * Searches and sets suggesting ideas to lookup
  * which selects tail idea for cross-association
  * 
- * @param {object} state
+ * @param {StateType} state
  * @param {object} data
  * @param {string} data.phrase 
  * @param {string} data.headIdeaId 
