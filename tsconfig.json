@@ -17,6 +17,10 @@
         "checkJs": true,
         "noEmit": true,
 
+        // TODO: gradually cover code with type annotations.
+        // for now disable, otherwise it will flood with myriads of type errors.
+        // "noImplicitAny": true,
+
         // allow only explicit null/undefined type definitions.
         // TODO: enable when ts bug fixed ("Object is possibly 'undefined'")
 	    // https://github.com/Microsoft/TypeScript/issues/13369
