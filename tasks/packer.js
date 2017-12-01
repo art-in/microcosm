@@ -4,8 +4,6 @@ const webpack = require('webpack');
 const assert = require('assert');
 const WebpackDevServer = require('webpack-dev-server');
 
-const StaticTypeCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-
 /**
  * Gets config of packing client assets into bundle
  *
@@ -38,9 +36,7 @@ function getPackConfig(opts) {
 
     const entries = [];
     const resolveModules = [];
-    const plugins = [
-        new StaticTypeCheckerPlugin()
-    ];
+    const plugins = [];
 
     if (opts.watch) {
         entries.push(

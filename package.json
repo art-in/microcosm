@@ -6,10 +6,9 @@
   "scripts": {
     "start": "gulp build:watch",
     "build:watch": "gulp build:watch",
-    "serve": "gulp serve",
     "test": "gulp test",
     "test:watch": "gulp test:unit:watch",
-    "lint": "gulp test:static:lint"
+    "test:static": "gulp test:static"
   },
   "author": "",
   "license": "ISC",
@@ -45,11 +44,11 @@
     "eslint-plugin-react": "^7.4.0",
     "events": "^1.1.1",
     "express": "^4.15.4",
-    "fork-ts-checker-webpack-plugin": "^0.2.9",
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-require-tasks": "^1.2.1",
+    "gulp-typescript": "^3.2.3",
     "gulp-util": "^3.0.8",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",

@@ -21,6 +21,9 @@ module.exports = {
     },
     test: {
         root: abs('./test/'),
+        static: {
+            tsConfig: abs('./tsconfig.json')
+        },
         unit: {
             entry: abs('test/unit/entry.js'),
             output: {
