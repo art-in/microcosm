@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Line';
+import module from './Line';
+export default module;

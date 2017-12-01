@@ -1,4 +1,5 @@
 // @ts-nocheck
+// TODO: incorrecly extends EventEmitter
 
 import {EventEmitter} from 'events';
 

@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './EditableField';
+import module from './EditableField';
+export default module;

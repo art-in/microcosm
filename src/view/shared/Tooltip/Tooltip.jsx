@@ -7,9 +7,10 @@ import classes from './Tooltip.css';
 /**
  * @typedef {object} Props
  * @prop {string} value
- * @prop {string} className
+ * @prop {string} [className]
+ * @prop {object} [style]
  * 
- * @extends {Component<Props, *>}
+ * @extends {Component<Props>}
  */
 export default class Tooltip extends Component {
 
@@ -19,7 +20,6 @@ export default class Tooltip extends Component {
 
     render() {
 
-        // eslint-disable-next-line react/prop-types
         const {className, value, ...other} = this.props;
 
         return (

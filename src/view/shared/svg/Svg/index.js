@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Svg';
+import module from './Svg';
+export default module;

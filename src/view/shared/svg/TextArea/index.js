@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './TextArea';
+import module from './TextArea';
+export default module;

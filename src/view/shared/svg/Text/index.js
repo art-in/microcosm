@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Text';
+import module from './Text';
+export default module;

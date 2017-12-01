@@ -1,24 +1,25 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import LookupVM from 'vm/shared/Lookup';
+import LookupVmType from 'vm/shared/Lookup';
 import LookupSuggestion from '../LookupSuggestion';
 
+// @ts-ignore
 import classes from './Lookup.css';
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {LookupVmType} lookup
+ * 
+ * @prop {function({phrase})} onPhraseChange
+ * @prop {function({key})} onKeyDown
+ * @prop {function()} onSuggestionSelect
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Lookup extends Component {
-
-    static propTypes = {
-        lookup: PropTypes.instanceOf(LookupVM).isRequired,
-        className: PropTypes.string,
-        
-        onPhraseChange: PropTypes.func.isRequired,
-        onKeyDown: PropTypes.func.isRequired,
-        onSuggestionSelect: PropTypes.func.isRequired
-    }
 
     onPhraseChange = e => {
         const phrase = e.target.value;

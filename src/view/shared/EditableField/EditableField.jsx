@@ -1,27 +1,24 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import noop from 'utils/noop';
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {string} [tag]
+ * @prop {string} html
+ * @prop {object} style
+ * 
+ * @prop {boolean} [selectOnFocus]
+ * @prop {boolean} [focusOnMount]
+ * 
+ * @prop {function(string)} onChange
+ * @prop {function()} [onBlur]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class EditableField extends Component {
-
-    static propTypes = {
-        tag: PropTypes.string,
-        html: PropTypes.string,
-
-        className: PropTypes.string,
-        style: PropTypes.object,
-
-        // should select all inner text when focused
-        selectOnFocus: PropTypes.bool,
-        // should be focused when mounted
-        focusOnMount: PropTypes.bool,
-        
-        onChange: PropTypes.func.isRequired,
-        onBlur: PropTypes.func
-    }
 
     static defaultProps = {
         tag: 'div',
@@ -104,11 +101,15 @@ export default class EditableField extends Component {
     }
 
     render() {
-        const {tag, ...other} = this.props;
-        delete other.html;
-        delete other.focusOnMount;
-        delete other.selectOnFocus;
-        delete other.onBlur;
+        const {
+            tag,
+
+            html: unrested1,
+            focusOnMount: unrested2,
+            selectOnFocus: unrested3,
+            onBlur: unrested4,
+
+            ...other} = this.props;
 
         // do not use jsx here, to allow customizing element tag.
         // since many tags can be contenteditable (span, div, etc.)

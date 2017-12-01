@@ -8,17 +8,14 @@ Example (connect, Provider)
 component:  
 
 ```javascript
+/**
+ * @typedef {object} Props
+ * @prop {ViewModel} myVM - vm comes from parent component
+ * @prop {function()} onClick - handlers mixed by connector
+ * 
+ * @extends {Component<Props>}
+ */
 class MyComponent extends Component {
-
-     static propTypes = {
-
-         // vm comes from parent component
-         myVM: PropTypes.object,
-
-         // handlers mixed by connector
-         onClick: PropTypes.func
-     };
-     
      render() => (
          <div onClick={this.props.onClick}>
              this.props.myVM.someProp

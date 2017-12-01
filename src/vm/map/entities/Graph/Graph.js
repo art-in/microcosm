@@ -7,6 +7,7 @@ import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 
 import LinkType from 'vm/map/entities/Link';
+import NodeType from 'vm/map/entities/Node';
 
 /**
  * Graph
@@ -21,7 +22,7 @@ export default class Graph extends ViewModel {
     /**
      * Info for debug purposes only (eg. render on debug pane)
      * @type {{focusCenter, focusZoneMax, shadeZoneMax}}
-     */ 
+     */
     debugInfo = {
 
         /**
@@ -106,7 +107,7 @@ export default class Graph extends ViewModel {
 
     /**
      * Nodes
-     * @type {Array.<Node>}
+     * @type {Array.<NodeType>}
      */
     nodes = [];
 

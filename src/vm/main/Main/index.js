@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Main';
+import module from './Main';
+export default module;

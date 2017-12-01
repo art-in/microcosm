@@ -1,8 +1,8 @@
 /**
  * Run-time checks for required function parameters
  * 
- * NOTE: always prefer static type checks over run-time checks.
- *       use as last resort in case static analisys is not possible.
+ * @deprecated prefer static type checks over run-time checks.
+ *             use as last resort when static analisys is not possible.
  * 
  * Current usecases:
  * - Store action handlers (until #65 is fixed)

@@ -1,20 +1,20 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import ColorPickerVM from 'vm/shared/ColorPicker';
+import ColorPickerVmType from 'vm/shared/ColorPicker';
 
+// @ts-ignore
 import classes from './ColorPicker.css';
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * @typedef {object} Props
+ * @prop {ColorPickerVmType} picker
+ * @prop {function({color})} onChange
+ * 
+ * @extends {Component<Props>}
+ */
 export default class ColorPicker extends Component {
     
-    static propTypes = {
-        picker: PropTypes.instanceOf(ColorPickerVM).isRequired,
-        
-        onChange: PropTypes.func.isRequired
-    }
-
     componentDidUpdate() {
         this.forcePicker();
     }

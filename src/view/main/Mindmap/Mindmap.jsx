@@ -1,31 +1,30 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import MindmapVM from 'vm/main/Mindmap';
+import MindmapType from 'vm/main/Mindmap';
 
 import Graph from 'view/map/entities/Graph';
 
+// @ts-ignore
 import classes from './Mindmap.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {MindmapType} mindmap
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Mindmap extends Component {
-
-    static propTypes = {
-        mindmap: PropTypes.instanceOf(MindmapVM).isRequired,
-        className: PropTypes.string
-    };
 
     render() {
 
-        const {mindmap, className, ...other} = this.props;
+        const {mindmap, ...other} = this.props;
         
         return (
-            <div className={ cx(classes.root, className) }
+            <div className={cx(classes.root)}
                 {...other}>
 
-                <Graph graph={ mindmap.graph } />
+                <Graph graph={mindmap.graph} />
 
             </div>
         );

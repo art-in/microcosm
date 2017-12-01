@@ -1,21 +1,21 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import MainVM from 'vm/main/Main';
+import MainVmType from 'vm/main/Main';
 import Mindmap from '../Mindmap';
 
+// @ts-ignore
 import classes from './Main.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {MainVmType} vm
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Main extends Component {
 
-    static propTypes = {
-        vm: PropTypes.instanceOf(MainVM).isRequired
-    };
-
     render() {
-        
+
         return (
             <main className={classes.root}>
                 {

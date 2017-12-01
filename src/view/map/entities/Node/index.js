@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Node.connect';
+import module from './Node.connect';
+export default module;

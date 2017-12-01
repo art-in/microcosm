@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './ContextMenu.connect';
+import module from './ContextMenu.connect';
+export default module;

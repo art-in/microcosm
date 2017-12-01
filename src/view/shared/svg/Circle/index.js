@@ -1,2 +1,2 @@
-// @ts-nocheck
-export default from './Circle';
+import module from './Circle';
+export default module;

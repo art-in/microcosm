@@ -1,24 +1,18 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import Point from 'model/entities/Point';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {Point} pos1
+ * @prop {Point} pos2
+ * @prop {number|{start: number, end: number}} width
+ * @prop {string} [fill]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Line extends Component {
-
-    static propTypes = {
-        pos1: PropTypes.instanceOf(Point).isRequired,
-        pos2: PropTypes.instanceOf(Point).isRequired,
-        width: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.shape({
-                start: PropTypes.number.isRequired,
-                end: PropTypes.number.isRequired
-            })
-        ]),
-        className: PropTypes.string
-    }
 
     static defaultProps = {
         width: 0
@@ -29,10 +23,10 @@ export default class Line extends Component {
         const {
             className,
             width,
-            ...other} = this.props;
 
-        delete other.pos1;
-        delete other.pos2;
+            pos1: targetPos1,
+            pos2: targetPos2,
+            ...other} = this.props;
 
         // Variable Stroke Width (VSW) not supported by SVG (#26).
         // Currenly we need to variate start and end widths only.
@@ -49,11 +43,6 @@ export default class Line extends Component {
         const widthEnd = typeof width == 'object' ? width.end : width;
 
         const {sin, cos, atan2} = Math;
-
-        const {targetPos1, targetPos2} = {
-            targetPos1: this.props.pos1,
-            targetPos2: this.props.pos2
-        };
 
         const dx = targetPos2.x - targetPos1.x;
         const dy = targetPos2.y - targetPos1.y;

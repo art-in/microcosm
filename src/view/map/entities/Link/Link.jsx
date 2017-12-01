@@ -1,10 +1,7 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import LinkVM from 'vm/map/entities/Link';
+import LinkVmType from 'vm/map/entities/Link';
 import Point from 'model/entities/Point';
 
 import Group from 'view/shared/svg/Group';
@@ -13,6 +10,7 @@ import TextArea from 'view/shared/svg/TextArea';
 import Tooltip from 'view/shared/Tooltip';
 import Portal from 'view/shared/Portal';
 
+// @ts-ignore
 import classes from './Link.css';
 
 const GRADIENT_DENCITY_RATIO = 2000;
@@ -20,18 +18,23 @@ const ANIMATION_DURATION = 3; // sec
 
 const LINE_WIDTH = 0.5;
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {LinkVmType} link
+ * @prop {string} popupContainerId
+ * @prop {function(Point)} mapWindowToViewportCoords
+ * 
+ * events
+ * @prop {function({viewportPos})} onMouseMove
+ * @prop {function()} onMouseLeave
+ * @prop {function({viewportPos})} onClick
+ * @prop {function()} [onContextMenu]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Link extends Component {
-
-    static propTypes = {
-        className: PropTypes.string,
-        link: PropTypes.instanceOf(LinkVM).isRequired,
-        popupContainerId: PropTypes.string.isRequired,
-        mapWindowToViewportCoords: PropTypes.func.isRequired,
-
-        onMouseMove: PropTypes.func.isRequired,
-        onMouseLeave: PropTypes.func.isRequired,
-        onClick: PropTypes.func.isRequired
-    }
 
     getTitlePosition() {
         const {link} = this.props;
@@ -163,8 +166,7 @@ export default class Link extends Component {
                             height={titleHeight}
                             rotation={titleAngleDeg}
                             value={link.title.value}
-                            editable={link.title.editing}
-                            onDoubleClick={link.onTitleClick.bind(link)} />
+                            editable={link.title.editing} />
                         : null
                 }
 

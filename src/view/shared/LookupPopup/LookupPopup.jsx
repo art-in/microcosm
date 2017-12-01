@@ -1,26 +1,26 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import LookupPopupVM from 'vm/shared/LookupPopup';
+import LookupPopupVmType from 'vm/shared/LookupPopup';
 
 import Popup from '../Popup';
 import Lookup from '../Lookup';
 
+// @ts-ignore
 import classes from './LookupPopup.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {LookupPopupVmType} lookupPopup
+ * 
+ * @prop {function()} onPhraseChange
+ * @prop {function()} onKeyDown
+ * @prop {function()} onSuggestionSelect
+ * 
+ * @extends {Component<Props>}
+ */
 export default class LookupPopup extends Component {
-
-    static propTypes = {
-        lookupPopup: PropTypes.instanceOf(LookupPopupVM).isRequired,
-        className: PropTypes.string,
-        
-        onPhraseChange: PropTypes.func.isRequired,
-        onKeyDown: PropTypes.func.isRequired,
-        onSuggestionSelect: PropTypes.func.isRequired
-    }
 
     render() {
 

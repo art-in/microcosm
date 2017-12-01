@@ -1,26 +1,29 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import Point from 'model/entities/Point';
+import PointType from 'model/entities/Point';
 import EditableField from 'view/shared/EditableField';
 
+// @ts-ignore
 import classes from './TextArea.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {string} [value]
+ * @prop {PointType} [pos]
+ * @prop {number} width
+ * @prop {number} [height]
+ * @prop {number} [rotation]
+ * @prop {boolean} [editable]
+ * 
+ * @prop {function()} [onChange]
+ * @prop {function()} [onBlur]
+ * @prop {function()} [onDoubleClick]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class TextArea extends Component {
-
-    static propTypes = {
-        value: PropTypes.string,
-        pos: PropTypes.instanceOf(Point),
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number,
-        rotation: PropTypes.number,
-        editable: PropTypes.bool,
-        onChange: PropTypes.func,
-        className: PropTypes.string
-    }
 
     static defaultProps = {
         editable: false

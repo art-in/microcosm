@@ -1,10 +1,12 @@
 /**
- * Throws error on attempt to read/write unexisting object props.
- * 
+ * Run-time checks accessing object props.  
  * Prevents unintentional access by mistyping prop name.
  * 
- * - allow to read from own and prototype props.
- * - allow to write to own, but not prototype (!) props.
+ * @deprecated prefer static type checks over run-time checks.
+ *             use as last resort when static analisys is not possible.
+ * 
+ * - allows to read from own and prototype props.
+ * - allows to write to own, but not prototype (!) props.
  * 
  * @param {object} object
  * @return {Proxy|object}

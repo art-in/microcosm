@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Lookup';
+import module from './Lookup';
+export default module;

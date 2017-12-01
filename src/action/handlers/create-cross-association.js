@@ -58,7 +58,6 @@ export default function createCrossAssociation(state, data) {
         from: head,
         toId: tailIdeaId,
         to: tail,
-        // @ts-ignore
         weight: weighAssociation(head.posAbs, tail.posAbs)
     });
 

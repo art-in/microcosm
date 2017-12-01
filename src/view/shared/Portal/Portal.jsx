@@ -1,8 +1,5 @@
-// @ts-nocheck
-
 import {Component} from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 /**
  * Renders children into a DOM node that exists outside the DOM hierarchy
@@ -22,16 +19,14 @@ import PropTypes from 'prop-types';
  *   above other elements disregarding of how big its z-index is
  * - svg does not support z-index at all, putting element to bottom of DOM is
  *   the only way to render it above other elements
+ * 
+ * @typedef {object} Props
+ * @prop {string} rootId
+ * @prop {JSX.Element|Array.<JSX.Element>} children
+ * 
+ * @extends {Component<Props>}
  */
 export default class Portal extends Component {
-
-    static propTypes = {
-        rootId: PropTypes.string.isRequired,
-        children: PropTypes.oneOfType([
-            PropTypes.element,
-            PropTypes.arrayOf(PropTypes.element)
-        ]).isRequired
-    }
 
     constructor(props) {
         super(props);

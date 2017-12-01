@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Tooltip';
+import module from './Tooltip';
+export default module;

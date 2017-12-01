@@ -1,24 +1,23 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import ContextMenuVM from 'vm/shared/ContextMenu';
+import ContextMenuVmType from 'vm/shared/ContextMenu';
 
 import Popup from '../Popup';
 import Menu from '../Menu';
 
+// @ts-ignore
 import classes from './ContextMenu.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {ContextMenuVmType} cmenu
+ * @prop {function()} onItemSelect
+ * 
+ * @extends {Component<Props>}
+ */
 export default class ContextMenu extends Component {
-
-    static propTypes = {
-        cmenu: PropTypes.instanceOf(ContextMenuVM).isRequired,
-        className: PropTypes.string,
-        
-        onItemSelect: PropTypes.func.isRequired
-    }
 
     render() {
 

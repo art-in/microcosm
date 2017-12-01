@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Menu';
+import module from './Menu';
+export default module;

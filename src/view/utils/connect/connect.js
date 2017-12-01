@@ -14,7 +14,7 @@ import ViewModelType from 'vm/utils/ViewModel';
  * Does not provide automatic updates on state change (like redux).  
  * View-model should explicitly emit 'change' event.
  * 
- * @param {function(object): EventEmitter} mapPropsToVM
+ * @param {function} mapPropsToVM
  * @param {function} mapDispatchToProps
  * @return {function}
  */
@@ -42,6 +42,9 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
 
         /**
          * Wrapper component
+         * 
+         * @typedef {object} Context
+         * @prop {function()} dispatch
          */
         class ConnectedComponent extends Component {
 
@@ -58,6 +61,10 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                 return `Connected(${CustomComponent.name})`;
             }
 
+            /** @type {Context} */
+            context;
+
+            // run-time type checks of context is required by react
             static contextTypes = {
                 dispatch: PropTypes.func.isRequired
             }

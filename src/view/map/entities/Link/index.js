@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Link.connect';
+import module from './Link.connect';
+export default module;

@@ -6,7 +6,7 @@ import LookupType from 'vm/shared/Lookup';
  * @param {object} opts
  * @param {LookupType} opts.lookup
  * @param {boolean}   opts.forward 
- * @return {number|null} ID of next highlighted suggesion
+ * @return {string|null} ID of next highlighted suggesion
  */
 export default function getNextHighlightedSuggestionId(opts) {
     const {lookup, forward} = opts;

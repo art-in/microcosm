@@ -1,21 +1,17 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import Point from 'model/entities/Point';
+import PointType from 'model/entities/Point';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {PointType} pos
+ * @prop {number} [rotation]
+ * @prop {Element|Array.<Element>} children
+ * 
+ * @extends {Component<Props>}
+ */
 export default class ForeignObject extends Component {
-
-    static propTypes = {
-        className: PropTypes.string,
-        pos: PropTypes.instanceOf(Point),
-        rotation: PropTypes.number,
-        children: PropTypes.oneOfType([
-            PropTypes.element,
-            PropTypes.arrayOf(PropTypes.element)
-        ]).isRequired
-    }
 
     render() {
         const {pos, rotation, children, ...other} = this.props;

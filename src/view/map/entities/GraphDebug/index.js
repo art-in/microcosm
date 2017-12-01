@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './GraphDebug';
+import module from './GraphDebug';
+export default module;

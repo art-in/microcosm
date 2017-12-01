@@ -1,19 +1,25 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-import Point from 'model/entities/Point';
+import PointType from 'model/entities/Point';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {PointType} [pos]
+ * @prop {number} [scale]
+ * @prop {string} [id]
+ * @prop {Array.<JSX.Element>} children
+ * 
+ * @prop {function()} [onMouseDown]
+ * @prop {function()} [onMouseMove]
+ * @prop {function()} [onMouseLeave]
+ * @prop {function()} [onMouseUp]
+ * @prop {function()} [onClick]
+ * @prop {function()} [onContextMenu]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Group extends Component {
-
-    static propTypes = {
-        className: PropTypes.string,
-        pos: PropTypes.instanceOf(Point),
-        scale: PropTypes.number,
-        id: PropTypes.string,
-        children: PropTypes.arrayOf(PropTypes.element).isRequired
-    }
 
     static defaultProps = {
         scale: 1

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import {Component} from 'react';
 import PropTypes from 'prop-types';
 
@@ -7,21 +5,24 @@ import PropTypes from 'prop-types';
  * Provides store connection to all child components
  * 
  * @typedef {object} Props
- * @prop {function} dispatch
+ * @prop {function()} dispatch
+ * @prop {JSX.Element|Array.<JSX.Element>} [children]
  * 
- * @extends {Component<Props, *>}
+ * @typedef {object} ChildContext
+ * @prop {function()} dispatch
+ * 
+ * @extends {Component<Props>}
  */
 export default class Provider extends Component {
     
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        children: PropTypes.element
-    }
-
+    // run-time type checks of child context is required by react
     static childContextTypes = {
         dispatch: PropTypes.func.isRequired
     }
 
+    /**
+     * @return {ChildContext}
+     */
     getChildContext() {
         return {
             dispatch: this.props.dispatch

@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './logger';
+import module from './logger';
+export default module;

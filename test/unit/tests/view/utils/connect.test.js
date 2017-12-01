@@ -4,7 +4,6 @@ import {mount} from 'enzyme';
 
 import ViewModel from 'src/vm/utils/ViewModel';
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import connect from 'view/utils/connect';
 import Provider from 'view/utils/connect/Provider';
@@ -27,12 +26,9 @@ describe('connect', () => {
          * @typedef {object} Props
          * @prop {VM} myVM
          * 
-         * @extends {Component<Props, *>}
+         * @extends {Component<Props>}
          */
         class View extends Component {
-            static propTypes = {
-                myVM: PropTypes.instanceOf(VM).isRequired
-            }
             render() {
                 return <span>{this.props.myVM.someProp}</span>;
             }
@@ -74,14 +70,12 @@ describe('connect', () => {
         
         /**
          * @typedef {object} Props
-         * @prop {function} onClick
+         * @prop {VM} myVM
+         * @prop {function(string)} onClick
          * 
-         * @extends {Component<Props, *>}
+         * @extends {Component<Props>}
          */
         class View extends Component {
-            static propTypes = {
-                onClick: PropTypes.func.isRequired
-            }
             onClick() {
                 this.props.onClick('view event data');
             }

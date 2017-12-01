@@ -1,7 +1,4 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import getBodyMargin from 'view/utils/dom/get-body-margin';
 import getElementSize from 'view/utils/dom/get-element-size';
@@ -9,7 +6,7 @@ import getPageScale from 'view/utils/dom/get-page-scale';
 import toElementCoords from 'view/utils/dom/map-window-to-element-coords';
 
 import Point from 'model/entities/Point';
-import GraphVM from 'vm/map/entities/Graph';
+import GraphVmType from 'vm/map/entities/Graph';
 
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
@@ -21,33 +18,38 @@ import ContextMenu from 'view/shared/ContextMenu';
 import ColorPicker from 'view/shared/ColorPicker';
 import LookupPopup from 'view/shared/LookupPopup';
 
+// @ts-ignore
 import classes from './Graph.css';
 
-export default class Graph extends Component {
-
-    static propTypes = {
-        graph: PropTypes.instanceOf(GraphVM).isRequired,
-        
-        // own events
-        onClick: PropTypes.func.isRequired,
-        onWheel: PropTypes.func.isRequired,
-        onMouseUp: PropTypes.func.isRequired,
-        onMouseMove: PropTypes.func.isRequired,
-        onMouseLeave: PropTypes.func.isRequired,
-        onKeyPress: PropTypes.func.isRequired,
-        onViewportResize: PropTypes.func.isRequired,
-
-        // child events
-        onContextMenuItemSelect: PropTypes.func.isRequired,
-        onAssociationTailsLookupPhraseChange: PropTypes.func.isRequired,
-        onAssociationTailsLookupKeyDown: PropTypes.func.isRequired,
-        onAssociationTailsLookupSuggestionSelect: PropTypes.func.isRequired,
-        onColorPickerChange: PropTypes.func.isRequired,
-
-        onNodeMouseDown: PropTypes.func.isRequired,
-        onNodeRightClick: PropTypes.func.isRequired,
-        onLinkRightClick: PropTypes.func.isRequired
-    }
+// TODO: eslint 'valid-jsdoc' throws on classes with methods
+// eslint-disable-next-line valid-jsdoc
+/**
+ * @typedef {object} Props
+ * @prop {GraphVmType} graph
+ * 
+ * own events
+ * @prop {function()}          onClick
+ * @prop {function({up, pos})} onWheel
+ * @prop {function()}          onMouseUp
+ * @prop {function()}          onMouseLeave
+ * @prop {function({key})}     onKeyPress
+ * @prop {function({size})}    onViewportResize
+ * @prop {function({viewportShift, pressedMouseButton})} onMouseMove
+ * 
+ * child events
+ * @prop {function({item})} onContextMenuItemSelect
+ * @prop {function()}       onAssociationTailsLookupPhraseChange
+ * @prop {function()}       onAssociationTailsLookupKeyDown
+ * @prop {function()}       onAssociationTailsLookupSuggestionSelect
+ * @prop {function()}       onColorPickerChange
+ * 
+ * @prop {function({node, button})} onNodeMouseDown
+ * @prop {function({node, pos})}    onNodeRightClick
+ * @prop {function({link, pos})}    onLinkRightClick
+ * 
+ * @extends {Component<Props>}
+ */
+export default class GraphTest extends Component {
 
     getViewportSize = () => {
         return getElementSize(this.viewport);
@@ -57,7 +59,7 @@ export default class Graph extends Component {
         return toElementCoords(windowPos, this.viewport);
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         // for now detect viewport resize by window 'resize'.
         // eslint-disable-next-line max-len
         // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js

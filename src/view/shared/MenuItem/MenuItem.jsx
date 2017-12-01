@@ -1,20 +1,20 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import MenuItemVM from 'vm/shared/MenuItem';
+import MenuItemVmType from 'vm/shared/MenuItem';
 
+// @ts-ignore
 import classes from './MenuItem.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {MenuItemVmType} item
+ * @prop {function()} onSelect
+ * 
+ * @extends {Component<Props>}
+ */
 export default class MenuItem extends Component {
-
-    static propTypes = {
-        item: PropTypes.instanceOf(MenuItemVM).isRequired,
-        className: PropTypes.string,
-        onSelect: PropTypes.func.isRequired
-    }
 
     onClick = () => {
         if (this.props.item.enabled) {

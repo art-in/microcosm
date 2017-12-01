@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './NodeDebug.jsx';
+import module from './NodeDebug.jsx';
+export default module;

@@ -1,15 +1,24 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {function()} nodeRef
+ * @prop {Array.<JSX.Element>} children
+ * @prop {string} [viewBox]
+ * @prop {string} [preserveAspectRatio]
+ * @prop {number} [tabIndex]
+ * 
+ * @prop {function()} [onMouseUp]
+ * @prop {function()} [onMouseMove]
+ * @prop {function()} [onMouseLeave]
+ * @prop {function()} [onWheel]
+ * @prop {function()} [onClick]
+ * @prop {function()} [onKeyDown]
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Svg extends Component {
-
-    static propTypes = {
-        nodeRef: PropTypes.func,
-        children: PropTypes.arrayOf(PropTypes.element),
-        className: PropTypes.string
-    }
 
     render() {
 

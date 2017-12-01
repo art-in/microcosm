@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './connect';
+import connect from './connect';
+export default connect;

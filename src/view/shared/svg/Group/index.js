@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Group';
+import module from './Group';
+export default module;

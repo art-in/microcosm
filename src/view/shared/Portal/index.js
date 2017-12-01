@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Portal';
+import module from './Portal';
+export default module;

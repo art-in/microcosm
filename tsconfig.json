@@ -46,6 +46,8 @@
             "dom"
         ],
 
+        // if omitted, 'node_modules/@types' will be auto-included,
+        // but prefer to explicitly list typings here
         "types": [
 
             // allow 'require.context'
@@ -54,11 +56,15 @@
             // allow 'process.env.NODE_ENV'
             "node",
 
+            // support database
             "pouchdb",
 
             // support test environment
             "mocha",
-            "sinon"
+            "sinon",
+
+            // support view components
+            "react"
         ]
     },
     "exclude": [

@@ -60,16 +60,23 @@
 
         "no-unused-vars": ["error", {
 
-            // allow unused vars with Type at the end, since they really
-            // used in jsdoc type annotations, but eslint does not support
-            // jsdoc as a valid 'use' for vars
-            // https://github.com/eslint/eslint/issues/2813
-            "varsIgnorePattern": ".+Type$"
+            // 1. allow unused vars with 'Type' in name, since they really
+            //    used in jsdoc type annotations, but eslint does not support
+            //    jsdoc as a valid 'use' for vars
+            //    https://github.com/eslint/eslint/issues/2813
+            // 2. allow unused vars with 'unrested' in name, to remove
+            //    props from rest`ed object while destructuring
+            //    (eg. we do not want 'someProp' to appear in 'rest' object:
+            //    'const {someProp: unrested, ...rest} = obj')
+            "varsIgnorePattern": "(.+Type$|^unrested\\d+$)"
         }],
 
         // React
         "jsx-quotes": [ 1, "prefer-single" ],
         "react/jsx-indent": [2, 4],
+
+        // ignore 'propTypes' since using static prop validation
+        "react/prop-types": 0,
 
         // Babel rewrites
         "object-curly-spacing": 0,

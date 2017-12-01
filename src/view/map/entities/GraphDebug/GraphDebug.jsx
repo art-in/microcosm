@@ -1,18 +1,18 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import round from 'utils/round';
-import GraphVM from 'vm/map/entities/Graph';
+import GraphVmType from 'vm/map/entities/Graph';
 
+// @ts-ignore
 import classes from './GraphDebug.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {GraphVmType} graph
+ * 
+ * @extends {Component<Props>}
+ */
 export default class GraphDebug extends Component {
-
-    static propTypes = {
-        graph: PropTypes.instanceOf(GraphVM).isRequired
-    }
 
     render() {
         

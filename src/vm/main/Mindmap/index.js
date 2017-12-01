@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Mindmap';
+import module from './Mindmap';
+export default module;

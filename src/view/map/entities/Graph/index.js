@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './Graph.connect';
+import module from './Graph.connect';
+export default module;

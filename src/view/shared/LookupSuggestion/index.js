@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './LookupSuggestion.jsx';
+import module from './LookupSuggestion.jsx';
+export default module;

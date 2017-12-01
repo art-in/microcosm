@@ -1,20 +1,20 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import PopupVM from 'vm/shared/Popup';
+import PopupVmType from 'vm/shared/Popup';
 
+// @ts-ignore
 import classes from './Popup.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {PopupVmType} popup
+ * @prop {JSX.Element} children
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Popup extends Component {
-
-    static propTypes = {
-        popup: PropTypes.instanceOf(PopupVM).isRequired,
-        children: PropTypes.element.isRequired,
-        className: PropTypes.string
-    };
 
     render() {
 

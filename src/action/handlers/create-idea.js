@@ -49,7 +49,6 @@ export default function createIdea(state, data) {
         from: parent,
         toId: idea.id,
         to: idea,
-        // @ts-ignore
         weight: weighAssociation(parent.posAbs, idea.posAbs)
     });
 

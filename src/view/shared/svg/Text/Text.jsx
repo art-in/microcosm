@@ -1,21 +1,21 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import Point from 'model/entities/Point';
+import PointType from 'model/entities/Point';
 
+// @ts-ignore
 import classes from './Text.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {string} [text]
+ * @prop {'start'|'middle'|'end'} [align]
+ * @prop {PointType} pos
+ * 
+ * @extends {Component<Props>}
+ */
 export default class Text extends Component {
-
-    static propTypes = {
-        text: PropTypes.string,
-        align: PropTypes.oneOf(['start', 'middle', 'end']),
-        pos: PropTypes.instanceOf(Point),
-        className: PropTypes.string
-    }
 
     static defaultProps = {
         text: ''

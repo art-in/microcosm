@@ -1,2 +1,2 @@
-// @ts-ignore
-export default from './ForeignObject';
+import module from './ForeignObject';
+export default module;

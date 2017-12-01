@@ -1,24 +1,24 @@
-// @ts-nocheck
-
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import round from 'utils/round';
 
 import Group from 'view/shared/svg/Group';
-import NodeVM from 'vm/map/entities/Node';
+import NodeVmType from 'vm/map/entities/Node';
 import Text from 'view/shared/svg/Text';
 import Point from 'model/entities/Point';
 
+// @ts-ignore
 import classes from './NodeDebug.css';
 
+/**
+ * @typedef {object} Props
+ * @prop {string} [className]
+ * @prop {NodeVmType} node
+ * 
+ * @extends {Component<Props>}
+ */
 export default class NodeDebug extends Component {
-
-    static propTypes = {
-        className: PropTypes.string,
-        node: PropTypes.instanceOf(NodeVM).isRequired
-    }
 
     render() {
         const {className, node, ...other} = this.props;
@@ -34,7 +34,7 @@ export default class NodeDebug extends Component {
             `scale = ${round(node.scale, 2)}`,
             `pos abs = [${round(posAbs.x)} x ${round(posAbs.y)}]`,
             `pos rel = [${round(posRel.x)} x ${round(posRel.y)}]`,
-            `rpw = ${round(node.debugInfo.rootPathWeight, 2)}`
+            `rpw = ${round(node.rootPathWeight, 2)}`
         ];
 
         // when node downscaled - upscale debug info back,
