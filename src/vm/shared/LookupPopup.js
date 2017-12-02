@@ -1,5 +1,3 @@
-import initInstance from 'utils/init-instance';
-
 import ViewModel from 'vm/utils/ViewModel';
 
 import Popup from './Popup';
@@ -39,8 +37,6 @@ export default class LookupPopup extends ViewModel {
         
         this.popup = new Popup();
         this.lookup = new Lookup({placeholder});
-
-        return initInstance(this);
     }
 
 }

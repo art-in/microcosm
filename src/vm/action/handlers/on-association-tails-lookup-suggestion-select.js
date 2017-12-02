@@ -10,9 +10,9 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
  * Handles suggestion select event of association tails lookup
  * 
  * @param {StateType} state
- * @param {object}               data
- * @param {string}               data.headIdeaId
- * @param {string}               data.tailIdeaId
+ * @param {object} data
+ * @param {string} data.headIdeaId
+ * @param {string} data.tailIdeaId
  * @param {LookupSuggestionType} data.suggestion
  * @param {function} dispatch
  * @return {PatchType}

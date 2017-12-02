@@ -52,7 +52,7 @@ export default function setIdeaPosition(state, data) {
         if (!isValidPosition(idea.posAbs)) {
             throw Error(
                 `Idea '${idea.id}' has invalid absolute position ` +
-                `'${idea.pos}'`);
+                `'${idea.posAbs}'`);
         }
 
         const newPosAbs = {

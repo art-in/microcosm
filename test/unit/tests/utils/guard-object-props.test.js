@@ -8,6 +8,7 @@ describe('guard-object-props', () => {
 
         const obj = guardObjectProps({a: 1});
 
+        // @ts-ignore allow run-time check
         const result = () => obj.X;
 
         expect(result).to.throw(`Failed to read unexisting property 'X'`);
@@ -38,6 +39,7 @@ describe('guard-object-props', () => {
     
         const obj = guardObjectProps({a: 1});
 
+        // @ts-ignore allow run-time check
         const result = () => obj.X = 2;
 
         expect(result).to.throw(
@@ -76,6 +78,8 @@ describe('guard-object-props', () => {
         const obj = guardObjectProps({});
 
         // check
+
+        // @ts-ignore allow run-time check
         const result = () => obj.X;
         expect(result).to.not.throw();
 

@@ -1,16 +1,20 @@
 import traverseGraph from 'utils/graph/traverse-graph';
 
+import IVertexType from 'utils/graph/interfaces/IVertex';
+
 /**
  * Gets descendants of the vertex.
  * Descendants are all recursive childs of vertex down the tree.
  * 
- * @param {object} root vertex
- * @return {Array.<object>} descendant vertices
+ * @template T
+ * @param {T} root vertex
+ * @return {Array.<T>} descendant vertices
  */
 export default function getDescendants(root) {
 
     const descendants = [];
 
+    // @ts-ignore need function overloads instead of generic
     traverseGraph({
         root,
         isTree: true,

@@ -3,9 +3,9 @@ import {expect} from 'chai';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import buildGraphFromObjects from 'src/utils/graph/build-graph-from-objects';
+import buildIdeasGraph from 'src/model/utils/build-ideas-graph-from-objects';
 
-describe('build-graph-from-objects', () => {
+describe('build-ideas-graph-from-objects', () => {
 
     it('should build from tree graph', () => {
 
@@ -27,11 +27,7 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const graph = buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const graph = buildIdeasGraph(ideas, assocs);
 
         // check
         expect(graph).to.exist;
@@ -98,11 +94,7 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const graph = buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const graph = buildIdeasGraph(ideas, assocs);
 
         // check
         expect(graph).to.exist;
@@ -147,7 +139,7 @@ describe('build-graph-from-objects', () => {
         });
     });
 
-    it('should build from single vertex graph', () => {
+    it('should build from single idea graph', () => {
 
         // setup
         const ideas = [
@@ -157,11 +149,7 @@ describe('build-graph-from-objects', () => {
         const assocs = [];
 
         // target
-        const graph = buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const graph = buildIdeasGraph(ideas, assocs);
 
         // check
         expect(graph).to.exist;
@@ -182,14 +170,10 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const result = () => buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const result = () => buildIdeasGraph(ideas, assocs);
 
         // check
-        expect(result).to.throw('No root vertex was found');
+        expect(result).to.throw('No root idea was found');
     });
 
     it('should fail if head idea was not found for association', () => {
@@ -207,15 +191,11 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const result = () => buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const result = () => buildIdeasGraph(ideas, assocs);
 
         // check
         expect(result).to.throw(
-            `Head vertex 'idea X' of edge 'assoc 1' was not found`);
+            `Head idea 'idea X' of association 'assoc 1' was not found`);
     });
 
     it('should fail if tail idea was not found for association', () => {
@@ -233,15 +213,11 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const result = () => buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const result = () => buildIdeasGraph(ideas, assocs);
 
         // check
         expect(result).to.throw(
-            `Tail vertex 'idea Y' of edge 'assoc 2' was not found`);
+            `Tail idea 'idea Y' of association 'assoc 2' was not found`);
     });
 
     it('should fail if not all ideas can be reached from root idea', () => {
@@ -260,15 +236,11 @@ describe('build-graph-from-objects', () => {
         ];
 
         // target
-        const result = () => buildGraphFromObjects({
-            vertices: ideas,
-            edges: assocs,
-            isRootVertex: idea => idea.isRoot
-        });
+        const result = () => buildIdeasGraph(ideas, assocs);
 
         // check
         expect(result).to.throw(
-            `Some vertices cannot be reached from root: ` +
+            `Some ideas cannot be reached from root: ` +
             `'idea A', 'idea B'`);
     });
 

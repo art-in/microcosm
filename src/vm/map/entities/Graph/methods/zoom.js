@@ -9,10 +9,10 @@ import checkScaleLimits from './check-scale-limits';
 /**
  * Changes graph scale towards certain canvas position
  * 
- * @param {object}    opts
- * @param {object}    opts.viewbox   - graph viewbox
- * @param {object}    opts.viewport  - graph viewport
- * @param {object}    opts.scale     - target scale
+ * @param {object} opts
+ * @param {object} opts.viewbox  - graph viewbox
+ * @param {object} opts.viewport - graph viewport
+ * @param {object} opts.scale    - target scale
  * @param {PointType} opts.canvasPos - target canvas position
  * @return {object} viewbox
  */

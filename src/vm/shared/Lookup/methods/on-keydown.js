@@ -6,10 +6,10 @@ import getNextSuggestionId from './get-next-highlighted-suggestion-id';
 /**
  * Creates update for lookup keydown event
  * 
- * @param {object}   opts
- * @param {LookupType}   opts.lookup
- * @param {string}   opts.key
- * @param {function} opts.onSuggestionSelect
+ * @param {object} opts
+ * @param {LookupType} opts.lookup
+ * @param {string} opts.key
+ * @param {function({suggestion})} opts.onSuggestionSelect
  * @return {object} lookup update object
  */
 export default function onKeyDown(opts) {

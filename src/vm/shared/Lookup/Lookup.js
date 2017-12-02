@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 
@@ -60,17 +60,17 @@ export default class Lookup extends ViewModel {
 
     /**
      * Gets action after suggestion selected
-     * @type {function|undefined}
+     * @type {function({suggestion})|undefined}
      */
     onSelectAction = undefined;
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Lookup>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 
 }

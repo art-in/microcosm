@@ -1,5 +1,3 @@
-import initInstance from 'utils/init-instance';
-
 import ViewModel from 'vm/utils/ViewModel';
 import MenuItemType from 'vm/shared/MenuItem';
 
@@ -43,8 +41,6 @@ export default class ContextMenu extends ViewModel {
 
         this.popup = new Popup();
         this.menu = new Menu({items});
-
-        return initInstance(this);
     }
 
 }

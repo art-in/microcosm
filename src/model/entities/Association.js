@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 import createID from 'utils/create-id';
 
 import IdeaType from './Idea';
@@ -69,9 +69,9 @@ export default class Association {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Association>} [props]
      */
     constructor(props) {
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

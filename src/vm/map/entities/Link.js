@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 import NodeType from 'vm/map/entities/Node';
 import ViewModel from 'vm/utils/ViewModel';
@@ -44,7 +44,6 @@ export default class Link extends ViewModel {
     
     /**
      * Link title state
-     * @type {object}
      */
     title = {
         value: '',
@@ -72,7 +71,6 @@ export default class Link extends ViewModel {
     /**
      * Additional popped-up link info
      * (eg. shows head/tail nodes when mouse hovering over)
-     * @type {object}
      */
     tooltip = {
         visible: false,
@@ -97,10 +95,10 @@ export default class Link extends ViewModel {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Link>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

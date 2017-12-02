@@ -1,4 +1,4 @@
-import VertexType from './Vertex';
+import IVertexType from './IVertex';
 
 /**
  * Graph edge
@@ -9,13 +9,13 @@ export default class Edge {
     
     /**
      * Head vertex
-     * @type {VertexType}
+     * @type {IVertexType}
      */
     from
 
     /**
      * Tail vertex
-     * @type {VertexType}
+     * @type {IVertexType}
      */
     to
 

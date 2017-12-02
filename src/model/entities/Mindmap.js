@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 import createID from 'utils/create-id';
 
 import IdeaType from './Idea';
@@ -55,9 +55,9 @@ export default class Mindmap {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Mindmap>} [props]
      */
     constructor(props) {
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

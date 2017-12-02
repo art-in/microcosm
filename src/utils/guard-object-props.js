@@ -8,8 +8,9 @@
  * - allows to read from own and prototype props.
  * - allows to write to own, but not prototype (!) props.
  * 
- * @param {object} object
- * @return {Proxy|object}
+ * @template T
+ * @param {T} object
+ * @return {T}
  */
 export default function guardObjectProps(object) {
 

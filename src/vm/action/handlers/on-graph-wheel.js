@@ -9,7 +9,7 @@ import PointType from 'model/entities/Point';
  * 
  * @param {StateType} state
  * @param {object}    data
- * @param {string}    data.up  - wheel up or down
+ * @param {boolean}   data.up  - wheel up or down
  * @param {PointType} data.pos - target viewport position
  * @param {function} dispatch
  */

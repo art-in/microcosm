@@ -90,7 +90,6 @@ function apply(state, mutation) {
  */
 function mount(state) {
     ReactDom.render(
-        // @ts-ignore
         <Provider dispatch={state.view.storeDispatch}>
             <Main vm={state.vm.main} />
         </Provider>,

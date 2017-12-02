@@ -1,3 +1,5 @@
+import IVertexType from 'utils/graph/interfaces/IVertex';
+
 /**
  * Generic function for graph traversal
  * 
@@ -8,7 +10,7 @@
  * bfs      - breadth-first search
  * 
  * @param {object}   opts
- * @param {object}   opts.root - root vertex
+ * @param {IVertexType} opts.root - root vertex
  * @param {function} opts.visit - function to call on each vertex
  * @param {string}   [opts.alg='dfs-pre']
  * @param {boolean}  [opts.isTree=false] - traverse graph as tree

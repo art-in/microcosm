@@ -1,5 +1,6 @@
 /**
  * Gets items of array A which are not contained in array B
+ * 
  * @param {array} arrayA
  * @param {array} arrayB
  * @return {array}

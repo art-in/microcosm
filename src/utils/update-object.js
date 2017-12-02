@@ -21,8 +21,9 @@ import noop from 'utils/noop';
  * updateObject(target, {nested: {a: 2}})
  * target // {nested: {a: 2}}
  * 
- * @param {object} target 
- * @param {object} source
+ * @template T
+ * @param {T} target 
+ * @param {Partial<T>} source
  * @param {function} [shouldUpdate] - custom prop handler. return false to
  *                        prevent prop update. updates all props by default
  */
@@ -35,8 +36,8 @@ export default function updateObject(target, source, shouldUpdate = noop) {
             continue;
         }
 
-        const targetValue = target[prop];
-        const sourceValue = source[prop];
+        /** @type {*} */ const targetValue = target[prop];
+        /** @type {*} */ const sourceValue = source[prop];
 
         if (shouldUpdate(prop, targetValue, sourceValue) === false) {
             // ignore due to custom handler

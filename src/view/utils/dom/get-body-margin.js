@@ -3,17 +3,16 @@ document.addEventListener('DOMContentLoaded', function() {
     getBodyMargin();
 });
 
-/**
- * @typedef {object} MarginDef
- * @property {number} left
- * @property {number} top
- */
-
 let cache = null;
 
 /**
  * Gets body margin
- * @return {MarginDef}
+ * 
+ * @typedef {object} Margin
+ * @property {number} left
+ * @property {number} top
+ * 
+ * @return {Margin}
  */
 export default function getBodyMargin() {
 

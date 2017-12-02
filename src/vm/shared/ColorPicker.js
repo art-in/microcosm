@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 
@@ -21,10 +21,10 @@ export default class ColorPicker extends ViewModel {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<ColorPicker>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

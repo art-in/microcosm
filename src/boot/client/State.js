@@ -20,13 +20,19 @@ export default class State {
 
     model = {
 
-        /** @type {MindmapType} */
+        /**
+         * Mindmap model
+         * @type {MindmapType}
+         */
         mindmap: undefined
     }
 
     vm = {
 
-        /** @type {MainVMType} */
+        /**
+         * Main view model
+         * @type {MainVMType} 
+         */
         main: undefined
     }
 

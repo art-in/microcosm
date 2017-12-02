@@ -92,7 +92,9 @@ export default class Store {
     /**
      * Dispatches action
      * 
-     * @param {Action|object} action
+     * @typedef {{type}|{type, data}|{type, data, throttleLog}} ActionObject
+     * 
+     * @param {Action|ActionObject} action
      * @return {Promise.<object>} new state
      */
     async dispatch(action) {

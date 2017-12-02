@@ -21,7 +21,8 @@
 3. **jsdoc**: `@interface` and `@implements` are not supported  
     https://github.com/Microsoft/TypeScript/issues/16142  
 
-    _Workaround 1_: annotate with jsdoc anyway (wait for support)  
+    _Workaround 1_: it is still possible to use interface classes as prop types in functions  
+    (since `typescript` compares object types by props set (not by type names)).  
     _Workaround 2_: use typescript type definitions (`.d.ts`)
 	
 ---
@@ -61,3 +62,7 @@
    not sure if it is limitation of `typescript` or just bad type definitions.  
    https://github.com/artin-phares/microcosm/issues/66  
    
+---
+
+9. **jsdoc**: function overloading is not supported.
+    https://github.com/Microsoft/TypeScript/issues/407

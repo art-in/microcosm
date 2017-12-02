@@ -1,8 +1,8 @@
 import WeightZone from 'utils/graph/WeightZone';
 import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
-import IdeaType from 'model/entities/Idea';
-import NodeType from 'vm/map/entities/Node';
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 /**
  * Generic function for mapping graph of entities of one type
@@ -44,7 +44,7 @@ import NodeType from 'vm/map/entities/Node';
  * in focus zone (F-B edge on the scheme)
  * 
  * @param {object}   opts
- * @param {IdeaType|NodeType} opts.vertex
+ * @param {IVertexType} opts.vertex
  * @param {function} opts.mapVertex
  * @param {function} opts.mapEdge
  * @param {number}   [opts.focusZoneMax=infinity] - focus weight zone max
@@ -204,7 +204,7 @@ function mapGraphInternal(opts, internalOpts) {
 
 /**
  * Gets weight zone for vertex
- * @param {IdeaType|NodeType} vertex
+ * @param {IVertexType} vertex
  * @param {number} focusZoneMax
  * @param {number} shadeZoneAmount
  * @return {number} weight zone

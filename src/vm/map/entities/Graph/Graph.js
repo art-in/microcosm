@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 
@@ -52,7 +52,6 @@ export default class Graph extends ViewModel {
 
     /**
      * Drawing surface
-     * @type {object}
      */
     viewport = {
         width: 0,
@@ -61,7 +60,6 @@ export default class Graph extends ViewModel {
     
     /**
      * Fragment of canvas
-     * @type {object}
      */
     viewbox = {
 
@@ -87,7 +85,6 @@ export default class Graph extends ViewModel {
 
     /**
      * Panning state
-     * @type {object}
      */
     pan = {
         active: false
@@ -95,7 +92,6 @@ export default class Graph extends ViewModel {
 
     /**
      * Dragging state
-     * @type {object}
      */
     drag = {
         active: false,
@@ -144,10 +140,10 @@ export default class Graph extends ViewModel {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Graph>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

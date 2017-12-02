@@ -1,9 +1,10 @@
 /**
  * Creates new array without item on target index
  * 
- * @param {array} array
+ * @template T
+ * @param {Array.<T>} array
  * @param {number} index
- * @return {array}
+ * @return {Array.<T>}
  */
 export default function getArrayWithoutItem(array, index) {
     return [

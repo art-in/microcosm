@@ -246,6 +246,7 @@ describe('.dispatch()', () => {
 
         const store = new Store(new Handler(), () => {});
 
+        // @ts-ignore allow run-time check
         const promise = store.dispatch({type: 'A', invalidProp: 0});
 
         await expect(promise).to.be.rejectedWith(

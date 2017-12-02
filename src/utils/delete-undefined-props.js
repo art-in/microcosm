@@ -1,6 +1,6 @@
 /**
  * Deletes undefined props from object
- * @param {object} obj
+ * @param {Object.<string, *>} obj
  */
 export default function deleteUndefinedProps(obj) {
     for (const prop in obj) {

@@ -14,8 +14,9 @@ import updateObject from 'utils/update-object';
  * 
  * const a = new A({prop1: 1, prop2: 2})
  * 
- * @param {object} instance 
- * @param {object} [propsObj]
+ * @template T
+ * @param {T} instance 
+ * @param {Partial<T>} [propsObj]
  */
 export default function initProps(instance, propsObj) {
 

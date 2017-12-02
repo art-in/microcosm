@@ -103,6 +103,8 @@ describe('update-object', () => {
     it('should fail if target prop has different type', () => {
 
         const target = {nested: {a: 1}};
+
+        // @ts-ignore allow run-time check
         const result = () => updateObject(target, {nested: 2});
 
         expect(result).to.throw(
@@ -113,6 +115,8 @@ describe('update-object', () => {
     it('should fail if updating array to object', () => {
         
         const target = {nested: []};
+
+        // @ts-ignore allow run-time check
         const result = () => updateObject(target, {nested: {}});
 
         expect(result).to.throw(
@@ -131,6 +135,8 @@ describe('update-object', () => {
     it('should fail if nested array items has different type', () => {
         
         const target = {nested: [1, 2]};
+
+        // @ts-ignore allow run-time check
         const result = () => updateObject(target, {nested: ['3', '4']});
         
         expect(result).throw(

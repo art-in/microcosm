@@ -1,17 +1,14 @@
 import isValidPathWeight from 'utils/graph//is-valid-path-weight';
 
-import IdeaType from 'model/entities/Idea';
-import AssocType from 'model/entities/Association';
-
-import NodeType from 'vm/map/entities/Node';
-import LinkType from 'vm/map/entities/Link';
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 const charCodeA = 65;
 const charCount = 26;
 
 /**
- * @typedef {{new(...args: any[]): IdeaType|NodeType}} VertexConstructorType
- * @typedef {{new(...args: any[]): AssocType|LinkType}} EdgeConstructorType
+ * @typedef {{new(...args: any[]): IVertexType}} VertexConstructorType
+ * @typedef {{new(...args: any[]): IEdgeType}} EdgeConstructorType
  */
 
 /**

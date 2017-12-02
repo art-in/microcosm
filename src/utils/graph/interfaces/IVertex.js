@@ -1,4 +1,4 @@
-import EdgeType from './Edge';
+import IEdgeType from './IEdge';
 
 /**
  * Graph vertex
@@ -8,28 +8,34 @@ import EdgeType from './Edge';
 export default class Vertex {
     
     /**
+     * Indicates that vertex is graph root
+     * @type {boolean}
+     */
+    isRoot
+
+    /**
      * Incoming edges
-     * @type {Array.<EdgeType>}
+     * @type {Array.<IEdgeType>}
      */
     edgesIn
 
     /**
      * Outgoing edges
-     * @type {Array.<EdgeType>}
+     * @type {Array.<IEdgeType>}
      */
     edgesOut
 
     /**
      * Edge from parent vertex in minimum spanning tree (MST).
      * One of incoming edges.
-     * @type {EdgeType}
+     * @type {IEdgeType}
      */
     edgeFromParent
 
     /**
      * Edges to child vertices in minimum spanning tree (MST).
      * Subset of outgoing edges.
-     * @type {Array.<EdgeType>}
+     * @type {Array.<IEdgeType>}
      */
     edgesToChilds
 

@@ -1,12 +1,6 @@
 import pms from 'utils/pms';
 
 /**
- * @typedef {object} Transition
- * @property {number} from
- * @property {number} to
- */
-
-/**
  * Animates numeric values
  * 
  * Each step adds small value to starting value towards target value
@@ -24,10 +18,14 @@ import pms from 'utils/pms';
  *      }
  * });
  * 
+ * @typedef {object} Transition
+ * @property {number} from
+ * @property {number} to
+ * 
  * @param {object} opts
  * @param {Array.<Transition>} opts.values - numeric values
- * @param {number}   opts.duration - approximate animation duration (ms)
- * @param {function} opts.onStep
+ * @param {number} opts.duration - approximate animation duration (ms)
+ * @param {function(Array.<number>)} opts.onStep
  * @param {function} [opts.scheduleAnimationStep] - step scheduler
  *                   (default: requestAnimationFrame)
  * @return {Promise}

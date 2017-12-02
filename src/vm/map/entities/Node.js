@@ -1,5 +1,4 @@
-import initInstance from 'utils/init-instance';
-import VertexType from 'utils/graph/interfaces/Vertex';
+import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 import LinkType from 'vm/map/entities/Link';
@@ -63,7 +62,6 @@ export default class Node extends ViewModel {
 
     /**
      * Node title state
-     * @type {object}
      */
     title = {
         value: '',
@@ -131,10 +129,10 @@ export default class Node extends ViewModel {
     
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Node>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

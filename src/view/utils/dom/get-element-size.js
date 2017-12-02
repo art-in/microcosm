@@ -1,7 +1,12 @@
 /**
  * Gets element size
+ * 
+ * @typedef {object} Return
+ * @property {number} width
+ * @property {number} height
+ * 
  * @param {Element} el
- * @return {{width: number, height: number}}}
+ * @return {Return}
  */
 export default function getElementSize(el) {
     const rect = el.getBoundingClientRect();

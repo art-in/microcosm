@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 /**
  * Point (position) on 2D surface
@@ -19,9 +19,9 @@ export default class Point {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Point>} [props]
      */
     constructor(props) {
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

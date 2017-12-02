@@ -1,8 +1,8 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 import createID from 'utils/create-id';
 
-import VertexType from 'utils/graph/interfaces/Vertex';
-import EdgeType from 'utils/graph/interfaces/Edge';
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 import AssociationType from './Association';
 import PointType from './Point';
@@ -109,9 +109,9 @@ export default class Idea {
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Idea>} [props]
      */
     constructor(props) {
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

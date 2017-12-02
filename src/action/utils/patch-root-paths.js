@@ -4,16 +4,31 @@ import diffRootPaths from 'utils/graph/diff-root-paths';
 import PointType from 'model/entities/Point';
 import IdeaType from 'model/entities/Idea';
 
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
+
 /**
  * Calculates diff between calculated root paths and current graph state
  * and generates patch for state to fix that diff
  * 
+ * @typedef {object} IdeaEdgesReplacement
+ * @prop {IVertexType} vertex
+ * @prop {Array.<IEdgeType>} edgesOut
+ * 
+ * @typedef {object} EdgeWeightReplacement
+ * @prop {IEdgeType} edge
+ * @prop {number} weight
+ * 
+ * @typedef {object} IdeaPositionReplacement
+ * @prop {IdeaType} idea
+ * @prop {PointType} posAbs
+ * 
  * @param {object}   opts
- * @param {IdeaType} opts.root
- * @param {array}   [opts.replaceIdeaPositions]
- * @param {array}   [opts.replaceEdgeWeights]
- * @param {array}   [opts.replaceEdgesOut]
- * @param {array}   [opts.ignoreEdges]
+ * @param {IVertexType} opts.root
+ * @param {Array.<IdeaPositionReplacement>} [opts.replaceIdeaPositions]
+ * @param {Array.<EdgeWeightReplacement>} [opts.replaceEdgeWeights]
+ * @param {Array.<IdeaEdgesReplacement>} [opts.replaceEdgesOut]
+ * @param {Array.<IEdgeType>} [opts.ignoreEdges]
  * @return {Patch} patch
  */
 export default function patchRootPaths(opts) {

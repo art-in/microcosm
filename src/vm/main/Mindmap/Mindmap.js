@@ -1,6 +1,6 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
-import GraphType from 'vm/map/entities/Graph';
+import GraphVmType from 'vm/map/entities/Graph';
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
@@ -12,17 +12,17 @@ import ViewModel from 'vm/utils/ViewModel';
 export default class Mindmap extends ViewModel {
 
     /**
-     * Graph model
-     * @type {GraphType|undefined}
+     * Graph view model
+     * @type {GraphVmType|undefined}
      */
     graph = undefined;
 
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Mindmap>} [props]
      */
     constructor(props) {
         super();
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

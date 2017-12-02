@@ -1,5 +1,5 @@
 // @ts-nocheck
-// TODO: incorrecly extends EventEmitter
+// TODO: ViewModel incorrecly extends EventEmitter
 
 import {EventEmitter} from 'events';
 

@@ -39,7 +39,7 @@ export default class PriorityQueue {
 
     /**
      * Updates item priority.
-     * @param {object} item
+     * @param {Object.<string, *>} item
      * @param {number} priority
     */
     updatePriority(item, priority) {
@@ -86,7 +86,7 @@ export default class PriorityQueue {
 
     /**
      * Checks whether item exists in the queue.
-     * @param {object} item
+     * @param {Object.<string, *>} item
      * @return {boolean}
      */
     has(item) {

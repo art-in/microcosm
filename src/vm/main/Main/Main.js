@@ -1,4 +1,4 @@
-import initInstance from 'utils/init-instance';
+import initProps from 'utils/init-props';
 
 import MindmapType from 'vm/main/Mindmap';
 
@@ -18,9 +18,9 @@ export default class Main {
     
     /**
      * Constructor
-     * @param {object} [props]
+     * @param {Partial<Main>} [props]
      */
     constructor(props) {
-        return initInstance(this, props);
+        initProps(this, props);
     }
 }

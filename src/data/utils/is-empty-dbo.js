@@ -1,7 +1,7 @@
 /**
  * Checks whether database object has any meaningful data props
  * 
- * @param {object} dbo
+ * @param {Object.<string, *>} dbo
  * @return {boolean}
  */
 export default function isEmptyDbo(dbo) {

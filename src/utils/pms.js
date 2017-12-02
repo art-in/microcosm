@@ -29,7 +29,12 @@
  * follow rule: if function returns promise, it should return any
  * result through promise (including errors)
  * 
- * @return {object}
+ * @typedef {object} Result
+ * @prop {Promise} promise
+ * @prop {function} resolve
+ * @prop {function} reject
+ * 
+ * @return {Result}
  */
 export default function pms() {
 
