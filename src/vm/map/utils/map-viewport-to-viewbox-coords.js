@@ -9,12 +9,7 @@ import Point from 'model/entities/Point';
  */
 export default function(pos, viewbox) {
 
-    // TODO: remove ts-ignore when ts fixes "Object is possibly 'undefined'"
-    // https://github.com/Microsoft/TypeScript/issues/13369
-    // @ts-ignore
     const x = pos.x / viewbox.scale;
-
-    // @ts-ignore
     const y = pos.y / viewbox.scale;
 
     return new Point({x, y});

@@ -4,7 +4,6 @@ import cx from 'classnames';
 import PointType from 'model/entities/Point';
 import EditableField from 'view/shared/EditableField';
 
-// @ts-ignore
 import classes from './TextArea.css';
 
 /**

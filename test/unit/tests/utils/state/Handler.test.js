@@ -61,7 +61,7 @@ describe('Handler', () => {
             expect(handler2.callCount).to.equal(0);
         });
 
-        it('should allow to test intermediate mutations', () => {
+        it('should allow to test intermediate mutations', async () => {
             
             // setup
             const handler = new Handler();
@@ -94,7 +94,7 @@ describe('Handler', () => {
             
             // target
             
-            const resPatch = handler.handle(
+            const resPatch = await handler.handle(
                 state,
                 {type: 'action'},
                 dispatch,
@@ -117,7 +117,6 @@ describe('Handler', () => {
     
             // combine mutations to single patch,
             // since it easier to test mutations from single patch
-            // @ts-ignore
             const patch = combinePatches(mutate, resPatch);
     
             // check mutations count

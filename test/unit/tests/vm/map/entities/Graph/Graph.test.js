@@ -13,9 +13,7 @@ describe('Graph', () => {
 
         // check
 
-        // @ts-ignore ViewModel incorrectly extends EventEmitter
-        expect(graph.constructor.displayName).to.equal('Graph');
-
+        expect(graph.constructor.name).to.equal('Graph');
     });
 
 });

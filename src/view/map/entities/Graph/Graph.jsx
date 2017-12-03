@@ -18,7 +18,6 @@ import ContextMenu from 'view/shared/ContextMenu';
 import ColorPicker from 'view/shared/ColorPicker';
 import LookupPopup from 'view/shared/LookupPopup';
 
-// @ts-ignore
 import classes from './Graph.css';
 
 // TODO: eslint 'valid-jsdoc' throws on classes with methods

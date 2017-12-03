@@ -95,8 +95,13 @@ function getPackConfig(opts) {
                 use: [{
                     loader: 'style-loader'
                 }, {
-                    loader: 'css-loader',
+                    // wraps currently installed 'css' loader
+                    // to auto-generate typings for styles
+                    loader: 'typings-for-css-modules-loader',
                     options: {
+                        // allow default export for typings
+                        namedExport: true,
+
                         modules: true,
                         localIdentName: '[name]-[local]'
                     }

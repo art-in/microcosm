@@ -122,7 +122,6 @@ export default function mindmapToGraph(mindmap) {
 function computeNode(mindmap, nodes, node) {
     
     /** @type {IdeaType} */
-    // @ts-ignore
     const idea = mindmap.ideas.get(node.id);
 
     // get required info from parent

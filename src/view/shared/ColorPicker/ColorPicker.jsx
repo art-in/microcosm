@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import ColorPickerVmType from 'vm/shared/ColorPicker';
 
-// @ts-ignore
 import classes from './ColorPicker.css';
 
 // eslint-disable-next-line valid-jsdoc

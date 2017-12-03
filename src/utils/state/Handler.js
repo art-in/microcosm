@@ -120,7 +120,6 @@ export default class Handler {
     static combine(...handlers) {
 
         // flatten arrays
-        // @ts-ignore
         handlers = handlers.reduce((res, a) => res.concat(a), []);
 
         const handler = new Handler();

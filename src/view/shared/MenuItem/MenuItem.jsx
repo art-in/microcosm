@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import MenuItemVmType from 'vm/shared/MenuItem';
 
-// @ts-ignore
 import classes from './MenuItem.css';
 
 /**

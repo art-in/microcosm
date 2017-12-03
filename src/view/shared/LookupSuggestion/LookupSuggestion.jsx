@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import LookupSuggestionVmType from 'vm/shared/LookupSuggestion';
 
-// @ts-ignore
 import classes from './LookupSuggestion.css';
 
 /**

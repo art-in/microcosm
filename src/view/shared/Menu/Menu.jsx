@@ -5,7 +5,6 @@ import MenuVmType from 'vm/shared/Menu';
 
 import MenuItem from '../MenuItem';
 
-// @ts-ignore
 import classes from './Menu.css';
 
 /**

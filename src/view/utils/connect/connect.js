@@ -96,14 +96,10 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
 
                 // eslint-disable-next-line require-jsdoc
                 const onVMChange = () =>
-                    // return promise to be able to
-                    // await view updates on vm changes
-                    new Promise(resolve => {
-                        // forceUpdate will only skip shouldComponentUpdate for
-                        // this wrapper component, while child components will
-                        // still receive all normal lifecycle hooks.
-                        this.forceUpdate(resolve);
-                    });
+                    // forceUpdate will only skip shouldComponentUpdate for
+                    // this wrapper component, while child components will
+                    // still receive all normal lifecycle hooks.
+                    this.forceUpdate();
                 
                 vm.addListener('change', onVMChange);
 

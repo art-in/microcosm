@@ -10,7 +10,6 @@ import TextArea from 'view/shared/svg/TextArea';
 import Tooltip from 'view/shared/Tooltip';
 import Portal from 'view/shared/Portal';
 
-// @ts-ignore
 import classes from './Link.css';
 
 const GRADIENT_DENCITY_RATIO = 2000;

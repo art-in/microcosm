@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import round from 'utils/round';
 import GraphVmType from 'vm/map/entities/Graph';
 
-// @ts-ignore
 import classes from './GraphDebug.css';
 
 /**

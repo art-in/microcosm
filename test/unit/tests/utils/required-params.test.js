@@ -50,7 +50,7 @@ describe('required-params', () => {
 
         // target
 
-        // @ts-ignore
+        // @ts-ignore allow run-time check
         const result = () => test({
             reqParam1: '1'
         });
@@ -78,7 +78,7 @@ describe('required-params', () => {
 
         // target
 
-        // @ts-ignore
+        // @ts-ignore allow run-time check
         const result = () => test();
 
         // check
@@ -97,7 +97,7 @@ describe('required-params', () => {
 
         // check
         
-        // @ts-ignore
+        // @ts-ignore allow run-time check
         const result = () => params.X;
         expect(result).to.not.throw();
 

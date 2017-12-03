@@ -6,7 +6,6 @@ import ContextMenuVmType from 'vm/shared/ContextMenu';
 import Popup from '../Popup';
 import Menu from '../Menu';
 
-// @ts-ignore
 import classes from './ContextMenu.css';
 
 /**
@@ -30,7 +29,6 @@ export default class ContextMenu extends Component {
                 {...other}>
 
                 <Menu menu={menu}
-                    className={classes.menu}
                     onItemSelect={onItemSelect} />
         
             </Popup>

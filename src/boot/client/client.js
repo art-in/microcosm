@@ -17,7 +17,7 @@ import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
 // for devtools Fauxton extension
-// @ts-ignore unknown 'window' prop
+// @ts-ignore unknown prop of 'window'
 window.PouchDB = PouchDB;
 
 /**

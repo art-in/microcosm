@@ -56,22 +56,19 @@ export default function mapGraph(opts) {
     const vertices = [];
     const edges = [];
 
+    const requiredOpts = {
+        ...opts,
+        focusZoneMax: opts.focusZoneMax || Infinity,
+        shadeZoneAmount: opts.shadeZoneAmount || 0
+    };
+
     const internalOpts = {
         visitedOriginalVertices: new Map(),
         allVertices: vertices,
         allEdges: edges
     };
 
-    if (opts.focusZoneMax === undefined) {
-        opts.focusZoneMax = Infinity;
-    }
-    
-    if (opts.shadeZoneAmount === undefined) {
-        opts.shadeZoneAmount = 0;
-    }
-
-    // @ts-ignore
-    const rootVertex = mapGraphInternal(opts, internalOpts);
+    const rootVertex = mapGraphInternal(requiredOpts, internalOpts);
 
     return {
         rootVertex,

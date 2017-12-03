@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import PopupVmType from 'vm/shared/Popup';
 
-// @ts-ignore
 import classes from './Popup.css';
 
 /**

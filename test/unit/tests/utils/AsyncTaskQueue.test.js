@@ -183,7 +183,7 @@ describe('AsyncTaskQueue', () => {
             const queue = new AsyncTaskQueue();
             
             /* eslint-disable no-undef */
-            // @ts-ignore
+            // @ts-ignore allow run-time throw
             const task1 = async () => NOT_DEFINED_ERROR;
             const task2 = async () => {};
             /* eslint-enable */
@@ -212,7 +212,7 @@ describe('AsyncTaskQueue', () => {
 
 
             /* eslint-disable no-undef */
-            // @ts-ignore
+            // @ts-ignore allow run-time throw
             const task1 = async () => NOT_DEFINED_ERROR;
             const task2 = async () => {};
             /* eslint-enable */

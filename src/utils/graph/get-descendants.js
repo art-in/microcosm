@@ -14,7 +14,7 @@ export default function getDescendants(root) {
 
     const descendants = [];
 
-    // @ts-ignore need function overloads instead of generic
+    // @ts-ignore need function overloads (not supported) instead of generic
     traverseGraph({
         root,
         isTree: true,

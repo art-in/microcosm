@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import MainVmType from 'vm/main/Main';
 import Mindmap from '../Mindmap';
 
-// @ts-ignore
 import classes from './Main.css';
 
 /**

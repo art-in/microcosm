@@ -4,7 +4,6 @@ import cx from 'classnames';
 import LookupVmType from 'vm/shared/Lookup';
 import LookupSuggestion from '../LookupSuggestion';
 
-// @ts-ignore
 import classes from './Lookup.css';
 
 // eslint-disable-next-line valid-jsdoc

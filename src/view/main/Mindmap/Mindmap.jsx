@@ -5,7 +5,6 @@ import MindmapType from 'vm/main/Mindmap';
 
 import Graph from 'view/map/entities/Graph';
 
-// @ts-ignore
 import classes from './Mindmap.css';
 
 /**

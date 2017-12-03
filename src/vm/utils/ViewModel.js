@@ -1,6 +1,3 @@
-// @ts-nocheck
-// TODO: ViewModel incorrecly extends EventEmitter
-
 import {EventEmitter} from 'events';
 
 /**
@@ -14,30 +11,24 @@ import {EventEmitter} from 'events';
 export default class ViewModel extends EventEmitter {
 
     /**
-     * Gets class display name
-     * @type {string}
-     */
-    static get displayName() {
-        return this.name;
-    }
-
-    /**
      * Emits event
      * @param {string} eventType
      * @param {array} args
+     * @return {boolean}
      */
-    async emit(eventType, ...args) {
+    emit(eventType, ...args) {
         if (!this.hasListeners(eventType)) {
             console.warn(
                 `Triggering '${eventType}' event on ` +
-                // @ts-ignore
-                `'${this.constructor.displayName}' ` +
-                `view model, but no one listens to it`);
+                `'${this.constructor.name}' view model, ` +
+                `but no one listens to it`);
             return;
         }
 
         const listeners = this.listeners(eventType);
-        await Promise.all(listeners.map(l => l(...args)));
+        listeners.forEach(l => l(...args));
+
+        return true;
     }
 
     /**
@@ -60,8 +51,7 @@ export default class ViewModel extends EventEmitter {
         
         if (this.hasListeners(eventType)) {
             throw Error(
-                // @ts-ignore
-                `'${this.constructor.displayName}' view model ` +
+                `'${this.constructor.name}' view model ` +
                 `already has handler for '${eventType}' event`
             );
         }

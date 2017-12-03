@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import PointType from 'model/entities/Point';
 
-// @ts-ignore
 import classes from './Text.css';
 
 /**

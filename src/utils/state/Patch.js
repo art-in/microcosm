@@ -132,7 +132,7 @@ export default class Patch {
     static combine(...patches) {
         
         // flatten arrays
-        // @ts-ignore
+        // @ts-ignore res is array and concat is valid function here
         patches = patches.reduce((res, a) => res.concat(a), []);
 
         patches = patches.filter(p => p !== undefined);

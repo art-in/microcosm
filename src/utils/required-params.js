@@ -62,7 +62,7 @@ export default function requiredParams(params) {
         return params;
     }
     
-    // @ts-ignore
+    // @ts-ignore narrowing generic types is not supported
     return new Proxy(params, {
         get: function(target, name) {
             if (!(name in target)) {

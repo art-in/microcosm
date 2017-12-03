@@ -10,7 +10,6 @@ import TextArea from 'view/shared/svg/TextArea';
 
 import NodeDebug from '../NodeDebug';
 
-// @ts-ignore
 import classes from './Node.css';
 
 const TEXT_AREA_WIDTH = 200;

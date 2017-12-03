@@ -6,7 +6,6 @@ import LookupPopupVmType from 'vm/shared/LookupPopup';
 import Popup from '../Popup';
 import Lookup from '../Lookup';
 
-// @ts-ignore
 import classes from './LookupPopup.css';
 
 /**
@@ -34,7 +33,6 @@ export default class LookupPopup extends Component {
                 {...other}>
 
                 <Lookup lookup={lookup}
-                    className={classes.lookup}
                     onPhraseChange={onPhraseChange}
                     onKeyDown={onKeyDown}
                     onSuggestionSelect={onSuggestionSelect} />

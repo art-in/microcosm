@@ -8,7 +8,6 @@ import NodeVmType from 'vm/map/entities/Node';
 import Text from 'view/shared/svg/Text';
 import Point from 'model/entities/Point';
 
-// @ts-ignore
 import classes from './NodeDebug.css';
 
 /**

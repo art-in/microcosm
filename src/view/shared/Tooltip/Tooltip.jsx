@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 
-// @ts-ignore
 import classes from './Tooltip.css';
 
 /**

@@ -66,3 +66,18 @@
 
 9. **jsdoc**: function overloading is not supported.
     https://github.com/Microsoft/TypeScript/issues/407
+
+---
+
+10. **jsdoc**: narrowing generic type `@template T` is not supported.
+    https://github.com/Microsoft/TypeScript/issues/1178
+    https://stackoverflow.com/questions/44080759/is-it-possible-to-constrain-a-generic-type-defined-in-a-jsdoc-template-declarat
+
+---
+
+11. **typescript**: does not support importing '.css' files.
+
+    _Workaround_: auto-generate typings for styles with  
+    https://github.com/Jimdo/typings-for-css-modules-loader  
+    generates bunch of junk `.css.d.ts` files (need to .gitignore them).
+
