@@ -5,29 +5,33 @@ import clone from 'clone';
 import StateType from 'boot/client/State';
 
 import Point from 'model/entities/Point';
-import NodeType from 'vm/map/entities/Node';
 
 import animate from 'vm/utils/animate';
 import getViewboxSize from 'vm/map/entities/Graph/methods/compute-viewbox-size';
 import getGraphScaleForNode from 'vm/map/utils/get-graph-scale-for-node-scale';
+import getNodeScaleForWeight from 'vm/map/utils/get-node-scale-for-weight';
+import getIdea from 'action/utils/get-idea';
 
 /**
- * Animates viewbox to target node
+ * Animates graph viewbox to idea
  * 
  * @param {StateType} state
  * @param {object}   data
- * @param {NodeType} data.node - target node
+ * @param {string} data.ideaId - target idea ID
  * @param {function} dispatch
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
-    const {node} = required(data);
+    const {model: {mindmap}, vm: {main: {mindmap: {graph}}}} = state;
+    const {ideaId} = required(data);
     
+    const idea = getIdea(mindmap, ideaId);
+
     const currentViewboxScale = graph.viewbox.scale;
 
     // target viewbox scale is scale in which target idea will be in focus zone
-    const targetViewboxScale = getGraphScaleForNode(node.scale);
+    const nodeScale = getNodeScaleForWeight(idea.rootPathWeight);
+    const targetViewboxScale = getGraphScaleForNode(nodeScale);
     
     const currentViewboxCenterPos = {
         x: graph.viewbox.x + (graph.viewbox.width / 2),
@@ -35,7 +39,7 @@ export default async function(state, data, dispatch, mutate) {
     };
 
     // target position of viewbox center is position of idea itself
-    const targetViewboxCenterPos = node.posAbs;
+    const targetViewboxCenterPos = idea.posAbs;
 
     // animate viewbox center and scale to target idea
     await animate({

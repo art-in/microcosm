@@ -154,6 +154,9 @@ function logDispatch(state, events, throttledCount) {
         entry.patch = entry.patch ?
             Patch.combine(entry.patch, patch) :
             patch;
+
+        // TODO: intermediate mutations should sum durations,
+        //       not just get last one
         entry.perf.mutation.start = performance.now();
     });
 

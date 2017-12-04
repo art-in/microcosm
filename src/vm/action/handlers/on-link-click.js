@@ -44,7 +44,7 @@ export default function(state, data, dispatch) {
     }
 
     dispatch({
-        type: 'animate-to-node',
-        data: {node}
+        type: 'animate-graph-viewbox-to-idea',
+        data: {ideaId: node.id}
     });
 }
