@@ -61,6 +61,10 @@ export default async function(state, data, dispatch, mutate) {
 
         onStep: async ([x, y, scale]) => {
 
+            // TODO: transition done wrong.
+            // changes to x-y not in sync with changes to scale, which results
+            // in animation curves
+
             let viewbox = clone(graph.viewbox);
             
             viewbox.scale = scale;

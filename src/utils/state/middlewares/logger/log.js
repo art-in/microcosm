@@ -39,6 +39,7 @@ export default function(entry) {
         entry.prevState);
 
     // action
+    // TODO: handler can be not finished if intermediate mutation failed
     const actionTitle =
         S + 'action ' +
         S + `(${entry.perf.handler.duration} ms)`;

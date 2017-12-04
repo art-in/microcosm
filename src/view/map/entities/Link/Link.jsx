@@ -91,7 +91,6 @@ export default class Link extends Component {
         const viewportPos = mapWindowToViewportCoords(windowPos);
 
         this.props.onMouseMove({viewportPos});
-        e.stopPropagation();
     }
 
     onMouseLeave = e => {
@@ -169,6 +168,7 @@ export default class Link extends Component {
                         : null
                 }
 
+                {/* TODO: delay showing tooltip for a bit of second */}
                 {tooltip.visible ?
                     <Portal rootId={popupContainerId}>
                         <Tooltip className={classes.tooltip}
