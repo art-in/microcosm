@@ -22,6 +22,11 @@ export default function(state, data, dispatch) {
  
     const link = graph.links.find(l => l.id === linkId);
 
+    if (link.shaded) {
+        // do not handle clicks from shaded links.
+        return;
+    }
+
     const head = link.from;
     const tail = link.to;
 

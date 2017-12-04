@@ -24,6 +24,11 @@ export default function onLinkMouseMove(state, data) {
     
     const link = graph.links.find(l => l.id === linkId);
 
+    if (link.shaded) {
+        // do not highlight shaded links.
+        return;
+    }
+
     const head = link.from;
     const tail = link.to;
 
@@ -36,7 +41,8 @@ export default function onLinkMouseMove(state, data) {
     viewportPos.x += 15;
     viewportPos.y += 15;
 
-    // show what idea this association is going to/from in tooltip
+    // 1. find what idea is closer to mouse position
+    // 2. show opposite idea in the tooltip
     let tooltipValue;
     if (getDistance(mousePos, headPos) < getDistance(mousePos, tailPos)) {
         tooltipValue = `to: ${tail.title.value}`;

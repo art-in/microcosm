@@ -1,6 +1,6 @@
 .root {}
 
-.root:hover {
+.root:not(.shaded):hover {
     cursor: pointer;
 }
 
