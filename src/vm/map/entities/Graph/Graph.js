@@ -63,7 +63,7 @@ export default class Graph extends ViewModel {
      */
     viewbox = {
 
-        // position on canvas
+        // position of top-left corner of viewbox on canvas
         x: 0,
         y: 0,
 

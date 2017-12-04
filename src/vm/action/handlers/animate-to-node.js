@@ -12,7 +12,7 @@ import getViewboxSize from 'vm/map/entities/Graph/methods/compute-viewbox-size';
 import getGraphScaleForNode from 'vm/map/utils/get-graph-scale-for-node-scale';
 
 /**
- * Animates graph position and scale to target node
+ * Animates viewbox to target node
  * 
  * @param {StateType} state
  * @param {object}   data
@@ -24,57 +24,48 @@ export default async function(state, data, dispatch, mutate) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {node} = required(data);
     
-    // get target viewbox scale so target idea is in focus zone
+    const currentViewboxScale = graph.viewbox.scale;
+
+    // target viewbox scale is scale in which target idea will be in focus zone
     const targetViewboxScale = getGraphScaleForNode(node.scale);
     
-    // get target viewbox pos so target idea is in the center
-    let targetViewbox = clone(graph.viewbox);
-    targetViewbox.scale = targetViewboxScale;
-    targetViewbox = getViewboxSize({
-        viewbox: targetViewbox,
-        viewport: graph.viewport
-    });
-
-    const targetViewboxCenterPos = {
-        x: targetViewbox.width / 2,
-        y: targetViewbox.height / 2
+    const currentViewboxCenterPos = {
+        x: graph.viewbox.x + (graph.viewbox.width / 2),
+        y: graph.viewbox.y + (graph.viewbox.height / 2)
     };
 
-    const targetViewportPos = {
-        x: node.posAbs.x - targetViewboxCenterPos.x,
-        y: node.posAbs.y - targetViewboxCenterPos.y
-    };
+    // target position of viewbox center is position of idea itself
+    const targetViewboxCenterPos = node.posAbs;
 
-    // animate graph scale and position towards node
+    // animate viewbox center and scale to target idea
     await animate({
         values: [{
-            from: graph.viewbox.x,
-            to: targetViewportPos.x
+            from: currentViewboxCenterPos.x,
+            to: targetViewboxCenterPos.x
         }, {
-            from: graph.viewbox.y,
-            to: targetViewportPos.y
+            from: currentViewboxCenterPos.y,
+            to: targetViewboxCenterPos.y
         }, {
-            from: graph.viewbox.scale,
+            from: currentViewboxScale,
             to: targetViewboxScale
         }],
         duration: 500,
 
-        onStep: async ([x, y, scale]) => {
-
-            // TODO: transition done wrong.
-            // changes to x-y not in sync with changes to scale, which results
-            // in animation curves
+        onStep: async ([viewboxCenterX, viewboxCenterY, scale]) => {
 
             let viewbox = clone(graph.viewbox);
             
             viewbox.scale = scale;
-            viewbox.x = x;
-            viewbox.y = y;
 
+            // calculate new width/height of viewbox
             viewbox = getViewboxSize({
                 viewbox,
                 viewport: graph.viewport
             });
+
+            // calculate new position of top-left corner of viewbox
+            viewbox.x = viewboxCenterX - (viewbox.width / 2);
+            viewbox.y = viewboxCenterY - (viewbox.height / 2);
 
             await mutate(view('update-graph', {viewbox}));
         }
