@@ -35,6 +35,9 @@ const LINE_WIDTH = 0.5;
  */
 export default class Link extends Component {
 
+    /** Indicates that mouse was moved after left button downed */
+    mouseMovedAfterMouseDown = false;
+
     getTitlePosition() {
         const {link} = this.props;
         
@@ -91,6 +94,11 @@ export default class Link extends Component {
         const viewportPos = mapWindowToViewportCoords(windowPos);
 
         this.props.onMouseMove({viewportPos});
+
+        if (e.buttons === 1) {
+            // mouse moved while holding left button.
+            this.mouseMovedAfterMouseDown = true;
+        }
     }
 
     onMouseLeave = e => {
@@ -99,11 +107,19 @@ export default class Link extends Component {
     }
 
     onMouseUp = e => {
-        // do not bubble mouse-ups to Graph when link is clicked
-        e.stopPropagation();
-    }
 
-    onClick = e => {
+        if (this.mouseMovedAfterMouseDown) {
+            
+            // only initiate click event on link when it is a clean click,
+            // ie. after mouse is down - it is not moved there. otherwise
+            // consider mouse-up as part of some other action on parent.
+            // (eg. when panning graph, mouse can be downed on link instead of
+            // graph itself, after pan is done subsequent mouse-up should not
+            // be considered as click on the link, but as end of graph panning)
+            this.mouseMovedAfterMouseDown = false;
+            return;
+        }
+
         const {mapWindowToViewportCoords} = this.props;
 
         const windowPos = new Point({x: e.clientX, y: e.clientY});
@@ -146,8 +162,7 @@ export default class Link extends Component {
                     {[classes.shaded]: link.shaded})}
                 onMouseMove={this.onMouseMove}
                 onMouseLeave={this.onMouseLeave}
-                onMouseUp={this.onMouseUp}
-                onClick={this.onClick}>
+                onMouseUp={this.onMouseUp}>
 
                 <Line
                     className={cx(classes.line, className)}
