@@ -1,5 +1,6 @@
 describe('vm', () => {
 
+    require('./animate-graph-viewbox-to-idea.test');
     require('./animate-graph-zoom.test');
     require('./on-idea-color-selected.test');
     require('./search-association-tails-for-lookup.test');

@@ -18,12 +18,14 @@ import getIdea from 'action/utils/get-idea';
  * @param {StateType} state
  * @param {object}   data
  * @param {string} data.ideaId - target idea ID
+ * @param {function} [data.scheduleAnimationStep]
  * @param {function} dispatch
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
     const {model: {mindmap}, vm: {main: {mindmap: {graph}}}} = state;
     const {ideaId} = required(data);
+    const {scheduleAnimationStep} = data;
     
     const idea = getIdea(mindmap, ideaId);
 
@@ -54,6 +56,7 @@ export default async function(state, data, dispatch, mutate) {
             to: targetViewboxScale
         }],
         duration: 500,
+        scheduleAnimationStep,
 
         onStep: async ([viewboxCenterX, viewboxCenterY, scale]) => {
 
