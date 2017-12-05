@@ -77,7 +77,13 @@
 
 11. **typescript**: does not support importing '.css' files.
 
-    _Workaround_: auto-generate typings for styles with  
+    _Workaround 1_: auto-generate typings for styles    
     https://github.com/Jimdo/typings-for-css-modules-loader  
-    generates bunch of junk `.css.d.ts` files (need to .gitignore them).
+    generates bunch of junk `.css.d.ts` files (need to .gitignore them, and then prebuild for CI tests).  
+    _Workaround 2_: ignore css files for entire project (if no `.css.d.ts` exist).  
+    if combined with option #1 this helps to not prebuild typings for CI,  
+    but checking css in local env and ignore them in CI is even worse option  
+    (ignore css globaly, otherwise - better prebuild before running tests or just do not .gitignore).  
+    `declare module '*.css' {...}`  
+    https://stackoverflow.com/a/44228423/1064570
 
