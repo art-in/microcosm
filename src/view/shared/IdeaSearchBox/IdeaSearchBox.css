@@ -1,0 +1,33 @@
+.root {
+    display: flex;
+}
+
+.trigger,
+.lookup-expander {
+    height: 33px;
+}
+
+.trigger {
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.lookup-expander {
+    display: inline-block;
+    width: 0;
+    transition: width 0.5s;
+    position: relative;
+}
+
+.root.active .lookup-expander {
+    width: 200px;
+}
+
+.lookup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}

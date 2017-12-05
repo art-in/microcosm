@@ -90,9 +90,9 @@ export default connect(
             throttleLog: 5000
         }),
 
-        onKeyPress: ({key}) => dispatch({
-            type: 'on-graph-key-press',
-            data: {key},
+        onKeyDown: ({key, ctrlKey}) => dispatch({
+            type: 'on-graph-key-down',
+            data: {key, ctrlKey},
             throttleLog: true
         })
 

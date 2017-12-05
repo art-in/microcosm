@@ -5,13 +5,13 @@ import LookupType from 'vm/shared/Lookup';
 import clearLookup from './clear-lookup';
 
 /** 
- * Handles phrase change from lookup
+ * Handles phrase change event from lookup
  * 
  * @param {object}     opts
  * @param {string}     opts.phrase
  * @param {LookupType} opts.lookup
  * @param {function}   opts.onPhraseChangeAction
- * @return {object} lookup update object
+ * @return {Partial<LookupType>} update object
 */
 export default function onPhraseChange(opts) {
     const {phrase, lookup, onPhraseChangeAction} = opts;

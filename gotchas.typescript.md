@@ -1,4 +1,4 @@
-> History log of bugs / unsupported-features / surprising-but-valid-behavior and other difficulties faced while using `typescript` for static type checking in this project.  
+> History log of bugs / unsupported-features / surprising-but-valid-behaviors and other difficulties faced while using `typescript` for static type checking in this project.  
 
 ---
 

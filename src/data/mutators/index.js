@@ -80,6 +80,6 @@ async function apply(state, mutation) {
         break;
 
     default:
-        throw Error(`Unknown mutation '${mutation.type}'`);
+        throw Error(`Unknown data mutation '${mutation.type}'`);
     }
 }

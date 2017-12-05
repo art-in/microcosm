@@ -13,7 +13,8 @@ export default function defaultMutator(state) {
     const {
         zoomInProgress,
         viewbox: {width: vbWidth, height: vbHeight},
-        viewport: {width: vpWidth, height: vpHeight}
+        viewport: {width: vpWidth, height: vpHeight},
+        ideaSearchBox: {active: ideaSearchBoxActive}
     } = state.vm.main.mindmap.graph;
 
     // by default, remap from model as simpliest coding
@@ -46,4 +47,6 @@ export default function defaultMutator(state) {
 
     graph.viewport.width = vpWidth;
     graph.viewport.height = vpHeight;
+
+    graph.ideaSearchBox.active = ideaSearchBoxActive;
 }

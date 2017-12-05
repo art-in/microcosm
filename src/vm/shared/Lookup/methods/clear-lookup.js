@@ -1,9 +1,11 @@
+import LookupType from 'vm/shared/Lookup';
+
 /**
- * Creates update object to clear lookup
+ * Clears lookup
  * 
- * @return {object} lookup update object
+ * @return {Partial<LookupType>} update object
  */
-export default function() {
+export default function clearLookup() {
     return {
         phrase: '',
         suggestions: [],

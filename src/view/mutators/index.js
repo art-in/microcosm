@@ -80,7 +80,11 @@ function apply(state, mutation) {
         graph.contextMenu.emit('change');
         break;
 
-    default: throw Error(`Unknown mutation '${mutation.type}'`);
+    case 'update-idea-search-box':
+        graph.ideaSearchBox.emit('change');
+        break;
+
+    default: throw Error(`Unknown view mutation '${mutation.type}'`);
     }
 }
 

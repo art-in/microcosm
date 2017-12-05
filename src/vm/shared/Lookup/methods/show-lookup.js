@@ -1,21 +1,15 @@
+import LookupType from 'vm/shared/Lookup';
+
 import clearLookup from './clear-lookup';
 
 /**
- * Creates update object to show lookup
+ * Shows lookup
  * 
- * @param {object}   opts
- * @param {function} opts.onSelectAction
- * @param {function} opts.onPhraseChangeAction
- * @return {object} lookup update object
+ * @return {Partial<LookupType>} update object
  */
-export default function show(opts) {
-    const {onSelectAction, onPhraseChangeAction} = opts;
-
+export default function show() {
     return Object.assign(
-        clearLookup(),
-        {
-            focused: true,
-            onSelectAction,
-            onPhraseChangeAction
+        clearLookup(), {
+            focused: true
         });
 }

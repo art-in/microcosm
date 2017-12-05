@@ -45,6 +45,7 @@ export default class Lookup extends Component {
 
         // is view too smart here
         if (key === 'ArrowDown' || key === 'ArrowUp') {
+            // prevent default behavior of moving carret in the input
             e.preventDefault();
         }
     }

@@ -13,6 +13,7 @@ import Group from 'view/shared/svg/Group';
 import Node from '../Node';
 import Link from '../Link';
 import GraphDebug from '../GraphDebug';
+import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 
 import ContextMenu from 'view/shared/ContextMenu';
 import ColorPicker from 'view/shared/ColorPicker';
@@ -31,7 +32,7 @@ import classes from './Graph.css';
  * @prop {function({up, pos})} onWheel
  * @prop {function()}          onMouseUp
  * @prop {function()}          onMouseLeave
- * @prop {function({key})}     onKeyPress
+ * @prop {function({key, ctrlKey})} onKeyDown
  * @prop {function({size})}    onViewportResize
  * @prop {function({viewportShift, pressedMouseButton})} onMouseMove
  * 
@@ -48,7 +49,7 @@ import classes from './Graph.css';
  * 
  * @extends {Component<Props>}
  */
-export default class GraphTest extends Component {
+export default class Graph extends Component {
 
     getViewportSize = () => {
         return getElementSize(this.viewport);
@@ -136,9 +137,18 @@ export default class GraphTest extends Component {
         });
     }
 
-    onKeyPress = e => {
-        const key = e.key;
-        this.props.onKeyPress({key});
+    onKeyDown = e => {
+        if ((e.key === 'f' || e.key === 'F') && e.ctrlKey) {
+            // prevent default browser search box, since it is not useful
+            // for searching text on the graph, and it has app replacement.
+            // TODO: default search may be useful for idea popup
+            e.preventDefault();
+        }
+
+        this.props.onKeyDown({
+            key: e.key,
+            ctrlKey: e.ctrlKey
+        });
     }
 
     onContextMenuItemSelect = ({item}) => {
@@ -184,7 +194,9 @@ export default class GraphTest extends Component {
         });
 
         return (
-            <div className={classes.root}>
+            <div className={classes.root}
+                onKeyDown={this.onKeyDown}
+                tabIndex={0}>
 
                 <Svg nodeRef={node => this.viewport = node}
                     viewBox={`${viewbox.x} ${viewbox.y} ` +
@@ -195,9 +207,7 @@ export default class GraphTest extends Component {
                     onMouseMove={this.onMouseMove}
                     onMouseLeave={onMouseLeave}
                     onWheel={this.onWheel}
-                    onClick={onClick}
-                    onKeyDown={this.onKeyPress}
-                    tabIndex={0}>
+                    onClick={onClick}>
 
                     <Group id={'links'}>{links}</Group>
                     <Group id={'nodes'}>{nodes}</Group>
@@ -218,6 +228,9 @@ export default class GraphTest extends Component {
                         onSuggestionSelect=
                             {onAssociationTailsLookupSuggestionSelect} />
                 </div>
+
+                <IdeaSearchBox className={classes.ideaSearchBox}
+                    searchBox={graph.ideaSearchBox} />
 
                 <div id={popupContainerId}>{/*
                     container for html popup elements (render here with Portal)

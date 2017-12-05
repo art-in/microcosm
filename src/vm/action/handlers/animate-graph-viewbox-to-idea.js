@@ -16,7 +16,7 @@ import getIdea from 'action/utils/get-idea';
  * Animates graph viewbox to idea
  * 
  * @param {StateType} state
- * @param {object}   data
+ * @param {object} data
  * @param {string} data.ideaId - target idea ID
  * @param {function} [data.scheduleAnimationStep]
  * @param {function} dispatch

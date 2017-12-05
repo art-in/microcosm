@@ -6,6 +6,10 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
 
 /**
  * Lookup
+ * 
+ * Designed to be totally reusable in different places. As such, it does not
+ * have any references to concrete searchable entities or search logic
+ * (everything should be configured).
  */
 export default class Lookup extends ViewModel {
 
@@ -53,13 +57,13 @@ export default class Lookup extends ViewModel {
     nothingFoundLabelShown = false;
 
     /**
-     * Gets action after phrase changed
+     * Gets action to perform on phrase change
      * @type {function|undefined}
      */
     onPhraseChangeAction = undefined;
 
     /**
-     * Gets action after suggestion selected
+     * Gets action to perform on suggestion select
      * @type {function({suggestion})|undefined}
      */
     onSelectAction = undefined;

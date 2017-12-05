@@ -8,6 +8,7 @@ import searchIdeas from 'action/utils/search-ideas';
 import getIdea from 'action/utils/get-idea';
 
 import LookupSuggestion from 'vm/shared/LookupSuggestion';
+import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
 
 /**
  * Searches and sets suggesting ideas to lookup
@@ -51,11 +52,6 @@ export default function searchAssociationTailsForLookup(state, data) {
         }));
 
     return view('update-association-tails-lookup', {
-        lookup: {
-            suggestions,
-            highlightedSuggestionId: null,
-            loading: false,
-            nothingFoundLabelShown: !suggestions.length
-        }
+        lookup: setSuggestions(suggestions)
     });
 }

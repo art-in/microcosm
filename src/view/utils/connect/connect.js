@@ -43,6 +43,13 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         /**
          * Wrapper component
          * 
+         * TODO: try to add 'dirty' flag to ViewModel base class,
+         *       and shouldComponentUpdate connected views only if it is on.
+         *       this should speed up case where 'update-graph' mutated graph
+         *       viewbox attribute, but all child components should not be
+         *       re-rendered (vm mutation can affect only own props of that
+         *       vm and not child vms).
+         * 
          * @typedef {object} Context
          * @prop {function()} dispatch
          */

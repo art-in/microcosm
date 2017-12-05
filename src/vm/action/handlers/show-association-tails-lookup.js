@@ -32,24 +32,25 @@ export default function(state, data) {
                 active: true,
                 pos
             },
-            lookup: showLookup({
-
-                onSelectAction: ({suggestion}) => ({
-                    type: 'create-cross-association',
-                    data: {
-                        headIdeaId,
-                        tailIdeaId: suggestion.data.ideaId
-                    }
-                }),
-
+            lookup: {
+                ...showLookup(),
+                
                 onPhraseChangeAction: ({phrase}) => ({
                     type: 'search-association-tails-for-lookup',
                     data: {
                         headIdeaId,
                         phrase
                     }
+                }),
+                
+                onSelectAction: ({suggestion}) => ({
+                    type: 'create-cross-association',
+                    data: {
+                        headIdeaId,
+                        tailIdeaId: suggestion.data.ideaId
+                    }
                 })
-            })
+            }
         })
     );
 }

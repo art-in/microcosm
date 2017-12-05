@@ -19,7 +19,7 @@ export default function mutate(state, patch) {
         .forEach(m => {
             const {type, data} = m;
             if (!mutators[type]) {
-                throw Error(`Unknown mutation '${type}'`);
+                throw Error(`Unknown model mutation '${type}'`);
             }
             mutators[type](state, data);
         });

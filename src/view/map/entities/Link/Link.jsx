@@ -29,7 +29,7 @@ const LINE_WIDTH = 0.5;
  * @prop {function({viewportPos})} onMouseMove
  * @prop {function()} onMouseLeave
  * @prop {function({viewportPos})} onClick
- * @prop {function()} [onContextMenu]
+ * @prop {function()} onContextMenu
  * 
  * @extends {Component<Props>}
  */
@@ -108,6 +108,11 @@ export default class Link extends Component {
 
     onMouseUp = e => {
 
+        if (e.button === 2) {
+            // right mouse button should not initiate click
+            return;
+        }
+
         if (this.mouseMovedAfterMouseDown) {
             
             // only initiate click event on link when it is a clean click,
@@ -133,7 +138,8 @@ export default class Link extends Component {
         const {
             link,
             className,
-            popupContainerId
+            popupContainerId,
+            onContextMenu
         } = this.props;
 
         const {highlighted, tooltip} = link;
@@ -162,7 +168,8 @@ export default class Link extends Component {
                     {[classes.shaded]: link.shaded})}
                 onMouseMove={this.onMouseMove}
                 onMouseLeave={this.onMouseLeave}
-                onMouseUp={this.onMouseUp}>
+                onMouseUp={this.onMouseUp}
+                onContextMenu={onContextMenu}>
 
                 <Line
                     className={cx(classes.line, className)}

@@ -2,15 +2,21 @@ import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 
-import ColorPicker from 'vm/shared/ColorPicker';
-import ContextMenu from 'vm/shared/ContextMenu';
-import LookupPopup from 'vm/shared/LookupPopup';
-
 import LinkType from 'vm/map/entities/Link';
 import NodeType from 'vm/map/entities/Node';
 
+import ColorPicker from 'vm/shared/ColorPicker';
+import ContextMenu from 'vm/shared/ContextMenu';
+import LookupPopup from 'vm/shared/LookupPopup';
+import IdeaSearchBox from 'vm/shared/IdeaSearchBox';
+
 /**
- * Graph
+ * View model representation of Mindmap as a graph of Nodes and Links
+ * drawn on 2D space with ability to zoom (geo-like map)
+ * 
+ * TODO: consider renaming Graph to Mindmap after Mindmap model will be renamed
+ *       to Mindset (so mindmap is just another form of presenting mindset,
+ *       along with list form and some other forms)
  */
 export default class Graph extends ViewModel {
 
@@ -136,7 +142,12 @@ export default class Graph extends ViewModel {
      * Lookup for selecting tail idea for cross-association
      * @type {LookupPopup}
      */
-    associationTailsLookup = new LookupPopup('target idea...')
+    associationTailsLookup = new LookupPopup('target idea...');
+
+    /**
+     * Search box for finding and focusing target ideas
+     */
+    ideaSearchBox = new IdeaSearchBox();
 
     /**
      * Constructor
