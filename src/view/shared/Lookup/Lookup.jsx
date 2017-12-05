@@ -81,7 +81,7 @@ export default class Lookup extends Component {
                     </div> : null}
 
                 {nothingFoundLabelShown ?
-                    <div className={classes['nothing-found']}>
+                    <div className={classes.nothingFound}>
                         Nothing found
                     </div> : null}
                 

@@ -102,6 +102,11 @@ function getPackConfig(opts) {
                         // allow default export for typings
                         namedExport: true,
 
+                        // use camel-case notation of class names in js
+                        // to be able to type check them, otherwise usage
+                        // of unexisting class will be ignored
+                        // (classes.classA instead of classes['class-a'])
+                        camelCase: true,
                         modules: true,
                         localIdentName: '[name]-[local]'
                     }
