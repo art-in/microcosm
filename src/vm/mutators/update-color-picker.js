@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 
 import StateType from 'boot/client/State';
 
@@ -11,5 +11,5 @@ import StateType from 'boot/client/State';
 export default function updateColorPicker(state, data) {
     const {colorPicker} = state.vm.main.mindmap.graph;
 
-    update(colorPicker, data);
+    updateViewModel(colorPicker, data);
 }

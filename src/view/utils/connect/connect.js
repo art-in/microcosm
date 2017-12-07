@@ -14,7 +14,7 @@ import ViewModelType from 'vm/utils/ViewModel';
  * Does not provide automatic updates on state change (like redux).  
  * View-model should explicitly emit 'change' event.
  * 
- * @param {function} mapPropsToVM
+ * @param {function(object): ViewModelType} mapPropsToVM
  * @param {function} mapDispatchToProps
  * @return {function}
  */
@@ -24,7 +24,7 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         /**
          * View model getter
          * @param {object} props
-         * @return {EventEmitter} view model
+         * @return {ViewModelType} view model
          */
         const getVM = props => {
             const vm = mapPropsToVM(props);
@@ -43,15 +43,14 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         /**
          * Wrapper component
          * 
-         * TODO: try to add 'dirty' flag to ViewModel base class,
-         *       and shouldComponentUpdate connected views only if it is on.
-         *       this should speed up case where 'update-graph' mutated graph
-         *       viewbox attribute, but all child components should not be
-         *       re-rendered (vm mutation can affect only own props of that
-         *       vm and not child vms).
-         * 
          * @typedef {object} Context
          * @prop {function()} dispatch
+         * 
+         * @typedef {object} State
+         * @prop {ViewModelType} vm
+         * @prop {function} onVMChange
+         * 
+         * @extends {Component<{}, State>}
          */
         class ConnectedComponent extends Component {
 
@@ -99,6 +98,25 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                 this.unbindVM(this.state.vm, this.state.onVMChange);
             }
 
+            shouldComponentUpdate(nextProps, nextState) {
+                const {vm} = nextState;
+
+                // dirty check view model
+                let isDirty = vm.isDirty;
+
+                if (nextProps.children) {
+                    // dynamic children received from props will not get updated
+                    // if update is prevented (unlike static children), so we
+                    // either need to compare children shallowly with prev ones,
+                    // or just force such view model to update.
+                    // since connected children will be dirty checked before
+                    // update too, we just forcing parent to update.
+                    isDirty = true;
+                }
+                
+                return isDirty;
+            }
+
             bindVM(vm) {
 
                 // eslint-disable-next-line require-jsdoc
@@ -124,6 +142,10 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
 
             render() {
 
+                // clean dirty flag on view model
+                const vm = this.state.vm;
+                vm.isDirty = false;
+                
                 // mix connect props
                 const dispatch = this.context.dispatch;
                 const connectProps = mapDispatchToProps(dispatch, this.props);

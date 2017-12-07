@@ -26,8 +26,10 @@ export default function(state, data, dispatch) {
             lookup,
             key,
             onSuggestionSelect: ({suggestion}) => {
-                const action = lookup.onSelectAction({suggestion});
-                dispatch(action);
+                dispatch({
+                    type: 'on-association-tails-lookup-suggestion-select',
+                    data: {suggestion}
+                });
             }
         })
     });

@@ -7,8 +7,21 @@ import {EventEmitter} from 'events';
  * 
  * - fails on subscribing to same event several times
  * - warns on emitting event that no one listens to
+ * 
+ * TODO: consider not use EventEmitter.
+ *       simple onChange field should be enough.
  */
 export default class ViewModel extends EventEmitter {
+
+    /**
+     * Indicates that view model was not rendered yet since last change or
+     * since creation.
+     * - any time view model state is changed - this flag should be raised
+     * - not necessary to raise it on parent view models when updating child
+     * - view model should not be rendered unless flag is true
+     * - renderer should clear the flag to false after view model is rendered
+     */
+    isDirty = true;
 
     /**
      * Emits event

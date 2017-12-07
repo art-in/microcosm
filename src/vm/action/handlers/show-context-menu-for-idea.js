@@ -16,13 +16,15 @@ import MenuItem from 'vm/shared/MenuItem';
  * @param {PointType} data.pos - viewport position of mouse
  *                            TODO: rename to viewportPos
  * @param {string}    data.ideaId - ID of target idea
- * @param {boolean}   data.shaded - indicates target idea is shaded
  * @return {PatchType|undefined}
  */
 export default function showContextMenuForIdea(state, data) {
-    const {pos, ideaId, shaded} = required(data);
+    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {pos, ideaId} = required(data);
 
-    if (shaded) {
+    const node = graph.nodes.find(n => n.id === ideaId);
+
+    if (node.shaded) {
         // prevent actions on shaded ideas
         return;
     }

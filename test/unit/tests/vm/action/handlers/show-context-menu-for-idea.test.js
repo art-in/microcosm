@@ -1,7 +1,10 @@
 import {expect} from 'test/utils';
+import createState from 'test/utils/create-state';
 
 import Point from 'src/model/entities/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
+import Idea from 'src/model/entities/Idea';
+import Node from 'src/vm/map/entities/Node';
 
 import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
@@ -10,13 +13,21 @@ describe('show-context-menu-for-idea', () => {
 
     it('should show context menu with certain items', () => {
 
+        // setup
+        const state = createState();
+
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
         // target
-        const patch = handle(null, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         // check
@@ -38,13 +49,21 @@ describe('show-context-menu-for-idea', () => {
 
     it('should show context menu popup in certain position', () => {
 
+        // setup
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
         // target
-        const patch = handle(null, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         // check
@@ -60,12 +79,20 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'create-idea' action`, () => {
 
         // setup
-        const patch = handle(null, {
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
+        // setup patch
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
@@ -87,13 +114,21 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates ` +
         `'show-color-picker-for-idea' action`, () => {
 
+        // setup
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
         // target
-        const patch = handle(null, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }
         });
 
@@ -117,12 +152,20 @@ describe('show-context-menu-for-idea', () => {
         `'show-association-tails-lookup' action`, () => {
         
         // setup
-        const patch = handle(null, {
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
+        // setup
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
@@ -145,12 +188,20 @@ describe('show-context-menu-for-idea', () => {
     it(`should set item which creates 'remove-idea' action`, () => {
     
         // setup
-        const patch = handle(null, {
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
+        // setup patch
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
@@ -171,13 +222,21 @@ describe('show-context-menu-for-idea', () => {
 
     it('should NOT show menu if target idea is shaded', () => {
 
+        // setup
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id, shaded: true});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
         // target
-        const patch = handle(null, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea',
-                shaded: true
+                ideaId: 'idea'
             }});
 
         // check
@@ -186,13 +245,21 @@ describe('show-context-menu-for-idea', () => {
 
     it('should target only vm and view state layers', () => {
         
+        // setup
+        const state = createState();
+        
+        const idea = new Idea({id: 'idea'});
+        state.model.mindmap.ideas.set(idea.id, idea);
+
+        const node = new Node({id: idea.id});
+        state.vm.main.mindmap.graph.nodes.push(node);
+
         // target
-        const patch = handle(null, {
+        const patch = handle(state, {
             type: 'show-context-menu-for-idea',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea',
-                shaded: false
+                ideaId: 'idea'
             }});
 
         // check

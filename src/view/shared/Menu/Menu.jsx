@@ -11,20 +11,31 @@ import classes from './Menu.css';
  * @typedef {object} Props
  * @prop {string} [className]
  * @prop {MenuVmType} menu
- * @prop {function()} onItemSelect
+ * @prop {function({item})} onItemSelect
  * 
  * @extends {Component<Props>}
  */
 export default class Menu extends Component {
 
+    onItemSelect(itemId) {
+        const {menu} = this.props;
+        const item = menu.items.find(i => i.id === itemId);
+        this.props.onItemSelect({item});
+    }
+
     render() {
 
-        const {menu, className, onItemSelect, ...other} = this.props;
+        const {
+            menu,
+            className,
+            onItemSelect: unrested,
+            ...other
+        } = this.props;
 
         const items = menu.items.map(item => {
             return (<MenuItem key={item.id}
                 item={item}
-                onSelect={onItemSelect.bind(null, {item})} />);
+                onSelect={this.onItemSelect.bind(this, item.id)} />);
         });
 
         return (

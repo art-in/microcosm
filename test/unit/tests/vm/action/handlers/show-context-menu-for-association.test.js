@@ -1,4 +1,5 @@
 import {expect} from 'test/utils';
+import createState from 'test/utils/create-state';
 
 import Mindmap from 'src/model/entities/Mindmap';
 import Idea from 'src/model/entities/Idea';
@@ -6,6 +7,7 @@ import Association from 'src/model/entities/Association';
 
 import Point from 'src/model/entities/Point';
 import MenuItem from 'src/vm/shared/MenuItem';
+import Link from 'src/vm/map/entities/Link';
 
 import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
@@ -15,20 +17,24 @@ describe('show-context-menu-for-association', () => {
     it('should show context menu with certain items', () => {
         
         // setup
+        const state = createState();
+
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
+        state.model.mindmap = mindmap;
+
+        const link = new Link({id: assoc.id});
+        state.vm.main.mindmap.graph.links.push(link);
 
         // target
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc',
-                shaded: false
+                associationId: 'assoc'
             }
         });
 
@@ -48,20 +54,24 @@ describe('show-context-menu-for-association', () => {
     it('should show context menu in certain position', () => {
         
         // setup
+        const state = createState();
+
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
+        state.model.mindmap = mindmap;
+
+        const link = new Link({id: assoc.id});
+        state.vm.main.mindmap.graph.links.push(link);
 
         // target
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point({x: 100, y: 200}),
-                associationId: 'assoc',
-                shaded: false
+                associationId: 'assoc'
             }
         });
 
@@ -78,18 +88,22 @@ describe('show-context-menu-for-association', () => {
     it('should NOT set menu if target association is shaded', () => {
 
         // setup
+        const state = createState();
+
         const assoc = new Association({id: 'assoc'});
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
+        state.model.mindmap = mindmap;
+        
+        const link = new Link({id: assoc.id, shaded: true});
+        state.vm.main.mindmap.graph.links.push(link);
 
         // target
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc',
-                shaded: true
+                associationId: 'assoc'
             }
         });
 
@@ -100,20 +114,24 @@ describe('show-context-menu-for-association', () => {
     it('should target only vm and view state layers', () => {
         
         // setup
+        const state = createState();
+        
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
+        state.model.mindmap = mindmap;
+        
+        const link = new Link({id: assoc.id});
+        state.vm.main.mindmap.graph.links.push(link);
 
         // target
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc',
-                shaded: false
+                associationId: 'assoc'
             }
         });
 
@@ -127,6 +145,8 @@ describe('show-context-menu-for-association', () => {
     it(`should disable 'remove' item if last incoming association`, () => {
 
         // setup
+        const state = createState();
+
         const assoc = new Association({id: 'assoc'});
         const tail = new Idea();
         tail.edgesIn = [assoc];
@@ -134,15 +154,17 @@ describe('show-context-menu-for-association', () => {
 
         const mindmap = new Mindmap();
         mindmap.associations.set(assoc.id, assoc);
-        const state = {model: {mindmap}};
+        state.model.mindmap = mindmap;
+        
+        const link = new Link({id: assoc.id});
+        state.vm.main.mindmap.graph.links.push(link);
 
         // target
         const patch = handle(state, {
             type: 'show-context-menu-for-association',
             data: {
                 pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc',
-                shaded: false
+                associationId: 'assoc'
             }
         });
 

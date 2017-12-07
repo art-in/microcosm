@@ -43,9 +43,9 @@ import classes from './Graph.css';
  * @prop {function()}       onAssociationTailsLookupSuggestionSelect
  * @prop {function()}       onColorPickerChange
  * 
- * @prop {function({node, button})} onNodeMouseDown
- * @prop {function({node, pos})}    onNodeRightClick
- * @prop {function({link, pos})}    onLinkRightClick
+ * @prop {function({nodeId, button})} onNodeMouseDown
+ * @prop {function({nodeId, pos})}    onNodeRightClick
+ * @prop {function({linkId, pos})}    onLinkRightClick
  * 
  * @extends {Component<Props>}
  */
@@ -73,21 +73,21 @@ export default class Graph extends Component {
         this.viewport.focus();
     }
 
-    onNodeRightClick = (node, e) => {
+    onNodeRightClick = (nodeId, e) => {
         // TODO: move to Node, pass mapWindowToViewportCoords
         const windowPos = new Point({x: e.clientX, y: e.clientY});
         const pos = toElementCoords(windowPos, this.viewport);
-        this.props.onNodeRightClick({node, pos});
+        this.props.onNodeRightClick({nodeId, pos});
 
         // TODO: fix preventDefault() to stopPropagation()
         e.preventDefault();
     }
 
-    onLinkRightClick = (link, e) => {
+    onLinkRightClick = (linkId, e) => {
         // TODO: move to Link, pass mapWindowToViewportCoords
         const windowPos = new Point({x: e.clientX, y: e.clientY});
         const pos = toElementCoords(windowPos, this.viewport);
-        this.props.onLinkRightClick({link, pos});
+        this.props.onLinkRightClick({linkId, pos});
         e.preventDefault();
     }
 
@@ -108,10 +108,10 @@ export default class Graph extends Component {
         });
     }
 
-    onNodeMouseDown = (node, e) => {
+    onNodeMouseDown = (nodeId, e) => {
         // TODO: move to Node since it has no ref to Graph
         this.props.onNodeMouseDown({
-            node,
+            nodeId,
             button: e.nativeEvent.which === 1 ? 'left' : 'right'
         });
         e.stopPropagation();
@@ -177,8 +177,8 @@ export default class Graph extends Component {
                 <Node
                     key={node.id}
                     node={node}
-                    onMouseDown={this.onNodeMouseDown.bind(null, node)}
-                    onContextMenu={this.onNodeRightClick.bind(null, node)}/>
+                    onMouseDown={this.onNodeMouseDown.bind(null, node.id)}
+                    onContextMenu={this.onNodeRightClick.bind(null, node.id)}/>
             );
         });
 
@@ -189,7 +189,7 @@ export default class Graph extends Component {
                     link={link}
                     popupContainerId={popupContainerId}
                     mapWindowToViewportCoords={this.mapWindowToViewportCoords}
-                    onContextMenu={this.onLinkRightClick.bind(null, link)} />
+                    onContextMenu={this.onLinkRightClick.bind(null, link.id)} />
             );
         });
 

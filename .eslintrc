@@ -68,7 +68,7 @@
             //    props from rest`ed object while destructuring
             //    (eg. we do not want 'someProp' to appear in 'rest' object:
             //    'const {someProp: unrested, ...rest} = obj')
-            "varsIgnorePattern": "(.+Type$|^unrested\\d+$)"
+            "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
         }],
 
         // React

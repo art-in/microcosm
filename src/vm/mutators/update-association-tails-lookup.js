@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 
 import StateType from 'boot/client/State';
 import LookupPopupType from 'vm/shared/LookupPopup';
@@ -12,5 +12,5 @@ import LookupPopupType from 'vm/shared/LookupPopup';
 export default function updateAssociationTailsLookup(state, data) {
     const {associationTailsLookup} = state.vm.main.mindmap.graph;
 
-    update(associationTailsLookup, data);
+    updateViewModel(associationTailsLookup, data);
 }

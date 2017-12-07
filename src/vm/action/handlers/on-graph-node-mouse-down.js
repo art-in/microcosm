@@ -12,18 +12,21 @@ import getDescendants from 'utils/graph/get-descendants';
  * Handles mouse down event on graph node
  * 
  * @param {StateType} state
- * @param {object}   data
- * @param {NodeType} data.node
- * @param {string}   data.button
+ * @param {object} data
+ * @param {string} data.nodeId
+ * @param {string} data.button
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-    const {node, button} = required(data);
+    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {nodeId, button} = required(data);
     
     if (button !== 'left') {
         // left button only
         return;
     }
+
+    const node = graph.nodes.find(n => n.id === nodeId);
 
     if (node.shaded) {
         // prevent actions on shaded nodes

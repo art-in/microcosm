@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 
 import StateType from 'boot/client/State';
 import IdeaSearchBoxType from 'vm/shared/IdeaSearchBox';
@@ -12,5 +12,5 @@ import IdeaSearchBoxType from 'vm/shared/IdeaSearchBox';
 export default function(state, data) {
     const {ideaSearchBox} = state.vm.main.mindmap.graph;
 
-    update(ideaSearchBox, data);
+    updateViewModel(ideaSearchBox, data);
 }

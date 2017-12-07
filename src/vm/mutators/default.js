@@ -38,6 +38,8 @@ export default function defaultMutator(state) {
         sourceValue !== undefined
     );
 
+    graph.isDirty = true;
+
     // since remapping from model clears vm specific part of state
     // (like state of dropdowns, lookups, etc), we need to restore them
     graph.zoomInProgress = zoomInProgress;

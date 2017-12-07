@@ -25,9 +25,14 @@ export default function(state, data, dispatch) {
         lookup: onKeyDown({
             lookup,
             key,
+
+            // TODO: is it necessary to set this on each keydown?
+            // TODO: fails if search box is empty
             onSuggestionSelect: ({suggestion}) => {
-                const action = lookup.onSelectAction({suggestion});
-                dispatch(action);
+                dispatch({
+                    type: 'on-idea-search-lookup-suggestion-select',
+                    data: {suggestion}
+                });
             }
         })
     });

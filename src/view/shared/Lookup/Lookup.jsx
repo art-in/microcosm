@@ -14,7 +14,7 @@ import classes from './Lookup.css';
  * 
  * @prop {function({phrase})} onPhraseChange
  * @prop {function({key})} onKeyDown
- * @prop {function()} onSuggestionSelect
+ * @prop {function({suggestion})} onSuggestionSelect
  * 
  * @extends {Component<Props>}
  */
@@ -50,9 +50,14 @@ export default class Lookup extends Component {
         }
     }
 
+    onSuggestionSelect(suggestionId) {
+        const {lookup} = this.props;
+        const suggestion = lookup.suggestions.find(s => s.id === suggestionId);
+        this.props.onSuggestionSelect({suggestion});
+    }
+
     render() {
         const {lookup, className} = this.props;
-        const {onSuggestionSelect} = this.props;
         const {
             highlightedSuggestionId: highlightId,
             placeholder,
@@ -77,8 +82,8 @@ export default class Lookup extends Component {
                                 suggestion={s}
                                 className={classes.suggestion}
                                 highlight={s.id === highlightId}
-                                onSelected={onSuggestionSelect
-                                    .bind(null, {suggestion: s})} />)}
+                                onSelected={this.onSuggestionSelect
+                                    .bind(this, s.id)} />)}
                     </div> : null}
 
                 {nothingFoundLabelShown ?

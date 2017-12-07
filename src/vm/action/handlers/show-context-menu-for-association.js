@@ -17,14 +17,15 @@ import MenuItem from 'vm/shared/MenuItem';
  * @param {PointType} data.pos - viewport position of mouse
  *                               TODO: rename to viewportPos
  * @param {string}    data.associationId - ID of target association
- * @param {boolean}   data.shaded - indicates target association is shaded
  * @return {PatchType|undefined}
  */
 export default function showContextMenuForAssociation(state, data) {
-    const {model: {mindmap}} = state;
-    const {pos, associationId, shaded} = required(data);
+    const {model: {mindmap}, vm: {main: {mindmap: {graph}}}} = state;
+    const {pos, associationId} = required(data);
 
-    if (shaded) {
+    const link = graph.links.find(l => l.id === associationId);
+
+    if (link.shaded) {
         // prevent actions on shaded links
         return;
     }

@@ -5,30 +5,28 @@ export default connect(
     props => props.graph,
     (dispatch, props) => ({
 
-        onLinkRightClick: ({link, pos}) => dispatch({
+        onLinkRightClick: ({linkId, pos}) => dispatch({
             type: 'show-context-menu-for-association',
             data: {
                 pos,
-                associationId: link.id,
-                shaded: link.shaded
+                associationId: linkId
             },
             throttleLog: true
         }),
 
-        onNodeRightClick: ({node, pos}) => dispatch({
+        onNodeRightClick: ({nodeId, pos}) => dispatch({
             type: 'show-context-menu-for-idea',
             data: {
                 pos,
-                ideaId: node.id,
-                shaded: node.shaded
+                ideaId: nodeId
             },
             throttleLog: true
         }),
 
-        onContextMenuItemSelect: ({item}) => {
-            const action = item.onSelectAction();
-            dispatch(action);
-        },
+        onContextMenuItemSelect: ({item}) => dispatch({
+            type: 'on-context-menu-item-select',
+            data: {item}
+        }),
 
         onAssociationTailsLookupPhraseChange: ({phrase}) => dispatch({
             type: 'on-association-tails-lookup-phrase-change',
@@ -68,9 +66,9 @@ export default connect(
             throttleLog: 5000
         }),
 
-        onNodeMouseDown: ({node, button}) => dispatch({
+        onNodeMouseDown: ({nodeId, button}) => dispatch({
             type: 'on-graph-node-mouse-down',
-            data: {node, button},
+            data: {nodeId, button},
             throttleLog: 5000
         }),
 

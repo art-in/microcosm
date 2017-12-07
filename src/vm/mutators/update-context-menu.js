@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 
 import StateType from 'boot/client/State';
 import ContextMenuType from 'vm/shared/ContextMenu';
@@ -12,5 +12,5 @@ import ContextMenuType from 'vm/shared/ContextMenu';
 export default function updateContextMenu(state, data) {
     const {contextMenu} = state.vm.main.mindmap.graph;
 
-    update(contextMenu, data);
+    updateViewModel(contextMenu, data);
 }
