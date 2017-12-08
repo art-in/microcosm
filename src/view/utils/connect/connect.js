@@ -1,9 +1,8 @@
-import {EventEmitter} from 'events';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import noop from 'utils/noop';
 
-import ViewModelType from 'vm/utils/ViewModel';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * HOC, which connects view component to view-model and store.
@@ -14,7 +13,7 @@ import ViewModelType from 'vm/utils/ViewModel';
  * Does not provide automatic updates on state change (like redux).  
  * View-model should explicitly emit 'change' event.
  * 
- * @param {function(object): ViewModelType} mapPropsToVM
+ * @param {function(object): ViewModel} mapPropsToVM
  * @param {function} mapDispatchToProps
  * @return {function}
  */
@@ -24,14 +23,12 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         /**
          * View model getter
          * @param {object} props
-         * @return {ViewModelType} view model
+         * @return {ViewModel} view model
          */
         const getVM = props => {
             const vm = mapPropsToVM(props);
-            
-            // TODO: check types staticly when there is a way to pass
-            // jsdoc @typedef props from .jsx module to .connect module
-            if (!(vm instanceof EventEmitter)) {
+
+            if (!(vm instanceof ViewModel)) {
                 throw Error(
                     `VM '${vm}' of '${CustomComponent.name}' ` +
                     `component is not EventEmitter`);
@@ -47,7 +44,7 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
          * @prop {function()} dispatch
          * 
          * @typedef {object} State
-         * @prop {ViewModelType} vm
+         * @prop {ViewModel} vm
          * @prop {function} onVMChange
          * 
          * @extends {Component<{}, State>}
@@ -117,6 +114,11 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                 return isDirty;
             }
 
+            /**
+             * Binds view-model to view component
+             * @param {ViewModel} vm 
+             * @return {function} view model change handler
+             */
             bindVM(vm) {
 
                 // eslint-disable-next-line require-jsdoc
@@ -126,18 +128,18 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
                     // still receive all normal lifecycle hooks.
                     this.forceUpdate();
                 
-                vm.addListener('change', onVMChange);
+                vm.subscribe(onVMChange);
 
                 return onVMChange;
             }
 
             /**
              * Unbinds view-model from view component
-             * @param {EventEmitter} vm 
-             * @param {function(any[]): void} onVMChange
+             * @param {ViewModel} vm 
+             * @param {function} onVMChange
              */
             unbindVM(vm, onVMChange) {
-                vm.removeListener('change', onVMChange);
+                vm.unsubscribe(onVMChange);
             }
 
             render() {

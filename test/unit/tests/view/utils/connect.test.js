@@ -51,7 +51,7 @@ describe('connect', () => {
         expect(wrapper).to.exist;
 
         vm.someProp = 'UPDATED';
-        vm.emit('change');
+        vm.emitChange();
 
         expect(wrapper.text()).to.equal('UPDATED');
     });

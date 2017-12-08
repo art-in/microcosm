@@ -2,10 +2,10 @@
 // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-redux/index.d.ts
 
 import * as React from 'react';
+import ViewModel from 'vm/utils/ViewModel';
 
 type ComponentClass<P> = React.ComponentClass<P>;
 type Component<P> = React.ComponentType<P>;
-type ViewModel = object;
 
 // Diff / Omit taken from https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-311923766
 type Diff<T extends string, U extends string> = ({ [P in T]: P } & { [P in U]: never } & { [x: string]: never })[T];

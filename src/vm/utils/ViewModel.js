@@ -1,17 +1,11 @@
-import {EventEmitter} from 'events';
-
 /**
  * Base class for view-models
  * 
- * Wraps EventEmitter to notify view about changes
- * 
- * - fails on subscribing to same event several times
- * - warns on emitting event that no one listens to
- * 
- * TODO: consider not use EventEmitter.
- *       simple onChange field should be enough.
+ * - notifies view about changes (manually with emitChange)
+ * - fails on subscribing to changes several times
+ * - warns on emitting change event that no one listens to
  */
-export default class ViewModel extends EventEmitter {
+export default class ViewModel {
 
     /**
      * Indicates that view model was not rendered yet since last change or
@@ -23,64 +17,52 @@ export default class ViewModel extends EventEmitter {
      */
     isDirty = true;
 
+    _onChangeHandler = undefined;
+
     /**
-     * Emits event
-     * @param {string} eventType
+     * Emits change event
      * @param {array} args
-     * @return {boolean}
      */
-    emit(eventType, ...args) {
-        if (!this.hasListeners(eventType)) {
+    emitChange(...args) {
+        if (!this._onChangeHandler) {
             console.warn(
-                `Triggering '${eventType}' event on ` +
+                `Triggering change event on ` +
                 `'${this.constructor.name}' view model, ` +
                 `but no one listens to it`);
             return;
         }
 
-        const listeners = this.listeners(eventType);
-        listeners.forEach(l => l(...args));
-
-        return true;
+        this._onChangeHandler(...args);
     }
 
     /**
-     * Adds event handler
-     * @param {string|symbol} eventType
-     * @param {function(any[]): void} listener
-     * @return {object}
+     * Subscribes to changes
+     * @param {function(any[]): void} handler
      */
-    on(eventType, listener) {
-        return this.addListener(eventType, listener);
-    }
-
-    /**
-     * Adds event listener
-     * @param {string|symbol} eventType
-     * @param {function(any[]): void} listener
-     * @return {object}
-     */
-    addListener(eventType, listener) {
-        
-        if (this.hasListeners(eventType)) {
+    subscribe(handler) {
+        if (this._onChangeHandler) {
             throw Error(
                 `'${this.constructor.name}' view model ` +
-                `already has handler for '${eventType}' event`
+                `already has handler for change event`
             );
         }
 
-        super.on(eventType, listener);
-
-        return this;
+        this._onChangeHandler = handler;
     }
 
     /**
-     * Checks whether view model has listeners for particular event
-     * @param {string|symbol} eventType
-     * @return {boolean}
+     * Unsubscribes from changes
+     * @param {function} handler 
      */
-    hasListeners(eventType) {
-        return super.listeners(eventType).length !== 0;
+    unsubscribe(handler) {
+        if (this._onChangeHandler !== handler) {
+            throw Error(
+                `'${this.constructor.name}' view model has no such change ` +
+                `handler to unsubscribe from`
+            );
+        }
+
+        this._onChangeHandler = null;
     }
 
 }

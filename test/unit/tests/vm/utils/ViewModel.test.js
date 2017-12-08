@@ -5,7 +5,7 @@ import ViewModel from 'src/vm/utils/ViewModel';
 
 describe('ViewModel', () => {
 
-    describe('.emit()', () => {
+    describe('.emitChange()', () => {
 
         it('should execute event handlers', () => {
 
@@ -15,13 +15,15 @@ describe('ViewModel', () => {
             const vm = new TestVM();
 
             const handler = spy();
-            vm.on('test-event', handler);
+            vm.subscribe(handler);
 
             // target
-            vm.emit('test-event');
+            vm.emitChange(1, 2, 3);
 
             // check
             expect(handler.callCount).to.equal(1);
+            expect(handler.firstCall.args).to.have.length(3);
+            expect(handler.firstCall.args).to.deep.equal([1, 2, 3]);
         });
 
         it('should warn if no handler was found', () => {
@@ -34,12 +36,12 @@ describe('ViewModel', () => {
             const vm = new TestVM();
 
             // target
-            vm.emit('test-event');
+            vm.emitChange();
 
             // check
             expect(consoleWarn.callCount).to.equal(1);
             expect(consoleWarn.firstCall.args[0]).to.equal(
-                `Triggering 'test-event' event on 'TestVM' view model, ` +
+                `Triggering change event on 'TestVM' view model, ` +
                 `but no one listens to it`);
 
             // teardown
@@ -48,23 +50,51 @@ describe('ViewModel', () => {
 
     });
 
-    describe('.on()', () => {
+    describe('.subscribe()', () => {
 
-        it('should fail on duplicate handlers', () => {
+        it('should fail on duplicate change subscriptions', () => {
 
             // setup
             class TestVM extends ViewModel {}
             const vm = new TestVM();
 
-            vm.on('test-event', () => {});
+            vm.subscribe(() => {});
 
             // target
-            const target = () => vm.on('test-event', () => {});
+            const target = () => vm.subscribe(() => {});
 
             // check
             expect(target).to.throw(
                 `'TestVM' view model already has handler for ` +
-                `'test-event' event`);
+                `change event`);
+        });
+
+    });
+
+    describe('.unsubscribe()', () => {
+
+        it('should remove handler subscription', () => {
+
+            // setup
+            const consoleWarn = stub(console, 'warn');
+
+            class TestVM extends ViewModel {}
+            
+            const vm = new TestVM();
+
+            const handler = spy();
+            vm.subscribe(handler);
+
+            // target
+            vm.unsubscribe(handler);
+
+            // check
+            vm.emitChange();
+
+            expect(handler.callCount).to.equal(0);
+
+            // teardown
+            consoleWarn.restore();
         });
 
     });

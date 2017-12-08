@@ -15,14 +15,6 @@ export default class Menu extends ViewModel {
     items = [];
 
     /**
-     * Handles menu item selected event
-     * @param {MenuItemType} item
-     */
-    onItemSelected(item) {
-        this.emit('itemSelected', item);
-    }
-
-    /**
      * Constructor
      * @param {Partial<Menu>} [props]
      */
