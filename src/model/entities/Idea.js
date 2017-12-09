@@ -38,7 +38,13 @@ export default class Idea {
     isRoot = false;
     
     /**
-     * Value
+     * Short essence of idea
+     * @type {string|undefined}
+     */
+    title = undefined;
+
+    /**
+     * Full description of idea
      * @type {string|undefined}
      */
     value = undefined;

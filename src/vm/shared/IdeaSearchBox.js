@@ -23,11 +23,6 @@ export default class IdeaSearchBox extends ViewModel {
         onPhraseChangeAction: ({phrase}) => ({
             type: 'search-ideas-for-search-box',
             data: {phrase}
-        }),
-
-        onSelectAction: ({suggestion}) => ({
-            type: 'animate-graph-viewbox-to-idea',
-            data: {ideaId: suggestion.data.ideaId}
         })
     });
 

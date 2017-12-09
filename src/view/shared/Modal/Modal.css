@@ -1,0 +1,55 @@
+.root {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    transition: opacity 0.15s;
+}
+
+:export {
+    transition-duration: 0.15;
+}
+
+.root.transition,
+.root.transition-enter {
+    opacity: 0;
+}
+
+.root.transition-enter-active,
+.root.transition-exit {
+    opacity: 1;
+}
+
+.root.transition-exit-active {
+    opacity: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    
+    opacity: 0.5;
+}
+
+.content {
+    position: relative;
+    margin: 30px auto;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}

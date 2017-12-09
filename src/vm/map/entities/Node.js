@@ -65,8 +65,6 @@ export default class Node extends ViewModel {
      */
     title = {
         value: '',
-        editing: false,
-        editable: true,
         visible: true
     };
 

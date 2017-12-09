@@ -16,6 +16,10 @@
 }
 
 .root,
-.root :global(input) {
+:global(input),
+:global(textarea),
+:global(select),
+:global(button) {
     font-family: 'montserrat', sans-serif;
+    font-size: 18px;
 }

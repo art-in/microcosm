@@ -47,7 +47,7 @@ export default function searchAssociationTailsForLookup(state, data) {
     // map to suggestions
     const suggestions = ideas
         .map(i => new LookupSuggestion({
-            displayName: i.value,
+            displayName: i.title,
             data: {ideaId: i.id}
         }));
 

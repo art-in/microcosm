@@ -18,15 +18,19 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
     const {suggestion} = required(data);
-    
-    const lookup = graph.ideaSearchBox.lookup;
 
-    const action = lookup.onSelectAction({suggestion});
-    dispatch(action);
+    dispatch({
+        type: 'open-idea-form-modal',
+        data: {ideaId: suggestion.data.ideaId}
+    });
 
-    // de-activate search box
+    dispatch({
+        type: 'animate-graph-viewbox-to-idea',
+        data: {ideaId: suggestion.data.ideaId}
+    });
+
+    // deactivate search box
     return view('update-idea-search-box', {
         active: false
     });

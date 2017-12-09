@@ -1,0 +1,40 @@
+.root {}
+
+.header,
+.body,
+.footer {
+    padding: 20px;
+}
+
+.title-input {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    font-size: 24px;
+    border-radius: 4px;
+}
+
+.title-input-invalid {
+    /* using box-shadow since outline cannot be rounded
+       and border adds unnecessary size */
+    box-shadow: 0 0 0 1px #dc3545;
+    outline: none;
+}
+
+.body {
+    /* section dividers */
+    border-top: 1px solid #eceeef;
+    border-bottom: 1px solid #eceeef;
+
+    min-height: 250px;
+}
+
+.value-editor {
+    /* extend zone for activating edit mode by double click */
+    min-height: 250px;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+}

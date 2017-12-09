@@ -84,6 +84,10 @@ function apply(state, mutation) {
         graph.ideaSearchBox.emitChange();
         break;
 
+    case 'update-idea-form-modal':
+        graph.ideaFormModal.emitChange();
+        break;
+
     default: throw Error(`Unknown view mutation '${mutation.type}'`);
     }
 }

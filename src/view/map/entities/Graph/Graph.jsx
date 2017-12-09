@@ -10,14 +10,16 @@ import GraphVmType from 'vm/map/entities/Graph';
 
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
-import Node from '../Node';
-import Link from '../Link';
-import GraphDebug from '../GraphDebug';
 import IdeaSearchBox from 'view/shared/IdeaSearchBox';
+import IdeaFormModal from 'view/shared/IdeaFormModal';
 
 import ContextMenu from 'view/shared/ContextMenu';
 import ColorPicker from 'view/shared/ColorPicker';
 import LookupPopup from 'view/shared/LookupPopup';
+
+import Node from '../Node';
+import Link from '../Link';
+import GraphDebug from '../GraphDebug';
 
 import classes from './Graph.css';
 
@@ -241,6 +243,8 @@ export default class Graph extends Component {
                       auto-stretched by text)
                     - html component can be reused outside svg
                 */}</div>
+
+                <IdeaFormModal ideaFormModal={graph.ideaFormModal} />
 
                 <GraphDebug graph={graph} />
             </div>

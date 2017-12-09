@@ -22,5 +22,6 @@ export default function searchIdeas(mindmap, opts) {
     return values(mindmap.ideas)
         .filter(i =>
             (!excludeIds || !excludeIds.includes(i.id)) &&
-            i.value && i.value.includes(phrase));
+            ((i.value && i.value.includes(phrase) ||
+             (i.title && i.title.includes(phrase)))));
 }

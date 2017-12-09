@@ -1,22 +1,13 @@
-.root {}
+.root {
+    cursor: pointer;
+}
 
 .circle {}
 
 .title {
     font-family: 'montserrat-light', sans-serif;
-    font-size: 20px;
-    color: white;
-    text-align: center;
-    overflow: hidden;
-}
-
-.title::selection:not([contenteditable]){
-    /* do not select titles of nearby nodes when dragging over */
-    background-color: inherit
-};
-
-.title[contenteditable]{
-    outline: 1px solid red
+    
+    fill: white;
 }
 
 .root.shaded .circle {

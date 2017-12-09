@@ -9,6 +9,7 @@ import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 import IdeaSearchBox from 'vm/shared/IdeaSearchBox';
+import IdeaFormModal from 'vm/shared/IdeaFormModal';
 
 /**
  * View model representation of Mindmap as a graph of Nodes and Links
@@ -148,6 +149,11 @@ export default class Graph extends ViewModel {
      * Search box for finding and focusing target ideas
      */
     ideaSearchBox = new IdeaSearchBox();
+
+    /**
+     * Idea form modal
+     */
+    ideaFormModal = new IdeaFormModal();
 
     /**
      * Constructor

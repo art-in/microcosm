@@ -104,7 +104,7 @@ describe('show-context-menu-for-idea', () => {
 
         // check
         expect(action).to.containSubset({
-            type: 'create-idea',
+            type: 'on-context-menu-item-select-create-idea',
             data: {
                 parentIdeaId: 'idea'
             }

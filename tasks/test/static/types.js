@@ -5,7 +5,7 @@ module.exports = {
 
     // build to make sure typings for css files are auto-generated.
     // this is the cost of not uploading 'css.d.ts' to repository.
-    // otherwise test in clean environment will fail (eg. CI)
+    // otherwise type test will fail in clean environment (eg. CI)
     deps: ['build'],
 
     fn: function() {

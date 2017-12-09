@@ -10,15 +10,17 @@
 
     user-select: none;
     -webkit-user-select: none;
+
+    font-size: 14px;
 }
 
 .title {
     display: inline-block;
-    min-width: 130px;
+    min-width: 110px;
     vertical-align: top;
 }
 
 .value {
     display: inline-block;
-    max-width: 120px;
+    max-width: 140px;
 }

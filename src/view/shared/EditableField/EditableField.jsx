@@ -7,8 +7,8 @@ import noop from 'utils/noop';
  * @typedef {object} Props
  * @prop {string} [className]
  * @prop {string} [tag]
+ * @prop {object} [style]
  * @prop {string} html
- * @prop {object} style
  * 
  * @prop {boolean} [selectOnFocus]
  * @prop {boolean} [focusOnMount]
@@ -36,6 +36,11 @@ export default class EditableField extends Component {
 
         this.state = {html: props.html};
         this.lastHtml = props.html;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({html: nextProps.html});
+        this.lastHtml = nextProps.html;
     }
 
     componentDidMount() {
@@ -111,10 +116,16 @@ export default class EditableField extends Component {
 
             ...other} = this.props;
 
-        // do not use jsx here, to allow customizing element tag.
+        // not using jsx here to allow customizing element tag,
         // since many tags can be contenteditable (span, div, etc.)
+        // TODO: use 'Container = this.props.tag'
         return React.createElement(tag, Object.assign({
             contentEditable: true,
+
+            // force update
+            // TODO: dangerouslySetInnerHTML not updated if there is a
+            //       shouldComponentUpdate
+            key: Date(),
 
             // contenteditable node can contain valid html inside,
             // like <br>, <b>, <i>, etc.

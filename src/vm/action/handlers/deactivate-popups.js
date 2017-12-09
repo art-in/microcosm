@@ -33,6 +33,11 @@ export default function(state) {
         patch.push(view('update-idea-search-box',
             {active: false}));
     }
+
+    if (graph.ideaFormModal.modal.active) {
+        patch.push(view('update-idea-form-modal',
+            {modal: {active: false}}));
+    }
     
     return patch;
 }

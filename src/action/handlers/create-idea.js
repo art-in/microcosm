@@ -4,6 +4,7 @@ import Patch from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import isValidPathWeight from 'utils/graph/is-valid-path-weight';
+import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
 
 import getIdea from 'action/utils/get-idea';
 import weighAssociation from 'model/utils/weigh-association';
@@ -17,14 +18,22 @@ import Point from 'model/entities/Point';
  *
  * @param {StateType} state
  * @param {object} data
+ * @param {string} [data.ideaId] - ID to use for new idea
  * @param {string} data.parentIdeaId
+ * @param {string} data.title
+ * @param {string} data.value
  * @return {Patch}
  */
 export default function createIdea(state, data) {
     const {model: {mindmap}} = state;
-    const {parentIdeaId} = required(data);
+    const {parentIdeaId, title, value} = required(data);
+    const {ideaId} = data;
 
     const patch = new Patch();
+
+    if (!isValidIdeaTitle(title)) {
+        throw Error(`Invalid idea title '${title}'`);
+    }
 
     const parent = getIdea(mindmap, parentIdeaId);
 
@@ -39,8 +48,14 @@ export default function createIdea(state, data) {
         posAbs: new Point({
             x: parent.posAbs.x + posRel.x,
             y: parent.posAbs.y + posRel.y
-        })
+        }),
+        title: title.trim(),
+        value
     });
+
+    if (ideaId !== undefined) {
+        idea.id = ideaId;
+    }
 
     // add association from parent to new idea
     const assoc = new Association({

@@ -11,6 +11,122 @@ const handle = handler.handle.bind(handler);
 
 describe('create-idea', () => {
     
+    it('should add new idea', () => {
+        
+        // setup
+        const ideaA = new Idea({
+            id: 'A',
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
+            edgesToChilds: [],
+            rootPathWeight: 0
+        });
+
+        const mindmap = new Mindmap({id: 'm'});
+        mindmap.ideas.set(ideaA.id, ideaA);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = handle(state, {
+            type: 'create-idea',
+            data: {
+                parentIdeaId: 'A',
+                title: 'title test',
+                value: 'value test'
+            }
+        });
+
+        // check
+        const mutations = patch['add-idea'];
+
+        expect(mutations).to.have.length(1);
+        const {idea} = mutations[0].data;
+        const {assoc} = patch['add-association'][0].data;
+
+        expect(idea).to.be.instanceOf(Idea);
+        expect(idea.id).to.match(/\d+/);
+        expect(idea.mindmapId).to.equal('m');
+        expect(idea.title).to.equal('title test');
+        expect(idea.value).to.equal('value test');
+        expect(idea.edgesIn).to.deep.equal([assoc]);
+        expect(idea.edgeFromParent).to.equal(assoc);
+        expect(idea.edgesToChilds).to.deep.equal([]);
+        expect(idea.rootPathWeight).to.be.closeTo(141, 1);
+    });
+
+    it('should add new idea with specified ID', () => {
+        
+        // setup
+        const ideaA = new Idea({
+            id: 'A',
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
+            edgesToChilds: [],
+            rootPathWeight: 0
+        });
+
+        const mindmap = new Mindmap({id: 'm'});
+        mindmap.ideas.set(ideaA.id, ideaA);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = handle(state, {
+            type: 'create-idea',
+            data: {
+                ideaId: 'test ID',
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
+        });
+
+        // check
+        const mutations = patch['add-idea'];
+
+        expect(mutations).to.have.length(1);
+        const {idea} = mutations[0].data;
+
+        expect(idea.id).to.equal('test ID');
+    });
+
+    it('should trim idea title', () => {
+        
+        // setup
+        const ideaA = new Idea({
+            id: 'A',
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
+            edgesToChilds: [],
+            rootPathWeight: 0
+        });
+
+        const mindmap = new Mindmap({id: 'm'});
+        mindmap.ideas.set(ideaA.id, ideaA);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const patch = handle(state, {
+            type: 'create-idea',
+            data: {
+                ideaId: 'test ID',
+                parentIdeaId: 'A',
+                title: '     title      ',
+                value: ''
+            }
+        });
+
+        // check
+        const mutations = patch['add-idea'];
+
+        expect(mutations).to.have.length(1);
+        const {idea} = mutations[0].data;
+
+        expect(idea.title).to.equal('title');
+    });
+
     it('should add association from parent idea', () => {
 
         // setup
@@ -30,7 +146,11 @@ describe('create-idea', () => {
         // target
         const patch = handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'A'}
+            data: {
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
@@ -68,7 +188,11 @@ describe('create-idea', () => {
         // target
         const patch = handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'A'}
+            data: {
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
@@ -83,43 +207,6 @@ describe('create-idea', () => {
             edgesOut: [assoc],
             edgesToChilds: [assoc]
         });
-    });
-
-    it('should add new idea', () => {
-
-        // setup
-        const ideaA = new Idea({
-            id: 'A',
-            posRel: new Point({x: 0, y: 0}),
-            posAbs: new Point({x: 0, y: 0}),
-            edgesToChilds: [],
-            rootPathWeight: 0
-        });
-
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
-
-        const state = {model: {mindmap}};
-
-        // target
-        const patch = handle(state, {
-            type: 'create-idea',
-            data: {parentIdeaId: 'A'}
-        });
-
-        // check
-        const mutations = patch['add-idea'];
-
-        expect(mutations).to.have.length(1);
-        const {idea} = mutations[0].data;
-        const {assoc} = patch['add-association'][0].data;
-
-        expect(idea).to.be.instanceOf(Idea);
-        expect(idea.mindmapId).to.equal('m');
-        expect(idea.edgesIn).to.deep.equal([assoc]);
-        expect(idea.edgeFromParent).to.equal(assoc);
-        expect(idea.edgesToChilds).to.deep.equal([]);
-        expect(idea.rootPathWeight).to.be.closeTo(141, 1);
     });
 
     it('should set idea position relative to parent', () => {
@@ -141,7 +228,11 @@ describe('create-idea', () => {
         // target
         const patch = handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'A'}
+            data: {
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
@@ -172,7 +263,11 @@ describe('create-idea', () => {
         // target
         handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'A'}
+            data: {
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
@@ -198,7 +293,11 @@ describe('create-idea', () => {
         // target
         const patch = handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'A'}
+            data: {
+                parentIdeaId: 'A',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
@@ -208,7 +307,7 @@ describe('create-idea', () => {
         expect(patch.hasTarget('view')).to.be.true;
     });
 
-    it('should fail if parent idea not found', () => {
+    it('should fail if parent idea was not found', () => {
 
         // setup
         const mindmap = new Mindmap();
@@ -218,12 +317,46 @@ describe('create-idea', () => {
         // target
         const result = () => handle(state, {
             type: 'create-idea',
-            data: {parentIdeaId: 'not exist'}
+            data: {
+                parentIdeaId: 'not exist',
+                title: 'title',
+                value: ''
+            }
         });
 
         // check
         expect(result).to.throw(
             `Idea 'not exist' was not found in mindmap`);
+    });
+
+    it('should fail if idea title is invalid', () => {
+
+        // setup
+        const ideaA = new Idea({
+            id: 'A',
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
+            edgesToChilds: [],
+            rootPathWeight: 0
+        });
+
+        const mindmap = new Mindmap({id: 'm'});
+        mindmap.ideas.set(ideaA.id, ideaA);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const target = () => handle(state, {
+            type: 'create-idea',
+            data: {
+                parentIdeaId: 'A',
+                title: ' ',
+                value: 'value test'
+            }
+        });
+
+        // check
+        expect(target).to.throw(`Invalid idea title ' '`);
     });
 
 });

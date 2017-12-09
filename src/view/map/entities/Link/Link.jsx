@@ -134,6 +134,12 @@ export default class Link extends Component {
         e.stopPropagation();
     }
 
+    onClick = e => {
+        // do not propagate click to graph to not disable idea form modal
+        e.stopPropagation();
+    }
+
+
     render() {
         const {
             link,
@@ -169,7 +175,8 @@ export default class Link extends Component {
                 onMouseMove={this.onMouseMove}
                 onMouseLeave={this.onMouseLeave}
                 onMouseUp={this.onMouseUp}
-                onContextMenu={onContextMenu}>
+                onContextMenu={onContextMenu}
+                onClick={this.onClick}>
 
                 <Line
                     className={cx(classes.line, className)}

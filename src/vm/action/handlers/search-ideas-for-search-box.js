@@ -24,9 +24,10 @@ export default function(state, data) {
     const ideas = searchIdeas(mindmap, {phrase});
 
     // map to suggestions
+    // TODO: move to separate mapper 'idea-to-suggestion'
     const suggestions = ideas
         .map(i => new LookupSuggestion({
-            displayName: i.value,
+            displayName: i.title,
             data: {ideaId: i.id}
         }));
 

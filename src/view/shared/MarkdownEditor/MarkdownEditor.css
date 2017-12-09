@@ -1,0 +1,23 @@
+.root {
+    position: relative;
+}
+
+.textarea {
+    display: block;
+    width: 100%;
+    border: none;
+    min-height: 234px;
+    resize: vertical;
+    padding: 5px;
+}
+
+.textarea:focus {
+    outline: 2px solid #A5C7FE;
+}
+
+.button-edit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}

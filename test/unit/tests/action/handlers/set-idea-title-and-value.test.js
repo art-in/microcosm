@@ -7,14 +7,15 @@ import Idea from 'src/model/entities/Idea';
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe('set-idea-value', () => {
+describe('set-idea-title-and-value', () => {
     
-    it('should update idea value', () => {
+    it('should update idea title and value', () => {
         
         // setup
         const idea = new Idea({
             id: 'idea',
-            value: 'old'
+            title: 'old title',
+            value: 'old value'
         });
 
         const mindmap = new Mindmap();
@@ -24,10 +25,11 @@ describe('set-idea-value', () => {
 
         // target
         const patch = handle(state, {
-            type: 'set-idea-value',
+            type: 'set-idea-title-and-value',
             data: {
                 ideaId: 'idea',
-                value: 'new'
+                title: 'new title',
+                value: 'new value'
             }
         });
 
@@ -36,26 +38,31 @@ describe('set-idea-value', () => {
         expect(patch['update-idea']).to.exist;
         expect(patch['update-idea'][0].data).to.deep.equal({
             id: 'idea',
-            value: 'new'
+            title: 'new title',
+            value: 'new value'
         });
     });
 
     it('should not mutate if same value', () => {
         
         // setup
-        const mindmap = new Mindmap();
-        mindmap.ideas.set('id', new Idea({
-            id: 'id',
+        const idea = new Idea({
+            id: 'idea',
+            title: 'same title',
             value: 'same value'
-        }));
+        });
+
+        const mindmap = new Mindmap();
+        mindmap.ideas.set(idea.id, idea);
 
         const state = {model: {mindmap}};
 
         // target
         const patch = handle(state, {
-            type: 'set-idea-value',
+            type: 'set-idea-title-and-value',
             data: {
-                ideaId: 'id',
+                ideaId: 'idea',
+                title: 'same title',
                 value: 'same value'
             }
         });
@@ -68,8 +75,7 @@ describe('set-idea-value', () => {
 
         // setup
         const idea = new Idea({
-            id: 'idea',
-            value: 'old'
+            id: 'idea'
         });
 
         const mindmap = new Mindmap();
@@ -80,10 +86,11 @@ describe('set-idea-value', () => {
 
         // target
         handle(state, {
-            type: 'set-idea-value',
+            type: 'set-idea-title-and-value',
             data: {
                 ideaId: 'idea',
-                value: 'new'
+                title: 'title',
+                value: 'value'
             }
         });
 
@@ -94,20 +101,22 @@ describe('set-idea-value', () => {
     it('should target all state layers', () => {
 
         // setup
+        const idea = new Idea({
+            id: 'idea'
+        });
+
         const mindmap = new Mindmap();
-        mindmap.ideas.set('id', new Idea({
-            id: 'id',
-            value: 'same value'
-        }));
+        mindmap.ideas.set(idea.id, idea);
 
         const state = {model: {mindmap}};
 
         // target
         const patch = handle(state, {
-            type: 'set-idea-value',
+            type: 'set-idea-title-and-value',
             data: {
-                ideaId: 'id',
-                value: 'same value'
+                ideaId: 'idea',
+                title: 'title',
+                value: 'value'
             }
         });
 

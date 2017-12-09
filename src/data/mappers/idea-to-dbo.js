@@ -15,6 +15,7 @@ export default function ideaToDbo(model) {
     dbo._id = model.id;
     dbo.mindmapId = model.mindmapId;
     dbo.isRoot = model.isRoot || undefined;
+    dbo.title = model.title;
     dbo.value = model.value;
     dbo.color = model.color || undefined;
     dbo.posRel = model.posRel && pointToDbo(model.posRel);

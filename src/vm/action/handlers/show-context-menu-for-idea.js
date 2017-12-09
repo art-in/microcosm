@@ -35,7 +35,7 @@ export default function showContextMenuForIdea(state, data) {
         new MenuItem({
             displayValue: 'add idea',
             onSelectAction: () => ({
-                type: 'create-idea',
+                type: 'on-context-menu-item-select-create-idea',
                 data: {parentIdeaId: ideaId}
             })
         }));

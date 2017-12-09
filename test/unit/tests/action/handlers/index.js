@@ -8,7 +8,7 @@ describe('handlers', () => {
     require('./set-association-value.test');
     require('./set-idea-color.test');
     require('./set-idea-position.test');
-    require('./set-idea-value.test');
+    require('./set-idea-title-and-value.test');
     require('./set-mindmap-position.test');
     require('./set-mindmap-scale.test');
 

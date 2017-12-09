@@ -13,6 +13,7 @@ export default function dboToIdea(dbo) {
     model.id = dbo._id;
     model.mindmapId = dbo.mindmapId;
     model.isRoot = dbo.isRoot === true;
+    model.title = dbo.title;
     model.value = dbo.value;
     model.color = dbo.color;
     model.posRel = dboToPoint(dbo.posRel);
