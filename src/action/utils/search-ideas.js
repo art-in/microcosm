@@ -5,9 +5,10 @@ import MindmapType from 'model/entities/Mindmap';
 
 /**
  * Searches ideas
+ * 
  * @param {MindmapType} mindmap 
- * @param {object}           opts
- * @param {string}           opts.phrase
+ * @param {object} opts
+ * @param {string} opts.phrase
  * @param {Object.<string>} [opts.excludeIds]
  * @return {Array.<IdeaType>}
  */
@@ -18,10 +19,15 @@ export default function searchIdeas(mindmap, opts) {
         throw Error('Search string is empty');
     }
 
-    // TODO: search case-insensitively
     return values(mindmap.ideas)
-        .filter(i =>
-            (!excludeIds || !excludeIds.includes(i.id)) &&
-            ((i.value && i.value.includes(phrase) ||
-             (i.title && i.title.includes(phrase)))));
+        .filter(idea => {
+            if (excludeIds && excludeIds.includes(idea.id)) {
+                return false;
+            }
+
+            const regexp = new RegExp(phrase, 'i');
+
+            return (idea.title && idea.title.match(regexp)) ||
+                (idea.value && idea.value.match(regexp));
+        });
 }
