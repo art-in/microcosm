@@ -5,7 +5,7 @@ import PatchType from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 /**
- * Shows color picker
+ * Shows color picker for selecting idea color
  * 
  * @param {StateType} state
  * @param {object} data

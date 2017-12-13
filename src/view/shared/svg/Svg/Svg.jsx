@@ -9,6 +9,7 @@ import React, {Component} from 'react';
  * @prop {string} [preserveAspectRatio]
  * @prop {number} [tabIndex]
  * 
+ * @prop {function()} [onMouseDown]
  * @prop {function()} [onMouseUp]
  * @prop {function()} [onMouseMove]
  * @prop {function()} [onMouseLeave]

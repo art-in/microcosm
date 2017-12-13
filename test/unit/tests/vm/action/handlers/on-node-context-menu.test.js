@@ -9,7 +9,7 @@ import Node from 'src/vm/map/entities/Node';
 import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe('show-context-menu-for-idea', () => {
+describe('on-node-context-menu', () => {
 
     it('should show context menu with certain items', () => {
 
@@ -20,14 +20,14 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 0, y: 0});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         // check
@@ -37,13 +37,13 @@ describe('show-context-menu-for-idea', () => {
         expect(data.menu.items).to.have.length(4);
         expect(data.menu.items.every(i => i instanceof MenuItem)).to.be.ok;
         expect(data.menu.items).to.containSubset([{
-            displayValue: 'add idea'
+            displayValue: 'Add new idea'
         }, {
-            displayValue: 'set color'
+            displayValue: 'Set idea color'
         }, {
-            displayValue: 'add-association'
+            displayValue: 'Add association'
         }, {
-            displayValue: 'remove-idea'
+            displayValue: 'Remove idea'
         }]);
     });
 
@@ -56,14 +56,14 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 100, y: 200});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         // check
@@ -85,19 +85,19 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 0, y: 0});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // setup patch
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
         const item = menuMutation.data.menu.items
-            .find(i => i.displayValue === 'add idea');
+            .find(i => i.displayValue === 'Add new idea');
 
         // target
         const action = item.onSelectAction();
@@ -121,20 +121,20 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 0, y: 0});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }
         });
 
         const menuMutation = patch['update-context-menu'][0];
         const item = menuMutation.data.menu.items
-            .find(i => i.displayValue === 'set color');
+            .find(i => i.displayValue === 'Set idea color');
             
         // target
         const action = item.onSelectAction();
@@ -158,19 +158,24 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 100, y: 200});
         state.vm.main.mindmap.graph.nodes.push(node);
+
+        const {viewbox} = state.vm.main.mindmap.graph;
+        viewbox.x = 0;
+        viewbox.y = 0;
+        viewbox.scale = 1;
 
         // setup
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
         const item = menuMutation.data.menu.items
-            .find(i => i.displayValue === 'add-association');
+            .find(i => i.displayValue === 'Add association');
 
         // target
         const action = item.onSelectAction();
@@ -194,19 +199,19 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 100, y: 200});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // setup patch
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 100, y: 200}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         const menuMutation = patch['update-context-menu'][0];
         const item = menuMutation.data.menu.items
-            .find(i => i.displayValue === 'remove-idea');
+            .find(i => i.displayValue === 'Remove idea');
 
         // target
         const action = item.onSelectAction();
@@ -229,14 +234,14 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id, shaded: true});
+        node.posAbs = new Point({x: 0, y: 0});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         // check
@@ -252,14 +257,14 @@ describe('show-context-menu-for-idea', () => {
         state.model.mindmap.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
+        node.posAbs = new Point({x: 0, y: 0});
         state.vm.main.mindmap.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-idea',
+            type: 'on-node-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                ideaId: 'idea'
+                nodeId: 'idea'
             }});
 
         // check

@@ -8,7 +8,7 @@ import PointType from 'model/entities/Point';
  * @prop {PointType} [pos]
  * @prop {number} [scale]
  * @prop {string} [id]
- * @prop {Array.<JSX.Element>} children
+ * @prop {Array.<JSX.Element>} [children]
  * 
  * @prop {function()} [onMouseDown]
  * @prop {function()} [onMouseMove]

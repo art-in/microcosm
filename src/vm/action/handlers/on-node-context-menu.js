@@ -3,75 +3,80 @@ import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
+import toViewportCoords from 'vm/map/utils/map-canvas-to-viewport-coords';
 
 import PointType from 'model/entities/Point';
 
 import MenuItem from 'vm/shared/MenuItem';
 
 /** 
- * Shows context menu for idea
+ * Handles context menu event from node
  * 
  * @param {StateType} state
- * @param {object}    data
- * @param {PointType} data.pos - viewport position of mouse
- *                            TODO: rename to viewportPos
- * @param {string}    data.ideaId - ID of target idea
+ * @param {object} data
+ * @param {string} data.nodeId - ID of target node
  * @return {PatchType|undefined}
  */
-export default function showContextMenuForIdea(state, data) {
+export default function(state, data) {
     const {vm: {main: {mindmap: {graph}}}} = state;
-    const {pos, ideaId} = required(data);
+    const {nodeId} = required(data);
 
-    const node = graph.nodes.find(n => n.id === ideaId);
+    const node = graph.nodes.find(n => n.id === nodeId);
 
     if (node.shaded) {
-        // prevent actions on shaded ideas
+        // prevent actions on shaded nodes
         return;
     }
+
+    const viewportPos = toViewportCoords(node.posAbs, graph.viewbox);
 
     const items = [];
 
     items.push(
         new MenuItem({
-            displayValue: 'add idea',
+            icon: 'N',
+            displayValue: 'Add new idea',
             onSelectAction: () => ({
                 type: 'on-context-menu-item-select-create-idea',
-                data: {parentIdeaId: ideaId}
+                data: {parentIdeaId: nodeId}
             })
         }));
     
     items.push(
         new MenuItem({
-            displayValue: 'set color',
+            icon: 'C',
+            displayValue: 'Set idea color',
             onSelectAction: () => ({
                 type: 'show-color-picker-for-idea',
-                data: {ideaId}
+                data: {ideaId: nodeId}
             })
         }));
 
     items.push(
         new MenuItem({
-            displayValue: 'add-association',
+            icon: 'L',
+            displayValue: 'Add association',
             onSelectAction: () => ({
                 type: 'show-association-tails-lookup',
-                data: {pos, headIdeaId: ideaId}
+                data: {pos: viewportPos, headIdeaId: nodeId}
             })
         }));
     
     // TODO: disable if root or has outgoing assocs
     items.push(
         new MenuItem({
-            displayValue: 'remove-idea',
+            icon: 'D',
+            displayValue: 'Remove idea',
             onSelectAction: () => ({
                 type: 'remove-idea',
-                data: {ideaId}
+                data: {ideaId: nodeId}
             })
         }));
 
     return view('update-context-menu', {
         popup: {
             active: true,
-            pos
+            pos: node.posAbs
         },
         menu: {
             items

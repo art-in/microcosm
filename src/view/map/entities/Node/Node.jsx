@@ -17,11 +17,11 @@ const TEXT_AREA_POS = new Point({x: 0, y: -10});
 // eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
- * @prop {NodeVmType} node
  * @prop {string} [className]
+ * @prop {NodeVmType} node
  * 
  * events
- * @prop {function()} onMouseDown
+ * @prop {function({button})} onMouseDown
  * @prop {function()} onContextMenu
  * @prop {function()} onClick
  * 
@@ -31,6 +31,25 @@ export default class Node extends Component {
 
     /** Indicates that mouse was moved after left button downed */
     mouseMovedAfterMouseDown = false;
+
+    onMouseDown = e => {
+
+        if (e.button === 2) {
+            // Q: why emitting context menu by 'mouse down' event and not
+            //    'context menu' event?
+            // A: because it allows to select context menu item by holding
+            //    right mouse button:
+            //    press right button to show context menu, while holding right
+            //    button move mouse to target menu item, release button upon the
+            //    item to select it
+            this.props.onContextMenu();
+        }
+
+        this.props.onMouseDown({
+            button: e.nativeEvent.which === 1 ? 'left' : 'right'
+        });
+        e.stopPropagation();
+    }
 
     onMouseMove = e => {
         if (e.buttons === 1) {
@@ -65,13 +84,16 @@ export default class Node extends Component {
         e.stopPropagation();
     }
 
+    onContextMenu = e => {
+        // prevent default context menu in favor of custom one
+        e.preventDefault();
+    }
+
     render() {
         
         const {
-            node,
             className,
-            onMouseDown,
-            onContextMenu
+            node
         } = this.props;
 
         const gradientId = `node-gradient-${node.id}`;
@@ -83,11 +105,11 @@ export default class Node extends Component {
                     {[classes.shaded]: node.shaded})}
                 pos={node.posAbs}
                 scale={node.scale}
-                onMouseDown={onMouseDown}
-                onMouseUp={this.onMouseUp}
+                onMouseDown={this.onMouseDown}
                 onMouseMove={this.onMouseMove}
+                onMouseUp={this.onMouseUp}
                 onClick={this.onClick}
-                onContextMenu={onContextMenu}>
+                onContextMenu={this.onContextMenu}>
 
                 <Circle className={classes.circle}
                     radius={node.radius}

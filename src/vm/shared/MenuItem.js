@@ -18,6 +18,12 @@ export default class MenuItem {
     displayValue = undefined;
 
     /**
+     * Icon (font character)
+     * @type {string|undefined}
+     */
+    icon = undefined;
+
+    /**
      * Indicates item is ready to be selected
      * @type {boolean}
      */

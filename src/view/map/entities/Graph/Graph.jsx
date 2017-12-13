@@ -13,7 +13,7 @@ import Group from 'view/shared/svg/Group';
 import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 import IdeaFormModal from 'view/shared/IdeaFormModal';
 
-import ContextMenu from 'view/shared/ContextMenu';
+import RadialContextMenu from 'view/shared/RadialContextMenu';
 import ColorPicker from 'view/shared/ColorPicker';
 import LookupPopup from 'view/shared/LookupPopup';
 
@@ -40,14 +40,10 @@ import classes from './Graph.css';
  * 
  * child events
  * @prop {function({item})} onContextMenuItemSelect
- * @prop {function()}       onAssociationTailsLookupPhraseChange
- * @prop {function()}       onAssociationTailsLookupKeyDown
- * @prop {function()}       onAssociationTailsLookupSuggestionSelect
- * @prop {function()}       onColorPickerChange
- * 
- * @prop {function({nodeId, button})} onNodeMouseDown
- * @prop {function({nodeId, pos})}    onNodeRightClick
- * @prop {function({linkId, pos})}    onLinkRightClick
+ * @prop {function()} onAssociationTailsLookupPhraseChange
+ * @prop {function()} onAssociationTailsLookupKeyDown
+ * @prop {function()} onAssociationTailsLookupSuggestionSelect
+ * @prop {function()} onColorPickerChange
  * 
  * @extends {Component<Props>}
  */
@@ -75,24 +71,6 @@ export default class Graph extends Component {
         this.viewport.focus();
     }
 
-    onNodeRightClick = (nodeId, e) => {
-        // TODO: move to Node, pass mapWindowToViewportCoords
-        const windowPos = new Point({x: e.clientX, y: e.clientY});
-        const pos = toElementCoords(windowPos, this.viewport);
-        this.props.onNodeRightClick({nodeId, pos});
-
-        // TODO: fix preventDefault() to stopPropagation()
-        e.preventDefault();
-    }
-
-    onLinkRightClick = (linkId, e) => {
-        // TODO: move to Link, pass mapWindowToViewportCoords
-        const windowPos = new Point({x: e.clientX, y: e.clientY});
-        const pos = toElementCoords(windowPos, this.viewport);
-        this.props.onLinkRightClick({linkId, pos});
-        e.preventDefault();
-    }
-
     onResize = () => {
         this.props.onViewportResize({size: this.getViewportSize()});
     }
@@ -108,15 +86,6 @@ export default class Graph extends Component {
             up: e.deltaY <= 0,
             pos: new Point({x: viewportX, y: viewportY})
         });
-    }
-
-    onNodeMouseDown = (nodeId, e) => {
-        // TODO: move to Node since it has no ref to Graph
-        this.props.onNodeMouseDown({
-            nodeId,
-            button: e.nativeEvent.which === 1 ? 'left' : 'right'
-        });
-        e.stopPropagation();
     }
 
     onMouseMove = e => {
@@ -153,10 +122,6 @@ export default class Graph extends Component {
         });
     }
 
-    onContextMenuItemSelect = ({item}) => {
-        this.props.onContextMenuItemSelect({item});
-    }
-
     render() {
         const {
             graph,
@@ -167,20 +132,20 @@ export default class Graph extends Component {
             onAssociationTailsLookupPhraseChange,
             onAssociationTailsLookupKeyDown,
             onAssociationTailsLookupSuggestionSelect,
-            onColorPickerChange
+            onColorPickerChange,
+            onContextMenuItemSelect
         } = this.props;
 
         const viewbox = graph.viewbox;
 
         const popupContainerId = `graph-popup-container`;
+        const popupSvgContainerId = `graph-popup-svg-container`;
 
         const nodes = graph.nodes.map(node => {
             return (
                 <Node
                     key={node.id}
-                    node={node}
-                    onMouseDown={this.onNodeMouseDown.bind(null, node.id)}
-                    onContextMenu={this.onNodeRightClick.bind(null, node.id)}/>
+                    node={node} />
             );
         });
 
@@ -190,8 +155,8 @@ export default class Graph extends Component {
                     key={link.id}
                     link={link}
                     popupContainerId={popupContainerId}
-                    mapWindowToViewportCoords={this.mapWindowToViewportCoords}
-                    onContextMenu={this.onLinkRightClick.bind(null, link.id)} />
+                    mapWindowToViewportCoords={
+                        this.mapWindowToViewportCoords} />
             );
         });
 
@@ -213,13 +178,20 @@ export default class Graph extends Component {
 
                     <Group id={'links'}>{links}</Group>
                     <Group id={'nodes'}>{nodes}</Group>
+
+                    <RadialContextMenu cmenu={graph.contextMenu}
+                        onItemSelect={onContextMenuItemSelect} />
+
+                    <Group id={popupSvgContainerId}>{/*
+                        container for svg popup elements (render with Portal)
+                        - element needs to be positioned above all svg figures,
+                          since svg does not support z-index
+                        - element is easier to render in svg instead of html -
+                          graphical element (eg. radial menu)
+                    */}</Group>
                 </Svg>
 
                 <div id={'menus'}>
-                    <ContextMenu
-                        cmenu={graph.contextMenu}
-                        onItemSelect={this.onContextMenuItemSelect} />
-
                     <ColorPicker picker={graph.colorPicker}
                         onChange={onColorPickerChange} />
                     

@@ -29,7 +29,7 @@ const LINE_WIDTH = 0.5;
  * @prop {function({viewportPos})} onMouseMove
  * @prop {function()} onMouseLeave
  * @prop {function({viewportPos})} onClick
- * @prop {function()} onContextMenu
+ * @prop {function({viewportPos})} onContextMenu
  * 
  * @extends {Component<Props>}
  */
@@ -87,6 +87,27 @@ export default class Link extends Component {
         };
     }
 
+    onMouseDown = e => {
+        
+        if (e.button === 2) {
+            // Q: why emitting context menu by 'mouse down' event and not
+            //    'context menu' event?
+            // A: because it allows to select context menu item by holding
+            //    right mouse button:
+            //    press right button to show context menu, while holding right
+            //    button move mouse to target menu item, release button upon the
+            //    item to select it
+            const {mapWindowToViewportCoords} = this.props;
+
+            const windowPos = new Point({x: e.clientX, y: e.clientY});
+            const viewportPos = mapWindowToViewportCoords(windowPos);
+
+            this.props.onContextMenu({viewportPos});
+        }
+
+        e.stopPropagation();
+    }
+
     onMouseMove = e => {
         const {mapWindowToViewportCoords} = this.props;
 
@@ -139,13 +160,16 @@ export default class Link extends Component {
         e.stopPropagation();
     }
 
+    onContextMenu = e => {
+        // prevent default context menu in favor of custom one
+        e.preventDefault();
+    }
 
     render() {
         const {
             link,
             className,
-            popupContainerId,
-            onContextMenu
+            popupContainerId
         } = this.props;
 
         const {highlighted, tooltip} = link;
@@ -175,7 +199,8 @@ export default class Link extends Component {
                 onMouseMove={this.onMouseMove}
                 onMouseLeave={this.onMouseLeave}
                 onMouseUp={this.onMouseUp}
-                onContextMenu={onContextMenu}
+                onMouseDown={this.onMouseDown}
+                onContextMenu={this.onContextMenu}
                 onClick={this.onClick}>
 
                 <Line

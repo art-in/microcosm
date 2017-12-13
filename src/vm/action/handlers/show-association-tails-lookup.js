@@ -14,7 +14,8 @@ import showLookup from 'vm/shared/Lookup/methods/show-lookup';
  *
  * @param {StateType} state
  * @param {object}    data
- * @param {PointType} data.pos - target canvas position for lookup
+ * @param {PointType} data.pos - target viewport position for lookup
+ *                               TODO: rename to viewportPos
  * @param {string}    data.headIdeaId - ID of head idea
  * @return {Patch}
  */

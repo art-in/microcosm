@@ -15,9 +15,10 @@ import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
  * @param {object}     data
  * @param {PointType}  data.viewportShift
  * @param {string}     data.pressedMouseButton - left or null (TODO: or null?)
+ * @param {function} dispatch
  * @return {Patch|undefined}
  */
-export default function(state, data) {
+export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {viewportShift, pressedMouseButton} = required(data);
 
@@ -50,6 +51,8 @@ export default function(state, data) {
         // activate panning if not yet activated
         // TODO: normalize patch
         if (!graph.pan.active) {
+            dispatch({type: 'deactivate-popups'});
+
             patch.push(view('update-graph', {
                 pan: {active: true}
             }));

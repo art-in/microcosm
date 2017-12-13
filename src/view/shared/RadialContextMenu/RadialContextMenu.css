@@ -1,0 +1,55 @@
+.root * {
+    transition: transform 0.15s;
+}
+
+:export {
+    transition-duration: 0.15;
+}
+
+/*
+    Q: why animating internals of container (*) and not container itself?
+    A: because another 'transform' on container would override 'translate'
+       transformation that was set in js for positioning.
+       individual css transformations (eg. translate, scale, rotate) cannot be
+       applied separately - each 'transform' overrides previous one.
+       so we need to apply both transformations to different elements.
+*/
+.root.transition *,
+.root.transition-enter * {
+    transform: scale(0, 0);
+}
+
+.root.transition-enter-active *,
+.root.transition-exit * {
+    transform: scale(1, 1);
+}
+
+.root.transition-exit-active * {
+    transform: scale(0, 0);
+}
+
+.segment {
+    cursor: pointer;
+}
+
+.segment.disabled {
+    cursor: not-allowed;
+}
+
+.segment-path {
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+    stroke: gray;
+    fill: lightblue;
+    opacity: 0.2;
+}
+
+.segment:not(.disabled):hover .segment-path {
+    opacity: 1;
+}
+
+.segment-icon {
+    fill: white;
+    font-size: 10px;
+    user-select: none;
+}

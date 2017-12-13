@@ -29,6 +29,15 @@ export default connect(
                 viewportPos
             },
             throttleLog: 5000
+        }),
+
+        onContextMenu: ({viewportPos}) => dispatch({
+            type: 'on-link-context-menu',
+            data: {
+                linkId: props.link.id,
+                viewportPos
+            }
         })
+
     })
 )(Component);

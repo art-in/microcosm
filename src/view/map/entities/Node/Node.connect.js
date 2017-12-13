@@ -10,6 +10,21 @@ export default connect(
             data: {
                 nodeId: props.node.id
             }
+        }),
+
+        onContextMenu: () => dispatch({
+            type: 'on-node-context-menu',
+            data: {
+                nodeId: props.node.id
+            }
+        }),
+
+        onMouseDown: ({button}) => dispatch({
+            type: 'on-graph-node-mouse-down',
+            data: {
+                nodeId: props.node.id,
+                button
+            }
         })
 
     }))(Component);

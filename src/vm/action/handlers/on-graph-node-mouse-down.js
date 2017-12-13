@@ -15,14 +15,15 @@ import getDescendants from 'utils/graph/get-descendants';
  * @param {object} data
  * @param {string} data.nodeId
  * @param {string} data.button
+ * @param {function} dispatch
  * @return {PatchType|undefined}
  */
-export default function(state, data) {
+export default function(state, data, dispatch) {
     const {vm: {main: {mindmap: {graph}}}} = state;
     const {nodeId, button} = required(data);
     
     if (button !== 'left') {
-        // left button only
+        // left button only for node dragging
         return;
     }
 
@@ -32,6 +33,8 @@ export default function(state, data) {
         // prevent actions on shaded nodes
         return;
     }
+
+    dispatch({type: 'deactivate-popups'});
 
     // drag child sub-tree
     const descendants = getDescendants(node);

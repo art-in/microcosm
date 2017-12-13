@@ -12,7 +12,7 @@ import Link from 'src/vm/map/entities/Link';
 import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe('show-context-menu-for-association', () => {
+describe('on-link-context-menu', () => {
 
     it('should show context menu with certain items', () => {
         
@@ -31,10 +31,10 @@ describe('show-context-menu-for-association', () => {
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-association',
+            type: 'on-link-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc'
+                viewportPos: new Point({x: 0, y: 0}),
+                linkId: 'assoc'
             }
         });
 
@@ -47,7 +47,7 @@ describe('show-context-menu-for-association', () => {
         expect(data.menu.items).to.have.length(1);
         data.menu.items.forEach(i => expect(i).to.be.instanceOf(MenuItem));
         expect(data.menu.items).to.containSubset([{
-            displayValue: 'remove association'
+            displayValue: 'Remove association'
         }]);
     });
 
@@ -66,12 +66,17 @@ describe('show-context-menu-for-association', () => {
         const link = new Link({id: assoc.id});
         state.vm.main.mindmap.graph.links.push(link);
 
+        const {viewbox} = state.vm.main.mindmap.graph;
+        viewbox.x = 0;
+        viewbox.y = 0;
+        viewbox.scale = 1;
+
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-association',
+            type: 'on-link-context-menu',
             data: {
-                pos: new Point({x: 100, y: 200}),
-                associationId: 'assoc'
+                viewportPos: new Point({x: 100, y: 200}),
+                linkId: 'assoc'
             }
         });
 
@@ -100,10 +105,10 @@ describe('show-context-menu-for-association', () => {
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-association',
+            type: 'on-link-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc'
+                viewportPos: new Point({x: 0, y: 0}),
+                linkId: 'assoc'
             }
         });
 
@@ -128,10 +133,10 @@ describe('show-context-menu-for-association', () => {
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-association',
+            type: 'on-link-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc'
+                viewportPos: new Point({x: 0, y: 0}),
+                linkId: 'assoc'
             }
         });
 
@@ -161,17 +166,17 @@ describe('show-context-menu-for-association', () => {
 
         // target
         const patch = handle(state, {
-            type: 'show-context-menu-for-association',
+            type: 'on-link-context-menu',
             data: {
-                pos: new Point({x: 0, y: 0}),
-                associationId: 'assoc'
+                viewportPos: new Point({x: 0, y: 0}),
+                linkId: 'assoc'
             }
         });
 
         // check
         const {data} = patch['update-context-menu'][0];
         const item = data.menu.items
-            .find(i => i.displayValue === 'remove association');
+            .find(i => i.displayValue === 'Remove association');
 
         expect(item).to.exist;
         expect(item.enabled).to.equal(false);

@@ -21,6 +21,7 @@ import ReactDOM from 'react-dom';
  *   the only way to render it above other elements
  * 
  * @typedef {object} Props
+ * @prop {string} [tag=div]
  * @prop {string} rootId
  * @prop {JSX.Element|Array.<JSX.Element>} children
  * 
@@ -28,9 +29,25 @@ import ReactDOM from 'react-dom';
  */
 export default class Portal extends Component {
 
+    static defaultProps = {
+        tag: 'div'
+    }
+
     constructor(props) {
         super(props);
-        this.el = document.createElement('div');
+
+        switch (props.tag) {
+        case 'div':
+            this.el = document.createElement(props.tag);
+            break;
+        case 'g':
+            this.el = document.createElementNS(
+                'http://www.w3.org/2000/svg',
+                props.tag);
+            break;
+        default:
+            throw Error(`Unknown container '${props.tag}'`);
+        }
     }
   
     componentDidMount() {

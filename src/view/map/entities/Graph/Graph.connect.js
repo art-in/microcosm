@@ -5,24 +5,6 @@ export default connect(
     props => props.graph,
     (dispatch, props) => ({
 
-        onLinkRightClick: ({linkId, pos}) => dispatch({
-            type: 'show-context-menu-for-association',
-            data: {
-                pos,
-                associationId: linkId
-            },
-            throttleLog: true
-        }),
-
-        onNodeRightClick: ({nodeId, pos}) => dispatch({
-            type: 'show-context-menu-for-idea',
-            data: {
-                pos,
-                ideaId: nodeId
-            },
-            throttleLog: true
-        }),
-
         onContextMenuItemSelect: ({item}) => dispatch({
             type: 'on-context-menu-item-select',
             data: {item}
@@ -63,12 +45,6 @@ export default connect(
 
         onClick: () => dispatch({
             type: 'on-graph-click',
-            throttleLog: 5000
-        }),
-
-        onNodeMouseDown: ({nodeId, button}) => dispatch({
-            type: 'on-graph-node-mouse-down',
-            data: {nodeId, button},
             throttleLog: 5000
         }),
 
