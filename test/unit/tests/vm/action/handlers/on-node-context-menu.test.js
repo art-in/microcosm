@@ -218,7 +218,7 @@ describe('on-node-context-menu', () => {
 
         // check
         expect(action).to.containSubset({
-            type: 'remove-idea',
+            type: 'on-context-menu-item-select-remove-idea',
             data: {
                 ideaId: 'idea'
             }

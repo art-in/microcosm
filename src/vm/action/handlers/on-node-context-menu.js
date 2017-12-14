@@ -68,7 +68,7 @@ export default function(state, data) {
             icon: 'D',
             displayValue: 'Remove idea',
             onSelectAction: () => ({
-                type: 'remove-idea',
+                type: 'on-context-menu-item-select-remove-idea',
                 data: {ideaId: nodeId}
             })
         }));
