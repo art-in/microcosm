@@ -3,8 +3,12 @@
     -webkit-user-select: none;
 }
 
+:export {
+    font-size: 12;
+}
+
 .line {
-    font-size: 8px;
+    font-size: 12px;
     fill: #D00;
 }
 

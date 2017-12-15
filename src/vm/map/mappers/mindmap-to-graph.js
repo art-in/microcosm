@@ -34,8 +34,8 @@ export default function mindmapToGraph(mindmap) {
         // map graph and slice-out deep pieces basing on current scale
         focusCenter = getFocusWeightForScale(mindmap.scale);
         
-        focusZoneMax = focusCenter + 100;
-        shadeZoneAmount = 500;
+        focusZoneMax = focusCenter + 1000;
+        shadeZoneAmount = 1000;
 
         const res = mapGraph({
             vertex: mindmap.root,

@@ -52,7 +52,7 @@ describe('create-idea', () => {
         expect(idea.edgesIn).to.deep.equal([assoc]);
         expect(idea.edgeFromParent).to.equal(assoc);
         expect(idea.edgesToChilds).to.deep.equal([]);
-        expect(idea.rootPathWeight).to.be.closeTo(141, 1);
+        expect(idea.rootPathWeight).to.equal(500);
     });
 
     it('should add new idea with specified ID', () => {
@@ -166,7 +166,7 @@ describe('create-idea', () => {
         expect(data.assoc.from).to.equal(ideaA);
         expect(data.assoc.toId).to.be.ok;
         expect(data.assoc.to).to.equal(newIdea);
-        expect(data.assoc.weight).to.be.closeTo(141, 1);
+        expect(data.assoc.weight).to.equal(500);
     });
 
     it('should update outgoing edges of parent idea', () => {
@@ -239,8 +239,8 @@ describe('create-idea', () => {
         const {idea} = patch['add-idea'][0].data;
         
         expect(idea).to.be.instanceOf(Idea);
-        expect(idea.posRel).to.containSubset({x: 100, y: 100});
-        expect(idea.posAbs).to.containSubset({x: 110, y: 120});
+        expect(idea.posRel).to.containSubset({x: 500, y: 0});
+        expect(idea.posAbs).to.containSubset({x: 510, y: 20});
     });
 
     it('should NOT mutate state', () => {

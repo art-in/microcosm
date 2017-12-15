@@ -79,6 +79,8 @@ export default function(state, data) {
             pos: node.posAbs
         },
         menu: {
+            // TODO: downscale menu with current viewbox,
+            //       so menu for deep nodes is not too big
             items
         }
     });

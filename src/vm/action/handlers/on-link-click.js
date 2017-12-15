@@ -44,11 +44,6 @@ export default function(state, data, dispatch) {
     }
 
     dispatch({
-        type: 'open-idea-form-modal',
-        data: {ideaId: node.id}
-    });
-
-    dispatch({
         type: 'animate-graph-viewbox-to-idea',
         data: {ideaId: node.id}
     });

@@ -12,6 +12,8 @@ import weighAssociation from 'model/utils/weigh-association';
 import Idea from 'model/entities/Idea';
 import Association from 'model/entities/Association';
 import Point from 'model/entities/Point';
+import getNodeScaleForWeight from 'vm/map/utils/get-node-scale-for-weight';
+import getNewIdeaPosition from 'action/utils/get-new-idea-position';
 
 /**
  * Creates idea
@@ -37,10 +39,10 @@ export default function createIdea(state, data) {
 
     const parent = getIdea(mindmap, parentIdeaId);
 
-    const posRel = new Point({
-        x: 100,
-        y: 100
-    });
+    const posRel = getNewIdeaPosition(
+        parent.posRel,
+        parent.edgesOut.map(edge => edge.to.posRel),
+        getNodeScaleForWeight(parent.rootPathWeight));
 
     const idea = new Idea({
         mindmapId: mindmap.id,

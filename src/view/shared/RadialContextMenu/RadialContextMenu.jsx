@@ -8,8 +8,8 @@ import MenuItemType from 'vm/shared/MenuItem';
 
 import classes from './RadialContextMenu.css';
 
-// angle of full ring (2*PI radians or 360 degrees)
-const FULL_RING_RAD = 2 * Math.PI;
+// angle of full circle (2*PI radians or 360 degrees)
+const FULL_CIRCLE_RAD = 2 * Math.PI;
 
 // ratio of gap between segments (greater value - greater gap)
 const SEGMENT_GAP_RATIO = 0.001;
@@ -82,7 +82,7 @@ export default class RadialContextMenu extends Component {
     drawSegment(segmentsCount, segmentNumber, menuItem) {
         
         // angle of each segment
-        const segmentRad = FULL_RING_RAD / segmentsCount;
+        const segmentRad = FULL_CIRCLE_RAD / segmentsCount;
         
         // angle of segment start and end (without gap)
         const startRad = segmentRad * segmentNumber;

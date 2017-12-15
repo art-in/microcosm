@@ -36,14 +36,9 @@ export default class NodeDebug extends Component {
             `rpw = ${round(node.rootPathWeight, 2)}`
         ];
 
-        // when node downscaled - upscale debug info back,
-        // so it always stays normal size
-        const scale = 1 / node.scale;
-
         return (
             <Group className={cx(classes.root, className)}
-                {...other}
-                scale={scale}>
+                {...other}>
 
                 {lines.map((line, idx) =>
                     <Text text={line}
@@ -51,7 +46,7 @@ export default class NodeDebug extends Component {
                         className={classes.line}
                         pos={new Point({
                             x: -25,
-                            y: node.radius + (10 / scale) + idx * 8
+                            y: node.radius + 10 + idx * Number(classes.fontSize)
                         })}
                     />)}
 

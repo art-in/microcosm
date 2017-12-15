@@ -31,8 +31,8 @@ describe('animate-graph-viewbox-to-idea', () => {
 
         const ideaA = new Idea({
             id: 'A',
-            rootPathWeight: 1000,
-            posAbs: new Point({x: 1000, y: 1000})
+            rootPathWeight: 500,
+            posAbs: new Point({x: 500, y: 500})
         });
 
         mindmap.ideas.set(ideaA.id, ideaA);
@@ -83,7 +83,7 @@ describe('animate-graph-viewbox-to-idea', () => {
 
         const {finalMutationViewbox: viewbox} = await setup();
 
-        // scale of idea with RPW 1000 = 0.5,
+        // scale of idea with RPW 500 = 0.5,
         // then viewbox should have scale 2 for target idea to be focused.
         // and if viewbox scale now 2 its size should be 2 times smaller.
         expect(viewbox.scale).to.equal(2);
@@ -95,11 +95,11 @@ describe('animate-graph-viewbox-to-idea', () => {
 
         const {finalMutationViewbox: viewbox} = await setup();
 
-        // viewbox now have size 50x50, target idea position is 1000x1000,
-        // then top-left corner of viewbox should be at (1000 - 50/2)
+        // viewbox now have size 50x50, target idea position is 500x500,
+        // then top-left corner of viewbox should be at (500 - 50/2)
         // for target idea be in the center of viewbox
-        expect(viewbox.x).to.equal(975);
-        expect(viewbox.y).to.equal(975);
+        expect(viewbox.x).to.equal(475);
+        expect(viewbox.y).to.equal(475);
     });
 
     it(`should dispatch 'set-mindmap-scale' action`, async () => {
@@ -112,7 +112,7 @@ describe('animate-graph-viewbox-to-idea', () => {
             type: 'set-mindmap-scale',
             data: {
                 scale: 2,
-                pos: {x: 975, y: 975}
+                pos: {x: 475, y: 475}
             }
         });
     });

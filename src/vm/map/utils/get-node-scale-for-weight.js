@@ -8,7 +8,7 @@ import isValidPathWeight from 'utils/graph/is-valid-path-weight';
  * to its normal size.
  * 
  * @param {number|undefined} rootPathWeight
- * @return {number} scale
+ * @return {number} node scale
  */
 export default function getNodeScaleForWeight(rootPathWeight) {
 
@@ -16,11 +16,25 @@ export default function getNodeScaleForWeight(rootPathWeight) {
         throw Error(`Invalid root path weight '${rootPathWeight}'`);
     }
     
+    // TODO: decide on node downscaling func
+    // logarithmic progression
+    // return 1 / (Math.pow(2, rootPathWeight / nodeDownscaleRate));
+
+    // linear progression
     return nodeDownscaleRate / (rootPathWeight + nodeDownscaleRate);
 }
 
 /**
- * Amount of RPW that downscales node in one more time.
- * Greater value - slower nodes will be downscaled.
+ * Amount of RPW that downscales node in linear progression.
+ * Greater value - slower nodes are downscaled.
+ * 
+ *  RPW   |  node scale
+ *  ------|-------------
+ *  0     |  1
+ *  500   |  1/2
+ *  1000  |  1/3
+ *  1500  |  1/4
+ *  2000  |  1/5
+ *
  */
-export const nodeDownscaleRate = 1000;
+export const nodeDownscaleRate = 500;

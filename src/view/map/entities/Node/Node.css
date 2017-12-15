@@ -1,4 +1,4 @@
-.root {
+.root:not(.shaded) {
     cursor: pointer;
 }
 
@@ -6,7 +6,7 @@
 
 .title {
     font-family: 'montserrat-light', sans-serif;
-    
+    font-size: 30px;
     fill: white;
 }
 

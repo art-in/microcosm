@@ -8,6 +8,11 @@
     /* thicken hover area */
     stroke: transparent;
     stroke-width: 8px;
+    opacity: 0.5;
+}
+
+.line:hover {
+    opacity: 1;
 }
 
 .title {

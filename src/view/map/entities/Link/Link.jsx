@@ -12,10 +12,10 @@ import Portal from 'view/shared/Portal';
 
 import classes from './Link.css';
 
-const GRADIENT_DENCITY_RATIO = 2000;
+const GRADIENT_DENCITY_RATIO = 3000;
 const ANIMATION_DURATION = 3; // sec
 
-const LINE_WIDTH = 0.5;
+const LINE_WIDTH = 1;
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -188,7 +188,8 @@ export default class Link extends Component {
 
         const linkLength = sqrt(pow(dx, 2) + pow(dy, 2));
         const angleDeg = atan2(dy, dx) * (180 / Math.PI);
-        const gradientDencity = GRADIENT_DENCITY_RATIO / linkLength;
+        const scale = link.from.scale;
+        const gradientDencity = (GRADIENT_DENCITY_RATIO * scale) / linkLength;
         const gradientId = `link-gradient-${link.id}`;
 
         return (
@@ -207,7 +208,7 @@ export default class Link extends Component {
                     className={cx(classes.line, className)}
                     pos1={link.from.posAbs}
                     pos2={link.to.posAbs}
-                    width={LINE_WIDTH}
+                    width={LINE_WIDTH * link.from.scale}
                     fill={highlighted ? link.color : `url(#${gradientId})`} />
 
                 {

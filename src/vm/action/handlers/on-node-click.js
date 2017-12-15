@@ -9,8 +9,16 @@ import required from 'utils/required-params';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
+    const {vm: {main: {mindmap: {graph}}}} = state;
     const {nodeId} = required(data);
     
+    const node = graph.nodes.find(n => n.id === nodeId);
+
+    if (node.shaded) {
+        // do not handle clicks from shaded nodes
+        return;
+    }
+
     dispatch({
         type: 'open-idea-form-modal',
         data: {ideaId: nodeId}

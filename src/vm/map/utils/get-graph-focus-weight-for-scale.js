@@ -28,8 +28,12 @@ export default function getGraphFocusWeightForScale(viewboxScale) {
         throw Error(`Invalid viewbox scale '${viewboxScale}'`);
     }
 
-    const weight = (viewboxScale - 1) * nodeDownscaleRate;
+    // logarithmic progression
+    // const rootPathWeight = Math.log2(viewboxScale) * nodeDownscaleRate;
+
+    // linear progression
+    const rootPathWeight = (viewboxScale - 1) * nodeDownscaleRate;
 
     // RPW cannot be negative
-    return Math.max(weight, 0);
+    return Math.max(rootPathWeight, 0);
 }
