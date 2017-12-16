@@ -76,11 +76,10 @@ export default function(state, data) {
     return view('update-context-menu', {
         popup: {
             active: true,
-            pos: node.posAbs
+            pos: node.posAbs,
+            scale: 1 / graph.viewbox.scale
         },
         menu: {
-            // TODO: downscale menu with current viewbox,
-            //       so menu for deep nodes is not too big
             items
         }
     });

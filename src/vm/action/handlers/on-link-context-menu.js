@@ -53,7 +53,8 @@ export default function(state, data) {
     return view('update-context-menu', {
         popup: {
             active: true,
-            pos: canvasPos
+            pos: canvasPos,
+            scale: 1 / graph.viewbox.scale
         },
         menu: {
             items

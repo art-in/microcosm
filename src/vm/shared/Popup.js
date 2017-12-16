@@ -25,6 +25,12 @@ export default class Popup extends ViewModel {
     pos = undefined;
 
     /**
+     * Scale.
+     * @type {number|undefined}
+     */
+    scale = undefined;
+
+    /**
      * Constructor
      * @param {Partial<Popup>} [props]
      */

@@ -15,8 +15,8 @@ const FULL_CIRCLE_RAD = 2 * Math.PI;
 const SEGMENT_GAP_RATIO = 0.001;
 
 // radiuses of inner and outer rings
-const INNER_RADIUS = 30;
-const OUTER_RADIUS = 70;
+const INNER_RADIUS = 50;
+const OUTER_RADIUS = 150;
 
 // duration of animated transition of menu opening
 const TRANSITION_DURATION = Number(classes.transitionDuration) * 1000;
@@ -172,7 +172,8 @@ export default class RadialContextMenu extends Component {
                 classNames={classes.transition}>
 
                 <Group className={cx(classes.root, className)}
-                    pos={popup.pos}>
+                    pos={popup.pos}
+                    scale={popup.scale}>
 
                     {/* draw segments */}
                     {menu.items.map((item, idx, items) =>
