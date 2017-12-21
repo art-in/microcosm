@@ -46,9 +46,13 @@ function apply(state, mutation) {
         if (module.hot) {
             module.hot.accept('view/main/Main', () => mount(state));
         }
-
         break;
     }
+
+    case 'init-mindmap':
+    case 'update-mindmap-vm':
+        state.vm.main.mindmap.emitChange();
+        break;
 
     case 'update-graph':
     case 'update-mindmap':
@@ -99,7 +103,7 @@ function apply(state, mutation) {
 function mount(state) {
     ReactDom.render(
         <Provider dispatch={state.view.storeDispatch}>
-            <Main vm={state.vm.main} />
+            <Main main={state.vm.main} />
         </Provider>,
         state.view.root);
 }

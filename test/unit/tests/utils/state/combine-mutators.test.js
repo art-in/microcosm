@@ -54,7 +54,7 @@ describe('combine-mutators', () => {
         // setup view
         ReactDom.render(
             <Provider dispatch={state.view.storeDispatch}>
-                <MainView vm={state.vm.main} />
+                <MainView main={state.vm.main} />
             </Provider>,
             state.view.root);
 

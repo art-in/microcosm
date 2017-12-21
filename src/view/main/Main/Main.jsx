@@ -7,25 +7,28 @@ import classes from './Main.css';
 
 /**
  * @typedef {object} Props
- * @prop {MainVmType} vm
+ * @prop {MainVmType} main
  * 
  * @extends {Component<Props>}
  */
 export default class Main extends Component {
 
     render() {
+        
+        const {main: mainVM} = this.props;
+
+        let pageComponent;
+        switch (mainVM.screen) {
+        case 'mindmap':
+            pageComponent = <Mindmap mindmap={mainVM.mindmap} />;
+            break;
+        default:
+            throw Error(`Unknown screen type '${mainVM.screen}'`);
+        }
 
         return (
             <main className={classes.root}>
-                {
-                    !this.props.vm.mindmap &&
-                    <div>Loading...</div>
-                }
-
-                {
-                    this.props.vm.mindmap &&
-                    <Mindmap mindmap={ this.props.vm.mindmap } />
-                }
+                {pageComponent}
             </main>
         );
     }

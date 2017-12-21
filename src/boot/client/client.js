@@ -20,6 +20,10 @@ import mutateView from 'view/mutators';
 // @ts-ignore unknown prop of 'window'
 window.PouchDB = PouchDB;
 
+// URL of database server
+// TODO: configure through config.js
+const dbServerUrl = `${location.protocol}//${location.hostname}:5984`;
+
 /**
  * Startup
  */
@@ -47,22 +51,16 @@ async function start() {
         new State(),
         middlewares);
 
-    const storeDispatch = store.dispatch.bind(store);
-
     // warm up state
+
     await store.dispatch({
         type: 'init',
         data: {
-            db: {
-                ideas: new PouchDB('ideas'),
-                associations: new PouchDB('associations'),
-                mindmaps: new PouchDB('mindmaps')
-            },
-            view: {
-                root: document.querySelector('#root'),
-                storeDispatch
-            }
-        }});
+            storeDispatch: store.dispatch.bind(store),
+            dbServerUrl,
+            viewRoot: document.querySelector('#root')
+        }
+    });
 }
 
 start();

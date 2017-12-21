@@ -1,3 +1,5 @@
+import initProps from 'utils/init-props';
+
 /**
  * Single mutation which can be applied to state
  */
@@ -24,17 +26,10 @@ export default class Mutation {
 
     /**
      * Constructor
-     * @param {object}         opts
-     * @param {string}         opts.type 
-     * @param {*}              opts.data 
-     * @param {Array.<string>} [opts.targets]
+     * @param {Partial<Mutation>} props
      */
-    constructor(opts) {
-        const {type, data, targets} = opts;
-
-        this.type = type;
-        this.data = data;
-        this.targets = targets;
+    constructor(props) {
+        initProps(this, props);
     }
 
     /**

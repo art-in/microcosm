@@ -22,7 +22,6 @@ export default function computeViewboxSize(opts) {
 
     viewbox.scale = max(viewbox.scaleMin, viewbox.scale);
     viewbox.scale = min(viewbox.scaleMax, viewbox.scale);
-    viewbox.scale = viewbox.scale;
 
     viewbox.width = viewport.width / viewbox.scale;
     viewbox.height = viewport.height / viewbox.scale;

@@ -1,17 +1,15 @@
 import required from 'utils/required-params';
-
 import StateType from 'boot/client/State';
-import MainVmType from 'vm/main/Main';
 
 /**
- * Applies 'init' mutation
+ * Inits view model state
+ * 
  * @param {StateType} state
  * @param {object} data
- * @param {object} data.vm
- * @param {MainVmType} data.vm.main
  */
 export default function init(state, data) {
-    const {vm: {main}} = required(data);
+    const {vm} = state;
+    const {main} = required(data.vm);
 
-    state.vm.main = main;
+    vm.main = main;
 }

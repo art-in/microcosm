@@ -12,7 +12,20 @@ import ViewModel from 'vm/utils/ViewModel';
 export default class Mindmap extends ViewModel {
 
     /**
-     * Graph view model
+     * Mindmap is loaded
+     * @type {boolean}
+     */
+    isLoaded = false;
+    
+    /**
+     * Mindmap load failed
+     * @type {boolean}
+     */
+    isLoadFailed = false;
+
+    /**
+     * Graph view model.  
+     * Note: only available when mindmap is loaded.
      * @type {GraphVmType|undefined}
      */
     graph = undefined;

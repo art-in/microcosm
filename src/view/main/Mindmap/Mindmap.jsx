@@ -16,15 +16,27 @@ import classes from './Mindmap.css';
 export default class Mindmap extends Component {
 
     render() {
-
+        
         const {mindmap, ...other} = this.props;
         
         return (
             <div className={cx(classes.root)}
                 {...other}>
 
-                <Graph graph={mindmap.graph} />
+                {!mindmap.isLoaded && !mindmap.isLoadFailed &&
+                    <div className={classes.message}>
+                        Mindmap is loading...
+                    </div>}
 
+                {mindmap.isLoadFailed &&
+                    <div className={classes.message}>
+                        Mindmap load failed
+                    </div>}
+
+                {mindmap.isLoaded ?
+                    <Graph graph={mindmap.graph} />
+                    : null}
+                
             </div>
         );
     }

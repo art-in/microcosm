@@ -1,6 +1,7 @@
 import toGraph from 'vm/map/mappers/mindmap-to-graph';
 
 import StateType from 'boot/client/State';
+import updateGraphPersistentProps from 'vm/utils/update-graph-persistent-props';
 
 /**
  * Applies all mutations that do not have correspoding mutators
@@ -21,15 +22,5 @@ export default function defaultMutator(state) {
 
     // instead of replacing graph with newly mapped one, only take necessary.
     // this keeps graph view model bound to view, and keeps view specific state.
-    graph.debugInfo = newGraph.debugInfo;
-    graph.viewbox = {
-        ...newGraph.viewbox,
-        width: graph.viewbox.width,
-        height: graph.viewbox.height
-    };
-    graph.nodes = newGraph.nodes;
-    graph.links = newGraph.links;
-    graph.root = newGraph.root;
-
-    graph.isDirty = true;
+    updateGraphPersistentProps(graph, newGraph);
 }

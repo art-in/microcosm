@@ -106,7 +106,6 @@ export default class Patch {
     push(mutation, ...rest) {
         
         if (!(mutation instanceof Mutation)) {
-            // TODO: validate param scheme
             if (typeof mutation === 'string') {
                 mutation = new Mutation({type: mutation, data: rest[0]});
             } else {

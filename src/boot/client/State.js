@@ -8,6 +8,12 @@ export default class State {
 
     data = {
 
+        /**
+         * URL of database server
+         * @type {string}
+         */
+        dbServerUrl: undefined,
+
         /** @type {PouchDB.Database} */
         ideas: undefined,
 

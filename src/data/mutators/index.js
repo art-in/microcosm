@@ -1,3 +1,4 @@
+import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
 import MutationType from 'utils/state/Mutation';
 
@@ -45,11 +46,19 @@ async function apply(state, mutation) {
 
     switch (mutation.type) {
 
-    case 'init':
-        data.ideas = mutation.data.db.ideas;
-        data.associations = mutation.data.db.associations;
-        data.mindmaps = mutation.data.db.mindmaps;
+    case 'init': {
+        const {dbServerUrl} = required(mutation.data.data);
+        data.dbServerUrl = dbServerUrl;
         break;
+    }
+
+    case 'init-mindmap': {
+        const {ideas, associations, mindmaps} = required(mutation.data.data);
+        data.ideas = ideas;
+        data.associations = associations;
+        data.mindmaps = mindmaps;
+        break;
+    }
 
     case 'add-idea':
         await ideaDB.add(data.ideas, mutation.data.idea);

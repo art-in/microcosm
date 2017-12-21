@@ -9,7 +9,7 @@ import MutationType from 'src/utils/state/Mutation';
  * @param {Patch} resPatch - resulting patch
  * @return {Patch}
  */
-export default function(mutateSpy, resPatch) {
+export default function combineHandlerPatches(mutateSpy, resPatch) {
     
     /** @type {Array.<Patch>} */
     const intermediatePatches = mutateSpy.getCalls().map(c => c.args[0]);

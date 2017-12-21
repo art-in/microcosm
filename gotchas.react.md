@@ -31,8 +31,7 @@
 
 4. When component update is skipped by `shouldComponentUpdate`, all child components will still be updated (#3),  
     except children that were received through props (ie. `this.props.children`), they wont be updated.  
-
+    
     This is surprising, because not all children get updated as described in docs, but only ones defined statically, and not ones received from props dynamically.  
-    Still this is valid, because `shouldComponentUpdate` really bases on comparing previous properties with new properties to make a decision whether update or not, and `this.props.children` here is just another property.  
     TODO: why it is not mentioned in docs? why update static and not dynamic children (what's the difference)?  
     https://discuss.reactjs.org/t/shouldcomponentupdate-and-children/2055/7

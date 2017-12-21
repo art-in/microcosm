@@ -27,10 +27,20 @@ export default function createState() {
     state.model.mindmap.pos = new Point({x: 0, y: 0});
 
     // view model
-    state.vm.main = new MainVM();
-    state.vm.main.mindmap = new MindmapVM();
-    state.vm.main.mindmap.graph = toGraph(state.model.mindmap);
+    const graph = toGraph(state.model.mindmap);
+    graph.viewport.width = 100;
+    graph.viewport.height = 100;
 
+    const mindmap = new MindmapVM({
+        isLoaded: true,
+        graph
+    });
+    
+    state.vm.main = new MainVM({
+        screen: 'mindmap',
+        mindmap
+    });
+    
     // view
     state.view.root = document.createElement('div');
     state.view.storeDispatch = () => {};

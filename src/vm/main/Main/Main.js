@@ -1,4 +1,5 @@
 import initProps from 'utils/init-props';
+import ViewModel from 'vm/utils/ViewModel';
 
 import MindmapType from 'vm/main/Mindmap';
 
@@ -8,7 +9,13 @@ import MindmapType from 'vm/main/Mindmap';
  * Represents root app component, that can show
  * login form, preferences form, mindmap etc.
  */
-export default class Main {
+export default class Main extends ViewModel {
+
+    /**
+     * Screen type
+     * @type {string|undefined}
+     */
+    screen = undefined;
 
     /**
      * Mindmap view model
@@ -21,6 +28,7 @@ export default class Main {
      * @param {Partial<Main>} [props]
      */
     constructor(props) {
+        super();
         initProps(this, props);
     }
 }

@@ -12,38 +12,25 @@ describe('mutators', () => {
 
     describe('init', () => {
         
-        it('should init db', async () => {
+        it('should set db server url', async () => {
     
             // setup
             const state = new State();
     
-            const patchData = {
-                db: {
-                    ideas: createDB(),
-                    associations: createDB(),
-                    mindmaps: createDB()
+            const patch = new Patch({
+                type: 'init',
+                data: {
+                    data: {
+                        dbServerUrl: 'TEST_DB_SERVER'
+                    }
                 }
-            };
-    
-            await patchData.db.ideas.post({});
-            await patchData.db.associations.post({});
-            await patchData.db.mindmaps.post({});
-    
-            const patch = new Patch({type: 'init', data: patchData});
+            });
     
             // target
             await mutate(state, patch);
     
             // check
-            const {ideas, associations, mindmaps} = state.data;
-    
-            expect(ideas).to.exist;
-            expect(associations).to.exist;
-            expect(mindmaps).to.exist;
-    
-            expect((await ideas.info()).doc_count).to.equal(1);
-            expect((await associations.info()).doc_count).to.equal(1);
-            expect((await mindmaps.info()).doc_count).to.equal(1);
+            expect(state.data.dbServerUrl).to.equal('TEST_DB_SERVER');
         });
             
     });
