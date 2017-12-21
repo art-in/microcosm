@@ -195,7 +195,7 @@ describe('logger', () => {
         });
     });
 
-    describe('action failed in mutator', () => {
+    describe('action failed in resulting mutation', () => {
         
         beforeEach(() => {
             
@@ -214,6 +214,87 @@ describe('logger', () => {
             dispatchEvents.emit('before-dispatch', {state: prevState, action});
             dispatchEvents.emit('before-handler', {state: prevState, action});
             dispatchEvents.emit('after-handler', {state: prevState});
+            dispatchEvents.emit('before-mutation', {state: prevState, patch});
+            dispatchEvents.emit('mutation-fail', {error});
+        });
+
+        it('should make collapsed group', () => {
+            expect(groupCollapsed.callCount).to.equal(1);
+            expect(log.callCount).to.equal(3);
+            expect(groupEnd.callCount).to.equal(1);
+        });
+    
+        it('should log action type', () => {
+            expect(groupCollapsed.firstCall.args[0]).to.match(
+                RegExp(`^${S}action ${S}my-action`));
+        });
+        
+        it('should log duration', () => {
+            expect(groupCollapsed.firstCall.args[0]).to.match(
+                RegExp(`${S}\\(\\d ms\\)`));
+        });
+
+        it('should log fail source', () => {
+            expect(groupCollapsed.firstCall.args[0]).to.match(
+                RegExp(`${S} \\[failed in mutator\\]`));
+        });
+
+        it('should log prev state', () => {
+            expect(log.getCall(0).args[0]).to.match(
+                RegExp(`${S}prev state`));
+            
+            expect(log.getCall(0).args[2]).to.deep.equal({
+                model: 'prev model',
+                vm: 'prev vm'
+            });
+        });
+    
+        it('should log action (with handler duration)', () => {
+            expect(log.getCall(1).args[0]).to.match(
+                RegExp(`${S}action ${S}\\(\\d ms\\)`));
+            
+            expect(log.getCall(1).args[3]).to.be.instanceOf(Action);
+            expect(log.getCall(1).args[3]).to.containSubset({
+                type: 'my-action',
+                data: 'A'
+            });
+        });
+
+        it('should log patch (with mutation duration)', () => {
+            expect(log.getCall(2).args[0]).to.match(
+                RegExp(`${S}patch ${S}\\(\\d ms\\)`));
+            
+            expect(log.getCall(2).args[3]).to.containSubset({
+                mutations: [{
+                    type: 'my-mutation',
+                    data: 'M'
+                }]
+            });
+        });
+    
+        it('should NOT log next state', () => {
+            expect(log.getCall(3)).to.not.exist;
+        });
+    });
+
+    describe('action failed on intermediate mutation', () => {
+        
+        beforeEach(() => {
+            
+            // setup
+            const dispatchEvents = new EventEmitter();
+            
+            const middleware = logger();
+    
+            const action = new Action({type: 'my-action', data: 'A'});
+            const prevState = {model: 'prev model', vm: 'prev vm'};
+            const patch = new Patch({type: 'my-mutation', data: 'M'});
+            const error = new Error('boom');
+
+            middleware.onDispatch(dispatchEvents, action);
+
+            dispatchEvents.emit('before-dispatch', {state: prevState, action});
+            dispatchEvents.emit('before-handler', {state: prevState, action});
             dispatchEvents.emit('before-mutation', {state: prevState, patch});
             dispatchEvents.emit('mutation-fail', {error});
         });

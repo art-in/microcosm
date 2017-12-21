@@ -102,6 +102,7 @@ function throttleLogDispatch(state, events, action) {
  */
 function logDispatch(state, events, throttledCount) {
     
+    /** @type {LogEntry} */
     let entry = null;
     
     events.on('before-dispatch', opts => {
@@ -169,6 +170,10 @@ function logDispatch(state, events, throttledCount) {
         
         entry.perf.mutation.end = performance.now();
         entry.perf.dispatch.end = performance.now();
+        if (entry.perf.handler.end === undefined) {
+            // finish handler too if intermediate mutation failed
+            entry.perf.handler.end = performance.now();
+        }
         entry.mutationFailed = true;
         entry.error = error;
 
