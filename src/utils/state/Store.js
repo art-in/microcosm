@@ -114,6 +114,7 @@ export default class Store {
         };
 
         const state = this._state;
+        let mutationFailed = false;
 
         // applies intermediate and resulting mutations
         const mutate = patch => {
@@ -131,6 +132,7 @@ export default class Store {
             events.emit('before-mutation', {mutationId, state, patch});
 
             const onMutationError = error => {
+                mutationFailed = true;
                 events.emit('mutation-fail', {mutationId, error});
                 throw error;
             };
@@ -184,7 +186,11 @@ export default class Store {
             }
 
         } catch (error) {
-            events.emit('handler-fail', {error});
+            if (!mutationFailed) {
+                // only emit handler fail if error source is handler itself
+                // and not intermediate mutation called from handler
+                events.emit('handler-fail', {error});
+            }
             throw error;
         }
 

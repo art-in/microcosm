@@ -599,7 +599,7 @@ describe('middlewares', () => {
         expect(inst[1].onChildAction.callCount).to.equal(0);
     });
 
-    it(`should emit 'handler-fail' event when handler failed`, async () => {
+    it(`should emit 'handler-fail' event when handler fails`, async () => {
         
         // setup
         const handler = new Handler();
@@ -638,7 +638,47 @@ describe('middlewares', () => {
         });
     });
 
-    it(`should emit 'mutation-fail' event when mutation failed`, async () => {
+    it(`should NOT emit 'handler-fail' event when intermediate mutation fails`,
+        async () => {
+            
+            // setup
+            const handler = new Handler();
+            handler.reg('action', (_, __, ___, mutate) => {
+                mutate(new Patch({type: 'mutation'}));
+            });
+
+            const state = {counter: 0};
+            const mutator = () => {
+                throw Error('boom');
+            };
+
+            // setup middleware
+            const onMutationFail = spy();
+            const onHandlerFail = spy();
+            const middleware = () => ({onDispatch: events => {
+                events.on('mutation-fail', onMutationFail);
+                events.on('handler-fail', onHandlerFail);
+            }});
+            
+            // setup store
+            const store = new Store(
+                handler,
+                mutator,
+                state, [
+                    middleware
+                ]);
+
+            // target
+            const promise = store.dispatch({type: 'action'});
+
+            // check
+            await expect(promise).to.be.rejectedWith('boom');
+
+            expect(onMutationFail.callCount).to.equal(1);
+            expect(onHandlerFail.callCount).to.equal(0);
+        });
+
+    it(`should emit 'mutation-fail' event when mutation fails`, async () => {
         
         // setup
         const handler = new Handler();
