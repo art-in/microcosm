@@ -20,7 +20,7 @@ import view from 'vm/utils/view-patch';
 
 import toGraph from 'vm/map/mappers/mindmap-to-graph';
 
-export const STORAGE_KEY_DB_REPLICATED = 'microcosm_db_replicated_from_server';
+export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
 
 /**
@@ -48,9 +48,9 @@ export default async function loadMindmap(state, data, dispatch) {
         try {
             const res = await initDatabases(dbServerUrl, dispatch);
 
-            ideasDB = res.ideasDB;
-            assocsDB = res.assocsDB;
-            mindmapsDB = res.mindmapsDB;
+            ideasDB = res.ideas;
+            assocsDB = res.associations;
+            mindmapsDB = res.mindmaps;
 
         } catch (e) {
 
@@ -120,7 +120,7 @@ export default async function loadMindmap(state, data, dispatch) {
  * 
  * @param {string} dbServerUrl 
  * @param {function} dispatch
- * @return {Promise}
+ * @return {Promise.<Object<string, PouchDB.Database>>} local databases
  */
 async function initDatabases(dbServerUrl, dispatch) {
 
@@ -129,108 +129,132 @@ async function initDatabases(dbServerUrl, dispatch) {
     }
 
     // create handles to local databases (will be created if not exist)
-    const ideasDB = new PouchDB('ideas');
-    const assocsDB = new PouchDB('associations');
-    const mindmapsDB = new PouchDB('mindmaps');
+    const localDBs = {
+        ideas: new PouchDB('ideas'),
+        associations: new PouchDB('associations'),
+        mindmaps: new PouchDB('mindmaps')
+    };
 
-    const localDatabases = [
-        {name: 'ideas', db: ideasDB},
-        {name: 'associations', db: assocsDB},
-        {name: 'mindmaps', db: mindmapsDB}
-    ];
+    // url of db server from which local databases were replicated last time.
+    // empty value means replication did not happen yet (first visit)
+    const lastDBServerUrl = localStorage.getItem(STORAGE_KEY_DB_SERVER_URL);
 
-    // flag indicates that local db was already replicated from server once.
-    // using handmade storage key since PouchDB does not have any API for that.
-    const isDbReplicatedFromServer =
-        localStorage.getItem(STORAGE_KEY_DB_REPLICATED);
+    if (lastDBServerUrl !== dbServerUrl) {
 
-    if (!isDbReplicatedFromServer) {
+        if (lastDBServerUrl !== null) {
+            // local databases were previously replicated from another server.
+            // clean them before replicating from current server, otherwise
+            // all local entities will be pushed and mixed with server entities
+            // on subsequent sync
+            await cleanDatabases(localDBs);
+        }
+
         try {
-            await replicateFromServer(dbServerUrl, localDatabases);
+            await replicateFromServer(dbServerUrl, localDBs);
         } catch (e) {
             throw new DbReplicationError(
                 `Local database failed to replicate from server database: ` +
                 `${e.message}`);
         }
 
-        localStorage.setItem(STORAGE_KEY_DB_REPLICATED, 'true');
+        localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, dbServerUrl);
     }
 
     // start live synchronization with server databases
     const onRemoteChange = onServerDbChange.bind(null, dispatch);
-    startSyncWithRemote(dbServerUrl, localDatabases, onRemoteChange);
+    startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange);
 
     // init empty databases
-    const mindmapsCount = (await mindmapsDB.info()).doc_count;
+    const mindmapsCount = (await localDBs.mindmaps.info()).doc_count;
     if (mindmapsCount === 0) {
         // mindmap database is empty, creating one
-        await mindmapsDbApi.add(mindmapsDB, new Mindmap({
+        await mindmapsDbApi.add(localDBs.mindmaps, new Mindmap({
             pos: new Point({x: 0, y: 0}),
             scale: 1
         }));
     }
 
-    const ideasCount = (await ideasDB.info()).doc_count;
+    const ideasCount = (await localDBs.ideas.info()).doc_count;
     if (ideasCount === 0) {
         // ideas database is empty, creating root idea
-        await ideasDbApi.add(ideasDB, new Idea({
+        await ideasDbApi.add(localDBs.ideas, new Idea({
             isRoot: true,
             posRel: new Point({x: 0, y: 0}),
             color: 'white'
         }));
     }
 
-    return {ideasDB, assocsDB, mindmapsDB};
+    return localDBs;
+}
+
+/**
+ * Cleans local databases
+ * 
+ * @param {Object<string, PouchDB.Database>} localDatabases
+ */
+async function cleanDatabases(localDatabases) {
+
+    // since there is no API for cleaning databases, we first destroying
+    // them and then recreating from scratch
+    await Promise.all(
+        Object.entries(localDatabases)
+            .map(([, db]) => db.destroy()));
+        
+    Object.keys(localDatabases).forEach(
+        dbName => localDatabases[dbName] = new PouchDB(dbName));
 }
 
 /**
  * Replicates data from remote databases to local databases once
  * 
  * @param {string} dbServerUrl
- * @param {Array.<{db: PouchDB.Database, name: string}>} localDatabases
+ * @param {Object<string, PouchDB.Database>} localDatabases
  * @return {Promise}
  */
 function replicateFromServer(dbServerUrl, localDatabases) {
-    return Promise.all(localDatabases.map(localDB =>
-        new Promise((resolve, reject) => {
+    return Promise.all(
+        Object.entries(localDatabases)
+            .map(([dbName, db]) =>
+                new Promise((resolve, reject) => {
 
-            const remoteDbURL = `${dbServerUrl}/${localDB.name}`;
+                    const remoteDbURL = `${dbServerUrl}/${dbName}`;
 
-            localDB.db.replicate.from(remoteDbURL)
-                .on('complete', resolve)
-                .on('error', reject);
-        })));
+                    db.replicate.from(remoteDbURL)
+                        .on('complete', resolve)
+                        .on('error', reject);
+                })));
 }
 
 /**
  * Starts replicating server and local databases in both direction in real time
  * 
  * @param {string} dbServerUrl 
- * @param {Array.<{db: PouchDB.Database, name: string}>} localDatabases
+ * @param {Object<string, PouchDB.Database>} localDatabases
  * @param {function} onRemoteChange
  */
 function startSyncWithRemote(dbServerUrl, localDatabases, onRemoteChange) {
-    localDatabases.forEach(async localDB => {
+    Object.entries(localDatabases)
+        .forEach(([dbName, db]) => {
         
-        const remoteDbURL = `${dbServerUrl}/${localDB.name}`;
-        
-        localDB.db.sync(remoteDbURL, {
-            live: true,
-            retry: true
-        })
-            .on('change', opts => {
-                if (opts.direction === 'pull') {
-                    onRemoteChange();
-                }
+            const remoteDbURL = `${dbServerUrl}/${dbName}`;
+            
+            db.sync(remoteDbURL, {
+                live: true,
+                retry: true
             })
-            .on('denied', err => {
-                // a document failed to replicate (e.g. due to permissions)
-                throw err;
-            })
-            .on('error', err => {
-                throw err;
-            });
-    });
+                .on('change', opts => {
+                    if (opts.direction === 'pull') {
+                        onRemoteChange();
+                    }
+                })
+                .on('denied', err => {
+                    // a document failed to replicate (e.g. due to permissions)
+                    throw err;
+                })
+                .on('error', err => {
+                    throw err;
+                });
+        });
 }
 
 /**

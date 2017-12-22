@@ -18,7 +18,7 @@ import * as assocDbApi from 'src/data/db/associations';
 import * as mindmapDbApi from 'src/data/db/mindmaps';
 
 import {
-    STORAGE_KEY_DB_REPLICATED,
+    STORAGE_KEY_DB_SERVER_URL,
     RELOAD_DEBOUNCE_TIME
 } from 'action/handlers/load-mindmap';
 
@@ -30,7 +30,7 @@ describe('load-mindmap', () => {
     async function cleanSideEffects() {
 
         // local storage keys
-        localStorage.removeItem(STORAGE_KEY_DB_REPLICATED);
+        localStorage.removeItem(STORAGE_KEY_DB_SERVER_URL);
 
         // indexed databases
         await (new PouchDB('mindmaps').destroy());
@@ -73,6 +73,25 @@ describe('load-mindmap', () => {
         expect(mutationData.data.ideas).to.be.instanceOf(PouchDB);
         expect(mutationData.data.associations).to.be.instanceOf(PouchDB);
         expect(mutationData.data.mindmaps).to.be.instanceOf(PouchDB);
+    });
+
+    it('should save url of database server', async () => {
+        
+        // setup
+        const state = new State();
+        state.data.dbServerUrl = 'TEST_DB_SERVER';
+
+        const dispatch = noop;
+
+        // target
+        await handle(state, {
+            type: 'load-mindmap',
+            data: {isInitialLoad: true}
+        }, dispatch);
+
+        // check
+        const res = localStorage.getItem(STORAGE_KEY_DB_SERVER_URL);
+        expect(res).to.equal('TEST_DB_SERVER');
     });
 
     it('should NOT reinit mindmap databases on reloads', async () => {
@@ -568,6 +587,89 @@ describe('load-mindmap', () => {
         expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
             type: 'load-mindmap'
         });
+    });
+
+    it('should clean local databases if new db server', async () => {
+
+        // setup previous db server url
+        localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, 'TEST_DB_SERVER_OLD');
+
+        // setup local databases
+        const mindmapsLocalDB = new PouchDB('mindmaps');
+        const ideasLocalDB = new PouchDB('ideas');
+        const assocsLocalDB = new PouchDB('associations');
+
+        await mindmapDbApi.add(mindmapsLocalDB,
+            new Mindmap({
+                scale: 1
+            }));
+
+        await ideaDbApi.add(ideasLocalDB,
+            new Idea({
+                id: 'A',
+                isRoot: true,
+                posRel: new Point({x: 0, y: 0})
+            }));
+
+        await ideaDbApi.add(ideasLocalDB,
+            new Idea({
+                id: 'B',
+                posRel: new Point({x: 0, y: 100})
+            }));
+
+        await assocDbApi.add(assocsLocalDB,
+            new Association({
+                fromId: 'A',
+                toId: 'B',
+                weight: 100
+            }));
+
+        // setup server databases
+        const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
+        const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
+
+        await mindmapDbApi.add(mindmapsServerDB,
+            new Mindmap({
+                scale: 1
+            }));
+
+        await ideaDbApi.add(ideasServerDB,
+            new Idea({
+                id: 'A',
+                isRoot: true,
+                posRel: new Point({x: 0, y: 0})
+            }));
+
+        // setup state
+        const state = new State();
+        state.data.dbServerUrl = 'TEST_DB_SERVER';
+
+        const dispatchSpy = spy();
+
+        // target
+        const patch = await handle(state, {
+            type: 'load-mindmap',
+            data: {isInitialLoad: true}
+        }, dispatchSpy);
+
+        // check
+        const mutations = patch['init-mindmap'];
+        expect(mutations).to.have.length(1);
+
+        const mutationData = mutations[0].data;
+
+        const mindmapsDB = mutationData.data.mindmaps;
+        const ideasDB = mutationData.data.ideas;
+        const assocsDB = mutationData.data.associations;
+
+        // check local databases have only entities from new db server
+        const mindmapsCount = (await mindmapsDB.info()).doc_count;
+        const ideasCount = (await ideasDB.info()).doc_count;
+        const assocsCount = (await assocsDB.info()).doc_count;
+
+        expect(mindmapsCount).to.equal(1);
+        expect(ideasCount).to.equal(1);
+        expect(assocsCount).to.equal(0);
     });
 
     it('should fail if db server URL is empty', async () => {
