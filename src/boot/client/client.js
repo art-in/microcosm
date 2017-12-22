@@ -1,3 +1,5 @@
+import config from '../../../config';
+
 import PouchDB from 'pouchdb';
 
 import Store from 'utils/state/Store';
@@ -21,8 +23,8 @@ import mutateView from 'view/mutators';
 window.PouchDB = PouchDB;
 
 // URL of database server
-// TODO: configure through config.js
-const dbServerUrl = `${location.protocol}//${location.hostname}:5984`;
+const {host, port} = config.databaseServer;
+const dbServerUrl = `${location.protocol}//${host}:${port}`;
 
 /**
  * Startup

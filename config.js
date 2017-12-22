@@ -41,5 +41,16 @@ module.exports = {
     server: {
         host: '0.0.0.0',
         port: 3000
+    },
+    databaseServer: {
+        host: 'localhost',
+        port: 5984,
+
+        // start development database server (pouchdb-server).
+        // note: pouchdb-server is not production ready, so you should better
+        // install and run your own CouchDB server elsewhere
+        startDevServer: true
     }
 };
+
+// TODO: split into 'config.defaults.js', 'config.user.js' and 'config.js'

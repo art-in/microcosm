@@ -72,6 +72,7 @@
     "react-test-renderer": "^16.0.0",
     "react-transition-group": "^2.2.1",
     "sinon": "^3.2.1",
+    "spawn-pouchdb-server": "^3.3.3",
     "style-loader": "^0.18.2",
     "typescript": "^2.6.2",
     "typings-for-css-modules-loader": "^1.7.0",
