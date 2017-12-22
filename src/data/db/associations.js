@@ -6,16 +6,20 @@ import toDbo from 'data/mappers/association-to-dbo';
 import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
- * Gets all associations
+ * Gets all associations of mindmap
  * @param {PouchDB.Database} db
+ * @param {string} mindmapId
  * @return {Promise.<Array.<AssociationType>>}
  */
-export async function getAll(db) {
+export async function getAll(db, mindmapId) {
 
-    const data = await db.allDocs({include_docs: true});
+    const data = await db.find({
+        selector: {
+            mindmapId
+        }
+    });
 
-    const items = data.rows
-        .map(i => i.doc)
+    const items = data.docs
         .map(dbo => toModel(dbo));
 
     return items;

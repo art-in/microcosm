@@ -17,16 +17,20 @@ export async function get(db, ideaId) {
 }
 
 /**
- * Gets all ideas
+ * Gets all ideas of mindmap
  * @param {PouchDB.Database} db
+ * @param {string} mindmapId
  * @return {Promise.<Array.<IdeaType>>}
  */
-export async function getAll(db) {
+export async function getAll(db, mindmapId) {
 
-    const data = await db.allDocs({include_docs: true});
+    const data = await db.find({
+        selector: {
+            mindmapId
+        }
+    });
 
-    const items = data.rows
-        .map(i => i.doc)
+    const items = data.docs
         .map(dbo => toModel(dbo));
 
     return items;

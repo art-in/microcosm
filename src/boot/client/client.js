@@ -1,6 +1,8 @@
 import config from '../../../config';
 
 import PouchDB from 'pouchdb';
+import PouchDBFindPlugin from 'pouchdb-find';
+PouchDB.plugin(PouchDBFindPlugin);
 
 import Store from 'utils/state/Store';
 import Handler from 'utils/state/Handler';

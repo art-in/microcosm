@@ -70,11 +70,14 @@ export default async function loadMindmap(state, data, dispatch) {
     }
 
     // load models
-    const ideas = await ideasDbApi.getAll(ideasDB);
-    const associations = await assocsDbApi.getAll(assocsDB);
+    // take first mindmap for now. in case two databases got mixed it ensures
+    // last one created will win (eg. server db been recreated and client pushes
+    // old mindmap from its local dbs while sync - old mindmap will be at tail)
     const mindmaps = await mindmapsDbApi.getAll(mindmapsDB);
-
     const mindmap = mindmaps[0];
+
+    const ideas = await ideasDbApi.getAll(ideasDB, mindmap.id);
+    const associations = await assocsDbApi.getAll(assocsDB, mindmap.id);
 
     // init models
     mindmap.root = buildGraph(ideas, associations);
@@ -160,60 +163,80 @@ async function initDatabases(dbServerUrl, dispatch) {
         localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, dbServerUrl);
     }
 
+    // init empty databases
+    await ensureRequiredEntities(localDBs);
+    
     // start live synchronization with server databases
     const onRemoteChange = onServerDbChange.bind(null, dispatch);
     startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange);
-
-    // init empty databases
-    const mindmapsCount = (await localDBs.mindmaps.info()).doc_count;
-    if (mindmapsCount === 0) {
-        // mindmap database is empty, creating one
-        await mindmapsDbApi.add(localDBs.mindmaps, new Mindmap({
-            pos: new Point({x: 0, y: 0}),
-            scale: 1
-        }));
-    }
-
-    const ideasCount = (await localDBs.ideas.info()).doc_count;
-    if (ideasCount === 0) {
-        // ideas database is empty, creating root idea
-        await ideasDbApi.add(localDBs.ideas, new Idea({
-            isRoot: true,
-            posRel: new Point({x: 0, y: 0}),
-            color: 'white'
-        }));
-    }
 
     return localDBs;
 }
 
 /**
+ * Ensures databases contain required entities
+ * @param {Object<string, PouchDB.Database>} localDBs
+ */
+async function ensureRequiredEntities(localDBs) {
+
+    let mindmap;
+    const mindmaps = await mindmapsDbApi.getAll(localDBs.mindmaps);
+    if (mindmaps.length === 0) {
+
+        // mindmap database is empty, creating one
+        mindmap = new Mindmap({
+            pos: new Point({x: 0, y: 0}),
+            scale: 1
+        });
+
+        await mindmapsDbApi.add(localDBs.mindmaps, mindmap);
+
+    } else {
+        mindmap = mindmaps[0];
+    }
+
+    const ideas = await ideasDbApi.getAll(localDBs.ideas, mindmap.id);
+    if (ideas.length === 0) {
+
+        // ideas database is empty, creating root idea
+        const rootIdea = new Idea({
+            mindmapId: mindmap.id,
+            isRoot: true,
+            posRel: new Point({x: 0, y: 0}),
+            color: 'white'
+        });
+
+        await ideasDbApi.add(localDBs.ideas, rootIdea);
+    }
+}
+
+/**
  * Cleans local databases
  * 
- * @param {Object<string, PouchDB.Database>} localDatabases
+ * @param {Object<string, PouchDB.Database>} localDBs
  */
-async function cleanDatabases(localDatabases) {
+async function cleanDatabases(localDBs) {
 
     // since there is no API for cleaning databases, we first destroying
     // them and then recreating from scratch
     await Promise.all(
-        Object.entries(localDatabases)
+        Object.entries(localDBs)
             .map(([, db]) => db.destroy()));
         
-    Object.keys(localDatabases).forEach(
-        dbName => localDatabases[dbName] = new PouchDB(dbName));
+    Object.keys(localDBs).forEach(
+        dbName => localDBs[dbName] = new PouchDB(dbName));
 }
 
 /**
  * Replicates data from remote databases to local databases once
  * 
  * @param {string} dbServerUrl
- * @param {Object<string, PouchDB.Database>} localDatabases
+ * @param {Object<string, PouchDB.Database>} localDBs
  * @return {Promise}
  */
-function replicateFromServer(dbServerUrl, localDatabases) {
+function replicateFromServer(dbServerUrl, localDBs) {
     return Promise.all(
-        Object.entries(localDatabases)
+        Object.entries(localDBs)
             .map(([dbName, db]) =>
                 new Promise((resolve, reject) => {
 
@@ -229,11 +252,11 @@ function replicateFromServer(dbServerUrl, localDatabases) {
  * Starts replicating server and local databases in both direction in real time
  * 
  * @param {string} dbServerUrl 
- * @param {Object<string, PouchDB.Database>} localDatabases
+ * @param {Object<string, PouchDB.Database>} localDBs
  * @param {function} onRemoteChange
  */
-function startSyncWithRemote(dbServerUrl, localDatabases, onRemoteChange) {
-    Object.entries(localDatabases)
+function startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange) {
+    Object.entries(localDBs)
         .forEach(([dbName, db]) => {
         
             const remoteDbURL = `${dbServerUrl}/${dbName}`;

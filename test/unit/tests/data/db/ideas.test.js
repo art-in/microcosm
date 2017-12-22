@@ -54,17 +54,41 @@ describe('ideas', () => {
 
             await db.put({
                 _id: '123',
-                value: 'test'
+                mindmapId: 'test id',
+                value: 'test value'
             });
 
             // target
-            const result = await ideaDB.getAll(db);
+            const result = await ideaDB.getAll(db, 'test id');
 
             // check
             expect(result).to.have.length(1);
             expect(result[0]).to.be.instanceOf(Idea);
             expect(result[0].id).to.equal('123');
-            expect(result[0].value).to.equal('test');
+            expect(result[0].value).to.equal('test value');
+        });
+
+        it('should return ideas of certain mindmap', async () => {
+            
+            // setup
+            const db = createDB();
+
+            await db.put({
+                _id: '1',
+                mindmapId: 'test id'
+            });
+
+            await db.put({
+                _id: '2',
+                mindmapId: 'another id'
+            });
+
+            // target
+            const result = await ideaDB.getAll(db, 'test id');
+
+            // check
+            expect(result).to.have.length(1);
+            expect(result[0].id).to.equal('1');
         });
 
     });
