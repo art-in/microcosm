@@ -90,13 +90,11 @@ export default async function loadMindmap(state, data, dispatch) {
     return new Patch({
         type: 'init-mindmap',
         data: {
-            ...(isInitialLoad ? {
-                data: {
-                    ideas: ideasDB,
-                    associations: assocsDB,
-                    mindmaps: mindmapsDB
-                }
-            } : {}),
+            data: {
+                ideas: ideasDB,
+                associations: assocsDB,
+                mindmaps: mindmapsDB
+            },
             model: {
                 mindmap
             },

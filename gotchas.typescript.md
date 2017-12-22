@@ -87,3 +87,7 @@
     `declare module '*.css' {...}`  
     https://stackoverflow.com/a/44228423/1064570
 
+---
+
+12. **jsdoc**: `@enum` is not supported.
+

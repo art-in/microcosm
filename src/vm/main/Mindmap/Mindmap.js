@@ -3,6 +3,8 @@ import initProps from 'utils/init-props';
 import GraphVmType from 'vm/map/entities/Graph';
 import ViewModel from 'vm/utils/ViewModel';
 
+import ConnectionState from 'action/utils/ConnectionState';
+
 /**
  * Mindmap view model
  * 
@@ -22,6 +24,18 @@ export default class Mindmap extends ViewModel {
      * @type {boolean}
      */
     isLoadFailed = false;
+
+    /**
+     * State of connection to database server
+     */
+    dbServerConnection = {
+
+        /** @type {ConnectionState} */
+        state: ConnectionState.disconnected,
+
+        /** @type {string} */
+        tooltip: undefined
+    }
 
     /**
      * Graph view model.  

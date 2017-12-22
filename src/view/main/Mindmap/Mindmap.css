@@ -9,3 +9,10 @@
     background-color: #808080;
     color: white;
 }
+
+.db-connection-state-icon {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: white;
+}

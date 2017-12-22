@@ -9,10 +9,11 @@
 
 ---
 
-2. No API to check if live sync connection between databases is down.  
+2. No API to check if live sync connection between databases was lost/restored.  
     That's odd, since `pouchdb` definitely knows when connection is down (it starts retry process),
     but there is no `connected` / `disconnected` events to check that outside.  
     https://stackoverflow.com/questions/26892438/how-to-know-when-weve-lost-sync-with-a-remote-couchdb  
+    **Workaround**: initiate separate handmade polling  
 
 ---
 

@@ -1,6 +1,7 @@
 import {expect, createDB, timer} from 'test/utils';
 import {spy} from 'sinon';
 import PouchDB from 'pouchdb';
+import noop from 'src/utils/noop';
 
 import update from 'src/utils/update-object';
 
@@ -45,7 +46,7 @@ describe('load-mindmap', () => {
         await cleanSideEffects();
     });
 
-    afterEach(async () => {
+    after(async () => {
         await cleanSideEffects();
     });
 
@@ -55,11 +56,13 @@ describe('load-mindmap', () => {
         const state = new State();
         state.data.dbServerUrl = 'TEST_DB_SERVER';
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -72,7 +75,7 @@ describe('load-mindmap', () => {
         expect(mutationData.data.mindmaps).to.be.instanceOf(PouchDB);
     });
 
-    it('should NOT init mindmap databases on reloads', async () => {
+    it('should NOT reinit mindmap databases on reloads', async () => {
         
         // setup
         const ideasDB = createDB();
@@ -96,11 +99,13 @@ describe('load-mindmap', () => {
                 posRel: new Point({x: 0, y: 0})
             }));
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: false}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -108,7 +113,9 @@ describe('load-mindmap', () => {
 
         const mutationData = mutations[0].data;
         
-        expect(mutationData).to.not.have.property('data');
+        expect(mutationData.data.ideas).to.equal(ideasDB);
+        expect(mutationData.data.associations).to.equal(assocsDB);
+        expect(mutationData.data.mindmaps).to.equal(mindmapsDB);
     });
     
     it('should add mindmap if db is empty', async () => {
@@ -117,11 +124,13 @@ describe('load-mindmap', () => {
         const state = new State();
         state.data.dbServerUrl = 'TEST_DB_SERVER';
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -139,11 +148,13 @@ describe('load-mindmap', () => {
         const state = new State();
         state.data.dbServerUrl = 'TEST_DB_SERVER';
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -192,11 +203,13 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: false}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -256,11 +269,13 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: false}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -316,11 +331,13 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: false}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -372,11 +389,13 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -432,11 +451,13 @@ describe('load-mindmap', () => {
         const state = new State();
         state.data.dbServerUrl = 'TEST_DB_SERVER';
 
+        const dispatch = noop;
+
         // target
         const patch = await handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         const mutations = patch['init-mindmap'];
@@ -463,6 +484,9 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
 
+        // await database synchronization
+        await timer(500);
+
         // check local databases pull server changes
         const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
         const ideasCount = (await ideasLocalDB.info()).doc_count;
@@ -474,7 +498,7 @@ describe('load-mindmap', () => {
     });
 
     it('should dispatch mindmap reload on server db changes', async () => {
-        
+
         // setup
         const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
         const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
@@ -547,15 +571,18 @@ describe('load-mindmap', () => {
     });
 
     it('should fail if db server URL is empty', async () => {
+        
         // setup
         const state = new State();
         state.data.dbServerUrl = undefined;
+
+        const dispatch = noop;
 
         // target
         const promise = handle(state, {
             type: 'load-mindmap',
             data: {isInitialLoad: true}
-        });
+        }, dispatch);
 
         // check
         await expect(promise).to.be.rejectedWith(

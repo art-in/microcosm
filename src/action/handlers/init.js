@@ -2,6 +2,7 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
+import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
 import MainVM from 'vm/main/Main';
 import MindmapVM from 'vm/main/Mindmap';
@@ -52,4 +53,6 @@ export default async function init(state, data, dispatch, mutate) {
             isInitialLoad: true
         }
     });
+
+    startDBServerHeartbeat(dbServerUrl, storeDispatch);
 }
