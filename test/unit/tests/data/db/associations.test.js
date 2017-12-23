@@ -61,8 +61,10 @@ describe('associations', () => {
             // setup
             const db = createDB();
 
-            const assoc = new Association();
-            assoc.value = 'test';
+            const assoc = new Association({
+                mindmapId: 'mindmap id',
+                value: 'test value'
+            });
 
             // target
             await assocDB.add(db, assoc);
@@ -74,7 +76,8 @@ describe('associations', () => {
 
             expect(result).to.have.length(1);
             expect(result[0]._id).to.equal(assoc.id);
-            expect(result[0].value).to.equal('test');
+            expect(result[0].mindmapId).to.equal('mindmap id');
+            expect(result[0].value).to.equal('test value');
         });
 
         it('should fail on duplicates', async () => {
@@ -83,14 +86,33 @@ describe('associations', () => {
             const db = createDB();
             db.put({_id: '123'});
 
-            const assoc = new Association();
-            assoc.id = '123';
+            const assoc = new Association({
+                id: '123',
+                mindmapId: 'mindmap id'
+            });
             
             // target
             const promise = assocDB.add(db, assoc);
 
             await expect(promise).to.be.rejectedWith(
                 'Document update conflict');
+        });
+
+        it('should fail if parent mindmap ID is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            const assoc = new Association({
+                id: '123'
+            });
+            
+            // target
+            const promise = assocDB.add(db, assoc);
+
+            await expect(promise).to.be.rejectedWith(
+                `Failed to add association '123' with empty ` +
+                `parent mindmap ID`);
         });
 
     });
@@ -169,6 +191,31 @@ describe('associations', () => {
 
             // check
             await expect(promise).to.be.rejectedWith('missing');
+        });
+
+        it('should fail if parent mindmap ID is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            db.post({
+                _id: 'i',
+                mindmapId: '1'
+            });
+
+            const patch = {
+                id: 'i',
+                value: 'test value',
+                mindmapId: null
+            };
+
+            // target
+            const promise = assocDB.update(db, patch);
+
+            // check
+            await expect(promise).to.be.rejectedWith(
+                `Failed to update association 'i' with empty ` +
+                `parent mindmap ID`);
         });
 
     });

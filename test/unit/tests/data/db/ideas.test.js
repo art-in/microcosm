@@ -101,7 +101,8 @@ describe('ideas', () => {
             const db = createDB();
 
             const idea = new Idea({
-                value: 'test',
+                mindmapId: 'mindmap id',
+                value: 'test value',
                 posRel: {x: 10, y: 20}
             });
 
@@ -115,7 +116,8 @@ describe('ideas', () => {
 
             expect(result).to.have.length(1);
             expect(result[0]._id).to.equal(idea.id);
-            expect(result[0].value).to.equal('test');
+            expect(result[0].mindmapId).to.equal('mindmap id');
+            expect(result[0].value).to.equal('test value');
             expect(result[0].posRel.constructor).to.equal(Object);
             expect(result[0].posRel).to.deep.equal({x: 10, y: 20});
         });
@@ -126,6 +128,7 @@ describe('ideas', () => {
             const db = createDB();
 
             const idea = new Idea({
+                mindmapId: 'mindmap id',
                 value: 'test',
                 posRel: {x: 10, y: 20}
             });
@@ -146,6 +149,7 @@ describe('ideas', () => {
 
             const idea = new Idea({
                 id: '123',
+                mindmapId: 'mindmap id',
                 posRel: {x: 10, y: 20}
             });
             
@@ -154,6 +158,23 @@ describe('ideas', () => {
 
             await expect(promise).to.be.rejectedWith(
                 'Document update conflict');
+        });
+
+        it('should fail if parent mindmap ID is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            const idea = new Idea({
+                id: '123',
+                posRel: {x: 10, y: 20}
+            });
+            
+            // target
+            const promise = ideaDB.add(db, idea);
+
+            await expect(promise).to.be.rejectedWith(
+                `Failed to add idea '123' with empty parent mindmap ID`);
         });
 
     });
@@ -241,6 +262,30 @@ describe('ideas', () => {
 
             // check
             await expect(promise).to.be.rejectedWith('missing');
+        });
+
+        it('should fail if parent mindmap ID is empty', async () => {
+            
+            // setup
+            const db = createDB();
+
+            db.post({
+                _id: 'i',
+                mindmapId: '1'
+            });
+
+            const patch = {
+                id: 'i',
+                value: 'test value',
+                mindmapId: null
+            };
+
+            // target
+            const promise = ideaDB.update(db, patch);
+
+            // check
+            await expect(promise).to.be.rejectedWith(
+                `Failed to update idea 'i' with empty parent mindmap ID`);
         });
 
     });

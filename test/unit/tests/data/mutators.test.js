@@ -48,6 +48,7 @@ describe('mutators', () => {
                 data: {
                     idea: new Idea({
                         id: 'id',
+                        mindmapId: 'mindmap id',
                         value: 'test',
                         posRel: new Point({x: 0, y: 0})
                     })
@@ -64,6 +65,7 @@ describe('mutators', () => {
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
                 _id: 'id',
+                mindmapId: 'mindmap id',
                 value: 'test'
             });
     
@@ -185,7 +187,11 @@ describe('mutators', () => {
             const patch = new Patch({
                 type: 'add-association',
                 data: {
-                    assoc: new Association({id: 'id', value: 'test'})
+                    assoc: new Association({
+                        id: 'id',
+                        mindmapId: 'mindmap id',
+                        value: 'test'
+                    })
                 }});
     
             // target
@@ -198,6 +204,7 @@ describe('mutators', () => {
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
                 _id: 'id',
+                mindmapId: 'mindmap id',
                 value: 'test'
             });
     

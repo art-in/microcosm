@@ -39,10 +39,16 @@ export async function getAll(db, mindmapId) {
 /**
  * Adds new idea
  * @param {PouchDB.Database} db
- * @param {IdeaType} idea
+ * @param {IdeaType} model
  */
-export async function add(db, idea) {
-    const dbo = toDbo(idea);
+export async function add(db, model) {
+    const dbo = toDbo(model);
+
+    if (!dbo.mindmapId) {
+        throw Error(
+            `Failed to add idea '${model.id}' with empty parent mindmap ID`);
+    }
+
     await db.put(dbo);
 }
 
@@ -58,6 +64,12 @@ export async function update(db, model) {
         // skip if dbo is empty, which happens when mutation affects
         // only model props that are not saved to db (dynamic props)
         return;
+    }
+
+    if (dbo.hasOwnProperty('mindmapId') && !dbo.mindmapId) {
+        throw Error(
+            `Failed to update idea '${model.id}' with empty ` +
+            `parent mindmap ID`);
     }
 
     const existing = await db.get(model.id);

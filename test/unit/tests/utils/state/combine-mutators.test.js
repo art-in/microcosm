@@ -63,6 +63,7 @@ describe('combine-mutators', () => {
 
         const ideaB = new Idea({
             id: 'B',
+            mindmapId: 'mindmap id',
             isRoot: true,
             rootPathWeight: 0,
             posRel: new Point({x: 0, y: 0}),
@@ -71,6 +72,7 @@ describe('combine-mutators', () => {
 
         const assocAtoB = new Association({
             id: 'A to B',
+            mindmapId: 'mindmap id',
             fromId: ideaA.id,
             from: ideaA,
             toId: ideaB.id,

@@ -1,8 +1,8 @@
 import {expect, createDB, timer} from 'test/utils';
 import {spy} from 'sinon';
 import PouchDB from 'pouchdb';
-import noop from 'src/utils/noop';
 
+import noop from 'src/utils/noop';
 import update from 'src/utils/update-object';
 
 import State from 'src/boot/client/State';
@@ -109,11 +109,15 @@ describe('load-mindmap', () => {
             mindmaps: mindmapsDB
         });
 
-        await mindmapDbApi.add(mindmapsDB, new Mindmap({scale: 1}));
+        await mindmapDbApi.add(mindmapsDB, new Mindmap({
+            id: 'mindmap id',
+            scale: 1
+        }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -199,12 +203,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -212,11 +218,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -265,12 +273,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 10, y: 10})
             }));
@@ -278,11 +288,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -327,12 +339,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -340,11 +354,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -385,12 +401,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsServerDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -398,11 +416,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -444,12 +464,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsServerDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -457,11 +479,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -492,12 +516,14 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'C',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'B',
                 toId: 'C',
                 weight: 100
@@ -525,12 +551,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsServerDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -538,11 +566,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -567,12 +597,14 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'C',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'B',
                 toId: 'C',
                 weight: 100
@@ -601,12 +633,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsLocalDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasLocalDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -614,11 +648,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasLocalDB,
             new Idea({
                 id: 'B',
+                mindmapId: 'mindmap id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsLocalDB,
             new Association({
+                mindmapId: 'mindmap id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -630,12 +666,14 @@ describe('load-mindmap', () => {
 
         await mindmapDbApi.add(mindmapsServerDB,
             new Mindmap({
+                id: 'mindmap id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
+                mindmapId: 'mindmap id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
