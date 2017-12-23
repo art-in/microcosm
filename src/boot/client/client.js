@@ -25,7 +25,7 @@ import mutateView from 'view/mutators';
 window.PouchDB = PouchDB;
 
 // URL of database server
-const {host, port} = config.databaseServer;
+const {host, port} = config.server.database;
 const dbServerUrl = `${location.protocol}//${host}:${port}`;
 
 /**

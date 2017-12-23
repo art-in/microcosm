@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",
     "@types/pouchdb": "^6.3.1",
@@ -47,6 +48,7 @@
     "eslint-plugin-react": "^7.4.0",
     "events": "^1.1.1",
     "express": "^4.15.4",
+    "extend": "^3.0.1",
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.0",
     "gulp-nodemon": "^2.2.1",

@@ -1,4 +1,4 @@
-import config from '../../../config.js';
+import config from '../../../config';
 
 import express from 'express';
 import logger from 'morgan';
@@ -18,7 +18,7 @@ app.use(function(err, req, res) {
     res.render('error', {error: err});
 });
 
-const {host, port} = config.server;
+const {host, port} = config.server.static;
 app.listen(port, host, function(err) {
     if (err) {
         throw Error(err);
