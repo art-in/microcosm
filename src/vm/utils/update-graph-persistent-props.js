@@ -23,6 +23,8 @@ export default function updateGraphPersistentProps(oldGraph, newGraph) {
         return;
     }
 
+    oldGraph.id = newGraph.id;
+
     oldGraph.debugInfo = newGraph.debugInfo;
     oldGraph.viewbox = newGraph.viewbox;
     oldGraph.nodes = newGraph.nodes;
