@@ -1,6 +1,7 @@
 import {expect, createDB, timer} from 'test/utils';
 import {spy} from 'sinon';
 import PouchDB from 'pouchdb';
+import clone from 'clone';
 
 import noop from 'src/utils/noop';
 import update from 'src/utils/update-object';
@@ -708,6 +709,25 @@ describe('load-mindmap', () => {
         expect(mindmapsCount).to.equal(1);
         expect(ideasCount).to.equal(1);
         expect(assocsCount).to.equal(0);
+    });
+
+    it('should NOT mutate state', async () => {
+        
+        // setup
+        const state = new State();
+        state.data.dbServerUrl = 'TEST_DB_SERVER';
+        const stateBefore = clone(state);
+
+        const dispatch = noop;
+
+        // target
+        await handle(state, {
+            type: 'load-mindmap',
+            data: {isInitialLoad: true}
+        }, dispatch);
+
+        // check
+        expect(state).to.deep.equal(stateBefore);
     });
 
     it('should fail if db server URL is empty', async () => {
