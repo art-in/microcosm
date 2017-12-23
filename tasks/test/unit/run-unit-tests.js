@@ -42,6 +42,13 @@ function runUnitTests(opts) {
             browsers: [chrome],
             mochaReporter: {
                 showDiff: true
+            },
+
+            client: {
+                mocha: {
+                    // upped from 2sec for slow CI
+                    timeout: 5000
+                }
             }
 
         }, exitCode => {

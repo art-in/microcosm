@@ -569,7 +569,7 @@ describe('logger', () => {
 
             const action = new Action({
                 type: 'action',
-                throttleLog: 10
+                throttleLog: 50
             });
 
             // target
@@ -577,10 +577,10 @@ describe('logger', () => {
             dispatch(action); // throttled
             dispatch(action); // throttled
 
-            await timer(10);
+            await timer(50);
             dispatch(action);
 
-            await timer(10);
+            await timer(50);
             dispatch(action);
 
             // check
