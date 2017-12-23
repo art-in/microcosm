@@ -15,7 +15,7 @@ function runUnitTests(opts) {
 
     if (require('os').platform() === 'win32') {
         // TODO: karma cannot capture headless chrome
-        // in windows 7, use normal mode for now #54
+        // in windows 7, use windowed mode for now #54
         chrome = 'Chrome';
     }
 
@@ -44,7 +44,15 @@ function runUnitTests(opts) {
                 showDiff: true
             }
 
-        }, resolve).start();
+        }, exitCode => {
+            
+            // exit with error code if tests fail
+            if (exitCode !== 0) {
+                process.exit(1);
+            } else {
+                resolve();
+            }
+        }).start();
     });
 }
 
