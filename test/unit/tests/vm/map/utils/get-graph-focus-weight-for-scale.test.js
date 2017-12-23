@@ -20,7 +20,7 @@ describe('get-graph-focus-weight-for-scale', () => {
         // simulate a lot of nodes with different root path weights,
         // and get scale of each one
         const nodes = [];
-        for (let weight = 0; weight < 100000; weight++) {
+        for (let weight = 0; weight < 50000; weight++) {
             const scale = getNodeScaleForWeight(weight);
             nodes.push({weight, scale});
         }
@@ -36,7 +36,9 @@ describe('get-graph-focus-weight-for-scale', () => {
             const node = nodes.find(n => Math.abs(n.weight - focusWeight) < 1);
 
             if (node === undefined) {
-                throw Error('Node with appropritate RPW was not found');
+                throw Error(
+                    `Node with appropritate RPW '${focusWeight}' ` +
+                    `for viewport scale '${viewportScale}' was not found`);
             }
 
             // calculate resulting scale of focused node

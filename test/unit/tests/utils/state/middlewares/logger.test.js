@@ -452,14 +452,14 @@ describe('logger', () => {
 
             const action = new Action({
                 type: 'action',
-                throttleLog: 10
+                throttleLog: 50
             });
 
             // target
             dispatch(action);
             dispatch(action); // throttled
 
-            await timer(10);
+            await timer(50);
 
             dispatch(action);
             dispatch(action); // throttled
