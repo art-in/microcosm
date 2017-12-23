@@ -8,3 +8,6 @@ src/boot/client/public/build/
 
 # pouchdb dev database server folder
 .db
+
+# user config overrides
+config.user.js
