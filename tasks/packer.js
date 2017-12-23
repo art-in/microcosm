@@ -3,6 +3,7 @@ const gutil = require('gulp-util');
 const webpack = require('webpack');
 const assert = require('assert');
 const WebpackDevServer = require('webpack-dev-server');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -36,7 +37,9 @@ function getPackConfig(opts) {
 
     const entries = [];
     const resolveModules = [];
-    const plugins = [];
+    const plugins = [
+        new CaseSensitivePathsPlugin()
+    ];
 
     if (opts.watch) {
         entries.push(

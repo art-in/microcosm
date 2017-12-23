@@ -2,7 +2,7 @@ import {expect} from 'test/utils';
 
 import values from 'src/utils/get-map-values';
 
-import State from 'src/boot/client/state';
+import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
 import Mindmap from 'src/model/entities/Mindmap';
 import Association from 'src/model/entities/Association';
