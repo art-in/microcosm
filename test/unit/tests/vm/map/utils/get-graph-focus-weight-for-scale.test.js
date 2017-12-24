@@ -20,13 +20,13 @@ describe('get-graph-focus-weight-for-scale', () => {
         // simulate a lot of nodes with different root path weights,
         // and get scale of each one
         const nodes = [];
-        for (let weight = 0; weight < 50000; weight++) {
+        for (let weight = 0; weight < 100000; weight += 100) {
             const scale = getNodeScaleForWeight(weight);
             nodes.push({weight, scale});
         }
         
         // simulate zooming in
-        for (let viewportScale = 1; viewportScale < 100; viewportScale += 0.1) {
+        for (let viewportScale = 1; viewportScale < 100; viewportScale += 0.2) {
 
             // get target focus weight for current scale
             const focusWeight = getGraphFocusWeightForScale(viewportScale);

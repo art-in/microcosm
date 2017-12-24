@@ -46,8 +46,7 @@ function runUnitTests(opts) {
 
             client: {
                 mocha: {
-                    // upped from 2sec for slow CI
-                    timeout: 5000
+                    timeout: 2000
                 }
             }
 
