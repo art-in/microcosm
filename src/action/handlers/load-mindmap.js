@@ -293,18 +293,22 @@ class DbReplicationError extends Error {}
 
 /**
  * Handles changes of server databases.  
- * Happens when another client (which also syncs with same databases) make some
- * changes on his side.
+ * Happens when another client (which also in sync with same server databases)
+ * make some changes on his side.
  * 
  * We need to debounce it not only because changes can happen too frequently,
  * but also to avoid inconsistent state (eg. when creating new idea both ideas
- * and associations databases are affected, pulling only association changes
- * without idea changes will result in inconsistent state)
+ * and associations databases are affected, pulling only changes to ideas db
+ * without associations will result in inconsistent state - 'some ideas are not
+ * reachable from root')
+ * 
+ * Still inconsistent state happens, so 'cross client sync' feature is really
+ * experimental for now.
  */
 const onServerDbChange = debounce(dispatch => {
 
-    // client databases are in sync,
-    // now it time to reload mindmap to sync model and view states
+    // client databases were synced,
+    // now it is time to reload mindmap to sync model and view states
     dispatch({type: 'load-mindmap'});
 
 }, RELOAD_DEBOUNCE_TIME);
