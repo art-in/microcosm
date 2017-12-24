@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
 import MindmapType from 'vm/main/Mindmap';
 import ConnectionState from 'action/utils/ConnectionState';
@@ -18,18 +19,23 @@ export default class Mindmap extends Component {
 
     getDBConnectionStateIcon(connectionState) {
         
+        let icon;
+
         switch (connectionState) {
 
         case ConnectionState.connected:
-            return 'connected';
+            icon = icons.faServer;
+            break;
     
         case ConnectionState.disconnected:
-            return 'disconnected';
+            icon = icons.faPlug;
+            break;
 
         default: throw Error(
-            `Unknown DB server connection state ` +
-            `'${connectionState}'`);
+            `Unknown DB server connection state '${connectionState}'`);
         }
+
+        return icon;
     }
 
     render() {
@@ -55,12 +61,14 @@ export default class Mindmap extends Component {
                     <Graph graph={mindmap.graph} />
                     : null}
                 
-                <div className={classes.dbConnectionStateIcon}
-                    title={dbServerConnectionIcon.tooltip}>
-                    {this.getDBConnectionStateIcon(
-                        dbServerConnectionIcon.state)}
-                </div>
-
+                <span className={cx(
+                    classes.dbConnectionStateIcon,
+                    icons.fa,
+                    icons.faLg,
+                    this.getDBConnectionStateIcon(dbServerConnectionIcon.state)
+                )}
+                title={dbServerConnectionIcon.tooltip}>
+                </span>
             </div>
         );
     }

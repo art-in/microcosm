@@ -115,9 +115,14 @@ function getPackConfig(opts) {
                     }
                 }]
             }, {
-                test: /\.(ttf|otf|eot)$/,
+                test: /\.(ttf|otf|eot|svg|woff|woff2)$/,
                 use: [{
-                    loader: 'url-loader'
+                    loader: 'url-loader',
+                    options: {
+                        // add to bundle in form of base64 data url
+                        // only if file size is less than limit
+                        limit: 8192
+                    }
                 }]
             }]
         },
