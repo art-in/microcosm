@@ -5,6 +5,7 @@ import clone from 'clone';
 
 import noop from 'src/utils/noop';
 import update from 'src/utils/update-object';
+import deleteIndexedDB from 'src/data/utils/delete-indexed-db';
 
 import State from 'src/boot/client/State';
 import Mindmap from 'src/model/entities/Mindmap';
@@ -26,6 +27,8 @@ import {
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
+const POUCH_PREFIX = '_pouch_';
+
 describe('load-mindmap', () => {
 
     async function cleanSideEffects() {
@@ -34,14 +37,20 @@ describe('load-mindmap', () => {
         localStorage.removeItem(STORAGE_KEY_DB_SERVER_URL);
 
         // indexed databases
-        // TODO: try to clean on indexed dbs with direct browser API
-        await (new PouchDB('mindmaps').destroy());
-        await (new PouchDB('ideas').destroy());
-        await (new PouchDB('associations').destroy());
+        const databaseNames = [
+            `mindmaps`,
+            'ideas',
+            'associations',
 
-        await (new PouchDB('TEST_DB_SERVER/mindmaps').destroy());
-        await (new PouchDB('TEST_DB_SERVER/ideas').destroy());
-        await (new PouchDB('TEST_DB_SERVER/associations').destroy());
+            'TEST_DB_SERVER/mindmaps',
+            'TEST_DB_SERVER/ideas',
+            'TEST_DB_SERVER/associations'
+        ];
+
+        await Promise.all(
+            databaseNames
+                .map(name => POUCH_PREFIX + name)
+                .map(deleteIndexedDB));
     }
 
     beforeEach(async () => {
@@ -532,7 +541,7 @@ describe('load-mindmap', () => {
             }));
 
         // await database synchronization
-        await timer(500);
+        await timer(100);
 
         // check local databases pull server changes
         const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
