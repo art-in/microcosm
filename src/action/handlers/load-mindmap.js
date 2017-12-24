@@ -24,6 +24,13 @@ export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
 
 /**
+ * @typedef {object} LocalDatabases
+ * @prop {PouchDB.Database} ideas
+ * @prop {PouchDB.Database} associations
+ * @prop {PouchDB.Database} mindmaps
+ */
+
+/**
  * Loads mindmap from database to state
  * 
  * @param {StateType} state
@@ -34,11 +41,11 @@ export const RELOAD_DEBOUNCE_TIME = 1000; // ms
  */
 export default async function loadMindmap(state, data, dispatch) {
     const {dbServerUrl} = state.data;
-    let {
-        ideas: ideasDB,
-        associations: assocsDB,
-        mindmaps: mindmapsDB
-    } = state.data;
+    let localDBs = {
+        ideas: state.data.ideas,
+        associations: state.data.associations,
+        mindmaps: state.data.mindmaps
+    };
     const {isInitialLoad = false} = data || {};
 
     // init mindmap databases.
@@ -46,11 +53,7 @@ export default async function loadMindmap(state, data, dispatch) {
     if (isInitialLoad) {
 
         try {
-            const res = await initDatabases(dbServerUrl, dispatch);
-
-            ideasDB = res.ideas;
-            assocsDB = res.associations;
-            mindmapsDB = res.mindmaps;
+            localDBs = await initDatabases(dbServerUrl, dispatch);
 
         } catch (e) {
 
@@ -69,15 +72,21 @@ export default async function loadMindmap(state, data, dispatch) {
         }
     }
 
+    // ensure all required entities exist in databases. do it on each load since
+    // mindmap can be reloaded due to server db was cleared out
+    await ensureRequiredEntities(localDBs);
+
     // load models
     // take first mindmap for now. in case two databases got mixed it ensures
     // last one created will win (eg. server db been recreated and client pushes
     // old mindmap from its local dbs while sync - old mindmap will be at tail)
-    const mindmaps = await mindmapsDbApi.getAll(mindmapsDB);
+    const mindmaps = await mindmapsDbApi.getAll(localDBs.mindmaps);
     const mindmap = mindmaps[0];
 
-    const ideas = await ideasDbApi.getAll(ideasDB, mindmap.id);
-    const associations = await assocsDbApi.getAll(assocsDB, mindmap.id);
+    const ideas = await ideasDbApi
+        .getAll(localDBs.ideas, mindmap.id);
+    const associations = await assocsDbApi
+        .getAll(localDBs.associations, mindmap.id);
 
     // init models
     mindmap.root = buildGraph(ideas, associations);
@@ -94,9 +103,9 @@ export default async function loadMindmap(state, data, dispatch) {
         type: 'init-mindmap',
         data: {
             data: {
-                ideas: ideasDB,
-                associations: assocsDB,
-                mindmaps: mindmapsDB
+                ideas: localDBs.ideas,
+                associations: localDBs.associations,
+                mindmaps: localDBs.mindmaps
             },
             model: {
                 mindmap
@@ -123,7 +132,7 @@ export default async function loadMindmap(state, data, dispatch) {
  * 
  * @param {string} dbServerUrl 
  * @param {function} dispatch
- * @return {Promise.<Object<string, PouchDB.Database>>} local databases
+ * @return {Promise.<LocalDatabases>} local databases
  */
 async function initDatabases(dbServerUrl, dispatch) {
 
@@ -163,10 +172,6 @@ async function initDatabases(dbServerUrl, dispatch) {
         localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, dbServerUrl);
     }
 
-    // init empty databases
-    // TODO: ensure required entities on each reload
-    await ensureRequiredEntities(localDBs);
-    
     // start live synchronization with server databases
     const onRemoteChange = onServerDbChange.bind(null, dispatch);
     startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange);
@@ -176,7 +181,7 @@ async function initDatabases(dbServerUrl, dispatch) {
 
 /**
  * Ensures databases contain required entities
- * @param {Object<string, PouchDB.Database>} localDBs
+ * @param {LocalDatabases} localDBs
  */
 async function ensureRequiredEntities(localDBs) {
 
@@ -214,7 +219,7 @@ async function ensureRequiredEntities(localDBs) {
 /**
  * Cleans local databases
  * 
- * @param {Object<string, PouchDB.Database>} localDBs
+ * @param {LocalDatabases} localDBs
  */
 async function cleanDatabases(localDBs) {
 
@@ -232,7 +237,7 @@ async function cleanDatabases(localDBs) {
  * Replicates data from remote databases to local databases once
  * 
  * @param {string} dbServerUrl
- * @param {Object<string, PouchDB.Database>} localDBs
+ * @param {LocalDatabases} localDBs
  * @return {Promise}
  */
 function replicateFromServer(dbServerUrl, localDBs) {
@@ -253,7 +258,7 @@ function replicateFromServer(dbServerUrl, localDBs) {
  * Starts replicating server and local databases in both direction in real time
  * 
  * @param {string} dbServerUrl 
- * @param {Object<string, PouchDB.Database>} localDBs
+ * @param {LocalDatabases} localDBs
  * @param {function} onRemoteChange
  */
 function startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange) {

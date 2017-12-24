@@ -197,6 +197,37 @@ describe('load-mindmap', () => {
         expect((await mutationData.data.ideas.info()).doc_count).to.equal(1);
     });
 
+    it('should add required entities on reloads if db is empty', async () => {
+        
+        // setup state
+        const state = new State();
+        state.data.dbServerUrl = 'TEST_DB_SERVER';
+        state.data.ideas = new PouchDB('ideas');
+        state.data.associations = new PouchDB('associations');
+        state.data.mindmaps = new PouchDB('mindmaps');
+
+        const dispatch = noop;
+
+        // target
+        const patch = await handle(state, {
+            type: 'load-mindmap',
+            data: {isInitialLoad: false}
+        }, dispatch);
+
+        // check
+        const mutations = patch['init-mindmap'];
+        const mutationData = mutations[0].data;
+
+        const mindmapsLocalDB = mutationData.data.mindmaps;
+        const ideasLocalDB = mutationData.data.ideas;
+
+        const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
+        const ideasCount = (await ideasLocalDB.info()).doc_count;
+        
+        expect(mindmapsCount).to.equal(1);
+        expect(ideasCount).to.equal(1);
+    });
+
     it('should init model with idea root path weights', async () => {
         
         // setup
@@ -621,7 +652,7 @@ describe('load-mindmap', () => {
                 weight: 100
             }));
         
-        // await debounce
+        // await mindmap reload debounce
         // add some time on top to cover initial replication
         await timer(RELOAD_DEBOUNCE_TIME + 100);
 
