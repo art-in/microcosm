@@ -14,6 +14,7 @@ import view from 'vm/utils/view-patch';
  * @return {PatchType}
  */
 export default function(state, data) {
+    const {data: {dbServerUrl}} = state;
     const {connectionState} = required(data);
     
     let tooltip;
@@ -22,15 +23,17 @@ export default function(state, data) {
         
     case ConnectionState.connected:
         tooltip =
-            'Mindmap is connected to database server.\n' +
-            'All changes are saved locally and on server.';
+            `Mindmap is connected to database server ` +
+            `(${dbServerUrl}).\n` +
+            `All changes are saved locally and on server.`;
         break;
 
     case ConnectionState.disconnected:
         tooltip =
-            'Mindmap is disconnected from database server.\n' +
-            'All changes are saved locally and will be sent to ' +
-            'server when connection is restored.';
+            `Mindmap is disconnected from database server ` +
+            `(${dbServerUrl}).\n` +
+            `All changes are saved locally and will be sent to ` +
+            `server when connection is restored.`;
         break;
     
     default: throw Error(
@@ -39,7 +42,7 @@ export default function(state, data) {
     }
 
     return view('update-mindmap-vm', {
-        dbServerConnection: {
+        dbServerConnectionIcon: {
             state: connectionState,
             tooltip
         }

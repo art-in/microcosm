@@ -164,6 +164,7 @@ async function initDatabases(dbServerUrl, dispatch) {
     }
 
     // init empty databases
+    // TODO: ensure required entities on each reload
     await ensureRequiredEntities(localDBs);
     
     // start live synchronization with server databases

@@ -35,7 +35,7 @@ export default class Mindmap extends Component {
     render() {
         
         const {mindmap, ...other} = this.props;
-        const {dbServerConnection} = mindmap;
+        const {dbServerConnectionIcon} = mindmap;
 
         return (
             <div className={cx(classes.root)}
@@ -56,8 +56,9 @@ export default class Mindmap extends Component {
                     : null}
                 
                 <div className={classes.dbConnectionStateIcon}
-                    title={dbServerConnection.tooltip}>
-                    {this.getDBConnectionStateIcon(dbServerConnection.state)}
+                    title={dbServerConnectionIcon.tooltip}>
+                    {this.getDBConnectionStateIcon(
+                        dbServerConnectionIcon.state)}
                 </div>
 
             </div>

@@ -34,6 +34,7 @@ describe('load-mindmap', () => {
         localStorage.removeItem(STORAGE_KEY_DB_SERVER_URL);
 
         // indexed databases
+        // TODO: try to clean on indexed dbs with direct browser API
         await (new PouchDB('mindmaps').destroy());
         await (new PouchDB('ideas').destroy());
         await (new PouchDB('associations').destroy());

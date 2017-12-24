@@ -91,3 +91,8 @@
 
 12. **jsdoc**: `@enum` is not supported.
 
+---
+
+13. **typescript**: `Function#bind()` produces untyped function (`any`)  
+    https://github.com/Microsoft/TypeScript/issues/212
+

@@ -26,9 +26,9 @@ export default class Mindmap extends ViewModel {
     isLoadFailed = false;
 
     /**
-     * State of connection to database server
+     * Icon indicating state of connection to database server
      */
-    dbServerConnection = {
+    dbServerConnectionIcon = {
 
         /** @type {ConnectionState} */
         state: ConnectionState.disconnected,
