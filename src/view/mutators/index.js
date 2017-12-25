@@ -28,7 +28,9 @@ export default function mutate(state, patch) {
  */
 function apply(state, mutation) {
 
-    const {graph} = state.vm.main.mindmap;
+    const {mindmap} = state.vm.main;
+    const {graph} = mindmap;
+    
     const {data} = mutation;
 
     switch (mutation.type) {
@@ -85,7 +87,7 @@ function apply(state, mutation) {
         break;
 
     case 'update-idea-search-box':
-        graph.ideaSearchBox.emitChange();
+        mindmap.ideaSearchBox.emitChange();
         break;
 
     case 'update-idea-form-modal':

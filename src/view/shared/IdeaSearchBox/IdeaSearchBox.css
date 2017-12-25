@@ -2,16 +2,22 @@
     display: flex;
 }
 
-.trigger,
-.lookup-expander {
-    height: 33px;
-}
-
 .trigger {
-    color: white;
     display: flex;
     align-items: center;
     margin-right: 10px;
+    color: lightgray;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.15s;
+}
+
+.trigger:hover {
+    color: white;
+}
+
+.root.active .trigger {
+    opacity: 0;
 }
 
 .lookup-expander {

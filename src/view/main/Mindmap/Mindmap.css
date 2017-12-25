@@ -1,4 +1,6 @@
-.root {}
+.root {
+    position: relative;
+}
 
 .message {
     display: flex;
@@ -10,17 +12,32 @@
     color: white;
 }
 
+.db-connection-state-icon,
+.go-root-button {
+    color: lightgray;
+}
+
+.db-connection-state-icon:hover,
+.go-root-button:hover {
+    color: white;
+}
+
 .db-connection-state-icon {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    color: white;
+    top: 10px;
+    left: 10px;
+    
 }
 
 .go-root-button {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    color: white;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
+}
+
+.idea-search-box {
+    position: absolute;
+    top: 10px;
+    right: 40px;
 }

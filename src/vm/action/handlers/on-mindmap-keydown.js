@@ -6,32 +6,25 @@ import GraphType from 'vm/map/entities/Graph';
 import Point from 'model/entities/Point';
 
 /**
- * Handles key down event on graph
+ * Handles keydown event from mindmap
  * 
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.key
  * @param {boolean} data.ctrlKey - 'control' key is pressed
+ * @param {function} data.preventDefault
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
-    const {key, ctrlKey} = required(data);
+    const {vm: {main: {mindmap}}} = state;
+    const {graph} = mindmap;
+    const {key, ctrlKey, preventDefault} = required(data);
     
-    if (key === 'Escape') {
-        dispatch({type: 'deactivate-popups'});
-    } else
-    if (graph.associationTailsLookup.popup.active ||
-        graph.ideaSearchBox.active) {
-        // do not handle key on graph if some another input is active.
-        // Q: why not stop propagation of key event right for those inputs?
-        // A: because that would require preventing default behavior for
-        //    'ctrl+f' in all those places instead of once in graph view.
-        //    let action to decide keyboard priorities.
-        return;
-    }
-
     switch (key) {
+
+    case 'Escape':
+        dispatch({type: 'deactivate-popups'});
+        break;
 
     case 'ArrowDown':
     case 'ArrowUp':
@@ -40,10 +33,16 @@ export default function(state, data, dispatch) {
         onMindmapPan({key, graph, dispatch});
         break;
     
+    // TODO: zoom on PageUp/PageDown
+
     case 'f':
     case 'F':
-        if (ctrlKey) {
+        // allow default browser search box only in case idea form opened
+        // to search on idea contents, otherwise if graph shown default search
+        // will not be effective - use custom search box for searching ideas
+        if (ctrlKey && !graph.ideaFormModal.modal.active) {
             dispatch({type: 'activate-idea-search-box'});
+            preventDefault();
         }
         break;
     

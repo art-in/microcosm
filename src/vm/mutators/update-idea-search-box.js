@@ -10,7 +10,7 @@ import IdeaSearchBoxType from 'vm/shared/IdeaSearchBox';
  * @param {Partial<IdeaSearchBoxType>} data
  */
 export default function(state, data) {
-    const {ideaSearchBox} = state.vm.main.mindmap.graph;
+    const {ideaSearchBox} = state.vm.main.mindmap;
 
     updateViewModel(ideaSearchBox, data);
 }

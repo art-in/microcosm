@@ -6,17 +6,33 @@ import MindmapType from 'vm/main/Mindmap';
 import ConnectionState from 'action/utils/ConnectionState';
 
 import Graph from 'view/map/entities/Graph';
+import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 
 import classes from './Mindmap.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {MindmapType} mindmap
+ * @prop {function({key, ctrlKey, preventDefault})} onKeyDown
  * @prop {function()} onGoRootButtonClick
  * 
  * @extends {Component<Props>}
  */
 export default class Mindmap extends Component {
+
+    onKeyDown = e => {
+        this.props.onKeyDown({
+            key: e.key,
+            ctrlKey: e.ctrlKey,
+            preventDefault: e.preventDefault.bind(e)
+        });
+    }
+
+    componentDidMount() {
+        // focus container for catching keyboard events
+        this.container.focus();
+    }
 
     getDBConnectionStateIcon(connectionState) {
         
@@ -41,12 +57,15 @@ export default class Mindmap extends Component {
 
     render() {
         
-        const {mindmap, onGoRootButtonClick, ...other} = this.props;
+        const {mindmap, onGoRootButtonClick} = this.props;
         const {dbServerConnectionIcon} = mindmap;
 
         return (
             <div className={cx(classes.root)}
-                {...other}>
+                // allow to set focus for catching keyboard events
+                tabIndex={0}
+                ref={node => this.container = node}
+                onKeyDown={this.onKeyDown}>
 
                 {!mindmap.isLoaded && !mindmap.isLoadFailed &&
                     <div className={classes.message}>
@@ -78,6 +97,9 @@ export default class Mindmap extends Component {
                 )}
                 title='Go to root idea'
                 onClick={onGoRootButtonClick} />
+
+                <IdeaSearchBox className={classes.ideaSearchBox}
+                    searchBox={mindmap.ideaSearchBox} />
             </div>
         );
     }

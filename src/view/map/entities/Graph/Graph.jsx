@@ -10,7 +10,6 @@ import GraphVmType from 'vm/map/entities/Graph';
 
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
-import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 import IdeaFormModal from 'view/shared/IdeaFormModal';
 
 import RadialContextMenu from 'view/shared/RadialContextMenu';
@@ -34,7 +33,6 @@ import classes from './Graph.css';
  * @prop {function({up, pos})} onWheel
  * @prop {function()}          onMouseUp
  * @prop {function()}          onMouseLeave
- * @prop {function({key, ctrlKey})} onKeyDown
  * @prop {function({size})}    onViewportResize
  * @prop {function({viewportShift, pressedMouseButton})} onMouseMove
  * 
@@ -108,20 +106,6 @@ export default class Graph extends Component {
         });
     }
 
-    onKeyDown = e => {
-        if ((e.key === 'f' || e.key === 'F') && e.ctrlKey) {
-            // prevent default browser search box, since it is not useful
-            // for searching text on the graph, and it has app replacement.
-            // TODO: default search may be useful for idea popup
-            e.preventDefault();
-        }
-
-        this.props.onKeyDown({
-            key: e.key,
-            ctrlKey: e.ctrlKey
-        });
-    }
-
     render() {
         const {
             graph,
@@ -161,9 +145,7 @@ export default class Graph extends Component {
         });
 
         return (
-            <div className={classes.root}
-                onKeyDown={this.onKeyDown}
-                tabIndex={0}>
+            <div className={classes.root}>
 
                 <Svg nodeRef={node => this.viewport = node}
                     viewBox={`${viewbox.x} ${viewbox.y} ` +
@@ -202,9 +184,6 @@ export default class Graph extends Component {
                         onSuggestionSelect=
                             {onAssociationTailsLookupSuggestionSelect} />
                 </div>
-
-                <IdeaSearchBox className={classes.ideaSearchBox}
-                    searchBox={graph.ideaSearchBox} />
 
                 <div id={popupContainerId}>{/*
                     container for html popup elements (render here with Portal)

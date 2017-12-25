@@ -62,12 +62,6 @@ export default connect(
         onMouseLeave: () => dispatch({
             type: 'on-graph-mouse-leave',
             throttleLog: 5000
-        }),
-
-        onKeyDown: ({key, ctrlKey}) => dispatch({
-            type: 'on-graph-key-down',
-            data: {key, ctrlKey},
-            throttleLog: true
         })
 
     })

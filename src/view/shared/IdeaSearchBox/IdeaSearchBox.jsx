@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
 import IdeaSearchBoxVmType from 'vm/shared/IdeaSearchBox';
 import Lookup from 'view/shared/Lookup';
@@ -35,11 +36,14 @@ export default class IdeaSearchBox extends Component {
                 [classes.active]: searchBox.active
             })}>
 
-                <span className={classes.trigger}
-                    onClick={onTriggerClick}>
-                    {/* TODO: set search icon */}
-                    search
-                </span>
+                <span className={cx(
+                    classes.trigger,
+                    icons.fa,
+                    icons.faLg,
+                    icons.faSearch
+                )}
+                title='Search ideas'
+                onClick={onTriggerClick} />
 
                 <span className={classes.lookupExpander}>
                     <Lookup className={classes.lookup}
