@@ -21,11 +21,6 @@ export default function(state, data, dispatch) {
 
     const lookup = mindmap.ideaSearchBox.lookup;
 
-    dispatch({
-        type: 'search-ideas-for-search-box',
-        data: {phrase}
-    });
-
     return view('update-idea-search-box', {
         lookup: onPhraseChange({
             lookup,
