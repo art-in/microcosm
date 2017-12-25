@@ -21,17 +21,23 @@ import classes from './Mindmap.css';
  */
 export default class Mindmap extends Component {
 
-    onKeyDown = e => {
-        this.props.onKeyDown({
-            code: e.nativeEvent.code,
-            ctrlKey: e.ctrlKey,
-            preventDefault: e.preventDefault.bind(e)
-        });
+    componentDidMount() {
+        // listen keyboard events on body element, since otherwise it is not
+        // always possible to keep focus on component container: if focused
+        // element is removed from DOM - focus jumps to document body
+        document.body.addEventListener('keydown', this.onKeyDown);
     }
 
-    componentDidMount() {
-        // focus container for catching keyboard events
-        this.container.focus();
+    componentWillUnmount() {
+        document.body.removeEventListener('keydown', this.onKeyDown);
+    }
+
+    onKeyDown = nativeEvent => {
+        this.props.onKeyDown({
+            code: nativeEvent.code,
+            ctrlKey: nativeEvent.ctrlKey,
+            preventDefault: nativeEvent.preventDefault.bind(nativeEvent)
+        });
     }
 
     getDBConnectionStateIcon(connectionState) {
@@ -61,11 +67,7 @@ export default class Mindmap extends Component {
         const {dbServerConnectionIcon} = mindmap;
 
         return (
-            <div className={cx(classes.root)}
-                // allow to set focus for catching keyboard events
-                tabIndex={0}
-                ref={node => this.container = node}
-                onKeyDown={this.onKeyDown}>
+            <div className={cx(classes.root)}>
 
                 {!mindmap.isLoaded && !mindmap.isLoadFailed &&
                     <div className={classes.message}>
