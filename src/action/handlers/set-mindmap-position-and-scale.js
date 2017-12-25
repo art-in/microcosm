@@ -8,7 +8,6 @@ import normalizePatch from 'action/utils/normalize-patch';
 
 /**
  * Sets mindmap position and scale
- * TODO: do not mutate state if scale and position was not changed
  * 
  * @param {StateType} state
  * @param {object}    data
@@ -28,12 +27,20 @@ export default function setMindmapScale(state, data) {
 
     const patch = new Patch();
 
-    patch.push('update-mindmap', {
-        id: mindmapId,
-        pos: {x: pos.x, y: pos.y}
-    });
+    if (mindmap.pos.x !== pos.x ||
+        mindmap.pos.y !== pos.y) {
+        
+        // only update position if it was changed
+        patch.push('update-mindmap', {
+            id: mindmapId,
+            pos: {x: pos.x, y: pos.y}
+        });
+    }
 
-    if (scale) {
+    if (scale !== undefined &&
+        mindmap.scale !== scale) {
+        
+        // only update scale if it was changed
         patch.push('update-mindmap', {
             id: mindmapId,
             scale
