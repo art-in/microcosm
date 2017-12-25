@@ -3,6 +3,8 @@ import view from 'vm/utils/view-mutation';
 
 import StateType from 'boot/client/State';
 
+import deactivateFormModal from 'vm/shared/IdeaFormModal/methods/deactivate';
+
 /**
  * Deactivates all popups
  * 
@@ -36,10 +38,7 @@ export default function(state) {
     }
 
     if (graph.ideaFormModal.modal.active) {
-        // TODO: null form ideaId
-        //       (create on-close method for IdeaFormModal)
-        patch.push(view('update-idea-form-modal',
-            {modal: {active: false}}));
+        patch.push(view('update-idea-form-modal', deactivateFormModal()));
     }
     
     return patch;

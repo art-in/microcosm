@@ -3,6 +3,8 @@ import view from 'vm/utils//view-patch';
 
 import StateType from 'boot/client/State';
 
+import deactivate from 'vm/shared/IdeaFormModal/methods/deactivate';
+
 const CONFIRM_MESSAGE =
     'There are unsaved changes on the form. Close it anyway?';
 
@@ -23,14 +25,5 @@ export default function(state) {
         return;
     }
 
-    return view('update-idea-form-modal', {
-        modal: {
-            active: false
-        },
-        form: {
-            ideaId: null,
-            parentIdeaId: null,
-            isNewIdea: null
-        }
-    });
+    return view('update-idea-form-modal', deactivate());
 }

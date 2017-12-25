@@ -96,3 +96,14 @@
 13. **typescript**: `Function#bind()` produces untyped function (`any`)  
     https://github.com/Microsoft/TypeScript/issues/212
 
+---
+
+14. **typescript**: deep partial generic type is not part of standard lib.  
+    Eg. `Partial` of type which has props of another types, which we want to consider partial as well (`Partial` will look at base type shallowly).
+    Which needs to add such generic manually:  
+    ```
+    type DeepPartial<T> = {
+        [P in keyof T]?: DeepPartial<T[P]>;
+    };
+    ```
+    https://github.com/Microsoft/TypeScript/issues/11233
