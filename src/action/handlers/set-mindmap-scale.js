@@ -7,6 +7,8 @@ import PointType from 'model/entities/Point';
 
 /**
  * Sets mindmap scale
+ * TODO: rename to 'set-mindmap-scale-and-position'
+ * TODO: do not mutate state if scale and position was not changed
  * 
  * @param {StateType} state
  * @param {object}    data

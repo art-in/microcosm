@@ -47,6 +47,9 @@ export default function(state, data, dispatch) {
         }
         break;
     
+    case 'Home':
+        dispatch({type: 'on-go-root-button-click'});
+        break;
 
     default:
         // skip

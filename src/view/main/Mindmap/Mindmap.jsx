@@ -12,6 +12,7 @@ import classes from './Mindmap.css';
 /**
  * @typedef {object} Props
  * @prop {MindmapType} mindmap
+ * @prop {function()} onGoRootButtonClick
  * 
  * @extends {Component<Props>}
  */
@@ -40,7 +41,7 @@ export default class Mindmap extends Component {
 
     render() {
         
-        const {mindmap, ...other} = this.props;
+        const {mindmap, onGoRootButtonClick, ...other} = this.props;
         const {dbServerConnectionIcon} = mindmap;
 
         return (
@@ -67,8 +68,16 @@ export default class Mindmap extends Component {
                     icons.faLg,
                     this.getDBConnectionStateIcon(dbServerConnectionIcon.state)
                 )}
-                title={dbServerConnectionIcon.tooltip}>
-                </span>
+                title={dbServerConnectionIcon.tooltip} />
+
+                <span className={cx(
+                    classes.goRootButton,
+                    icons.fa,
+                    icons.faLg,
+                    icons.faHome
+                )}
+                title='Go to root idea'
+                onClick={onGoRootButtonClick} />
             </div>
         );
     }

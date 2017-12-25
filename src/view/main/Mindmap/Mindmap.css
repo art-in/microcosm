@@ -16,3 +16,11 @@
     left: 15px;
     color: white;
 }
+
+.go-root-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    cursor: pointer;
+}
