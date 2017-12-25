@@ -102,14 +102,14 @@ describe('animate-graph-viewbox-to-idea', () => {
         expect(viewbox.y).to.equal(475);
     });
 
-    it(`should dispatch 'set-mindmap-scale' action`, async () => {
+    it(`should dispatch 'set-mindmap-position-and-scale' action`, async () => {
 
         const {dispatchSpy} = await setup();
 
         expect(dispatchSpy.callCount).to.equal(1);
         expect(dispatchSpy.firstCall.args).to.have.length(1);
         expect(dispatchSpy.firstCall.args[0]).to.containSubset({
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 scale: 2,
                 pos: {x: 475, y: 475}

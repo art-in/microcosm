@@ -39,7 +39,7 @@ export default function(state, data, dispatch) {
     if (graph.pan.active) {
 
         dispatch({
-            type: 'set-mindmap-position',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 mindmapId: graph.id,
                 pos: new Point({x: graph.viewbox.x, y: graph.viewbox.y})

@@ -4,30 +4,41 @@ import Patch from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import PointType from 'model/entities/Point';
+import normalizePatch from 'action/utils/normalize-patch';
 
 /**
- * Sets mindmap scale
- * TODO: rename to 'set-mindmap-scale-and-position'
+ * Sets mindmap position and scale
  * TODO: do not mutate state if scale and position was not changed
  * 
  * @param {StateType} state
  * @param {object}    data
  * @param {string}    data.mindmapId
- * @param {number}    data.scale - target scale
  * @param {PointType} data.pos - new position of viewbox on canvas
+ * @param {number}    [data.scale] - target scale
  * @return {Patch}
  */
 export default function setMindmapScale(state, data) {
     const {model: {mindmap}} = state;
-    const {mindmapId, scale, pos} = required(data);
+    const {mindmapId, pos} = required(data);
+    const {scale} = data;
     
     if (mindmap.id !== mindmapId) {
         throw Error('Setting scale of not loaded mindmap');
     }
 
-    return new Patch('update-mindmap', {
+    const patch = new Patch();
+
+    patch.push('update-mindmap', {
         id: mindmapId,
-        scale,
         pos: {x: pos.x, y: pos.y}
     });
+
+    if (scale) {
+        patch.push('update-mindmap', {
+            id: mindmapId,
+            scale
+        });
+    }
+
+    return normalizePatch(patch);
 }

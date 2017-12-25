@@ -92,7 +92,7 @@ function onMindmapPan(opts) {
     }
 
     dispatch({
-        type: 'set-mindmap-position',
+        type: 'set-mindmap-position-and-scale',
         data: {
             mindmapId: graph.id,
             pos

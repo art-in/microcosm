@@ -76,7 +76,7 @@ describe('animate-graph-zoom', () => {
         expect(patch['update-graph']).to.not.exist;
     });
 
-    it(`should dispatch 'set-mindmap-scale' action`, async () => {
+    it(`should dispatch 'set-mindmap-position-and-scale' action`, async () => {
         
         // setup state
         const state = createState();
@@ -116,7 +116,7 @@ describe('animate-graph-zoom', () => {
         expect(dispatch.callCount).to.equal(1);
         expect(dispatch.firstCall.args).to.have.length(1);
         expect(dispatch.firstCall.args[0]).to.containSubset({
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 scale: 1.5,
                 pos: {x: 0, y: 0}

@@ -6,9 +6,9 @@ import Mindmap from 'src/model/entities/Mindmap';
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe('set-mindmap-scale', () => {
+describe('set-mindmap-position-and-scale', () => {
     
-    it('should set mindmap scale', () => {
+    it('should set mindmap position and scale', () => {
 
         // setup
         const mindmap = new Mindmap({
@@ -20,21 +20,22 @@ describe('set-mindmap-scale', () => {
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 mindmapId: 'id',
-                scale: 2,
-                pos: {x: 10, y: 10}
+                pos: {x: 10, y: 10},
+                scale: 2
             }
         });
 
         // check
-        expect(patch).to.have.length(1);
-        expect(patch['update-mindmap']).to.exist;
-        expect(patch['update-mindmap'][0].data).to.containSubset({
+        const mutations = patch['update-mindmap'];
+        expect(mutations).to.have.length(1);
+        
+        expect(mutations[0].data).to.containSubset({
             id: 'id',
-            scale: 2,
-            pos: {x: 10, y: 10}
+            pos: {x: 10, y: 10},
+            scale: 2
         });
 
     });
@@ -51,10 +52,9 @@ describe('set-mindmap-scale', () => {
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 mindmapId: 'id',
-                scale: 2,
                 pos: {
                     x: 100,
                     y: 200
@@ -63,9 +63,10 @@ describe('set-mindmap-scale', () => {
         });
 
         // check
-        expect(patch).to.have.length(1);
-        expect(patch['update-mindmap']).to.exist;
-        expect(patch['update-mindmap'][0].data).to.containSubset({
+        const mutations = patch['update-mindmap'];
+        expect(mutations).to.have.length(1);
+        
+        expect(mutations[0].data).to.containSubset({
             id: 'id',
             pos: {x: 100, y: 200}
         });
@@ -85,7 +86,7 @@ describe('set-mindmap-scale', () => {
 
         // target
         handle(state, {
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 mindmapId: 'id',
                 scale: 2,
@@ -109,7 +110,7 @@ describe('set-mindmap-scale', () => {
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-scale',
+            type: 'set-mindmap-position-and-scale',
             data: {
                 mindmapId: 'id',
                 scale: 2,

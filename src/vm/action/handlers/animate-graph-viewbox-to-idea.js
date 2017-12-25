@@ -79,7 +79,7 @@ export default async function(state, data, dispatch, mutate) {
     });
 
     await dispatch({
-        type: 'set-mindmap-scale',
+        type: 'set-mindmap-position-and-scale',
         data: {
             mindmapId: graph.id,
             scale: graph.viewbox.scale,
