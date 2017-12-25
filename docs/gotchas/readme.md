@@ -1,0 +1,1 @@
+History log of bugs / unsupported-features / surprising-but-valid-behaviors and other difficulties faced while using various technologies in this project.

@@ -1,7 +1,3 @@
-> History log of bugs / unsupported-features / surprising-but-valid-behaviors and other difficulties faced while using `react` in this project.  
-
----
-
 1. ~~React v0.13 does not support namespaced attributes.~~  
    And 'xlink:href' is necessary for UA to ref path from textPath.  
    In 0.14 we will use 'xlinkHref' and for now go with 'dangerouslySetInnerHTML'.  

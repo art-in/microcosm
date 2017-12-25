@@ -1,7 +1,3 @@
-> History log of bugs / unsupported-features / surprising-but-valid-behaviors and other difficulties faced while using `typescript` for static type checking in this project.  
-
----
-
 1. **jsdoc**: Desctructured function params are not supported  
     `TS8024: JSDoc '@param' tag has name 'opts', but there is no parameter with that name.`  
     https://github.com/Microsoft/TypeScript/issues/11859  

@@ -1,7 +1,3 @@
-> History log of bugs / unsupported-features / surprising-but-valid-behaviors and other difficulties faced while using `svg` in this project.  
-
----
-
 1. ~~Chrome does not redraw textPath on path change when <text> and <defs> are in different <g>-groups.~~
     Force redraw by setting random id attr.  
     http://stackoverflow.com/questions/11573694/svg-textpath-not-visible-after-transition-on-chrome  
