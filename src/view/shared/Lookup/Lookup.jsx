@@ -13,7 +13,7 @@ import classes from './Lookup.css';
  * @prop {LookupVmType} lookup
  * 
  * @prop {function({phrase})} onPhraseChange
- * @prop {function({key})} onKeyDown
+ * @prop {function({code, preventDefault})} onKeyDown
  * @prop {function({suggestion})} onSuggestionSelect
  * 
  * @extends {Component<Props>}
@@ -40,14 +40,10 @@ export default class Lookup extends Component {
     }
 
     onKeyDown = e => {
-        const key = e.key;
-        this.props.onKeyDown({key});
-
-        // is view too smart here
-        if (key === 'ArrowDown' || key === 'ArrowUp') {
-            // prevent default behavior of moving carret in the input
-            e.preventDefault();
-        }
+        this.props.onKeyDown({
+            code: e.nativeEvent.code,
+            preventDefault: e.preventDefault.bind(e)
+        });
     }
 
     onSuggestionSelect(suggestionId) {

@@ -11,21 +11,23 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * 
  * @param {StateType} state
  * @param {object} data
- * @param {string} data.key
+ * @param {string} data.code
+ * @param {function} data.preventDefault
  * @param {function} dispatch
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap}}} = state;
-    const {key} = required(data);
+    const {code, preventDefault} = required(data);
 
     const lookup = mindmap.ideaSearchBox.lookup;
 
     return view('update-idea-search-box', {
         lookup: onKeyDown({
             lookup,
-            key,
-
+            code,
+            preventDefault,
+            
             // TODO: is it necessary to set this on each keydown?
             // TODO: fails if search box is empty
             onSuggestionSelect: ({suggestion}) => {

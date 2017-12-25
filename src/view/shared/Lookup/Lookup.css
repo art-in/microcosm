@@ -1,5 +1,4 @@
 .root {
-    width: 250px;
 
     /* hide overflow, so when width is zero - it is completely hidden.
        otherwise input paddings remain visible (this is how 'border-box' works).
@@ -17,14 +16,16 @@
 .nothing-found {
     text-align: center;
     margin-top: 10px;
+
+    /* do not wrap in case container is too small
+       (eg. when container width animated like in idea search box, when box
+        is hiding - not-found string should not wrap) */
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .suggestions {
     margin-top: 5px;
-}
-
-.suggestions {
-    background-color: rgba(255, 255, 255, 0.7);
 }
 
 .suggestion {
@@ -38,5 +39,5 @@
 }
 
 .suggestion + .suggestion {
-    border-top: 1px solid white;
+    border-top: 1px solid lightgray;
 }

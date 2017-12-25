@@ -8,26 +8,30 @@ import getNextSuggestionId from './get-next-highlighted-suggestion-id';
  * 
  * @param {object} opts
  * @param {LookupType} opts.lookup
- * @param {string} opts.key
+ * @param {string} opts.code
  * @param {function({suggestion})} opts.onSuggestionSelect
+ * @param {function} opts.preventDefault
  * @return {Partial<LookupType>} update object
  */
 export default function onKeyDown(opts) {
-    const {key, lookup, onSuggestionSelect} = opts;
+    const {code, lookup, preventDefault, onSuggestionSelect} = opts;
 
     let update = {};
 
-    switch (key) {
+    switch (code) {
         
     case 'ArrowUp':
     case 'ArrowDown': {
 
-        // highlight next suggestion
-        const forward = key === 'ArrowDown';
+        // highlight next suggestion in the list
+        const forward = code === 'ArrowDown';
         const suggestionId = getNextSuggestionId({lookup, forward});
         update = {
             highlightedSuggestionId: suggestionId
         };
+
+        // prevent default browser behavior of moving carret in input
+        preventDefault();
         break;
     }
 

@@ -1,8 +1,21 @@
 .root {
     padding: 5px;
+    /* free some space on the left for highlight char */
+    padding-left: 10px;
+    color: #757575;
+    position: relative;
 }
 
 .root:hover,
 .highlight {
-    background-color: white;
+    color: black;
+}
+
+.highlight:before {
+    content: '•';
+    color: #757575;
+    
+    /* free from flow to not change position of suggestion text */
+    position: absolute;
+    left: 0;
 }

@@ -36,6 +36,8 @@ export default function(state) {
     }
 
     if (graph.ideaFormModal.modal.active) {
+        // TODO: null form ideaId
+        //       (create on-close method for IdeaFormModal)
         patch.push(view('update-idea-form-modal',
             {modal: {active: false}}));
     }

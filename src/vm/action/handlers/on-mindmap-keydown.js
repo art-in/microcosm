@@ -10,7 +10,7 @@ import Point from 'model/entities/Point';
  * 
  * @param {StateType} state
  * @param {object} data
- * @param {string} data.key
+ * @param {string} data.code
  * @param {boolean} data.ctrlKey - 'control' key is pressed
  * @param {function} data.preventDefault
  * @param {function} dispatch
@@ -18,9 +18,9 @@ import Point from 'model/entities/Point';
 export default function(state, data, dispatch) {
     const {vm: {main: {mindmap}}} = state;
     const {graph} = mindmap;
-    const {key, ctrlKey, preventDefault} = required(data);
+    const {code, ctrlKey, preventDefault} = required(data);
     
-    switch (key) {
+    switch (code) {
 
     case 'Escape':
         dispatch({type: 'deactivate-popups'});
@@ -30,14 +30,16 @@ export default function(state, data, dispatch) {
     case 'ArrowUp':
     case 'ArrowLeft':
     case 'ArrowRight':
-        onMindmapPan({key, graph, dispatch});
+        if (!graph.associationTailsLookup.active &&
+            !mindmap.ideaSearchBox.active) {
+            onMindmapPan({code, graph, dispatch});
+        }
         break;
     
     // TODO: zoom on PageUp/PageDown
 
-    case 'f':
-    case 'F':
-        // allow default browser search box only in case idea form opened
+    case 'KeyF':
+        // allow default browser search box only in case idea form opened,
         // to search on idea contents, otherwise if graph shown default search
         // will not be effective - use custom search box for searching ideas
         if (ctrlKey && !graph.ideaFormModal.modal.active) {
@@ -59,12 +61,12 @@ export default function(state, data, dispatch) {
  * Handles mindmap panning with keyboard
  * 
  * @param {object} opts
- * @param {string} opts.key
+ * @param {string} opts.code
  * @param {GraphType} opts.graph
  * @param {function} opts.dispatch
  */
 function onMindmapPan(opts) {
-    const {key, graph, dispatch} = opts;
+    const {code, graph, dispatch} = opts;
 
     let panKeyStep = 20;
     
@@ -75,7 +77,7 @@ function onMindmapPan(opts) {
         y: graph.viewbox.y
     });
 
-    switch (key) {
+    switch (code) {
     case 'ArrowDown':
         pos.y = pos.y + panKeyStep;
         break;

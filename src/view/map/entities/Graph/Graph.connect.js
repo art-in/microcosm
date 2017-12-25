@@ -15,9 +15,9 @@ export default connect(
             data: {phrase}
         }),
 
-        onAssociationTailsLookupKeyDown: ({key}) => dispatch({
+        onAssociationTailsLookupKeyDown: data => dispatch({
             type: 'on-association-tails-lookup-keydown',
-            data: {key}
+            data
         }),
 
         onAssociationTailsLookupSuggestionSelect: ({suggestion}) => dispatch({

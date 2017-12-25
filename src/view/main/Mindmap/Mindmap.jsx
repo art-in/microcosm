@@ -14,7 +14,7 @@ import classes from './Mindmap.css';
 /**
  * @typedef {object} Props
  * @prop {MindmapType} mindmap
- * @prop {function({key, ctrlKey, preventDefault})} onKeyDown
+ * @prop {function({code, ctrlKey, preventDefault})} onKeyDown
  * @prop {function()} onGoRootButtonClick
  * 
  * @extends {Component<Props>}
@@ -23,7 +23,7 @@ export default class Mindmap extends Component {
 
     onKeyDown = e => {
         this.props.onKeyDown({
-            key: e.key,
+            code: e.nativeEvent.code,
             ctrlKey: e.ctrlKey,
             preventDefault: e.preventDefault.bind(e)
         });

@@ -23,17 +23,28 @@
 .lookup-expander {
     display: inline-block;
     width: 0;
-    transition: width 0.5s;
+
+    /* zero width is not enough to hide lookup since its inner paddings will
+       still be seen, so make it transparent (+ transition looks good) */
+    opacity: 0;
+    transition: width 0.5s, opacity 0.15s;
     position: relative;
 }
 
 .root.active .lookup-expander {
-    width: 200px;
+    width: 300px;
+    opacity: 1;
 }
 
 .lookup {
     position: absolute;
     top: 0;
     left: 0;
+
     width: 100%;
+    box-sizing: border-box;
+
+    padding: 7px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
 }

@@ -14,9 +14,9 @@ export default connect(
             data: {phrase}
         }),
 
-        onLookupKeyDown: ({key}) => dispatch({
+        onLookupKeyDown: data => dispatch({
             type: 'on-idea-search-lookup-keydown',
-            data: {key}
+            data
         }),
 
         onLookupSuggestionSelect: ({suggestion}) => dispatch({
