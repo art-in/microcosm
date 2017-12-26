@@ -31,7 +31,8 @@ export default function(state, data, dispatch) {
     case 'ArrowLeft':
     case 'ArrowRight':
         if (!graph.associationTailsLookup.active &&
-            !mindmap.ideaSearchBox.active) {
+            !mindmap.ideaSearchBox.active &&
+            !graph.ideaFormModal.modal.active) {
             onMindmapPan({code, graph, dispatch});
         }
         break;
@@ -49,7 +50,11 @@ export default function(state, data, dispatch) {
         break;
     
     case 'Home':
-        dispatch({type: 'on-go-root-button-click'});
+        if (!graph.associationTailsLookup.active &&
+            !mindmap.ideaSearchBox.active &&
+            !graph.ideaFormModal.modal.active) {
+            dispatch({type: 'on-go-root-button-click'});
+        }
         break;
 
     default:

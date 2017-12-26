@@ -8,6 +8,7 @@ import toViewportCoords from 'vm/map/utils/map-canvas-to-viewport-coords';
 import PointType from 'model/entities/Point';
 
 import MenuItem from 'vm/shared/MenuItem';
+import Icon from 'vm/shared/Icon';
 
 /** 
  * Handles context menu event from node
@@ -34,7 +35,7 @@ export default function(state, data) {
 
     items.push(
         new MenuItem({
-            icon: 'N',
+            icon: Icon.plusCircle,
             displayValue: 'Add new idea',
             onSelectAction: () => ({
                 type: 'on-context-menu-item-select-create-idea',
@@ -44,28 +45,28 @@ export default function(state, data) {
     
     items.push(
         new MenuItem({
-            icon: 'C',
-            displayValue: 'Set idea color',
-            onSelectAction: () => ({
-                type: 'show-color-picker-for-idea',
-                data: {ideaId: nodeId}
-            })
-        }));
-
-    items.push(
-        new MenuItem({
-            icon: 'L',
+            icon: Icon.link,
             displayValue: 'Add association',
             onSelectAction: () => ({
                 type: 'show-association-tails-lookup',
                 data: {pos: viewportPos, headIdeaId: nodeId}
             })
         }));
+
+    items.push(
+        new MenuItem({
+            icon: Icon.paintBrush,
+            displayValue: 'Set idea color',
+            onSelectAction: () => ({
+                type: 'show-color-picker-for-idea',
+                data: {ideaId: nodeId}
+            })
+        }));
     
     // TODO: disable if root or has outgoing assocs
     items.push(
         new MenuItem({
-            icon: 'D',
+            icon: Icon.trash,
             displayValue: 'Remove idea',
             onSelectAction: () => ({
                 type: 'on-context-menu-item-select-remove-idea',

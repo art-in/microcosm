@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
 import Group from 'view/shared/svg/Group';
 import ContextMenuVmType from 'vm/shared/ContextMenu';
 import MenuItemType from 'vm/shared/MenuItem';
+
+import mapIcon from 'view/utils/map-icon';
 
 import classes from './RadialContextMenu.css';
 
@@ -12,7 +15,7 @@ import classes from './RadialContextMenu.css';
 const FULL_CIRCLE_RAD = 2 * Math.PI;
 
 // ratio of gap between segments (greater value - greater gap)
-const SEGMENT_GAP_RATIO = 0.001;
+const SEGMENT_GAP_RATIO = 0.0005;
 
 // radiuses of inner and outer rings
 const INNER_RADIUS = 50;
@@ -150,10 +153,14 @@ export default class RadialContextMenu extends Component {
                     key={segmentNumber}
                     d={path} />
 
-                <text className={classes.segmentIcon}
-                    key={`${segmentNumber}-icon`}
-                    x={pIconX} y={pIconY}>
-                    {menuItem.icon}
+                <text className={cx(
+                    classes.segmentIcon,
+                    icons.fa,
+                    icons.faLg
+                )}
+                key={`${segmentNumber}-icon`}
+                x={pIconX} y={pIconY}>
+                    {mapIcon(menuItem.icon).char}
                 </text>
             </g>
         );
@@ -175,7 +182,6 @@ export default class RadialContextMenu extends Component {
                     pos={popup.pos}
                     scale={popup.scale}>
 
-                    {/* draw segments */}
                     {menu.items.map((item, idx, items) =>
                         this.drawSegment(
                             items.length,

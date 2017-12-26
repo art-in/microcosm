@@ -9,6 +9,7 @@ import PointType from 'model/entities/Point';
 
 import getAssociation from 'action/utils/get-association';
 import MenuItem from 'vm/shared/MenuItem';
+import Icon from 'vm/shared/Icon';
 
 /**
  * Handles context menu event from link
@@ -38,7 +39,7 @@ export default function(state, data) {
 
     items.push(
         new MenuItem({
-            icon: 'D',
+            icon: Icon.trash,
             displayValue: 'Remove association',
 
             // prevent removing last incoming association,

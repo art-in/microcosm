@@ -1,5 +1,5 @@
 .root * {
-    transition: transform 0.15s;
+    transition: transform 0.15s, opacity 0.15s;
 }
 
 :export {
@@ -37,18 +37,24 @@
 }
 
 .segment-path {
-    stroke-width: 1;
-    stroke-opacity: 0.5;
-    stroke: gray;
-    fill: lightblue;
-    opacity: 0.2;
+    fill: #2a709b;
+    stroke: white;
+    stroke-width: 1px;
+    stroke-opacity: 0.9;
+    opacity: 0.5;
 }
 
 .segment:not(.disabled):hover .segment-path {
-    opacity: 1;
+    stroke-width: 2px;
+    opacity: 0.9;
 }
 
 .segment-icon {
     fill: white;
     user-select: none;
+    opacity: 0.5;
+}
+
+.segment:not(.disabled):hover .segment-icon {
+    opacity: 1;
 }

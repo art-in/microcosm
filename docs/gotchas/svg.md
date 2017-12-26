@@ -22,4 +22,8 @@
     And if you want to animate that gradient you would need SMIL animation (#2).  
     https://stackoverflow.com/questions/14051351/svg-gradient-using-css
 
+---
+
+4. Pseudo elements `:before` and `:after` are not supported by SVG `text` element.  
+    https://github.com/w3c/svgwg/issues/125
 
