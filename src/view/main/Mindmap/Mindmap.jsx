@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
 
@@ -80,28 +80,31 @@ export default class Mindmap extends Component {
                     </div>}
 
                 {mindmap.isLoaded ?
-                    <Graph graph={mindmap.graph} />
+                    <Fragment>
+                        <Graph graph={mindmap.graph} />
+
+                        <span className={cx(
+                            classes.dbConnectionStateIcon,
+                            icons.fa,
+                            icons.faLg,
+                            this.getDBConnectionStateIcon(
+                                dbServerConnectionIcon.state)
+                        )}
+                        title={dbServerConnectionIcon.tooltip} />
+
+                        <span className={cx(
+                            classes.goRootButton,
+                            icons.fa,
+                            icons.faLg,
+                            icons.faHome
+                        )}
+                        title='Go to root idea (Home)'
+                        onClick={onGoRootButtonClick} />
+
+                        <IdeaSearchBox className={classes.ideaSearchBox}
+                            searchBox={mindmap.ideaSearchBox} />
+                    </Fragment>
                     : null}
-                
-                <span className={cx(
-                    classes.dbConnectionStateIcon,
-                    icons.fa,
-                    icons.faLg,
-                    this.getDBConnectionStateIcon(dbServerConnectionIcon.state)
-                )}
-                title={dbServerConnectionIcon.tooltip} />
-
-                <span className={cx(
-                    classes.goRootButton,
-                    icons.fa,
-                    icons.faLg,
-                    icons.faHome
-                )}
-                title='Go to root idea (Home)'
-                onClick={onGoRootButtonClick} />
-
-                <IdeaSearchBox className={classes.ideaSearchBox}
-                    searchBox={mindmap.ideaSearchBox} />
             </div>
         );
     }
