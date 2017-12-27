@@ -97,7 +97,7 @@ export default class Mindmap extends Component {
                     icons.faLg,
                     icons.faHome
                 )}
-                title='Go to root idea'
+                title='Go to root idea (Home)'
                 onClick={onGoRootButtonClick} />
 
                 <IdeaSearchBox className={classes.ideaSearchBox}

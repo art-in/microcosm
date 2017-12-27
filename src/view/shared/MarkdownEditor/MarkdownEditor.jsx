@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
 import Markdown from 'view/shared/Markdown';
 
@@ -9,6 +10,7 @@ import classes from './MarkdownEditor.css';
 /**
  * @typedef {object} Props
  * @prop {string} [className]
+ * @prop {string} [editButtonClass]
  * @prop {boolean} [editing = false]
  * @prop {string} [placeholder]
  * @prop {string} value
@@ -38,6 +40,7 @@ export default class MarkdownEditor extends Component {
     render() {
         const {
             className,
+            editButtonClass,
             editing,
             value,
             placeholder,
@@ -50,10 +53,14 @@ export default class MarkdownEditor extends Component {
             <div className={cx(classes.root, className)}
                 {...other}>
 
-                <div className={classes.buttonEdit}
-                    onClick={onToggleEdit}>
-                    edit
-                </div>
+                <div className={cx(
+                    classes.buttonEdit,
+                    editButtonClass,
+                    icons.fa,
+                    editing ? icons.faEye : icons.faPencil
+                )}
+                title={editing ? 'Preview' : 'Edit (double click)'}
+                onClick={onToggleEdit} />
 
                 {editing ?
                     <textarea className={classes.textarea}

@@ -45,6 +45,7 @@
 }
 
 .segment:not(.disabled):hover .segment-path {
+    fill: #4897c8;
     stroke-width: 2px;
     opacity: 0.9;
 }

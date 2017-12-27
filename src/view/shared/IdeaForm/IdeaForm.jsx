@@ -11,6 +11,7 @@ import classes from './IdeaForm.css';
 /**
  * @typedef {object} Props
  * @prop {string} [className]
+ * @prop {string} [valueEditButtonClass]
  * @prop {IdeaFormVmType} form
  * 
  * @prop {function()} [onKeyDown]
@@ -43,6 +44,7 @@ export default class IdeaForm extends Component {
     render() {
         const {
             className,
+            valueEditButtonClass,
             form,
             onKeyDown,
             onSave,
@@ -68,6 +70,7 @@ export default class IdeaForm extends Component {
 
                 <div className={classes.body}>
                     <MarkdownEditor className={classes.valueEditor}
+                        editButtonClass={valueEditButtonClass}
                         value={form.value}
                         editing={form.isEditingValue}
                         placeholder='Full description of idea (markdown)'

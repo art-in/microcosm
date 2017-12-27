@@ -42,7 +42,7 @@ export default class IdeaSearchBox extends Component {
                     icons.faLg,
                     icons.faSearch
                 )}
-                title='Search ideas'
+                title='Search ideas (Ctrl+F)'
                 onClick={onTriggerClick} />
 
                 <span className={classes.lookupExpander}>

@@ -26,16 +26,6 @@ import classes from './IdeaFormModal.css';
  */
 export default class IdeaFormModal extends Component {
 
-    onKeyDown = e => {
-
-        if (e.key === 'Escape') {
-            this.props.onClose();
-        }
-
-        // do not propagate key shortcuts to graph (eg. arrows panning)
-        e.stopPropagation();
-    }
-
     render() {
         const {
             className,
@@ -56,7 +46,7 @@ export default class IdeaFormModal extends Component {
                 onClose={onClose}>
 
                 <IdeaForm form={ideaFormModal.form}
-                    onKeyDown={this.onKeyDown}
+                    valueEditButtonClass={classes.valueEditButton}
                     onTitleChange={onTitleChange}
                     onValueChange={onValueChange}
                     onValueToggleEdit={onValueToggleEdit}

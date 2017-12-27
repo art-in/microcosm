@@ -20,4 +20,12 @@
     top: 0;
     right: 0;
     cursor: pointer;
+    color: #adadad;
+
+    /* hide text under button, so button always clearly visible */
+    background-color: white;
+}
+
+.button-edit:hover {
+    color: black;
 }

@@ -3,3 +3,8 @@
 .content {
     max-width: 800px;
 }
+
+.value-edit-button {
+    /* align edit button horizontaly with modal close button */
+    right: -10px;
+}

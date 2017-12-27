@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
 import ModalVmType from 'vm/shared/Modal';
 
@@ -41,13 +42,16 @@ export default class Modal extends Component {
                 
                     <div className={classes.overlay}
                         ref={node => this.overlay = node}
-                        onClick={onClose}>
-                    </div>
+                        onClick={onClose} />
 
                     <div className={cx(classes.content, contentClass)}>
-                        <div className={classes.close}
-                            onClick={onClose}>
-                            close
+                        <div className={cx(
+                            classes.close,
+                            icons.fa,
+                            icons.faClose
+                        )}
+                        title='Close (Esc)'
+                        onClick={onClose}>
                         </div>
 
                         {children}

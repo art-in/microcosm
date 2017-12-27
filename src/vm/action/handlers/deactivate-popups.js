@@ -3,15 +3,15 @@ import view from 'vm/utils/view-mutation';
 
 import StateType from 'boot/client/State';
 
-import deactivateFormModal from 'vm/shared/IdeaFormModal/methods/deactivate';
-
 /**
  * Deactivates all popups
  * 
  * @param {StateType} state
+ * @param {object} data
+ * @param {function} dispatch
  * @return {Patch}
  */
-export default function(state) {
+export default function(state, data, dispatch) {
     const {vm: {main: {mindmap}}} = state;
     const {graph} = mindmap;
     
@@ -38,7 +38,7 @@ export default function(state) {
     }
 
     if (graph.ideaFormModal.modal.active) {
-        patch.push(view('update-idea-form-modal', deactivateFormModal()));
+        dispatch({type: 'on-idea-form-modal-close'});
     }
     
     return patch;
