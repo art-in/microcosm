@@ -12,6 +12,7 @@ import PointType from 'model/entities/Point';
  * 
  * @prop {function()} [onMouseDown]
  * @prop {function()} [onMouseMove]
+ * @prop {function()} [onMouseEnter]
  * @prop {function()} [onMouseLeave]
  * @prop {function()} [onMouseUp]
  * @prop {function()} [onClick]

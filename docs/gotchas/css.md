@@ -31,3 +31,16 @@
 
     http://jsbin.com/mumujof/edit?js,output
 
+---
+
+5. CSS `attr` is not supported to be used inside any CSS property except `content`.  
+    Which blocks passing values from script to CSS rules through custom attributes.  
+    Eg. when view component needs to set view model value to styles (eg. `color`), it needs to set it through inline `style`.  
+    But it will not work for hovering, since hovering cannot be expressed through inline styles but only through CSS.  
+
+    **Workaround**: use CSS custom properties (variables):
+    1. set value of custom prop from script (eg. `el.style.setProperty(--my-color)`),
+    2. use custom prop value in target CSS property (eg. `.el:hover {color: var(--my-color)}`).
+
+
+    

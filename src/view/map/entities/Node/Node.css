@@ -2,12 +2,28 @@
     cursor: pointer;
 }
 
-.circle {}
+.circle {
+    fill: var(--normal-gradient);
+}
+
+.root:not(.shaded):hover .circle {
+    fill: var(--highlight-gradient);
+}
 
 .title {
     font-family: 'montserrat-light', sans-serif;
     font-size: 30px;
+    fill: lightgray;
+    transition: fill 0.15s, text-shadow 0.15s;
+}
+
+.root:not(.shaded):hover .title {
     fill: white;
+
+    /* set multiple shadows to make it darker */
+    text-shadow:
+        0px 0px 20px black,
+        0px 0px 40px black;
 }
 
 .root.shaded .circle {

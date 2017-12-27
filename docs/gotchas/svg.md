@@ -27,3 +27,12 @@
 4. Pseudo elements `:before` and `:after` are not supported by SVG `text` element.  
     https://github.com/w3c/svgwg/issues/125
 
+---
+
+5. CSS `box-shadow` does not work for SVG elements.  
+    Drop shadow for SVG elements can be implemented with SVG `filter` element.  
+    From my research (Chrome v63, FF v57), when setting filter over circle scaled to full screen - 
+    browser starts behave very slow (very long `Compose Layers` phase of painting).  
+    https://stackoverflow.com/questions/6088409/svg-drop-shadow-using-css3
+
+    **Workaround**: use CSS `text-shadow` which works for SVG `text`, and gradients with transparency for other primitives.  

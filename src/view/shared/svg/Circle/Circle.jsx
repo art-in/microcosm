@@ -5,6 +5,7 @@ import PointType from 'model/entities/Point';
 /**
  * @typedef {object} Props
  * @prop {string} [className]
+ * @prop {object} [style]
  * @prop {PointType} [pos]
  * @prop {number} radius
  * @prop {string} [fill]

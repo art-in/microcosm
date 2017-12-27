@@ -224,6 +224,10 @@ export default class Link extends Component {
                 }
 
                 {/* TODO: delay showing tooltip for a bit of second */}
+                {/* 
+                    Q: why using custom tooltip instead of standard 'title'?
+                    A: custom tooltip allows to use custom colors inside
+                */}
                 {tooltip.visible ?
                     <Portal rootId={popupContainerId}>
                         <Tooltip className={classes.tooltip}
@@ -237,12 +241,12 @@ export default class Link extends Component {
                     : null
                 }
 
-                {
-                    // Q: why not keep styling things like gradients in css?
-                    // A: gradients for svg elements cannot be defined in css.
-                    //    unfortunately structure should be mixed up with styles
-                    //    this time
-                }
+                {/*
+                    Q: why not keep styling things like gradients in css?
+                    A: gradients for svg elements cannot be defined in css.
+                       unfortunately structure should be mixed up with styles
+                       this time
+                */}
                 <defs>
                     <linearGradient id={gradientId}
                         gradientTransform={`rotate(${angleDeg})`}

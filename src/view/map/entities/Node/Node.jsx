@@ -96,7 +96,8 @@ export default class Node extends Component {
             node
         } = this.props;
 
-        const gradientId = `node-gradient-${node.id}`;
+        const normalGradientId = `node-gradient-${node.id}`;
+        const highlightGradientId = `${normalGradientId}-highlight`;
 
         return (
             <Group
@@ -113,7 +114,10 @@ export default class Node extends Component {
 
                 <Circle className={classes.circle}
                     radius={node.radius}
-                    fill={`url(#${gradientId})`}/>
+                    style={{
+                        '--normal-gradient': `url(#${normalGradientId})`,
+                        '--highlight-gradient': `url(#${highlightGradientId})`
+                    }} />
 
                 {
                     node.title.visible ?
@@ -125,9 +129,14 @@ export default class Node extends Component {
                 }
 
                 <defs>
-                    <radialGradient id={gradientId}>
+                    <radialGradient id={normalGradientId}>
                         <stop offset='10%' stopColor={node.color} />
-                        <stop offset='95%' stopColor={node.color}
+                        <stop offset='100%' stopColor={node.color}
+                            stopOpacity='0' />
+                    </radialGradient>
+                    <radialGradient id={highlightGradientId}>
+                        <stop offset='70%' stopColor={node.color} />
+                        <stop offset='100%' stopColor={node.color}
                             stopOpacity='0' />
                     </radialGradient>
                 </defs>

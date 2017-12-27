@@ -15,6 +15,10 @@ export default function updateNode(state, data) {
 
     updateViewModel(node, data);
 
-    node.edgesIn.forEach(link => link.isDirty = true);
-    node.edgesOut.forEach(link => link.isDirty = true);
+    if (data.posAbs) {
+        // mark related edges as dirty if changing node position,
+        // since links positions depend on node position
+        node.edgesIn.forEach(link => link.isDirty = true);
+        node.edgesOut.forEach(link => link.isDirty = true);
+    }
 }
