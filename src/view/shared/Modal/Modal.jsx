@@ -7,6 +7,7 @@ import ModalVmType from 'vm/shared/Modal';
 
 import classes from './Modal.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]
@@ -18,6 +19,15 @@ import classes from './Modal.css';
  * @extends {Component<Props>}
  */
 export default class Modal extends Component {
+
+    onBackingClick = e => {
+
+        // backing is parent element for modal, so clicks from modal will also
+        // bubble up, but we want to close only by clicks on backing itself
+        if (e.target === this.backing) {
+            this.props.onClose();
+        }
+    }
 
     render() {
         const {
@@ -38,12 +48,10 @@ export default class Modal extends Component {
                 unmountOnExit={true}
                 classNames={classes.transition}>
 
-                <div className={cx(classes.root, className)}>
+                <div className={cx(classes.root, className)}
+                    ref={node => this.backing = node}
+                    onClick={this.onBackingClick}>
                 
-                    <div className={classes.overlay}
-                        ref={node => this.overlay = node}
-                        onClick={onClose} />
-
                     <div className={cx(classes.content, contentClass)}>
                         <div className={cx(
                             classes.close,
