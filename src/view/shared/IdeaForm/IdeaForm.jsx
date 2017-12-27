@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 
+import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
+
 import IdeaFormVmType from 'vm/shared/IdeaForm';
 import MarkdownEditor from 'view/shared/MarkdownEditor';
 import Button from 'view/shared/Button';
@@ -64,6 +66,7 @@ export default class IdeaForm extends Component {
                             [classes.titleInputInvalid]: !form.isTitleValid
                         })}
                         value={form.title || ''}
+                        maxLength={IDEA_TITLE_MAX_LENGTH}
                         ref={el => this.input = el}
                         onChange={this.onTitleChange} />
                 </div>

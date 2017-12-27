@@ -13,7 +13,7 @@ export default function ideaToNode(idea) {
 
     node.id = idea.id;
     
-    node.title.value = idea.title && idea.title.slice(0, 15);
+    node.title.value = idea.title;
 
     node.isRoot = idea.isRoot;
     node.color = idea.color;

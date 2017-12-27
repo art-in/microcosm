@@ -329,7 +329,7 @@ describe('create-idea', () => {
             `Idea 'not exist' was not found in mindmap`);
     });
 
-    it('should fail if idea title is invalid', () => {
+    it('should fail if idea title is empty', () => {
 
         // setup
         const ideaA = new Idea({
@@ -357,6 +357,37 @@ describe('create-idea', () => {
 
         // check
         expect(target).to.throw(`Invalid idea title ' '`);
+    });
+
+    it('should fail if idea title is too long', () => {
+        
+        // setup
+        const ideaA = new Idea({
+            id: 'A',
+            posRel: new Point({x: 0, y: 0}),
+            posAbs: new Point({x: 0, y: 0}),
+            edgesToChilds: [],
+            rootPathWeight: 0
+        });
+
+        const mindmap = new Mindmap({id: 'm'});
+        mindmap.ideas.set(ideaA.id, ideaA);
+
+        const state = {model: {mindmap}};
+
+        // target
+        const result = () => handle(state, {
+            type: 'create-idea',
+            data: {
+                parentIdeaId: 'A',
+                title: 'title'.padStart(51, 'long'),
+                value: 'value test'
+            }
+        });
+
+        // check
+        expect(result).to.throw(
+            `Invalid idea title '${'title'.padStart(51, 'long')}'`);
     });
 
 });

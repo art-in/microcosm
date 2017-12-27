@@ -4,6 +4,7 @@ import Patch from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import getIdea from 'action/utils/get-idea';
+import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
 
 /**
  * Sets title and value to existing idea
@@ -27,9 +28,13 @@ export default function setIdeaTitleAndValue(state, data) {
         return;
     }
 
+    if (!isValidIdeaTitle(title)) {
+        throw Error(`Invalid idea title '${title}'`);
+    }
+
     return new Patch('update-idea', {
         id: ideaId,
-        title,
+        title: title.trim(),
         value
     });
 }

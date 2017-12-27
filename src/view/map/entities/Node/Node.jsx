@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 
+import truncateWithEllipsis from 'utils/truncate-string-with-ellipsis';
+
 import Point from 'model/entities/Point';
 import NodeVmType from 'vm/map/entities/Node';
 
@@ -12,6 +14,7 @@ import NodeDebug from '../NodeDebug';
 
 import classes from './Node.css';
 
+const NODE_TITLE_MAX_LENGTH = 30;
 const TEXT_AREA_POS = new Point({x: 0, y: -10});
 
 // eslint-disable-next-line valid-jsdoc
@@ -99,6 +102,10 @@ export default class Node extends Component {
         const normalGradientId = `node-gradient-${node.id}`;
         const highlightGradientId = `${normalGradientId}-highlight`;
 
+        const title = truncateWithEllipsis(
+            node.title.value,
+            NODE_TITLE_MAX_LENGTH);
+
         return (
             <Group
                 className={cx(
@@ -122,10 +129,17 @@ export default class Node extends Component {
                 {
                     node.title.visible ?
                         <Text className={classes.title}
-                            text={node.title.value}
+                            text={title}
                             align='middle'
                             pos={TEXT_AREA_POS} />
                         : null
+                }
+                
+                {
+                    // show tooltip with full title if node title was truncated
+                    node.title.visible &&
+                    (node.title.value.length > NODE_TITLE_MAX_LENGTH) ?
+                        <title>{node.title.value}</title> : null
                 }
 
                 <defs>

@@ -38,6 +38,7 @@ export default function(state, data, dispatch) {
         break;
     
     // TODO: zoom on PageUp/PageDown
+    // TODO: save form with Ctrl+Enter
 
     case 'KeyF':
         // allow default browser search box only in case idea form opened,

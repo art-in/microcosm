@@ -53,6 +53,9 @@
     right: 10px;
     cursor: pointer;
     color: #adadad;
+
+    /* hide text under button, so button always clearly visible */
+    background-color: white;
 }
 
 .close:hover {

@@ -1,8 +1,7 @@
+export const IDEA_TITLE_MAX_LENGTH = 50;
+
 /**
  * Checks whether idea title is valid
- * 
- * TODO: set top limit for idea title length
- * TODO: validate for spaces only
  * 
  * @param {string} title 
  * @return {boolean}
@@ -13,5 +12,8 @@ export default function isValidIdeaTitle(title) {
         return false;
     }
 
-    return title.trim().length > 0;
+    const trimmed = title.trim();
+
+    return trimmed.length > 0 &&
+        trimmed.length <= IDEA_TITLE_MAX_LENGTH;
 }
