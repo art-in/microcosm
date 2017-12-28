@@ -10,8 +10,8 @@ import LinkType from 'vm/map/entities/Link';
  * @param {Partial<LinkType>} data
  */
 export default function updateLink(state, data) {
-    const {graph} = state.vm.main.mindset;
-    const link = graph.links.find(l => l.id === data.id);
+    const {mindmap} = state.vm.main.mindset;
+    const link = mindmap.links.find(l => l.id === data.id);
 
     updateViewModel(link, data);
 }

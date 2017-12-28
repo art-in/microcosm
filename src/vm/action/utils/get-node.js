@@ -1,19 +1,19 @@
-import GraphType from 'vm/map/entities/Graph';
+import MindmapType from 'vm/map/entities/Mindmap';
 import NodeType from 'vm/map/entities/Node';
 
 /**
  * Gets node by ID
  *
- * @param {GraphType} graph
+ * @param {MindmapType} mindmap
  * @param {string} nodeId
  * @return {NodeType}
  */
-export default function getNode(graph, nodeId) {
+export default function getNode(mindmap, nodeId) {
     
-    const node = graph.nodes.find(n => n.id === nodeId);
+    const node = mindmap.nodes.find(n => n.id === nodeId);
 
     if (!node) {
-        throw Error(`Node with ID '${nodeId}' not found in graph`);
+        throw Error(`Node with ID '${nodeId}' not found in mindmap`);
     }
 
     return node;

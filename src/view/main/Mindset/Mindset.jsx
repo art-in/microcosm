@@ -5,7 +5,7 @@ import icons from 'font-awesome/css/font-awesome.css';
 import MindsetType from 'vm/main/Mindset';
 import ConnectionState from 'action/utils/ConnectionState';
 
-import Graph from 'view/map/entities/Graph';
+import Mindmap from 'view/map/entities/Mindmap';
 import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 
 import classes from './Mindset.css';
@@ -81,7 +81,7 @@ export default class Mindset extends Component {
 
                 {mindset.isLoaded ?
                     <Fragment>
-                        <Graph graph={mindset.graph} />
+                        <Mindmap mindmap={mindset.mindmap} />
 
                         <span className={cx(
                             classes.dbConnectionStateIcon,

@@ -17,10 +17,10 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {code, preventDefault} = required(data);
 
-    const lookup = graph.associationTailsLookup.lookup;
+    const lookup = mindmap.associationTailsLookup.lookup;
 
     return view('update-association-tails-lookup', {
         lookup: onKeyDown({

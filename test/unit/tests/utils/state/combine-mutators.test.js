@@ -137,7 +137,7 @@ describe('combine-mutators', () => {
     it('should mutate viewmodel layer', async () => {
         
         const {vm} = state;
-        const nodeA = vm.main.mindset.graph.root;
+        const nodeA = vm.main.mindset.mindmap.root;
 
         expect(nodeA.edgesIn).to.have.length(0);
         expect(nodeA.edgesOut).to.have.length(1);

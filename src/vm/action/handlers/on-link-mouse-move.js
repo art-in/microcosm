@@ -19,10 +19,10 @@ import getDistance from 'utils/get-distance-between-points';
  * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {linkId, viewportPos} = required(data);
     
-    const link = graph.links.find(l => l.id === linkId);
+    const link = mindmap.links.find(l => l.id === linkId);
 
     if (link.shaded) {
         // do not highlight shaded links.
@@ -35,7 +35,7 @@ export default function onLinkMouseMove(state, data) {
     const headPos = head.posAbs;
     const tailPos = tail.posAbs;
 
-    const mousePos = toCanvasCoords(viewportPos, graph.viewbox);
+    const mousePos = toCanvasCoords(viewportPos, mindmap.viewbox);
 
     // shift tooltip below mouse cursor
     viewportPos.x += 15;

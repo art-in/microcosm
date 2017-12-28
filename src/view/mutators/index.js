@@ -29,7 +29,7 @@ export default function mutate(state, patch) {
 function apply(state, mutation) {
 
     const {mindset} = state.vm.main;
-    const {graph} = mindset;
+    const {mindmap} = mindset;
     
     const {data} = mutation;
 
@@ -56,7 +56,7 @@ function apply(state, mutation) {
         state.vm.main.mindset.emitChange();
         break;
 
-    case 'update-graph':
+    case 'update-mindmap':
     case 'update-mindset':
     case 'add-association':
     case 'add-idea':
@@ -65,25 +65,25 @@ function apply(state, mutation) {
     case 'update-idea':
     case 'update-association':
     case 'update-node': // TODO: update only node and related links
-        graph.emitChange();
+        mindmap.emitChange();
         break;
     
     case 'update-link': {
-        const link = graph.links.find(l => l.id === data.id);
+        const link = mindmap.links.find(l => l.id === data.id);
         link.emitChange();
         break;
     }
 
     case 'update-association-tails-lookup':
-        graph.associationTailsLookup.emitChange();
+        mindmap.associationTailsLookup.emitChange();
         break;
 
     case 'update-color-picker':
-        graph.colorPicker.emitChange();
+        mindmap.colorPicker.emitChange();
         break;
 
     case 'update-context-menu':
-        graph.contextMenu.emitChange();
+        mindmap.contextMenu.emitChange();
         break;
 
     case 'update-idea-search-box':
@@ -91,7 +91,7 @@ function apply(state, mutation) {
         break;
 
     case 'update-idea-form-modal':
-        graph.ideaFormModal.emitChange();
+        mindmap.ideaFormModal.emitChange();
         break;
 
     default: throw Error(`Unknown view mutation '${mutation.type}'`);

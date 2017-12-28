@@ -15,10 +15,10 @@ import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
  * @return {PatchType}
  */
 export default function(state, data) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {value} = required(data);
 
-    const {form} = graph.ideaFormModal;
+    const {form} = mindmap.ideaFormModal;
 
     const isTitleValid = isValidIdeaTitle(form.title);
 

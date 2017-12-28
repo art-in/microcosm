@@ -18,7 +18,7 @@ import weighRootPaths from 'utils/graph/weigh-root-paths';
 import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import view from 'vm/utils/view-patch';
 
-import toGraph from 'vm/map/mappers/mindset-to-graph';
+import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 
 export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
@@ -97,7 +97,7 @@ export default async function loadMindset(state, data, dispatch) {
     ideas.forEach(i => mindset.ideas.set(i.id, i));
 
     // init view model
-    const graph = toGraph(mindset);
+    const mindmap = toMindmap(mindset);
 
     return new Patch({
         type: 'init-mindset',
@@ -113,7 +113,7 @@ export default async function loadMindset(state, data, dispatch) {
             vm: {
                 mindset: {
                     isLoaded: true,
-                    graph
+                    mindmap
                 }
             }
         }

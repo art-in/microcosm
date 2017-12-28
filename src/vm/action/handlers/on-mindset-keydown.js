@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 
 import StateType from 'boot/client/State';
 
-import GraphType from 'vm/map/entities/Graph';
+import MindmapType from 'vm/map/entities/Mindmap';
 import Point from 'model/entities/Point';
 
 /**
@@ -17,13 +17,13 @@ import Point from 'model/entities/Point';
  */
 export default function(state, data, dispatch) {
     const {vm: {main: {mindset}}} = state;
-    const {graph} = mindset;
+    const {mindmap} = mindset;
     const {code, ctrlKey, preventDefault} = required(data);
     
     const isPopupActive =
-        graph.associationTailsLookup.active ||
+        mindmap.associationTailsLookup.active ||
         mindset.ideaSearchBox.active ||
-        graph.ideaFormModal.modal.active;
+        mindmap.ideaFormModal.modal.active;
 
     switch (code) {
 
@@ -36,7 +36,7 @@ export default function(state, data, dispatch) {
     case 'ArrowLeft':
     case 'ArrowRight':
         if (!isPopupActive) {
-            onMindsetPan({code, graph, dispatch});
+            onMindmapPan({code, mindmap, dispatch});
         }
         break;
     
@@ -44,13 +44,13 @@ export default function(state, data, dispatch) {
     case 'PageDown':
         if (!isPopupActive) {
             dispatch({
-                type: 'animate-graph-zoom',
+                type: 'animate-mindmap-zoom',
                 data: {
                     up: code === 'PageUp' ? true : false,
                     // zoom into center of viewport
                     pos: new Point({
-                        x: graph.viewport.width / 2,
-                        y: graph.viewport.height / 2
+                        x: mindmap.viewport.width / 2,
+                        y: mindmap.viewport.height / 2
                     })
                 }
             });
@@ -58,15 +58,15 @@ export default function(state, data, dispatch) {
         break;
 
     case 'Enter':
-        if (ctrlKey && graph.ideaFormModal.modal.active) {
+        if (ctrlKey && mindmap.ideaFormModal.modal.active) {
             dispatch({type: 'on-idea-form-modal-save'});
         }
         break;
     
     case 'KeyF':
-        // allow default browser search box only in case idea form opened,
-        // to search on idea contents, otherwise if graph shown default search
-        // will not be effective - use custom search box for searching ideas
+        // allow default browser search box only in case idea form opened
+        // to search on idea contents, otherwise if mindmap shown, default
+        // search will not be effective - use custom box for searching ideas
         if (!isPopupActive && ctrlKey) {
             dispatch({type: 'activate-idea-search-box'});
             preventDefault();
@@ -89,19 +89,19 @@ export default function(state, data, dispatch) {
  * 
  * @param {object} opts
  * @param {string} opts.code
- * @param {GraphType} opts.graph
+ * @param {MindmapType} opts.mindmap
  * @param {function} opts.dispatch
  */
-function onMindsetPan(opts) {
-    const {code, graph, dispatch} = opts;
+function onMindmapPan(opts) {
+    const {code, mindmap, dispatch} = opts;
 
     let panKeyStep = 20;
     
-    panKeyStep /= graph.viewbox.scale;
+    panKeyStep /= mindmap.viewbox.scale;
 
     const pos = new Point({
-        x: graph.viewbox.x,
-        y: graph.viewbox.y
+        x: mindmap.viewbox.x,
+        y: mindmap.viewbox.y
     });
 
     switch (code) {
@@ -122,7 +122,7 @@ function onMindsetPan(opts) {
     dispatch({
         type: 'set-mindset-position-and-scale',
         data: {
-            mindsetId: graph.id,
+            mindsetId: mindmap.id,
             pos
         }
     });

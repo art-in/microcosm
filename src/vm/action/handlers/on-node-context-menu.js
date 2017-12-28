@@ -19,17 +19,17 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {nodeId} = required(data);
 
-    const node = graph.nodes.find(n => n.id === nodeId);
+    const node = mindmap.nodes.find(n => n.id === nodeId);
 
     if (node.shaded) {
         // prevent actions on shaded nodes
         return;
     }
 
-    const viewportPos = toViewportCoords(node.posAbs, graph.viewbox);
+    const viewportPos = toViewportCoords(node.posAbs, mindmap.viewbox);
 
     const items = [];
 
@@ -78,7 +78,7 @@ export default function(state, data) {
         popup: {
             active: true,
             pos: node.posAbs,
-            scale: 1 / graph.viewbox.scale
+            scale: 1 / mindmap.viewbox.scale
         },
         menu: {
             items

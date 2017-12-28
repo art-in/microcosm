@@ -139,9 +139,9 @@ export default class Link extends Component {
             // only initiate click event on link when it is a clean click,
             // ie. after mouse is down - it is not moved there. otherwise
             // consider mouse-up as part of some other action on parent.
-            // (eg. when panning graph, mouse can be downed on link instead of
-            // graph itself, after pan is done subsequent mouse-up should not
-            // be considered as click on the link, but as end of graph panning)
+            // (eg. when panning mindmap, mouse can be downed on link instead of
+            // mindmap itself, after pan is done subsequent mouse-up should not
+            // be considered as click on link, but as end of mindmap panning)
             this.mouseMovedAfterMouseDown = false;
             return;
         }
@@ -156,7 +156,7 @@ export default class Link extends Component {
     }
 
     onClick = e => {
-        // do not propagate click to graph to not disable idea form modal
+        // do not propagate click to mindmap to not disable idea form modal
         e.stopPropagation();
     }
 

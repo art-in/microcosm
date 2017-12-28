@@ -1,5 +1,5 @@
 describe('entities', () => {
 
-    require('./Graph');
+    require('./Mindmap');
 
 });

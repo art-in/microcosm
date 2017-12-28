@@ -11,7 +11,7 @@ export default function(state, data, dispatch) {
     const {model: {mindset: {root}}} = state;
 
     dispatch({
-        type: 'animate-graph-viewbox-to-idea',
+        type: 'animate-mindmap-viewbox-to-idea',
         data: {ideaId: root.id}
     });
 }

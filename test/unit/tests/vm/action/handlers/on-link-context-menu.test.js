@@ -27,7 +27,7 @@ describe('on-link-context-menu', () => {
         state.model.mindset = mindset;
 
         const link = new Link({id: assoc.id});
-        state.vm.main.mindset.graph.links.push(link);
+        state.vm.main.mindset.mindmap.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -64,9 +64,9 @@ describe('on-link-context-menu', () => {
         state.model.mindset = mindset;
 
         const link = new Link({id: assoc.id});
-        state.vm.main.mindset.graph.links.push(link);
+        state.vm.main.mindset.mindmap.links.push(link);
 
-        const {viewbox} = state.vm.main.mindset.graph;
+        const {viewbox} = state.vm.main.mindset.mindmap;
         viewbox.x = 0;
         viewbox.y = 0;
         viewbox.scale = 1;
@@ -101,7 +101,7 @@ describe('on-link-context-menu', () => {
         state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id, shaded: true});
-        state.vm.main.mindset.graph.links.push(link);
+        state.vm.main.mindset.mindmap.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -129,7 +129,7 @@ describe('on-link-context-menu', () => {
         state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id});
-        state.vm.main.mindset.graph.links.push(link);
+        state.vm.main.mindset.mindmap.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -162,7 +162,7 @@ describe('on-link-context-menu', () => {
         state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id});
-        state.vm.main.mindset.graph.links.push(link);
+        state.vm.main.mindset.mindmap.links.push(link);
 
         // target
         const patch = handle(state, {

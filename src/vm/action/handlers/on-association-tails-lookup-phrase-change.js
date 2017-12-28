@@ -16,10 +16,10 @@ import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {phrase} = required(data);
 
-    const lookup = graph.associationTailsLookup.lookup;
+    const lookup = mindmap.associationTailsLookup.lookup;
 
     return view('update-association-tails-lookup', {
         lookup: onPhraseChange({

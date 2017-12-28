@@ -8,14 +8,14 @@ import Mutation from 'utils/state/Mutation';
  * // before
  * const patch = new Patch();
  * patch.push({
- *      type: 'update-graph',
+ *      type: 'update-mindmap',
  *      data: {viewbox},
  *      targets: ['vm', 'view']
  * });
  * 
  * // after
  * const patch = new Patch();
- * patch.push(view('update-graph', {viewbox}))
+ * patch.push(view('update-mindmap', {viewbox}))
  * 
  * @param {string} mutationType
  * @param {object} [mutationData]

@@ -1,5 +1,5 @@
-Logic for presenting mindset as geo-like map:
-graph of ideas mapped to 2D space (map), with ability to zoom.  
+Logic for presenting Mindset as a mindmap - graph of nodes and links
+drawn on 2D space with ability to zoom (geo-like map)
 
 Each node has its own 2D coordinates on the map.  
 Node size is defined by its root path weight (RPW) in the graph.  

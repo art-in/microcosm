@@ -20,7 +20,7 @@ export default connect(
         }),
 
         onMouseDown: ({button}) => dispatch({
-            type: 'on-graph-node-mouse-down',
+            type: 'on-mindmap-node-mouse-down',
             data: {
                 nodeId: props.node.id,
                 button

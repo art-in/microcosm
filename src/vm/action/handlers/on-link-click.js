@@ -17,10 +17,10 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     const {linkId, viewportPos} = required(data);
  
-    const link = graph.links.find(l => l.id === linkId);
+    const link = mindmap.links.find(l => l.id === linkId);
 
     if (link.shaded) {
         // do not handle clicks from shaded links.
@@ -33,7 +33,7 @@ export default function(state, data, dispatch) {
     const headPos = head.posAbs;
     const tailPos = tail.posAbs;
 
-    const mousePos = toCanvasCoords(viewportPos, graph.viewbox);
+    const mousePos = toCanvasCoords(viewportPos, mindmap.viewbox);
 
     // get target node to animate to
     let node;
@@ -44,7 +44,7 @@ export default function(state, data, dispatch) {
     }
 
     dispatch({
-        type: 'animate-graph-viewbox-to-idea',
+        type: 'animate-mindmap-viewbox-to-idea',
         data: {ideaId: node.id}
     });
 }

@@ -7,7 +7,7 @@ import PointType from './Point';
 
 /**
  * Mindset model.
- * Represents collection of ideas linked through associations.
+ * Represents collection of ideas linked through associations forming graph.
  */
 export default class Mindset {
 

@@ -21,17 +21,17 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-    const {model: {mindset}, vm: {main: {mindset: {graph}}}} = state;
+    const {model: {mindset}, vm: {main: {mindset: {mindmap}}}} = state;
     const {viewportPos, linkId} = required(data);
 
-    const link = graph.links.find(l => l.id === linkId);
+    const link = mindmap.links.find(l => l.id === linkId);
 
     if (link.shaded) {
         // prevent actions on shaded links
         return;
     }
 
-    const canvasPos = toCanvasCoords(viewportPos, graph.viewbox);
+    const canvasPos = toCanvasCoords(viewportPos, mindmap.viewbox);
 
     const assoc = getAssociation(mindset, linkId);
 
@@ -55,7 +55,7 @@ export default function(state, data) {
         popup: {
             active: true,
             pos: canvasPos,
-            scale: 1 / graph.viewbox.scale
+            scale: 1 / mindmap.viewbox.scale
         },
         menu: {
             items

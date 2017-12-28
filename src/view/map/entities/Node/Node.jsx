@@ -83,7 +83,7 @@ export default class Node extends Component {
     }
 
     onClick = e => {
-        // do not propagate click to graph to not disable idea form modal
+        // do not propagate click to mindmap to not disable idea form modal
         e.stopPropagation();
     }
 

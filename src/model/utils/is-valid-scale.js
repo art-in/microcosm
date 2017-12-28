@@ -1,7 +1,7 @@
 /**
  * Checks whether scale is valid
  * 
- * @param {number} scale - graph viewbox or node scale
+ * @param {number} scale - mindmap viewbox scale or node scale
  * @return {boolean}
  */
 export default function isValidScale(scale) {

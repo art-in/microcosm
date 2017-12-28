@@ -1,4 +1,4 @@
-import isValidPathWeight from 'utils/graph//is-valid-path-weight';
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
 import IVertexType from 'utils/graph/interfaces/IVertex';
 import IEdgeType from 'utils/graph/interfaces/IEdge';

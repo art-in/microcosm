@@ -26,7 +26,7 @@ export default function(state, data, dispatch) {
     });
 
     dispatch({
-        type: 'animate-graph-viewbox-to-idea',
+        type: 'animate-mindmap-viewbox-to-idea',
         data: {ideaId: suggestion.data.ideaId}
     });
 

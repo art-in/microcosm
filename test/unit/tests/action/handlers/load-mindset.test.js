@@ -13,7 +13,7 @@ import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Point from 'src/model/entities/Point';
 
-import Graph from 'src/vm/map/entities/Graph';
+import Mindmap from 'src/vm/map/entities/Mindmap';
 
 import * as ideaDbApi from 'src/data/db/ideas';
 import * as assocDbApi from 'src/data/db/associations';
@@ -424,11 +424,11 @@ describe('load-mindset', () => {
 
         expect(mutationData.vm.mindset.isLoaded).to.equal(true);
     
-        const {graph} = mutationData.vm.mindset;
+        const {mindmap} = mutationData.vm.mindset;
 
-        expect(graph).to.be.instanceOf(Graph);
-        expect(graph.nodes).to.have.length(2);
-        expect(graph.links).to.have.length(1);
+        expect(mindmap).to.be.instanceOf(Mindmap);
+        expect(mindmap.nodes).to.have.length(2);
+        expect(mindmap.links).to.have.length(1);
     });
 
     it('should replicate server databases on first visit', async () => {

@@ -1,1 +1,1 @@
-Contains low-level SVG primitives - building blocks for graph picture
+Contains low-level SVG primitives - building blocks for mindmap picture

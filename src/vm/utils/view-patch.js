@@ -7,13 +7,13 @@ import Patch from 'utils/state/Patch';
  * @example
  * // before
  * return new Patch({
- *      type: 'update-graph',
+ *      type: 'update-mindmap',
  *      data: {viewbox},
  *      targets: ['vm', 'view']
  * });
  * 
  * // after
- * return view('update-graph', {viewbox});
+ * return view('update-mindmap', {viewbox});
  * 
  * @param {string} mutationType
  * @param {object} [mutationData]

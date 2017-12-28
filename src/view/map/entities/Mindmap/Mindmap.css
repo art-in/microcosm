@@ -1,0 +1,17 @@
+.root {
+
+    height: 100%;
+
+    /* Context menus are positioned relatively to Mindset container.
+    Mindmap sends right-click positions relative to its container.
+    To avoid menus shift - Mindmap and Mindset should equal at top-left,
+    otherwise wrap Mindmap and context menus in separate container. */
+    position: relative;
+
+    background-image: radial-gradient(#0F5B97 0%, #031020 100%);
+}
+
+.svg {
+    width: 100%;
+    height: 100%;
+}

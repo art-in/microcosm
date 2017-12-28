@@ -1,7 +1,7 @@
 describe('vm', () => {
 
-    require('./animate-graph-viewbox-to-idea.test');
-    require('./animate-graph-zoom.test');
+    require('./animate-mindmap-viewbox-to-idea.test');
+    require('./animate-mindmap-zoom.test');
     require('./on-db-server-connection-state-change.test');
     require('./on-idea-color-selected.test');
     require('./on-link-context-menu.test');

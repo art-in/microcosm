@@ -1,6 +1,6 @@
 import initProps from 'utils/init-props';
 
-import GraphVmType from 'vm/map/entities/Graph';
+import MindmapVmType from 'vm/map/entities/Mindmap';
 import ViewModel from 'vm/utils/ViewModel';
 import IdeaSearchBox from 'vm/shared/IdeaSearchBox';
 
@@ -27,11 +27,11 @@ export default class Mindset extends ViewModel {
     isLoadFailed = false;
 
     /**
-     * Graph view model.  
+     * Mindmap view model.  
      * Note: only available when mindset is loaded.
-     * @type {GraphVmType|undefined}
+     * @type {MindmapVmType|undefined}
      */
-    graph = undefined;
+    mindmap = undefined;
 
     /**
      * Icon indicating state of connection to database server

@@ -15,9 +15,9 @@ const CONFIRM_MESSAGE =
  * @return {PatchType}
  */
 export default function(state) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
     
-    const {form} = graph.ideaFormModal;
+    const {form} = mindmap.ideaFormModal;
 
     // consider saveable flag on as unsaved changes
     // TODO: confirm on window close too

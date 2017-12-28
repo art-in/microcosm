@@ -14,9 +14,9 @@ import normalizePatch from 'action/utils/normalize-patch';
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset: {graph}}}} = state;
+    const {vm: {main: {mindset: {mindmap}}}} = state;
 
-    const {form} = graph.ideaFormModal;
+    const {form} = mindmap.ideaFormModal;
 
     if (!form.isSaveable) {
         // do not save if there was no changes
@@ -43,7 +43,7 @@ export default function(state, data, dispatch) {
         });
 
         dispatch({
-            type: 'animate-graph-viewbox-to-idea',
+            type: 'animate-mindmap-viewbox-to-idea',
             data: {ideaId}
         });
 
