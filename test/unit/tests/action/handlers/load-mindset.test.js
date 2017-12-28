@@ -8,7 +8,7 @@ import update from 'src/utils/update-object';
 import deleteIndexedDB from 'src/data/utils/delete-indexed-db';
 
 import State from 'src/boot/client/State';
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Point from 'src/model/entities/Point';
@@ -17,19 +17,19 @@ import Graph from 'src/vm/map/entities/Graph';
 
 import * as ideaDbApi from 'src/data/db/ideas';
 import * as assocDbApi from 'src/data/db/associations';
-import * as mindmapDbApi from 'src/data/db/mindmaps';
+import * as mindsetDbApi from 'src/data/db/mindsets';
 
 import {
     STORAGE_KEY_DB_SERVER_URL,
     RELOAD_DEBOUNCE_TIME
-} from 'action/handlers/load-mindmap';
+} from 'action/handlers/load-mindset';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
 const POUCH_PREFIX = '_pouch_';
 
-describe('load-mindmap', () => {
+describe('load-mindset', () => {
 
     async function cleanSideEffects() {
 
@@ -38,11 +38,11 @@ describe('load-mindmap', () => {
 
         // indexed databases
         const databaseNames = [
-            `mindmaps`,
+            `mindsets`,
             'ideas',
             'associations',
 
-            'TEST_DB_SERVER/mindmaps',
+            'TEST_DB_SERVER/mindsets',
             'TEST_DB_SERVER/ideas',
             'TEST_DB_SERVER/associations'
         ];
@@ -61,7 +61,7 @@ describe('load-mindmap', () => {
         await cleanSideEffects();
     });
 
-    it('should init mindmap databases', async () => {
+    it('should init mindset databases', async () => {
 
         // setup
         const state = new State();
@@ -71,19 +71,19 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
         
         expect(mutationData.data.ideas).to.be.instanceOf(PouchDB);
         expect(mutationData.data.associations).to.be.instanceOf(PouchDB);
-        expect(mutationData.data.mindmaps).to.be.instanceOf(PouchDB);
+        expect(mutationData.data.mindsets).to.be.instanceOf(PouchDB);
     });
 
     it('should save url of database server', async () => {
@@ -96,7 +96,7 @@ describe('load-mindmap', () => {
 
         // target
         await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
@@ -105,30 +105,30 @@ describe('load-mindmap', () => {
         expect(res).to.equal('TEST_DB_SERVER');
     });
 
-    it('should NOT reinit mindmap databases on reloads', async () => {
+    it('should NOT reinit mindset databases on reloads', async () => {
         
         // setup
         const ideasDB = createDB();
         const assocsDB = createDB();
-        const mindmapsDB = createDB();
+        const mindsetsDB = createDB();
 
         const state = new State();
         update(state.data, {
             dbServerUrl: 'TEST_DB_SERVER',
             ideas: ideasDB,
             associations: assocsDB,
-            mindmaps: mindmapsDB
+            mindsets: mindsetsDB
         });
 
-        await mindmapDbApi.add(mindmapsDB, new Mindmap({
-            id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsDB, new Mindset({
+            id: 'mindset id',
             scale: 1
         }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -137,22 +137,22 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: false}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
         
         expect(mutationData.data.ideas).to.equal(ideasDB);
         expect(mutationData.data.associations).to.equal(assocsDB);
-        expect(mutationData.data.mindmaps).to.equal(mindmapsDB);
+        expect(mutationData.data.mindsets).to.equal(mindsetsDB);
     });
     
-    it('should add mindmap if db is empty', async () => {
+    it('should add mindset if db is empty', async () => {
         
         // setup
         const state = new State();
@@ -162,18 +162,18 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         const mutationData = mutations[0].data;
 
-        const mindmapsCount =
-            (await mutationData.data.mindmaps.info()).doc_count;
+        const mindsetsCount =
+            (await mutationData.data.mindsets.info()).doc_count;
         
-        expect(mindmapsCount).to.equal(1);
+        expect(mindsetsCount).to.equal(1);
     });
 
     it('should add root idea if db is empty', async () => {
@@ -186,12 +186,12 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         const mutationData = mutations[0].data;
 
         expect((await mutationData.data.ideas.info()).doc_count).to.equal(1);
@@ -204,27 +204,27 @@ describe('load-mindmap', () => {
         state.data.dbServerUrl = 'TEST_DB_SERVER';
         state.data.ideas = new PouchDB('ideas');
         state.data.associations = new PouchDB('associations');
-        state.data.mindmaps = new PouchDB('mindmaps');
+        state.data.mindsets = new PouchDB('mindsets');
 
         const dispatch = noop;
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: false}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         const mutationData = mutations[0].data;
 
-        const mindmapsLocalDB = mutationData.data.mindmaps;
+        const mindsetsLocalDB = mutationData.data.mindsets;
         const ideasLocalDB = mutationData.data.ideas;
 
-        const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
+        const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
         const ideasCount = (await ideasLocalDB.info()).doc_count;
         
-        expect(mindmapsCount).to.equal(1);
+        expect(mindsetsCount).to.equal(1);
         expect(ideasCount).to.equal(1);
     });
 
@@ -233,26 +233,26 @@ describe('load-mindmap', () => {
         // setup
         const ideasDB = createDB();
         const assocsDB = createDB();
-        const mindmapsDB = createDB();
+        const mindsetsDB = createDB();
 
         const state = new State();
         update(state.data, {
             dbServerUrl: 'TEST_DB_SERVER',
             ideas: ideasDB,
             associations: assocsDB,
-            mindmaps: mindmapsDB
+            mindsets: mindsetsDB
         });
 
-        await mindmapDbApi.add(mindmapsDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -260,13 +260,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -276,17 +276,17 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: false}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
 
-        expect(mutationData.model.mindmap.root).to.containSubset({
+        expect(mutationData.model.mindset.root).to.containSubset({
             id: 'A',
             rootPathWeight: 0,
             edgesToChilds: [{
@@ -303,26 +303,26 @@ describe('load-mindmap', () => {
         // setup
         const ideasDB = createDB();
         const assocsDB = createDB();
-        const mindmapsDB = createDB();
+        const mindsetsDB = createDB();
 
         const state = new State();
         update(state.data, {
             dbServerUrl: 'TEST_DB_SERVER',
             ideas: ideasDB,
             associations: assocsDB,
-            mindmaps: mindmapsDB
+            mindsets: mindsetsDB
         });
 
-        await mindmapDbApi.add(mindmapsDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 10, y: 10})
             }));
@@ -330,13 +330,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -346,49 +346,49 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: false}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
-        const {mindmap} = mutationData.model;
+        const {mindset} = mutationData.model;
 
-        const ideaA = mindmap.ideas.get('A');
-        const ideaB = mindmap.ideas.get('B');
+        const ideaA = mindset.ideas.get('A');
+        const ideaB = mindset.ideas.get('B');
 
         expect(ideaA.posAbs).to.deep.equal({x: 10, y: 10});
         expect(ideaB.posAbs).to.deep.equal({x: 10, y: 110});
     });
 
-    it('should init mindmap view model', async () => {
+    it('should init mindset view model', async () => {
         
         // setup
         const ideasDB = createDB();
         const assocsDB = createDB();
-        const mindmapsDB = createDB();
+        const mindsetsDB = createDB();
 
         const state = new State();
         update(state.data, {
             dbServerUrl: 'TEST_DB_SERVER',
             ideas: ideasDB,
             associations: assocsDB,
-            mindmaps: mindmapsDB
+            mindsets: mindsetsDB
         });
 
-        await mindmapDbApi.add(mindmapsDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -396,13 +396,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -412,19 +412,19 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: false}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
 
-        expect(mutationData.vm.mindmap.isLoaded).to.equal(true);
+        expect(mutationData.vm.mindset.isLoaded).to.equal(true);
     
-        const {graph} = mutationData.vm.mindmap;
+        const {graph} = mutationData.vm.mindset;
 
         expect(graph).to.be.instanceOf(Graph);
         expect(graph.nodes).to.have.length(2);
@@ -434,23 +434,23 @@ describe('load-mindmap', () => {
     it('should replicate server databases on first visit', async () => {
 
         // setup
-        const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
+        const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
         const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
         const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
 
         const state = new State();
         state.data.dbServerUrl = 'TEST_DB_SERVER';
 
-        await mindmapDbApi.add(mindmapsServerDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsServerDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -458,13 +458,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -474,25 +474,25 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
 
-        const mindmapsLocalDB = mutationData.data.mindmaps;
+        const mindsetsLocalDB = mutationData.data.mindsets;
         const ideasLocalDB = mutationData.data.ideas;
         const assocsLocalDB = mutationData.data.associations;
 
-        const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
+        const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
         const ideasCount = (await ideasLocalDB.info()).doc_count;
         const assocsCount = (await assocsLocalDB.info()).doc_count;
 
-        expect(mindmapsCount).to.equal(1);
+        expect(mindsetsCount).to.equal(1);
         expect(ideasCount).to.equal(2);
         expect(assocsCount).to.equal(1);
     });
@@ -500,20 +500,20 @@ describe('load-mindmap', () => {
     it('should start syncing local and server databases', async () => {
 
         // setup
-        const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
+        const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
         const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
         const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
 
-        await mindmapDbApi.add(mindmapsServerDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsServerDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -521,13 +521,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -540,17 +540,17 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
 
-        const mindmapsLocalDB = mutationData.data.mindmaps;
+        const mindsetsLocalDB = mutationData.data.mindsets;
         const ideasLocalDB = mutationData.data.ideas;
         const assocsLocalDB = mutationData.data.associations;
 
@@ -558,14 +558,14 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'C',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'B',
                 toId: 'C',
                 weight: 100
@@ -575,32 +575,32 @@ describe('load-mindmap', () => {
         await timer(100);
 
         // check local databases pull server changes
-        const mindmapsCount = (await mindmapsLocalDB.info()).doc_count;
+        const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
         const ideasCount = (await ideasLocalDB.info()).doc_count;
         const assocsCount = (await assocsLocalDB.info()).doc_count;
 
-        expect(mindmapsCount).to.equal(1);
+        expect(mindsetsCount).to.equal(1);
         expect(ideasCount).to.equal(3);
         expect(assocsCount).to.equal(2);
     });
 
-    it('should dispatch mindmap reload on server db changes', async () => {
+    it('should dispatch mindset reload on server db changes', async () => {
 
         // setup
-        const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
+        const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
         const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
         const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
 
-        await mindmapDbApi.add(mindmapsServerDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsServerDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -608,13 +608,13 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
@@ -627,39 +627,39 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatchSpy);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         // push more changes to server databases
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'C',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
 
         await assocDbApi.add(assocsServerDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'B',
                 toId: 'C',
                 weight: 100
             }));
         
-        // await mindmap reload debounce
+        // await mindset reload debounce
         // add some time on top to cover initial replication
         await timer(RELOAD_DEBOUNCE_TIME + 100);
 
         // check reload action dispatched
         expect(dispatchSpy.callCount).to.equal(1);
         expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
-            type: 'load-mindmap'
+            type: 'load-mindset'
         });
     });
 
@@ -669,20 +669,20 @@ describe('load-mindmap', () => {
         localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, 'TEST_DB_SERVER_OLD');
 
         // setup local databases
-        const mindmapsLocalDB = new PouchDB('mindmaps');
+        const mindsetsLocalDB = new PouchDB('mindsets');
         const ideasLocalDB = new PouchDB('ideas');
         const assocsLocalDB = new PouchDB('associations');
 
-        await mindmapDbApi.add(mindmapsLocalDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsLocalDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasLocalDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -690,32 +690,32 @@ describe('load-mindmap', () => {
         await ideaDbApi.add(ideasLocalDB,
             new Idea({
                 id: 'B',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: new Point({x: 0, y: 100})
             }));
 
         await assocDbApi.add(assocsLocalDB,
             new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 fromId: 'A',
                 toId: 'B',
                 weight: 100
             }));
 
         // setup server databases
-        const mindmapsServerDB = new PouchDB('TEST_DB_SERVER/mindmaps');
+        const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
         const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
 
-        await mindmapDbApi.add(mindmapsServerDB,
-            new Mindmap({
-                id: 'mindmap id',
+        await mindsetDbApi.add(mindsetsServerDB,
+            new Mindset({
+                id: 'mindset id',
                 scale: 1
             }));
 
         await ideaDbApi.add(ideasServerDB,
             new Idea({
                 id: 'A',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 isRoot: true,
                 posRel: new Point({x: 0, y: 0})
             }));
@@ -728,26 +728,26 @@ describe('load-mindmap', () => {
 
         // target
         const patch = await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatchSpy);
 
         // check
-        const mutations = patch['init-mindmap'];
+        const mutations = patch['init-mindset'];
         expect(mutations).to.have.length(1);
 
         const mutationData = mutations[0].data;
 
-        const mindmapsDB = mutationData.data.mindmaps;
+        const mindsetsDB = mutationData.data.mindsets;
         const ideasDB = mutationData.data.ideas;
         const assocsDB = mutationData.data.associations;
 
         // check local databases have only entities from new db server
-        const mindmapsCount = (await mindmapsDB.info()).doc_count;
+        const mindsetsCount = (await mindsetsDB.info()).doc_count;
         const ideasCount = (await ideasDB.info()).doc_count;
         const assocsCount = (await assocsDB.info()).doc_count;
 
-        expect(mindmapsCount).to.equal(1);
+        expect(mindsetsCount).to.equal(1);
         expect(ideasCount).to.equal(1);
         expect(assocsCount).to.equal(0);
     });
@@ -763,7 +763,7 @@ describe('load-mindmap', () => {
 
         // target
         await handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 
@@ -781,7 +781,7 @@ describe('load-mindmap', () => {
 
         // target
         const promise = handle(state, {
-            type: 'load-mindmap',
+            type: 'load-mindset',
             data: {isInitialLoad: true}
         }, dispatch);
 

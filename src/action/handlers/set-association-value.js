@@ -15,10 +15,10 @@ import getAssociation from 'action/utils/get-association';
  * @return {Patch|undefined}
  */
 export default function setAssociationValue(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {assocId, value} = required(data);
 
-    const assoc = getAssociation(mindmap, assocId);
+    const assoc = getAssociation(mindset, assocId);
 
     if (assoc.value === value) {
         // was not changed

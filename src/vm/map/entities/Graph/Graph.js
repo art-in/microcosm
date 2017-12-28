@@ -11,11 +11,11 @@ import LookupPopup from 'vm/shared/LookupPopup';
 import IdeaFormModal from 'vm/shared/IdeaFormModal';
 
 /**
- * View model representation of Mindmap as a graph of Nodes and Links
+ * View model representation of Mindset as a graph of Nodes and Links
  * drawn on 2D space with ability to zoom (geo-like map)
  * 
- * TODO: consider renaming Graph to Mindmap after Mindmap model will be renamed
- *       to Mindset (so mindmap is just another form of presenting mindset,
+ * TODO: consider renaming Graph to Mindset after Mindset model will be renamed
+ *       to Mindset (so mindset is just another form of presenting mindset,
  *       along with list form and some other forms)
  */
 export default class Graph extends ViewModel {

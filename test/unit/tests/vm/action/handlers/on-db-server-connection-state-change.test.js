@@ -8,7 +8,7 @@ const handle = handler.handle.bind(handler);
 
 describe('on-db-server-connection-state-change', () => {
 
-    it('should set state to mindmap connection state icon', () => {
+    it('should set state to mindset connection state icon', () => {
         
         // setup
         const state = new State();
@@ -23,7 +23,7 @@ describe('on-db-server-connection-state-change', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap-vm'];
+        const mutations = patch['update-mindset-vm'];
         expect(mutations).to.have.length(1);
 
         const {dbServerConnectionIcon} = mutations[0].data;
@@ -32,7 +32,7 @@ describe('on-db-server-connection-state-change', () => {
             .to.equal(ConnectionState.connected);
     });
 
-    it('should set tooltip to mindmap connection state icon', () => {
+    it('should set tooltip to mindset connection state icon', () => {
 
         // setup
         const state = new State();
@@ -47,7 +47,7 @@ describe('on-db-server-connection-state-change', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap-vm'];
+        const mutations = patch['update-mindset-vm'];
         expect(mutations).to.have.length(1);
 
         const {dbServerConnectionIcon} = mutations[0].data;
@@ -70,7 +70,7 @@ describe('on-db-server-connection-state-change', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap-vm'];
+        const mutations = patch['update-mindset-vm'];
         expect(mutations).to.have.length(1);
 
         const {dbServerConnectionIcon} = mutations[0].data;

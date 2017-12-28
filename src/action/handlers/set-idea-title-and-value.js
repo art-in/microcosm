@@ -17,10 +17,10 @@ import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
  * @return {Patch|undefined}
  */
 export default function setIdeaTitleAndValue(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId, title, value} = required(data);
     
-    const idea = getIdea(mindmap, ideaId);
+    const idea = getIdea(mindset, ideaId);
 
     if (idea.title === title &&
         idea.value === value) {

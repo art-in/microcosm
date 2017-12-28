@@ -23,11 +23,11 @@ import getIdea from 'action/utils/get-idea';
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-    const {model: {mindmap}, vm: {main: {mindmap: {graph}}}} = state;
+    const {model: {mindset}, vm: {main: {mindset: {graph}}}} = state;
     const {ideaId} = required(data);
     const {scheduleAnimationStep} = data;
     
-    const idea = getIdea(mindmap, ideaId);
+    const idea = getIdea(mindset, ideaId);
 
     const currentViewboxScale = graph.viewbox.scale;
 
@@ -79,9 +79,9 @@ export default async function(state, data, dispatch, mutate) {
     });
 
     await dispatch({
-        type: 'set-mindmap-position-and-scale',
+        type: 'set-mindset-position-and-scale',
         data: {
-            mindmapId: graph.id,
+            mindsetId: graph.id,
             scale: graph.viewbox.scale,
             pos: new Point({
                 x: graph.viewbox.x,

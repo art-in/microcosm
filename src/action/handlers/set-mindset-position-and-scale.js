@@ -7,42 +7,42 @@ import PointType from 'model/entities/Point';
 import normalizePatch from 'action/utils/normalize-patch';
 
 /**
- * Sets mindmap position and scale
+ * Sets mindset position and scale
  * 
  * @param {StateType} state
  * @param {object}    data
- * @param {string}    data.mindmapId
+ * @param {string}    data.mindsetId
  * @param {PointType} data.pos - new position of viewbox on canvas
  * @param {number}    [data.scale] - target scale
  * @return {Patch}
  */
-export default function setMindmapScale(state, data) {
-    const {model: {mindmap}} = state;
-    const {mindmapId, pos} = required(data);
+export default function setMindsetScale(state, data) {
+    const {model: {mindset}} = state;
+    const {mindsetId, pos} = required(data);
     const {scale} = data;
     
-    if (mindmap.id !== mindmapId) {
-        throw Error('Setting scale of not loaded mindmap');
+    if (mindset.id !== mindsetId) {
+        throw Error('Setting scale of not loaded mindset');
     }
 
     const patch = new Patch();
 
-    if (mindmap.pos.x !== pos.x ||
-        mindmap.pos.y !== pos.y) {
+    if (mindset.pos.x !== pos.x ||
+        mindset.pos.y !== pos.y) {
         
         // only update position if it was changed
-        patch.push('update-mindmap', {
-            id: mindmapId,
+        patch.push('update-mindset', {
+            id: mindsetId,
             pos: {x: pos.x, y: pos.y}
         });
     }
 
     if (scale !== undefined &&
-        mindmap.scale !== scale) {
+        mindset.scale !== scale) {
         
         // only update scale if it was changed
-        patch.push('update-mindmap', {
-            id: mindmapId,
+        patch.push('update-mindset', {
+            id: mindsetId,
             scale
         });
     }

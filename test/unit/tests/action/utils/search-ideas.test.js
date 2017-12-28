@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 
 import searchIdeas from 'action/utils/search-ideas';
@@ -10,7 +10,7 @@ describe('search-ideas', () => {
     it('should return ideas with substring in title', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const idea1 = new Idea({
             id: 'idea 1',
@@ -21,11 +21,11 @@ describe('search-ideas', () => {
             title: '---#FOUND#---'
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = searchIdeas(mindmap, {
+        const result = searchIdeas(mindset, {
             phrase: '#FOUND#'
         });
 
@@ -37,7 +37,7 @@ describe('search-ideas', () => {
     it('should return ideas with substring in value', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const idea1 = new Idea({
             id: 'idea 1',
@@ -48,11 +48,11 @@ describe('search-ideas', () => {
             value: '---#FOUND#---'
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = searchIdeas(mindmap, {
+        const result = searchIdeas(mindset, {
             phrase: '#FOUND#'
         });
 
@@ -64,7 +64,7 @@ describe('search-ideas', () => {
     it('should search case insensitively', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const idea1 = new Idea({
             id: 'idea 1',
@@ -75,11 +75,11 @@ describe('search-ideas', () => {
             value: 'Found   '
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = searchIdeas(mindmap, {
+        const result = searchIdeas(mindset, {
             phrase: 'found'
         });
 
@@ -90,7 +90,7 @@ describe('search-ideas', () => {
     it('should NOT return ideas from exclude list', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const idea1 = new Idea({
             id: 'idea 1',
@@ -101,11 +101,11 @@ describe('search-ideas', () => {
             value: 'phrase'
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = searchIdeas(mindmap, {
+        const result = searchIdeas(mindset, {
             phrase: 'phrase',
             excludeIds: ['idea 1']
         });
@@ -118,7 +118,7 @@ describe('search-ideas', () => {
     it('should return empty array if ideas not found', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const idea1 = new Idea({
             id: 'idea 1',
@@ -129,11 +129,11 @@ describe('search-ideas', () => {
             value: '---#NOTFOUND#---'
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = searchIdeas(mindmap, {
+        const result = searchIdeas(mindset, {
             phrase: '#FOUND#'
         });
 
@@ -144,7 +144,7 @@ describe('search-ideas', () => {
     it('should fail if search string is empty', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const idea1 = new Idea({
             id: 'idea 1',
@@ -155,11 +155,11 @@ describe('search-ideas', () => {
             value: '---#NOTFOUND#---'
         });
 
-        mindmap.ideas.set(idea1.id, idea1);
-        mindmap.ideas.set(idea2.id, idea2);
+        mindset.ideas.set(idea1.id, idea1);
+        mindset.ideas.set(idea2.id, idea2);
 
         // target
-        const result = () => searchIdeas(mindmap, {
+        const result = () => searchIdeas(mindset, {
             phrase: ''
         });
 

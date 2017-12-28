@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 
 import handler from 'src/action/handler';
@@ -18,10 +18,10 @@ describe('set-idea-title-and-value', () => {
             value: 'old value'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -52,10 +52,10 @@ describe('set-idea-title-and-value', () => {
             value: 'old value'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -86,10 +86,10 @@ describe('set-idea-title-and-value', () => {
             value: 'same value'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -112,10 +112,10 @@ describe('set-idea-title-and-value', () => {
             id: 'idea'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -139,10 +139,10 @@ describe('set-idea-title-and-value', () => {
             id: 'idea'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -170,10 +170,10 @@ describe('set-idea-title-and-value', () => {
             value: 'old value'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {

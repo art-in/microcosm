@@ -4,7 +4,7 @@ import values from 'src/utils/get-map-values';
 
 import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Association from 'src/model/entities/Association';
 
 import mutate from 'model/mutators';
@@ -14,15 +14,15 @@ describe('update-association', () => {
     it('should update association', () => {
 
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        mindmap.associations.set('id', new Association({
+        mindset.associations.set('id', new Association({
             id: 'id',
             value: 'old'
         }));
 
         const state = new State();
-        state.model.mindmap = mindmap;
+        state.model.mindset = mindset;
 
         const patch = new Patch({
             type: 'update-association',
@@ -33,7 +33,7 @@ describe('update-association', () => {
         mutate(state, patch);
 
         // check
-        const assocs = values(state.model.mindmap.associations);
+        const assocs = values(state.model.mindset.associations);
 
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({
@@ -45,10 +45,10 @@ describe('update-association', () => {
     it('should fail if target association was not found', () => {
         
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
         const state = new State();
-        state.model.mindmap = mindmap;
+        state.model.mindset = mindset;
 
         const patch = new Patch({
             type: 'update-association',

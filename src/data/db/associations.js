@@ -6,16 +6,16 @@ import toDbo from 'data/mappers/association-to-dbo';
 import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
- * Gets all associations of mindmap
+ * Gets all associations of mindset
  * @param {PouchDB.Database} db
- * @param {string} mindmapId
+ * @param {string} mindsetId
  * @return {Promise.<Array.<AssociationType>>}
  */
-export async function getAll(db, mindmapId) {
+export async function getAll(db, mindsetId) {
 
     const data = await db.find({
         selector: {
-            mindmapId
+            mindsetId
         }
     });
 
@@ -33,10 +33,10 @@ export async function getAll(db, mindmapId) {
 export async function add(db, model) {
     const dbo = toDbo(model);
 
-    if (!dbo.mindmapId) {
+    if (!dbo.mindsetId) {
         throw Error(
             `Failed to add association '${model.id}' with empty ` +
-            `parent mindmap ID`);
+            `parent mindset ID`);
     }
 
     await db.put(dbo);
@@ -57,10 +57,10 @@ export async function update(db, model) {
         return;
     }
 
-    if (dbo.hasOwnProperty('mindmapId') && !dbo.mindmapId) {
+    if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
         throw Error(
             `Failed to update association '${model.id}' with empty ` +
-            `parent mindmap ID`);
+            `parent mindset ID`);
     }
 
     const existing = await db.get(model.id);

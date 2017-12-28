@@ -13,7 +13,7 @@ export default function ideaToDbo(model) {
     const dbo = {};
 
     dbo._id = model.id;
-    dbo.mindmapId = model.mindmapId;
+    dbo.mindsetId = model.mindsetId;
     dbo.isRoot = model.isRoot || undefined;
     dbo.title = model.title;
     dbo.value = model.value;

@@ -1,12 +1,12 @@
 import {expect, createDB} from 'test/utils';
 import {spy} from 'sinon';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 
-import * as mindmapDB from 'src/data/db/mindmaps';
+import * as mindsetDB from 'src/data/db/mindsets';
 
-describe('mindmaps', () => {
+describe('mindsets', () => {
 
     describe('.get()', () => {
 
@@ -21,10 +21,10 @@ describe('mindmaps', () => {
             });
 
             // target
-            const result = await mindmapDB.get(db, '123');
+            const result = await mindsetDB.get(db, '123');
 
             // check
-            expect(result).to.be.instanceOf(Mindmap);
+            expect(result).to.be.instanceOf(Mindset);
             expect(result.scale).to.equal(2);
         });
 
@@ -34,7 +34,7 @@ describe('mindmaps', () => {
             const db = createDB();
 
             // target
-            const promise = mindmapDB.get(db, '123');
+            const promise = mindsetDB.get(db, '123');
 
             // check
             await expect(promise).to.be.rejectedWith('missing');
@@ -55,11 +55,11 @@ describe('mindmaps', () => {
             });
 
             // target
-            const result = await mindmapDB.getAll(db);
+            const result = await mindsetDB.getAll(db);
 
             // check
             expect(result).to.have.length(1);
-            expect(result[0]).to.be.instanceOf(Mindmap);
+            expect(result[0]).to.be.instanceOf(Mindset);
             expect(result[0].id).to.equal('123');
             expect(result[0].scale).to.equal(2);
         });
@@ -73,13 +73,13 @@ describe('mindmaps', () => {
             // setup
             const db = createDB();
 
-            const mindmap = new Mindmap({
+            const mindset = new Mindset({
                 scale: 2,
                 pos: new Point({x: 0, y: 0})
             });
 
             // target
-            await mindmapDB.add(db, mindmap);
+            await mindsetDB.add(db, mindset);
 
             // check
             const result = (await db.allDocs({include_docs: true}))
@@ -87,7 +87,7 @@ describe('mindmaps', () => {
                 .map(r => r.doc);
 
             expect(result).to.have.length(1);
-            expect(result[0]._id).to.equal(mindmap.id);
+            expect(result[0]._id).to.equal(mindset.id);
             expect(result[0].scale).to.equal(2);
         });
 
@@ -96,17 +96,17 @@ describe('mindmaps', () => {
             // setup
             const db = createDB();
 
-            const mindmap = new Mindmap({
+            const mindset = new Mindset({
                 scale: 2,
                 pos: new Point({x: 0, y: 0})
             });
 
             // target
-            await mindmapDB.add(db, mindmap);
-            const result = await mindmapDB.get(db, mindmap.id);
+            await mindsetDB.add(db, mindset);
+            const result = await mindsetDB.get(db, mindset.id);
 
             // check
-            expect(result).to.deep.equal(mindmap);
+            expect(result).to.deep.equal(mindset);
         });
 
         it('should fail on duplicates', async () => {
@@ -115,13 +115,13 @@ describe('mindmaps', () => {
             const db = createDB();
             db.put({_id: '123'});
 
-            const mindmap = new Mindmap({
+            const mindset = new Mindset({
                 id: '123',
                 pos: new Point({x: 0, y: 0})
             });
             
             // target
-            const promise = mindmapDB.add(db, mindmap);
+            const promise = mindsetDB.add(db, mindset);
 
             await expect(promise).to.be.rejectedWith(
                 'Document update conflict');
@@ -138,14 +138,14 @@ describe('mindmaps', () => {
 
             db.post({_id: '123', value: 'test 1'});
 
-            const mindmap = new Mindmap({
+            const mindset = new Mindset({
                 id: '123',
                 scale: 2,
                 pos: new Point({x: 0, y: 0})
             });
 
             // target
-            await mindmapDB.update(db, mindmap);
+            await mindsetDB.update(db, mindset);
 
             // check
             const result = await db.get('123');
@@ -159,14 +159,14 @@ describe('mindmaps', () => {
 
             db.post({_id: 'i'});
 
-            const mindmap = {
+            const mindset = {
                 id: 'i',
                 pos: new Point({x: 0, y: 0}),
                 X: 'unknown'
             };
             
             // target
-            await mindmapDB.update(db, mindmap);
+            await mindsetDB.update(db, mindset);
 
             // check
             const result = await db.get('i');
@@ -183,12 +183,12 @@ describe('mindmaps', () => {
 
             db.post({_id: 'i'});
 
-            const mindmap = {
+            const mindset = {
                 id: 'i'
             };
 
             // target
-            await mindmapDB.update(db, mindmap);
+            await mindsetDB.update(db, mindset);
 
             // check
             expect(get.called).to.be.false;
@@ -199,10 +199,10 @@ describe('mindmaps', () => {
 
             // setup
             const db = createDB();
-            const mindmap = new Mindmap({scale: 1});
+            const mindset = new Mindset({scale: 1});
 
             // target
-            const promise = mindmapDB.update(db, mindmap);
+            const promise = mindsetDB.update(db, mindset);
 
             // check
             await expect(promise).to.be.rejectedWith('missing');
@@ -222,7 +222,7 @@ describe('mindmaps', () => {
             await db.post({value: '3'});
 
             // target
-            await mindmapDB.removeAll(db);
+            await mindsetDB.removeAll(db);
 
             // check
             const result = await db.allDocs();

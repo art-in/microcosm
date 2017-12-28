@@ -10,12 +10,12 @@ import StateType from 'boot/client/State';
  * @param {string} data.id
  */
 export default function removeAssociation(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {id} = required(data);
 
-    if (!mindmap.associations.has(id)) {
+    if (!mindset.associations.has(id)) {
         throw Error(`Association '${id}' was not found`);
     }
 
-    mindmap.associations.delete(id);
+    mindset.associations.delete(id);
 }

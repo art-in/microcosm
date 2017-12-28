@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Point from 'src/model/entities/Point';
@@ -13,10 +13,10 @@ const handle = handler.handle.bind(handler);
 
 describe('create-cross-association', () => {
 
-    it('should add association to mindmap', () => {
+    it('should add association to mindset', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaA = new Idea({
             id: 'A',
@@ -35,11 +35,11 @@ describe('create-cross-association', () => {
             edgesToChilds: []
         });
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.root = ideaA;
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -57,7 +57,7 @@ describe('create-cross-association', () => {
         const {data} = mutations[0];
 
         expect(data.assoc).to.be.instanceOf(Association);
-        expect(data.assoc.mindmapId).to.equal('m');
+        expect(data.assoc.mindsetId).to.equal('m');
 
         expect(data.assoc.fromId).to.equal('A');
         expect(data.assoc.from).to.equal(ideaA);
@@ -71,7 +71,7 @@ describe('create-cross-association', () => {
     it('should update head and tail ideas', () => {
         
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
         const ideaA = new Idea({
             id: 'A',
@@ -92,11 +92,11 @@ describe('create-cross-association', () => {
             rootPathWeight: 100
         });
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.root = ideaA;
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -161,14 +161,14 @@ describe('create-cross-association', () => {
         ideaC.posRel = new Point({x: 1.9, y: 0});
         ideaC.posAbs = new Point({x: 1.9, y: 0});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -244,14 +244,14 @@ describe('create-cross-association', () => {
         ideaC.posRel = new Point({x: 1, y: 0});
         ideaC.posAbs = new Point({x: 1, y: 0});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -270,7 +270,7 @@ describe('create-cross-association', () => {
     it('should target all state layers', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaA = new Idea({
             id: 'A',
@@ -289,11 +289,11 @@ describe('create-cross-association', () => {
             edgesToChilds: []
         });
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.root = ideaA;
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -314,14 +314,14 @@ describe('create-cross-association', () => {
     it('should fail if head ideas was not found', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaTail = new Idea({id: 'B'});
 
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.root = ideaTail;
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.root = ideaTail;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -333,20 +333,20 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(result).to.throw(`Idea 'A' was not found in mindmap`);
+        expect(result).to.throw(`Idea 'A' was not found in mindset`);
     });
 
     it('should fail if tail ideas was not found', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaA = new Idea({id: 'A', isRoot: true});
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.root = ideaA;
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -358,13 +358,13 @@ describe('create-cross-association', () => {
         });
 
         // check
-        expect(result).to.throw(`Idea 'B' was not found in mindmap`);
+        expect(result).to.throw(`Idea 'B' was not found in mindset`);
     });
 
     it('should fail if self-association', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const ideaA = new Idea({
             id: 'A',
@@ -373,10 +373,10 @@ describe('create-cross-association', () => {
             edgesToChilds: []
         });
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.root = ideaA;
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -395,7 +395,7 @@ describe('create-cross-association', () => {
     it('should fail if duplicate association', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const ideaA = new Idea({id: 'A', isRoot: true});
         const ideaB = new Idea({id: 'B'});
@@ -415,14 +415,14 @@ describe('create-cross-association', () => {
         ideaB.edgeFromParent = assocAtoB;
         ideaB.edgesToChilds = [];
 
-        // setup mindmap
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        // setup mindset
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
+        mindset.associations.set(assocAtoB.id, assocAtoB);
 
-        mindmap.root = ideaA;
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -442,7 +442,7 @@ describe('create-cross-association', () => {
     it('should fail if association to predecessor', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const ideaA = new Idea({
             id: 'A',
@@ -466,13 +466,13 @@ describe('create-cross-association', () => {
         ideaA.edgesOut = [assocAtoB];
         ideaB.edgesIn = [assocAtoB];
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
-        mindmap.associations.set(assocAtoB.id, assocAtoB);
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
+        mindset.associations.set(assocAtoB.id, assocAtoB);
 
-        mindmap.root = ideaA;
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -492,17 +492,17 @@ describe('create-cross-association', () => {
     it('should fail if association to root', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
 
         const ideaA = new Idea({id: 'A'});
         const ideaB = new Idea({id: 'B', isRoot: true});
 
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.ideas.set(ideaB.id, ideaB);
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaB.id, ideaB);
 
-        mindmap.root = ideaA;
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {

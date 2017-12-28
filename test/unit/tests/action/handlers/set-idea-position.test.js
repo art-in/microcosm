@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Point from 'src/model/entities/Point';
 
@@ -25,11 +25,11 @@ describe('set-idea-position', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.root = ideaA;
+        const mindset = new Mindset();
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -92,14 +92,14 @@ describe('set-idea-position', () => {
         ideaD.posAbs = new Point(posD);
         ideaD.posRel = new Point(posD);
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
 
-        mindmap.root = root;
-        vertices.forEach(i => mindmap.ideas.set(i.id, i));
-        edges.forEach(a => mindmap.associations.set(a.id, a));
+        mindset.root = root;
+        vertices.forEach(i => mindset.ideas.set(i.id, i));
+        edges.forEach(a => mindset.associations.set(a.id, a));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -176,13 +176,13 @@ describe('set-idea-position', () => {
         ideaF.posAbs = new Point({x: 4, y: 1});
         ideaF.posRel = new Point({x: 1, y: 0});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
-        mindmap.root = root;
-        vertices.forEach(i => mindmap.ideas.set(i.id, i));
-        edges.forEach(a => mindmap.associations.set(a.id, a));
+        // setup mindset
+        const mindset = new Mindset();
+        mindset.root = root;
+        vertices.forEach(i => mindset.ideas.set(i.id, i));
+        edges.forEach(a => mindset.associations.set(a.id, a));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -271,13 +271,13 @@ describe('set-idea-position', () => {
         ideaF.posAbs = new Point({x: 3, y: 2});
         ideaF.posRel = new Point({x: 1, y: 1});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
-        mindmap.root = root;
-        vertices.forEach(i => mindmap.ideas.set(i.id, i));
-        edges.forEach(a => mindmap.associations.set(a.id, a));
+        // setup mindset
+        const mindset = new Mindset();
+        mindset.root = root;
+        vertices.forEach(i => mindset.ideas.set(i.id, i));
+        edges.forEach(a => mindset.associations.set(a.id, a));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -366,13 +366,13 @@ describe('set-idea-position', () => {
         vertices.find(i => i.id === 'C').posAbs = new Point({x: 2, y: 0});
         vertices.find(i => i.id === 'D').posAbs = new Point({x: 2, y: 1});
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        mindmap.root = root;
-        vertices.forEach(i => mindmap.ideas.set(i.id, i));
-        edges.forEach(a => mindmap.associations.set(a.id, a));
+        mindset.root = root;
+        vertices.forEach(i => mindset.ideas.set(i.id, i));
+        edges.forEach(a => mindset.associations.set(a.id, a));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -442,13 +442,13 @@ describe('set-idea-position', () => {
         ideaF.posAbs = new Point({x: 3, y: 2});
         ideaF.posRel = new Point({x: 1, y: 1});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
-        mindmap.root = root;
-        vertices.forEach(i => mindmap.ideas.set(i.id, i));
-        edges.forEach(a => mindmap.associations.set(a.id, a));
+        // setup mindset
+        const mindset = new Mindset();
+        mindset.root = root;
+        vertices.forEach(i => mindset.ideas.set(i.id, i));
+        edges.forEach(a => mindset.associations.set(a.id, a));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -477,11 +477,11 @@ describe('set-idea-position', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(ideaA.id, ideaA);
-        mindmap.root = ideaA;
+        const mindset = new Mindset();
+        mindset.ideas.set(ideaA.id, ideaA);
+        mindset.root = ideaA;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {

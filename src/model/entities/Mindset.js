@@ -6,12 +6,10 @@ import AssociationType from './Association';
 import PointType from './Point';
 
 /**
- * Mindmap model
- * 
- * TODO: consider renaming to Mindset to distinguish
- *       model and view-model (mindmap, list, etc)
+ * Mindset model.
+ * Represents collection of ideas linked through associations.
  */
-export default class Mindmap {
+export default class Mindset {
 
     /**
      * ID
@@ -55,7 +53,7 @@ export default class Mindmap {
 
     /**
      * Constructor
-     * @param {Partial<Mindmap>} [props]
+     * @param {Partial<Mindset>} [props]
      */
     constructor(props) {
         initProps(this, props);

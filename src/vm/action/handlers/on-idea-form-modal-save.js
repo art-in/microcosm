@@ -14,7 +14,7 @@ import normalizePatch from 'action/utils/normalize-patch';
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
 
     const {form} = graph.ideaFormModal;
 

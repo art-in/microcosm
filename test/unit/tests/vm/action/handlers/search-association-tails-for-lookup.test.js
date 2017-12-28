@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
@@ -13,7 +13,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should set suggestions to lookup', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -25,11 +25,11 @@ describe('search-association-tails-for-lookup', () => {
             value: 'idea'
         });
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.root = ideaHead;
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.root = ideaHead;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -52,7 +52,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should NOT set head idea', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -63,11 +63,11 @@ describe('search-association-tails-for-lookup', () => {
             value: 'idea'
         });
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.root = ideaHead;
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.root = ideaHead;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -88,7 +88,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should NOT set child ideas', () => {
 
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -109,13 +109,13 @@ describe('search-association-tails-for-lookup', () => {
         ideaHead.edgesOut = [assoc];
         ideaTail.edgesIn = [assoc];
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.associations.set(assoc.id, assoc);
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.associations.set(assoc.id, assoc);
 
-        mindmap.root = ideaHead;
+        mindset.root = ideaHead;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -136,7 +136,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should NOT set parent ideas', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -157,13 +157,13 @@ describe('search-association-tails-for-lookup', () => {
         ideaHead.edgesOut = [assoc];
         ideaTail.edgesIn = [assoc];
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.associations.set(assoc.id, assoc);
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.associations.set(assoc.id, assoc);
 
-        mindmap.root = ideaHead;
+        mindset.root = ideaHead;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -184,7 +184,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should NOT set root idea', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -196,12 +196,12 @@ describe('search-association-tails-for-lookup', () => {
             value: 'idea'
         });
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
 
-        mindmap.root = ideaTail;
+        mindset.root = ideaTail;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -222,7 +222,7 @@ describe('search-association-tails-for-lookup', () => {
     it('should target only vm and view state layers', () => {
         
         // setup
-        const mindmap = new Mindmap({id: 'm'});
+        const mindset = new Mindset({id: 'm'});
         
         const ideaHead = new Idea({
             id: 'head',
@@ -234,11 +234,11 @@ describe('search-association-tails-for-lookup', () => {
             value: 'idea #FOUND#'
         });
 
-        mindmap.ideas.set(ideaHead.id, ideaHead);
-        mindmap.ideas.set(ideaTail.id, ideaTail);
-        mindmap.root = ideaHead;
+        mindset.ideas.set(ideaHead.id, ideaHead);
+        mindset.ideas.set(ideaTail.id, ideaTail);
+        mindset.root = ideaHead;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {

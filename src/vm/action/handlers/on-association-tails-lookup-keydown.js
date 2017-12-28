@@ -17,7 +17,7 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {code, preventDefault} = required(data);
 
     const lookup = graph.associationTailsLookup.lookup;

@@ -1,15 +1,15 @@
 import {expect} from 'chai';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
-import toGraph from 'src/vm/map/mappers/mindmap-to-graph';
+import toGraph from 'src/vm/map/mappers/mindset-to-graph';
 
-describe('mindmap-to-graph', () => {
+describe('mindset-to-graph', () => {
 
-    function setupMindmap() {
+    function setupMindset() {
 
         // setup graph
         //
@@ -85,27 +85,27 @@ describe('mindmap-to-graph', () => {
         ideaD.color = 'green';
         ideaF.color = 'blue';
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
 
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
 
-        mindmap.scale = 2;
-        mindmap.pos = new Point({x: 0, y: 0});
+        mindset.scale = 2;
+        mindset.pos = new Point({x: 0, y: 0});
 
-        return mindmap;
+        return mindset;
     }
 
     // TODO: skipping until zone boundaries colibrated for good UX
 
     it.skip('should hide nodes and links in hide zone', () => {
         
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
         
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');
@@ -156,10 +156,10 @@ describe('mindmap-to-graph', () => {
 
     it.skip('should shade nodes and links in shade zone', () => {
         
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
 
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');
@@ -199,10 +199,10 @@ describe('mindmap-to-graph', () => {
 
     it.skip('should hide node titles in shade zone', () => {
         
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
 
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');
@@ -224,10 +224,10 @@ describe('mindmap-to-graph', () => {
 
     it('should set nodes position', () => {
         
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
         
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');
@@ -249,10 +249,10 @@ describe('mindmap-to-graph', () => {
 
     it.skip('should set nodes scale', () => {
 
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
         
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');
@@ -281,10 +281,10 @@ describe('mindmap-to-graph', () => {
 
     it('should set nodes color', () => {
 
-        const mindmap = setupMindmap();
+        const mindset = setupMindset();
         
         // target
-        const graph = toGraph(mindmap);
+        const graph = toGraph(mindset);
 
         // check
         const nodeA = graph.nodes.find(n => n.id === 'A');

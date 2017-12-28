@@ -28,8 +28,8 @@ export default function mutate(state, patch) {
  */
 function apply(state, mutation) {
 
-    const {mindmap} = state.vm.main;
-    const {graph} = mindmap;
+    const {mindset} = state.vm.main;
+    const {graph} = mindset;
     
     const {data} = mutation;
 
@@ -51,13 +51,13 @@ function apply(state, mutation) {
         break;
     }
 
-    case 'init-mindmap':
-    case 'update-mindmap-vm':
-        state.vm.main.mindmap.emitChange();
+    case 'init-mindset':
+    case 'update-mindset-vm':
+        state.vm.main.mindset.emitChange();
         break;
 
     case 'update-graph':
-    case 'update-mindmap':
+    case 'update-mindset':
     case 'add-association':
     case 'add-idea':
     case 'remove-idea':
@@ -87,7 +87,7 @@ function apply(state, mutation) {
         break;
 
     case 'update-idea-search-box':
-        mindmap.ideaSearchBox.emitChange();
+        mindset.ideaSearchBox.emitChange();
         break;
 
     case 'update-idea-form-modal':

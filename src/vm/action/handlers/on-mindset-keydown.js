@@ -6,7 +6,7 @@ import GraphType from 'vm/map/entities/Graph';
 import Point from 'model/entities/Point';
 
 /**
- * Handles keydown event from mindmap
+ * Handles keydown event from mindset
  * 
  * @param {StateType} state
  * @param {object} data
@@ -16,13 +16,13 @@ import Point from 'model/entities/Point';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap}}} = state;
-    const {graph} = mindmap;
+    const {vm: {main: {mindset}}} = state;
+    const {graph} = mindset;
     const {code, ctrlKey, preventDefault} = required(data);
     
     const isPopupActive =
         graph.associationTailsLookup.active ||
-        mindmap.ideaSearchBox.active ||
+        mindset.ideaSearchBox.active ||
         graph.ideaFormModal.modal.active;
 
     switch (code) {
@@ -36,7 +36,7 @@ export default function(state, data, dispatch) {
     case 'ArrowLeft':
     case 'ArrowRight':
         if (!isPopupActive) {
-            onMindmapPan({code, graph, dispatch});
+            onMindsetPan({code, graph, dispatch});
         }
         break;
     
@@ -85,14 +85,14 @@ export default function(state, data, dispatch) {
 }
 
 /**
- * Handles mindmap panning with keyboard
+ * Handles mindset panning with keyboard
  * 
  * @param {object} opts
  * @param {string} opts.code
  * @param {GraphType} opts.graph
  * @param {function} opts.dispatch
  */
-function onMindmapPan(opts) {
+function onMindsetPan(opts) {
     const {code, graph, dispatch} = opts;
 
     let panKeyStep = 20;
@@ -120,9 +120,9 @@ function onMindmapPan(opts) {
     }
 
     dispatch({
-        type: 'set-mindmap-position-and-scale',
+        type: 'set-mindset-position-and-scale',
         data: {
-            mindmapId: graph.id,
+            mindsetId: graph.id,
             pos
         }
     });

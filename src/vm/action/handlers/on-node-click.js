@@ -9,7 +9,7 @@ import required from 'utils/required-params';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {nodeId} = required(data);
     
     const node = graph.nodes.find(n => n.id === nodeId);

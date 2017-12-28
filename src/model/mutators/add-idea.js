@@ -12,8 +12,8 @@ import IdeaType from 'model/entities/Idea';
  * @param {IdeaType} data.idea
  */
 export default function addIdea(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {idea} = required(data);
 
-    mindmap.ideas.set(idea.id, idea);
+    mindset.ideas.set(idea.id, idea);
 }

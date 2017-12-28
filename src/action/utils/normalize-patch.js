@@ -35,5 +35,5 @@ export default function normalizePatch(patch) {
 const rules = {
     ['update-idea']: (m1, m2) => m1.data.id === m2.data.id,
     ['update-association']: (m1, m2) => m1.data.id === m2.data.id,
-    ['update-mindmap']: () => true
+    ['update-mindset']: () => true
 };

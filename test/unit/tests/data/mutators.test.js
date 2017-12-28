@@ -48,7 +48,7 @@ describe('mutators', () => {
                 data: {
                     idea: new Idea({
                         id: 'id',
-                        mindmapId: 'mindmap id',
+                        mindsetId: 'mindset id',
                         value: 'test',
                         posRel: new Point({x: 0, y: 0})
                     })
@@ -65,7 +65,7 @@ describe('mutators', () => {
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
                 _id: 'id',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 value: 'test'
             });
     
@@ -189,7 +189,7 @@ describe('mutators', () => {
                 data: {
                     assoc: new Association({
                         id: 'id',
-                        mindmapId: 'mindmap id',
+                        mindsetId: 'mindset id',
                         value: 'test'
                     })
                 }});
@@ -204,7 +204,7 @@ describe('mutators', () => {
             expect(data.rows).to.have.length(1);
             expect(data.rows[0].doc).to.containSubset({
                 _id: 'id',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 value: 'test'
             });
     
@@ -275,19 +275,19 @@ describe('mutators', () => {
     
     });
     
-    describe('update-mindmap', () => {
+    describe('update-mindset', () => {
     
-        it('should update mindmap', async () => {
+        it('should update mindset', async () => {
     
             // setup
-            const mindmapDB = createDB();
-            mindmapDB.put({_id: 'id', scale: 1, x: 100});
+            const mindsetDB = createDB();
+            mindsetDB.put({_id: 'id', scale: 1, x: 100});
     
             const state = new State();
-            state.data.mindmaps = mindmapDB;
+            state.data.mindsets = mindsetDB;
     
             const patch = new Patch({
-                type: 'update-mindmap',
+                type: 'update-mindset',
                 data: {id: 'id', scale: 2}
             });
     
@@ -295,10 +295,10 @@ describe('mutators', () => {
             await mutate(state, patch);
     
             // check
-            const mindmap = await state.data.mindmaps.get('id');
+            const mindset = await state.data.mindsets.get('id');
     
-            expect(mindmap).to.exist;
-            expect(mindmap).to.containSubset({
+            expect(mindset).to.exist;
+            expect(mindset).to.containSubset({
                 _id: 'id',
                 scale: 2,
                 x: 100

@@ -2,24 +2,24 @@ import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
 
-import MindmapType from 'vm/main/Mindmap';
+import MindsetType from 'vm/main/Mindset';
 import ConnectionState from 'action/utils/ConnectionState';
 
 import Graph from 'view/map/entities/Graph';
 import IdeaSearchBox from 'view/shared/IdeaSearchBox';
 
-import classes from './Mindmap.css';
+import classes from './Mindset.css';
 
 // eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
- * @prop {MindmapType} mindmap
+ * @prop {MindsetType} mindset
  * @prop {function({code, ctrlKey, preventDefault})} onKeyDown
  * @prop {function()} onGoRootButtonClick
  * 
  * @extends {Component<Props>}
  */
-export default class Mindmap extends Component {
+export default class Mindset extends Component {
 
     componentDidMount() {
         // listen keyboard events on body element, since otherwise it is not
@@ -63,25 +63,25 @@ export default class Mindmap extends Component {
 
     render() {
         
-        const {mindmap, onGoRootButtonClick} = this.props;
-        const {dbServerConnectionIcon} = mindmap;
+        const {mindset, onGoRootButtonClick} = this.props;
+        const {dbServerConnectionIcon} = mindset;
 
         return (
             <div className={cx(classes.root)}>
 
-                {!mindmap.isLoaded && !mindmap.isLoadFailed &&
+                {!mindset.isLoaded && !mindset.isLoadFailed &&
                     <div className={classes.message}>
-                        Mindmap is loading...
+                        Mindset is loading...
                     </div>}
 
-                {mindmap.isLoadFailed &&
+                {mindset.isLoadFailed &&
                     <div className={classes.message}>
-                        Mindmap load failed
+                        Mindset load failed
                     </div>}
 
-                {mindmap.isLoaded ?
+                {mindset.isLoaded ?
                     <Fragment>
-                        <Graph graph={mindmap.graph} />
+                        <Graph graph={mindset.graph} />
 
                         <span className={cx(
                             classes.dbConnectionStateIcon,
@@ -102,7 +102,7 @@ export default class Mindmap extends Component {
                         onClick={onGoRootButtonClick} />
 
                         <IdeaSearchBox className={classes.ideaSearchBox}
-                            searchBox={mindmap.ideaSearchBox} />
+                            searchBox={mindset.ideaSearchBox} />
                     </Fragment>
                     : null}
             </div>

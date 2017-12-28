@@ -54,7 +54,7 @@ describe('ideas', () => {
 
             await db.put({
                 _id: '123',
-                mindmapId: 'test id',
+                mindsetId: 'test id',
                 value: 'test value'
             });
 
@@ -68,19 +68,19 @@ describe('ideas', () => {
             expect(result[0].value).to.equal('test value');
         });
 
-        it('should return ideas of certain mindmap', async () => {
+        it('should return ideas of certain mindset', async () => {
             
             // setup
             const db = createDB();
 
             await db.put({
                 _id: '1',
-                mindmapId: 'test id'
+                mindsetId: 'test id'
             });
 
             await db.put({
                 _id: '2',
-                mindmapId: 'another id'
+                mindsetId: 'another id'
             });
 
             // target
@@ -101,7 +101,7 @@ describe('ideas', () => {
             const db = createDB();
 
             const idea = new Idea({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 value: 'test value',
                 posRel: {x: 10, y: 20}
             });
@@ -116,7 +116,7 @@ describe('ideas', () => {
 
             expect(result).to.have.length(1);
             expect(result[0]._id).to.equal(idea.id);
-            expect(result[0].mindmapId).to.equal('mindmap id');
+            expect(result[0].mindsetId).to.equal('mindset id');
             expect(result[0].value).to.equal('test value');
             expect(result[0].posRel.constructor).to.equal(Object);
             expect(result[0].posRel).to.deep.equal({x: 10, y: 20});
@@ -128,7 +128,7 @@ describe('ideas', () => {
             const db = createDB();
 
             const idea = new Idea({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 value: 'test',
                 posRel: {x: 10, y: 20}
             });
@@ -149,7 +149,7 @@ describe('ideas', () => {
 
             const idea = new Idea({
                 id: '123',
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 posRel: {x: 10, y: 20}
             });
             
@@ -160,7 +160,7 @@ describe('ideas', () => {
                 'Document update conflict');
         });
 
-        it('should fail if parent mindmap ID is empty', async () => {
+        it('should fail if parent mindset ID is empty', async () => {
             
             // setup
             const db = createDB();
@@ -174,7 +174,7 @@ describe('ideas', () => {
             const promise = ideaDB.add(db, idea);
 
             await expect(promise).to.be.rejectedWith(
-                `Failed to add idea '123' with empty parent mindmap ID`);
+                `Failed to add idea '123' with empty parent mindset ID`);
         });
 
     });
@@ -264,20 +264,20 @@ describe('ideas', () => {
             await expect(promise).to.be.rejectedWith('missing');
         });
 
-        it('should fail if parent mindmap ID is empty', async () => {
+        it('should fail if parent mindset ID is empty', async () => {
             
             // setup
             const db = createDB();
 
             db.post({
                 _id: 'i',
-                mindmapId: '1'
+                mindsetId: '1'
             });
 
             const patch = {
                 id: 'i',
                 value: 'test value',
-                mindmapId: null
+                mindsetId: null
             };
 
             // target
@@ -285,7 +285,7 @@ describe('ideas', () => {
 
             // check
             await expect(promise).to.be.rejectedWith(
-                `Failed to update idea 'i' with empty parent mindmap ID`);
+                `Failed to update idea 'i' with empty parent mindset ID`);
         });
 
     });

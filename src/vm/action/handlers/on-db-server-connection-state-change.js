@@ -23,14 +23,14 @@ export default function(state, data) {
         
     case ConnectionState.connected:
         tooltip =
-            `Mindmap is connected to database server ` +
+            `Mindset is connected to database server ` +
             `(${dbServerUrl}).\n` +
             `All changes are saved locally and on server.`;
         break;
 
     case ConnectionState.disconnected:
         tooltip =
-            `Mindmap is disconnected from database server ` +
+            `Mindset is disconnected from database server ` +
             `(${dbServerUrl}).\n` +
             `All changes are saved locally and will be sent to ` +
             `server when connection is restored.`;
@@ -41,7 +41,7 @@ export default function(state, data) {
         `'${connectionState}'`);
     }
 
-    return view('update-mindmap-vm', {
+    return view('update-mindset-vm', {
         dbServerConnectionIcon: {
             state: connectionState,
             tooltip

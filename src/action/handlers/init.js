@@ -5,7 +5,7 @@ import StateType from 'boot/client/State';
 import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
 import MainVM from 'vm/main/Main';
-import MindmapVM from 'vm/main/Mindmap';
+import MindsetVM from 'vm/main/Mindset';
 
 /**
  * Inits state
@@ -19,16 +19,16 @@ export default async function init(state, data, dispatch, mutate) {
     const {storeDispatch, dbServerUrl, viewRoot} = required(data);
 
     // init view model
-    // TBD: currently unconditionaly start loading mindmap.
+    // TBD: currently unconditionaly start loading mindset.
     //      in future, this action is the place to check user session,
     //      and if it is stalled then move to login first.
-    const mindmap = new MindmapVM({
+    const mindset = new MindsetVM({
         isLoaded: false
     });
 
     const main = new MainVM({
-        screen: 'mindmap',
-        mindmap
+        screen: 'mindset',
+        mindset
     });
 
     await mutate(new Patch({
@@ -48,7 +48,7 @@ export default async function init(state, data, dispatch, mutate) {
     }));
 
     dispatch({
-        type: 'load-mindmap',
+        type: 'load-mindset',
         data: {
             isInitialLoad: true
         }

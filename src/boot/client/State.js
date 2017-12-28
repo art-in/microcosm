@@ -1,4 +1,4 @@
-import MindmapType from 'model/entities/Mindmap';
+import MindsetType from 'model/entities/Mindset';
 import MainVMType from 'vm/main/Main';
 
 /**
@@ -21,16 +21,16 @@ export default class State {
         associations: undefined,
 
         /** @type {PouchDB.Database} */
-        mindmaps: undefined
+        mindsets: undefined
     }
 
     model = {
 
         /**
-         * Mindmap model
-         * @type {MindmapType}
+         * Mindset model
+         * @type {MindsetType}
          */
-        mindmap: undefined
+        mindset: undefined
     }
 
     vm = {

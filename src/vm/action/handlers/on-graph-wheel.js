@@ -14,7 +14,7 @@ import PointType from 'model/entities/Point';
  * @param {function} dispatch
  */
 export default function onGraphWheel(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {up, pos} = required(data);
     
     if (graph.zoomInProgress) {

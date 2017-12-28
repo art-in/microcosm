@@ -1,4 +1,4 @@
-import MindmapType from 'model/entities/Mindmap';
+import MindsetType from 'model/entities/Mindset';
 import IdeaType from 'model/entities/Idea';
 import Graph from 'vm/map/entities/Graph';
 import NodeType from 'vm/map/entities/Node';
@@ -15,12 +15,12 @@ import ideaToNode from './idea-to-node';
 import assocToLink from './association-to-link';
 
 /**
- * Maps mindmap model to graph view model
+ * Maps mindset model to graph view model
  * 
- * @param {MindmapType} mindmap
+ * @param {MindsetType} mindset
  * @return {Graph}
  */
-export default function mindmapToGraph(mindmap) {
+export default function mindsetToGraph(mindset) {
 
     let rootNode;
     let nodes = [];
@@ -29,16 +29,16 @@ export default function mindmapToGraph(mindmap) {
     let focusZoneMax = 0;
     let shadeZoneAmount = 0;
 
-    if (mindmap.root) {
+    if (mindset.root) {
 
         // map graph and slice-out deep pieces basing on current scale
-        focusCenter = getFocusWeightForScale(mindmap.scale);
+        focusCenter = getFocusWeightForScale(mindset.scale);
         
         focusZoneMax = focusCenter + 1000;
         shadeZoneAmount = 1000;
 
         const res = mapGraph({
-            vertex: mindmap.root,
+            vertex: mindset.root,
             focusZoneMax,
             shadeZoneAmount,
             mapEdge: (assoc, predecessorZone, successorZone) => {
@@ -78,7 +78,7 @@ export default function mindmapToGraph(mindmap) {
             root: rootNode,
             isTree: true,
             visit: node => {
-                computeNode(mindmap, nodes, node);
+                computeNode(mindset, nodes, node);
                 nodesToCompute.delete(node.id);
             }
         });
@@ -87,17 +87,17 @@ export default function mindmapToGraph(mindmap) {
         // graph can have nodes unreachable from root (see docs for mapper).
         // we need to compute them too.
         const notVisitedNodes = [...(nodesToCompute.values())];
-        notVisitedNodes.forEach(computeNode.bind(null, mindmap, nodes));
+        notVisitedNodes.forEach(computeNode.bind(null, mindset, nodes));
     }
 
     const graph = new Graph();
 
-    graph.id = mindmap.id;
+    graph.id = mindset.id;
     graph.nodes = nodes;
     graph.links = links;
-    graph.viewbox.x = mindmap.pos.x;
-    graph.viewbox.y = mindmap.pos.y;
-    graph.viewbox.scale = mindmap.scale;
+    graph.viewbox.x = mindset.pos.x;
+    graph.viewbox.y = mindset.pos.y;
+    graph.viewbox.scale = mindset.scale;
 
     graph.root = rootNode;
 
@@ -115,14 +115,14 @@ export default function mindmapToGraph(mindmap) {
  * Some props depend to surrounding context and should be computed
  * (eg. node color is inherited from closest node that does have color).
  * 
- * @param {MindmapType} mindmap
+ * @param {MindsetType} mindset
  * @param {Array.<NodeType>} nodes - all mapped nodes
  * @param {NodeType} node          - target node to compute
  */
-function computeNode(mindmap, nodes, node) {
+function computeNode(mindset, nodes, node) {
     
     /** @type {IdeaType} */
-    const idea = mindmap.ideas.get(node.id);
+    const idea = mindset.ideas.get(node.id);
 
     // get required info from parent
     let parentNodeColor;

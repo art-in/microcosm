@@ -4,25 +4,25 @@ import mutate from 'model/mutators';
 
 import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 
-describe('update-mindmap', () => {
+describe('update-mindset', () => {
 
-    it('should update mindmap', () => {
+    it('should update mindset', () => {
 
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({x: 100, y: 0})
         });
 
         const state = new State();
-        state.model.mindmap = mindmap;
+        state.model.mindset = mindset;
         
         const patch = new Patch({
-            type: 'update-mindmap',
+            type: 'update-mindset',
             data: {id: 'id', scale: 2}
         });
 
@@ -30,7 +30,7 @@ describe('update-mindmap', () => {
         mutate(state, patch);
 
         // check
-        expect(state.model.mindmap).to.containSubset({
+        expect(state.model.mindset).to.containSubset({
             id: 'id',
             scale: 2,
             pos: {x: 100}

@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 
 import handler from 'src/action/handler';
@@ -17,10 +17,10 @@ describe('set-idea-color', () => {
             color: 'black'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -49,10 +49,10 @@ describe('set-idea-color', () => {
             color: 'black'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.ideas.set(idea.id, idea);
+        const mindset = new Mindset();
+        mindset.ideas.set(idea.id, idea);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -71,13 +71,13 @@ describe('set-idea-color', () => {
     it('should target all state layers', () => {
 
         // setup
-        const mindmap = new Mindmap();
-        mindmap.ideas.set('id', new Idea({
+        const mindset = new Mindset();
+        mindset.ideas.set('id', new Idea({
             id: 'id',
             color: 'black'
         }));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {

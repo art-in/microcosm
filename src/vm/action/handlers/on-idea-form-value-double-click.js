@@ -10,7 +10,7 @@ import StateType from 'boot/client/State';
  * @return {PatchType}
  */
 export default function(state) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     
     const {form} = graph.ideaFormModal;
 

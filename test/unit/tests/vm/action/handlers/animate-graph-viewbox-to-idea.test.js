@@ -27,7 +27,7 @@ describe('animate-graph-viewbox-to-idea', () => {
         const state = createState();
 
         // setup model
-        const {mindmap} = state.model;
+        const {mindset} = state.model;
 
         const ideaA = new Idea({
             id: 'A',
@@ -35,10 +35,10 @@ describe('animate-graph-viewbox-to-idea', () => {
             posAbs: new Point({x: 500, y: 500})
         });
 
-        mindmap.ideas.set(ideaA.id, ideaA);
+        mindset.ideas.set(ideaA.id, ideaA);
 
         // setup view model
-        const {graph} = state.vm.main.mindmap;
+        const {graph} = state.vm.main.mindset;
 
         update(graph.viewbox, {
             x: 0,
@@ -102,14 +102,14 @@ describe('animate-graph-viewbox-to-idea', () => {
         expect(viewbox.y).to.equal(475);
     });
 
-    it(`should dispatch 'set-mindmap-position-and-scale' action`, async () => {
+    it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
 
         const {dispatchSpy} = await setup();
 
         expect(dispatchSpy.callCount).to.equal(1);
         expect(dispatchSpy.firstCall.args).to.have.length(1);
         expect(dispatchSpy.firstCall.args[0]).to.containSubset({
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
                 scale: 2,
                 pos: {x: 475, y: 475}

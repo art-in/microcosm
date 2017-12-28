@@ -17,11 +17,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
 
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 0, y: 0});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
@@ -53,11 +53,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 100, y: 200});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
@@ -82,11 +82,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 0, y: 0});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // setup patch
         const patch = handle(state, {
@@ -118,11 +118,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 0, y: 0});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
@@ -155,13 +155,13 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 100, y: 200});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
-        const {viewbox} = state.vm.main.mindmap.graph;
+        const {viewbox} = state.vm.main.mindset.graph;
         viewbox.x = 0;
         viewbox.y = 0;
         viewbox.scale = 1;
@@ -196,11 +196,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 100, y: 200});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // setup patch
         const patch = handle(state, {
@@ -231,11 +231,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id, shaded: true});
         node.posAbs = new Point({x: 0, y: 0});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {
@@ -254,11 +254,11 @@ describe('on-node-context-menu', () => {
         const state = createState();
         
         const idea = new Idea({id: 'idea'});
-        state.model.mindmap.ideas.set(idea.id, idea);
+        state.model.mindset.ideas.set(idea.id, idea);
 
         const node = new Node({id: idea.id});
         node.posAbs = new Point({x: 0, y: 0});
-        state.vm.main.mindmap.graph.nodes.push(node);
+        state.vm.main.mindset.graph.nodes.push(node);
 
         // target
         const patch = handle(state, {

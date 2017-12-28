@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
@@ -25,13 +25,13 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -62,15 +62,15 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
         const assocAtoC = edges.find(l => l.id === 'A to C');
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -124,14 +124,14 @@ describe('remove-association', () => {
         ideaC.posRel = new Point({x: 2, y: 0});
         ideaC.posAbs = new Point({x: 2, y: 0});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -203,14 +203,14 @@ describe('remove-association', () => {
         ideaC.posRel = new Point({x: 2, y: 0});
         ideaC.posAbs = new Point({x: 2, y: 0});
 
-        // setup mindmap
-        const mindmap = new Mindmap();
+        // setup mindset
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -226,9 +226,9 @@ describe('remove-association', () => {
     it('should fail if association was not found', () => {
         
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -255,16 +255,16 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
         const assocBtoC = edges.find(l => l.id === 'B to C');
         assocBtoC.from = null;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -291,16 +291,16 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
         const assocBtoC = edges.find(l => l.id === 'B to C');
         assocBtoC.to = null;
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -326,13 +326,13 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -360,16 +360,16 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
         const ideaB = vertices.find(n => n.id === 'B');
         ideaB.edgesOut = [];
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -397,16 +397,16 @@ describe('remove-association', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
         const ideaC = vertices.find(n => n.id === 'C');
         ideaC.edgesIn = [];
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {

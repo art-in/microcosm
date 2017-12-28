@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import createState from 'test/utils/create-state';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
@@ -22,12 +22,12 @@ describe('on-link-context-menu', () => {
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        state.model.mindmap = mindmap;
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
+        state.model.mindset = mindset;
 
         const link = new Link({id: assoc.id});
-        state.vm.main.mindmap.graph.links.push(link);
+        state.vm.main.mindset.graph.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -59,14 +59,14 @@ describe('on-link-context-menu', () => {
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        state.model.mindmap = mindmap;
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
+        state.model.mindset = mindset;
 
         const link = new Link({id: assoc.id});
-        state.vm.main.mindmap.graph.links.push(link);
+        state.vm.main.mindset.graph.links.push(link);
 
-        const {viewbox} = state.vm.main.mindmap.graph;
+        const {viewbox} = state.vm.main.mindset.graph;
         viewbox.x = 0;
         viewbox.y = 0;
         viewbox.scale = 1;
@@ -96,12 +96,12 @@ describe('on-link-context-menu', () => {
         const state = createState();
 
         const assoc = new Association({id: 'assoc'});
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        state.model.mindmap = mindmap;
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
+        state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id, shaded: true});
-        state.vm.main.mindmap.graph.links.push(link);
+        state.vm.main.mindset.graph.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -124,12 +124,12 @@ describe('on-link-context-menu', () => {
         const assoc = new Association({id: 'assoc'});
         assoc.to = new Idea();
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        state.model.mindmap = mindmap;
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
+        state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id});
-        state.vm.main.mindmap.graph.links.push(link);
+        state.vm.main.mindset.graph.links.push(link);
 
         // target
         const patch = handle(state, {
@@ -157,12 +157,12 @@ describe('on-link-context-menu', () => {
         tail.edgesIn = [assoc];
         assoc.to = tail;
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
-        state.model.mindmap = mindmap;
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
+        state.model.mindset = mindset;
         
         const link = new Link({id: assoc.id});
-        state.vm.main.mindmap.graph.links.push(link);
+        state.vm.main.mindset.graph.links.push(link);
 
         // target
         const patch = handle(state, {

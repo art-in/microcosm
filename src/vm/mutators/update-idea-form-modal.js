@@ -10,7 +10,7 @@ import IdeaFormModalType from 'vm/shared/IdeaFormModal';
  * @param {Partial<IdeaFormModalType>} data
  */
 export default function(state, data) {
-    const {ideaFormModal} = state.vm.main.mindmap.graph;
+    const {ideaFormModal} = state.vm.main.mindset.graph;
 
     updateViewModel(ideaFormModal, data);
 }

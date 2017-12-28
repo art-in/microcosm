@@ -1,25 +1,25 @@
 import values from 'utils/get-map-values';
 
 import IdeaType from 'model/entities/Idea';
-import MindmapType from 'model/entities/Mindmap';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Searches ideas
  * 
- * @param {MindmapType} mindmap 
+ * @param {MindsetType} mindset 
  * @param {object} opts
  * @param {string} opts.phrase
  * @param {Object.<string>} [opts.excludeIds]
  * @return {Array.<IdeaType>}
  */
-export default function searchIdeas(mindmap, opts) {
+export default function searchIdeas(mindset, opts) {
     const {phrase, excludeIds} = opts;
     
     if (!phrase) {
         throw Error('Search string is empty');
     }
 
-    return values(mindmap.ideas)
+    return values(mindset.ideas)
         .filter(idea => {
             if (excludeIds && excludeIds.includes(idea.id)) {
                 return false;

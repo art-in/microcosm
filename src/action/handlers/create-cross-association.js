@@ -20,11 +20,11 @@ import weighAssociation from 'model/utils/weigh-association';
  * @return {Patch}
  */
 export default function createCrossAssociation(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {headIdeaId, tailIdeaId} = required(data);
 
-    const head = getIdea(mindmap, headIdeaId);
-    const tail = getIdea(mindmap, tailIdeaId);
+    const head = getIdea(mindset, headIdeaId);
+    const tail = getIdea(mindset, tailIdeaId);
 
     // check integrity
     if (headIdeaId === tailIdeaId) {
@@ -53,7 +53,7 @@ export default function createCrossAssociation(state, data) {
     let patch = new Patch();
 
     const assoc = new Association({
-        mindmapId: mindmap.id,
+        mindsetId: mindset.id,
         fromId: headIdeaId,
         from: head,
         toId: tailIdeaId,
@@ -80,7 +80,7 @@ export default function createCrossAssociation(state, data) {
 
     // update root paths
     const rootPathsPatch = patchRootPaths({
-        root: mindmap.root,
+        root: mindset.root,
         replaceEdgesOut: [{vertex: head, edgesOut: newHeadAssocsOut}]
     });
 

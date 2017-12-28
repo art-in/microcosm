@@ -16,12 +16,12 @@ import getIdea from 'action/utils/get-idea';
  * @return {Patch}
  */
 export default function removeIdea(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId} = required(data);
 
     const patch = new Patch();
 
-    const idea = getIdea(mindmap, ideaId);
+    const idea = getIdea(mindset, ideaId);
 
     // check integrity
     if (idea.isRoot) {

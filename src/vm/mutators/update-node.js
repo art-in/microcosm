@@ -10,7 +10,7 @@ import NodeType from 'vm/map/entities/Node';
  * @param {Partial<NodeType>} data
  */
 export default function updateNode(state, data) {
-    const {graph} = state.vm.main.mindmap;
+    const {graph} = state.vm.main.mindset;
     const node = graph.nodes.find(n => n.id === data.id);
 
     updateViewModel(node, data);

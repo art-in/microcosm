@@ -11,10 +11,10 @@ import StateType from 'boot/client/State';
  * @param {function} dispatch
  */
 export default async function(state, data, dispatch) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId} = required(data);
 
-    const idea = mindmap.ideas.get(ideaId);
+    const idea = mindset.ideas.get(ideaId);
 
     if (confirm(`Remove following idea? \n\n'${idea.title}'\n`)) {
         dispatch({

@@ -12,8 +12,8 @@ import AssociationType from 'model/entities/Association';
  * @param {AssociationType} data.assoc
  */
 export default function addAssociation(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {assoc} = required(data);
 
-    mindmap.associations.set(assoc.id, assoc);
+    mindset.associations.set(assoc.id, assoc);
 }

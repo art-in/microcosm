@@ -17,7 +17,7 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {linkId, viewportPos} = required(data);
  
     const link = graph.links.find(l => l.id === linkId);

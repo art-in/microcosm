@@ -13,7 +13,7 @@ import PatchType from 'utils/state/Patch';
  * @return {PatchType}
  */
 export default function(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId, parentIdeaId, isNewIdea = false} = data;
     
     if (ideaId === undefined && !isNewIdea) {
@@ -30,7 +30,7 @@ export default function(state, data) {
     if (!isNewIdea) {
         
         // open existing idea
-        const idea = mindmap.ideas.get(ideaId);
+        const idea = mindset.ideas.get(ideaId);
         
         title = idea.title || '';
         value = idea.value || '';

@@ -21,10 +21,10 @@ import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
  * @return {PatchType}
  */
 export default function searchAssociationTailsForLookup(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {phrase, headIdeaId} = required(data);
 
-    const headIdea = getIdea(mindmap, headIdeaId);
+    const headIdea = getIdea(mindset, headIdeaId);
 
     const excludeIds = [];
     
@@ -40,9 +40,9 @@ export default function searchAssociationTailsForLookup(state, data) {
     excludeIds.push(...parentIds);
 
     // exclude root idea
-    excludeIds.push(mindmap.root.id);
+    excludeIds.push(mindset.root.id);
 
-    const ideas = searchIdeas(mindmap, {phrase, excludeIds});
+    const ideas = searchIdeas(mindset, {phrase, excludeIds});
 
     // map to suggestions
     const suggestions = ideas

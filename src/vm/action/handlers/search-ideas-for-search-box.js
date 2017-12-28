@@ -18,10 +18,10 @@ import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
  * @return {PatchType}
  */
 export default function(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {phrase} = required(data);
 
-    const ideas = searchIdeas(mindmap, {phrase});
+    const ideas = searchIdeas(mindset, {phrase});
 
     // map to suggestions
     // TODO: move to separate mapper 'idea-to-suggestion'

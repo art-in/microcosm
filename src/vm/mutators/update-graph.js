@@ -10,7 +10,7 @@ import GraphVmType from 'vm/map/entities/Graph';
  * @param {Partial<GraphVmType>} data
  */
 export default function updateGraph(state, data) {
-    const {graph} = state.vm.main.mindmap;
+    const {graph} = state.vm.main.mindset;
 
     updateViewModel(graph, data);
 }

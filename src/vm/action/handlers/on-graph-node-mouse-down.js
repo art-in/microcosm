@@ -19,7 +19,7 @@ import getDescendants from 'utils/graph/get-descendants';
  * @return {PatchType|undefined}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {nodeId, button} = required(data);
     
     if (button !== 'left') {

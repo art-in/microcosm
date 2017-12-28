@@ -1,5 +1,5 @@
 describe('mappers', () => {
 
-    require('./mindmap-to-graph.test');
+    require('./mindset-to-graph.test');
 
 });

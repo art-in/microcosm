@@ -10,7 +10,7 @@ import LookupPopupType from 'vm/shared/LookupPopup';
  * @param {Partial<LookupPopupType>} data
  */
 export default function updateAssociationTailsLookup(state, data) {
-    const {associationTailsLookup} = state.vm.main.mindmap.graph;
+    const {associationTailsLookup} = state.vm.main.mindset.graph;
 
     updateViewModel(associationTailsLookup, data);
 }

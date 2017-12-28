@@ -12,8 +12,8 @@ import StateType from 'boot/client/State';
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap}}} = state;
-    const {graph} = mindmap;
+    const {vm: {main: {mindset}}} = state;
+    const {graph} = mindset;
     
     const patch = new Patch();
 
@@ -32,7 +32,7 @@ export default function(state, data, dispatch) {
             {popup: {active: false}}));
     }
 
-    if (mindmap.ideaSearchBox.active) {
+    if (mindset.ideaSearchBox.active) {
         patch.push(view('update-idea-search-box',
             {active: false}));
     }

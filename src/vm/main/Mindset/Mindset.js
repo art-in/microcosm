@@ -7,28 +7,28 @@ import IdeaSearchBox from 'vm/shared/IdeaSearchBox';
 import ConnectionState from 'action/utils/ConnectionState';
 
 /**
- * Mindmap view model
+ * Mindset view model
  * 
- * Represents root mindmap component, which can show
- * mindmap in different forms (map, list, etc)
+ * Represents root mindset component, which can show
+ * mindset in different forms (map, list, etc)
  */
-export default class Mindmap extends ViewModel {
+export default class Mindset extends ViewModel {
 
     /**
-     * Mindmap is loaded
+     * Mindset is loaded
      * @type {boolean}
      */
     isLoaded = false;
     
     /**
-     * Mindmap load failed
+     * Mindset load failed
      * @type {boolean}
      */
     isLoadFailed = false;
 
     /**
      * Graph view model.  
-     * Note: only available when mindmap is loaded.
+     * Note: only available when mindset is loaded.
      * @type {GraphVmType|undefined}
      */
     graph = undefined;
@@ -52,7 +52,7 @@ export default class Mindmap extends ViewModel {
 
     /**
      * Constructor
-     * @param {Partial<Mindmap>} [props]
+     * @param {Partial<Mindset>} [props]
      */
     constructor(props) {
         super();

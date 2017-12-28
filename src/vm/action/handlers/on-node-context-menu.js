@@ -19,7 +19,7 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {nodeId} = required(data);
 
     const node = graph.nodes.find(n => n.id === nodeId);

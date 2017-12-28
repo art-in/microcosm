@@ -15,10 +15,10 @@ import getIdea from 'action/utils/get-idea';
  * @return {Patch|undefined}
  */
 export default function setIdeaColor(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId, color} = required(data);
 
-    const idea = getIdea(mindmap, ideaId);
+    const idea = getIdea(mindset, ideaId);
     
     if (idea.color === color) {
         // was not changed

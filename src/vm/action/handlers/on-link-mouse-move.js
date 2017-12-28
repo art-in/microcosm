@@ -19,7 +19,7 @@ import getDistance from 'utils/get-distance-between-points';
  * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {linkId, viewportPos} = required(data);
     
     const link = graph.links.find(l => l.id === linkId);

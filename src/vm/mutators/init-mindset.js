@@ -5,27 +5,27 @@ import MainVmType from 'vm/main/Main';
 import updateGraphPersistentProps from 'vm/utils/update-graph-persistent-props';
 
 /**
- * Inits mindmap
+ * Inits mindset
  * 
  * @param {StateType} state
  * @param {object} data
  */
-export default function initMindmap(state, data) {
+export default function initMindset(state, data) {
     const {vm} = state;
-    const {isLoaded, graph} = required(data.vm.mindmap);
+    const {isLoaded, graph} = required(data.vm.mindset);
 
-    const {mindmap} = vm.main;
+    const {mindset} = vm.main;
 
-    mindmap.isLoaded = isLoaded;
+    mindset.isLoaded = isLoaded;
 
-    if (mindmap.graph) {
-        // mindmap can be re-initialized several times (eg. on mindmap reloads
+    if (mindset.graph) {
+        // mindset can be re-initialized several times (eg. on mindset reloads
         // per server sync changes), we do not want to clear out view specific
         // state in that case (eg. opened idea form)
-        updateGraphPersistentProps(mindmap.graph, graph);
+        updateGraphPersistentProps(mindset.graph, graph);
     } else {
-        mindmap.graph = graph;
+        mindset.graph = graph;
     }
 
-    mindmap.graph.isDirty = true;
+    mindset.graph.isDirty = true;
 }

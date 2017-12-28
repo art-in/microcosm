@@ -19,7 +19,7 @@ import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
  * @return {Patch|undefined}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {viewportShift, pressedMouseButton} = required(data);
 
     const viewboxShift = toViewboxCoords(viewportShift, graph.viewbox);

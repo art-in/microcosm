@@ -8,7 +8,7 @@ import AsyncTaskQueue from 'utils/AsyncTaskQueue';
 
 import * as ideaDB from '../db/ideas';
 import * as assocDB from '../db/associations';
-import * as mindmapDB from '../db/mindmaps';
+import * as mindsetDB from '../db/mindsets';
 
 /**
  * DB mutation queue
@@ -52,11 +52,11 @@ async function apply(state, mutation) {
         break;
     }
 
-    case 'init-mindmap': {
-        const {ideas, associations, mindmaps} = required(mutation.data.data);
+    case 'init-mindset': {
+        const {ideas, associations, mindsets} = required(mutation.data.data);
         data.ideas = ideas;
         data.associations = associations;
-        data.mindmaps = mindmaps;
+        data.mindsets = mindsets;
         break;
     }
 
@@ -84,8 +84,8 @@ async function apply(state, mutation) {
         await assocDB.remove(data.associations, mutation.data.id);
         break;
 
-    case 'update-mindmap':
-        await mindmapDB.update(data.mindmaps, mutation.data);
+    case 'update-mindset':
+        await mindsetDB.update(data.mindsets, mutation.data);
         break;
 
     default:

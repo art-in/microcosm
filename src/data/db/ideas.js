@@ -17,16 +17,16 @@ export async function get(db, ideaId) {
 }
 
 /**
- * Gets all ideas of mindmap
+ * Gets all ideas of mindset
  * @param {PouchDB.Database} db
- * @param {string} mindmapId
+ * @param {string} mindsetId
  * @return {Promise.<Array.<IdeaType>>}
  */
-export async function getAll(db, mindmapId) {
+export async function getAll(db, mindsetId) {
 
     const data = await db.find({
         selector: {
-            mindmapId
+            mindsetId
         }
     });
 
@@ -44,9 +44,9 @@ export async function getAll(db, mindmapId) {
 export async function add(db, model) {
     const dbo = toDbo(model);
 
-    if (!dbo.mindmapId) {
+    if (!dbo.mindsetId) {
         throw Error(
-            `Failed to add idea '${model.id}' with empty parent mindmap ID`);
+            `Failed to add idea '${model.id}' with empty parent mindset ID`);
     }
 
     await db.put(dbo);
@@ -66,10 +66,10 @@ export async function update(db, model) {
         return;
     }
 
-    if (dbo.hasOwnProperty('mindmapId') && !dbo.mindmapId) {
+    if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
         throw Error(
             `Failed to update idea '${model.id}' with empty ` +
-            `parent mindmap ID`);
+            `parent mindset ID`);
     }
 
     const existing = await db.get(model.id);

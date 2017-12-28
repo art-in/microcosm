@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
@@ -25,13 +25,13 @@ describe('remove-idea', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -60,13 +60,13 @@ describe('remove-idea', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -99,13 +99,13 @@ describe('remove-idea', () => {
 
         const assocAtoB = edges.find(l => l.id === 'A to B');
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -142,13 +142,13 @@ describe('remove-idea', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -175,13 +175,13 @@ describe('remove-idea', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -210,13 +210,13 @@ describe('remove-idea', () => {
             /* C */ '0   0   0'
         ]);
 
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.root = root;
-        vertices.forEach(n => mindmap.ideas.set(n.id, n));
-        edges.forEach(l => mindmap.associations.set(l.id, l));
+        mindset.root = root;
+        vertices.forEach(n => mindset.ideas.set(n.id, n));
+        edges.forEach(l => mindset.associations.set(l.id, l));
     
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -232,12 +232,12 @@ describe('remove-idea', () => {
     it('should fail if no incoming associations found', () => {
         
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        mindmap.ideas.set('A', new Idea({id: 'A'}));
-        mindmap.ideas.set('B', new Idea({id: 'B'}));
+        mindset.ideas.set('A', new Idea({id: 'A'}));
+        mindset.ideas.set('B', new Idea({id: 'B'}));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -253,9 +253,9 @@ describe('remove-idea', () => {
     it('should fail if idea not found', () => {
 
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -265,18 +265,18 @@ describe('remove-idea', () => {
 
         // check
         expect(result).to.throw(
-            'Idea \'uknown\' was not found in mindmap');
+            'Idea \'uknown\' was not found in mindset');
     });
 
     it('should fail if idea is root', () => {
 
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        mindmap.ideas.set('root',
+        mindset.ideas.set('root',
             new Idea({id: 'root', isRoot: true}));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {

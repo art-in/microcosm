@@ -13,7 +13,7 @@ describe('animate-graph-zoom', () => {
 
         // setup state
         const state = createState();
-        const {graph} = state.vm.main.mindmap;
+        const {graph} = state.vm.main.mindset;
 
         graph.viewbox.x = graph.viewbox.y = 0;
         graph.viewbox.scale = 1;
@@ -47,7 +47,7 @@ describe('animate-graph-zoom', () => {
         
         // setup state
         const state = createState();
-        const {graph} = state.vm.main.mindmap;
+        const {graph} = state.vm.main.mindset;
         graph.viewbox.x = graph.viewbox.y = 0;
 
         graph.viewbox.scale = 0.5;
@@ -76,11 +76,11 @@ describe('animate-graph-zoom', () => {
         expect(patch['update-graph']).to.not.exist;
     });
 
-    it(`should dispatch 'set-mindmap-position-and-scale' action`, async () => {
+    it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
         
         // setup state
         const state = createState();
-        const {graph} = state.vm.main.mindmap;
+        const {graph} = state.vm.main.mindset;
 
         update(graph.viewbox, {
             x: 0,
@@ -116,7 +116,7 @@ describe('animate-graph-zoom', () => {
         expect(dispatch.callCount).to.equal(1);
         expect(dispatch.firstCall.args).to.have.length(1);
         expect(dispatch.firstCall.args[0]).to.containSubset({
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
                 scale: 1.5,
                 pos: {x: 0, y: 0}
@@ -136,7 +136,7 @@ describe('animate-graph-zoom', () => {
         // |_____|__|___x|
         //
         const state = createState();
-        const {graph} = state.vm.main.mindmap;
+        const {graph} = state.vm.main.mindset;
 
         update(graph.viewbox, {
             x: 50,
@@ -200,7 +200,7 @@ describe('animate-graph-zoom', () => {
 
             // setup state
             const state = createState();
-            const {graph} = state.vm.main.mindmap;
+            const {graph} = state.vm.main.mindset;
 
             update(graph.viewbox, {
                 x: 0,

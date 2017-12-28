@@ -4,25 +4,25 @@ import values from 'src/utils/get-map-values';
 
 import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Association from 'src/model/entities/Association';
 
 import mutate from 'model/mutators';
 
 describe('remove-association', () => {
     
-    it('should remove association from mindmap', () => {
+    it('should remove association from mindset', () => {
 
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        mindmap.associations.set('id', new Association({
+        mindset.associations.set('id', new Association({
             id: 'id',
             value: 'old'
         }));
 
         const state = new State();
-        state.model.mindmap = mindmap;
+        state.model.mindset = mindset;
 
         const patch = new Patch({
             type: 'remove-association',
@@ -33,7 +33,7 @@ describe('remove-association', () => {
         mutate(state, patch);
 
         // check
-        const assocs = values(state.model.mindmap.associations);
+        const assocs = values(state.model.mindset.associations);
 
         expect(assocs).to.have.length(0);
     });
@@ -42,7 +42,7 @@ describe('remove-association', () => {
         
         // setup
         const state = new State();
-        state.model.mindmap = new Mindmap();
+        state.model.mindset = new Mindset();
 
         const patch = new Patch({
             type: 'remove-association',

@@ -9,7 +9,7 @@ import StateType from 'boot/client/State';
  * @param {object} data
  */
 export default function updateColorPicker(state, data) {
-    const {colorPicker} = state.vm.main.mindmap.graph;
+    const {colorPicker} = state.vm.main.mindset.graph;
 
     updateViewModel(colorPicker, data);
 }

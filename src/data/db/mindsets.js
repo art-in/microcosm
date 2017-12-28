@@ -1,25 +1,25 @@
-import MindmapType from 'model/entities/Mindmap';
+import MindsetType from 'model/entities/Mindset';
 
-import toModel from 'data/mappers/dbo-to-mindmap';
-import toDbo from 'data/mappers/mindmap-to-dbo';
+import toModel from 'data/mappers/dbo-to-mindset';
+import toDbo from 'data/mappers/mindset-to-dbo';
 
 import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
- * Gets mindmap
+ * Gets mindset
  * @param {PouchDB.Database} db
- * @param {string} mindmapId
- * @return {Promise.<MindmapType>}
+ * @param {string} mindsetId
+ * @return {Promise.<MindsetType>}
  */
-export async function get(db, mindmapId) {
-    const dbo = await db.get(mindmapId);
+export async function get(db, mindsetId) {
+    const dbo = await db.get(mindsetId);
     return toModel(dbo);
 }
 
 /**
- * Gets all mindmaps
+ * Gets all mindsets
  * @param {PouchDB.Database} db
- * @return {Promise.<Array.<MindmapType>>}
+ * @return {Promise.<Array.<MindsetType>>}
  */
 export async function getAll(db) {
 
@@ -33,19 +33,19 @@ export async function getAll(db) {
 }
 
 /**
- * Adds new mindmap
+ * Adds new mindset
  * @param {PouchDB.Database} db
- * @param {MindmapType} mindmap
+ * @param {MindsetType} mindset
  */
-export async function add(db, mindmap) {
-    const dbo = toDbo(mindmap);
+export async function add(db, mindset) {
+    const dbo = toDbo(mindset);
     await db.put(dbo);
 }
 
 /**
- * Updates mindmap
+ * Updates mindset
  * @param {PouchDB.Database} db
- * @param {MindmapType|object} model - model or patch
+ * @param {MindsetType|object} model - model or patch
  */
 export async function update(db, model) {
 
@@ -66,7 +66,7 @@ export async function update(db, model) {
 }
 
 /**
- * Removes all mindmaps
+ * Removes all mindsets
  * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {

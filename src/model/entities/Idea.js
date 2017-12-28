@@ -26,13 +26,13 @@ export default class Idea {
     id = createID();
 
     /**
-     * ID of parent mindmap
+     * ID of parent mindset
      * @type {string|undefined}
      */
-    mindmapId = undefined;
+    mindsetId = undefined;
 
     /**
-     * Indicates that idea is root idea of mindmap
+     * Indicates that idea is root idea of mindset
      * @type {boolean}
      */
     isRoot = false;
@@ -56,7 +56,7 @@ export default class Idea {
     color = undefined;
 
     /**
-     * Position on mindmap relative to parent idea
+     * Position on mindset relative to parent idea
      * in minimum spanning tree (MST).
      * @type {PointType|undefined}
      */
@@ -65,7 +65,7 @@ export default class Idea {
     // region Dynamic props (computed on run, not saved to db)
 
     /**
-     * Absolute position on mindmap.
+     * Absolute position on mindset.
      * @type {PointType|undefined}
      */
     posAbs = undefined;

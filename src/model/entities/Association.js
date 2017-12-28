@@ -23,10 +23,10 @@ export default class Association {
     value = undefined;
 
     /**
-     * ID of parent mindmap
+     * ID of parent mindset
      * @type {string|undefined}
      */
-    mindmapId = undefined;
+    mindsetId = undefined;
 
     /**
      * ID of head idea

@@ -9,10 +9,10 @@ import StateType from 'boot/client/State';
  * @param {object} data
  */
 export default function updateAssociation(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const patch = data;
 
-    const assoc = mindmap.associations.get(patch.id);
+    const assoc = mindset.associations.get(patch.id);
 
     if (!assoc) {
         throw Error(`Association '${patch.id}' was not found`);

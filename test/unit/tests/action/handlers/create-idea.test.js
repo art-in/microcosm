@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Point from 'src/model/entities/Point';
@@ -22,10 +22,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -46,7 +46,7 @@ describe('create-idea', () => {
 
         expect(idea).to.be.instanceOf(Idea);
         expect(idea.id).to.match(/\d+/);
-        expect(idea.mindmapId).to.equal('m');
+        expect(idea.mindsetId).to.equal('m');
         expect(idea.title).to.equal('title test');
         expect(idea.value).to.equal('value test');
         expect(idea.edgesIn).to.deep.equal([assoc]);
@@ -66,10 +66,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -102,10 +102,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -138,10 +138,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -161,7 +161,7 @@ describe('create-idea', () => {
         const {idea: newIdea} = patch['add-idea'][0].data;
 
         expect(data.assoc).to.be.instanceOf(Association);
-        expect(data.assoc.mindmapId).to.equal('m');
+        expect(data.assoc.mindsetId).to.equal('m');
         expect(data.assoc.fromId).to.equal('A');
         expect(data.assoc.from).to.equal(ideaA);
         expect(data.assoc.toId).to.be.ok;
@@ -180,10 +180,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -220,10 +220,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -254,10 +254,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -285,10 +285,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -310,9 +310,9 @@ describe('create-idea', () => {
     it('should fail if parent idea was not found', () => {
 
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {
@@ -326,7 +326,7 @@ describe('create-idea', () => {
 
         // check
         expect(result).to.throw(
-            `Idea 'not exist' was not found in mindmap`);
+            `Idea 'not exist' was not found in mindset`);
     });
 
     it('should fail if idea title is empty', () => {
@@ -340,10 +340,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const target = () => handle(state, {
@@ -370,10 +370,10 @@ describe('create-idea', () => {
             rootPathWeight: 0
         });
 
-        const mindmap = new Mindmap({id: 'm'});
-        mindmap.ideas.set(ideaA.id, ideaA);
+        const mindset = new Mindset({id: 'm'});
+        mindset.ideas.set(ideaA.id, ideaA);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const result = () => handle(state, {

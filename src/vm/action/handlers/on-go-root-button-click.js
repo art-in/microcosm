@@ -8,7 +8,7 @@ import StateType from 'boot/client/State';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {model: {mindmap: {root}}} = state;
+    const {model: {mindset: {root}}} = state;
 
     dispatch({
         type: 'animate-graph-viewbox-to-idea',

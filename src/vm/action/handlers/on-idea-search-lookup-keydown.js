@@ -17,10 +17,10 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap}}} = state;
+    const {vm: {main: {mindset}}} = state;
     const {code, preventDefault} = required(data);
 
-    const lookup = mindmap.ideaSearchBox.lookup;
+    const lookup = mindset.ideaSearchBox.lookup;
 
     return view('update-idea-search-box', {
         lookup: onKeyDown({

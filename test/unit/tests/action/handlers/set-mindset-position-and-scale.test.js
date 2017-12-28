@@ -1,37 +1,37 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Point from 'model/entities/Point';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe('set-mindmap-position-and-scale', () => {
+describe('set-mindset-position-and-scale', () => {
     
-    it('should set mindmap position and scale', () => {
+    it('should set mindset position and scale', () => {
 
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({x: 0, y: 0})
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 pos: {x: 10, y: 10},
                 scale: 2
             }
         });
 
         // check
-        const mutations = patch['update-mindmap'];
+        const mutations = patch['update-mindset'];
         expect(mutations).to.have.length(1);
         
         expect(mutations[0].data).to.containSubset({
@@ -42,22 +42,22 @@ describe('set-mindmap-position-and-scale', () => {
 
     });
 
-    it('should set mindmap position', () => {
+    it('should set mindset position', () => {
         
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({x: 0, y: 0})
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 pos: {
                     x: 100,
                     y: 200
@@ -66,7 +66,7 @@ describe('set-mindmap-position-and-scale', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap'];
+        const mutations = patch['update-mindset'];
         expect(mutations).to.have.length(1);
         
         expect(mutations[0].data).to.containSubset({
@@ -78,7 +78,7 @@ describe('set-mindmap-position-and-scale', () => {
     it('should NOT set position if it was not changed', () => {
         
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({
@@ -87,13 +87,13 @@ describe('set-mindmap-position-and-scale', () => {
             })
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 scale: 2,
                 pos: {
                     x: 100,
@@ -103,7 +103,7 @@ describe('set-mindmap-position-and-scale', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap'];
+        const mutations = patch['update-mindset'];
         expect(mutations).to.have.length(1);
         
         expect(mutations[0].data).to.deep.equal({
@@ -115,7 +115,7 @@ describe('set-mindmap-position-and-scale', () => {
     it('should NOT set scale if it was not changed', () => {
         
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({
@@ -124,13 +124,13 @@ describe('set-mindmap-position-and-scale', () => {
             })
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 scale: 1,
                 pos: {
                     x: 100,
@@ -140,27 +140,27 @@ describe('set-mindmap-position-and-scale', () => {
         });
 
         // check
-        const mutations = patch['update-mindmap'];
+        const mutations = patch['update-mindset'];
         expect(mutations).to.equal(undefined);
     });
 
     it('should NOT mutate state', () => {
         
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({x: 0, y: 0})
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
         handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 scale: 2,
                 pos: {x: 10, y: 10}
             }
@@ -173,19 +173,19 @@ describe('set-mindmap-position-and-scale', () => {
     it('should target all state layers', () => {
 
         // setup
-        const mindmap = new Mindmap({
+        const mindset = new Mindset({
             id: 'id',
             scale: 1,
             pos: new Point({x: 0, y: 0})
         });
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: 'id',
+                mindsetId: 'id',
                 scale: 2,
                 pos: {}
             }

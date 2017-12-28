@@ -18,7 +18,7 @@ import computeViewbox from 'vm/map/entities/Graph/methods/compute-viewbox-size';
  * @return {PatchType}
  */
 export default function(state, data) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
     const {size} = required(data);
     const {width, height} = required(size);
 

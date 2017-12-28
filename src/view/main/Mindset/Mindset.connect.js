@@ -1,12 +1,12 @@
 import connect from 'view/utils/connect';
-import Component from './Mindmap.jsx';
+import Component from './Mindset.jsx';
 
 export default connect(
-    props => props.mindmap,
+    props => props.mindset,
     dispatch => ({
 
         onKeyDown: data => dispatch({
-            type: 'on-mindmap-keydown',
+            type: 'on-mindset-keydown',
             data,
             throttleLog: true
         }),

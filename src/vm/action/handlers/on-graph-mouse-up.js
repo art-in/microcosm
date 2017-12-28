@@ -15,7 +15,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * @return {PatchType|undefined}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
 
     // stop dragging node
     if (graph.drag.active) {
@@ -39,9 +39,9 @@ export default function(state, data, dispatch) {
     if (graph.pan.active) {
 
         dispatch({
-            type: 'set-mindmap-position-and-scale',
+            type: 'set-mindset-position-and-scale',
             data: {
-                mindmapId: graph.id,
+                mindsetId: graph.id,
                 pos: new Point({x: graph.viewbox.x, y: graph.viewbox.y})
             }
         });

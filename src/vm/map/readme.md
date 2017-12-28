@@ -1,4 +1,4 @@
-Logic for presenting mindmap as geo-like map:
+Logic for presenting mindset as geo-like map:
 graph of ideas mapped to 2D space (map), with ability to zoom.  
 
 Each node has its own 2D coordinates on the map.  

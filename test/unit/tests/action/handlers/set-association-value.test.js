@@ -1,7 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Association from 'src/model/entities/Association';
 
 import handler from 'src/action/handler';
@@ -17,10 +17,10 @@ describe('set-association-value', () => {
             value: 'old'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {
@@ -49,10 +49,10 @@ describe('set-association-value', () => {
             value: 'old'
         });
 
-        const mindmap = new Mindmap();
-        mindmap.associations.set(assoc.id, assoc);
+        const mindset = new Mindset();
+        mindset.associations.set(assoc.id, assoc);
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
         const stateBefore = clone(state);
 
         // target
@@ -71,14 +71,14 @@ describe('set-association-value', () => {
     it('should target all state layers', () => {
        
         // setup
-        const mindmap = new Mindmap();
+        const mindset = new Mindset();
         
-        mindmap.associations.set('id', new Association({
+        mindset.associations.set('id', new Association({
             id: 'id',
             value: 'old'
         }));
 
-        const state = {model: {mindmap}};
+        const state = {model: {mindset}};
 
         // target
         const patch = handle(state, {

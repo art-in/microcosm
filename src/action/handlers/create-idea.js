@@ -27,7 +27,7 @@ import getNewIdeaPosition from 'action/utils/get-new-idea-position';
  * @return {Patch}
  */
 export default function createIdea(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {parentIdeaId, title, value} = required(data);
     const {ideaId} = data;
 
@@ -37,7 +37,7 @@ export default function createIdea(state, data) {
         throw Error(`Invalid idea title '${title}'`);
     }
 
-    const parent = getIdea(mindmap, parentIdeaId);
+    const parent = getIdea(mindset, parentIdeaId);
 
     const posRel = getNewIdeaPosition(
         parent.posRel,
@@ -45,7 +45,7 @@ export default function createIdea(state, data) {
         getNodeScaleForWeight(parent.rootPathWeight));
 
     const idea = new Idea({
-        mindmapId: mindmap.id,
+        mindsetId: mindset.id,
         posRel,
         posAbs: new Point({
             x: parent.posAbs.x + posRel.x,
@@ -61,7 +61,7 @@ export default function createIdea(state, data) {
 
     // add association from parent to new idea
     const assoc = new Association({
-        mindmapId: mindmap.id,
+        mindsetId: mindset.id,
         fromId: parent.id,
         from: parent,
         toId: idea.id,

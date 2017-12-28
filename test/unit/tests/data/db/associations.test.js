@@ -15,7 +15,7 @@ describe('associations', () => {
 
             await db.put({
                 _id: '123',
-                mindmapId: 'test id',
+                mindsetId: 'test id',
                 value: 'test value'
             });
 
@@ -29,19 +29,19 @@ describe('associations', () => {
             expect(result[0].value).to.equal('test value');
         });
 
-        it('should return associations of certain mindmap', async () => {
+        it('should return associations of certain mindset', async () => {
             
             // setup
             const db = createDB();
 
             await db.put({
                 _id: '1',
-                mindmapId: 'test id'
+                mindsetId: 'test id'
             });
 
             await db.put({
                 _id: '2',
-                mindmapId: 'another id'
+                mindsetId: 'another id'
             });
 
             // target
@@ -62,7 +62,7 @@ describe('associations', () => {
             const db = createDB();
 
             const assoc = new Association({
-                mindmapId: 'mindmap id',
+                mindsetId: 'mindset id',
                 value: 'test value'
             });
 
@@ -76,7 +76,7 @@ describe('associations', () => {
 
             expect(result).to.have.length(1);
             expect(result[0]._id).to.equal(assoc.id);
-            expect(result[0].mindmapId).to.equal('mindmap id');
+            expect(result[0].mindsetId).to.equal('mindset id');
             expect(result[0].value).to.equal('test value');
         });
 
@@ -88,7 +88,7 @@ describe('associations', () => {
 
             const assoc = new Association({
                 id: '123',
-                mindmapId: 'mindmap id'
+                mindsetId: 'mindset id'
             });
             
             // target
@@ -98,7 +98,7 @@ describe('associations', () => {
                 'Document update conflict');
         });
 
-        it('should fail if parent mindmap ID is empty', async () => {
+        it('should fail if parent mindset ID is empty', async () => {
             
             // setup
             const db = createDB();
@@ -112,7 +112,7 @@ describe('associations', () => {
 
             await expect(promise).to.be.rejectedWith(
                 `Failed to add association '123' with empty ` +
-                `parent mindmap ID`);
+                `parent mindset ID`);
         });
 
     });
@@ -193,20 +193,20 @@ describe('associations', () => {
             await expect(promise).to.be.rejectedWith('missing');
         });
 
-        it('should fail if parent mindmap ID is empty', async () => {
+        it('should fail if parent mindset ID is empty', async () => {
             
             // setup
             const db = createDB();
 
             db.post({
                 _id: 'i',
-                mindmapId: '1'
+                mindsetId: '1'
             });
 
             const patch = {
                 id: 'i',
                 value: 'test value',
-                mindmapId: null
+                mindsetId: null
             };
 
             // target
@@ -215,7 +215,7 @@ describe('associations', () => {
             // check
             await expect(promise).to.be.rejectedWith(
                 `Failed to update association 'i' with empty ` +
-                `parent mindmap ID`);
+                `parent mindset ID`);
         });
 
     });

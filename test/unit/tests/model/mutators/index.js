@@ -6,6 +6,6 @@ describe('mutators', () => {
     require('./remove-idea.test');
     require('./update-association.test');
     require('./update-idea.test');
-    require('./update-mindmap.test');
+    require('./update-mindset.test');
 
 });

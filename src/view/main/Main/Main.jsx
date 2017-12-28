@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import MainVmType from 'vm/main/Main';
-import Mindmap from '../Mindmap';
+import Mindset from '../Mindset';
 
 import classes from './Main.css';
 
@@ -19,8 +19,8 @@ export default class Main extends Component {
 
         let pageComponent;
         switch (mainVM.screen) {
-        case 'mindmap':
-            pageComponent = <Mindmap mindmap={mainVM.mindmap} />;
+        case 'mindset':
+            pageComponent = <Mindset mindset={mainVM.mindset} />;
             break;
         default:
             throw Error(`Unknown screen type '${mainVM.screen}'`);

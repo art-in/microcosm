@@ -21,7 +21,7 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-    const {model: {mindmap}, vm: {main: {mindmap: {graph}}}} = state;
+    const {model: {mindset}, vm: {main: {mindset: {graph}}}} = state;
     const {viewportPos, linkId} = required(data);
 
     const link = graph.links.find(l => l.id === linkId);
@@ -33,7 +33,7 @@ export default function(state, data) {
 
     const canvasPos = toCanvasCoords(viewportPos, graph.viewbox);
 
-    const assoc = getAssociation(mindmap, linkId);
+    const assoc = getAssociation(mindset, linkId);
 
     const items = [];
 

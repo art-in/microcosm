@@ -3,14 +3,14 @@ import update from 'utils/update-object';
 import StateType from 'boot/client/State';
 
 /**
- * Updates mindmap
+ * Updates mindset
  * 
  * @param {StateType} state 
  * @param {object} data
  */
-export default function updateMindmap(state, data) {
-    const {model: {mindmap}} = state;
+export default function updateMindset(state, data) {
+    const {model: {mindset}} = state;
     const patch = data;
 
-    update(mindmap, patch);
+    update(mindset, patch);
 }

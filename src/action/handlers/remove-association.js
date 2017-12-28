@@ -17,12 +17,12 @@ import getAssociation from 'action/utils/get-association';
  * @return {Patch}
  */
 export default function(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {assocId} = required(data);
     
     let patch = new Patch();
     
-    const assoc = getAssociation(mindmap, assocId);
+    const assoc = getAssociation(mindset, assocId);
 
     const head = assoc.from;
     const tail = assoc.to;
@@ -77,7 +77,7 @@ export default function(state, data) {
 
     // update root paths
     const rootPathsPatch = patchRootPaths({
-        root: mindmap.root,
+        root: mindset.root,
         ignoreEdges: [assoc]
     });
 

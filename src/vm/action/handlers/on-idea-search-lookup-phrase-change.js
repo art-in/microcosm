@@ -16,10 +16,10 @@ import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindmap}}} = state;
+    const {vm: {main: {mindset}}} = state;
     const {phrase} = required(data);
 
-    const lookup = mindmap.ideaSearchBox.lookup;
+    const lookup = mindset.ideaSearchBox.lookup;
 
     return view('update-idea-search-box', {
         lookup: onPhraseChange({

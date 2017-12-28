@@ -4,18 +4,18 @@ import values from 'src/utils/get-map-values';
 
 import State from 'src/boot/client/State';
 import Patch from 'src/utils/state/Patch';
-import Mindmap from 'src/model/entities/Mindmap';
+import Mindset from 'src/model/entities/Mindset';
 import Association from 'src/model/entities/Association';
 
 import mutate from 'model/mutators';
 
 describe('add-association', () => {
 
-    it('should add association to mindmap', () => {
+    it('should add association to mindset', () => {
 
         // setup
         const state = new State();
-        state.model.mindmap = new Mindmap();
+        state.model.mindset = new Mindset();
     
         const patch = new Patch({
             type: 'add-association',
@@ -31,7 +31,7 @@ describe('add-association', () => {
         mutate(state, patch);
     
         // check
-        const assocs = values(state.model.mindmap.associations);
+        const assocs = values(state.model.mindset.associations);
     
         expect(assocs).to.have.length(1);
         expect(assocs[0]).to.containSubset({

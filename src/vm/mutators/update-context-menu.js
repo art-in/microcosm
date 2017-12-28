@@ -10,7 +10,7 @@ import ContextMenuType from 'vm/shared/ContextMenu';
  * @param {Partial<ContextMenuType>} data
  */
 export default function updateContextMenu(state, data) {
-    const {contextMenu} = state.vm.main.mindmap.graph;
+    const {contextMenu} = state.vm.main.mindset.graph;
 
     updateViewModel(contextMenu, data);
 }

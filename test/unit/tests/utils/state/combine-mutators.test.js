@@ -48,10 +48,10 @@ describe('combine-mutators', () => {
         ideaA.edgeFromParent = null;
         ideaA.edgesToChilds = [];
 
-        state.model.mindmap.root = ideaA;
-        state.model.mindmap.ideas.set(ideaA.id, ideaA);
+        state.model.mindset.root = ideaA;
+        state.model.mindset.ideas.set(ideaA.id, ideaA);
         
-        state.model.mindmap.scale = 1;
+        state.model.mindset.scale = 1;
 
         // setup view
         ReactDom.render(
@@ -65,7 +65,7 @@ describe('combine-mutators', () => {
 
         const ideaB = new Idea({
             id: 'B',
-            mindmapId: 'mindmap id',
+            mindsetId: 'mindset id',
             isRoot: true,
             rootPathWeight: 0,
             posRel: new Point({x: 0, y: 0}),
@@ -75,7 +75,7 @@ describe('combine-mutators', () => {
 
         const assocAtoB = new Association({
             id: 'A to B',
-            mindmapId: 'mindmap id',
+            mindsetId: 'mindset id',
             fromId: ideaA.id,
             from: ideaA,
             toId: ideaB.id,
@@ -127,8 +127,8 @@ describe('combine-mutators', () => {
     it('should mutate model layer', async () => {
 
         const {model} = state;
-        const ideas = values(model.mindmap.ideas);
-        const assocs = values(model.mindmap.associations);
+        const ideas = values(model.mindset.ideas);
+        const assocs = values(model.mindset.associations);
         
         expect(ideas).to.have.length(2);
         expect(assocs).to.have.length(1);
@@ -137,7 +137,7 @@ describe('combine-mutators', () => {
     it('should mutate viewmodel layer', async () => {
         
         const {vm} = state;
-        const nodeA = vm.main.mindmap.graph.root;
+        const nodeA = vm.main.mindset.graph.root;
 
         expect(nodeA.edgesIn).to.have.length(0);
         expect(nodeA.edgesOut).to.have.length(1);

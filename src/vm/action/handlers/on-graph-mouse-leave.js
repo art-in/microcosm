@@ -13,7 +13,7 @@ import stopDrag from 'vm/map/entities/Graph/methods/stop-drag';
  * @return {Patch|undefined}
  */
 export default function(state) {
-    const {vm: {main: {mindmap: {graph}}}} = state;
+    const {vm: {main: {mindset: {graph}}}} = state;
 
     // TODO: cancel pan too
     if (!graph.drag.active) {

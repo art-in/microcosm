@@ -11,7 +11,7 @@ export default function associationToDbo(model) {
     const dbo = {};
 
     dbo._id = model.id;
-    dbo.mindmapId = model.mindmapId;
+    dbo.mindsetId = model.mindsetId;
     dbo.fromId = model.fromId;
     dbo.toId = model.toId;
     dbo.value = model.value;

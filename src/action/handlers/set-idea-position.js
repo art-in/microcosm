@@ -22,12 +22,12 @@ import getIdea from 'action/utils/get-idea';
  * @return {Patch|undefined}
  */
 export default function setIdeaPosition(state, data) {
-    const {model: {mindmap}} = state;
+    const {model: {mindset}} = state;
     const {ideaId, posAbs} = required(data);
 
     let patch = new Patch();
 
-    const idea = getIdea(mindmap, ideaId);
+    const idea = getIdea(mindset, ideaId);
 
     // position delta
     const dx = posAbs.x - idea.posAbs.x;
@@ -141,7 +141,7 @@ export default function setIdeaPosition(state, data) {
 
     // update root paths
     const rootPathsPatch = patchRootPaths({
-        root: mindmap.root,
+        root: mindset.root,
         replaceEdgeWeights: newAssociationWeights,
         replaceIdeaPositions: newIdeaPositions
     });
