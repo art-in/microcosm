@@ -49,7 +49,7 @@ export default function(state, data) {
             displayValue: 'Add association',
             onSelectAction: () => ({
                 type: 'show-association-tails-lookup',
-                data: {pos: viewportPos, headIdeaId: nodeId}
+                data: {viewportPos, headIdeaId: nodeId}
             })
         }));
 

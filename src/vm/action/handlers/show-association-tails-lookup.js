@@ -14,13 +14,12 @@ import showLookup from 'vm/shared/Lookup/methods/show-lookup';
  *
  * @param {StateType} state
  * @param {object}    data
- * @param {PointType} data.pos - target viewport position for lookup
- *                               TODO: rename to viewportPos
+ * @param {PointType} data.viewportPos - target viewport position for lookup
  * @param {string}    data.headIdeaId - ID of head idea
  * @return {Patch}
  */
 export default function(state, data) {
-    const {pos, headIdeaId} = required(data);
+    const {viewportPos, headIdeaId} = required(data);
 
     return Patch.combine(
 
@@ -31,7 +30,7 @@ export default function(state, data) {
         view('update-association-tails-lookup', {
             popup: {
                 active: true,
-                pos
+                pos: viewportPos
             },
             lookup: {
                 ...showLookup(),

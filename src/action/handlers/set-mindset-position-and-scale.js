@@ -16,7 +16,7 @@ import normalizePatch from 'action/utils/normalize-patch';
  * @param {number}    [data.scale] - target scale
  * @return {Patch}
  */
-export default function setMindsetScale(state, data) {
+export default function setMindsetPositionAndScale(state, data) {
     const {model: {mindset}} = state;
     const {mindsetId, pos} = required(data);
     const {scale} = data;

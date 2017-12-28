@@ -31,9 +31,9 @@ export default connect(
             dispatch(action);
         },
 
-        onWheel: ({up, pos}) => dispatch({
+        onWheel: ({up, viewportPos}) => dispatch({
             type: 'on-mindmap-wheel',
-            data: {up, pos},
+            data: {up, viewportPos},
             throttleLog: true
         }),
 

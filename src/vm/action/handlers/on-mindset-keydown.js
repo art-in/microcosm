@@ -48,7 +48,7 @@ export default function(state, data, dispatch) {
                 data: {
                     up: code === 'PageUp' ? true : false,
                     // zoom into center of viewport
-                    pos: new Point({
+                    viewportPos: new Point({
                         x: mindmap.viewport.width / 2,
                         y: mindmap.viewport.height / 2
                     })

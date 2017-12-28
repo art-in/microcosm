@@ -10,12 +10,12 @@ import PointType from 'model/entities/Point';
  * @param {StateType} state
  * @param {object}    data
  * @param {boolean}   data.up  - wheel up or down
- * @param {PointType} data.pos - target viewport position
+ * @param {PointType} data.viewportPos - target viewport position
  * @param {function} dispatch
  */
-export default function onGraphWheel(state, data, dispatch) {
+export default function onMindmapWheel(state, data, dispatch) {
     const {vm: {main: {mindset: {mindmap}}}} = state;
-    const {up, pos} = required(data);
+    const {up, viewportPos} = required(data);
     
     if (mindmap.zoomInProgress) {
         return;
@@ -23,7 +23,7 @@ export default function onGraphWheel(state, data, dispatch) {
 
     dispatch({
         type: 'animate-mindmap-zoom',
-        data: {up, pos},
+        data: {up, viewportPos},
         throttleLog: true
     });
 }

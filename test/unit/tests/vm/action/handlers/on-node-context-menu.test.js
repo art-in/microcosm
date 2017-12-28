@@ -184,7 +184,7 @@ describe('on-node-context-menu', () => {
         expect(action).to.containSubset({
             type: 'show-association-tails-lookup',
             data: {
-                pos: {x: 100, y: 200},
+                viewportPos: {x: 100, y: 200},
                 headIdeaId: 'idea'
             }
         });

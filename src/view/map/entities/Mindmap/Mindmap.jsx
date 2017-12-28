@@ -29,7 +29,7 @@ import classes from './Mindmap.css';
  * 
  * own events
  * @prop {function()}          onClick
- * @prop {function({up, pos})} onWheel
+ * @prop {function({up, viewportPos})} onWheel
  * @prop {function()}          onMouseUp
  * @prop {function()}          onMouseLeave
  * @prop {function({size})}    onViewportResize
@@ -75,7 +75,7 @@ export default class Mindmap extends Component {
     onWheel = e => {
         this.props.onWheel({
             up: e.deltaY <= 0,
-            pos: toElementCoords(
+            viewportPos: toElementCoords(
                 new Point({x: e.clientX, y: e.clientY}),
                 this.viewport)
         });

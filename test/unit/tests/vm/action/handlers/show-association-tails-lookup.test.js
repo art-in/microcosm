@@ -14,7 +14,7 @@ describe('show-association-tails-lookup', () => {
         const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
-                pos: new Point({x: 0, y: 0}),
+                viewportPos: new Point({x: 0, y: 0}),
                 headIdeaId: 'idea'
             }});
 
@@ -31,7 +31,7 @@ describe('show-association-tails-lookup', () => {
         const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
-                pos: new Point({x: 100, y: 200}),
+                viewportPos: new Point({x: 100, y: 200}),
                 headIdeaId: 'idea'
             }});
 
@@ -56,7 +56,7 @@ describe('show-association-tails-lookup', () => {
         const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
-                pos: new Point({x: 100, y: 200}),
+                viewportPos: new Point({x: 100, y: 200}),
                 headIdeaId: 'head idea'
             }});
 
@@ -86,7 +86,7 @@ describe('show-association-tails-lookup', () => {
         const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
-                pos: new Point({x: 100, y: 200}),
+                viewportPos: new Point({x: 100, y: 200}),
                 headIdeaId: 'head idea'
             }});
 
@@ -114,7 +114,7 @@ describe('show-association-tails-lookup', () => {
         const patch = handle(null, {
             type: 'show-association-tails-lookup',
             data: {
-                pos: new Point({x: 100, y: 200}),
+                viewportPos: new Point({x: 100, y: 200}),
                 headIdeaId: 'idea'
             }});
 
