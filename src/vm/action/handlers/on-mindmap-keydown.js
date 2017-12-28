@@ -20,6 +20,11 @@ export default function(state, data, dispatch) {
     const {graph} = mindmap;
     const {code, ctrlKey, preventDefault} = required(data);
     
+    const isPopupActive =
+        graph.associationTailsLookup.active ||
+        mindmap.ideaSearchBox.active ||
+        graph.ideaFormModal.modal.active;
+
     switch (code) {
 
     case 'Escape':
@@ -30,30 +35,42 @@ export default function(state, data, dispatch) {
     case 'ArrowUp':
     case 'ArrowLeft':
     case 'ArrowRight':
-        if (!graph.associationTailsLookup.active &&
-            !mindmap.ideaSearchBox.active &&
-            !graph.ideaFormModal.modal.active) {
+        if (!isPopupActive) {
             onMindmapPan({code, graph, dispatch});
         }
         break;
     
-    // TODO: zoom on PageUp/PageDown
-    // TODO: save form with Ctrl+Enter
+    case 'PageUp':
+    case 'PageDown':
+        if (!isPopupActive) {
+            dispatch({
+                type: 'animate-graph-zoom',
+                data: {
+                    up: code === 'PageUp' ? true : false,
+                    // zoom into center of viewport
+                    pos: new Point({
+                        x: graph.viewport.width / 2,
+                        y: graph.viewport.height / 2
+                    })
+                }
+            });
+        }
+        break;
 
+    // TODO: save form with Ctrl+Enter
+    
     case 'KeyF':
         // allow default browser search box only in case idea form opened,
         // to search on idea contents, otherwise if graph shown default search
         // will not be effective - use custom search box for searching ideas
-        if (ctrlKey && !graph.ideaFormModal.modal.active) {
+        if (!isPopupActive && ctrlKey) {
             dispatch({type: 'activate-idea-search-box'});
             preventDefault();
         }
         break;
     
     case 'Home':
-        if (!graph.associationTailsLookup.active &&
-            !mindmap.ideaSearchBox.active &&
-            !graph.ideaFormModal.modal.active) {
+        if (!isPopupActive) {
             dispatch({type: 'on-go-root-button-click'});
         }
         break;

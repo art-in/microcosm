@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import getBodyMargin from 'view/utils/dom/get-body-margin';
 import getElementSize from 'view/utils/dom/get-element-size';
 import getPageScale from 'view/utils/dom/get-page-scale';
 import toElementCoords from 'view/utils/dom/map-window-to-element-coords';
@@ -74,15 +73,11 @@ export default class Graph extends Component {
     }
 
     onWheel = e => {
-        const bodyMargin = getBodyMargin();
-
-        // get rid of body margin
-        const viewportX = e.clientX - bodyMargin.left;
-        const viewportY = e.clientY - bodyMargin.top;
-
         this.props.onWheel({
             up: e.deltaY <= 0,
-            pos: new Point({x: viewportX, y: viewportY})
+            pos: toElementCoords(
+                new Point({x: e.clientX, y: e.clientY}),
+                this.viewport)
         });
     }
 
