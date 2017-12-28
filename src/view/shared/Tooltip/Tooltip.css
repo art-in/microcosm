@@ -2,12 +2,7 @@
     position: absolute;
 
     user-select: none;
-
-    /* TODO: add autoprefixer */
-    -webkit-user-select: none;
-
     border-radius: 2px;
-
     padding: 2px 10px;
     background-color: white;
 

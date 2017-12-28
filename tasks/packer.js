@@ -102,6 +102,7 @@ function getPackConfig(opts) {
                     // to auto-generate typings for styles
                     loader: 'typings-for-css-modules-loader',
                     options: {
+
                         // allow default export for typings
                         namedExport: true,
 
@@ -110,9 +111,13 @@ function getPackConfig(opts) {
                         // of unexisting class will be ignored
                         // (classes.classA instead of classes['class-a'])
                         camelCase: true,
+
+                        // use modules to incapsulate view component styles
                         modules: true,
                         localIdentName: '[name]-[local]'
                     }
+                }, {
+                    loader: 'postcss-loader'
                 }]
             }, {
                 test: /\.(ttf|otf|eot|svg|woff|woff2)$/,
