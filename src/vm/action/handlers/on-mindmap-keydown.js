@@ -57,7 +57,11 @@ export default function(state, data, dispatch) {
         }
         break;
 
-    // TODO: save form with Ctrl+Enter
+    case 'Enter':
+        if (ctrlKey && graph.ideaFormModal.modal.active) {
+            dispatch({type: 'on-idea-form-modal-save'});
+        }
+        break;
     
     case 'KeyF':
         // allow default browser search box only in case idea form opened,

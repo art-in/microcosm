@@ -18,6 +18,11 @@ export default function(state, data, dispatch) {
 
     const {form} = graph.ideaFormModal;
 
+    if (!form.isSaveable) {
+        // do not save if there was no changes
+        return;
+    }
+
     const patch = new Patch();
 
     const title = form.title.trim();
