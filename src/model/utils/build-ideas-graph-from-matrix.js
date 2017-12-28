@@ -5,7 +5,7 @@ import buildGraphFromMatrix from 'utils/graph/build-graph-from-matrix';
 import weighRootPaths from 'utils/graph/weigh-root-paths';
 
 /**
- * Builds ideas graph from adjacency matrix
+ * Builds ideas object graph from adjacency matrix
  * 
  * Only for unit tests.
  * 

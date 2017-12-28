@@ -3,9 +3,9 @@ import {expect} from 'chai';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 
-import buildIdeasGraph from 'src/model/utils/build-ideas-graph-from-objects';
+import buildIdeasGraph from 'src/model/utils/build-ideas-graph-from-list';
 
-describe('build-ideas-graph-from-objects', () => {
+describe('build-ideas-graph-from-list', () => {
 
     it('should build from tree graph', () => {
 

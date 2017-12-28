@@ -38,10 +38,3 @@ Edge from parent - is incoming edge that is part of minimum root path.
 
 This allows to apply on-tree algorithms to any vertex in the graph,
 since any vertex is also root for sub-tree underneath.
-
----
-
-TODO: consider using typescript for interface checks
-      https://github.com/artin-phares/microcosm/issues/57
-
----

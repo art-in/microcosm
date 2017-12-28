@@ -4,17 +4,14 @@ import IdeaType from 'model/entities/Idea';
 import AssociationType from 'model/entities/Association';
 
 /**
- * Builds object graph from ideas and associations objects
+ * Builds ideas object graph from adjacency list
  * 
- * After extracting from storage, domain models only has IDs
- * of related entities.
+ * After extracting from storage, domain models only has IDs of related entities
  * In object graph each model has direct ref to related entity model,
  * eg. associations obtain references to corresponding from/to ideas
  * 
  * Object graph is much performant for graph algorithms,
  * since you do not have to search entity lists each time when traversing graph
- * 
- * TODO: rename to build-ideas-graph-from-list (adj matrix vs adj list)
  * 
  * @param {Array.<IdeaType>} ideas
  * @param {Array.<AssociationType>} associations

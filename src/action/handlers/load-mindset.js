@@ -13,7 +13,7 @@ import Point from 'model/entities/Point';
 
 import StateType from 'boot/client/State';
 
-import buildGraph from 'model/utils/build-ideas-graph-from-objects';
+import buildIdeasGraph from 'model/utils/build-ideas-graph-from-list';
 import weighRootPaths from 'utils/graph/weigh-root-paths';
 import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import view from 'vm/utils/view-patch';
@@ -89,7 +89,7 @@ export default async function loadMindset(state, data, dispatch) {
         .getAll(localDBs.associations, mindset.id);
 
     // init models
-    mindset.root = buildGraph(ideas, associations);
+    mindset.root = buildIdeasGraph(ideas, associations);
     weighRootPaths({root: mindset.root});
     setAbsolutePositions({root: mindset.root});
 
