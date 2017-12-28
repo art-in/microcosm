@@ -1,5 +1,4 @@
 .root {
-
     /* hide overflow, so when width is zero - it is completely hidden.
        otherwise input paddings remain visible (this is how 'border-box' works).
        normally inner content will stretch root container and there will be

@@ -6,6 +6,10 @@
     fill: var(--normal-gradient);
 }
 
+.root.shaded .circle {
+    opacity: 0.5;
+}
+
 .root:not(.shaded):hover .circle {
     fill: var(--highlight-gradient);
 }
@@ -17,19 +21,15 @@
     transition: fill 0.15s, text-shadow 0.15s;
 }
 
+.root.shaded .title {
+    color: lightgray;
+}
+
 .root:not(.shaded):hover .title {
     fill: white;
 
     /* set multiple shadows to make it darker */
     text-shadow:
-        0px 0px 20px black,
-        0px 0px 40px black;
-}
-
-.root.shaded .circle {
-    opacity: 0.5;
-}
-
-.root.shaded .title {
-    color: lightgray;
+        0 0 20px black,
+        0 0 40px black;
 }

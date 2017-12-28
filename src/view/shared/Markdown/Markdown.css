@@ -1,8 +1,10 @@
-/* 
+/*
 The minimal amount of CSS to replicate the GitHub Markdown style
-https://github.com/sindresorhus/github-markdown-css 
+https://github.com/sindresorhus/github-markdown-css
 version: 2.9.0
 */
+
+/* stylelint-disable */
 
 .root {
     -ms-text-size-adjust: 100%;

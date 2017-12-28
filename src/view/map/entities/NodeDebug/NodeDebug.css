@@ -8,9 +8,9 @@
 
 .line {
     font-size: 12px;
-    fill: #D00;
+    fill: #d00;
 }
 
-.line::selection{
-    background-color: inherit
+.line::selection {
+    background-color: inherit;
 }

@@ -1,8 +1,8 @@
 .root {
     position: absolute;
-    left: 5px; 
+    left: 5px;
     top: 5px;
-    color: #D00;
+    color: #d00;
     width: 250px;
     border-right: 1px solid red;
     border-bottom: 1px solid red;

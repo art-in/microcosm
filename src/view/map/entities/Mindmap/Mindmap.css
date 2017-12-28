@@ -8,7 +8,7 @@
     otherwise wrap Mindmap and context menus in separate container. */
     position: relative;
 
-    background-image: radial-gradient(#0F5B97 0%, #031020 100%);
+    background-image: radial-gradient(#0f5b97 0%, #031020 100%);
 }
 
 .svg {

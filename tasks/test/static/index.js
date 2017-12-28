@@ -1,3 +1,7 @@
 module.exports = {
-    deps: ['test:static:lint', 'test:static:types']
+    deps: [
+        'test:static:lint',
+        'test:static:types',
+        'test:static:styles'
+    ]
 };

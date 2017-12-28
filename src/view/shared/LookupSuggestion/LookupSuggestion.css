@@ -1,7 +1,6 @@
 .root {
     padding: 5px;
-    /* free some space on the left for highlight char */
-    padding-left: 10px;
+    padding-left: 10px; /* free some space for highlight char */
     color: #757575;
     position: relative;
 }
@@ -11,10 +10,10 @@
     color: black;
 }
 
-.highlight:before {
+.highlight::before {
     content: '•';
     color: #757575;
-    
+
     /* free from flow to not change position of suggestion text */
     position: absolute;
     left: 0;
