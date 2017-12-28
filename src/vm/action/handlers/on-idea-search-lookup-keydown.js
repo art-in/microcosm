@@ -29,7 +29,6 @@ export default function(state, data, dispatch) {
             preventDefault,
             
             // TODO: is it necessary to set this on each keydown?
-            // TODO: fails if search box is empty
             onSuggestionSelect: ({suggestion}) => {
                 dispatch({
                     type: 'on-idea-search-lookup-suggestion-select',

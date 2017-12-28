@@ -15,11 +15,7 @@ export default class Popup extends ViewModel {
     active = false;
 
     /**
-     * Position on viewport
-     * TODO: rename to viewportPos to clarify coordinate system
-     *       update: coordinate system is actually uncertain for vm,
-     *       since it can be drawn in context of viewport if simple
-     *       html popup, or in context of svg canvas if svg popup
+     * Position on viewport (browser or svg, depending on view render context)
      * @type {PointType|undefined}
      */
     pos = undefined;
