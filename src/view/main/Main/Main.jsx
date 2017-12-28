@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import MainVmType from 'vm/main/Main';
-import Mindset from '../Mindset';
+import Mindset from 'view/main/Mindset';
+import Version from 'view/shared/Version';
 
 import classes from './Main.css';
 
@@ -29,6 +30,8 @@ export default class Main extends Component {
         return (
             <main className={classes.root}>
                 {pageComponent}
+
+                <Version className={classes.version} />
             </main>
         );
     }

@@ -1,8 +1,7 @@
 {
   "name": "microcosm",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/artin-phares/microcosm",
   "scripts": {
     "start": "gulp build:watch",
     "build:watch": "gulp build:watch",
@@ -10,8 +9,6 @@
     "test:watch": "gulp test:unit:watch",
     "test:static": "gulp test:static"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.44",
