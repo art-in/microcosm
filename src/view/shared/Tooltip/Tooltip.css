@@ -1,4 +1,6 @@
 .root {
+    position: absolute;
+
     user-select: none;
 
     /* TODO: add autoprefixer */
@@ -15,4 +17,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.root.transition,
+.root.transition-enter {
+    opacity: 0;
 }

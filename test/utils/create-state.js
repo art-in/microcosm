@@ -45,5 +45,8 @@ export default function createState() {
     state.view.root = document.createElement('div');
     state.view.storeDispatch = () => {};
 
+    // append view root to DOM so Portals can find its containers in document
+    document.body.appendChild(state.view.root);
+
     return state;
 }

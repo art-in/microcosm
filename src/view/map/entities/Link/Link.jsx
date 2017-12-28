@@ -223,23 +223,19 @@ export default class Link extends Component {
                         : null
                 }
 
-                {/* TODO: delay showing tooltip for a bit of second */}
-                {/* 
-                    Q: why using custom tooltip instead of standard 'title'?
-                    A: custom tooltip allows to use custom colors inside
-                */}
-                {tooltip.visible ?
-                    <Portal rootId={popupContainerId}>
-                        <Tooltip className={classes.tooltip}
-                            value={tooltip.value}
-                            style={{
-                                left: `${tooltip.viewportPos.x}px`,
-                                top: `${tooltip.viewportPos.y}px`
-                            }}
-                        />
-                    </Portal>
-                    : null
-                }
+                <Portal rootId={popupContainerId}>
+
+                    {/* 
+                        Q: why use custom tooltip instead of svg 'title'?
+                        A: custom tooltip allows to use custom colors inside
+                           and be positioned at any point while mouse moves
+                    */}
+                    <Tooltip
+                        value={tooltip.value}
+                        visible={tooltip.visible}
+                        pos={tooltip.viewportPos}
+                    />
+                </Portal>
 
                 {/*
                     Q: why not keep styling things like gradients in css?
