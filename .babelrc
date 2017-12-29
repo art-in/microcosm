@@ -8,8 +8,6 @@
         "react"
     ],
     "plugins": [
-        "react-hot-loader/babel",
-
         "transform-class-properties",
         "transform-export-extensions",
         "transform-object-rest-spread",

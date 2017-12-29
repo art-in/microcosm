@@ -40,6 +40,7 @@ function getPackConfig(opts) {
     const plugins = [
         new CaseSensitivePathsPlugin()
     ];
+    const babelPlugins = [];
 
     if (opts.watch) {
         entries.push(
@@ -50,6 +51,8 @@ function getPackConfig(opts) {
 
         plugins.push(new webpack.NamedModulesPlugin());
         plugins.push(new webpack.HotModuleReplacementPlugin());
+
+        babelPlugins.push(require('react-hot-loader/babel'));
     }
 
     if (opts.isProduction) {
@@ -61,7 +64,12 @@ function getPackConfig(opts) {
     }
 
     entries.push('babel-polyfill');
-    entries.push('react-hot-loader/patch');
+
+    if (opts.watch) {
+
+        // 'react-hot-loader/patch' should go after 'babel-polyfill'
+        entries.push('react-hot-loader/patch');
+    }
 
     if (opts.entry) {
         // entry point not always required
@@ -90,7 +98,11 @@ function getPackConfig(opts) {
             rules: [{
                 test: /\.(js|jsx)$/,
                 use: [{
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        // extend '.babelrc' config
+                        plugins: babelPlugins
+                    }
                 }],
                 exclude: [/node_modules/]
             }, {
