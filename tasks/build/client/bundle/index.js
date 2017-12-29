@@ -2,6 +2,7 @@ const config = require('../../../../config.js');
 const packer = require('../../../utils/packer').pack;
 
 module.exports = {
+    deps: ['build:client:clean'],
     fn: function() {
         return packer({
             root: config.src.client.root,

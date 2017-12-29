@@ -7,6 +7,10 @@ module.exports = function() {
         watch: config.src.serv.output.root,
         env: {
             NODE_PATH: '$NODE_PATH;' + __dirname
-        }
+        },
+
+        // delay restart a bit so watched build has time
+        // to cleanup and rebuild
+        delay: '2500'
     });
 };

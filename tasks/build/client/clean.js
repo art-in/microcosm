@@ -1,0 +1,9 @@
+const del = require('del');
+
+const config = require('../../../config');
+
+module.exports = function() {
+    return del([
+        config.src.client.output.root
+    ], {force: true});
+};
