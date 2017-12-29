@@ -8,7 +8,7 @@ module.exports = {
     // otherwise type test will fail in clean environment (eg. CI)
     deps: ['build:client:bundle'],
 
-    fn: function() {
+    fn: () => {
         const tsProject = ts.createProject(config.test.static.tsConfig);
     
         // load and check files defined in config

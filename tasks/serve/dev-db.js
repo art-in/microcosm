@@ -3,7 +3,7 @@ const spawnPouchDBServer = require('spawn-pouchdb-server');
 
 const config = require('../../config');
 
-module.exports = function() {
+module.exports = () => {
 
     const {host, port} = config.server.database;
 

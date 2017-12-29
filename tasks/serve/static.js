@@ -1,8 +1,8 @@
 const config = require('../../config');
 const nodemon = require('gulp-nodemon');
 
-module.exports = function() {
-    return nodemon({
+module.exports = () =>
+    nodemon({
         script: config.src.serv.output.entry,
         watch: config.src.serv.output.root,
         env: {
@@ -13,4 +13,3 @@ module.exports = function() {
         // to cleanup and rebuild
         delay: '2500'
     });
-};

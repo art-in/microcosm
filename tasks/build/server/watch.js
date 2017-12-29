@@ -1,10 +1,11 @@
 const config = require('../../../config');
 
-module.exports = {
-    fn: function(gulp) {
-        return gulp.watch([
-            config.src.serv.root + '/**/*.js'
-        ],
-        ['build:server']);
-    }
-};
+// build will not happen until server file changed, but this is intened
+// to avoid nodemon error while both watched build and server stated in
+// parallel and nodemon first sees empty server folder.
+// in that case it is better to run separate build before starting watch.
+module.exports = gulp =>
+    gulp.watch([
+        config.src.serv.root + '/**/*.js'
+    ],
+    ['build:server']);

@@ -1,7 +1,7 @@
 const stylelint = require('gulp-stylelint');
 
-module.exports = function(gulp) {
-    return gulp.src(['**/*.css',
+module.exports = gulp =>
+    gulp.src(['**/*.css',
 
         // TODO: remove node_modules from exclude when gulp-stylelint fixes
         //       support of .stylelintignore
@@ -12,4 +12,3 @@ module.exports = function(gulp) {
             reporters: [{formatter: 'string', console: true}],
             failAfterError: true
         }));
-};
