@@ -36,6 +36,7 @@
     "chai-subset": "^1.6.0",
     "classnames": "^2.2.5",
     "clone": "^2.1.1",
+    "compression": "^1.7.1",
     "css-loader": "^0.28.7",
     "debounce": "^1.0.2",
     "enzyme": "^3.1.0",
