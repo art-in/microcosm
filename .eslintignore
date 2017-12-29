@@ -1,4 +1,4 @@
 # ignored by default
 /node_modules/*
 
-src/boot/client/public/build/*
+.build/*

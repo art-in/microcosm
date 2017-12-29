@@ -1,3 +1,6 @@
 module.exports = {
-    deps: ['build:watch']
+    deps: [
+        'build:watch',
+        'serve'
+    ]
 };

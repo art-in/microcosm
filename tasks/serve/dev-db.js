@@ -1,5 +1,7 @@
-const config = require('../../config');
+const gutil = require('gulp-util');
 const spawnPouchDBServer = require('spawn-pouchdb-server');
+
+const config = require('../../config');
 
 module.exports = function() {
 
@@ -19,6 +21,6 @@ module.exports = function() {
             throw error;
         }
 
-        console.log(`PouchDB server listening at localhost:${port}`);
+        gutil.log(`PouchDB server listening at localhost:${port}`);
     });
 };

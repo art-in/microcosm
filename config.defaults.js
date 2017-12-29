@@ -3,7 +3,7 @@ const path = require('path');
 const abs = p => path.join(__dirname, p);
 
 /**
- * Do not modify defaults - use 'config.user.js'
+ * Do not modify defaults - put custom config into 'config.user.js'
  */
 
 module.exports = {
@@ -11,15 +11,22 @@ module.exports = {
     src: {
         serv: {
             root: abs('src/boot/server/'),
-            entry: abs('src/boot/server/entry.js'),
-            public: abs('src/boot/client/public')
+            output: {
+                root: abs('./.build/server/'),
+                entry: abs('./.build/server/server.js')
+            }
         },
         client: {
             root: abs('./src/'),
             entry: abs('./src/boot/client/client'),
+            static: abs('./src/boot/client/static/'),
+            bundleUrlPath: '/bundle/',
             output: {
-                path: abs('./src/boot/client/public/build/'),
-                name: 'bundle.js'
+                root: abs('./.build/client/'),
+                bundle: {
+                    path: abs('./.build/client/bundle/'),
+                    name: 'bundle.js'
+                }
             }
         }
     },
@@ -48,10 +55,12 @@ module.exports = {
     server: {
 
         // nodejs server, which serves static files for browser
-        // (serving folders configured in section 'src.serv')
         static: {
             host: '0.0.0.0',
-            port: 3000
+            port: 3000,
+
+            // folder from which static files are served to client
+            folder: abs('./.build/client/')
         },
 
         // couchdb-compatible database server

@@ -20,6 +20,8 @@ export default function(state, data, dispatch) {
     const {mindmap} = mindset;
     const {code, ctrlKey, preventDefault} = required(data);
     
+    // TODO: fails to access mindmap on loading screen 
+
     const isPopupActive =
         mindmap.associationTailsLookup.active ||
         mindset.ideaSearchBox.active ||

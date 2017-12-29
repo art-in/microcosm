@@ -1,3 +1,10 @@
+const seq = require('gulp-sequence');
+
 module.exports = {
-    deps: ['test:static', 'test:unit']
+    fn: (gulp, done) =>
+        seq(
+            'test:static',
+            'test:unit',
+            done
+        )
 };

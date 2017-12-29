@@ -1,4 +1,5 @@
-import config from '../../../config';
+// @ts-ignore relative path from build folder
+import config from '../../config';
 
 import express from 'express';
 import logger from 'morgan';
@@ -6,7 +7,7 @@ import logger from 'morgan';
 const app = express();
 app.use(logger('dev'));
 
-app.use(express.static(config.src.serv.public));
+app.use(express.static(config.server.static.folder));
 
 app.use(function(req, res) {
     res.status(404);
@@ -23,7 +24,9 @@ app.listen(port, host, function(err) {
     if (err) {
         throw Error(err);
     }
-    console.log(`Listening at ${host}:${port}`);
+    console.log(`Server started\n` +
+        `    serving folder: ${config.server.static.folder}\n` +
+        `    listening at ${host}:${port}`);
 });
 
 /* global process */

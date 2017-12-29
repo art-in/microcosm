@@ -1,6 +1,8 @@
 const config = require('../../config');
 
-const deps = ['build', 'serve:static'];
+const deps = [
+    'serve:static'
+];
 
 if (config.server.database.startDevServer) {
     deps.push('serve:dev-db');

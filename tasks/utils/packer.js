@@ -11,18 +11,25 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
  * Use when only config required without run,
  * eg. when webpack run by other tool, eg. by karma
  *
- * @param {object}  opts
- * @param {string|array} opts.root - module resolve root path
- * @param {object}  opts.output
- * @param {string}  opts.output.path - output bundle path
- * @param {string}  opts.output.name - output bundle name
- * @param {boolean} opts.isProduction - indicates production environment
- * @param {boolean} [opts.watch=false] - rebuild on changes
- * @param {string}  [opts.entry] - entry module path
- * @param {object}  [opts.serv] - dev server
- * @param {string}  [opts.serv.host]
- * @param {string}  [opts.serv.port]
- * @param {string}  [opts.serv.public]
+ * @typedef {object} OutputOptions
+ * @prop {string} path - output bundle path
+ * @prop {string} name - output bundle name
+ * 
+ * @typedef {object} DevServerOptions
+ * @prop {string} host
+ * @prop {number} port
+ * @prop {string} folder
+ * 
+ * @typedef {object} Options
+ * @prop {string|array}     opts.root - module resolve root path
+ * @prop {OutputOptions}    opts.output
+ * @prop {boolean}          opts.isProduction - indicates production environment
+ * @prop {string}           opts.bundleUrlPath
+ * @prop {boolean}          [opts.watch=false] - rebuild on changes
+ * @prop {string}           [opts.entry] - entry module path
+ * @prop {DevServerOptions} [opts.serv] - dev server
+ * 
+ * @param {Options} opts
  *
  * @return {object} config
  */
@@ -32,7 +39,7 @@ function getPackConfig(opts) {
         assert(opts.serv);
         assert(opts.serv.host);
         assert(opts.serv.port);
-        assert(opts.serv.public);
+        assert(opts.serv.folder);
     }
 
     const entries = [];
@@ -91,7 +98,13 @@ function getPackConfig(opts) {
         output: {
             path: path.resolve(__dirname, opts.output.path),
             filename: opts.output.name,
-            publicPath: '/build/'
+
+            // URL path from which additional chunks will be requested in case
+            // bundle split up on several chunks
+            // (eg. if url-loader does not inlude font into bundle but extract
+            // it to separate chunk, this is URL path url-loader will add to
+            // URL to request that chunk)
+            publicPath: opts.bundleUrlPath
         },
         plugins,
         module: {
@@ -153,7 +166,7 @@ function getPackConfig(opts) {
 /**
  * Packs client assets into bundle
  *
- * @param {object} opts
+ * @param {Options} opts
  * @return {promise}
  */
 function pack(opts) {
@@ -178,10 +191,10 @@ function pack(opts) {
 
             // requests to this URL path will be
             // served with in-memory bundle
-            publicPath: '/build/',
+            publicPath: opts.bundleUrlPath,
 
             // file system path to serve static files from
-            contentBase: opts.serv.public,
+            contentBase: opts.serv.folder,
             
             historyApiFallback: true,
 
