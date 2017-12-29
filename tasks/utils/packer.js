@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const assert = require('assert');
 const WebpackDevServer = require('webpack-dev-server');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -45,9 +46,16 @@ function getPackConfig(opts) {
     const entries = [];
     const resolveModules = [];
     const plugins = [
+
+        // uncomment to see bundle analysis (starts server + opens browser)
+        // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin),
+
+        // ensure import paths have correct char case
+        // (case is ignored by windows, but respected by linux)
         new CaseSensitivePathsPlugin()
     ];
     const babelPlugins = [];
+    let devtool = null;
 
     if (opts.watch) {
         entries.push(
@@ -63,11 +71,27 @@ function getPackConfig(opts) {
     }
 
     if (opts.isProduction) {
+
+        // include node production env var
+        // 1. include minified version of libs (eg. react)
+        // 2. use in app for runtime optimizations
+        //    (eg. disable logger/perf store middlewares)
         plugins.push(new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': `'production'`
-            }
+            'process.env': {'NODE_ENV': `'production'`}
         }));
+
+        // minify js scripts
+        plugins.push(new UglifyJsPlugin());
+
+        // do not include source maps
+        devtool = false;
+
+    } else {
+
+        // use inlined source maps,
+        // because eval-source-map gives stacktraces without source file:line
+        // (when stacktrace passed from chrome/phantomjs to terminal by karma)
+        devtool = 'inline-source-map';
     }
 
     entries.push('babel-polyfill');
@@ -91,9 +115,7 @@ function getPackConfig(opts) {
     root.forEach(p => resolveModules.push(path.resolve(__dirname, p)));
     
     return {
-        // eval-source-map gives stacktraces without source file:line
-        // (when stacktrace passed from chrome/phantomjs to terminal by karma)
-        devtool: 'inline-source-map',
+        devtool,
         entry: entries,
         output: {
             path: path.resolve(__dirname, opts.output.path),
@@ -139,7 +161,10 @@ function getPackConfig(opts) {
 
                         // use modules to incapsulate view component styles
                         modules: true,
-                        localIdentName: '[name]-[local]'
+                        localIdentName: '[name]-[local]',
+
+                        // minify css
+                        minimize: opts.isProduction
                     }
                 }, {
                     loader: 'postcss-loader'
