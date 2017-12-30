@@ -55,6 +55,7 @@ export default class Mindmap extends Component {
     }
 
     componentDidMount() {
+        
         // for now detect viewport resize by window 'resize'.
         // eslint-disable-next-line max-len
         // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
@@ -63,9 +64,6 @@ export default class Mindmap extends Component {
         // only after viewport mount we can get its size,
         // recalculate viewbox and render again with viewbox set
         this.onResize();
-
-        // focus viewport
-        this.viewport.focus();
     }
 
     onResize = () => {
@@ -99,6 +97,17 @@ export default class Mindmap extends Component {
             viewportShift,
             pressedMouseButton
         });
+    }
+
+    onContextMenu = e => {
+
+        // prevent default context menu since it moves focus out of mindmap
+        // (eg. right mouse down on node, move aside from custom context menu
+        // and release upon mindmap svg - default contex menu appear and custom
+        // context menu items are no longer apply hover styles (Chrome, Edge)
+        // + you should click outside default menu once to cancel it until you
+        // can continue interact with mindmap (Edge))
+        e.preventDefault();
     }
 
     render() {
@@ -150,6 +159,7 @@ export default class Mindmap extends Component {
                     onMouseUp={onMouseUp}
                     onMouseMove={this.onMouseMove}
                     onMouseLeave={onMouseLeave}
+                    onContextMenu={this.onContextMenu}
                     onWheel={this.onWheel}
                     onClick={onClick}>
 

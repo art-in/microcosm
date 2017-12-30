@@ -22,6 +22,7 @@ import classes from './Mindset.css';
 export default class Mindset extends Component {
 
     componentDidMount() {
+        
         // listen keyboard events on body element, since otherwise it is not
         // always possible to keep focus on component container: if focused
         // element is removed from DOM - focus jumps to document body

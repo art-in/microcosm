@@ -15,6 +15,7 @@ import React, {Component} from 'react';
  * @prop {function()} [onMouseLeave]
  * @prop {function()} [onWheel]
  * @prop {function()} [onClick]
+ * @prop {function()} [onContextMenu]
  * @prop {function()} [onKeyDown]
  * 
  * @extends {Component<Props>}

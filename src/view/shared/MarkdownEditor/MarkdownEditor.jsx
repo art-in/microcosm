@@ -59,7 +59,7 @@ export default class MarkdownEditor extends Component {
                     icons.fa,
                     editing ? icons.faEye : icons.faPencil
                 )}
-                title={editing ? 'Preview' : 'Edit (double click)'}
+                title={editing ? 'Preview' : 'Edit (Double Click)'}
                 onClick={onToggleEdit} />
 
                 {editing ?
