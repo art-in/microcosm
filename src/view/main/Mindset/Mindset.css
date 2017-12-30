@@ -22,6 +22,9 @@
     position: absolute;
     top: 10px;
     left: 10px;
+
+    /* do not change to text selection cursor (font icon) */
+    cursor: default;
 }
 
 .go-root-button {
