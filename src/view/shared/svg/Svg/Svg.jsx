@@ -30,6 +30,14 @@ export default class Svg extends Component {
 
             <svg className={className}
                 ref={nodeRef}
+
+                // prevent drag-drop to not mess up with mouse down + move 
+                // actions on child elements (eg. mindmap panning):
+                // mouse down on any element inside or on empty area, move mouse
+                // while mouse button pressed, sometimes (!) all text elements
+                // inside become highlighted, ghost doc icon appear near cursor
+                // just like when drag and drop images (Edge 41)
+                onDragStart={e => e.preventDefault()}
                 {...other}>
 
                 { this.props.children }
