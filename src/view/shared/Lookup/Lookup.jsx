@@ -4,6 +4,8 @@ import cx from 'classnames';
 import LookupVmType from 'vm/shared/Lookup';
 import LookupSuggestion from '../LookupSuggestion';
 
+import getKeyCode from 'view/utils/dom/get-key-code';
+
 import classes from './Lookup.css';
 
 // eslint-disable-next-line valid-jsdoc
@@ -41,7 +43,7 @@ export default class Lookup extends Component {
 
     onKeyDown = e => {
         this.props.onKeyDown({
-            code: e.nativeEvent.code,
+            code: getKeyCode(e.nativeEvent),
             preventDefault: e.preventDefault.bind(e)
         });
     }

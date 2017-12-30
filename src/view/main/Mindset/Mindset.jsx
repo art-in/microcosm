@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
 
+import getKeyCode from 'view/utils/dom/get-key-code';
+
 import MindsetType from 'vm/main/Mindset';
 import ConnectionState from 'action/utils/ConnectionState';
 
@@ -35,7 +37,7 @@ export default class Mindset extends Component {
 
     onKeyDown = nativeEvent => {
         this.props.onKeyDown({
-            code: nativeEvent.code,
+            code: getKeyCode(nativeEvent),
             ctrlKey: nativeEvent.ctrlKey,
             preventDefault: nativeEvent.preventDefault.bind(nativeEvent)
         });
