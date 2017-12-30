@@ -48,7 +48,7 @@ module.exports = {
         // webpack dev server, which serves static files and live rebuilds
         // client bundle while in watch development mode
         server: {
-            host: 'localhost',
+            host: '0.0.0.0',
             port: 3001
         }
     },
