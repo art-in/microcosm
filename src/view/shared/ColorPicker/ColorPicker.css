@@ -1,8 +1,10 @@
 .input {
     position: absolute;
-    visibility: hidden;
     left: 0;
     top: 0;
     width: 0;
     height: 0;
+
+    /* hide input softly so browser can focus and click on it (Edge) */
+    opacity: 0;
 }

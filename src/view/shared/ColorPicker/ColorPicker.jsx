@@ -24,6 +24,9 @@ export default class ColorPicker extends Component {
 
     forcePicker() {
         if (this.props.picker.active) {
+
+            // need to focus input before click (Edge)
+            this.input.focus();
             this.input.click();
         }
     }
