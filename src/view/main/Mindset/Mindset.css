@@ -15,6 +15,7 @@
 .db-connection-state-icon,
 .go-root-button {
     color: lightgray;
+    user-select: none;
 }
 
 .db-connection-state-icon {
