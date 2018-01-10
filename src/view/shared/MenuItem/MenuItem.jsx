@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import MenuItemVmType from 'vm/shared/MenuItem';
 
+// @ts-ignore temporary unused component does not receive css typings
 import classes from './MenuItem.css';
 
 /**

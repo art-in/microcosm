@@ -5,6 +5,7 @@ import MenuVmType from 'vm/shared/Menu';
 
 import MenuItem from '../MenuItem';
 
+// @ts-ignore temporary unused component does not receive css typings
 import classes from './Menu.css';
 
 /**

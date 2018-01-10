@@ -6,6 +6,7 @@ import ContextMenuVmType from 'vm/shared/ContextMenu';
 import Popup from '../Popup';
 import Menu from '../Menu';
 
+// @ts-ignore temporary unused component does not receive css typings
 import classes from './ContextMenu.css';
 
 /**
