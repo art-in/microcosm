@@ -6,20 +6,18 @@
 
 ---
 
-2. SVG animation (SMIL) deprecation in favor of CSS is postponed by Chrome,  
+2. SVG animation (SMIL) deprecation in favor of CSS animation is postponed by Chrome, 
     because some cases does not have CSS replacement.  
-    Which means eventually SMIL will be deprecated, but for now it is the only option.  
-    Which means eventually SMIL should be rewritten to CSS.  
-   https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/5o0yiO440LM%5B126-150%5D
+    https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/5o0yiO440LM%5B126-150%5D
 
-    And since Edge will not plan to support SMIL, there is no reason to use it.  
+    Which means eventually SMIL will be deprecated, but for now it is the only option in some cases.  
+    Which means eventually SMIL should be rewritten with CSS animation.  
 
-    TODO: how about animated gradients on SVG elements which has no replacement in CSS?
+    Edge is not planning to support SMIL at all.
 ---
 
-3. It is impossible to fill SVG elements with gradient using only CSS,
+3. It is impossible to fill SVG elements with gradient using CSS gradient,
     it needs `linearGradient` SVG element.  
-    And if you want to animate that gradient you would need SMIL animation (#2).  
     https://stackoverflow.com/questions/14051351/svg-gradient-using-css
 
 ---
@@ -36,3 +34,37 @@
     https://stackoverflow.com/questions/6088409/svg-drop-shadow-using-css3
 
     **Workaround**: use CSS `text-shadow` which works for SVG `text`, and gradients with transparency for other primitives.  
+
+---
+
+6. No good way of animating lines (movement along the line from its start to tail):  
+
+    - animate gradient of line `fill`  
+
+        - animate offsets of gradient `<stop>`s with SMIL `<animate>`  
+            - (pros) works in Chrome and FF
+            - (pros) fast enough (~20% of event loop time on Rendering+Painting for 10 lines in Chrome)
+            - (cons) does not work in Edge
+            - (cons) SMIL will be eventually depricated in Chrome/FF #2
+
+        - animate `<stop>` colors with CSS animation (hack, since stop offset is not accessible from CSS)  
+        http://jsbin.com/wetivek/1/edit?html,css,output  
+            - (pros) works everywhere  
+            - (cons) blury image (needs at least 10 stop colors to have more or less clear borders between colors),  
+            - (cons) very slow (~50% of event loop time on Rendering+Painting for 10 lines and 10 gradient stops in Chrome)   
+    - animate pattern of line `fill`  
+    http://jsbin.com/cuwidoj/3/edit?html,css,output  
+        - (pros) fast enough (~20% of event loop time on Rendering+Painting for 10 lines in Chrome)  
+        - (cons) does not work in FF and Edge.  
+            FF and Edge do not animate transform of elements inside SVG `<defs>` with CSS according to the SVG spec, althrough Chrome does.    
+            https://greensock.com/forums/topic/13423-svg-pattern-transform-browser-compatibility/?do=findComment&comment=57279  
+        - (cons) Edge randomly fails to draw pattern correctly when dynamicaly changing angle of line and pattern  
+
+    - animate offset of line `stroke` (with `stroke-dasharray` and `stroke-dashoffset`)  
+    http://jsbin.com/mesonu/4/edit?html,css,output  
+        - (pros) fast enough (?)  
+        - (cons) dashes are affected by changes to viewbox size (on zoom or resize), which looks really nasty  
+        - (cons) stroke is already used as invisible extender of hovering area
+
+
+    

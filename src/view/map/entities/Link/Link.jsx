@@ -226,9 +226,9 @@ export default class Link extends Component {
                 <Portal rootId={popupContainerId}>
 
                     {/* 
-                        Q: why use custom tooltip instead of svg 'title'?
-                        A: custom tooltip allows to use custom colors inside
-                           and be positioned at any point while mouse moves
+                    Q: why use custom tooltip instead of svg 'title'?
+                    A: custom tooltip allows to use custom colors inside
+                       and be positioned at any point while mouse moves
                     */}
                     <Tooltip
                         value={tooltip.value}
@@ -237,15 +237,14 @@ export default class Link extends Component {
                     />
                 </Portal>
 
-                {/*
+                <defs>
+                    {/*
                     Q: why not keep styling things like gradients in css?
                     A: gradients for svg elements cannot be defined in css.
-                       unfortunately structure should be mixed up with styles
-                       this time
-                */}
-                <defs>
+                    */}
                     <linearGradient id={gradientId}
                         gradientTransform={`rotate(${angleDeg})`}
+                        x1='0%' x2={`${gradientDencity / 2}%`}
                         spreadMethod='repeat'>
                     
                         <stop offset='0%' stopColor='rgba(0, 0, 0, 0)'/>
@@ -253,6 +252,14 @@ export default class Link extends Component {
                         <stop offset='75%' stopColor={link.color} />
                         <stop offset='100%' stopColor='rgba(0, 0, 0, 0)'/>
 
+                        {/*
+                        Q: why animate with SMIL (does not work in Edge)?
+                        A: best soluting I've found for now (see svg gotcha #6)
+                           have tried with CSS animation:
+                            - animate gradient of `fill` (very slow)
+                            - animate pattern of `fill` (Chrome only)
+                            - animate offset of `stroke` (bound to viewbox size)
+                        */}
                         <animate attributeName='x1'
                             from='0%'
                             to={`${gradientDencity / 2}%`}
