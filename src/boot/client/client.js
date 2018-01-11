@@ -56,7 +56,6 @@ async function start() {
         middlewares);
 
     // warm up state
-
     await store.dispatch({
         type: 'init',
         data: {
@@ -67,4 +66,12 @@ async function start() {
     });
 }
 
-start();
+// Q: why wait for full page load if js bundle is linked to the page tail
+//    (so required DOM is already available)?
+// A: it fixes FF issue when it gets stuck in page loading state forever
+//    because of server database long polling (and in loading state it does not
+//    run SMIL animations and draw text-shadow on SVG elements with artifacts).
+// Q: why not wait for 'DOMContentLoaded'?
+// A: FF infinite loading issue get fixed only with 'load'. and since all page
+//    content get rendered by code, those two events are always the same.
+window.addEventListener('load', start);

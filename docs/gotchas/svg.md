@@ -28,12 +28,13 @@
 ---
 
 5. CSS `box-shadow` does not work for SVG elements.  
-    Drop shadow for SVG elements can be implemented with SVG `filter` element.  
-    From my research (Chrome v63, FF v57), when setting filter over circle scaled to full screen - 
-    browser starts behave very slow (very long `Compose Layers` phase of painting).  
+    Drop shadow for SVG elements can be implemented with SVG `<filter>` element.  
+    But `<feDropShadow>` is extremely slow in Chrome v63/FF v57 when applied to circle rendered to full screen
+    (very long `Compose Layers` phase of painting).  
     https://stackoverflow.com/questions/6088409/svg-drop-shadow-using-css3
 
     **Workaround**: use CSS `text-shadow` which works for SVG `text`, and gradients with transparency for other primitives.  
+    Cons: `text-shadow` on SVG does not work in Edge v41, and renders with artifacts in FF v57.
 
 ---
 
@@ -67,4 +68,3 @@
         - (cons) stroke is already used as invisible extender of hovering area
 
 
-    
