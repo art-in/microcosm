@@ -7,7 +7,7 @@ module.exports = (gulp, done) =>
         'build:server',
         [
             'build:watch',
-            'serve'
+            'serve:watch'
         ],
         done
     );

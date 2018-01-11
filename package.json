@@ -4,6 +4,8 @@
   "homepage": "https://github.com/artin-phares/microcosm",
   "scripts": {
     "start": "gulp default",
+    "build": "gulp build",
+    "serve": "gulp serve",
     "test": "gulp test",
     "test:static": "gulp test:static",
     "test:unit": "gulp test:unit",

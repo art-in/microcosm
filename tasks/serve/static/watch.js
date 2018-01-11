@@ -1,4 +1,4 @@
-const config = require('../../config');
+const config = require('../../../config');
 const nodemon = require('gulp-nodemon');
 
 module.exports = () =>
