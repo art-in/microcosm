@@ -21,6 +21,8 @@ const MIN_DISTANCE_FROM_OCCUPIED_POSITIONS = 200;
 /**
  * Gets relative position for new idea
  * 
+ * TODO: cover with unit tests when UX is manually tested
+ * 
  * @param {Point} parentRelPos - relative position of parent to grandparent
  * @param {Array.<Point>} occupiedPositions - already occupied positions
  * @param {number} parentScale - scale of parent
