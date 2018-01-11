@@ -31,3 +31,17 @@
     This is surprising, because not all children get updated as described in docs, but only ones defined statically, and not ones received from props dynamically.  
     TODO: why it is not mentioned in docs? why update static and not dynamic children (what's the difference)?  
     https://discuss.reactjs.org/t/shouldcomponentupdate-and-children/2055/7
+
+---
+
+5. No way to stop propagation of native events with react handlers since react really catches all of them on `document` element (event delegation) - when events are already propagated to root.  
+    React implements its own propagation of synthetic events for its components.  
+    https://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
+
+---
+
+6. `onChange` handler for inputs really adds handler for `input` event, not `change` event.  
+    React does that because `change` event may not trigger each time input changes, but `input` event always does.  
+    > Unlike the input event, the change event is not necessarily fired for each change to an element's value.   (details: https://developer.mozilla.org/en-US/docs/Web/Events/change)  
+    
+    https://github.com/facebook/react/issues/6087

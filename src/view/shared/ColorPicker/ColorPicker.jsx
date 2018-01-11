@@ -20,6 +20,14 @@ export default class ColorPicker extends Component {
 
     componentDidMount() {
         this.forcePicker();
+
+        // need to manually subscribe to 'change' event since react 'onChange'
+        // handler really sets handler for 'input' event
+        this.input.addEventListener('change', this.onChange);
+    }
+
+    componentWillUnmount() {
+        this.input.removeEventListener('change', this.onChange);
     }
 
     forcePicker() {
@@ -31,8 +39,8 @@ export default class ColorPicker extends Component {
         }
     }
 
-    onChange = e => {
-        const color = e.currentTarget.value;
+    onChange = nativeEvent => {
+        const color = nativeEvent.currentTarget.value;
         this.props.onChange({color});
     }
     
@@ -46,7 +54,6 @@ export default class ColorPicker extends Component {
         return (
             <input ref={node => this.input = node}
                 type='color'
-                onChange={ this.onChange }
                 className={ classes.input } />
         );
     }
