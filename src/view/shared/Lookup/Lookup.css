@@ -1,11 +1,4 @@
-.root {
-    /* hide overflow, so when width is zero - it is completely hidden.
-       otherwise input paddings remain visible (this is how 'border-box' works).
-       normally inner content will stretch root container and there will be
-       no overflow, but this is cricical in case usage wants to hide lookup
-       by setting width to zero (eg. idea search box) */
-    overflow: hidden;
-}
+.root {}
 
 .input {
     padding: 5px 7px;

@@ -24,6 +24,21 @@
     font-size: 18px;
 }
 
+:global(input),
+:global(textarea) {
+    /* normalize inputs */
+    border: 1px solid gray;
+}
+
+:global(input):focus,
+:global(textarea):focus {
+    /* replicate chrome outlining.
+       use shadow to not conflict with border and outline.
+       > 1px outline hides border in Chrome */
+    outline: none;
+    box-shadow: 0 0 0 2px #a5c7fe;
+}
+
 .version {
     position: absolute;
     bottom: 15px;
