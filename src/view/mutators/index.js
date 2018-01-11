@@ -7,7 +7,7 @@ import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
 
-import Main from 'view/main/Main';
+import Main, {rootClass} from 'view/main/Main';
 import Provider from 'view/utils/connect/Provider';
 
 /**
@@ -103,6 +103,7 @@ function apply(state, mutation) {
  * @param {StateType} state
  */
 function mount(state) {
+    state.view.root.classList.add(rootClass);
     ReactDom.render(
         <Provider dispatch={state.view.storeDispatch}>
             <Main main={state.vm.main} />

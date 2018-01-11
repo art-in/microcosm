@@ -1,10 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 
 import MainVmType from 'vm/main/Main';
 import Mindset from 'view/main/Mindset';
 import Version from 'view/shared/Version';
 
 import classes from './Main.css';
+
+// root class should be set to root element when mounting main component,
+// it allows to avoid rendering additional root element
+export const rootClass = classes.root;
 
 /**
  * @typedef {object} Props
@@ -28,11 +32,11 @@ export default class Main extends Component {
         }
 
         return (
-            <main className={classes.root}>
+            <Fragment>
                 {pageComponent}
 
                 <Version className={classes.version} />
-            </main>
+            </Fragment>
         );
     }
 }

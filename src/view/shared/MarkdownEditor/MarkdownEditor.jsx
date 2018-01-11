@@ -31,8 +31,8 @@ export default class MarkdownEditor extends Component {
         if (this.props.editing) {
             // auto resize textarea to its contents, because by default
             // it auto-shrinks to small area with scroll.
-            // unfortunately parent scroll will be resetted, because obviously
-            // size gets adjasted after small area already drawn.
+            // unfortunately parent scroll position will be resetted, because
+            // obviously size gets adjusted after small area already drawn.
             this.textarea.style.height = this.textarea.scrollHeight + 'px';
         }
     }

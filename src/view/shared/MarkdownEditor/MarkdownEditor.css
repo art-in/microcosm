@@ -9,6 +9,10 @@
     min-height: 234px;
     resize: vertical;
     padding: 5px;
+
+    /* merge height with paddings so scroll height equals to height,
+       and when setting scroll height to height it does not grow infinitely */
+    box-sizing: border-box;
 }
 
 .button-edit {

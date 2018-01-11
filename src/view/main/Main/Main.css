@@ -1,8 +1,17 @@
+:global(html),
+:global(body),
 .root {
+    /* expand contents to full viewport */
     height: 100%;
 
-    /* prevent stretching page eg. by idea menu or lookup suggestions */
+    /* prevent page scrollbar initiated by overflowed elements
+       (eg. idea menu or lookup suggestions) */
     overflow: hidden;
+}
+
+:global(body) {
+    height: calc(100% - 10px);
+    margin: 5px;
 }
 
 @font-face {
