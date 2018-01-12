@@ -20,7 +20,7 @@ module.exports = {
             root: abs('./src/'),
             entry: abs('./src/boot/client/client'),
             static: abs('./src/boot/client/static/'),
-            bundleUrlPath: '/bundle/',
+            bundleUrlPath: 'bundle/',
             output: {
                 root: abs('./.build/client/'),
                 bundle: {
