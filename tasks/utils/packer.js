@@ -214,9 +214,11 @@ function pack(opts) {
         // - rebuilds bundle on-the-fly when src modules changed
         const server = new WebpackDevServer(compiler, {
 
-            // requests to this URL path will be
-            // served with in-memory bundle
-            publicPath: opts.bundleUrlPath,
+            // requests to this URL path will be served with in-memory bundle.
+            // for some reason it should always start with slash, since
+            // output.publicPath cannot start with slash (to allow base url +
+            // relative bundle path) - append starting slash inplace
+            publicPath: '/' + opts.bundleUrlPath,
 
             // file system path to serve static files from
             contentBase: opts.serv.folder,

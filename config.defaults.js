@@ -20,14 +20,24 @@ module.exports = {
             root: abs('./src/'),
             entry: abs('./src/boot/client/client'),
             static: abs('./src/boot/client/static/'),
-            bundleUrlPath: 'bundle/',
             output: {
                 root: abs('./.build/client/'),
                 bundle: {
                     path: abs('./.build/client/bundle/'),
                     name: 'bundle.js'
                 }
-            }
+            },
+
+            // url path that will prefix all bundle chunk urls (eg. fonts).
+            // if starts with slash then considered as absolute path, omit it if
+            // want chunks urls to be auto-prefixed with base url
+            bundleUrlPath: 'bundle/',
+
+            // url that client will prefix all relative server requests with.
+            // use when server hosted not on root path (ie. through proxying).
+            // relative and absolute paths are allowed (eg. '/microcosm/')
+            // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+            baseUrl: '/'
         }
     },
     test: {
