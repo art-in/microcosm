@@ -1,12 +1,16 @@
 /* global require, module, __dirname */
 const path = require('path');
+const extend = require('extend');
+const userConfig = require('./config.build.user');
 const abs = p => path.join(__dirname, p);
 
 /**
- * Do not modify defaults - put custom config into 'config.user.js'
+ * Build configuration
+ * The one that is used for building and testing sources
+ * 
+ * NOTE: do not modify defaults - put custom config to 'config.build.user.js'
  */
-
-module.exports = {
+const defaults = {
     root: __dirname,
     src: {
         serv: {
@@ -33,11 +37,15 @@ module.exports = {
             // want chunks urls to be auto-prefixed with base url
             bundleUrlPath: 'bundle/',
 
+            // TODO: move to serve config
             // url that client will prefix all relative server requests with.
             // use when server hosted not on root path (ie. through proxying).
             // relative and absolute paths are allowed (eg. '/microcosm/')
             // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
             baseUrl: '/'
+        },
+        output: {
+            root: abs('./.build/')
         }
     },
     test: {
@@ -59,30 +67,24 @@ module.exports = {
         // client bundle while in watch development mode
         server: {
             host: '0.0.0.0',
-            port: 3001
+            port: 3001,
+
+            // folder from which static files are served to client
+            folder: abs('./.build/client/')
         }
     },
     server: {
 
-        // nodejs server, which serves static files for browser
-        static: {
-            host: '0.0.0.0',
-            port: 3000,
-
-            // folder from which static files are served to client
-            folder: abs('./.build/client/')
-        },
-
         // couchdb-compatible database server
         database: {
+
+            // TODO: move to serve config
             host: 'localhost',
-            port: 5984,
-    
-            // start development database server (pouchdb-server).
-            // note: pouchdb-server is not production ready, so you should
-            // install and run your own CouchDB server elsewhere
-            startDevServer: true
+            port: 5984
+            
         }
         
     }
 };
+
+module.exports = extend(true, {}, defaults, userConfig);

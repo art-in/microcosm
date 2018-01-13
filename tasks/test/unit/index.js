@@ -1,4 +1,4 @@
-const config = require('../../../config.js');
+const config = require('../../../config.build');
 
 const runUnitTests = require('../../utils/run-unit-tests');
 const packConfig = require('../../utils/unit-tests-pack-config');

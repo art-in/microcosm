@@ -1,4 +1,4 @@
-import config from '../../../config';
+import config from '../../../config.build';
 
 import PouchDB from 'pouchdb';
 import PouchDBFindPlugin from 'pouchdb-find';

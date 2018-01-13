@@ -1,4 +1,4 @@
-const config = require('../../config.js');
+const config = require('../../config.build');
 const getPackConfig = require('./packer').getPackConfig;
 
 const packConfig = getPackConfig({

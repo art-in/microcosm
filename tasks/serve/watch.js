@@ -1,4 +1,4 @@
-const config = require('../../config');
+const config = require('../../config.serve');
 
 const deps = [
     'serve:static:watch'

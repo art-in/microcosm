@@ -1,4 +1,4 @@
-const config = require('../../../../config.js');
+const config = require('../../../../config.build');
 const packer = require('../../../utils/packer').pack;
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
         serv: {
             host: config.dev.server.host,
             port: config.dev.server.port,
-            folder: config.server.static.folder
+            folder: config.src.client.output.root
         },
         isProduction: false
     })

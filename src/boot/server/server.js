@@ -1,5 +1,5 @@
 // @ts-ignore relative path from build folder
-import config from '../../config';
+import config from '../config.serve';
 
 import express from 'express';
 import logger from 'morgan';

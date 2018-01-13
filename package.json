@@ -5,7 +5,7 @@
   "scripts": {
     "start": "gulp default",
     "build": "gulp build",
-    "serve": "gulp serve",
+    "serve": "cd ./.build && gulp serve",
     "test": "gulp test",
     "test:static": "gulp test:static",
     "test:unit": "gulp test:unit",

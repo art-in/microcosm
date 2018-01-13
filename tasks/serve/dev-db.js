@@ -1,7 +1,7 @@
 const gutil = require('gulp-util');
 const spawnPouchDBServer = require('spawn-pouchdb-server');
 
-const config = require('../../config');
+const config = require('../../config.serve');
 
 module.exports = () => {
 

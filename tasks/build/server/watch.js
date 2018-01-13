@@ -1,4 +1,4 @@
-const config = require('../../../config');
+const config = require('../../../config.build');
 
 // build will not happen until server file changed, but this is intened
 // to avoid nodemon error while both watched build and server stated in

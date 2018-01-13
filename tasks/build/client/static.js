@@ -1,4 +1,4 @@
-const config = require('../../../config.js');
+const config = require('../../../config.build');
 const filter = require('gulp-filter');
 const replace = require('gulp-replace');
 

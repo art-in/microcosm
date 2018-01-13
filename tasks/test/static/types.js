@@ -1,4 +1,4 @@
-const config = require('../../../config.js');
+const config = require('../../../config.build');
 const ts = require('gulp-typescript');
 
 module.exports = {

@@ -1,5 +1,5 @@
 const babel = require('gulp-babel');
-const config = require('../../../config');
+const config = require('../../../config.build');
 
 module.exports = {
     deps: ['build:server:clean'],
