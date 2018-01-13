@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
 
+// TODO: move version to runtime config
 // @ts-ignore json import
 import packageConfig from '../../../../package.json';
 

@@ -16,10 +16,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * @prop {string} path - output bundle path
  * @prop {string} name - output bundle name
  * 
+ * @typedef {object} BackendServerOptions
+ * @prop {string} host
+ * @prop {number} port
+ * 
  * @typedef {object} DevServerOptions
  * @prop {string} host
  * @prop {number} port
  * @prop {string} folder
+ * @prop {BackendServerOptions} backend
  * 
  * @typedef {object} Options
  * @prop {string|array}     opts.root - module resolve root path
@@ -208,9 +213,20 @@ function pack(opts) {
 
     if (opts.watch) {
 
+        let backendHost = opts.serv.backend.host;
+        const backendPort = opts.serv.backend.port;
+
+        if (backendHost === '0.0.0.0') {
+            backendHost = 'localhost';
+        }
+        
+        const backendUrl = `http://${backendHost}:${backendPort}`;
+
         // dev server 
         // - serves static files without need of backend server
-        // - builds src modules into in-memory bundle 
+        //   (not using this, proxying from backend server)
+        // - builds src modules into bundle with webpack
+        //   and serves it from memory
         // - rebuilds bundle on-the-fly when src modules changed
         const server = new WebpackDevServer(compiler, {
 
@@ -223,6 +239,12 @@ function pack(opts) {
             // file system path to serve static files from
             contentBase: opts.serv.folder,
             
+            proxy: {
+                // everything except bundle should be served from backend server
+                // (eg. because backend injects runtime config into index.html)
+                ['!' + opts.bundleUrlPath + '/**']: backendUrl
+            },
+
             historyApiFallback: true,
 
             // enable hot module replacement
@@ -239,9 +261,10 @@ function pack(opts) {
                 throw err;
             }
 
-            gutil.log(gutil.colors.bgRed(
-                `Webpack dev server listening at ` +
-                `http://${opts.serv.host}:${opts.serv.port}/`));
+            gutil.log(
+                `Webpack dev server started\n` +
+                `\tproxying static files from backend at ${backendUrl}\n` +
+                `\tlistening at http://${opts.serv.host}:${opts.serv.port}/`);
         });
     } else {
 

@@ -22,19 +22,25 @@ const defaults = {
             folder: abs('./client/'),
 
             // entry module for nodejs process
-            entry: abs('./server/server.js')
+            entry: abs('./server/server.js'),
+
+            // url that client will prefix all relative server requests with.
+            // use when server hosted not on root path (ie. through proxying).
+            // relative and absolute paths are allowed (eg. '/microcosm/')
+            // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+            baseUrl: '/'
         },
      
         // couchdb-compatible database server
         database: {
             
-            // TODO: currently affects only dev server when serving
             host: 'localhost',
             port: 5984,
 
             // start development database server (pouchdb-server).
             // note: pouchdb-server is not production ready, so you should
-            // install and run your own CouchDB server elsewhere
+            // install and run your own CouchDB server elsewhere.
+            // when true - host can be 'localhost' only
             startDevServer: true
         }
     }

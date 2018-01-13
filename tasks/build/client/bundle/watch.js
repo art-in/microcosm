@@ -1,21 +1,27 @@
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
+const serveConfig = require('../../../../config.serve');
+
 const packer = require('../../../utils/packer').pack;
 
 module.exports = {
     deps: ['build:client:clean'],
     fn: () => packer({
-        root: config.src.client.root,
-        entry: config.src.client.entry,
-        bundleUrlPath: config.src.client.bundleUrlPath,
+        root: buildConfig.src.client.root,
+        entry: buildConfig.src.client.entry,
+        bundleUrlPath: buildConfig.src.client.bundleUrlPath,
         output: {
-            path: config.src.client.output.bundle.path,
-            name: config.src.client.output.bundle.name
+            path: buildConfig.src.client.output.bundle.path,
+            name: buildConfig.src.client.output.bundle.name
         },
         watch: true,
         serv: {
-            host: config.dev.server.host,
-            port: config.dev.server.port,
-            folder: config.src.client.output.root
+            host: buildConfig.dev.server.host,
+            port: buildConfig.dev.server.port,
+            folder: buildConfig.src.client.output.root,
+            backend: {
+                host: serveConfig.server.static.host,
+                port: serveConfig.server.static.port
+            }
         },
         isProduction: false
     })

@@ -35,14 +35,7 @@ const defaults = {
             // url path that will prefix all bundle chunk urls (eg. fonts).
             // if starts with slash then considered as absolute path, omit it if
             // want chunks urls to be auto-prefixed with base url
-            bundleUrlPath: 'bundle/',
-
-            // TODO: move to serve config
-            // url that client will prefix all relative server requests with.
-            // use when server hosted not on root path (ie. through proxying).
-            // relative and absolute paths are allowed (eg. '/microcosm/')
-            // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-            baseUrl: '/'
+            bundleUrlPath: 'bundle/'
         },
         output: {
             root: abs('./.build/')
@@ -72,18 +65,6 @@ const defaults = {
             // folder from which static files are served to client
             folder: abs('./.build/client/')
         }
-    },
-    server: {
-
-        // couchdb-compatible database server
-        database: {
-
-            // TODO: move to serve config
-            host: 'localhost',
-            port: 5984
-            
-        }
-        
     }
 };
 

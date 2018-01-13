@@ -1,5 +1,3 @@
-import config from '../../../config.build';
-
 import PouchDB from 'pouchdb';
 import PouchDBFindPlugin from 'pouchdb-find';
 PouchDB.plugin(PouchDBFindPlugin);
@@ -20,12 +18,14 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
+import runtimeConfig from './runtime-config';
+
 // for devtools Fauxton extension
 // @ts-ignore unknown prop of 'window'
 window.PouchDB = PouchDB;
 
 // URL of database server
-const {host, port} = config.server.database;
+const {host, port} = runtimeConfig.dbServer;
 const dbServerUrl = `${location.protocol}//${host}:${port}`;
 
 /**
