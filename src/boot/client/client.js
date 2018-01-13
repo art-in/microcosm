@@ -60,6 +60,7 @@ async function start() {
         type: 'init',
         data: {
             storeDispatch: store.dispatch.bind(store),
+            runtimeConfig,
             dbServerUrl,
             viewRoot: document.querySelector('#root')
         }

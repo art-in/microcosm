@@ -2,6 +2,7 @@ import initProps from 'utils/init-props';
 import ViewModel from 'vm/utils/ViewModel';
 
 import MindsetType from 'vm/main/Mindset';
+import VersionVmType from 'vm/main/Version';
 
 /**
  * Main view model
@@ -22,6 +23,12 @@ export default class Main extends ViewModel {
      * @type {MindsetType|undefined}
      */
     mindset = undefined;
+
+    /**
+     * Version mark view model
+     * @type {VersionVmType|undefined}
+     */
+    version = undefined;
     
     /**
      * Constructor

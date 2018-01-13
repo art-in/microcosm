@@ -5,6 +5,8 @@ import noop from 'src/utils/noop';
 import combineHandlerPatches from 'test/utils/combine-handler-patches';
 
 import State from 'src/boot/client/State';
+import RuntimeConfig from 'src/boot/client/RuntimeConfig';
+
 import MainVM from 'src/vm/main/Main';
 import ConnectionState from 'src/action/utils/ConnectionState';
 
@@ -48,6 +50,7 @@ describe('init', () => {
             data: {
                 storeDispatch: noop,
                 dbServerUrl: 'TEST_DB_SERVER',
+                runtimeConfig: new RuntimeConfig(),
                 viewRoot: document.createElement('div')
             }
         }, dispatch, mutate);
@@ -74,6 +77,7 @@ describe('init', () => {
             data: {
                 storeDispatch: noop,
                 dbServerUrl: 'TEST_DB_SERVER',
+                runtimeConfig: new RuntimeConfig(),
                 viewRoot: document.createElement('div')
             }
         }, dispatch, mutate);
@@ -101,6 +105,7 @@ describe('init', () => {
             data: {
                 storeDispatch,
                 dbServerUrl: 'TEST_DB_SERVER',
+                runtimeConfig: new RuntimeConfig(),
                 viewRoot: document.createElement('div')
             }
         }, dispatch, mutate);
@@ -129,6 +134,7 @@ describe('init', () => {
             data: {
                 storeDispatch,
                 dbServerUrl: 'TEST_DB_SERVER',
+                runtimeConfig: new RuntimeConfig(),
                 viewRoot: document.createElement('div')
             }
         }, dispatch, mutate);
@@ -152,6 +158,7 @@ describe('init', () => {
             data: {
                 storeDispatch,
                 dbServerUrl: 'TEST_DB_SERVER',
+                runtimeConfig: new RuntimeConfig(),
                 viewRoot: document.createElement('div')
             }
         }, dispatch, mutate);

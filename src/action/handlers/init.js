@@ -6,6 +6,7 @@ import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
 import MainVM from 'vm/main/Main';
 import MindsetVM from 'vm/main/Mindset';
+import VersionVM from 'vm/main/Version';
 
 /**
  * Inits state
@@ -16,7 +17,12 @@ import MindsetVM from 'vm/main/Mindset';
  * @param {function} mutate
  */
 export default async function init(state, data, dispatch, mutate) {
-    const {storeDispatch, dbServerUrl, viewRoot} = required(data);
+    const {
+        storeDispatch,
+        runtimeConfig,
+        dbServerUrl,
+        viewRoot
+    } = required(data);
 
     // init view model
     // TBD: currently unconditionaly start loading mindset.
@@ -26,9 +32,16 @@ export default async function init(state, data, dispatch, mutate) {
         isLoaded: false
     });
 
+    const version = new VersionVM({
+        name: runtimeConfig.app.name,
+        homepage: runtimeConfig.app.homepage,
+        version: runtimeConfig.app.version
+    });
+
     const main = new MainVM({
         screen: 'mindset',
-        mindset
+        mindset,
+        version
     });
 
     await mutate(new Patch({

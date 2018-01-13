@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import MainVmType from 'vm/main/Main';
 import Mindset from 'view/main/Mindset';
-import Version from 'view/shared/Version';
+import Version from 'view/main/Version';
 
 import classes from './Main.css';
 
@@ -35,7 +35,8 @@ export default class Main extends Component {
             <Fragment>
                 {pageComponent}
 
-                <Version className={classes.version} />
+                <Version className={classes.version}
+                    version={mainVM.version} />
             </Fragment>
         );
     }

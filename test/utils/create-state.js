@@ -6,6 +6,7 @@ import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 import MainVM from 'src/vm/main/Main';
 import MindsetVM from 'src/vm/main/Mindset';
+import VersionVM from 'src/vm/main/Version';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 
@@ -36,9 +37,16 @@ export default function createState() {
         mindmap
     });
     
+    const version = new VersionVM({
+        name: 'microcosm',
+        homepage: 'http://example.com',
+        version: '0.0.0'
+    });
+
     state.vm.main = new MainVM({
         screen: 'mindset',
-        mindset
+        mindset,
+        version
     });
     
     // view

@@ -1,5 +1,7 @@
 // @ts-ignore relative path from build folder
 import config from '../config.serve';
+// @ts-ignore relative path from build folder
+import pkg from '../package.json';
 
 import express from 'express';
 import logger from 'morgan';
@@ -39,6 +41,11 @@ app.get('/', function(req, res) {
     //    since (a) it is additional request which will hit load performance
     //    (b) it will block offline scenario
     const runtimeConfig = {
+        app: {
+            name: pkg.name,
+            homepage: pkg.homepage,
+            version: pkg.version
+        },
         dbServer: {
             host: config.server.database.host,
             port: config.server.database.port
