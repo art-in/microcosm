@@ -31,8 +31,9 @@ const POUCH_PREFIX = '_pouch_';
 
 describe('load-mindset', function() {
 
+    // @ts-ignore default timeout getter
     // eslint-disable-next-line no-invalid-this
-    this.timeout(RELOAD_DEBOUNCE_TIME + 1000);
+    this.timeout(this.timeout() + RELOAD_DEBOUNCE_TIME);
 
     async function cleanSideEffects() {
 
