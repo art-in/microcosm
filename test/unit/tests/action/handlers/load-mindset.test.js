@@ -29,7 +29,10 @@ const handle = handler.handle.bind(handler);
 
 const POUCH_PREFIX = '_pouch_';
 
-describe('load-mindset', () => {
+describe('load-mindset', function() {
+
+    // eslint-disable-next-line no-invalid-this
+    this.timeout(RELOAD_DEBOUNCE_TIME + 1000);
 
     async function cleanSideEffects() {
 
