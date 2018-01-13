@@ -1,6 +1,6 @@
 {
   "name": "microcosm",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/artin-phares/microcosm",
   "scripts": {
     "start": "gulp default",
