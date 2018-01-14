@@ -49,8 +49,7 @@ app.get('/', function(req, res) {
         dbServer: {
             host: config.server.database.host,
             port: config.server.database.port
-        },
-        boom: 'test server gets reloaded after CI deploy'
+        }
     };
 
     res.render('index', {
