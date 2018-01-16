@@ -40,6 +40,8 @@ export default class Modal extends Component {
 
         const transitionDuration = Number(classes.transitionDuration) * 1000;
 
+        // TODO: utilize html 5.2 dialog
+        // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
         return (
             <CSSTransition
                 in={modal.active}
