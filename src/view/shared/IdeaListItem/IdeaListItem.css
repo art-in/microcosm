@@ -1,0 +1,26 @@
+.root {
+    padding: 10px;
+    display: flex;
+}
+
+.root:hover {
+    outline: 1px solid lightgray;
+    cursor: pointer;
+    background: #f5f5f5;
+}
+
+.title {}
+
+.root-path {
+    margin-left: 10px;
+    color: lightgray;
+
+    /* do not wrap */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    /* cut on the left side */
+    direction: rtl;
+    text-align: left;
+}

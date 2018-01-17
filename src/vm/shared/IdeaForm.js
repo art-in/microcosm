@@ -1,3 +1,5 @@
+import IdeaListItemType from 'vm/shared/IdeaListItem';
+
 /**
  * Form for showing and editing contents of Idea (title, value, etc.)
  */
@@ -33,6 +35,12 @@ export default class IdeaForm {
      * @type {string}
      */
     value = undefined;
+
+    /**
+     * Successor ideas (tails of outgoing associations)
+     * @type {Array.<IdeaListItemType>}
+     */
+    successors = undefined;
 
     /**
      * State of fields before last save.

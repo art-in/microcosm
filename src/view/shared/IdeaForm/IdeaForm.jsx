@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
 
 import IdeaFormVmType from 'vm/shared/IdeaForm';
+import IdeaList from 'view/shared/IdeaList';
 import MarkdownEditor from 'view/shared/MarkdownEditor';
 import Button from 'view/shared/Button';
 
@@ -21,6 +22,7 @@ import classes from './IdeaForm.css';
  * @prop {function({value})} onValueChange
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
+ * @prop {function()} onNeighborIdeaSelect
  * @prop {function()} onSave
  * @prop {function()} onCancel
  * 
@@ -52,7 +54,8 @@ export default class IdeaForm extends Component {
             onSave,
             onCancel,
             onValueToggleEdit,
-            onValueDoubleClick
+            onValueDoubleClick,
+            onNeighborIdeaSelect
         } = this.props;
 
         return (
@@ -80,6 +83,12 @@ export default class IdeaForm extends Component {
                         onToggleEdit={onValueToggleEdit}
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
+
+                    <hr/>
+
+                    <IdeaList className={classes.successors}
+                        ideas={form.successors}
+                        onIdeaSelect={onNeighborIdeaSelect} />
                 </div>
 
                 <div className={classes.footer}>

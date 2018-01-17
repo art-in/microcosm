@@ -23,6 +23,13 @@ export default connect(
             type: 'on-idea-form-value-double-click'
         }),
 
+        onNeighborIdeaSelect: ideaListItem => dispatch({
+            type: 'on-idea-form-modal-neighbor-idea-select',
+            data: {
+                ideaId: ideaListItem.id
+            }
+        }),
+
         onClose: () => dispatch({
             type: 'on-idea-form-modal-close'
         }),

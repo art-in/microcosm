@@ -10,9 +10,12 @@ module.exports = () => {
     if (host !== 'localhost') {
         throw Error(
             `Invalid db server host '${host}'. ` +
-            `Dev server can be started at 'localhost' only.`);
+            `Dev server can listen at 'localhost' only.`);
     }
 
+    // TODO: spawn pouchdb-server manually to be able to set non-localhost host
+    // (spawnPouchDBServer does not have 'host' option, so pouchdb-server
+    // defaults to 127.0.0.1)
     spawnPouchDBServer({
         port,
         directory: './.db'

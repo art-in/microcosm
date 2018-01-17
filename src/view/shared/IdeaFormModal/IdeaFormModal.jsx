@@ -18,6 +18,7 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onValueChange
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
+ * @prop {function()} onNeighborIdeaSelect
  * @prop {function()} onClose
  * @prop {function()} onSave
  * @prop {function()} onCancel
@@ -34,6 +35,7 @@ export default class IdeaFormModal extends Component {
             onValueChange,
             onValueToggleEdit,
             onValueDoubleClick,
+            onNeighborIdeaSelect,
             onClose,
             onSave,
             onCancel
@@ -51,6 +53,7 @@ export default class IdeaFormModal extends Component {
                     onValueChange={onValueChange}
                     onValueToggleEdit={onValueToggleEdit}
                     onValueDoubleClick={onValueDoubleClick}
+                    onNeighborIdeaSelect={onNeighborIdeaSelect}
                     onSave={onSave}
                     onCancel={onCancel} />
             </Modal>

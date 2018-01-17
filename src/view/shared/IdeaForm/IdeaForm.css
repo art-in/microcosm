@@ -23,14 +23,14 @@
     /* section dividers */
     border-top: 1px solid #eceeef;
     border-bottom: 1px solid #eceeef;
-
-    min-height: 250px;
 }
 
 .value-editor {
     /* extend zone for activating edit mode by double click */
-    min-height: 250px;
+    min-height: 20px;
 }
+
+.successors {}
 
 .footer {
     display: flex;
