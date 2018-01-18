@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import cx from 'classnames';
 
 import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
@@ -7,6 +7,7 @@ import IdeaFormVmType from 'vm/shared/IdeaForm';
 import IdeaList from 'view/shared/IdeaList';
 import MarkdownEditor from 'view/shared/MarkdownEditor';
 import Button from 'view/shared/Button';
+import IdeaPath from 'view/shared/IdeaPath/IdeaPath';
 
 import classes from './IdeaForm.css';
 
@@ -58,17 +59,15 @@ export default class IdeaForm extends Component {
             onNeighborIdeaSelect
         } = this.props;
 
-        // TODO: show grayed root path with clickable segments
         return (
             <div className={cx(classes.root, className)}
                 onKeyDown={onKeyDown}>
 
                 <div className={classes.header}>
 
-                    {form.predecessors.length ?
-                        <IdeaList className={classes.predecessors}
-                            ideas={form.predecessors}
-                            layout='inline'
+                    {form.rootPath.length ?
+                        <IdeaPath className={classes.rootPath}
+                            path={form.rootPath}
                             onIdeaSelect={onNeighborIdeaSelect} />
                         : null
                     }
@@ -82,10 +81,19 @@ export default class IdeaForm extends Component {
                         maxLength={IDEA_TITLE_MAX_LENGTH}
                         ref={el => this.input = el}
                         onChange={this.onTitleChange} />
+
+                    {form.predecessors.length ?
+                        <IdeaList className={classes.predecessors}
+                            ideas={form.predecessors}
+                            layout='inline'
+                            onIdeaSelect={onNeighborIdeaSelect} />
+                        : null
+                    }
                 </div>
 
                 <div className={classes.body}>
-                    <MarkdownEditor className={classes.valueEditor}
+
+                    <MarkdownEditor className={classes.value}
                         editButtonClass={valueEditButtonClass}
                         value={form.value}
                         editing={form.isEditingValue}
@@ -94,16 +102,11 @@ export default class IdeaForm extends Component {
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
 
-                    {form.successors.length ?
-                        <Fragment>
-                            <hr/>
-                            <IdeaList className={classes.successors}
-                                ideas={form.successors}
-                                layout='column'
-                                onIdeaSelect={onNeighborIdeaSelect} />
-                        </Fragment>
-                        : null
-                    }
+                    <IdeaList className={classes.successors}
+                        ideas={form.successors}
+                        layout='column'
+                        onIdeaSelect={onNeighborIdeaSelect} />
+                
                 </div>
 
                 <div className={classes.footer}>

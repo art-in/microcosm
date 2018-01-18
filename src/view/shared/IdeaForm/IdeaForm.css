@@ -1,10 +1,13 @@
 .root {}
 
 .header,
-.body,
-.footer {
+.footer,
+.value,
+.successors {
     padding: 20px;
 }
+
+.root-path {}
 
 .title-input {
     padding: 5px;
@@ -13,6 +16,8 @@
     /* do not completely remove border so invalid input does not shift */
     border-color: transparent;
     font-size: 24px;
+
+    margin: 10px 0;
 }
 
 .title-input-invalid {
@@ -25,15 +30,14 @@
     border-bottom: 1px solid #eceeef;
 }
 
-.value-editor {
+.value {
+    border-bottom: 1px solid #eceeef;
+
     /* extend zone for activating edit mode by double click */
     min-height: 20px;
 }
 
-.predecessors {
-    padding: 10px 0;
-}
-
+.predecessors {}
 .successors {}
 
 .footer {

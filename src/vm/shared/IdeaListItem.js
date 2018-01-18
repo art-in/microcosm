@@ -8,7 +8,7 @@ import ViewModel from 'vm/utils/ViewModel';
 export default class IdeaListItem extends ViewModel {
 
     /**
-     * Association ID
+     * Idea ID
      * @type {string}
      */
     id = undefined;

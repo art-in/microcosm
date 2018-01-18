@@ -11,7 +11,7 @@ import IEdgeType from 'utils/graph/interfaces/IEdge';
  * @param {IVertexType} target
  * @return {array} edges
  */
-export default function getRootPathString(root, target) {
+export default function getRootPath(root, target) {
     const path = [];
     let current = target;
 

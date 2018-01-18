@@ -37,6 +37,12 @@ export default class IdeaForm {
     value = undefined;
 
     /**
+     * Ideas on path from root to parent idea
+     * @type {Array.<IdeaListItemType>}
+     */
+    rootPath = undefined;
+
+    /**
      * Direct predecessor ideas (heads of incomming associations)
      * @type {Array.<IdeaListItemType>}
      */

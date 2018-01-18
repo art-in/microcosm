@@ -1,0 +1,24 @@
+.root {
+    color: lightgray;
+}
+
+.sep {
+    /* align separator with items horizontally */
+    display: inline-block;
+    overflow: hidden;
+}
+
+.item {
+    display: inline-block;
+
+    /* limit width */
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item:hover {
+    cursor: pointer;
+    color: black;
+}

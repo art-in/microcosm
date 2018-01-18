@@ -5,6 +5,7 @@ import PatchType from 'utils/state/Patch';
 
 import IdeaListItem from 'vm/shared/IdeaListItem';
 import getRootPathForParent from 'action/utils/get-idea-parent-root-path';
+import getRootPathVertices from 'utils/graph/get-root-path-vertices';
 import getIdea from 'action/utils/get-idea';
 import getRootPath from 'action/utils/get-idea-root-path';
 import getIdeaColor from 'action/utils/get-idea-color';
@@ -34,6 +35,7 @@ export default function(state, data) {
 
     let title = '';
     let value = '';
+    let rootPath = [];
     let predecessors = [];
     let successors = [];
 
@@ -44,6 +46,16 @@ export default function(state, data) {
         
         title = idea.title || '';
         value = idea.value || '';
+
+        const rootPathIdeas = getRootPathVertices(mindset.root, idea);
+        rootPathIdeas.splice(rootPathIdeas.length - 1, 1);
+
+        rootPath = rootPathIdeas.map(idea =>
+            new IdeaListItem({
+                id: idea.id,
+                title: idea.title,
+                tooltip: idea.title
+            }));
 
         // move parent association to the top
         let incomingAssocs = idea.edgesIn;
@@ -89,6 +101,7 @@ export default function(state, data) {
 
             title,
             value,
+            rootPath,
             predecessors,
             successors,
 

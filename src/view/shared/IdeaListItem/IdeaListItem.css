@@ -15,6 +15,8 @@
 .root.layout-inline {
     display: inline-block;
     padding: 3px 5px;
+    
+    /* limit width */
     max-width: 300px;
     white-space: nowrap;
     overflow: hidden;

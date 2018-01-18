@@ -32,7 +32,7 @@ export default class IdeaList extends Component {
                     <IdeaListItem key={i.id} item={i}
                         className={classes.item}
                         layout={layout}
-                        onClick={onIdeaSelect.bind(this, i)}/>)}
+                        onClick={onIdeaSelect.bind(this, i)} />)}
 
             </div>
         );

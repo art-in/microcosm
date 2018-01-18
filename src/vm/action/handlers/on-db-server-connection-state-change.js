@@ -24,7 +24,7 @@ export default function(state, data) {
     case ConnectionState.connected:
         tooltip =
             `Mindset is connected to database server ` +
-            `(${dbServerUrl}).\n` +
+            `(${dbServerUrl})\n` +
             `All changes are saved locally and on server.`;
         break;
 
