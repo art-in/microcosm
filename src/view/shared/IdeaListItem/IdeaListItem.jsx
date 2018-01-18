@@ -28,7 +28,9 @@ export default class Idea extends Component {
                 </span>
 
                 <span className={classes.rootPath}>
-                    {idea.rootPath}
+                    <span>
+                        {idea.rootPath}
+                    </span>
                 </span>
 
             </div>

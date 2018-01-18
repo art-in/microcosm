@@ -9,18 +9,22 @@
     background: #f5f5f5;
 }
 
-.title {}
+.title {
+    white-space: nowrap;
+}
 
 .root-path {
-    margin-left: 10px;
     color: lightgray;
+    margin-left: 10px;
 
-    /* do not wrap */
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
-    /* cut on the left side */
-    direction: rtl;
-    text-align: left;
+/* Q: why add additional inner span?
+   A: only way to correctly truncate text on the left with ellipsis.
+      another solution with 'direction: rtl' does not work correctly in Edge 41:
+      text still truncated on the right (see css gotcha #6) */
+.root-path > span {
+    float: right;
 }

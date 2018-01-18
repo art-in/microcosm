@@ -42,5 +42,15 @@
     1. set value of custom prop from script (eg. `el.style.setProperty(--my-color)`),
     2. use custom prop value in target CSS property (eg. `.el:hover {color: var(--my-color)}`).
 
+---
 
-    
+6. Align text to the right and cut on the left with ellipsis.  
+    https://stackoverflow.com/questions/9793473/text-overflow-ellipsis-on-left-side  
+
+    - `direction:rtl` and `text-overflow:ellipsis`  
+        http://jsbin.com/socemoy/edit?html,css,output  
+        Cons: does not work in Edge 41 - ellipsis added on the left, but text still truncated on the right
+    - inner container + `float:right`  
+        http://jsbin.com/rawoqon/edit?html,css,output  
+        Cons: additional container, ellipsis always visible, ellipsis background always white
+
