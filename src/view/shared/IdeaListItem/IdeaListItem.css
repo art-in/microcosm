@@ -1,19 +1,31 @@
 .root {
-    padding: 10px;
     display: flex;
+    border: 2px solid var(--list-item-color, lightgray);
 }
 
 .root:hover {
-    outline: 1px solid lightgray;
     cursor: pointer;
     background: #f5f5f5;
+}
+
+.root.layout-column {
+    padding: 10px;
+}
+
+.root.layout-inline {
+    display: inline-block;
+    padding: 3px 5px;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .title {
     white-space: nowrap;
 }
 
-.root-path {
+.root.layout-column .root-path {
     color: lightgray;
     margin-left: 10px;
 
@@ -25,6 +37,10 @@
    A: only way to correctly truncate text on the left with ellipsis.
       another solution with 'direction: rtl' does not work correctly in Edge 41:
       text still truncated on the right (see css gotcha #6) */
-.root-path > span {
+.root.layout-column .root-path > span {
     float: right;
+}
+
+.root.layout-inline .root-path {
+    display: none;
 }

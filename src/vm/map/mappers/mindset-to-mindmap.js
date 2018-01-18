@@ -13,6 +13,7 @@ import WeightZone from 'utils/graph/WeightZone';
 
 import ideaToNode from './idea-to-node';
 import assocToLink from './association-to-link';
+import getIdeaColor from 'action/utils/get-idea-color';
 
 /**
  * Maps mindset model to mindmap view model
@@ -139,19 +140,7 @@ function computeNode(mindset, nodes, node) {
             // mapped only because it targets idea in focus zone, but its
             // parent chain is hidden and not mapped (see docs for mapper).
             // in this case we need to traverse original ideas tree 'by hand'.
-            let parentIdea = idea.edgeFromParent.from;
-
-            parentNodeColor = parentIdea.color;
-
-            // if direct parent does not have color then inherit it from
-            // closest parent idea that does have color
-            while (!parentNodeColor) {
-                parentIdea = parentIdea.edgeFromParent.from;
-
-                if (parentIdea.color) {
-                    parentNodeColor = parentIdea.color;
-                }
-            }
+            parentNodeColor = getIdeaColor(mindset, idea.id);
         }
     }
 

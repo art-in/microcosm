@@ -6,6 +6,9 @@ import PatchType from 'utils/state/Patch';
 import IdeaListItem from 'vm/shared/IdeaListItem';
 import getRootPathForParent from 'action/utils/get-idea-parent-root-path';
 import getIdea from 'action/utils/get-idea';
+import getRootPath from 'action/utils/get-idea-root-path';
+import getIdeaColor from 'action/utils/get-idea-color';
+import moveItem from 'utils/move-array-item';
 
 /**
  * Opens idea form modal
@@ -31,6 +34,7 @@ export default function(state, data) {
 
     let title = '';
     let value = '';
+    let predecessors = [];
     let successors = [];
 
     if (!isNewIdea) {
@@ -41,18 +45,37 @@ export default function(state, data) {
         title = idea.title || '';
         value = idea.value || '';
 
-        // TODO: show incoming associations too (highlight parent)
-        // TODO: move to 'idea-to-list-item' mapper
-        successors = idea.edgesOut.map(a =>
-            new IdeaListItem({
-                id: a.to.id,
-                title: a.to.title,
-                rootPath: a.to.edgeFromParent === a ?
+        // move parent association to the top
+        let incomingAssocs = idea.edgesIn;
+        const parrentAssocIdx = incomingAssocs.indexOf(idea.edgeFromParent);
+        incomingAssocs = moveItem(incomingAssocs, parrentAssocIdx, 0);
+
+        if (mindset.root !== idea) {
+            predecessors = incomingAssocs.map(a => {
+                const predecessor = a.from;
+                return new IdeaListItem({
+                    id: predecessor.id,
+                    title: predecessor.title,
+                    color: getIdeaColor(mindset, predecessor.id),
+                    tooltip: getRootPath(mindset, predecessor.id)
+                });
+            });
+        }
+
+        successors = idea.edgesOut.map(a => {
+            const successor = a.to;
+            return new IdeaListItem({
+                id: successor.id,
+                title: successor.title,
+                color: getIdeaColor(mindset, successor.id),
+                tooltip: getRootPath(mindset, successor.id),
+                rootPath: successor.edgeFromParent === a ?
                     // do not show root path (parent and grandparents) of
                     // successor idea if this idea is its parent
                     null :
-                    getRootPathForParent(mindset, a.to.id)
-            }));
+                    getRootPathForParent(mindset, successor.id)
+            });
+        });
     }
 
     return view('update-idea-form-modal', {
@@ -66,6 +89,7 @@ export default function(state, data) {
 
             title,
             value,
+            predecessors,
             successors,
 
             prev: {

@@ -30,6 +30,10 @@
     min-height: 20px;
 }
 
+.predecessors {
+    padding: 10px 0;
+}
+
 .successors {}
 
 .footer {

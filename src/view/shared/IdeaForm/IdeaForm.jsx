@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 
 import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
@@ -58,11 +58,21 @@ export default class IdeaForm extends Component {
             onNeighborIdeaSelect
         } = this.props;
 
+        // TODO: show grayed root path with clickable segments
         return (
             <div className={cx(classes.root, className)}
                 onKeyDown={onKeyDown}>
 
                 <div className={classes.header}>
+
+                    {form.predecessors.length ?
+                        <IdeaList className={classes.predecessors}
+                            ideas={form.predecessors}
+                            layout='inline'
+                            onIdeaSelect={onNeighborIdeaSelect} />
+                        : null
+                    }
+                    
                     <input
                         placeholder='Short essence of idea'
                         className={cx(classes.titleInput, {
@@ -84,11 +94,16 @@ export default class IdeaForm extends Component {
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
 
-                    <hr/>
-
-                    <IdeaList className={classes.successors}
-                        ideas={form.successors}
-                        onIdeaSelect={onNeighborIdeaSelect} />
+                    {form.successors.length ?
+                        <Fragment>
+                            <hr/>
+                            <IdeaList className={classes.successors}
+                                ideas={form.successors}
+                                layout='column'
+                                onIdeaSelect={onNeighborIdeaSelect} />
+                        </Fragment>
+                        : null
+                    }
                 </div>
 
                 <div className={classes.footer}>

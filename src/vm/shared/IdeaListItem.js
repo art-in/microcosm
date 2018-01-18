@@ -18,12 +18,24 @@ export default class IdeaListItem extends ViewModel {
      * @type {string}
      */
     title = undefined;
-
+    
+    /**
+     * Color corresponding to idea
+     * @type {string}
+     */
+    color = undefined;
+    
     /**
      * Root path string
      * @type {string|null}
      */
     rootPath = undefined;
+
+    /**
+     * Tooltip
+     * @type {string}
+     */
+    tooltip = undefined;
 
     /**
      * Constructor

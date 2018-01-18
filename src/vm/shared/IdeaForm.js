@@ -37,7 +37,13 @@ export default class IdeaForm {
     value = undefined;
 
     /**
-     * Successor ideas (tails of outgoing associations)
+     * Direct predecessor ideas (heads of incomming associations)
+     * @type {Array.<IdeaListItemType>}
+     */
+    predecessors = undefined;
+
+    /**
+     * Direct successor ideas (tails of outgoing associations)
      * @type {Array.<IdeaListItemType>}
      */
     successors = undefined;
