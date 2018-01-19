@@ -3,10 +3,8 @@ import view from 'vm/utils//view-patch';
 
 import StateType from 'boot/client/State';
 
+import {CLOSE_CONFIRM_MESSAGE} from 'vm/shared/IdeaForm';
 import deactivate from 'vm/shared/IdeaFormModal/methods/deactivate';
-
-const CONFIRM_MESSAGE =
-    'There are unsaved changes on the form. Close it anyway?';
 
 /**
  * Handles close event from idea form modal
@@ -21,7 +19,7 @@ export default function(state) {
 
     // consider saveable flag on as unsaved changes
     // TODO: confirm on window close too
-    if (form.isSaveable && !confirm(CONFIRM_MESSAGE)) {
+    if (form.isSaveable && !confirm(CLOSE_CONFIRM_MESSAGE)) {
         return;
     }
 

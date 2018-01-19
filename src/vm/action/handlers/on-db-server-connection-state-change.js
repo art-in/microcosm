@@ -31,7 +31,7 @@ export default function(state, data) {
     case ConnectionState.disconnected:
         tooltip =
             `Mindset is disconnected from database server ` +
-            `(${dbServerUrl}).\n` +
+            `(${dbServerUrl})\n` +
             `All changes are saved locally and will be sent to ` +
             `server when connection is restored.`;
         break;

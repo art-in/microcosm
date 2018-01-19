@@ -9,7 +9,6 @@ import getRootPathVertices from 'utils/graph/get-root-path-vertices';
 import getIdea from 'action/utils/get-idea';
 import getRootPath from 'action/utils/get-idea-root-path';
 import getIdeaColor from 'action/utils/get-idea-color';
-import moveItem from 'utils/move-array-item';
 
 /**
  * Opens idea form modal
@@ -39,6 +38,35 @@ export default function(state, data) {
     let predecessors = [];
     let successors = [];
 
+    let parent;
+    if (isNewIdea) {
+        parent = getIdea(mindset, parentIdeaId);
+    } else {
+        const idea = getIdea(mindset, ideaId);
+        if (idea !== mindset.root) {
+            parent = idea.edgeFromParent.from;
+        }
+    }
+
+    if (parent) {
+        const rootPathIdeas = getRootPathVertices(mindset.root, parent);
+        rootPath = rootPathIdeas.map(idea =>
+            new IdeaListItem({
+                id: idea.id,
+                title: idea.title,
+                tooltip: idea.title
+            }));
+
+        // move parent to the top of predecessors
+        predecessors.push(
+            new IdeaListItem({
+                id: parent.id,
+                title: parent.title,
+                color: getIdeaColor(mindset, parent.id),
+                tooltip: getRootPath(mindset, parent.id)
+            }));
+    }
+
     if (!isNewIdea) {
         
         // open existing idea
@@ -47,31 +75,19 @@ export default function(state, data) {
         title = idea.title || '';
         value = idea.value || '';
 
-        const rootPathIdeas = getRootPathVertices(mindset.root, idea);
-        rootPathIdeas.splice(rootPathIdeas.length - 1, 1);
-
-        rootPath = rootPathIdeas.map(idea =>
-            new IdeaListItem({
-                id: idea.id,
-                title: idea.title,
-                tooltip: idea.title
-            }));
-
-        // move parent association to the top
-        let incomingAssocs = idea.edgesIn;
-        const parrentAssocIdx = incomingAssocs.indexOf(idea.edgeFromParent);
-        incomingAssocs = moveItem(incomingAssocs, parrentAssocIdx, 0);
-
         if (mindset.root !== idea) {
-            predecessors = incomingAssocs.map(a => {
-                const predecessor = a.from;
-                return new IdeaListItem({
-                    id: predecessor.id,
-                    title: predecessor.title,
-                    color: getIdeaColor(mindset, predecessor.id),
-                    tooltip: getRootPath(mindset, predecessor.id)
-                });
-            });
+            predecessors = predecessors.concat(idea.edgesIn
+                // exclude parent as it was already added as predecessor
+                .filter(a => a !== idea.edgeFromParent)
+                .map(a => {
+                    const predecessor = a.from;
+                    return new IdeaListItem({
+                        id: predecessor.id,
+                        title: predecessor.title,
+                        color: getIdeaColor(mindset, predecessor.id),
+                        tooltip: getRootPath(mindset, predecessor.id)
+                    });
+                }));
         }
 
         successors = idea.edgesOut.map(a => {
@@ -96,7 +112,7 @@ export default function(state, data) {
         },
         form: {
             ideaId,
-            parentIdeaId,
+            parentIdeaId: parentIdeaId || null,
             isNewIdea,
 
             title,

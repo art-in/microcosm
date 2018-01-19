@@ -1,5 +1,8 @@
 import IdeaListItemType from 'vm/shared/IdeaListItem';
 
+export const CLOSE_CONFIRM_MESSAGE =
+    'There are unsaved changes on the form. Close it anyway?';
+
 /**
  * Form for showing and editing contents of Idea (title, value, etc.)
  */
