@@ -20,6 +20,11 @@
     margin: 10px 0;
 }
 
+.title-input:not(.title-input-invalid):not(:focus):hover {
+    /* highlight title field on hovering */
+    border-color: lightgray;
+}
+
 .title-input-invalid {
     border-color: #dc3545;
 }
