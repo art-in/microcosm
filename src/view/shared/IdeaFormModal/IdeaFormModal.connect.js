@@ -25,9 +25,31 @@ export default connect(
 
         onNeighborIdeaSelect: ideaListItem => dispatch({
             type: 'on-idea-form-modal-neighbor-idea-select',
-            data: {
-                ideaId: ideaListItem.id
-            }
+            data: {ideaId: ideaListItem.id}
+        }),
+
+        onSuccessorRemove: ideaListItem => dispatch({
+            type: 'on-idea-form-successor-remove',
+            data: {ideaId: ideaListItem.id}
+        }),
+
+        onSuccessorSearchTriggerClick: () => dispatch({
+            type: 'activate-idea-form-successor-search-box'
+        }),
+        onSuccessorSearchLookupFocusOut: () => dispatch({
+            type: 'on-idea-form-successor-lookup-focusout'
+        }),
+        onSuccessorSearchLookupPhraseChange: data => dispatch({
+            type: 'on-idea-form-successor-lookup-phrase-change',
+            data
+        }),
+        onSuccessorSearchLookupKeyDown: data => dispatch({
+            type: 'on-idea-form-successor-lookup-keydown',
+            data
+        }),
+        onSuccessorSearchLookupSuggestionSelect: data => dispatch({
+            type: 'on-idea-form-successor-lookup-suggestion-select',
+            data
         }),
 
         onClose: () => dispatch({

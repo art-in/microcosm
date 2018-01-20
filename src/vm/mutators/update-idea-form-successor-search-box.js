@@ -4,13 +4,14 @@ import StateType from 'boot/client/State';
 import SearchBoxType from 'vm/shared/SearchBox';
 
 /**
- * Updates idea search box
+ * Updates successor search box in idea form
  * 
  * @param {StateType} state
  * @param {Partial<SearchBoxType>} data
  */
 export default function(state, data) {
-    const {ideaSearchBox} = state.vm.main.mindset;
+    const {mindmap} = state.vm.main.mindset;
+    const {successorSearchBox} = mindmap.ideaFormModal.form;
 
-    updateViewModel(ideaSearchBox, data);
+    updateViewModel(successorSearchBox, data);
 }

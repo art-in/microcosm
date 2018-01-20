@@ -19,6 +19,12 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onSuccessorRemove
+ * @prop {function()} onSuccessorSearchTriggerClick
+ * @prop {function()} onSuccessorSearchLookupFocusOut
+ * @prop {function()} onSuccessorSearchLookupPhraseChange
+ * @prop {function()} onSuccessorSearchLookupKeyDown
+ * @prop {function()} onSuccessorSearchLookupSuggestionSelect
  * @prop {function()} onClose
  * @prop {function()} onSave
  * @prop {function()} onCancel
@@ -36,6 +42,12 @@ export default class IdeaFormModal extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onSuccessorRemove,
+            onSuccessorSearchTriggerClick,
+            onSuccessorSearchLookupFocusOut,
+            onSuccessorSearchLookupPhraseChange,
+            onSuccessorSearchLookupKeyDown,
+            onSuccessorSearchLookupSuggestionSelect,
             onClose,
             onSave,
             onCancel
@@ -54,6 +66,17 @@ export default class IdeaFormModal extends Component {
                     onValueToggleEdit={onValueToggleEdit}
                     onValueDoubleClick={onValueDoubleClick}
                     onNeighborIdeaSelect={onNeighborIdeaSelect}
+                    onSuccessorRemove={onSuccessorRemove}
+                    onSuccessorSearchTriggerClick=
+                        {onSuccessorSearchTriggerClick}
+                    onSuccessorSearchLookupFocusOut=
+                        {onSuccessorSearchLookupFocusOut}
+                    onSuccessorSearchLookupPhraseChange=
+                        {onSuccessorSearchLookupPhraseChange}
+                    onSuccessorSearchLookupKeyDown=
+                        {onSuccessorSearchLookupKeyDown}
+                    onSuccessorSearchLookupSuggestionSelect=
+                        {onSuccessorSearchLookupSuggestionSelect}
                     onSave={onSave}
                     onCancel={onCancel} />
             </Modal>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 
+import noop from 'utils/noop';
+
 import IdeaListItemType from 'vm/shared/IdeaListItem';
 import IdeaListItem from 'view/shared/IdeaListItem';
 
@@ -12,16 +14,25 @@ import classes from './IdeaList.css';
  * @prop {Array.<IdeaListItemType>} ideas
  * @prop {'column'|'inline'} layout
  * @prop {function} onIdeaSelect
+ * @prop {function} [onIdeaRemove]
  * 
  * @extends {Component<Props>}
  */
 export default class IdeaList extends Component {
 
-    render() {
-        const {className, ideas, layout, onIdeaSelect} = this.props;
+    static defaultProps = {
+        onIdeaRemove: noop
+    }
 
-        // TODO: add 'add new association' button (association tails lookup)
-        // TODO: add 'remove' button (save state only on form save)
+    render() {
+        const {
+            className,
+            ideas,
+            layout,
+            onIdeaSelect,
+            onIdeaRemove
+        } = this.props;
+
         return (
             <div className={cx(classes.root, className, {
                 [classes.layoutColumn]: layout === 'column',
@@ -32,8 +43,8 @@ export default class IdeaList extends Component {
                     <IdeaListItem key={i.id} item={i}
                         className={classes.item}
                         layout={layout}
-                        onClick={onIdeaSelect.bind(this, i)} />)}
-
+                        onClick={onIdeaSelect.bind(null, i)}
+                        onRemove={onIdeaRemove.bind(null, i)} />)}
             </div>
         );
     }

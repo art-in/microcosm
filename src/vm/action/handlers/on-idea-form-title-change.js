@@ -25,7 +25,7 @@ export default function(state, data) {
     return view('update-idea-form-modal', {
         form: {
             title,
-            isTitleValid: isTitleValid,
+            isTitleValid,
             isSaveable: isTitleValid,
             isCancelable: !form.isNewIdea
         }

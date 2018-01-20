@@ -1,6 +1,9 @@
 .root {
     display: flex;
     border: 2px solid var(--list-item-color, lightgray);
+
+    /* position relatively for remove button */
+    position: relative;
 }
 
 .root:hover {
@@ -45,4 +48,23 @@
 
 .root.layout-inline .root-path {
     display: none;
+}
+
+.remove-button {
+    display: none;
+}
+
+.root:hover .remove-button {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    cursor: pointer;
+    color: #adadad;
+    user-select: none;
+}
+
+.root:hover .remove-button:hover {
+    color: black;
 }

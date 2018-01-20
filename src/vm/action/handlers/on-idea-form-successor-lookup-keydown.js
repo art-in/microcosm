@@ -8,7 +8,7 @@ import StateType from 'boot/client/State';
 import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
 
 /**
- * Handles keydown event from idea search lookup
+ * Handles keydown event from idea form successor lookup
  * 
  * @param {StateType} state
  * @param {object} data
@@ -18,10 +18,10 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset}}} = state;
+    const {vm: {main: {mindset: {mindmap: {ideaFormModal: {form}}}}}} = state;
     const {code, preventDefault} = required(data);
 
-    const lookup = mindset.ideaSearchBox.lookup;
+    const lookup = form.successorSearchBox.lookup;
 
     const lookupUpdate = onKeyDown({
         lookup,
@@ -29,14 +29,14 @@ export default function(state, data, dispatch) {
         preventDefault,
         onSuggestionSelect: ({suggestion}) => {
             dispatch({
-                type: 'on-idea-search-lookup-suggestion-select',
+                type: 'on-idea-form-successor-lookup-suggestion-select',
                 data: {suggestion}
             });
         }
     });
 
     if (!isEmpty(lookupUpdate)) {
-        return view('update-idea-search-box', {
+        return view('update-idea-form-successor-search-box', {
             lookup: lookupUpdate
         });
     }

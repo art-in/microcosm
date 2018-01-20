@@ -1,4 +1,6 @@
 import IdeaListItemType from 'vm/shared/IdeaListItem';
+import SearchBox from 'vm/shared/SearchBox';
+import Lookup from 'vm/shared/Lookup';
 
 export const CLOSE_CONFIRM_MESSAGE =
     'There are unsaved changes on the form. Close it anyway?';
@@ -67,7 +69,10 @@ export default class IdeaForm {
         title: undefined,
 
         /** @type {string} */
-        value: undefined
+        value: undefined,
+
+        /** @type {Array.<IdeaListItemType>} */
+        successors: undefined
     }
 
     /**
@@ -100,5 +105,13 @@ export default class IdeaForm {
      * @type {boolean}
      */
     isCancelable = false;
+
+    /**
+     * Search box for new successors
+     * @type {SearchBox}
+     */
+    successorSearchBox = new SearchBox({
+        lookup: new Lookup({placeholder: 'target idea...'})
+    });
 
 }

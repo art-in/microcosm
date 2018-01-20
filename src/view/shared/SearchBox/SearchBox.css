@@ -5,16 +5,10 @@
 .trigger {
     display: flex;
     align-items: center;
-    margin-right: 10px;
-    color: lightgray;
     cursor: pointer;
     opacity: 1;
     transition: opacity 0.15s;
     user-select: none;
-}
-
-.trigger:hover {
-    color: white;
 }
 
 .root.active .trigger {
@@ -44,8 +38,9 @@
 
     width: 100%;
     box-sizing: border-box;
+}
 
-    padding: 7px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.9);
+.root:not(.active) .lookup {
+    /* hide completely so cursor not changing when hovering hidden lookup */
+    display: none;
 }

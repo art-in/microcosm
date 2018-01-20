@@ -4,8 +4,6 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
-import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
-
 /**
  * Handles change event from value field of idea form modal
  * 
@@ -20,12 +18,10 @@ export default function(state, data) {
 
     const {form} = mindmap.ideaFormModal;
 
-    const isTitleValid = isValidIdeaTitle(form.title);
-
     return view('update-idea-form-modal', {
         form: {
             value,
-            isSaveable: isTitleValid,
+            isSaveable: form.isTitleValid,
             isCancelable: !form.isNewIdea
         }
     });

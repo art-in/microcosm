@@ -1,6 +1,7 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
 import PatchType from 'utils/state/Patch';
+import isEmpty from 'utils/is-empty-object';
 
 import StateType from 'boot/client/State';
 
@@ -22,17 +23,21 @@ export default function(state, data, dispatch) {
 
     const lookup = mindmap.associationTailsLookup.lookup;
 
-    return view('update-association-tails-lookup', {
-        lookup: onKeyDown({
-            lookup,
-            code,
-            preventDefault,
-            onSuggestionSelect: ({suggestion}) => {
-                dispatch({
-                    type: 'on-association-tails-lookup-suggestion-select',
-                    data: {suggestion}
-                });
-            }
-        })
+    const lookupUpdate = onKeyDown({
+        lookup,
+        code,
+        preventDefault,
+        onSuggestionSelect: ({suggestion}) => {
+            dispatch({
+                type: 'on-association-tails-lookup-suggestion-select',
+                data: {suggestion}
+            });
+        }
     });
+
+    if (!isEmpty(lookupUpdate)) {
+        return view('update-association-tails-lookup', {
+            lookup: lookupUpdate
+        });
+    }
 }

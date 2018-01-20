@@ -9,27 +9,26 @@ import toSuggestion from 'vm/map/mappers/idea-to-lookup-suggestion';
 import searchSuccessors from 'action/utils/search-successors';
 
 /**
- * Searches and sets suggesting ideas to lookup,
- * which selects tail idea for cross-association
+ * Searches and sets suggesting ideas to successor lookup of idea form
  * 
  * @param {StateType} state
  * @param {object} data
- * @param {string} data.phrase 
- * @param {string} data.headIdeaId 
+ * @param {string} data.phrase
  * @return {PatchType}
  */
-export default function searchAssociationTailsForLookup(state, data) {
+export default function(state, data) {
     const {model: {mindset}} = state;
-    const {phrase, headIdeaId} = required(data);
+    const {vm: {main: {mindset: {mindmap: {ideaFormModal: {form}}}}}} = state;
+    const {phrase} = required(data);
 
     const ideas = searchSuccessors(mindset, {
-        ideaId: headIdeaId,
+        ideaId: form.ideaId,
         phrase
     });
 
     const suggestions = ideas.map(toSuggestion);
 
-    return view('update-association-tails-lookup', {
+    return view('update-idea-form-successor-search-box', {
         lookup: setSuggestions(suggestions)
     });
 }

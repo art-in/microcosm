@@ -6,8 +6,8 @@ import StateType from 'boot/client/State';
 
 import searchIdeas from 'action/utils/search-ideas';
 
-import LookupSuggestion from 'vm/shared/LookupSuggestion';
 import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
+import toSuggestion from 'vm/map/mappers/idea-to-lookup-suggestion';
 
 /**
  * Searches and sets suggesting ideas to idea search box lookup
@@ -22,14 +22,7 @@ export default function(state, data) {
     const {phrase} = required(data);
 
     const ideas = searchIdeas(mindset, {phrase});
-
-    // map to suggestions
-    // TODO: move to separate mapper 'idea-to-suggestion'
-    const suggestions = ideas
-        .map(i => new LookupSuggestion({
-            displayName: i.title,
-            data: {ideaId: i.id}
-        }));
+    const suggestions = ideas.map(toSuggestion);
 
     return view('update-idea-search-box', {
         lookup: setSuggestions(suggestions)

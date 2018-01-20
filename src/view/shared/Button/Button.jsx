@@ -8,6 +8,7 @@ import classes from './Button.css';
  * @prop {string} [className]
  * @prop {'primary'|'secondary'} [type=primary]
  * @prop {boolean} [disabled]
+ * @prop {string} [title]
  * @prop {string} children
  * 
  * @prop {function()} onClick

@@ -4,6 +4,7 @@ describe('utils', () => {
     require('./state');
 
     require('./AsyncTaskQueue.test');
+    require('./diff-arrays.test');
     require('./guard-object-props.test');
     require('./PriorityQueue.test');
     require('./required-params.test');

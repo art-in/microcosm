@@ -38,6 +38,12 @@ export default class IdeaListItem extends ViewModel {
     tooltip = undefined;
 
     /**
+     * Indicates item can be removed
+     * @type {boolean}
+     */
+    isRemovable = false;
+
+    /**
      * Constructor
      * @param {Partial<IdeaListItem>} [props]
      */

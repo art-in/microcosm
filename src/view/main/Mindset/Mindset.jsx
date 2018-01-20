@@ -3,12 +3,13 @@ import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
 
 import getKeyCode from 'view/utils/dom/get-key-code';
-
-import MindsetType from 'vm/main/Mindset';
 import ConnectionState from 'action/utils/ConnectionState';
 
+import MindsetType from 'vm/main/Mindset';
+import Icon from 'vm/shared/Icon';
+
 import Mindmap from 'view/map/entities/Mindmap';
-import IdeaSearchBox from 'view/shared/IdeaSearchBox';
+import SearchBox from 'view/shared/SearchBox';
 
 import classes from './Mindset.css';
 
@@ -18,6 +19,10 @@ import classes from './Mindset.css';
  * @prop {MindsetType} mindset
  * @prop {function({code, ctrlKey, preventDefault})} onKeyDown
  * @prop {function()} onGoRootButtonClick
+ * @prop {function()} onIdeaSearchTriggerClick
+ * @prop {function()} onIdeaSearchLookupPhraseChange
+ * @prop {function()} onIdeaSearchLookupKeyDown
+ * @prop {function()} onIdeaSearchLookupSuggestionSelect
  * 
  * @extends {Component<Props>}
  */
@@ -66,7 +71,14 @@ export default class Mindset extends Component {
 
     render() {
         
-        const {mindset, onGoRootButtonClick} = this.props;
+        const {
+            mindset,
+            onGoRootButtonClick,
+            onIdeaSearchTriggerClick,
+            onIdeaSearchLookupPhraseChange,
+            onIdeaSearchLookupKeyDown,
+            onIdeaSearchLookupSuggestionSelect
+        } = this.props;
         const {dbServerConnectionIcon} = mindset;
 
         return (
@@ -104,8 +116,18 @@ export default class Mindset extends Component {
                         title='Go to root idea (Home)'
                         onClick={onGoRootButtonClick} />
 
-                        <IdeaSearchBox className={classes.ideaSearchBox}
-                            searchBox={mindset.ideaSearchBox} />
+                        <SearchBox className={classes.ideaSearchBox}
+                            searchBox={mindset.ideaSearchBox}
+                            lookupClass={classes.ideaSearchBoxLookup}
+                            triggerClass={classes.ideaSearchBoxTrigger}
+                            triggerIcon={Icon.search}
+                            triggerTooltip='Search ideas (Ctrl+F)'
+                            onTriggerClick={onIdeaSearchTriggerClick}
+                            onLookupPhraseChange=
+                                {onIdeaSearchLookupPhraseChange}
+                            onLookupKeyDown={onIdeaSearchLookupKeyDown}
+                            onLookupSuggestionSelect=
+                                {onIdeaSearchLookupSuggestionSelect} />
                     </Fragment>
                     : null}
             </div>

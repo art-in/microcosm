@@ -13,6 +13,22 @@ export default connect(
 
         onGoRootButtonClick: () => dispatch({
             type: 'on-go-root-button-click'
+        }),
+
+        onIdeaSearchTriggerClick: () => dispatch({
+            type: 'on-idea-search-trigger-click'
+        }),
+        onIdeaSearchLookupPhraseChange: data => dispatch({
+            type: 'on-idea-search-lookup-phrase-change',
+            data
+        }),
+        onIdeaSearchLookupKeyDown: data => dispatch({
+            type: 'on-idea-search-lookup-keydown',
+            data
+        }),
+        onIdeaSearchLookupSuggestionSelect: data => dispatch({
+            type: 'on-idea-search-lookup-suggestion-select',
+            data
         })
 
     })

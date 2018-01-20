@@ -8,6 +8,8 @@ import IdeaList from 'view/shared/IdeaList';
 import MarkdownEditor from 'view/shared/MarkdownEditor';
 import Button from 'view/shared/Button';
 import IdeaPath from 'view/shared/IdeaPath/IdeaPath';
+import SearchBox from 'view/shared/SearchBox';
+import Icon from 'vm/shared/Icon';
 
 import classes from './IdeaForm.css';
 
@@ -24,6 +26,12 @@ import classes from './IdeaForm.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onSuccessorRemove
+ * @prop {function()} onSuccessorSearchTriggerClick
+ * @prop {function()} onSuccessorSearchLookupFocusOut
+ * @prop {function()} onSuccessorSearchLookupPhraseChange
+ * @prop {function()} onSuccessorSearchLookupKeyDown
+ * @prop {function()} onSuccessorSearchLookupSuggestionSelect
  * @prop {function()} onSave
  * @prop {function()} onCancel
  * 
@@ -56,7 +64,13 @@ export default class IdeaForm extends Component {
             onCancel,
             onValueToggleEdit,
             onValueDoubleClick,
-            onNeighborIdeaSelect
+            onNeighborIdeaSelect,
+            onSuccessorRemove,
+            onSuccessorSearchTriggerClick,
+            onSuccessorSearchLookupFocusOut,
+            onSuccessorSearchLookupPhraseChange,
+            onSuccessorSearchLookupKeyDown,
+            onSuccessorSearchLookupSuggestionSelect
         } = this.props;
 
         return (
@@ -102,11 +116,29 @@ export default class IdeaForm extends Component {
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
 
-                    <IdeaList className={classes.successors}
-                        ideas={form.successors}
-                        layout='column'
-                        onIdeaSelect={onNeighborIdeaSelect} />
-                
+                    <SearchBox className={classes.successorSearch}
+                        expandToRight={true}
+                        searchBox={form.successorSearchBox}
+                        lookupClass={classes.successorSearchLookup}
+                        triggerClass={classes.successorSearchTrigger}
+                        triggerTooltip='Add association'
+                        triggerIcon={Icon.link}
+                        onTriggerClick={onSuccessorSearchTriggerClick}
+                        onLookupFocusOut={onSuccessorSearchLookupFocusOut}
+                        onLookupPhraseChange=
+                            {onSuccessorSearchLookupPhraseChange}
+                        onLookupKeyDown={onSuccessorSearchLookupKeyDown}
+                        onLookupSuggestionSelect=
+                            {onSuccessorSearchLookupSuggestionSelect} />
+
+                    {form.successors.length ?
+                        <IdeaList className={classes.successors}
+                            ideas={form.successors}
+                            layout='column'
+                            onIdeaSelect={onNeighborIdeaSelect}
+                            onIdeaRemove={onSuccessorRemove} />
+                        : null
+                    }
                 </div>
 
                 <div className={classes.footer}>
@@ -117,8 +149,10 @@ export default class IdeaForm extends Component {
                         Cancel
                     </Button>
                     <Button
-                        onClick={onSave}
-                        disabled={!form.isSaveable}>
+                        disabled={!form.isSaveable}
+                        title={form.isSaveable ?
+                            'Save changes (Ctrl+Enter)' : null}
+                        onClick={onSave}>
                         Save
                     </Button>
                 </div>

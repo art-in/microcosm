@@ -61,8 +61,7 @@ export default class Modal extends Component {
                             icons.faClose
                         )}
                         title='Close (Esc)'
-                        onClick={onClose}>
-                        </div>
+                        onClick={onClose} />
 
                         {children}
                     </div>

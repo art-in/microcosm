@@ -94,6 +94,10 @@ function apply(state, mutation) {
         mindmap.ideaFormModal.emitChange();
         break;
 
+    case 'update-idea-form-successor-search-box':
+        mindmap.ideaFormModal.form.successorSearchBox.emitChange();
+        break;
+
     default: throw Error(`Unknown view mutation '${mutation.type}'`);
     }
 }

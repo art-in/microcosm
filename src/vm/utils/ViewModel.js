@@ -12,8 +12,8 @@ export default class ViewModel {
      * since creation.
      * - any time view model state is changed - this flag should be raised
      * - not necessary to raise it on parent view models when updating child
-     * - view model should not be rendered unless flag is true
-     * - renderer should clear the flag to false after view model is rendered
+     * - renderer should not render view model unless flag is true
+     * - renderer should clean the flag after view model is rendered
      */
     isDirty = true;
 

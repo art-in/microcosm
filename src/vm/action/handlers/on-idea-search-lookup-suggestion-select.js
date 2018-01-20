@@ -7,7 +7,7 @@ import StateType from 'boot/client/State';
 import LookupSuggestionType from 'vm/shared/LookupSuggestion';
 
 /**
- * Handles suggestion select event from idea search box
+ * Handles suggestion select event from idea search lookup
  * 
  * @param {StateType} state
  * @param {object} data
@@ -20,14 +20,16 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
 export default function(state, data, dispatch) {
     const {suggestion} = required(data);
 
+    const ideaId = suggestion.data.ideaId;
+
     dispatch({
         type: 'open-idea-form-modal',
-        data: {ideaId: suggestion.data.ideaId}
+        data: {ideaId}
     });
 
     dispatch({
         type: 'animate-mindmap-viewbox-to-idea',
-        data: {ideaId: suggestion.data.ideaId}
+        data: {ideaId}
     });
 
     // deactivate search box

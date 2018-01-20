@@ -41,5 +41,9 @@ const descriptors = {
     [Icon.trash]: {
         class: icons.faTrash,
         char: '\uf1f8'
+    },
+    [Icon.search]: {
+        class: icons.faSearch,
+        char: '\uf002'
     }
 };

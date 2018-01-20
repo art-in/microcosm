@@ -1,10 +1,16 @@
 /**
- * Gets items of array A which are not contained in array B
+ * Gets shallow diffence between array A and B
  * 
- * @param {array} arrayA
- * @param {array} arrayB
- * @return {array}
+ * How A should be modified to equal B?
+ * 
+ * @template T
+ * @param {Array.<T>} arrayA
+ * @param {Array.<T>} arrayB
+ * @return {{add: Array.<T>, del: Array.<T>}}
  */
 export default function diffArrays(arrayA, arrayB) {
-    return arrayA.filter(x => arrayB.indexOf(x) == -1);
+    return {
+        add: arrayB.filter(i => arrayA.indexOf(i) == -1),
+        del: arrayA.filter(i => arrayB.indexOf(i) == -1)
+    };
 }

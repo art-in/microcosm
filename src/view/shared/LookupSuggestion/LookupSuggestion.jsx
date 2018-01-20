@@ -17,7 +17,12 @@ import classes from './LookupSuggestion.css';
 export default class LookupSuggestion extends Component {
 
     render() {
-        const {suggestion, className, highlight, onSelected} = this.props;
+        const {
+            suggestion,
+            className,
+            highlight,
+            onSelected
+        } = this.props;
 
         return (
             <div className={cx(classes.root, className, {

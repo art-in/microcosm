@@ -2,8 +2,7 @@
 
 .header,
 .footer,
-.value,
-.successors {
+.value {
     padding: 20px;
 }
 
@@ -43,7 +42,36 @@
 }
 
 .predecessors {}
-.successors {}
+
+.successors {
+    padding: 0 20px 20px 20px;
+}
+
+.successor-search {
+    padding: 20px;
+
+    /* extend vertically so lookup has enough space when shown */
+    height: 50px;
+}
+
+.successor-search-trigger {
+    color: #adadad;
+}
+
+.successor-search-trigger:hover {
+    color: black;
+}
+
+.successor-search-lookup {
+    background-color: white;
+    padding: 7px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px black;
+
+    /* lift search lookup above successor list
+       (as lookup and list are both positioned relatively) */
+    z-index: 1;
+}
 
 .footer {
     display: flex;

@@ -14,7 +14,8 @@
 }
 
 .db-connection-state-icon,
-.go-root-button {
+.go-root-button,
+.idea-search-box-trigger {
     color: lightgray;
     user-select: none;
 }
@@ -36,12 +37,19 @@
 }
 
 .db-connection-state-icon:hover,
-.go-root-button:hover {
+.go-root-button:hover,
+.idea-search-box-trigger:hover {
     color: white;
 }
 
 .idea-search-box {
     position: absolute;
     top: 10px;
-    right: 45px;
+    right: 55px;
+}
+
+.idea-search-box-lookup {
+    padding: 7px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
 }
