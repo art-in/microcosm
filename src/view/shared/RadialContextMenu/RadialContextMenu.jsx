@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {CSSTransition} from 'react-transition-group';
-import cx from 'classnames';
 import icons from 'font-awesome/css/font-awesome.css';
+import cx from 'classnames';
 
 import Group from 'view/shared/svg/Group';
 import ContextMenuVmType from 'vm/shared/ContextMenu';

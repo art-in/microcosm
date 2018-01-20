@@ -1,0 +1,6 @@
+.root {
+    /* do not change cursor to text selection (since font icon) */
+    cursor: default;
+    
+    user-select: none;
+}

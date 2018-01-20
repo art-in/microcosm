@@ -45,5 +45,37 @@ const descriptors = {
     [Icon.search]: {
         class: icons.faSearch,
         char: '\uf002'
+    },
+    [Icon.server]: {
+        class: icons.faServer,
+        char: '\uf233'
+    },
+    [Icon.plug]: {
+        class: icons.faPlug,
+        char: '\uf1e6'
+    },
+    [Icon.home]: {
+        class: icons.faHome,
+        char: '\uf015'
+    },
+    [Icon.githubAlt]: {
+        class: icons.faGithubAlt,
+        char: '\uf113'
+    },
+    [Icon.unlink]: {
+        class: icons.faUnlink,
+        char: '\uf127'
+    },
+    [Icon.eye]: {
+        class: icons.faEye,
+        char: '\uf06e'
+    },
+    [Icon.pencil]: {
+        class: icons.faPencil,
+        char: '\uf040'
+    },
+    [Icon.close]: {
+        class: icons.faClose,
+        char: '\uf00d'
     }
 };

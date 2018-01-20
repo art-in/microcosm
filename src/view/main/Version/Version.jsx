@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
 
 import VersionVmType from 'vm/main/Version';
+import IconType from 'vm/shared/Icon';
+
+import Icon from 'view/shared/Icon';
 
 import classes from './Version.css';
 
@@ -25,10 +27,8 @@ export default class Version extends Component {
 
                 {name} v{version}
 
-                <span className={cx(
-                    classes.icon,
-                    icons.fa,
-                    icons.faGithubAlt)} />
+                <Icon className={classes.icon}
+                    icon={IconType.githubAlt} />
             </a>
         );
     }

@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
 
 import IdeaListItemType from 'vm/shared/IdeaListItem';
+import Icon from 'vm/shared/Icon';
+
+import IconButton from 'view/shared/IconButton';
 
 import classes from './IdeaListItem.css';
 
@@ -49,13 +51,10 @@ export default class Idea extends Component {
                 </span>
 
                 {item.isRemovable ?
-                    <div className={cx(
-                        classes.removeButton,
-                        icons.fa,
-                        icons.faUnlink
-                    )}
-                    title='Remove association'
-                    onClick={this.onRemove} />
+                    <IconButton className={classes.removeButton}
+                        icon={Icon.unlink}
+                        tooltip='Remove association'
+                        onClick={this.onRemove} />
                     : null
                 }
 

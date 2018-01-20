@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
+
+import Icon from 'vm/shared/Icon';
 
 import Markdown from 'view/shared/Markdown';
+import IconButton from 'view/shared/IconButton';
 
 import classes from './MarkdownEditor.css';
 
@@ -53,13 +55,12 @@ export default class MarkdownEditor extends Component {
             <div className={cx(classes.root, className)}
                 {...other}>
 
-                <div className={cx(
+                <IconButton className={cx(
                     classes.buttonEdit,
-                    editButtonClass,
-                    icons.fa,
-                    editing ? icons.faEye : icons.faPencil
+                    editButtonClass
                 )}
-                title={editing ? 'Preview' : 'Edit (Double Click)'}
+                icon={editing ? Icon.eye : Icon.pencil}
+                tooltip={editing ? 'Preview' : 'Edit (Double Click)'}
                 onClick={onToggleEdit} />
 
                 {editing ?

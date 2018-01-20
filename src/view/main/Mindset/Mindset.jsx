@@ -1,15 +1,17 @@
 import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
 
 import getKeyCode from 'view/utils/dom/get-key-code';
 import ConnectionState from 'action/utils/ConnectionState';
 
 import MindsetType from 'vm/main/Mindset';
-import Icon from 'vm/shared/Icon';
+import IconType from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
 
 import Mindmap from 'view/map/entities/Mindmap';
 import SearchBox from 'view/shared/SearchBox';
+import IconButton from 'view/shared/IconButton';
+import Icon from 'view/shared/Icon';
 
 import classes from './Mindset.css';
 
@@ -55,11 +57,11 @@ export default class Mindset extends Component {
         switch (connectionState) {
 
         case ConnectionState.connected:
-            icon = icons.faServer;
+            icon = IconType.server;
             break;
     
         case ConnectionState.disconnected:
-            icon = icons.faPlug;
+            icon = IconType.plug;
             break;
 
         default: throw Error(
@@ -98,29 +100,23 @@ export default class Mindset extends Component {
                     <Fragment>
                         <Mindmap mindmap={mindset.mindmap} />
 
-                        <span className={cx(
-                            classes.dbConnectionStateIcon,
-                            icons.fa,
-                            icons.faLg,
-                            this.getDBConnectionStateIcon(
-                                dbServerConnectionIcon.state)
-                        )}
-                        title={dbServerConnectionIcon.tooltip} />
+                        <Icon className={classes.dbConnectionStateIcon}
+                            icon={this.getDBConnectionStateIcon(
+                                dbServerConnectionIcon.state)}
+                            size={IconSize.large}
+                            tooltip={dbServerConnectionIcon.tooltip} />
 
-                        <span className={cx(
-                            classes.goRootButton,
-                            icons.fa,
-                            icons.faLg,
-                            icons.faHome
-                        )}
-                        title='Go to root idea (Home)'
-                        onClick={onGoRootButtonClick} />
+                        <IconButton className={classes.goRootButton}
+                            icon={IconType.home}
+                            size={IconSize.large}
+                            tooltip='Go to root idea (Home)'
+                            onClick={onGoRootButtonClick} />
 
                         <SearchBox className={classes.ideaSearchBox}
                             searchBox={mindset.ideaSearchBox}
                             lookupClass={classes.ideaSearchBoxLookup}
                             triggerClass={classes.ideaSearchBoxTrigger}
-                            triggerIcon={Icon.search}
+                            triggerIcon={IconType.search}
                             triggerTooltip='Search ideas (Ctrl+F)'
                             onTriggerClick={onIdeaSearchTriggerClick}
                             onLookupPhraseChange=

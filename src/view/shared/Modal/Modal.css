@@ -45,9 +45,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
     color: #adadad;
-    user-select: none;
 
     /* hide text under button, so button always clearly visible */
     background-color: white;

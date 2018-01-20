@@ -17,23 +17,18 @@
 .go-root-button,
 .idea-search-box-trigger {
     color: lightgray;
-    user-select: none;
 }
 
 .db-connection-state-icon {
     position: absolute;
     top: 10px;
     left: 10px;
-
-    /* do not change to text selection cursor (font icon) */
-    cursor: default;
 }
 
 .go-root-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
 }
 
 .db-connection-state-icon:hover,

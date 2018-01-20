@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
 
 import SearchBoxVmType from 'vm/shared/SearchBox';
-import Lookup from 'view/shared/Lookup';
 import IconType from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
+
+import Lookup from 'view/shared/Lookup';
+import IconButton from 'view/shared/IconButton';
 
 import classes from './SearchBox.css';
-import mapIcon from 'view/utils/map-icon';
 
 /**
  * @typedef {object} Props
@@ -18,6 +19,7 @@ import mapIcon from 'view/utils/map-icon';
  * @prop {string} triggerClass
  * @prop {string} triggerTooltip
  * @prop {IconType} triggerIcon
+ * @prop {IconSize} [triggerIconSize]
  * 
  * @prop {function()} onTriggerClick
  * @prop {function()} [onLookupFocusOut]
@@ -29,6 +31,10 @@ import mapIcon from 'view/utils/map-icon';
  */
 export default class SearchBox extends Component {
 
+    static defaultProps = {
+        triggerIconSize: IconSize.large
+    }
+
     render() {
         const {
             className,
@@ -38,6 +44,7 @@ export default class SearchBox extends Component {
             triggerClass,
             triggerTooltip,
             triggerIcon,
+            triggerIconSize,
             onTriggerClick,
             onLookupFocusOut,
             onLookupPhraseChange,
@@ -46,15 +53,12 @@ export default class SearchBox extends Component {
         } = this.props;
 
         const trigger = (
-            <span className={cx(
-                classes.trigger,
-                triggerClass,
-                icons.fa,
-                icons.faLg,
-                mapIcon(triggerIcon).class
-            )}
-            title={triggerTooltip}
-            onClick={onTriggerClick} />
+            <IconButton
+                className={cx(classes.trigger, triggerClass)}
+                icon={triggerIcon}
+                size={triggerIconSize}
+                tooltip={triggerTooltip}
+                onClick={onTriggerClick} />
         );
 
         return (

@@ -115,7 +115,7 @@ export default class IdeaForm extends Component {
                         onToggleEdit={onValueToggleEdit}
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
-
+                    
                     <SearchBox className={classes.successorSearch}
                         expandToRight={true}
                         searchBox={form.successorSearchBox}

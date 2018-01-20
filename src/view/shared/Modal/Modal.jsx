@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import cx from 'classnames';
-import icons from 'font-awesome/css/font-awesome.css';
 
 import ModalVmType from 'vm/shared/Modal';
+import Icon from 'vm/shared/Icon';
+
+import IconButton from 'view/shared/IconButton';
 
 import classes from './Modal.css';
 
@@ -55,13 +57,10 @@ export default class Modal extends Component {
                     onClick={this.onBackingClick}>
                 
                     <div className={cx(classes.content, contentClass)}>
-                        <div className={cx(
-                            classes.close,
-                            icons.fa,
-                            icons.faClose
-                        )}
-                        title='Close (Esc)'
-                        onClick={onClose} />
+                        <IconButton className={cx(classes.close)}
+                            icon={Icon.close}
+                            tooltip='Close (Esc)'
+                            onClick={onClose} />
 
                         {children}
                     </div>
