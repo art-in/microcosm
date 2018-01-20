@@ -19,6 +19,7 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onRemoveIdea
  * @prop {function()} onSuccessorCreate
  * @prop {function()} onSuccessorRemove
  * @prop {function()} onSuccessorSearchTriggerClick
@@ -43,6 +44,7 @@ export default class IdeaFormModal extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onRemoveIdea,
             onSuccessorCreate,
             onSuccessorRemove,
             onSuccessorSearchTriggerClick,
@@ -68,6 +70,7 @@ export default class IdeaFormModal extends Component {
                     onValueToggleEdit={onValueToggleEdit}
                     onValueDoubleClick={onValueDoubleClick}
                     onNeighborIdeaSelect={onNeighborIdeaSelect}
+                    onRemoveIdea={onRemoveIdea}
                     onSuccessorCreate={onSuccessorCreate}
                     onSuccessorRemove={onSuccessorRemove}
                     onSuccessorSearchTriggerClick=

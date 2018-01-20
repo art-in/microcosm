@@ -11,6 +11,7 @@
 .title-input {
     padding: 5px;
     width: 100%;
+    box-sizing: border-box;
 
     /* do not completely remove border so invalid input does not shift */
     border-color: transparent;
@@ -27,6 +28,10 @@
 
 .title-input-invalid {
     border-color: #dc3545;
+}
+
+.gear-button {
+    margin-top: 15px;
 }
 
 .body {
@@ -63,11 +68,13 @@
     height: 50px;
 }
 
+.gear-button,
 .successor-create-button,
 .successor-search-trigger {
     color: #adadad;
 }
 
+.gear-button:hover,
 .successor-create-button:hover,
 .successor-search-trigger:hover {
     color: black;

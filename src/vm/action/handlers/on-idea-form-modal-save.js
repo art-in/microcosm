@@ -112,7 +112,8 @@ export default function(state, data, dispatch) {
                 successors: form.successors
             },
             isEditingValue: false,
-            isSuccessorsChangable: true,
+            isGearOperationsAvailable: true,
+            isSuccessorsEditable: true,
             isSaveable: false,
             isCancelable: false
         }

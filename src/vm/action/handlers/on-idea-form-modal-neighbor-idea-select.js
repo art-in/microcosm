@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 
 import StateType from 'boot/client/State';
 
-import {CLOSE_CONFIRM_MESSAGE} from 'vm/shared/IdeaForm';
+import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
 
 /**
  * Handles select event of heighbor idea (direct successor or predecessor) from
@@ -19,7 +19,7 @@ export default async function(state, data, dispatch) {
     
     const {form} = mindmap.ideaFormModal;
 
-    if (form.isSaveable && !confirm(CLOSE_CONFIRM_MESSAGE)) {
+    if (form.isSaveable && !confirm(MESSAGE_CONFIRM_LEAVE)) {
         return;
     }
 

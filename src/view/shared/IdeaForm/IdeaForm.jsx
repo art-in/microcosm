@@ -29,6 +29,7 @@ import classes from './IdeaForm.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onRemoveIdea
  * @prop {function()} onSuccessorCreate
  * @prop {function()} onSuccessorRemove
  * @prop {function()} onSuccessorSearchTriggerClick
@@ -66,18 +67,19 @@ export default class IdeaForm extends Component {
             valueEditButtonClass,
             form,
             onKeyDown,
-            onSave,
-            onCancel,
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onRemoveIdea,
             onSuccessorCreate,
             onSuccessorRemove,
             onSuccessorSearchTriggerClick,
             onSuccessorSearchLookupFocusOut,
             onSuccessorSearchLookupPhraseChange,
             onSuccessorSearchLookupKeyDown,
-            onSuccessorSearchLookupSuggestionSelect
+            onSuccessorSearchLookupSuggestionSelect,
+            onSave,
+            onCancel
         } = this.props;
 
         return (
@@ -110,6 +112,16 @@ export default class IdeaForm extends Component {
                             onIdeaSelect={onNeighborIdeaSelect} />
                         : null
                     }
+
+                    {/* TODO: move buttons into gear popup menu */}
+                    {form.isGearOperationsAvailable ?
+                        <IconButton className={cx(classes.gearButton)}
+                            icon={Icon.trash}
+                            size={IconSize.large}
+                            tooltip='Remove idea'
+                            onClick={onRemoveIdea} />
+                        : null
+                    }
                 </div>
 
                 <div className={classes.body}>
@@ -123,7 +135,7 @@ export default class IdeaForm extends Component {
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
                     
-                    {form.isSuccessorsChangable ?
+                    {form.isSuccessorsEditable ?
                         <div className={classes.successorOperations}>
 
                             <IconButton className={cx(

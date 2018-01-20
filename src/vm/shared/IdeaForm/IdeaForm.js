@@ -2,8 +2,10 @@ import IdeaListItemType from 'vm/shared/IdeaListItem';
 import SearchBox from 'vm/shared/SearchBox';
 import Lookup from 'vm/shared/Lookup';
 
-export const CLOSE_CONFIRM_MESSAGE =
-    'There are unsaved changes on the form. Close it anyway?';
+export const MESSAGE_CONFIRM_LEAVE =
+    'There are unsaved changes on the form. Leave anyway?';
+
+export const MESSAGE_CONFIRM_REMOVE = 'Remove following idea?';
 
 /**
  * Form for showing and editing contents of Idea (title, value, etc.)
@@ -94,11 +96,18 @@ export default class IdeaForm {
      */
     isEditingValue = false;
 
-    /**
-     * Indicates that list of successors can be changed
+    /** 
+     * Indicates that additional operations (like remove idea, set color, etc)
+     * are available
      * @type {boolean}
      */
-    isSuccessorsChangable = false;
+    isGearOperationsAvailable = false;
+
+    /**
+     * Indicates that list of successors can be edited
+     * @type {boolean}
+     */
+    isSuccessorsEditable = false;
 
     /**
      * Indicates that form changes can be saved
