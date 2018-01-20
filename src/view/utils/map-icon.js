@@ -77,5 +77,9 @@ const descriptors = {
     [Icon.close]: {
         class: icons.faClose,
         char: '\uf00d'
+    },
+    [Icon.plusSquareO]: {
+        class: icons.faPlusSquareO,
+        char: '\uf196'
     }
 };

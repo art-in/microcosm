@@ -96,7 +96,7 @@ export default function(state, data) {
             active: true
         },
         form: {
-            ideaId,
+            ideaId: ideaId || null,
             parentIdeaId: parentIdeaId || null,
             isNewIdea,
 
@@ -111,9 +111,11 @@ export default function(state, data) {
                 value,
                 successors
             },
-            isTitleValid: true,
+
+            isTitleValid: !isNewIdea,
             shouldFocusTitleOnShow: isNewIdea,
             isEditingValue: isNewIdea,
+            isSuccessorsChangable: !isNewIdea,
             isSaveable: false,
             isCancelable: false
         }

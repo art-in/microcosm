@@ -29,11 +29,12 @@ export default function(state, data, dispatch) {
     const patch = new Patch();
 
     const title = form.title.trim();
+    let ideaId;
 
     if (form.isNewIdea) {
 
         // create new idea
-        const ideaId = createId();
+        ideaId = createId();
 
         dispatch({
             type: 'create-idea',
@@ -62,6 +63,8 @@ export default function(state, data, dispatch) {
     } else {
 
         // update existing idea
+        ideaId = form.ideaId;
+
         dispatch({
             type: 'set-idea-title-and-value',
             data: {
@@ -72,7 +75,7 @@ export default function(state, data, dispatch) {
         });
     }
 
-    const idea = getIdea(mindset, form.ideaId);
+    const idea = getIdea(mindset, ideaId);
 
     // update successors
     const oldSuccessorIds = idea.edgesOut.map(e => e.to.id);
@@ -109,6 +112,7 @@ export default function(state, data, dispatch) {
                 successors: form.successors
             },
             isEditingValue: false,
+            isSuccessorsChangable: true,
             isSaveable: false,
             isCancelable: false
         }

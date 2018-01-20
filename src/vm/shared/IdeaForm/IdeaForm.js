@@ -95,6 +95,12 @@ export default class IdeaForm {
     isEditingValue = false;
 
     /**
+     * Indicates that list of successors can be changed
+     * @type {boolean}
+     */
+    isSuccessorsChangable = false;
+
+    /**
      * Indicates that form changes can be saved
      * @type {boolean}
      */

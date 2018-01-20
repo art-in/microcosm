@@ -28,6 +28,10 @@ export default connect(
             data: {ideaId: ideaListItem.id}
         }),
 
+        onSuccessorCreate: () => dispatch({
+            type: 'on-idea-form-successor-create'
+        }),
+
         onSuccessorRemove: ideaListItem => dispatch({
             type: 'on-idea-form-successor-remove',
             data: {ideaId: ideaListItem.id}

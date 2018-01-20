@@ -15,7 +15,7 @@ import classes from './IconButton.css';
  * @prop {IconSizeType} [size]
  * @prop {IconType} icon
  * 
- * @prop {function()} [onClick]
+ * @prop {function()} onClick
  * 
  * @extends {Component<Props>}
  */

@@ -4,12 +4,15 @@ import cx from 'classnames';
 import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
 
 import IdeaFormVmType from 'vm/shared/IdeaForm';
+import Icon from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
+
+import Button from 'view/shared/Button';
+import IconButton from 'view/shared/IconButton';
 import IdeaList from 'view/shared/IdeaList';
 import MarkdownEditor from 'view/shared/MarkdownEditor';
-import Button from 'view/shared/Button';
 import IdeaPath from 'view/shared/IdeaPath/IdeaPath';
 import SearchBox from 'view/shared/SearchBox';
-import Icon from 'vm/shared/Icon';
 
 import classes from './IdeaForm.css';
 
@@ -26,6 +29,7 @@ import classes from './IdeaForm.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onSuccessorCreate
  * @prop {function()} onSuccessorRemove
  * @prop {function()} onSuccessorSearchTriggerClick
  * @prop {function()} onSuccessorSearchLookupFocusOut
@@ -49,6 +53,8 @@ export default class IdeaForm extends Component {
     }
 
     componentDidMount() {
+        // TODO: does not work in case form was already mounted
+        //       (ie. open form for existing idea, add child idea)
         if (this.props.form.shouldFocusTitleOnShow) {
             this.input.focus();
         }
@@ -65,6 +71,7 @@ export default class IdeaForm extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onSuccessorCreate,
             onSuccessorRemove,
             onSuccessorSearchTriggerClick,
             onSuccessorSearchLookupFocusOut,
@@ -116,20 +123,36 @@ export default class IdeaForm extends Component {
                         onChange={this.onValueChange}
                         onDoubleClick={onValueDoubleClick} />
                     
-                    <SearchBox className={classes.successorSearch}
-                        expandToRight={true}
-                        searchBox={form.successorSearchBox}
-                        lookupClass={classes.successorSearchLookup}
-                        triggerClass={classes.successorSearchTrigger}
-                        triggerTooltip='Add association'
-                        triggerIcon={Icon.link}
-                        onTriggerClick={onSuccessorSearchTriggerClick}
-                        onLookupFocusOut={onSuccessorSearchLookupFocusOut}
-                        onLookupPhraseChange=
-                            {onSuccessorSearchLookupPhraseChange}
-                        onLookupKeyDown={onSuccessorSearchLookupKeyDown}
-                        onLookupSuggestionSelect=
-                            {onSuccessorSearchLookupSuggestionSelect} />
+                    {form.isSuccessorsChangable ?
+                        <div className={classes.successorOperations}>
+
+                            <IconButton className={cx(
+                                classes.successorCreateButton,
+                                classes.successorOperationsItem)}
+                            icon={Icon.plusCircle}
+                            size={IconSize.large}
+                            tooltip='Add new idea'
+                            onClick={onSuccessorCreate} />
+
+                            <SearchBox className={cx(
+                                classes.successorSearch,
+                                classes.successorOperationsItem)}
+                            expandToRight={true}
+                            searchBox={form.successorSearchBox}
+                            lookupClass={classes.successorSearchLookup}
+                            triggerClass={classes.successorSearchTrigger}
+                            triggerTooltip='Add association'
+                            triggerIcon={Icon.link}
+                            onTriggerClick={onSuccessorSearchTriggerClick}
+                            onLookupFocusOut={onSuccessorSearchLookupFocusOut}
+                            onLookupPhraseChange=
+                                {onSuccessorSearchLookupPhraseChange}
+                            onLookupKeyDown={onSuccessorSearchLookupKeyDown}
+                            onLookupSuggestionSelect=
+                                {onSuccessorSearchLookupSuggestionSelect} />
+                        </div>
+                        : null
+                    }
 
                     {form.successors.length ?
                         <IdeaList className={classes.successors}

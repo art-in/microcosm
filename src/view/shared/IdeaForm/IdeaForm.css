@@ -44,21 +44,31 @@
 
 .predecessors {}
 
-.successors {
-    padding: 0 20px 20px 20px;
+.successor-operations {
+    padding: 20px;
+    display: flex;
+}
+
+.successor-operations-item + .successor-operations-item {
+    margin-left: 25px;
+}
+
+.successor-create-button {
+    display: flex;
+    align-items: center;
 }
 
 .successor-search {
-    padding: 20px;
-
     /* extend vertically so lookup has enough space when shown */
     height: 50px;
 }
 
+.successor-create-button,
 .successor-search-trigger {
     color: #adadad;
 }
 
+.successor-create-button:hover,
 .successor-search-trigger:hover {
     color: black;
 }
@@ -72,6 +82,10 @@
     /* lift search lookup above successor list
        (as lookup and list are both positioned relatively) */
     z-index: 1;
+}
+
+.successors {
+    padding: 0 20px 20px 20px;
 }
 
 .footer {
