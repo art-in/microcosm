@@ -15,8 +15,9 @@
     /* do not completely remove border so invalid input does not shift */
     border-color: transparent;
     font-size: 24px;
-
     margin: 10px 0;
+
+    transition: border-color 0.3s;
 }
 
 .title-input:not(.title-input-invalid):not(:focus):hover {
