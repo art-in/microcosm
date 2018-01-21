@@ -1,9 +1,5 @@
-import Patch from 'utils/state/Patch';
-import view from 'vm/utils/view-mutation';
-
 import StateType from 'boot/client/State';
 import createId from 'utils/create-id';
-import normalizePatch from 'action/utils/normalize-patch';
 import getIdea from 'action/utils/get-idea';
 import diffArrays from 'utils/diff-arrays';
 
@@ -13,7 +9,6 @@ import diffArrays from 'utils/diff-arrays';
  * @param {StateType} state
  * @param {object} data
  * @param {function} dispatch
- * @return {Patch}
  */
 export default function(state, data, dispatch) {
     const {model: {mindset}} = state;
@@ -25,8 +20,6 @@ export default function(state, data, dispatch) {
         // do not save if there was no changes
         return;
     }
-
-    const patch = new Patch();
 
     const title = form.title.trim();
     let ideaId;
@@ -51,18 +44,9 @@ export default function(state, data, dispatch) {
             data: {ideaId}
         });
 
-        // change form mode to existing idea
-        patch.push(view('update-idea-form-modal', {
-            form: {
-                ideaId,
-                parentIdeaId: null,
-                isNewIdea: false
-            }
-        }));
-
     } else {
 
-        // update existing idea
+        // save changes to existing idea
         ideaId = form.ideaId;
 
         dispatch({
@@ -77,7 +61,16 @@ export default function(state, data, dispatch) {
 
     const idea = getIdea(mindset, ideaId);
 
-    // update successors
+    // save color
+    dispatch({
+        type: 'set-idea-color',
+        data: {
+            ideaId,
+            color: form.color
+        }
+    });
+
+    // save successors
     const oldSuccessorIds = idea.edgesOut.map(e => e.to.id);
     const newSuccessorIds = form.successors.map(i => i.id);
 
@@ -103,21 +96,11 @@ export default function(state, data, dispatch) {
                 data: {assocId}
             }));
 
-    patch.push(view('update-idea-form-modal', {
-        form: {
-            title,
-            prev: {
-                title,
-                value: form.value,
-                successors: form.successors
-            },
-            isEditingValue: false,
-            isGearOperationsAvailable: true,
-            isSuccessorsEditable: true,
-            isSaveable: false,
-            isCancelable: false
-        }
-    }));
-
-    return normalizePatch(patch);
+    // to simplify code, re-open form from scratch instead of smart updates on
+    // existing form, so all fields correctly re-initialized (eg. when color
+    // changed and saved, children in successor list should receive that color)
+    dispatch({
+        type: 'open-idea-form-modal',
+        data: {ideaId}
+    });
 }

@@ -63,7 +63,7 @@ export default function(state, data) {
             })
         }));
     
-    // TODO: disable if root or has outgoing assocs
+    // TODO: disable if root or has outgoing assocs (update: + idea form)
     items.push(
         new MenuItem({
             icon: Icon.trash,

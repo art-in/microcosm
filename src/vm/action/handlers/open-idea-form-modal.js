@@ -31,6 +31,7 @@ export default function(state, data) {
 
     let title = '';
     let value = '';
+    let color = '';
     let rootPath = [];
     let predecessors = [];
     let successors = [];
@@ -63,8 +64,11 @@ export default function(state, data) {
         // open existing idea
         const idea = getIdea(mindset, ideaId);
         
+        // default to empty string so mutator wont warn on type mismatch
+        // (ie. mutation from string to undefined)
         title = idea.title || '';
         value = idea.value || '';
+        color = idea.color || '';
 
         if (mindset.root !== idea) {
             predecessors = predecessors.concat(idea.edgesIn
@@ -102,6 +106,8 @@ export default function(state, data) {
 
             title,
             value,
+            color,
+
             rootPath,
             predecessors,
             successors,
@@ -109,6 +115,7 @@ export default function(state, data) {
             prev: {
                 title,
                 value,
+                color,
                 successors
             },
 

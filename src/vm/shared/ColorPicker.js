@@ -14,6 +14,12 @@ export default class ColorPicker extends ViewModel {
     active = false;
 
     /**
+     * Initial color (set on activation)
+     * @type {string}
+     */
+    initialColor = undefined;
+
+    /**
      * Gets action after color selected
      * @type {function|undefined}
      */

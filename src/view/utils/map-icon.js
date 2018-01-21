@@ -81,5 +81,9 @@ const descriptors = {
     [Icon.plusSquareO]: {
         class: icons.faPlusSquareO,
         char: '\uf196'
+    },
+    [Icon.eraser]: {
+        class: icons.faEraser,
+        char: '\uf12d'
     }
 };

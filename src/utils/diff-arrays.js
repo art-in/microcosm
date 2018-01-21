@@ -1,5 +1,5 @@
 /**
- * Gets shallow diffence between array A and B
+ * Returns shallow diffence between items in array A and B
  * 
  * How A should be modified to equal B?
  * 

@@ -4,6 +4,8 @@ import ColorPickerVmType from 'vm/shared/ColorPicker';
 
 import classes from './ColorPicker.css';
 
+const DEFAULT_COLOR = '#000000';
+
 // eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
@@ -22,7 +24,8 @@ export default class ColorPicker extends Component {
         this.forcePicker();
 
         // need to manually subscribe to 'change' event since react 'onChange'
-        // handler really sets handler for 'input' event
+        // handler really sets handler for 'input' event, which happens too
+        // frequently
         this.input.addEventListener('change', this.onChange);
     }
 
@@ -31,7 +34,18 @@ export default class ColorPicker extends Component {
     }
 
     forcePicker() {
-        if (this.props.picker.active) {
+        const {picker} = this.props;
+
+        if (picker.active) {
+
+            // Q: why set initial value manually and not in render?
+            // A: setting value in render means making input 'controllable',
+            //    which requires declaratively bind value to local state or
+            //    props and then pass onChange handler. since we only need
+            //    to pass initial value, manual way is much simpler.
+            // default color makes sure browser wont warn if initial value is
+            // empty (Chrome warns on empty string, null and undefined)
+            this.input.value = picker.initialColor || DEFAULT_COLOR;
 
             // need to focus input before click (Edge)
             this.input.focus();
@@ -52,9 +66,9 @@ export default class ColorPicker extends Component {
         // NOTE: picker cannot be forced on page load with any delay at all.
 
         return (
-            <input ref={node => this.input = node}
-                type='color'
-                className={ classes.input } />
+            <input type='color'
+                className={classes.input}
+                ref={node => this.input = node} />
         );
     }
 

@@ -50,7 +50,7 @@ export default class Idea {
     value = undefined;
 
     /**
-     * Color
+     * Own color of idea (not inherited)
      * @type {string|undefined}
      */
     color = undefined;

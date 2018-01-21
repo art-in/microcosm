@@ -8,7 +8,7 @@ import {MESSAGE_CONFIRM_REMOVE, MESSAGE_CONFIRM_LEAVE}
     from 'vm/shared/IdeaForm';
 
 /**
- * Handles remove idea event from idea form
+ * Handles remove event from idea form
  * 
  * @param {StateType} state
  * @param {object} data

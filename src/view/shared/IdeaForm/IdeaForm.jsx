@@ -29,7 +29,9 @@ import classes from './IdeaForm.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
- * @prop {function()} onRemoveIdea
+ * @prop {function()} onRemove
+ * @prop {function()} onColorSelect
+ * @prop {function()} onColorRemove
  * @prop {function()} onSuccessorCreate
  * @prop {function()} onSuccessorRemove
  * @prop {function()} onSuccessorSearchTriggerClick
@@ -70,7 +72,9 @@ export default class IdeaForm extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
-            onRemoveIdea,
+            onRemove,
+            onColorSelect,
+            onColorRemove,
             onSuccessorCreate,
             onSuccessorRemove,
             onSuccessorSearchTriggerClick,
@@ -115,11 +119,35 @@ export default class IdeaForm extends Component {
 
                     {/* TODO: move buttons into gear popup menu */}
                     {form.isGearOperationsAvailable ?
-                        <IconButton className={cx(classes.gearButton)}
+                        <div className={cx(classes.gearButton)}>
+                            <IconButton className={cx(
+                                classes.removeButton,
+                                classes.gearMenuItem
+                            )}
                             icon={Icon.trash}
                             size={IconSize.large}
                             tooltip='Remove idea'
-                            onClick={onRemoveIdea} />
+                            onClick={onRemove} />
+
+                            <IconButton className={cx(
+                                classes.selectColorButton,
+                                classes.gearMenuItem
+                            )}
+                            style={{['--idea-color']: form.color}}
+                            icon={Icon.paintBrush}
+                            size={IconSize.large}
+                            tooltip='Set idea color (not inherit from parent)'
+                            onClick={onColorSelect} />
+
+                            <IconButton className={cx(
+                                classes.removeColorButton,
+                                classes.gearMenuItem
+                            )}
+                            icon={Icon.eraser}
+                            size={IconSize.large}
+                            tooltip='Remove color (inherit from parent)'
+                            onClick={onColorRemove} />
+                        </div>
                         : null
                     }
                 </div>

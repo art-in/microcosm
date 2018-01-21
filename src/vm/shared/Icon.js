@@ -18,7 +18,8 @@ const Icon = {
     eye: 10,
     pencil: 11,
     close: 12,
-    plusSquareO: 13
+    plusSquareO: 13,
+    eraser: 14
 };
 
 export default Icon;

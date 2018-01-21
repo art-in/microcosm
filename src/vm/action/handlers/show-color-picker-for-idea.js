@@ -16,7 +16,6 @@ export default function showColorPickerForIdea(state, data) {
     const {ideaId} = required(data);
 
     return view('update-color-picker', {
-        
         active: true,
         onSelectAction: ({color}) => ({
             type: 'on-idea-color-selected',

@@ -18,6 +18,7 @@ export default function(state) {
         form: {
             title: form.prev.title,
             value: form.prev.value,
+            color: form.prev.color,
             successors: form.prev.successors,
             isTitleValid: true,
             isEditingValue: false,

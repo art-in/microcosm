@@ -11,6 +11,7 @@ import classes from './IconButton.css';
 /**
  * @typedef {object} Props
  * @prop {string} [className]
+ * @prop {object} [style]
  * @prop {string} [tooltip]
  * @prop {IconSizeType} [size]
  * @prop {IconType} icon

@@ -13,7 +13,7 @@
     width: 100%;
     box-sizing: border-box;
 
-    /* do not completely remove border so invalid input does not shift */
+    /* do not remove border so invalid input does not shift on hover */
     border-color: transparent;
     font-size: 24px;
     margin: 10px 0;
@@ -32,6 +32,24 @@
 
 .gear-button {
     margin-top: 15px;
+}
+
+.gear-menu-item {
+    /* add padding to all items so they all aligned with select-color-button */
+    padding: 5px;
+}
+
+.gear-menu-item + .gear-menu-item {
+    margin-left: 20px;
+}
+
+.select-color-button {
+    /* add padding so outline is not too close to icon */
+    padding: 5px;
+    outline: 2px solid var(--idea-color);
+}
+
+.remove-color-button {
 }
 
 .body {
@@ -68,18 +86,6 @@
     height: 50px;
 }
 
-.gear-button,
-.successor-create-button,
-.successor-search-trigger {
-    color: #adadad;
-}
-
-.gear-button:hover,
-.successor-create-button:hover,
-.successor-search-trigger:hover {
-    color: black;
-}
-
 .successor-search-lookup {
     background-color: white;
     padding: 7px;
@@ -98,4 +104,22 @@
 .footer {
     display: flex;
     justify-content: flex-end;
+}
+
+/* stylelint-disable no-descending-specificity */
+
+.remove-button,
+.select-color-button,
+.remove-color-button,
+.successor-create-button,
+.successor-search-trigger {
+    color: #adadad;
+}
+
+.remove-button:hover,
+.select-color-button:hover,
+.remove-color-button:hover,
+.successor-create-button:hover,
+.successor-search-trigger:hover {
+    color: black;
 }

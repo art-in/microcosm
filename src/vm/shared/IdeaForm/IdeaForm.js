@@ -44,6 +44,12 @@ export default class IdeaForm {
     value = undefined;
 
     /**
+     * Color field contents
+     * @type {string}
+     */
+    color = undefined;
+
+    /**
      * Ideas on path from root to parent idea
      * @type {Array.<IdeaListItemType>}
      */
@@ -63,7 +69,7 @@ export default class IdeaForm {
 
     /**
      * State of fields before last save.
-     * Allows to revert state back if edit is canceled
+     * Allows to revert state back when edit is canceled
      */
     prev = {
 
@@ -72,6 +78,9 @@ export default class IdeaForm {
 
         /** @type {string} */
         value: undefined,
+
+        /** @type {string} */
+        color: undefined,
 
         /** @type {Array.<IdeaListItemType>} */
         successors: undefined
@@ -111,6 +120,12 @@ export default class IdeaForm {
 
     /**
      * Indicates that form changes can be saved
+     * Currently should be used as indication of unsaved changes on the form
+     * TODO: add dedicated 'hasChanges' flag (to fix case: create new idea,
+     *       leave title empty, add value, try to close - should confirm close,
+     *       but it does not, since form is not saveable because of invalid
+     *       title and not because there is no changes)
+     * 
      * @type {boolean}
      */
     isSaveable = false;

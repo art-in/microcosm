@@ -28,8 +28,16 @@ export default connect(
             data: {ideaId: ideaListItem.id}
         }),
 
-        onRemoveIdea: () => dispatch({
-            type: 'on-idea-form-remove-idea'
+        onColorSelect: () => dispatch({
+            type: 'on-idea-form-color-select'
+        }),
+
+        onColorRemove: () => dispatch({
+            type: 'on-idea-form-color-remove'
+        }),
+
+        onRemove: () => dispatch({
+            type: 'on-idea-form-remove'
         }),
 
         onSuccessorCreate: () => dispatch({
