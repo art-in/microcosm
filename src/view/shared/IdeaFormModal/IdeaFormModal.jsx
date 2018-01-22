@@ -19,6 +19,7 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onGearMenuToggle
  * @prop {function()} onRemove
  * @prop {function()} onColorSelect
  * @prop {function()} onColorRemove
@@ -46,6 +47,7 @@ export default class IdeaFormModal extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onGearMenuToggle,
             onRemove,
             onColorSelect,
             onColorRemove,
@@ -74,6 +76,7 @@ export default class IdeaFormModal extends Component {
                     onValueToggleEdit={onValueToggleEdit}
                     onValueDoubleClick={onValueDoubleClick}
                     onNeighborIdeaSelect={onNeighborIdeaSelect}
+                    onGearMenuToggle={onGearMenuToggle}
                     onRemove={onRemove}
                     onColorSelect={onColorSelect}
                     onColorRemove={onColorRemove}

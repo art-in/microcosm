@@ -110,7 +110,13 @@ export default class IdeaForm {
      * are available
      * @type {boolean}
      */
-    isGearOperationsAvailable = false;
+    isGearMenuAvailable = false;
+
+    /**
+     * Indicates that menu with additional operations is expanded
+     * @type {boolean}
+     */
+    isGearMenuExpanded = false;
 
     /**
      * Indicates that list of successors can be edited

@@ -122,7 +122,8 @@ export default function(state, data) {
             isTitleValid: !isNewIdea,
             shouldFocusTitleOnShow: isNewIdea,
             isEditingValue: isNewIdea,
-            isGearOperationsAvailable: !isNewIdea,
+            isGearMenuAvailable: !isNewIdea,
+            isGearMenuExpanded: false,
             isSuccessorsEditable: !isNewIdea,
             isSaveable: false,
             isCancelable: false

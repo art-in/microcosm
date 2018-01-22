@@ -29,6 +29,7 @@ import classes from './IdeaForm.css';
  * @prop {function()} onValueToggleEdit
  * @prop {function()} onValueDoubleClick
  * @prop {function()} onNeighborIdeaSelect
+ * @prop {function()} onGearMenuToggle
  * @prop {function()} onRemove
  * @prop {function()} onColorSelect
  * @prop {function()} onColorRemove
@@ -72,6 +73,7 @@ export default class IdeaForm extends Component {
             onValueToggleEdit,
             onValueDoubleClick,
             onNeighborIdeaSelect,
+            onGearMenuToggle,
             onRemove,
             onColorSelect,
             onColorRemove,
@@ -117,9 +119,20 @@ export default class IdeaForm extends Component {
                         : null
                     }
 
-                    {/* TODO: move buttons into gear popup menu */}
-                    {form.isGearOperationsAvailable ?
-                        <div className={cx(classes.gearButton)}>
+                    {form.isGearMenuAvailable ?
+
+                        <div className={cx(classes.gearMenu, {
+                            [classes.gearMenuExpanded]: form.isGearMenuExpanded
+                        })}>
+                            <IconButton className={cx(
+                                classes.gearButton,
+                                classes.gearMenuItem
+                            )}
+                            icon={Icon.gear}
+                            size={IconSize.large}
+                            tooltip='More operations'
+                            onClick={onGearMenuToggle} />
+
                             <IconButton className={cx(
                                 classes.removeButton,
                                 classes.gearMenuItem
@@ -136,7 +149,7 @@ export default class IdeaForm extends Component {
                             style={{['--idea-color']: form.color}}
                             icon={Icon.paintBrush}
                             size={IconSize.large}
-                            tooltip='Set idea color (not inherit from parent)'
+                            tooltip='Set idea color'
                             onClick={onColorSelect} />
 
                             <IconButton className={cx(

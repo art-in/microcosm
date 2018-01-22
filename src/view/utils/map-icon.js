@@ -85,5 +85,9 @@ const descriptors = {
     [Icon.eraser]: {
         class: icons.faEraser,
         char: '\uf12d'
+    },
+    [Icon.gear]: {
+        class: icons.faGear,
+        char: '\uf013'
     }
 };

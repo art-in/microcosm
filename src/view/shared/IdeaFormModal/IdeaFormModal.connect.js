@@ -28,6 +28,10 @@ export default connect(
             data: {ideaId: ideaListItem.id}
         }),
 
+        onGearMenuToggle: () => dispatch({
+            type: 'on-idea-form-gear-menu-toggle'
+        }),
+
         onColorSelect: () => dispatch({
             type: 'on-idea-form-color-select'
         }),

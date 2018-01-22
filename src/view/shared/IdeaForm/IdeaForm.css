@@ -30,13 +30,30 @@
     border-color: #dc3545;
 }
 
-.gear-button {
+.gear-menu {
     margin-top: 15px;
+
+    /* limit space for gear button only */
+    width: 30px;
+    overflow: hidden;
+    transition: width 0.15s;
+    white-space: nowrap;
+
+    /* add padding to not cut select-color-button outline */
+    padding: 5px 0;
+}
+
+.gear-menu-expanded {
+    width: 200px;
 }
 
 .gear-menu-item {
     /* add padding to all items so they all aligned with select-color-button */
     padding: 5px;
+}
+
+.gear-menu-item:first-child {
+    padding-left: 0;
 }
 
 .gear-menu-item + .gear-menu-item {
@@ -108,6 +125,7 @@
 
 /* stylelint-disable no-descending-specificity */
 
+.gear-button,
 .remove-button,
 .select-color-button,
 .remove-color-button,
@@ -116,6 +134,8 @@
     color: #adadad;
 }
 
+.gear-button:hover,
+.gear-menu-expanded .gear-button,
 .remove-button:hover,
 .select-color-button:hover,
 .remove-color-button:hover,

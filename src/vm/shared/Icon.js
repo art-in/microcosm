@@ -19,7 +19,8 @@ const Icon = {
     pencil: 11,
     close: 12,
     plusSquareO: 13,
-    eraser: 14
+    eraser: 14,
+    gear: 15
 };
 
 export default Icon;
