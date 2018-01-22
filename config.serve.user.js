@@ -11,7 +11,9 @@ module.exports = {
         database: {
             host: 'localhost',
             port: 5984,
-            startDevServer: true
+            dev: {
+                start: true
+            }
         }
         
     }

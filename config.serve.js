@@ -34,14 +34,19 @@ const defaults = {
         // couchdb-compatible database server
         database: {
             
+            // address of db server that client will be connecting to.
+            // note: any ip meta-address '0.0.0.0' will not work for dev server
+            // (server will be started, but client will not be able to connect).
             host: 'localhost',
             port: 5984,
 
-            // start development database server (pouchdb-server).
+            // development database server (pouchdb-server).
             // note: pouchdb-server is not production ready, so you should
-            // install and run your own CouchDB server elsewhere.
-            // when true - host can be 'localhost' only
-            startDevServer: true
+            // install and run your own CouchDB server for production.
+            dev: {
+                start: true,
+                dir: './.db'
+            }
         }
     }
 };

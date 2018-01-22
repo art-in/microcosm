@@ -4,7 +4,7 @@ const deps = [
     'serve:static:watch'
 ];
 
-if (config.server.database.startDevServer) {
+if (config.server.database.dev.start) {
     deps.push('serve:dev-db');
 }
 
