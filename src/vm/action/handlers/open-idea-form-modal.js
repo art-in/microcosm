@@ -35,6 +35,7 @@ export default function(state, data) {
   let rootPath = [];
   let predecessors = [];
   let successors = [];
+  let isRemoveAvailable = false;
 
   let parent;
   if (isNewIdea) {
@@ -70,6 +71,9 @@ export default function(state, data) {
     title = idea.title || "";
     value = idea.value || "";
     color = idea.color || "";
+
+    // prevent removing idea with outgoing associations
+    isRemoveAvailable = idea !== mindset.root && idea.edgesOut.length === 0;
 
     if (mindset.root !== idea) {
       predecessors = predecessors.concat(
@@ -126,6 +130,7 @@ export default function(state, data) {
       isEditingValue: isNewIdea,
       isGearMenuAvailable: !isNewIdea,
       isGearMenuExpanded: false,
+      isRemoveAvailable,
       isSuccessorsEditable: !isNewIdea,
       isSaveable: false,
       isCancelable: false

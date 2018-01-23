@@ -117,6 +117,12 @@ export default class IdeaForm {
   isGearMenuExpanded = false;
 
   /**
+   * Indicates that remove operation is available
+   * @type {boolean}
+   */
+  isRemoveAvailable = false;
+
+  /**
    * Indicates that list of successors can be edited
    * @type {boolean}
    */

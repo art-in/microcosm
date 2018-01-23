@@ -3,6 +3,7 @@ import view from "vm/utils/view-patch";
 import PatchType from "utils/state/Patch";
 
 import StateType from "boot/client/State";
+import getIdea from "action/utils/get-idea";
 import toViewportCoords from "vm/map/utils/map-canvas-to-viewport-coords";
 
 import PointType from "model/entities/Point";
@@ -20,6 +21,7 @@ import Icon from "vm/shared/Icon";
  */
 export default function(state, data) {
   const { vm: { main: { mindset: { mindmap } } } } = state;
+  const { model: { mindset } } = state;
   const { nodeId } = required(data);
 
   const node = mindmap.nodes.find(n => n.id === nodeId);
@@ -30,6 +32,8 @@ export default function(state, data) {
   }
 
   const viewportPos = toViewportCoords(node.posAbs, mindmap.viewbox);
+
+  const idea = getIdea(mindset, node.id);
 
   const items = [];
 
@@ -66,11 +70,13 @@ export default function(state, data) {
     })
   );
 
-  // TODO: disable if root or has outgoing assocs (update: + idea form)
   items.push(
     new MenuItem({
       icon: Icon.trash,
       displayValue: "Remove idea",
+
+      // prevent removing idea with outgoing associations
+      enabled: idea !== mindset.root && idea.edgesOut.length === 0,
       onSelectAction: () => ({
         type: "on-context-menu-item-select-remove-idea",
         data: { ideaId: nodeId }

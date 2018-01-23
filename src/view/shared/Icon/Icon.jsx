@@ -17,6 +17,8 @@ import classes from "./Icon.css";
  * @prop {IconSize} [size]
  * @prop {IconType} icon
  *
+ * @prop {function()} [onClick]
+ *
  * @extends {Component<Props>}
  */
 export default class IconButton extends Component {

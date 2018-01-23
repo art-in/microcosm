@@ -136,6 +136,7 @@ export default class IdeaForm extends Component {
                 icon={Icon.trash}
                 size={IconSize.large}
                 tooltip="Remove idea"
+                isDisabled={!form.isRemoveAvailable}
                 onClick={onRemove}
               />
 
