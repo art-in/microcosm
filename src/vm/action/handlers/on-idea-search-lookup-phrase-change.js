@@ -1,10 +1,10 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import onPhraseChange from "vm/shared/Lookup/methods/on-phrase-change";
+import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
 
 /**
  * Handles phrase change event from idea search box
@@ -16,12 +16,12 @@ import onPhraseChange from "vm/shared/Lookup/methods/on-phrase-change";
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset } } } = state;
-  const { phrase } = required(data);
+  const {vm: {main: {mindset}}} = state;
+  const {phrase} = required(data);
 
   const lookup = mindset.ideaSearchBox.lookup;
 
-  return view("update-idea-search-box", {
+  return view('update-idea-search-box', {
     lookup: onPhraseChange({
       lookup,
       phrase,

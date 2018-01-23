@@ -1,7 +1,7 @@
-import MindsetType from "model/entities/Mindset";
-import IdeaFormType from "vm/shared/IdeaForm";
+import MindsetType from 'model/entities/Mindset';
+import IdeaFormType from 'vm/shared/IdeaForm';
 
-import withoutItem from "utils/get-array-without-item";
+import withoutItem from 'utils/get-array-without-item';
 
 /**
  * Removes idea from list of successors

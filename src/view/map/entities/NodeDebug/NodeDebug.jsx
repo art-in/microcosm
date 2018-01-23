@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import round from "utils/round";
+import round from 'utils/round';
 
-import Group from "view/shared/svg/Group";
-import NodeVmType from "vm/map/entities/Node";
-import Text from "view/shared/svg/Text";
-import Point from "model/entities/Point";
+import Group from 'view/shared/svg/Group';
+import NodeVmType from 'vm/map/entities/Node';
+import Text from 'view/shared/svg/Text';
+import Point from 'model/entities/Point';
 
-import classes from "./NodeDebug.css";
+import classes from './NodeDebug.css';
 
 /**
  * @typedef {object} Props
@@ -19,13 +19,13 @@ import classes from "./NodeDebug.css";
  */
 export default class NodeDebug extends Component {
   render() {
-    const { className, node, ...other } = this.props;
+    const {className, node, ...other} = this.props;
 
     if (!node.debug.enable) {
       return null;
     }
 
-    const { posAbs, debug: { posRel } } = node;
+    const {posAbs, debug: {posRel}} = node;
 
     const lines = [
       `id = ${node.id.slice(0, 5)}`,

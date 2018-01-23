@@ -1,10 +1,10 @@
-import assert from "utils/assert";
-import clone from "clone";
+import assert from 'utils/assert';
+import clone from 'clone';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import getViewboxSize from "./get-viewbox-size";
-import canScaleMore from "./can-scale-more";
+import getViewboxSize from './get-viewbox-size';
+import canScaleMore from './can-scale-more';
 
 /**
  * Changes mindmap scale towards certain canvas position
@@ -17,9 +17,9 @@ import canScaleMore from "./can-scale-more";
  * @return {object} viewbox
  */
 export default function zoomMindmap(opts) {
-  const { viewbox: vb, viewport, scale, canvasPos } = opts;
+  const {viewbox: vb, viewport, scale, canvasPos} = opts;
 
-  if (!canScaleMore({ viewbox: vb, up: scale > vb.scale })) {
+  if (!canScaleMore({viewbox: vb, up: scale > vb.scale})) {
     // do not scale out of limits
     return vb;
   }
@@ -29,12 +29,12 @@ export default function zoomMindmap(opts) {
   assert(vb.x !== undefined, `Invalid viewbox position x '${vb.x}'`);
   assert(vb.y !== undefined, `Invalid viewbox position y '${vb.y}'`);
 
-  const { width: prevWidth, height: prevHeight } = vb;
+  const {width: prevWidth, height: prevHeight} = vb;
 
   let newViewbox = clone(vb);
   newViewbox.scale = scale;
 
-  newViewbox = getViewboxSize({ viewbox: newViewbox, viewport });
+  newViewbox = getViewboxSize({viewbox: newViewbox, viewport});
 
   // space that will be hidden/shown by zoom
   const hiddenWidth = prevWidth - newViewbox.width;

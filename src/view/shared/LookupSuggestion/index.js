@@ -1,2 +1,2 @@
-import module from "./LookupSuggestion.jsx";
+import module from './LookupSuggestion.jsx';
 export default module;

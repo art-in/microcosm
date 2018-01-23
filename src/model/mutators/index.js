@@ -1,10 +1,10 @@
-import regMutatorsFolder from "utils/reg-mutators-folder";
-import PatchType from "utils/state/Patch";
+import regMutatorsFolder from 'utils/reg-mutators-folder';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 // eslint-disable-next-line no-undef
-const context = require.context(".", true, /\.js$/);
+const context = require.context('.', true, /\.js$/);
 const mutators = regMutatorsFolder(context);
 
 /**
@@ -14,8 +14,8 @@ const mutators = regMutatorsFolder(context);
  * @param {PatchType} patch
  */
 export default function mutate(state, patch) {
-  patch.filter(m => m.hasTarget("model")).forEach(m => {
-    const { type, data } = m;
+  patch.filter(m => m.hasTarget('model')).forEach(m => {
+    const {type, data} = m;
     if (!mutators[type]) {
       throw Error(`Unknown model mutation '${type}'`);
     }

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { CSSTransition } from "react-transition-group";
-import cx from "classnames";
+import React, {Component} from 'react';
+import {CSSTransition} from 'react-transition-group';
+import cx from 'classnames';
 
-import ModalVmType from "vm/shared/Modal";
-import Icon from "vm/shared/Icon";
+import ModalVmType from 'vm/shared/Modal';
+import Icon from 'vm/shared/Icon';
 
-import IconButton from "view/shared/IconButton";
+import IconButton from 'view/shared/IconButton';
 
-import classes from "./Modal.css";
+import classes from './Modal.css';
 
 /**
  * @typedef {object} Props
@@ -29,7 +29,7 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { className, contentClass, modal, children, onClose } = this.props;
+    const {className, contentClass, modal, children, onClose} = this.props;
 
     const transitionDuration = Number(classes.transitionDuration) * 1000;
 

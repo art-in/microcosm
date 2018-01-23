@@ -1,19 +1,19 @@
-import { expect } from "test/utils";
-import { spy, stub } from "sinon";
-import noop from "src/utils/noop";
+import {expect} from 'test/utils';
+import {spy, stub} from 'sinon';
+import noop from 'src/utils/noop';
 
-import combineHandlerPatches from "test/utils/combine-handler-patches";
+import combineHandlerPatches from 'test/utils/combine-handler-patches';
 
-import State from "src/boot/client/State";
-import RuntimeConfig from "src/boot/client/RuntimeConfig";
+import State from 'src/boot/client/State';
+import RuntimeConfig from 'src/boot/client/RuntimeConfig';
 
-import MainVM from "src/vm/main/Main";
-import ConnectionState from "src/action/utils/ConnectionState";
+import MainVM from 'src/vm/main/Main';
+import ConnectionState from 'src/action/utils/ConnectionState';
 
-import handler from "src/action/handler";
+import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe("init", () => {
+describe('init', () => {
   /** @type {sinon.SinonStub} */
   let fetchStub;
 
@@ -21,10 +21,10 @@ describe("init", () => {
   let setTimeoutStub;
 
   before(() => {
-    fetchStub = stub(window, "fetch");
+    fetchStub = stub(window, 'fetch');
 
     // stub timeout so heartbeat checks are not initiated after test is done
-    setTimeoutStub = stub(window, "setTimeout");
+    setTimeoutStub = stub(window, 'setTimeout');
   });
 
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe("init", () => {
     setTimeoutStub.restore();
   });
 
-  it("should init data state", async () => {
+  it('should init data state', async () => {
     // setup
     const state = new State();
     const dispatch = noop;
@@ -46,12 +46,12 @@ describe("init", () => {
     const patch = await handle(
       state,
       {
-        type: "init",
+        type: 'init',
         data: {
           storeDispatch: noop,
-          dbServerUrl: "TEST_DB_SERVER",
+          dbServerUrl: 'TEST_DB_SERVER',
           runtimeConfig: new RuntimeConfig(),
-          viewRoot: document.createElement("div")
+          viewRoot: document.createElement('div')
         }
       },
       dispatch,
@@ -59,15 +59,15 @@ describe("init", () => {
     );
 
     // check
-    const mutations = combineHandlerPatches(mutate, patch)["init"];
+    const mutations = combineHandlerPatches(mutate, patch)['init'];
 
     expect(mutations).to.have.length(1);
     const mutationData = mutations[0].data;
 
-    expect(mutationData.data.dbServerUrl).to.equal("TEST_DB_SERVER");
+    expect(mutationData.data.dbServerUrl).to.equal('TEST_DB_SERVER');
   });
 
-  it("should init view model state", async () => {
+  it('should init view model state', async () => {
     // setup
     const state = new State();
     const dispatch = noop;
@@ -77,12 +77,12 @@ describe("init", () => {
     const patch = await handle(
       state,
       {
-        type: "init",
+        type: 'init',
         data: {
           storeDispatch: noop,
-          dbServerUrl: "TEST_DB_SERVER",
+          dbServerUrl: 'TEST_DB_SERVER',
           runtimeConfig: new RuntimeConfig(),
-          viewRoot: document.createElement("div")
+          viewRoot: document.createElement('div')
         }
       },
       dispatch,
@@ -90,7 +90,7 @@ describe("init", () => {
     );
 
     // check
-    const mutations = combineHandlerPatches(mutate, patch)["init"];
+    const mutations = combineHandlerPatches(mutate, patch)['init'];
 
     expect(mutations).to.have.length(1);
     const mutationData = mutations[0].data;
@@ -98,7 +98,7 @@ describe("init", () => {
     expect(mutationData.vm.main).to.be.instanceOf(MainVM);
   });
 
-  it("should init view state", async () => {
+  it('should init view state', async () => {
     // setup
     const state = new State();
     const dispatch = noop;
@@ -109,12 +109,12 @@ describe("init", () => {
     const patch = await handle(
       state,
       {
-        type: "init",
+        type: 'init',
         data: {
           storeDispatch,
-          dbServerUrl: "TEST_DB_SERVER",
+          dbServerUrl: 'TEST_DB_SERVER',
           runtimeConfig: new RuntimeConfig(),
-          viewRoot: document.createElement("div")
+          viewRoot: document.createElement('div')
         }
       },
       dispatch,
@@ -122,7 +122,7 @@ describe("init", () => {
     );
 
     // check
-    const mutations = combineHandlerPatches(mutate, patch)["init"];
+    const mutations = combineHandlerPatches(mutate, patch)['init'];
 
     expect(mutations).to.have.length(1);
     const mutationData = mutations[0].data;
@@ -131,7 +131,7 @@ describe("init", () => {
     expect(mutationData.view.storeDispatch).to.equal(storeDispatch);
   });
 
-  it("should start db server heartbeat checks", async () => {
+  it('should start db server heartbeat checks', async () => {
     // setup
     const state = new State();
     const dispatch = noop;
@@ -142,12 +142,12 @@ describe("init", () => {
     await handle(
       state,
       {
-        type: "init",
+        type: 'init',
         data: {
           storeDispatch,
-          dbServerUrl: "TEST_DB_SERVER",
+          dbServerUrl: 'TEST_DB_SERVER',
           runtimeConfig: new RuntimeConfig(),
-          viewRoot: document.createElement("div")
+          viewRoot: document.createElement('div')
         }
       },
       dispatch,
@@ -156,10 +156,10 @@ describe("init", () => {
 
     // check
     expect(fetchStub.callCount).to.equal(1);
-    expect(fetchStub.firstCall.args[0]).to.equal("TEST_DB_SERVER");
+    expect(fetchStub.firstCall.args[0]).to.equal('TEST_DB_SERVER');
   });
 
-  it("should dispatch action on db server connection change", async () => {
+  it('should dispatch action on db server connection change', async () => {
     // setup
     const state = new State();
     const dispatch = noop;
@@ -170,12 +170,12 @@ describe("init", () => {
     await handle(
       state,
       {
-        type: "init",
+        type: 'init',
         data: {
           storeDispatch,
-          dbServerUrl: "TEST_DB_SERVER",
+          dbServerUrl: 'TEST_DB_SERVER',
           runtimeConfig: new RuntimeConfig(),
-          viewRoot: document.createElement("div")
+          viewRoot: document.createElement('div')
         }
       },
       dispatch,
@@ -185,7 +185,7 @@ describe("init", () => {
     // check
     expect(storeDispatch.callCount).to.equal(1);
     expect(storeDispatch.firstCall.args[0]).to.deep.equal({
-      type: "on-db-server-connection-state-change",
+      type: 'on-db-server-connection-state-change',
       data: {
         connectionState: ConnectionState.disconnected
       }

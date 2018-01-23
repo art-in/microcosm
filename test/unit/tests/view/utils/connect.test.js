@@ -1,19 +1,19 @@
-import { expect } from "test/utils";
-import { spy } from "sinon";
-import { mount } from "enzyme";
+import {expect} from 'test/utils';
+import {spy} from 'sinon';
+import {mount} from 'enzyme';
 
-import ViewModel from "src/vm/utils/ViewModel";
-import React, { Component } from "react";
+import ViewModel from 'src/vm/utils/ViewModel';
+import React, {Component} from 'react';
 
-import connect from "view/utils/connect";
-import Provider from "view/utils/connect/Provider";
+import connect from 'view/utils/connect';
+import Provider from 'view/utils/connect/Provider';
 
-describe("connect", () => {
+describe('connect', () => {
   it(`should update view on view-model 'change' events`, () => {
     // setup view-model
     class VM extends ViewModel {
-      static eventTypes = ["change"];
-      someProp = "INITIAL";
+      static eventTypes = ['change'];
+      someProp = 'INITIAL';
     }
 
     const vm = new VM();
@@ -48,17 +48,17 @@ describe("connect", () => {
     // check
     expect(wrapper).to.exist;
 
-    vm.someProp = "UPDATED";
+    vm.someProp = 'UPDATED';
     vm.emitChange();
 
-    expect(wrapper.text()).to.equal("UPDATED");
+    expect(wrapper.text()).to.equal('UPDATED');
   });
 
-  it("should dispatch store actions on view events", () => {
+  it('should dispatch store actions on view events', () => {
     // setup view-model
     class VM extends ViewModel {
-      static eventTypes = ["change"];
-      someProp = "vm prop value";
+      static eventTypes = ['change'];
+      someProp = 'vm prop value';
     }
 
     const vm = new VM();
@@ -74,7 +74,7 @@ describe("connect", () => {
      */
     class View extends Component {
       onClick() {
-        this.props.onClick("view event data");
+        this.props.onClick('view event data');
       }
       render() {
         return <span onClick={this.onClick.bind(this)} />;
@@ -87,7 +87,7 @@ describe("connect", () => {
       (dispatch, props) => ({
         onClick: eventData =>
           dispatch({
-            type: "action",
+            type: 'action',
             data: `${eventData}: ${props.myVM.someProp}`
           })
       })
@@ -106,13 +106,13 @@ describe("connect", () => {
     // check
     expect(wrapper).to.exist;
 
-    wrapper.simulate("click");
+    wrapper.simulate('click');
 
     expect(dispatch.callCount).to.equal(1);
     expect(dispatch.firstCall.args).to.have.length(1);
     expect(dispatch.firstCall.args[0]).to.deep.equal({
-      type: "action",
-      data: "view event data: vm prop value"
+      type: 'action',
+      data: 'view event data: vm prop value'
     });
   });
 });

@@ -51,11 +51,11 @@
  * @return {T}
  */
 export default function requiredParams(params) {
-  if (params == null || typeof params !== "object") {
+  if (params == null || typeof params !== 'object') {
     throw Error(`Invalid params object received '${params}'`);
   }
 
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV === 'production') {
     // do not create proxies in production
     // since proxy is a performance hit
     return params;

@@ -1,14 +1,14 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import Association from "model/entities/Association";
+import Association from 'model/entities/Association';
 
-import getIdea from "action/utils/get-idea";
-import patchRootPaths from "action/utils/patch-root-paths";
-import normalizePatch from "action/utils/normalize-patch";
-import weighAssociation from "model/utils/weigh-association";
+import getIdea from 'action/utils/get-idea';
+import patchRootPaths from 'action/utils/patch-root-paths';
+import normalizePatch from 'action/utils/normalize-patch';
+import weighAssociation from 'model/utils/weigh-association';
 
 /**
  * Creates association between two existing ideas
@@ -20,8 +20,8 @@ import weighAssociation from "model/utils/weigh-association";
  * @return {Patch}
  */
 export default function createCrossAssociation(state, data) {
-  const { model: { mindset } } = state;
-  const { headIdeaId, tailIdeaId } = required(data);
+  const {model: {mindset}} = state;
+  const {headIdeaId, tailIdeaId} = required(data);
 
   const head = getIdea(mindset, headIdeaId);
   const tail = getIdea(mindset, tailIdeaId);
@@ -67,24 +67,24 @@ export default function createCrossAssociation(state, data) {
   // bind to head
   const newHeadAssocsOut = head.edgesOut.concat([assoc]);
 
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: head.id,
     edgesOut: newHeadAssocsOut
   });
 
   // bind to tail
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: tail.id,
     edgesIn: tail.edgesIn.concat([assoc])
   });
 
   // add association
-  patch.push("add-association", { assoc });
+  patch.push('add-association', {assoc});
 
   // update root paths
   const rootPathsPatch = patchRootPaths({
     root: mindset.root,
-    replaceEdgesOut: [{ vertex: head, edgesOut: newHeadAssocsOut }]
+    replaceEdgesOut: [{vertex: head, edgesOut: newHeadAssocsOut}]
   });
 
   patch = Patch.combine(patch, rootPathsPatch);

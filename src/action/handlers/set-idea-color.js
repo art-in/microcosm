@@ -1,9 +1,9 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import getIdea from "action/utils/get-idea";
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Sets idea color
@@ -15,8 +15,8 @@ import getIdea from "action/utils/get-idea";
  * @return {Patch|undefined}
  */
 export default function setIdeaColor(state, data) {
-  const { model: { mindset } } = state;
-  const { ideaId, color } = required(data);
+  const {model: {mindset}} = state;
+  const {ideaId, color} = required(data);
 
   const idea = getIdea(mindset, ideaId);
 
@@ -25,7 +25,7 @@ export default function setIdeaColor(state, data) {
     return;
   }
 
-  return new Patch("update-idea", {
+  return new Patch('update-idea', {
     id: ideaId,
     color
   });

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import IdeaListItemType from "vm/shared/IdeaListItem";
-import Icon from "vm/shared/Icon";
+import IdeaListItemType from 'vm/shared/IdeaListItem';
+import Icon from 'vm/shared/Icon';
 
-import IconButton from "view/shared/IconButton";
+import IconButton from 'view/shared/IconButton';
 
-import classes from "./IdeaListItem.css";
+import classes from './IdeaListItem.css';
 
 /**
  * @typedef {object} Props
@@ -27,15 +27,15 @@ export default class Idea extends Component {
   };
 
   render() {
-    const { className, item, layout, onClick } = this.props;
+    const {className, item, layout, onClick} = this.props;
 
     return (
       <div
         className={cx(classes.root, className, {
-          [classes.layoutColumn]: layout === "column",
-          [classes.layoutInline]: layout === "inline"
+          [classes.layoutColumn]: layout === 'column',
+          [classes.layoutInline]: layout === 'inline'
         })}
-        style={{ "--list-item-color": item.color }}
+        style={{'--list-item-color': item.color}}
         title={item.tooltip}
         onClick={onClick}
       >

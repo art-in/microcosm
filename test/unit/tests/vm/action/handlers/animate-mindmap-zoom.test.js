@@ -1,17 +1,17 @@
-import { expect, createState, combinePatches } from "test/utils";
-import { spy } from "sinon";
+import {expect, createState, combinePatches} from 'test/utils';
+import {spy} from 'sinon';
 
-import update from "src/utils/update-object";
-import Point from "src/model/entities/Point";
+import update from 'src/utils/update-object';
+import Point from 'src/model/entities/Point';
 
-import handler from "src/vm/action/handler";
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe("animate-mindmap-zoom", () => {
-  it("should NOT update mindmap if animation in progress", async () => {
+describe('animate-mindmap-zoom', () => {
+  it('should NOT update mindmap if animation in progress', async () => {
     // setup state
     const state = createState();
-    const { mindmap } = state.vm.main.mindset;
+    const {mindmap} = state.vm.main.mindset;
 
     mindmap.viewbox.x = mindmap.viewbox.y = 0;
     mindmap.viewbox.scale = 1;
@@ -24,10 +24,10 @@ describe("animate-mindmap-zoom", () => {
 
     // setup action
     const action = {
-      type: "animate-mindmap-zoom",
+      type: 'animate-mindmap-zoom',
       data: {
         up: true,
-        viewportPos: new Point({ x: 0, y: 0 }),
+        viewportPos: new Point({x: 0, y: 0}),
         scheduleAnimationStep: cb => cb()
       }
     };
@@ -38,13 +38,13 @@ describe("animate-mindmap-zoom", () => {
     // check
     const patch = combinePatches(mutate, res);
 
-    expect(patch["update-mindmap"]).to.not.exist;
+    expect(patch['update-mindmap']).to.not.exist;
   });
 
-  it("should not update mindmap if zoom limit reached", async () => {
+  it('should not update mindmap if zoom limit reached', async () => {
     // setup state
     const state = createState();
-    const { mindmap } = state.vm.main.mindset;
+    const {mindmap} = state.vm.main.mindset;
     mindmap.viewbox.x = mindmap.viewbox.y = 0;
 
     mindmap.viewbox.scale = 0.5;
@@ -56,10 +56,10 @@ describe("animate-mindmap-zoom", () => {
 
     // setup action
     const action = {
-      type: "animate-mindmap-zoom",
+      type: 'animate-mindmap-zoom',
       data: {
         up: false,
-        viewportPos: new Point({ x: 0, y: 0 }),
+        viewportPos: new Point({x: 0, y: 0}),
         scheduleAnimationStep: cb => cb()
       }
     };
@@ -70,13 +70,13 @@ describe("animate-mindmap-zoom", () => {
     // check
     const patch = combinePatches(mutate, res);
 
-    expect(patch["update-mindmap"]).to.not.exist;
+    expect(patch['update-mindmap']).to.not.exist;
   });
 
   it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
     // setup state
     const state = createState();
-    const { mindmap } = state.vm.main.mindset;
+    const {mindmap} = state.vm.main.mindset;
 
     update(mindmap.viewbox, {
       x: 0,
@@ -97,10 +97,10 @@ describe("animate-mindmap-zoom", () => {
 
     // setup action
     const action = {
-      type: "animate-mindmap-zoom",
+      type: 'animate-mindmap-zoom',
       data: {
         up: true,
-        viewportPos: new Point({ x: 0, y: 0 }),
+        viewportPos: new Point({x: 0, y: 0}),
         scheduleAnimationStep: cb => setTimeout(cb, 100)
       }
     };
@@ -112,15 +112,15 @@ describe("animate-mindmap-zoom", () => {
     expect(dispatch.callCount).to.equal(1);
     expect(dispatch.firstCall.args).to.have.length(1);
     expect(dispatch.firstCall.args[0]).to.containSubset({
-      type: "set-mindset-position-and-scale",
+      type: 'set-mindset-position-and-scale',
       data: {
         scale: 1.5,
-        pos: { x: 0, y: 0 }
+        pos: {x: 0, y: 0}
       }
     });
   });
 
-  it("should move mindmap viewbox towards zoom point", async () => {
+  it('should move mindmap viewbox towards zoom point', async () => {
     // setup state
     //
     //  _____________
@@ -131,7 +131,7 @@ describe("animate-mindmap-zoom", () => {
     // |_____|__|___x|
     //
     const state = createState();
-    const { mindmap } = state.vm.main.mindset;
+    const {mindmap} = state.vm.main.mindset;
 
     update(mindmap.viewbox, {
       x: 50,
@@ -156,10 +156,10 @@ describe("animate-mindmap-zoom", () => {
     // and adding position of viewbox we get (150, 150) which is
     // absolute coordinates of zoom target point on canvas.
     const action = {
-      type: "animate-mindmap-zoom",
+      type: 'animate-mindmap-zoom',
       data: {
         up: true,
-        viewportPos: new Point({ x: 200, y: 200 }),
+        viewportPos: new Point({x: 200, y: 200}),
         scheduleAnimationStep: cb => setTimeout(cb, 50)
       }
     };
@@ -186,13 +186,13 @@ describe("animate-mindmap-zoom", () => {
     });
   });
 
-  describe("zoom in", () => {
+  describe('zoom in', () => {
     let patch;
 
     beforeEach(async () => {
       // setup state
       const state = createState();
-      const { mindmap } = state.vm.main.mindset;
+      const {mindmap} = state.vm.main.mindset;
 
       update(mindmap.viewbox, {
         x: 0,
@@ -213,10 +213,10 @@ describe("animate-mindmap-zoom", () => {
 
       // setup action
       const action = {
-        type: "animate-mindmap-zoom",
+        type: 'animate-mindmap-zoom',
         data: {
           up: true,
-          viewportPos: new Point({ x: 0, y: 0 }),
+          viewportPos: new Point({x: 0, y: 0}),
           scheduleAnimationStep: cb => setTimeout(cb, 50)
         }
       };
@@ -228,22 +228,22 @@ describe("animate-mindmap-zoom", () => {
       patch = combinePatches(mutate, res);
     });
 
-    it("should rise progress flag before animation", () => {
-      expect(patch["update-mindmap"][0].data).to.deep.equal({
+    it('should rise progress flag before animation', () => {
+      expect(patch['update-mindmap'][0].data).to.deep.equal({
         zoomInProgress: true
       });
     });
 
-    it("should drop progress flag after animation", () => {
-      const mutations = patch["update-mindmap"];
+    it('should drop progress flag after animation', () => {
+      const mutations = patch['update-mindmap'];
       expect(mutations[mutations.length - 1].data).to.deep.equal({
         zoomInProgress: false
       });
     });
 
-    it("should progressively increase scale", () => {
+    it('should progressively increase scale', () => {
       // collect scale mutations
-      const mutations = patch["update-mindmap"];
+      const mutations = patch['update-mindmap'];
       const scales = mutations.reduce((arr, m) => {
         // take only scale mutations
         if (m.data.viewbox && m.data.viewbox.scale) {

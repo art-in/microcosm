@@ -1,10 +1,10 @@
-const buildConfig = require("../../../../config.build");
-const serveConfig = require("../../../../config.serve");
+const buildConfig = require('../../../../config.build');
+const serveConfig = require('../../../../config.serve');
 
-const packer = require("../../../utils/packer").pack;
+const packer = require('../../../utils/packer').pack;
 
 module.exports = {
-  deps: ["build:client:bundle:clean"],
+  deps: ['build:client:bundle:clean'],
   fn: () =>
     packer({
       root: buildConfig.src.client.root,

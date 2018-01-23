@@ -1,9 +1,9 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import requiredParams from "src/utils/required-params";
+import requiredParams from 'src/utils/required-params';
 
-describe("required-params", () => {
-  it("should return proxy which NOT fail if no param were missed", () => {
+describe('required-params', () => {
+  it('should return proxy which NOT fail if no param were missed', () => {
     // setup
 
     /**
@@ -15,23 +15,23 @@ describe("required-params", () => {
      */
     function test(opts) {
       // eslint-disable-next-line no-unused-vars
-      const { reqParam1, reqParam2 } = requiredParams(opts);
+      const {reqParam1, reqParam2} = requiredParams(opts);
       // eslint-disable-next-line no-unused-vars
-      const { optParam } = opts;
+      const {optParam} = opts;
     }
 
     // target
     const result = () =>
       test({
-        reqParam1: "1",
-        reqParam2: "2"
+        reqParam1: '1',
+        reqParam2: '2'
       });
 
     // check
     expect(result).to.not.throw();
   });
 
-  it("should return proxy which fails if param was missed", () => {
+  it('should return proxy which fails if param was missed', () => {
     // setup
 
     /**
@@ -43,19 +43,19 @@ describe("required-params", () => {
      */
     function test(opts) {
       // eslint-disable-next-line no-unused-vars
-      const { reqParam1, reqParam2 } = requiredParams(opts);
+      const {reqParam1, reqParam2} = requiredParams(opts);
     }
 
     // target
 
     // @ts-ignore allow run-time check
-    const result = () => test({ reqParam1: "1" });
+    const result = () => test({reqParam1: '1'});
 
     // check
     expect(result).to.throw(`Required parameter 'reqParam2' was not specified`);
   });
 
-  it("should fail if no params object was received", () => {
+  it('should fail if no params object was received', () => {
     // setup
 
     /**
@@ -67,7 +67,7 @@ describe("required-params", () => {
      */
     function test(opts) {
       // eslint-disable-next-line no-unused-vars
-      const { reqParam1, reqParam2 } = requiredParams(opts);
+      const {reqParam1, reqParam2} = requiredParams(opts);
     }
 
     // target
@@ -79,10 +79,10 @@ describe("required-params", () => {
     expect(result).to.throw(`Invalid params object received 'undefined'`);
   });
 
-  it("should not create proxy in prod environment", () => {
+  it('should not create proxy in prod environment', () => {
     // setup
     const prevEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
+    process.env.NODE_ENV = 'production';
 
     // target
     const params = requiredParams({});

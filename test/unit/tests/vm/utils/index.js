@@ -1,4 +1,4 @@
-describe("utils", () => {
-  require("./animate.test");
-  require("./ViewModel.test");
+describe('utils', () => {
+  require('./animate.test');
+  require('./ViewModel.test');
 });

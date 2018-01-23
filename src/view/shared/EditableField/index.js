@@ -1,2 +1,2 @@
-import module from "./EditableField";
+import module from './EditableField';
 export default module;

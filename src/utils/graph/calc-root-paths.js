@@ -1,7 +1,7 @@
-import PriorityQueue from "utils/PriorityQueue";
-import isValidPathWeight from "utils/graph/is-valid-path-weight";
+import PriorityQueue from 'utils/PriorityQueue';
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
+import IVertexType from 'utils/graph/interfaces/IVertex';
 
 /**
  * Calculates minimal root paths (MRP) for each vertex in the graph.

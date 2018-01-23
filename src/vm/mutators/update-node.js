@@ -1,7 +1,7 @@
-import updateViewModel from "vm/utils/update-view-model";
+import updateViewModel from 'vm/utils/update-view-model';
 
-import StateType from "boot/client/State";
-import NodeType from "vm/map/entities/Node";
+import StateType from 'boot/client/State';
+import NodeType from 'vm/map/entities/Node';
 
 /**
  * Updates node
@@ -10,7 +10,7 @@ import NodeType from "vm/map/entities/Node";
  * @param {Partial<NodeType>} data
  */
 export default function updateNode(state, data) {
-  const { mindmap } = state.vm.main.mindset;
+  const {mindmap} = state.vm.main.mindset;
   const node = mindmap.nodes.find(n => n.id === data.id);
 
   updateViewModel(node, data);

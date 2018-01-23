@@ -1,16 +1,16 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import Mindmap from "src/vm/map/entities/Mindmap";
+import Mindmap from 'src/vm/map/entities/Mindmap';
 
-describe("Mindmap", () => {
-  require("./methods");
+describe('Mindmap', () => {
+  require('./methods');
 
-  it("should have correct constructor display name", () => {
+  it('should have correct constructor display name', () => {
     // setup
     const mindmap = new Mindmap();
 
     // check
 
-    expect(mindmap.constructor.name).to.equal("Mindmap");
+    expect(mindmap.constructor.name).to.equal('Mindmap');
   });
 });

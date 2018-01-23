@@ -1,4 +1,4 @@
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
 /**
  * Maps window (browser viewport) coordinates to coordinates on HTML element

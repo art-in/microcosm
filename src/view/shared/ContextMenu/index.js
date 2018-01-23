@@ -1,2 +1,2 @@
-import module from "./ContextMenu.connect";
+import module from './ContextMenu.connect';
 export default module;

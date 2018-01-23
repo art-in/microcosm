@@ -1,9 +1,9 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import MindmapType from "vm/map/entities/Mindmap";
-import Point from "model/entities/Point";
+import MindmapType from 'vm/map/entities/Mindmap';
+import Point from 'model/entities/Point';
 
 /**
  * Handles keydown event from mindset
@@ -16,9 +16,9 @@ import Point from "model/entities/Point";
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset } } } = state;
-  const { mindmap } = mindset;
-  const { code, ctrlKey, preventDefault } = required(data);
+  const {vm: {main: {mindset}}} = state;
+  const {mindmap} = mindset;
+  const {code, ctrlKey, preventDefault} = required(data);
 
   // TODO: fails to access mindmap on loading screen
 
@@ -28,26 +28,26 @@ export default function(state, data, dispatch) {
     mindmap.ideaFormModal.modal.active;
 
   switch (code) {
-    case "Escape":
-      dispatch({ type: "deactivate-popups" });
+    case 'Escape':
+      dispatch({type: 'deactivate-popups'});
       break;
 
-    case "ArrowDown":
-    case "ArrowUp":
-    case "ArrowLeft":
-    case "ArrowRight":
+    case 'ArrowDown':
+    case 'ArrowUp':
+    case 'ArrowLeft':
+    case 'ArrowRight':
       if (!isPopupActive) {
-        onMindmapPan({ code, mindmap, dispatch });
+        onMindmapPan({code, mindmap, dispatch});
       }
       break;
 
-    case "PageUp":
-    case "PageDown":
+    case 'PageUp':
+    case 'PageDown':
       if (!isPopupActive) {
         dispatch({
-          type: "animate-mindmap-zoom",
+          type: 'animate-mindmap-zoom',
           data: {
-            up: code === "PageUp" ? true : false,
+            up: code === 'PageUp' ? true : false,
             // zoom into center of viewport
             viewportPos: new Point({
               x: mindmap.viewport.width / 2,
@@ -58,25 +58,25 @@ export default function(state, data, dispatch) {
       }
       break;
 
-    case "Enter":
+    case 'Enter':
       if (ctrlKey && mindmap.ideaFormModal.modal.active) {
-        dispatch({ type: "on-idea-form-modal-save" });
+        dispatch({type: 'on-idea-form-modal-save'});
       }
       break;
 
-    case "KeyF":
+    case 'KeyF':
       // allow default browser search box only in case idea form opened
       // to search on idea contents, otherwise if mindmap shown, default
       // search will not be effective - use custom box for searching ideas
       if (!isPopupActive && ctrlKey) {
-        dispatch({ type: "activate-idea-search-box" });
+        dispatch({type: 'activate-idea-search-box'});
         preventDefault();
       }
       break;
 
-    case "Home":
+    case 'Home':
       if (!isPopupActive) {
-        dispatch({ type: "on-go-root-button-click" });
+        dispatch({type: 'on-go-root-button-click'});
       }
       break;
 
@@ -94,7 +94,7 @@ export default function(state, data, dispatch) {
  * @param {function} opts.dispatch
  */
 function onMindmapPan(opts) {
-  const { code, mindmap, dispatch } = opts;
+  const {code, mindmap, dispatch} = opts;
 
   let panKeyStep = 40;
 
@@ -106,22 +106,22 @@ function onMindmapPan(opts) {
   });
 
   switch (code) {
-    case "ArrowDown":
+    case 'ArrowDown':
       pos.y = pos.y + panKeyStep;
       break;
-    case "ArrowUp":
+    case 'ArrowUp':
       pos.y = pos.y - panKeyStep;
       break;
-    case "ArrowLeft":
+    case 'ArrowLeft':
       pos.x = pos.x - panKeyStep;
       break;
-    case "ArrowRight":
+    case 'ArrowRight':
       pos.x = pos.x + panKeyStep;
       break;
   }
 
   dispatch({
-    type: "set-mindset-position-and-scale",
+    type: 'set-mindset-position-and-scale',
     data: {
       mindsetId: mindmap.id,
       pos

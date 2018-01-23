@@ -1,3 +1,3 @@
-describe("entities", () => {
-  require("./Mindmap");
+describe('entities', () => {
+  require('./Mindmap');
 });

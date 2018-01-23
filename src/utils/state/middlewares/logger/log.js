@@ -1,26 +1,26 @@
-import LogEntryType from "./LogEntry";
+import LogEntryType from './LogEntry';
 
 // console style tag
-const S = "%c";
+const S = '%c';
 
 const color = {
-  gray: "color: gray;",
-  black: "color: black;",
-  red: "color: red;",
-  green: "color: green;",
-  blue: "color: blue;",
-  purple: "color: purple;",
-  orange: "color: darkorange;",
+  gray: 'color: gray;',
+  black: 'color: black;',
+  red: 'color: red;',
+  green: 'color: green;',
+  blue: 'color: blue;',
+  purple: 'color: purple;',
+  orange: 'color: darkorange;',
 
-  lightGray: "color: lightgray;",
-  lightPurple: "color: #ca6cca;",
-  lightOrange: "color: #ffab44;",
-  lightPink: "color: #ff7c93;"
+  lightGray: 'color: lightgray;',
+  lightPurple: 'color: #ca6cca;',
+  lightOrange: 'color: #ffab44;',
+  lightPink: 'color: #ff7c93;'
 };
 
 const font = {
-  normal: "font-weight: normal;",
-  bold: "font-weight: bold;"
+  normal: 'font-weight: normal;',
+  bold: 'font-weight: bold;'
 };
 
 /**
@@ -33,13 +33,13 @@ export default function(entry) {
 
   // prev state
   console.log(
-    S + "prev state".padEnd(20),
+    S + 'prev state'.padEnd(20),
     color.gray + font.bold,
     entry.prevState
   );
 
   // action
-  const actionTitle = S + "action " + S + `(${entry.perf.handler.duration} ms)`;
+  const actionTitle = S + 'action ' + S + `(${entry.perf.handler.duration} ms)`;
 
   console.log(
     actionTitle.padEnd(24),
@@ -51,7 +51,7 @@ export default function(entry) {
   // patch
   if (!entry.handlerFailed) {
     const mutationDuration = entry.patch ? entry.perf.mutation.duration : 0;
-    const patchTitle = S + "patch " + S + `(${mutationDuration} ms)`;
+    const patchTitle = S + 'patch ' + S + `(${mutationDuration} ms)`;
 
     console.log(
       patchTitle.padEnd(24),
@@ -64,7 +64,7 @@ export default function(entry) {
   // next state
   if (!entry.handlerFailed && !entry.mutationFailed) {
     console.log(
-      S + "next state".padEnd(20),
+      S + 'next state'.padEnd(20),
       color.green + font.bold,
       entry.nextState
     );
@@ -80,7 +80,7 @@ export default function(entry) {
  * @return {Array.<string>} header + styles
  */
 function getHeader(entry) {
-  const { action, perf, failed, throttledCount } = entry;
+  const {action, perf, failed, throttledCount} = entry;
 
   let failSource;
 
@@ -99,7 +99,7 @@ function getHeader(entry) {
 
   if (entry.patch) {
     hasMutations = entry.patch.length > 0;
-    targets = entry.patch.getTargets().join(", ");
+    targets = entry.patch.getTargets().join(', ');
   }
 
   if (throttled && hasMutations && !targets) {
@@ -111,7 +111,7 @@ function getHeader(entry) {
     );
   }
 
-  const childActions = entry.childActions.map(a => a.type).join(", ");
+  const childActions = entry.childActions.map(a => a.type).join(', ');
 
   // color utils
 
@@ -149,18 +149,18 @@ function getHeader(entry) {
     /* 3 */ S +
     `(${perf.dispatch.duration} ms)` +
     /* 4 */ S +
-    (failed ? ` [failed in ${failSource}]` : "");
+    (failed ? ` [failed in ${failSource}]` : '');
 
   // align optional parts
   headerPartMain = headerPartMain.padEnd(70);
 
   const headerPartOptional =
     /* 5 */ S +
-    (throttled ? `[throttled: ${throttled}]` : "").padEnd(17) +
+    (throttled ? `[throttled: ${throttled}]` : '').padEnd(17) +
     /* 6 */ S +
-    (targets ? `[targets: ${targets}]` : "").padEnd(20) +
+    (targets ? `[targets: ${targets}]` : '').padEnd(20) +
     /* 7 */ S +
-    (childActions ? `[child: ${childActions}]` : "").padEnd(30);
+    (childActions ? `[child: ${childActions}]` : '').padEnd(30);
 
   return [
     headerPartMain + headerPartOptional,

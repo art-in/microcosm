@@ -1,11 +1,11 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import Patch from "utils/state/Patch";
-import ActionType from "utils/state/Action";
-import EventEmitterType from "events";
+import Patch from 'utils/state/Patch';
+import ActionType from 'utils/state/Action';
+import EventEmitterType from 'events';
 
-import LogEntry from "./LogEntry";
-import log from "./log";
+import LogEntry from './LogEntry';
+import log from './log';
 
 const THROTTLING_ENABLED = true;
 const DEFAULT_TROTTLE_DELAY = 1000;
@@ -69,7 +69,7 @@ function throttleLogDispatch(state, events, action) {
       const lastDispatchTime = throttleState.lastTime;
       elapsed = performance.now() - lastDispatchTime;
       delay =
-        typeof action.throttleLog === "number"
+        typeof action.throttleLog === 'number'
           ? action.throttleLog
           : DEFAULT_TROTTLE_DELAY;
     }
@@ -100,8 +100,8 @@ function logDispatch(state, events, throttledCount) {
   /** @type {LogEntry} */
   let entry = null;
 
-  events.on("before-dispatch", opts => {
-    const { state, action } = required(opts);
+  events.on('before-dispatch', opts => {
+    const {state, action} = required(opts);
 
     entry = new LogEntry();
 
@@ -111,8 +111,8 @@ function logDispatch(state, events, throttledCount) {
     entry.perf.dispatch.start = performance.now();
   });
 
-  events.on("after-dispatch", opts => {
-    const { state } = required(opts);
+  events.on('after-dispatch', opts => {
+    const {state} = required(opts);
 
     entry.perf.dispatch.end = performance.now();
     entry.nextState = state;
@@ -120,21 +120,21 @@ function logDispatch(state, events, throttledCount) {
     log(entry);
   });
 
-  events.on("before-handler", () => {
+  events.on('before-handler', () => {
     entry.perf.handler.start = performance.now();
   });
 
-  events.on("after-handler", () => {
+  events.on('after-handler', () => {
     entry.perf.handler.end = performance.now();
   });
 
-  events.on("child-action", opts => {
-    const { action } = required(opts);
+  events.on('child-action', opts => {
+    const {action} = required(opts);
     entry.childActions.push(action);
   });
 
-  events.on("handler-fail", opts => {
-    const { error } = required(opts);
+  events.on('handler-fail', opts => {
+    const {error} = required(opts);
 
     entry.perf.handler.end = performance.now();
     entry.perf.dispatch.end = performance.now();
@@ -144,8 +144,8 @@ function logDispatch(state, events, throttledCount) {
     log(entry);
   });
 
-  events.on("before-mutation", opts => {
-    const { patch } = required(opts);
+  events.on('before-mutation', opts => {
+    const {patch} = required(opts);
 
     entry.patch = entry.patch ? Patch.combine(entry.patch, patch) : patch;
 
@@ -154,12 +154,12 @@ function logDispatch(state, events, throttledCount) {
     entry.perf.mutation.start = performance.now();
   });
 
-  events.on("after-mutation", () => {
+  events.on('after-mutation', () => {
     entry.perf.mutation.end = performance.now();
   });
 
-  events.on("mutation-fail", opts => {
-    const { error } = required(opts);
+  events.on('mutation-fail', opts => {
+    const {error} = required(opts);
 
     entry.perf.mutation.end = performance.now();
     entry.perf.dispatch.end = performance.now();

@@ -1,2 +1,2 @@
-import module from "./Mindmap";
+import module from './Mindmap';
 export default module;

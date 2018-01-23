@@ -1,35 +1,35 @@
-import { expect } from "chai";
-import { spy } from "sinon";
+import {expect} from 'chai';
+import {spy} from 'sinon';
 
-import { timer } from "test/utils";
+import {timer} from 'test/utils';
 
-import AsyncTaskQueue from "src/utils/AsyncTaskQueue";
+import AsyncTaskQueue from 'src/utils/AsyncTaskQueue';
 
-describe("AsyncTaskQueue", () => {
-  describe(".enqueue()", () => {
-    it("should execute sync tasks sequentially", async () => {
+describe('AsyncTaskQueue', () => {
+  describe('.enqueue()', () => {
+    it('should execute sync tasks sequentially', async () => {
       // setup
       const queue = new AsyncTaskQueue();
       const seq = [];
 
-      const task1 = () => seq.push("task 1");
-      const task2 = () => seq.push("task 2");
+      const task1 = () => seq.push('task 1');
+      const task2 = () => seq.push('task 2');
 
       // target
       queue.enqueue(task1);
       await queue.enqueue(task2);
 
       // check
-      expect(seq).to.deep.equal(["task 1", "task 2"]);
+      expect(seq).to.deep.equal(['task 1', 'task 2']);
     });
 
-    it("should execute sync tasks separately", async () => {
+    it('should execute sync tasks separately', async () => {
       // setup
       const queue = new AsyncTaskQueue();
       const seq = [];
 
-      const task1 = () => seq.push("task 1");
-      const task2 = () => seq.push("task 2");
+      const task1 = () => seq.push('task 1');
+      const task2 = () => seq.push('task 2');
 
       // target
       queue.enqueue(task1);
@@ -38,24 +38,24 @@ describe("AsyncTaskQueue", () => {
       // check
       // no 'task 2' since it will be called
       // in next event loop step
-      expect(seq).to.deep.equal(["task 1"]);
+      expect(seq).to.deep.equal(['task 1']);
     });
 
-    it("should execute async tasks sequentially", async () => {
+    it('should execute async tasks sequentially', async () => {
       // setup
       const queue = new AsyncTaskQueue();
       const seq = [];
 
       const task1 = async () => {
-        seq.push("task 1 start");
+        seq.push('task 1 start');
         await timer(0);
-        seq.push("task 1 end");
+        seq.push('task 1 end');
       };
 
       const task2 = async () => {
-        seq.push("task 2 start");
+        seq.push('task 2 start');
         await timer(0);
-        seq.push("task 2 end");
+        seq.push('task 2 end');
       };
 
       // target
@@ -64,30 +64,30 @@ describe("AsyncTaskQueue", () => {
 
       // check
       expect(seq).to.deep.equal([
-        "task 1 start",
-        "task 1 end",
-        "task 2 start",
-        "task 2 end"
+        'task 1 start',
+        'task 1 end',
+        'task 2 start',
+        'task 2 end'
       ]);
     });
 
-    it("should execute mix of sync and async tasks", async () => {
+    it('should execute mix of sync and async tasks', async () => {
       // setup
       const queue = new AsyncTaskQueue();
       const seq = [];
 
       const task1 = async () => {
-        seq.push("task 1 start");
+        seq.push('task 1 start');
         await timer(0);
-        seq.push("task 1 end");
+        seq.push('task 1 end');
       };
 
-      const task2 = () => seq.push("task 2");
+      const task2 = () => seq.push('task 2');
 
       const task3 = async () => {
-        seq.push("task 3 start");
+        seq.push('task 3 start');
         await timer(0);
-        seq.push("task 3 end");
+        seq.push('task 3 end');
       };
 
       // target
@@ -97,30 +97,30 @@ describe("AsyncTaskQueue", () => {
 
       // check
       expect(seq).to.deep.equal([
-        "task 1 start",
-        "task 1 end",
-        "task 2",
-        "task 3 start",
-        "task 3 end"
+        'task 1 start',
+        'task 1 end',
+        'task 2',
+        'task 3 start',
+        'task 3 end'
       ]);
     });
 
-    it("should return task results", async () => {
+    it('should return task results', async () => {
       // setup
       const queue = new AsyncTaskQueue();
       const seq = [];
 
       const task1 = async () => {
-        seq.push("task 1 start");
+        seq.push('task 1 start');
         await timer(0);
-        seq.push("task 1 end");
+        seq.push('task 1 end');
         return 1;
       };
 
       const task2 = async () => {
-        seq.push("task 2 start");
+        seq.push('task 2 start');
         await timer(0);
-        seq.push("task 2 end");
+        seq.push('task 2 end');
         return 2;
       };
 
@@ -138,16 +138,16 @@ describe("AsyncTaskQueue", () => {
       await promise2;
 
       expect(seq).to.deep.equal([
-        "task 1 start",
-        "task 1 end",
-        "task 1 result 1",
-        "task 2 start",
-        "task 2 end",
-        "task 2 result 2"
+        'task 1 start',
+        'task 1 end',
+        'task 1 result 1',
+        'task 2 start',
+        'task 2 end',
+        'task 2 result 2'
       ]);
     });
 
-    it("should return promise", async () => {
+    it('should return promise', async () => {
       // setup
       const queue = new AsyncTaskQueue();
 
@@ -163,7 +163,7 @@ describe("AsyncTaskQueue", () => {
       expect(result2).to.be.instanceOf(Promise);
     });
 
-    it("should reject promises of failed sync tasks", async () => {
+    it('should reject promises of failed sync tasks', async () => {
       // setup
       const queue = new AsyncTaskQueue();
 
@@ -190,7 +190,7 @@ describe("AsyncTaskQueue", () => {
       expect(promise2ResultHandler.callCount).to.equal(1);
     });
 
-    it("should reject promises of failed async tasks", async () => {
+    it('should reject promises of failed async tasks', async () => {
       // setup
       const queue = new AsyncTaskQueue();
 

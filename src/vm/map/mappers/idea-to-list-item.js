@@ -1,10 +1,10 @@
-import IdeaType from "model/entities/Idea";
-import MindsetType from "model/entities/Mindset";
+import IdeaType from 'model/entities/Idea';
+import MindsetType from 'model/entities/Mindset';
 
-import IdeaListItem from "vm/shared/IdeaListItem";
-import getRootPathForParent from "action/utils/get-idea-parent-root-path";
-import getRootPath from "action/utils/get-idea-root-path";
-import getIdeaColor from "action/utils/get-idea-color";
+import IdeaListItem from 'vm/shared/IdeaListItem';
+import getRootPathForParent from 'action/utils/get-idea-parent-root-path';
+import getRootPath from 'action/utils/get-idea-root-path';
+import getIdeaColor from 'action/utils/get-idea-color';
 
 /**
  * Maps idea model to list item view model

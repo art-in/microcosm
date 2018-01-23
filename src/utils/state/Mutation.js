@@ -1,4 +1,4 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
 /**
  * Single mutation which can be applied to state

@@ -1,16 +1,16 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import clone from "clone";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import clone from 'clone';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
-import animate from "vm/utils/animate";
-import getViewboxSize from "vm/map/entities/Mindmap/methods/get-viewbox-size";
-import getMindmapScaleForNode from "vm/map/utils/get-mindmap-scale-for-node";
-import getNodeScaleForWeight from "vm/map/utils/get-node-scale-for-weight";
-import getIdea from "action/utils/get-idea";
+import animate from 'vm/utils/animate';
+import getViewboxSize from 'vm/map/entities/Mindmap/methods/get-viewbox-size';
+import getMindmapScaleForNode from 'vm/map/utils/get-mindmap-scale-for-node';
+import getNodeScaleForWeight from 'vm/map/utils/get-node-scale-for-weight';
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Animates mindmap viewbox to idea
@@ -23,9 +23,9 @@ import getIdea from "action/utils/get-idea";
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-  const { model: { mindset }, vm: { main: { mindset: { mindmap } } } } = state;
-  const { ideaId } = required(data);
-  const { scheduleAnimationStep } = data;
+  const {model: {mindset}, vm: {main: {mindset: {mindmap}}}} = state;
+  const {ideaId} = required(data);
+  const {scheduleAnimationStep} = data;
 
   const idea = getIdea(mindset, ideaId);
 
@@ -77,12 +77,12 @@ export default async function(state, data, dispatch, mutate) {
       viewbox.x = viewboxCenterX - viewbox.width / 2;
       viewbox.y = viewboxCenterY - viewbox.height / 2;
 
-      await mutate(view("update-mindmap", { viewbox }));
+      await mutate(view('update-mindmap', {viewbox}));
     }
   });
 
   await dispatch({
-    type: "set-mindset-position-and-scale",
+    type: 'set-mindset-position-and-scale',
     data: {
       mindsetId: mindmap.id,
       scale: mindmap.viewbox.scale,

@@ -1,21 +1,21 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import Idea from "src/model/entities/Idea";
-import Association from "src/model/entities/Association";
+import Idea from 'src/model/entities/Idea';
+import Association from 'src/model/entities/Association';
 
-import buildGraphFromMatrix from "src/utils/graph/build-graph-from-matrix";
+import buildGraphFromMatrix from 'src/utils/graph/build-graph-from-matrix';
 
-describe("build-graph-from-matrix", () => {
-  it("should build graph", () => {
+describe('build-graph-from-matrix', () => {
+  it('should build graph', () => {
     // setup
     const matrix = [
       //       A B
-      /* A */ "0 1",
-      /* B */ "0 0"
+      /* A */ '0 1',
+      /* B */ '0 0'
     ];
 
     // target
-    const { root, vertices, edges } = buildGraphFromMatrix({
+    const {root, vertices, edges} = buildGraphFromMatrix({
       matrix,
       VertexConstructor: Idea,
       EdgeConstructor: Association
@@ -32,9 +32,9 @@ describe("build-graph-from-matrix", () => {
     vertices.forEach(n => expect(n).to.be.instanceOf(Idea));
     edges.forEach(l => expect(l).to.be.instanceOf(Association));
 
-    const ideaA = vertices.find(n => n.id === "A");
-    const ideaB = vertices.find(n => n.id === "B");
-    const assocAtoB = edges.find(l => l.id === "A to B");
+    const ideaA = vertices.find(n => n.id === 'A');
+    const ideaB = vertices.find(n => n.id === 'B');
+    const assocAtoB = edges.find(l => l.id === 'A to B');
 
     expect(ideaA).to.exist;
     expect(ideaB).to.exist;
@@ -55,17 +55,17 @@ describe("build-graph-from-matrix", () => {
     expect(assocAtoB.weight).to.equal(1);
   });
 
-  it("should allow fraction weights", () => {
+  it('should allow fraction weights', () => {
     // setup
     const matrix = [
       //       A   B    C
-      /* A */ "0   0    0",
-      /* B */ "0   0    0",
-      /* C */ "0   0.5  0"
+      /* A */ '0   0    0',
+      /* B */ '0   0    0',
+      /* C */ '0   0.5  0'
     ];
 
     // target
-    const { vertices, edges } = buildGraphFromMatrix({
+    const {vertices, edges} = buildGraphFromMatrix({
       matrix,
       VertexConstructor: Idea,
       EdgeConstructor: Association
@@ -75,14 +75,14 @@ describe("build-graph-from-matrix", () => {
     expect(vertices).to.have.length(3);
     expect(edges).to.have.length(1);
 
-    const assocCtoB = edges.find(l => l.id === "C to B");
+    const assocCtoB = edges.find(l => l.id === 'C to B');
 
     expect(assocCtoB).to.exist;
     expect(assocCtoB.weight).to.equal(0.5);
   });
 
-  it("should fail when number of vertices is over limit", () => {
-    const matrix = Array(27).fill("");
+  it('should fail when number of vertices is over limit', () => {
+    const matrix = Array(27).fill('');
 
     const result = () =>
       buildGraphFromMatrix({
@@ -91,14 +91,14 @@ describe("build-graph-from-matrix", () => {
         EdgeConstructor: Association
       });
 
-    expect(result).to.throw("Invalid matrix. Too much vertices (>26)");
+    expect(result).to.throw('Invalid matrix. Too much vertices (>26)');
   });
 
-  it("should fail on invalid columns/rows number", () => {
+  it('should fail on invalid columns/rows number', () => {
     const matrix = [
       //       A B C
-      /* A */ "0 1 1",
-      /* B */ "0 0 1"
+      /* A */ '0 1 1',
+      /* B */ '0 0 1'
     ];
 
     const result = () =>
@@ -113,11 +113,11 @@ describe("build-graph-from-matrix", () => {
     );
   });
 
-  it("should fail on invalid edge weight", () => {
+  it('should fail on invalid edge weight', () => {
     const matrix = [
       //       A B
-      /* A */ "0 X",
-      /* B */ "0 0"
+      /* A */ '0 X',
+      /* B */ '0 0'
     ];
 
     const result = () =>
@@ -130,11 +130,11 @@ describe("build-graph-from-matrix", () => {
     expect(result).to.throw(`Invalid outgoing edge weight 'X' for vertex 'A'`);
   });
 
-  it("should fail on self loops", () => {
+  it('should fail on self loops', () => {
     const matrix = [
       //       A B
-      /* A */ "1 1",
-      /* B */ "0 0"
+      /* A */ '1 1',
+      /* B */ '0 0'
     ];
 
     const result = () =>
@@ -150,12 +150,12 @@ describe("build-graph-from-matrix", () => {
     );
   });
 
-  it("should fail on mutual edges", () => {
+  it('should fail on mutual edges', () => {
     const matrix = [
       //       A B C
-      /* A */ "0 1 1",
-      /* B */ "0 0 1",
-      /* C */ "0 1 0"
+      /* A */ '0 1 1',
+      /* B */ '0 0 1',
+      /* C */ '0 1 0'
     ];
 
     const result = () =>
@@ -170,11 +170,11 @@ describe("build-graph-from-matrix", () => {
     );
   });
 
-  it("should fail on edges to root", () => {
+  it('should fail on edges to root', () => {
     const matrix = [
       //       A B
-      /* A */ "0 0",
-      /* B */ "1 0"
+      /* A */ '0 0',
+      /* B */ '1 0'
     ];
 
     const result = () =>

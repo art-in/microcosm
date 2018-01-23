@@ -1,4 +1,4 @@
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
 /**
  * Maps viewbox coordinates to viewport coordinates
@@ -11,5 +11,5 @@ export default function(viewboxPos, viewbox) {
   const x = viewboxPos.x * viewbox.scale;
   const y = viewboxPos.y * viewbox.scale;
 
-  return new Point({ x, y });
+  return new Point({x, y});
 }

@@ -1,6 +1,6 @@
-import Patch from "./Patch";
+import Patch from './Patch';
 
-import ActionType from "./Action";
+import ActionType from './Action';
 
 /**
  * Collection of registered action handlers
@@ -40,7 +40,7 @@ export default class Handler {
       throw Error(`Action '${type}' already has registered handler`);
     }
 
-    this._handlers.push({ type, handler });
+    this._handlers.push({type, handler});
   }
 
   /**
@@ -64,7 +64,7 @@ export default class Handler {
    *                                if handler is sync - sync patch.
    */
   handle(state, action, dispatch, mutate) {
-    const { type, data } = action;
+    const {type, data} = action;
 
     const handlerDescriptor = this._handlers.find(ah => ah.type === type);
 

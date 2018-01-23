@@ -1,7 +1,7 @@
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
-import Popup from "./Popup";
-import Lookup from "./Lookup";
+import Popup from './Popup';
+import Lookup from './Lookup';
 
 /**
  * Lookup popup
@@ -35,6 +35,6 @@ export default class LookupPopup extends ViewModel {
     super();
 
     this.popup = new Popup();
-    this.lookup = new Lookup({ placeholder });
+    this.lookup = new Lookup({placeholder});
   }
 }

@@ -1,3 +1,3 @@
 module.exports = {
-  deps: ["build:misc", "build:server", "build:client"]
+  deps: ['build:misc', 'build:server', 'build:client']
 };

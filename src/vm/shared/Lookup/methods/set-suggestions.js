@@ -1,5 +1,5 @@
-import LookupType from "vm/shared/Lookup";
-import LookupSuggestionType from "vm/shared/LookupSuggestion";
+import LookupType from 'vm/shared/Lookup';
+import LookupSuggestionType from 'vm/shared/LookupSuggestion';
 
 /**
  * Sets suggestions to lookup

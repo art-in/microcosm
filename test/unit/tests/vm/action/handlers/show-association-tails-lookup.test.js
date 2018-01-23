@@ -1,41 +1,41 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import Point from "src/model/entities/Point";
-import LookupSuggestion from "src/vm/shared/LookupSuggestion";
+import Point from 'src/model/entities/Point';
+import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
-import handler from "src/vm/action/handler";
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe("show-association-tails-lookup", () => {
-  it("should hide context menu", () => {
+describe('show-association-tails-lookup', () => {
+  it('should hide context menu', () => {
     // target
     const patch = handle(null, {
-      type: "show-association-tails-lookup",
+      type: 'show-association-tails-lookup',
       data: {
-        viewportPos: new Point({ x: 0, y: 0 }),
-        headIdeaId: "idea"
+        viewportPos: new Point({x: 0, y: 0}),
+        headIdeaId: 'idea'
       }
     });
 
     // check
-    expect(patch["update-context-menu"]).to.have.length(1);
-    expect(patch["update-context-menu"][0].data).to.deep.equal({
-      popup: { active: false }
+    expect(patch['update-context-menu']).to.have.length(1);
+    expect(patch['update-context-menu'][0].data).to.deep.equal({
+      popup: {active: false}
     });
   });
 
-  it("should show lookup in certain position", () => {
+  it('should show lookup in certain position', () => {
     // target
     const patch = handle(null, {
-      type: "show-association-tails-lookup",
+      type: 'show-association-tails-lookup',
       data: {
-        viewportPos: new Point({ x: 100, y: 200 }),
-        headIdeaId: "idea"
+        viewportPos: new Point({x: 100, y: 200}),
+        headIdeaId: 'idea'
       }
     });
 
     // check
-    const lookupMutations = patch["update-association-tails-lookup"];
+    const lookupMutations = patch['update-association-tails-lookup'];
     expect(lookupMutations).to.have.length(1);
 
     expect(lookupMutations[0].data).to.containSubset({
@@ -52,30 +52,30 @@ describe("show-association-tails-lookup", () => {
   it(`should set on-select action getter`, () => {
     // setup
     const patch = handle(null, {
-      type: "show-association-tails-lookup",
+      type: 'show-association-tails-lookup',
       data: {
-        viewportPos: new Point({ x: 100, y: 200 }),
-        headIdeaId: "head idea"
+        viewportPos: new Point({x: 100, y: 200}),
+        headIdeaId: 'head idea'
       }
     });
 
-    const lookupMutation = patch["update-association-tails-lookup"][0];
-    const { data: { lookup: { onSelectAction } } } = lookupMutation;
+    const lookupMutation = patch['update-association-tails-lookup'][0];
+    const {data: {lookup: {onSelectAction}}} = lookupMutation;
 
     // target
     const action = onSelectAction({
       suggestion: new LookupSuggestion({
-        displayName: "idea",
-        data: { ideaId: "tail idea" }
+        displayName: 'idea',
+        data: {ideaId: 'tail idea'}
       })
     });
 
     // check
     expect(action).to.containSubset({
-      type: "create-cross-association",
+      type: 'create-cross-association',
       data: {
-        headIdeaId: "head idea",
-        tailIdeaId: "tail idea"
+        headIdeaId: 'head idea',
+        tailIdeaId: 'tail idea'
       }
     });
   });
@@ -83,45 +83,45 @@ describe("show-association-tails-lookup", () => {
   it(`should set on-phrase-change action getter`, () => {
     // setup
     const patch = handle(null, {
-      type: "show-association-tails-lookup",
+      type: 'show-association-tails-lookup',
       data: {
-        viewportPos: new Point({ x: 100, y: 200 }),
-        headIdeaId: "head idea"
+        viewportPos: new Point({x: 100, y: 200}),
+        headIdeaId: 'head idea'
       }
     });
 
-    const lookupMutation = patch["update-association-tails-lookup"][0];
-    const { data: { lookup: { onPhraseChangeAction } } } = lookupMutation;
+    const lookupMutation = patch['update-association-tails-lookup'][0];
+    const {data: {lookup: {onPhraseChangeAction}}} = lookupMutation;
 
     // target
     const action = onPhraseChangeAction({
-      phrase: "phrase"
+      phrase: 'phrase'
     });
 
     // check
     expect(action).to.containSubset({
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        headIdeaId: "head idea",
-        phrase: "phrase"
+        headIdeaId: 'head idea',
+        phrase: 'phrase'
       }
     });
   });
 
-  it("should target only vm and view state layers", () => {
+  it('should target only vm and view state layers', () => {
     // target
     const patch = handle(null, {
-      type: "show-association-tails-lookup",
+      type: 'show-association-tails-lookup',
       data: {
-        viewportPos: new Point({ x: 100, y: 200 }),
-        headIdeaId: "idea"
+        viewportPos: new Point({x: 100, y: 200}),
+        headIdeaId: 'idea'
       }
     });
 
     // check
-    expect(patch.hasTarget("data")).to.be.false;
-    expect(patch.hasTarget("model")).to.be.false;
-    expect(patch.hasTarget("vm")).to.be.true;
-    expect(patch.hasTarget("view")).to.be.true;
+    expect(patch.hasTarget('data')).to.be.false;
+    expect(patch.hasTarget('model')).to.be.false;
+    expect(patch.hasTarget('vm')).to.be.true;
+    expect(patch.hasTarget('view')).to.be.true;
   });
 });

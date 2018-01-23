@@ -1,8 +1,8 @@
-import debounce from "debounce";
+import debounce from 'debounce';
 
-import LookupType from "vm/shared/Lookup";
+import LookupType from 'vm/shared/Lookup';
 
-import clearLookup from "./clear-lookup";
+import clearLookup from './clear-lookup';
 
 /**
  * Handles phrase change event from lookup
@@ -14,12 +14,12 @@ import clearLookup from "./clear-lookup";
  * @return {Partial<LookupType>} update object
  */
 export default function onPhraseChange(opts) {
-  const { phrase, lookup, onPhraseChangeAction } = opts;
+  const {phrase, lookup, onPhraseChangeAction} = opts;
 
   let update = null;
 
   if (phrase) {
-    const action = lookup.onPhraseChangeAction({ phrase });
+    const action = lookup.onPhraseChangeAction({phrase});
     callDebounced(onPhraseChangeAction, action);
 
     update = {

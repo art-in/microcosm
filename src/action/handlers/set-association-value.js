@@ -1,9 +1,9 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import getAssociation from "action/utils/get-association";
+import getAssociation from 'action/utils/get-association';
 
 /**
  * Sets association value
@@ -15,8 +15,8 @@ import getAssociation from "action/utils/get-association";
  * @return {Patch|undefined}
  */
 export default function setAssociationValue(state, data) {
-  const { model: { mindset } } = state;
-  const { assocId, value } = required(data);
+  const {model: {mindset}} = state;
+  const {assocId, value} = required(data);
 
   const assoc = getAssociation(mindset, assocId);
 
@@ -25,7 +25,7 @@ export default function setAssociationValue(state, data) {
     return;
   }
 
-  return new Patch("update-association", {
+  return new Patch('update-association', {
     id: assocId,
     value
   });

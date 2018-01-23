@@ -1,7 +1,7 @@
-import updateViewModel from "vm/utils/update-view-model";
+import updateViewModel from 'vm/utils/update-view-model';
 
-import StateType from "boot/client/State";
-import IdeaFormModalType from "vm/shared/IdeaFormModal";
+import StateType from 'boot/client/State';
+import IdeaFormModalType from 'vm/shared/IdeaFormModal';
 
 /**
  * Updates idea form modal
@@ -10,7 +10,7 @@ import IdeaFormModalType from "vm/shared/IdeaFormModal";
  * @param {Partial<IdeaFormModalType>} data
  */
 export default function(state, data) {
-  const { ideaFormModal } = state.vm.main.mindset.mindmap;
+  const {ideaFormModal} = state.vm.main.mindset.mindmap;
 
   updateViewModel(ideaFormModal, data);
 }

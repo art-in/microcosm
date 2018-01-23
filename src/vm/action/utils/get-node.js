@@ -1,5 +1,5 @@
-import MindmapType from "vm/map/entities/Mindmap";
-import NodeType from "vm/map/entities/Node";
+import MindmapType from 'vm/map/entities/Mindmap';
+import NodeType from 'vm/map/entities/Node';
 
 /**
  * Gets node by ID

@@ -1,9 +1,9 @@
-import MindsetType from "model/entities/Mindset";
+import MindsetType from 'model/entities/Mindset';
 
-import toModel from "data/mappers/dbo-to-mindset";
-import toDbo from "data/mappers/mindset-to-dbo";
+import toModel from 'data/mappers/dbo-to-mindset';
+import toDbo from 'data/mappers/mindset-to-dbo';
 
-import isEmptyDbo from "data/utils/is-empty-dbo";
+import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets mindset
@@ -22,7 +22,7 @@ export async function get(db, mindsetId) {
  * @return {Promise.<Array.<MindsetType>>}
  */
 export async function getAll(db) {
-  const data = await db.allDocs({ include_docs: true });
+  const data = await db.allDocs({include_docs: true});
 
   const items = data.rows.map(i => i.doc).map(dbo => toModel(dbo));
 

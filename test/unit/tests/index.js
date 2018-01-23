@@ -1,11 +1,11 @@
-require("./action");
+require('./action');
 
-require("./data");
+require('./data');
 
-require("./model");
+require('./model');
 
-require("./utils");
+require('./utils');
 
-require("./view");
+require('./view');
 
-require("./vm");
+require('./vm');

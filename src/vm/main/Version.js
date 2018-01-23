@@ -1,5 +1,5 @@
-import initProps from "utils/init-props";
-import ViewModel from "vm/utils/ViewModel";
+import initProps from 'utils/init-props';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * Version mark view model

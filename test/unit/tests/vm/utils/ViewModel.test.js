@@ -1,11 +1,11 @@
-import { spy, stub } from "sinon";
-import { expect } from "test/utils";
+import {spy, stub} from 'sinon';
+import {expect} from 'test/utils';
 
-import ViewModel from "src/vm/utils/ViewModel";
+import ViewModel from 'src/vm/utils/ViewModel';
 
-describe("ViewModel", () => {
-  describe(".emitChange()", () => {
-    it("should execute event handlers", () => {
+describe('ViewModel', () => {
+  describe('.emitChange()', () => {
+    it('should execute event handlers', () => {
       // setup
       class TestVM extends ViewModel {}
 
@@ -23,9 +23,9 @@ describe("ViewModel", () => {
       expect(handler.firstCall.args).to.deep.equal([1, 2, 3]);
     });
 
-    it("should warn if no handler was found", () => {
+    it('should warn if no handler was found', () => {
       // setup
-      const consoleWarn = stub(console, "warn");
+      const consoleWarn = stub(console, 'warn');
 
       // setup
       class TestVM extends ViewModel {}
@@ -46,8 +46,8 @@ describe("ViewModel", () => {
     });
   });
 
-  describe(".subscribe()", () => {
-    it("should fail on duplicate change subscriptions", () => {
+  describe('.subscribe()', () => {
+    it('should fail on duplicate change subscriptions', () => {
       // setup
       class TestVM extends ViewModel {}
       const vm = new TestVM();
@@ -64,10 +64,10 @@ describe("ViewModel", () => {
     });
   });
 
-  describe(".unsubscribe()", () => {
-    it("should remove handler subscription", () => {
+  describe('.unsubscribe()', () => {
+    it('should remove handler subscription', () => {
       // setup
-      const consoleWarn = stub(console, "warn");
+      const consoleWarn = stub(console, 'warn');
 
       class TestVM extends ViewModel {}
 

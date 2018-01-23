@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import cx from "classnames";
-import icons from "font-awesome/css/font-awesome.css";
+import React, {Component} from 'react';
+import cx from 'classnames';
+import icons from 'font-awesome/css/font-awesome.css';
 
-import IconType from "vm/shared/Icon";
-import IconSize from "vm/shared/IconSize";
+import IconType from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
 
-import mapIcon from "view/utils/map-icon";
-import mapIconSize from "view/utils/map-icon-size";
+import mapIcon from 'view/utils/map-icon';
+import mapIconSize from 'view/utils/map-icon-size';
 
-import classes from "./Icon.css";
+import classes from './Icon.css';
 
 /**
  * @typedef {object} Props
@@ -27,7 +27,7 @@ export default class IconButton extends Component {
   };
 
   render() {
-    const { className, tooltip, icon, size, ...other } = this.props;
+    const {className, tooltip, icon, size, ...other} = this.props;
 
     return (
       <span

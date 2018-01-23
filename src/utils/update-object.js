@@ -1,4 +1,4 @@
-import noop from "utils/noop";
+import noop from 'utils/noop';
 
 /**
  * Updates object props deeply and safely
@@ -51,7 +51,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
 
     // hack-fix js types
     const getType = val =>
-      val === null ? "null" : Array.isArray(val) ? "array" : typeof val;
+      val === null ? 'null' : Array.isArray(val) ? 'array' : typeof val;
 
     const targetType = getType(targetValue);
     const sourceType = getType(sourceValue);
@@ -73,7 +73,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
     }
 
     // apply update
-    if (targetType === "array" && sourceType === "array") {
+    if (targetType === 'array' && sourceType === 'array') {
       // do not allow changing type of array items
       if (targetValue.length && sourceValue.length) {
         const targetItemValue = targetValue[0];
@@ -93,8 +93,8 @@ export default function updateObject(target, source, shouldUpdate = noop) {
 
         // check constructor of object items
         if (
-          targetItemType === "object" &&
-          sourceItemType === "object" &&
+          targetItemType === 'object' &&
+          sourceItemType === 'object' &&
           targetItemValue.constructor !== sourceItemValue.constructor
         ) {
           throw Error(
@@ -108,7 +108,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
 
       // replace array
       target[prop] = sourceValue;
-    } else if (targetType === "object" && sourceType === "object") {
+    } else if (targetType === 'object' && sourceType === 'object') {
       // check object constructor.
       // allow source constructor to be genenic object (simple patch).
       if (

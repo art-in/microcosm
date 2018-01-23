@@ -1,7 +1,7 @@
-import initProps from "utils/init-props";
-import createID from "utils/create-id";
+import initProps from 'utils/init-props';
+import createID from 'utils/create-id';
 
-import IdeaType from "./Idea";
+import IdeaType from './Idea';
 
 /**
  * Association model

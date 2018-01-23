@@ -21,7 +21,7 @@ export default function regMutatorsFolder(context) {
     if (mutators[type]) {
       throw Error(`Mutation '${type}' already has registered handler`);
     }
-    if (type !== "index") {
+    if (type !== 'index') {
       mutators[type] = module.default;
     }
   });

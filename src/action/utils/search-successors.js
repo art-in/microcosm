@@ -1,8 +1,8 @@
-import getIdea from "./get-idea";
-import searchIdeas from "./search-ideas";
+import getIdea from './get-idea';
+import searchIdeas from './search-ideas';
 
-import IdeaType from "model/entities/Idea";
-import MindsetType from "model/entities/Mindset";
+import IdeaType from 'model/entities/Idea';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Searches ideas that potentially can be successors for target idea
@@ -14,7 +14,7 @@ import MindsetType from "model/entities/Mindset";
  * @return {Array.<IdeaType>}
  */
 export default function searchSuccessors(mindset, opts) {
-  const { ideaId, phrase } = opts;
+  const {ideaId, phrase} = opts;
 
   const headIdea = getIdea(mindset, ideaId);
 
@@ -34,5 +34,5 @@ export default function searchSuccessors(mindset, opts) {
   // exclude root idea
   excludeIds.push(mindset.root.id);
 
-  return searchIdeas(mindset, { phrase, excludeIds });
+  return searchIdeas(mindset, {phrase, excludeIds});
 }

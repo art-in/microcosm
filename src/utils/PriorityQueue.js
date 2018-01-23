@@ -29,7 +29,7 @@ export default class PriorityQueue {
     const idx = binarySearchIndex(this._entries, priority);
 
     // add entry
-    const entry = { item, priority };
+    const entry = {item, priority};
     this._entries.splice(idx, 0, entry);
 
     this._items.add(item);
@@ -71,7 +71,7 @@ export default class PriorityQueue {
    */
   extractMin() {
     if (this._entries.length === 0) {
-      throw Error("Failed to extract from empty queue");
+      throw Error('Failed to extract from empty queue');
     }
 
     // extract item (time - O(1))

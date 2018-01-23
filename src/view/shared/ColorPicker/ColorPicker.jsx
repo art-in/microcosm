@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import ColorPickerVmType from "vm/shared/ColorPicker";
+import ColorPickerVmType from 'vm/shared/ColorPicker';
 
-import classes from "./ColorPicker.css";
+import classes from './ColorPicker.css';
 
-const DEFAULT_COLOR = "#000000";
+const DEFAULT_COLOR = '#000000';
 
 /**
  * @typedef {object} Props
@@ -24,15 +24,15 @@ export default class ColorPicker extends Component {
     // need to manually subscribe to 'change' event since react 'onChange'
     // handler really sets handler for 'input' event, which happens too
     // frequently
-    this.input.addEventListener("change", this.onChange);
+    this.input.addEventListener('change', this.onChange);
   }
 
   componentWillUnmount() {
-    this.input.removeEventListener("change", this.onChange);
+    this.input.removeEventListener('change', this.onChange);
   }
 
   forcePicker() {
-    const { picker } = this.props;
+    const {picker} = this.props;
 
     if (picker.active) {
       // Q: why set initial value manually and not in render?
@@ -52,7 +52,7 @@ export default class ColorPicker extends Component {
 
   onChange = nativeEvent => {
     const color = nativeEvent.currentTarget.value;
-    this.props.onChange({ color });
+    this.props.onChange({color});
   };
 
   render() {

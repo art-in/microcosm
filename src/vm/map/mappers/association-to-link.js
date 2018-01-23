@@ -1,5 +1,5 @@
-import Link from "vm/map/entities/Link";
-import AssociationType from "model/entities/Association";
+import Link from 'vm/map/entities/Link';
+import AssociationType from 'model/entities/Association';
 
 /**
  * Maps association model to link view model

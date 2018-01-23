@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import classes from "./Text.css";
+import classes from './Text.css';
 
 /**
  * @typedef {object} Props
@@ -16,11 +16,11 @@ import classes from "./Text.css";
  */
 export default class Text extends Component {
   static defaultProps = {
-    text: ""
+    text: ''
   };
 
   render() {
-    const { text, align, pos, className, ...other } = this.props;
+    const {text, align, pos, className, ...other} = this.props;
 
     return (
       <text

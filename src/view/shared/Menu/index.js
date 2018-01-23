@@ -1,2 +1,2 @@
-import module from "./Menu";
+import module from './Menu';
 export default module;

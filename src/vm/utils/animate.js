@@ -1,4 +1,4 @@
-import pms from "utils/pms";
+import pms from 'utils/pms';
 
 /**
  * Animates numeric values
@@ -31,8 +31,8 @@ import pms from "utils/pms";
  * @return {Promise}
  */
 export default function animate(opts) {
-  const { values, duration, onStep } = opts;
-  let { scheduleAnimationStep } = opts;
+  const {values, duration, onStep} = opts;
+  let {scheduleAnimationStep} = opts;
 
   // made scheduler as optional parameter
   // to be able to pass custom schedulers from tests
@@ -40,7 +40,7 @@ export default function animate(opts) {
   // 2. requestAnimationFrame not called in headless test environment
   scheduleAnimationStep = scheduleAnimationStep || requestAnimationFrame;
 
-  const { promise, resolve, reject } = pms();
+  const {promise, resolve, reject} = pms();
 
   // animate
 

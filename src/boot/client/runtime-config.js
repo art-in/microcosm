@@ -1,10 +1,10 @@
-import update from "utils/update-object";
-import RuntimeConfig from "./RuntimeConfig";
+import update from 'utils/update-object';
+import RuntimeConfig from './RuntimeConfig';
 
 // load runtime config injected into index page by server
 const cfg = document
-  .querySelector("meta[data-runtime-config]")
-  .getAttribute("data-runtime-config");
+  .querySelector('meta[data-runtime-config]')
+  .getAttribute('data-runtime-config');
 
 let runtimeConfig;
 

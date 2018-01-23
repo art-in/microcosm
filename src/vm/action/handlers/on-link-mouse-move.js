@@ -1,13 +1,13 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
-import getDistance from "utils/get-distance-between-points";
+import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
+import getDistance from 'utils/get-distance-between-points';
 
 /**
  * Handles link mouse move event
@@ -19,8 +19,8 @@ import getDistance from "utils/get-distance-between-points";
  * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { linkId, viewportPos } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {linkId, viewportPos} = required(data);
 
   const link = mindmap.links.find(l => l.id === linkId);
 
@@ -50,7 +50,7 @@ export default function onLinkMouseMove(state, data) {
     tooltipValue = `from: ${head.title.value}`;
   }
 
-  return view("update-link", {
+  return view('update-link', {
     id: linkId,
     highlighted: true,
     tooltip: {

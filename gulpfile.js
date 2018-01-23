@@ -1,7 +1,7 @@
 /* global require, process */
 
-const gulpRequireTasks = require("gulp-require-tasks");
+const gulpRequireTasks = require('gulp-require-tasks');
 
 gulpRequireTasks({
-  path: process.cwd() + "/tasks"
+  path: process.cwd() + '/tasks'
 });

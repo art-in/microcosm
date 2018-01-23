@@ -1,26 +1,26 @@
-import PouchDB from "pouchdb";
-import debounce from "debounce";
+import PouchDB from 'pouchdb';
+import debounce from 'debounce';
 
-import Patch from "utils/state/Patch";
+import Patch from 'utils/state/Patch';
 
-import * as ideasDbApi from "data/db/ideas";
-import * as assocsDbApi from "data/db/associations";
-import * as mindsetsDbApi from "data/db/mindsets";
+import * as ideasDbApi from 'data/db/ideas';
+import * as assocsDbApi from 'data/db/associations';
+import * as mindsetsDbApi from 'data/db/mindsets';
 
-import Mindset from "model/entities/Mindset";
-import Idea from "model/entities/Idea";
-import Point from "model/entities/Point";
+import Mindset from 'model/entities/Mindset';
+import Idea from 'model/entities/Idea';
+import Point from 'model/entities/Point';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import buildIdeasGraph from "model/utils/build-ideas-graph-from-list";
-import weighRootPaths from "utils/graph/weigh-root-paths";
-import setAbsolutePositions from "action/utils/set-ideas-absolute-positions";
-import view from "vm/utils/view-patch";
+import buildIdeasGraph from 'model/utils/build-ideas-graph-from-list';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
+import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
+import view from 'vm/utils/view-patch';
 
-import toMindmap from "vm/map/mappers/mindset-to-mindmap";
+import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 
-export const STORAGE_KEY_DB_SERVER_URL = "[microcosm] db_server_url";
+export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
 
 /**
@@ -40,13 +40,13 @@ export const RELOAD_DEBOUNCE_TIME = 1000; // ms
  * @return {Promise.<Patch>}
  */
 export default async function loadMindset(state, data, dispatch) {
-  const { dbServerUrl } = state.data;
+  const {dbServerUrl} = state.data;
   let localDBs = {
     ideas: state.data.ideas,
     associations: state.data.associations,
     mindsets: state.data.mindsets
   };
-  const { isInitialLoad = false } = data || {};
+  const {isInitialLoad = false} = data || {};
 
   // init mindset databases.
   // only init once - repeated mindset reloads should not reinit databases.
@@ -60,7 +60,7 @@ export default async function loadMindset(state, data, dispatch) {
       // show local copy of data, while retry sync process is initiated
       if (e instanceof DbReplicationError) {
         console.warn(e.message);
-        return view("update-mindset-vm", {
+        return view('update-mindset-vm', {
           isLoadFailed: true
         });
       }
@@ -88,8 +88,8 @@ export default async function loadMindset(state, data, dispatch) {
 
   // init models
   mindset.root = buildIdeasGraph(ideas, associations);
-  weighRootPaths({ root: mindset.root });
-  setAbsolutePositions({ root: mindset.root });
+  weighRootPaths({root: mindset.root});
+  setAbsolutePositions({root: mindset.root});
 
   associations.forEach(a => mindset.associations.set(a.id, a));
   ideas.forEach(i => mindset.ideas.set(i.id, i));
@@ -98,7 +98,7 @@ export default async function loadMindset(state, data, dispatch) {
   const mindmap = toMindmap(mindset);
 
   return new Patch({
-    type: "init-mindset",
+    type: 'init-mindset',
     data: {
       data: {
         ideas: localDBs.ideas,
@@ -139,9 +139,9 @@ async function initDatabases(dbServerUrl, dispatch) {
 
   // create handles to local databases (will be created if not exist)
   const localDBs = {
-    ideas: new PouchDB("ideas"),
-    associations: new PouchDB("associations"),
-    mindsets: new PouchDB("mindsets")
+    ideas: new PouchDB('ideas'),
+    associations: new PouchDB('associations'),
+    mindsets: new PouchDB('mindsets')
   };
 
   // url of db server from which local databases were replicated last time.
@@ -186,7 +186,7 @@ async function ensureRequiredEntities(localDBs) {
   if (mindsets.length === 0) {
     // mindset database is empty, creating one
     mindset = new Mindset({
-      pos: new Point({ x: 0, y: 0 }),
+      pos: new Point({x: 0, y: 0}),
       scale: 1
     });
 
@@ -201,9 +201,9 @@ async function ensureRequiredEntities(localDBs) {
     const rootIdea = new Idea({
       mindsetId: mindset.id,
       isRoot: true,
-      posRel: new Point({ x: 0, y: 0 }),
-      color: "#ffffff",
-      title: "root"
+      posRel: new Point({x: 0, y: 0}),
+      color: '#ffffff',
+      title: 'root'
     });
 
     await ideasDbApi.add(localDBs.ideas, rootIdea);
@@ -241,8 +241,8 @@ function replicateFromServer(dbServerUrl, localDBs) {
 
           db.replicate
             .from(remoteDbURL)
-            .on("complete", resolve)
-            .on("error", reject);
+            .on('complete', resolve)
+            .on('error', reject);
         })
     )
   );
@@ -264,16 +264,16 @@ function startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange) {
         live: true,
         retry: true
       })
-      .on("change", opts => {
-        if (opts.direction === "pull") {
+      .on('change', opts => {
+        if (opts.direction === 'pull') {
           onRemoteChange();
         }
       })
-      .on("denied", err => {
+      .on('denied', err => {
         // a document failed to replicate (e.g. due to permissions)
         throw err;
       })
-      .on("error", err => {
+      .on('error', err => {
         throw err;
       });
   });
@@ -301,5 +301,5 @@ class DbReplicationError extends Error {}
 const onServerDbChange = debounce(dispatch => {
   // client databases were synced,
   // now it is time to reload mindset to sync model and view states
-  dispatch({ type: "load-mindset" });
+  dispatch({type: 'load-mindset'});
 }, RELOAD_DEBOUNCE_TIME);

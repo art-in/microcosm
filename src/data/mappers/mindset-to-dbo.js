@@ -1,8 +1,8 @@
-import deleteUndefinedProps from "utils/delete-undefined-props";
+import deleteUndefinedProps from 'utils/delete-undefined-props';
 
-import MindsetType from "model/entities/Mindset";
+import MindsetType from 'model/entities/Mindset';
 
-import pointToDbo from "./point-to-dbo";
+import pointToDbo from './point-to-dbo';
 
 /**
  * Maps mindset model to dbo

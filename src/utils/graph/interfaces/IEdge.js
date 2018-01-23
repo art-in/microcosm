@@ -1,4 +1,4 @@
-import IVertexType from "./IVertex";
+import IVertexType from './IVertex';
 
 /**
  * Graph edge

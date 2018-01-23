@@ -1,3 +1,3 @@
-describe("utils", () => {
-  require("./connect.test");
+describe('utils', () => {
+  require('./connect.test');
 });

@@ -24,7 +24,7 @@ export default function guardObjectProps(object) {
 
   // prevent reads from unexisting props.
   // do not create proxies in production since proxy is a performance hit.
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     result = new Proxy(result, {
       get: onGet
     });
@@ -42,16 +42,16 @@ const WHITE_LIST = [
   Symbol.toStringTag,
 
   // from js runtime (checks result of async func for promise)
-  "then",
+  'then',
 
   // from chai
-  "inspect",
+  'inspect',
 
   // from Karma
-  "_isBuffer",
-  "outerHTML",
-  "tagName",
-  "nodeName"
+  '_isBuffer',
+  'outerHTML',
+  'tagName',
+  'nodeName'
 ];
 
 /**

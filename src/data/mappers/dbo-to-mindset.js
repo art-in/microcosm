@@ -1,6 +1,6 @@
-import Mindset from "model/entities/Mindset";
+import Mindset from 'model/entities/Mindset';
 
-import dboToPoint from "./dbo-to-point";
+import dboToPoint from './dbo-to-point';
 
 /**
  * Maps dbo to mindset model

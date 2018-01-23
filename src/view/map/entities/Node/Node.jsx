@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import truncateWithEllipsis from "utils/truncate-string-with-ellipsis";
+import truncateWithEllipsis from 'utils/truncate-string-with-ellipsis';
 
-import Point from "model/entities/Point";
-import NodeVmType from "vm/map/entities/Node";
+import Point from 'model/entities/Point';
+import NodeVmType from 'vm/map/entities/Node';
 
-import Group from "view/shared/svg/Group";
-import Circle from "view/shared/svg/Circle";
-import Text from "view/shared/svg/Text";
+import Group from 'view/shared/svg/Group';
+import Circle from 'view/shared/svg/Circle';
+import Text from 'view/shared/svg/Text';
 
-import NodeDebug from "../NodeDebug";
+import NodeDebug from '../NodeDebug';
 
-import classes from "./Node.css";
+import classes from './Node.css';
 
 const NODE_TITLE_MAX_LENGTH = 30;
-const TEXT_AREA_POS = new Point({ x: 0, y: -10 });
+const TEXT_AREA_POS = new Point({x: 0, y: -10});
 
 /**
  * @typedef {object} Props
@@ -46,7 +46,7 @@ export default class Node extends Component {
     }
 
     this.props.onMouseDown({
-      button: e.nativeEvent.which === 1 ? "left" : "right"
+      button: e.nativeEvent.which === 1 ? 'left' : 'right'
     });
     e.stopPropagation();
   };
@@ -88,7 +88,7 @@ export default class Node extends Component {
   };
 
   render() {
-    const { className, node } = this.props;
+    const {className, node} = this.props;
 
     const normalGradientId = `node-gradient-${node.id}`;
     const highlightGradientId = `${normalGradientId}-highlight`;
@@ -112,8 +112,8 @@ export default class Node extends Component {
           className={classes.circle}
           radius={node.radius}
           style={{
-            "--normal-gradient": `url(#${normalGradientId})`,
-            "--highlight-gradient": `url(#${highlightGradientId})`
+            '--normal-gradient': `url(#${normalGradientId})`,
+            '--highlight-gradient': `url(#${highlightGradientId})`
           }}
         />
 

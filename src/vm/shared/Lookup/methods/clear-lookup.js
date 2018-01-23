@@ -1,4 +1,4 @@
-import LookupType from "vm/shared/Lookup";
+import LookupType from 'vm/shared/Lookup';
 
 /**
  * Clears lookup
@@ -7,7 +7,7 @@ import LookupType from "vm/shared/Lookup";
  */
 export default function clearLookup() {
   return {
-    phrase: "",
+    phrase: '',
     suggestions: [],
     nothingFoundLabelShown: false
   };

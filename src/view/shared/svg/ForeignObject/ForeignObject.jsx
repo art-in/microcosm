@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * @typedef {object} Props
@@ -13,7 +13,7 @@ import PointType from "model/entities/Point";
  */
 export default class ForeignObject extends Component {
   render() {
-    const { pos, rotation, children, ...other } = this.props;
+    const {pos, rotation, children, ...other} = this.props;
 
     const transforms = [];
 
@@ -25,7 +25,7 @@ export default class ForeignObject extends Component {
       transforms.push(`rotate(${rotation})`);
     }
 
-    const transform = transforms.length ? transforms.join(" ") : null;
+    const transform = transforms.length ? transforms.join(' ') : null;
 
     return (
       <foreignObject transform={transform} {...other}>

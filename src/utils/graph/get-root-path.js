@@ -1,5 +1,5 @@
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 /**
  * Gets edges on the path from root to target vertex

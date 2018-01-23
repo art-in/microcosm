@@ -1,8 +1,8 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
-import LinkType from "vm/map/entities/Link";
-import PointType from "model/entities/Point";
+import ViewModel from 'vm/utils/ViewModel';
+import LinkType from 'vm/map/entities/Link';
+import PointType from 'model/entities/Point';
 
 /**
  * Node
@@ -59,7 +59,7 @@ export default class Node extends ViewModel {
    * Node title state
    */
   title = {
-    value: "",
+    value: '',
     visible: true
   };
 

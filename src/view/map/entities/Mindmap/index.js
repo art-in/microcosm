@@ -1,2 +1,2 @@
-import module from "./Mindmap.connect";
+import module from './Mindmap.connect';
 export default module;

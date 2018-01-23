@@ -1,7 +1,7 @@
-import isValidPathWeight from "utils/graph/is-valid-path-weight";
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 const charCodeA = 65;
 const charCount = 26;
@@ -24,7 +24,7 @@ const charCount = 26;
  * @return {object} root vertex
  */
 export default function buildGraphFromMatrix(opts) {
-  const { matrix: m, VertexConstructor, EdgeConstructor } = opts;
+  const {matrix: m, VertexConstructor, EdgeConstructor} = opts;
 
   // validate input
   const vertexCount = m.length;
@@ -38,7 +38,7 @@ export default function buildGraphFromMatrix(opts) {
   for (let i = 0; i < vertexCount; i++) {
     const id = String.fromCharCode(charCodeA + i);
 
-    const vertex = new VertexConstructor({ id });
+    const vertex = new VertexConstructor({id});
     vertex.edgesIn = [];
     vertex.edgesOut = [];
     vertices.push(vertex);
@@ -53,8 +53,8 @@ export default function buildGraphFromMatrix(opts) {
 
     // parse weights of outgoing edges
     const edgeWeights = line
-      .split(" ")
-      .filter(s => s !== "")
+      .split(' ')
+      .filter(s => s !== '')
       .map(edgeWeightStr => {
         const edgeWeight = Number(edgeWeightStr);
         if (!isValidPathWeight(edgeWeight)) {
@@ -134,5 +134,5 @@ export default function buildGraphFromMatrix(opts) {
   const root = vertices[0];
   root.isRoot = true;
 
-  return { root, vertices, edges };
+  return {root, vertices, edges};
 }

@@ -1,7 +1,7 @@
-import LookupType from "vm/shared/Lookup";
+import LookupType from 'vm/shared/Lookup';
 
-import clearLookup from "./clear-lookup";
-import getNextSuggestionId from "./get-next-highlighted-suggestion-id";
+import clearLookup from './clear-lookup';
+import getNextSuggestionId from './get-next-highlighted-suggestion-id';
 
 /**
  * Handles keydown event from lookup
@@ -14,16 +14,16 @@ import getNextSuggestionId from "./get-next-highlighted-suggestion-id";
  * @return {Partial<LookupType>} update object
  */
 export default function onKeyDown(opts) {
-  const { code, lookup, preventDefault, onSuggestionSelect } = opts;
+  const {code, lookup, preventDefault, onSuggestionSelect} = opts;
 
   let update = {};
 
   switch (code) {
-    case "ArrowUp":
-    case "ArrowDown": {
+    case 'ArrowUp':
+    case 'ArrowDown': {
       // highlight next suggestion in the list
-      const forward = code === "ArrowDown";
-      const suggestionId = getNextSuggestionId({ lookup, forward });
+      const forward = code === 'ArrowDown';
+      const suggestionId = getNextSuggestionId({lookup, forward});
       update = {
         highlightedSuggestionId: suggestionId
       };
@@ -33,15 +33,15 @@ export default function onKeyDown(opts) {
       break;
     }
 
-    case "Enter": {
-      const { highlightedSuggestionId } = lookup;
+    case 'Enter': {
+      const {highlightedSuggestionId} = lookup;
       if (highlightedSuggestionId) {
         // select suggestion
         const suggestion = lookup.suggestions.find(
           s => s.id === highlightedSuggestionId
         );
 
-        onSuggestionSelect({ suggestion });
+        onSuggestionSelect({suggestion});
 
         // clear lookup
         update = clearLookup();

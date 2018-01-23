@@ -1,7 +1,7 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import NodeType from "vm/map/entities/Node";
-import ViewModel from "vm/utils/ViewModel";
+import NodeType from 'vm/map/entities/Node';
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * Link
@@ -40,7 +40,7 @@ export default class Link extends ViewModel {
    * Link title state
    */
   title = {
-    value: "",
+    value: '',
     editing: false,
     editable: true,
 

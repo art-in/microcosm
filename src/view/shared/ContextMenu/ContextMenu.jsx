@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import ContextMenuVmType from "vm/shared/ContextMenu";
+import ContextMenuVmType from 'vm/shared/ContextMenu';
 
-import Popup from "../Popup";
-import Menu from "../Menu";
+import Popup from '../Popup';
+import Menu from '../Menu';
 
 // @ts-ignore temporary unused component does not receive css typings
-import classes from "./ContextMenu.css";
+import classes from './ContextMenu.css';
 
 /**
  * @typedef {object} Props
@@ -19,8 +19,8 @@ import classes from "./ContextMenu.css";
  */
 export default class ContextMenu extends Component {
   render() {
-    const { cmenu, className, onItemSelect, ...other } = this.props;
-    const { popup, menu } = cmenu;
+    const {cmenu, className, onItemSelect, ...other} = this.props;
+    const {popup, menu} = cmenu;
 
     return (
       <Popup popup={popup} className={cx(classes.root, className)} {...other}>

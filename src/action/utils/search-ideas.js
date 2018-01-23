@@ -1,7 +1,7 @@
-import values from "utils/get-map-values";
+import values from 'utils/get-map-values';
 
-import IdeaType from "model/entities/Idea";
-import MindsetType from "model/entities/Mindset";
+import IdeaType from 'model/entities/Idea';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Searches ideas
@@ -13,10 +13,10 @@ import MindsetType from "model/entities/Mindset";
  * @return {Array.<IdeaType>}
  */
 export default function searchIdeas(mindset, opts) {
-  const { phrase, excludeIds } = opts;
+  const {phrase, excludeIds} = opts;
 
   if (!phrase) {
-    throw Error("Search string is empty");
+    throw Error('Search string is empty');
   }
 
   return values(mindset.ideas).filter(idea => {
@@ -24,7 +24,7 @@ export default function searchIdeas(mindset, opts) {
       return false;
     }
 
-    const regexp = new RegExp(phrase, "i");
+    const regexp = new RegExp(phrase, 'i');
 
     return (
       (idea.title && idea.title.match(regexp)) ||

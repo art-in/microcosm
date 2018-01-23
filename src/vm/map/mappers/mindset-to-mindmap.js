@@ -1,19 +1,19 @@
-import MindsetType from "model/entities/Mindset";
-import IdeaType from "model/entities/Idea";
-import Mindmap from "vm/map/entities/Mindmap";
-import NodeType from "vm/map/entities/Node";
+import MindsetType from 'model/entities/Mindset';
+import IdeaType from 'model/entities/Idea';
+import Mindmap from 'vm/map/entities/Mindmap';
+import NodeType from 'vm/map/entities/Node';
 
-import traverseGraph from "utils/graph/traverse-graph";
-import mapGraph from "utils/graph/map-graph";
+import traverseGraph from 'utils/graph/traverse-graph';
+import mapGraph from 'utils/graph/map-graph';
 
-import getFocusWeight from "../utils/get-mindmap-focus-weight-for-scale";
-import getNodeScaleForWeight from "../utils/get-node-scale-for-weight";
+import getFocusWeight from '../utils/get-mindmap-focus-weight-for-scale';
+import getNodeScaleForWeight from '../utils/get-node-scale-for-weight';
 
-import WeightZone from "utils/graph/WeightZone";
+import WeightZone from 'utils/graph/WeightZone';
 
-import ideaToNode from "./idea-to-node";
-import assocToLink from "./association-to-link";
-import getIdeaColor from "action/utils/get-idea-color";
+import ideaToNode from './idea-to-node';
+import assocToLink from './association-to-link';
+import getIdeaColor from 'action/utils/get-idea-color';
 
 /**
  * Maps mindset model to mindmap view model

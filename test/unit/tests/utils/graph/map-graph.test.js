@@ -1,17 +1,17 @@
-import { expect } from "chai";
+import {expect} from 'chai';
 
-import Node from "src/vm/map/entities/Node";
-import Link from "src/vm/map/entities/Link";
+import Node from 'src/vm/map/entities/Node';
+import Link from 'src/vm/map/entities/Link';
 
-import mapGraph from "src/utils/graph/map-graph";
+import mapGraph from 'src/utils/graph/map-graph';
 
-import ideaToNode from "src/vm/map/mappers/idea-to-node";
-import assocToLink from "src/vm/map/mappers/association-to-link";
+import ideaToNode from 'src/vm/map/mappers/idea-to-node';
+import assocToLink from 'src/vm/map/mappers/association-to-link';
 
-import buildGraph from "src/model/utils/build-ideas-graph-from-matrix";
+import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
-describe("map-graph", () => {
-  it("should map graph", () => {
+describe('map-graph', () => {
+  it('should map graph', () => {
     // setup graph
     //
     //        (B)
@@ -24,18 +24,18 @@ describe("map-graph", () => {
     //       v | /        v v
     //        (D)          (F)
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       //       A   B      C      D     E   F
-      /* A */ "0   2      1      0.5   0   0",
-      /* B */ "0   0      0.125  0     0   0",
-      /* C */ "0   0      0      0     1   1",
-      /* D */ "0   0.125  1      0     0   0",
-      /* E */ "0   0      0      0     0   1",
-      /* F */ "0   0      0      0     0   0"
+      /* A */ '0   2      1      0.5   0   0',
+      /* B */ '0   0      0.125  0     0   0',
+      /* C */ '0   0      0      0     1   1',
+      /* D */ '0   0.125  1      0     0   0',
+      /* E */ '0   0      0      0     0   1',
+      /* F */ '0   0      0      0     0   0'
     ]);
 
     // target
-    const { rootVertex, vertices, edges } = mapGraph({
+    const {rootVertex, vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink
@@ -51,22 +51,22 @@ describe("map-graph", () => {
     edges.forEach(l => expect(l).to.be.instanceOf(Link));
 
     // check references
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
-    const vertexE = vertices.find(n => n.id === "E");
-    const vertexF = vertices.find(n => n.id === "F");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
+    const vertexE = vertices.find(n => n.id === 'E');
+    const vertexF = vertices.find(n => n.id === 'F');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
-    const edgeAtoD = edges.find(l => l.id === "A to D");
-    const edgeBtoC = edges.find(l => l.id === "B to C");
-    const edgeCtoE = edges.find(l => l.id === "C to E");
-    const edgeCtoF = edges.find(l => l.id === "C to F");
-    const edgeDtoB = edges.find(l => l.id === "D to B");
-    const edgeDtoC = edges.find(l => l.id === "D to C");
-    const edgeEtoF = edges.find(l => l.id === "E to F");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
+    const edgeAtoD = edges.find(l => l.id === 'A to D');
+    const edgeBtoC = edges.find(l => l.id === 'B to C');
+    const edgeCtoE = edges.find(l => l.id === 'C to E');
+    const edgeCtoF = edges.find(l => l.id === 'C to F');
+    const edgeDtoB = edges.find(l => l.id === 'D to B');
+    const edgeDtoC = edges.find(l => l.id === 'D to C');
+    const edgeEtoF = edges.find(l => l.id === 'E to F');
 
     // check root
     expect(vertexA).to.equal(rootVertex);
@@ -181,7 +181,7 @@ describe("map-graph", () => {
     expect(vertexF.rootPathWeight).to.equal(1.75);
   });
 
-  it("should support graphs with cycles", () => {
+  it('should support graphs with cycles', () => {
     // setup graph
     //
     // (A) --> (B) --> (C)
@@ -189,16 +189,16 @@ describe("map-graph", () => {
     //            \   v
     //             (D)
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B  C  D */
-      /* A */ "0  1  0  0",
-      /* B */ "0  0  1  0",
-      /* C */ "0  0  0  1",
-      /* D */ "0  1  0  0"
+      /* A */ '0  1  0  0',
+      /* B */ '0  0  1  0',
+      /* C */ '0  0  0  1',
+      /* D */ '0  1  0  0'
     ]);
 
     // target
-    const { rootVertex, vertices, edges } = mapGraph({
+    const {rootVertex, vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink
@@ -214,15 +214,15 @@ describe("map-graph", () => {
     edges.forEach(l => expect(l).to.be.instanceOf(Link));
 
     // check references
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeBtoC = edges.find(l => l.id === "B to C");
-    const edgeCtoD = edges.find(l => l.id === "C to D");
-    const edgeDtoB = edges.find(l => l.id === "D to B");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeBtoC = edges.find(l => l.id === 'B to C');
+    const edgeCtoD = edges.find(l => l.id === 'C to D');
+    const edgeDtoB = edges.find(l => l.id === 'D to B');
 
     // check vertex A
     expect(vertexA.edgesIn).to.have.length(0);
@@ -269,7 +269,7 @@ describe("map-graph", () => {
     expect(vertexD.rootPathWeight).to.equal(3);
   });
 
-  it("should map edges from focus to shade zone", () => {
+  it('should map edges from focus to shade zone', () => {
     // setup tree graph
     //
     //         (A)
@@ -279,16 +279,16 @@ describe("map-graph", () => {
     //               \
     //               (D)      shade zone
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D */
-      /* A */ "0  50  100  0",
-      /* B */ "0  0   0    0",
-      /* C */ "0  0   0    1",
-      /* D */ "0  0   0    0"
+      /* A */ '0  50  100  0',
+      /* B */ '0  0   0    0',
+      /* C */ '0  0   0    1',
+      /* D */ '0  0   0    0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -300,14 +300,14 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(4);
     expect(edges).to.have.length(3);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
-    const edgeCtoD = edges.find(l => l.id === "C to D");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
+    const edgeCtoD = edges.find(l => l.id === 'C to D');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);
@@ -327,7 +327,7 @@ describe("map-graph", () => {
     expect(vertexD.edgesOut).to.have.length(0);
   });
 
-  it("should map edges from shade to focus zone", () => {
+  it('should map edges from shade to focus zone', () => {
     // setup tree graph
     //
     //         (A)
@@ -337,17 +337,17 @@ describe("map-graph", () => {
     //               \        \
     //               (D) ---> (E)      shade zone
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D  E */
-      /* A */ "0  50  100  0  0",
-      /* B */ "0  0   0    0  0",
-      /* C */ "0  0   0    1  0",
-      /* D */ "0  0   0    0  1",
-      /* E */ "0  0   100  0  0"
+      /* A */ '0  50  100  0  0',
+      /* B */ '0  0   0    0  0',
+      /* C */ '0  0   0    1  0',
+      /* D */ '0  0   0    0  1',
+      /* E */ '0  0   100  0  0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -359,17 +359,17 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(5);
     expect(edges).to.have.length(5);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
-    const vertexE = vertices.find(n => n.id === "E");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
+    const vertexE = vertices.find(n => n.id === 'E');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
-    const edgeCtoD = edges.find(l => l.id === "C to D");
-    const edgeDtoE = edges.find(l => l.id === "D to E");
-    const edgeEtoC = edges.find(l => l.id === "E to C");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
+    const edgeCtoD = edges.find(l => l.id === 'C to D');
+    const edgeDtoE = edges.find(l => l.id === 'D to E');
+    const edgeEtoC = edges.find(l => l.id === 'E to C');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);
@@ -395,7 +395,7 @@ describe("map-graph", () => {
     expect(vertexE.edgesOut).to.have.members([edgeEtoC]);
   });
 
-  it("should map edges from focus to hide zone", () => {
+  it('should map edges from focus to hide zone', () => {
     // setup tree graph
     //
     //         (A)
@@ -406,16 +406,16 @@ describe("map-graph", () => {
     //             v
     //            (D)         hide zone
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D */
-      /* A */ "0  50  100  0",
-      /* B */ "0  0   0    0",
-      /* C */ "0  0   0    1",
-      /* D */ "0  0   0    0"
+      /* A */ '0  50  100  0',
+      /* B */ '0  0   0    0',
+      /* C */ '0  0   0    1',
+      /* D */ '0  0   0    0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -426,14 +426,14 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(4);
     expect(edges).to.have.length(3);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
-    const edgeCtoD = edges.find(l => l.id === "C to D");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
+    const edgeCtoD = edges.find(l => l.id === 'C to D');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);
@@ -453,7 +453,7 @@ describe("map-graph", () => {
     expect(vertexD.edgesOut).to.have.length(0);
   });
 
-  it("should map edges from hide to focus zone", () => {
+  it('should map edges from hide to focus zone', () => {
     // setup tree graph
     //
     //         (A)
@@ -463,17 +463,17 @@ describe("map-graph", () => {
     //               \        \
     //               (D) ###> (E)      hide zone
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D  E */
-      /* A */ "0  50  100  0  0",
-      /* B */ "0  0   0    0  0",
-      /* C */ "0  0   0    1  0",
-      /* D */ "0  0   0    0  1",
-      /* E */ "0  0   100  0  0"
+      /* A */ '0  50  100  0  0',
+      /* B */ '0  0   0    0  0',
+      /* C */ '0  0   0    1  0',
+      /* D */ '0  0   0    0  1',
+      /* E */ '0  0   100  0  0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -484,16 +484,16 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(5);
     expect(edges).to.have.length(4);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
-    const vertexD = vertices.find(n => n.id === "D");
-    const vertexE = vertices.find(n => n.id === "E");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
+    const vertexD = vertices.find(n => n.id === 'D');
+    const vertexE = vertices.find(n => n.id === 'E');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
-    const edgeCtoD = edges.find(l => l.id === "C to D");
-    const edgeEtoC = edges.find(l => l.id === "E to C");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
+    const edgeCtoD = edges.find(l => l.id === 'C to D');
+    const edgeEtoC = edges.find(l => l.id === 'E to C');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);
@@ -517,7 +517,7 @@ describe("map-graph", () => {
     expect(vertexE.edgesOut).to.have.members([edgeEtoC]);
   });
 
-  it("should NOT map edges from shade to hide zone", () => {
+  it('should NOT map edges from shade to hide zone', () => {
     // setup tree graph
     //
     //         (A)            focus zone
@@ -528,16 +528,16 @@ describe("map-graph", () => {
     //               v        hide zone
     //               #D
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D */
-      /* A */ "0  50  100  0",
-      /* B */ "0  0   0    0",
-      /* C */ "0  0   0    1",
-      /* D */ "0  0   0    0"
+      /* A */ '0  50  100  0',
+      /* B */ '0  0   0    0',
+      /* C */ '0  0   0    1',
+      /* D */ '0  0   0    0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -549,12 +549,12 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(3);
     expect(edges).to.have.length(2);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);
@@ -569,7 +569,7 @@ describe("map-graph", () => {
     expect(vertexC.edgesOut).to.have.length(0);
   });
 
-  it("should NOT map edges from hide to shade zone", () => {
+  it('should NOT map edges from hide to shade zone', () => {
     // setup tree graph
     //
     //         (A)                    focus zone
@@ -580,17 +580,17 @@ describe("map-graph", () => {
     //               #        #       hide zone
     //               #D ####> #E
     //
-    const { root } = buildGraph([
+    const {root} = buildGraph([
       /*       A  B    C   D  E */
-      /* A */ "0  50  100  0  0",
-      /* B */ "0  0   0    0  0",
-      /* C */ "0  0   0    1  0",
-      /* D */ "0  0   0    0  1",
-      /* E */ "0  0   100  0  0"
+      /* A */ '0  50  100  0  0',
+      /* B */ '0  0   0    0  0',
+      /* C */ '0  0   0    1  0',
+      /* D */ '0  0   0    0  1',
+      /* E */ '0  0   100  0  0'
     ]);
 
     // target
-    const { vertices, edges } = mapGraph({
+    const {vertices, edges} = mapGraph({
       vertex: root,
       mapVertex: ideaToNode,
       mapEdge: assocToLink,
@@ -602,12 +602,12 @@ describe("map-graph", () => {
     expect(vertices).to.have.length(3);
     expect(edges).to.have.length(2);
 
-    const vertexA = vertices.find(n => n.id === "A");
-    const vertexB = vertices.find(n => n.id === "B");
-    const vertexC = vertices.find(n => n.id === "C");
+    const vertexA = vertices.find(n => n.id === 'A');
+    const vertexB = vertices.find(n => n.id === 'B');
+    const vertexC = vertices.find(n => n.id === 'C');
 
-    const edgeAtoB = edges.find(l => l.id === "A to B");
-    const edgeAtoC = edges.find(l => l.id === "A to C");
+    const edgeAtoB = edges.find(l => l.id === 'A to B');
+    const edgeAtoC = edges.find(l => l.id === 'A to C');
 
     expect(vertexA.edgesIn).to.have.length(0);
     expect(vertexA.edgesOut).to.have.length(2);

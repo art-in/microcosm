@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * @typedef {object} Props
@@ -26,7 +26,7 @@ export default class Group extends Component {
   };
 
   render() {
-    const { pos, scale, id, className, children, ...other } = this.props;
+    const {pos, scale, id, className, children, ...other} = this.props;
 
     const transforms = [];
 
@@ -38,7 +38,7 @@ export default class Group extends Component {
       transforms.push(`scale(${scale})`);
     }
 
-    const transform = transforms.length ? transforms.join(" ") : null;
+    const transform = transforms.length ? transforms.join(' ') : null;
 
     return (
       <g className={className} id={id} transform={transform} {...other}>

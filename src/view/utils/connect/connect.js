@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import noop from "utils/noop";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import noop from 'utils/noop';
 
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
 /**
  * HOC, which connects view component to view-model and store.
@@ -56,7 +56,7 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         const vm = getVM(props);
         const onVMChange = this.bindVM(vm);
 
-        this.state = { vm, onVMChange };
+        this.state = {vm, onVMChange};
       }
 
       static get displayName() {
@@ -73,7 +73,7 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
 
       componentWillReceiveProps(nextProps) {
         const nextVM = getVM(nextProps);
-        const { vm, onVMChange } = this.state;
+        const {vm, onVMChange} = this.state;
 
         // in case new vm instance passed to component,
         // we should unbind previous vm and bind new
@@ -93,7 +93,7 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
       }
 
       shouldComponentUpdate(nextProps, nextState) {
-        const { vm } = nextState;
+        const {vm} = nextState;
 
         // dirty check view model
         let isDirty = vm.isDirty;

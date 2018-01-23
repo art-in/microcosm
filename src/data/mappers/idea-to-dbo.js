@@ -1,8 +1,8 @@
-import deleteUndefinedProps from "utils/delete-undefined-props";
+import deleteUndefinedProps from 'utils/delete-undefined-props';
 
-import IdeaType from "model/entities/Idea";
+import IdeaType from 'model/entities/Idea';
 
-import pointToDbo from "./point-to-dbo";
+import pointToDbo from './point-to-dbo';
 
 /**
  * Maps idea model to dbo

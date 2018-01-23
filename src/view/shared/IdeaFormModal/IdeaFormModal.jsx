@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import IdeaFormModalVmType from "vm/shared/IdeaFormModal";
+import IdeaFormModalVmType from 'vm/shared/IdeaFormModal';
 
-import Modal from "view/shared/Modal";
-import IdeaForm from "view/shared/IdeaForm";
+import Modal from 'view/shared/Modal';
+import IdeaForm from 'view/shared/IdeaForm';
 
-import classes from "./IdeaFormModal.css";
+import classes from './IdeaFormModal.css';
 
 /**
  * @typedef {object} Props

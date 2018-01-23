@@ -1,4 +1,4 @@
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * Checks whether position is valid
@@ -8,6 +8,6 @@ import PointType from "model/entities/Point";
  */
 export default function isValidPosition(pos) {
   return (
-    typeof pos === "object" && Number.isFinite(pos.x) && Number.isFinite(pos.y)
+    typeof pos === 'object' && Number.isFinite(pos.x) && Number.isFinite(pos.y)
   );
 }

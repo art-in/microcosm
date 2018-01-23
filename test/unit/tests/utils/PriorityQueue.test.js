@@ -1,13 +1,13 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import PriorityQueue from "src/utils/PriorityQueue";
+import PriorityQueue from 'src/utils/PriorityQueue';
 
-describe("PriorityQueue", () => {
+describe('PriorityQueue', () => {
   const A = {};
   const B = {};
   const C = {};
 
-  it("should extract item with min priority", () => {
+  it('should extract item with min priority', () => {
     const queue = new PriorityQueue();
 
     queue.addWithPriority(B, 2);
@@ -21,7 +21,7 @@ describe("PriorityQueue", () => {
     expect(queue.length).to.equal(0);
   });
 
-  it("should update item priority", () => {
+  it('should update item priority', () => {
     const queue = new PriorityQueue();
 
     queue.addWithPriority(B, 2);
@@ -37,7 +37,7 @@ describe("PriorityQueue", () => {
     expect(queue.length).to.equal(0);
   });
 
-  it("should return queue length", () => {
+  it('should return queue length', () => {
     const queue = new PriorityQueue();
 
     queue.addWithPriority(A, 1);
@@ -47,7 +47,7 @@ describe("PriorityQueue", () => {
     expect(queue.length).to.equal(3);
   });
 
-  it("should check if item exists in queue", () => {
+  it('should check if item exists in queue', () => {
     const queue = new PriorityQueue();
 
     queue.addWithPriority(B, 2);
@@ -68,15 +68,15 @@ describe("PriorityQueue", () => {
     expect(queue.has(C)).to.be.false;
   });
 
-  it("should fail when extracting from empty queue", () => {
+  it('should fail when extracting from empty queue', () => {
     const queue = new PriorityQueue();
 
     expect(() => queue.extractMin()).to.throw(
-      "Failed to extract from empty queue"
+      'Failed to extract from empty queue'
     );
   });
 
-  it("should fail when updating unknown item", () => {
+  it('should fail when updating unknown item', () => {
     const queue = new PriorityQueue();
 
     queue.addWithPriority(A, 2);

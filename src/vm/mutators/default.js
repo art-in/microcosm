@@ -1,7 +1,7 @@
-import toMindmap from "vm/map/mappers/mindset-to-mindmap";
+import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 
-import StateType from "boot/client/State";
-import updateGraphPersistent from "vm/utils/update-mindmap-persistent-props";
+import StateType from 'boot/client/State';
+import updateGraphPersistent from 'vm/utils/update-mindmap-persistent-props';
 
 /**
  * Applies all mutations that do not have correspoding mutators
@@ -17,7 +17,7 @@ export default function defaultMutator(state) {
   // rebuild whole mindmap from stratch.
   const newGraph = toMindmap(state.model.mindset);
 
-  const { mindmap } = state.vm.main.mindset;
+  const {mindmap} = state.vm.main.mindset;
 
   // instead of replacing mindmap with newly mapped one, only take necessary.
   // this keeps view model bound to view, and keeps view specific state.

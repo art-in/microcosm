@@ -1,2 +1,2 @@
-import module from "./Circle";
+import module from './Circle';
 export default module;

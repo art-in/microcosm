@@ -1,2 +1,2 @@
-import module from "./ForeignObject";
+import module from './ForeignObject';
 export default module;

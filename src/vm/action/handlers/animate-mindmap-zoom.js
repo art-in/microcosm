@@ -1,15 +1,15 @@
-import required from "utils/required-params";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import view from "vm/utils/view-patch";
-import animate from "vm/utils/animate";
-import Point from "model/entities/Point";
+import view from 'vm/utils/view-patch';
+import animate from 'vm/utils/animate';
+import Point from 'model/entities/Point';
 
-import zoomMindmap from "vm/map/entities/Mindmap/methods/zoom";
-import canScaleMore from "vm/map/entities/Mindmap/methods/can-scale-more";
-import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
+import zoomMindmap from 'vm/map/entities/Mindmap/methods/zoom';
+import canScaleMore from 'vm/map/entities/Mindmap/methods/can-scale-more';
+import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 
 /**
  * Animates mindmap scale towards certain canvas position
@@ -24,18 +24,18 @@ import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
  * @return {Promise.<PatchType|undefined>}
  */
 export default async function(state, data, dispatch, mutate) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { up, viewportPos } = required(data);
-  const { scheduleAnimationStep } = data;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {up, viewportPos} = required(data);
+  const {scheduleAnimationStep} = data;
 
-  const { viewbox, zoomInProgress } = mindmap;
+  const {viewbox, zoomInProgress} = mindmap;
 
-  if (zoomInProgress || !canScaleMore({ viewbox, up })) {
+  if (zoomInProgress || !canScaleMore({viewbox, up})) {
     // zoom already running or limits reached
     return;
   }
 
-  mutate(view("update-mindmap", { zoomInProgress: true }));
+  mutate(view('update-mindmap', {zoomInProgress: true}));
 
   // convert coordinates from viewport to canvas
   const canvasPos = toCanvasCoords(viewportPos, viewbox);
@@ -61,12 +61,12 @@ export default async function(state, data, dispatch, mutate) {
         scale,
         canvasPos
       });
-      await mutate(view("update-mindmap", { viewbox }));
+      await mutate(view('update-mindmap', {viewbox}));
     }
   });
 
   await dispatch({
-    type: "set-mindset-position-and-scale",
+    type: 'set-mindset-position-and-scale',
     data: {
       mindsetId: mindmap.id,
       scale: mindmap.viewbox.scale,
@@ -77,5 +77,5 @@ export default async function(state, data, dispatch, mutate) {
     }
   });
 
-  return view("update-mindmap", { zoomInProgress: false });
+  return view('update-mindmap', {zoomInProgress: false});
 }

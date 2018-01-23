@@ -31,7 +31,14 @@
     },
     "rules": {
         // turn on prettier formatting rules
-        "prettier/prettier": "error",
+        "prettier/prettier": ["error", {
+            // spaces add to line width, and sometimes look very ugly
+            // (eg. nested destructuring: "{vm: { main: { mindset } } } }")
+            "bracketSpacing": false,
+
+            // single quotes make bit less visual noise than double quotes
+            "singleQuote": true
+        }],
 
         // since this is not a lib to embed into another project
         // and make noise there, i feel free to log anything

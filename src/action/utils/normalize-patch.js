@@ -1,4 +1,4 @@
-import Patch from "utils/state/Patch";
+import Patch from 'utils/state/Patch';
 
 /**
  * Merges multiple mutations to same entity into single mutation
@@ -33,7 +33,7 @@ export default function normalizePatch(patch) {
 
 // rules of how to find mutations to same entities
 const rules = {
-  ["update-idea"]: (m1, m2) => m1.data.id === m2.data.id,
-  ["update-association"]: (m1, m2) => m1.data.id === m2.data.id,
-  ["update-mindset"]: () => true
+  ['update-idea']: (m1, m2) => m1.data.id === m2.data.id,
+  ['update-association']: (m1, m2) => m1.data.id === m2.data.id,
+  ['update-mindset']: () => true
 };

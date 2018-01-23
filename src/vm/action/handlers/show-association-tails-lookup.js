@@ -1,12 +1,12 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
-import view from "vm/utils/view-patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
+import view from 'vm/utils/view-patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import showLookup from "vm/shared/Lookup/methods/show-lookup";
+import showLookup from 'vm/shared/Lookup/methods/show-lookup';
 
 /**
  * Shows association tails lookup
@@ -19,14 +19,14 @@ import showLookup from "vm/shared/Lookup/methods/show-lookup";
  * @return {Patch}
  */
 export default function(state, data) {
-  const { viewportPos, headIdeaId } = required(data);
+  const {viewportPos, headIdeaId} = required(data);
 
   return Patch.combine(
-    view("update-context-menu", {
-      popup: { active: false }
+    view('update-context-menu', {
+      popup: {active: false}
     }),
 
-    view("update-association-tails-lookup", {
+    view('update-association-tails-lookup', {
       popup: {
         active: true,
         pos: viewportPos
@@ -34,16 +34,16 @@ export default function(state, data) {
       lookup: {
         ...showLookup(),
 
-        onPhraseChangeAction: ({ phrase }) => ({
-          type: "search-association-tails-for-lookup",
+        onPhraseChangeAction: ({phrase}) => ({
+          type: 'search-association-tails-for-lookup',
           data: {
             headIdeaId,
             phrase
           }
         }),
 
-        onSelectAction: ({ suggestion }) => ({
-          type: "create-cross-association",
+        onSelectAction: ({suggestion}) => ({
+          type: 'create-cross-association',
           data: {
             headIdeaId,
             tailIdeaId: suggestion.data.ideaId

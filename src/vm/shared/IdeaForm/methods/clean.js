@@ -1,4 +1,4 @@
-import IdeaFormType from "vm/shared/IdeaForm";
+import IdeaFormType from 'vm/shared/IdeaForm';
 
 /**
  * Cleans form

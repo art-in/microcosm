@@ -1,4 +1,4 @@
-import EventEmitterType from "events";
+import EventEmitterType from 'events';
 
 /**
  * Re-emits event from one emitter on another

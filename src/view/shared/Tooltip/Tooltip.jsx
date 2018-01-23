@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { CSSTransition } from "react-transition-group";
-import cx from "classnames";
+import React, {Component} from 'react';
+import {CSSTransition} from 'react-transition-group';
+import cx from 'classnames';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import classes from "./Tooltip.css";
+import classes from './Tooltip.css';
 
 // delay before starting transition to visible state
 const DELAY = 500; // ms
@@ -21,11 +21,11 @@ const DELAY = 500; // ms
  */
 export default class Tooltip extends Component {
   static defaultProps = {
-    value: ""
+    value: ''
   };
 
   render() {
-    const { className, value, visible, pos, style, ...other } = this.props;
+    const {className, value, visible, pos, style, ...other} = this.props;
 
     const styles = style || {};
 

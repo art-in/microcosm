@@ -1,3 +1,3 @@
-describe("methods", () => {
-  require("./zoom.test");
+describe('methods', () => {
+  require('./zoom.test');
 });

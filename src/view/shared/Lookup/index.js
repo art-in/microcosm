@@ -1,2 +1,2 @@
-import module from "./Lookup.connect";
+import module from './Lookup.connect';
 export default module;

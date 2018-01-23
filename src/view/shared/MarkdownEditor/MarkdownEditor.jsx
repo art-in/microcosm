@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import Icon from "vm/shared/Icon";
+import Icon from 'vm/shared/Icon';
 
-import Markdown from "view/shared/Markdown";
-import IconButton from "view/shared/IconButton";
+import Markdown from 'view/shared/Markdown';
+import IconButton from 'view/shared/IconButton';
 
-import classes from "./MarkdownEditor.css";
+import classes from './MarkdownEditor.css';
 
 /**
  * @typedef {object} Props
@@ -33,7 +33,7 @@ export default class MarkdownEditor extends Component {
       // it auto-shrinks to small area with scroll.
       // unfortunately parent scroll position will be resetted, because
       // obviously size gets adjusted after small area already drawn.
-      this.textarea.style.height = this.textarea.scrollHeight + "px";
+      this.textarea.style.height = this.textarea.scrollHeight + 'px';
     }
   }
 
@@ -54,7 +54,7 @@ export default class MarkdownEditor extends Component {
         <IconButton
           className={cx(classes.buttonEdit, editButtonClass)}
           icon={editing ? Icon.eye : Icon.pencil}
-          tooltip={editing ? "Preview" : "Edit (Double Click)"}
+          tooltip={editing ? 'Preview' : 'Edit (Double Click)'}
           onClick={onToggleEdit}
         />
 

@@ -1,2 +1,2 @@
-import module from "./Portal";
+import module from './Portal';
 export default module;

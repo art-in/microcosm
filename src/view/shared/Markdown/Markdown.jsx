@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import MarkdownIt from "markdown-it";
-import TaskListsPlugin from "markdown-it-task-lists";
+import MarkdownIt from 'markdown-it';
+import TaskListsPlugin from 'markdown-it-task-lists';
 
-import classes from "./Markdown.css";
+import classes from './Markdown.css';
 
 /**
  * Markdown renderer
@@ -20,7 +20,7 @@ import classes from "./Markdown.css";
  */
 export default class Markdown extends Component {
   static defaultProps = {
-    tag: "div"
+    tag: 'div'
   };
 
   constructor(props, context) {
@@ -42,7 +42,7 @@ export default class Markdown extends Component {
   }
 
   render() {
-    const { tag, source, className, ...other } = this.props;
+    const {tag, source, className, ...other} = this.props;
 
     const html = this.md.render(source);
 
@@ -51,7 +51,7 @@ export default class Markdown extends Component {
     return (
       <Container
         className={cx(classes.root, className)}
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{__html: html}}
         {...other}
       />
     );

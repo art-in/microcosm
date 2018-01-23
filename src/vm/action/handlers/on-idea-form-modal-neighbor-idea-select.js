@@ -1,8 +1,8 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import { MESSAGE_CONFIRM_LEAVE } from "vm/shared/IdeaForm";
+import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
 
 /**
  * Handles select event of heighbor idea (direct successor or predecessor) from
@@ -14,22 +14,22 @@ import { MESSAGE_CONFIRM_LEAVE } from "vm/shared/IdeaForm";
  * @param {function} dispatch
  */
 export default async function(state, data, dispatch) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { ideaId } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {ideaId} = required(data);
 
-  const { form } = mindmap.ideaFormModal;
+  const {form} = mindmap.ideaFormModal;
 
   if (form.isSaveable && !confirm(MESSAGE_CONFIRM_LEAVE)) {
     return;
   }
 
   dispatch({
-    type: "open-idea-form-modal",
-    data: { ideaId }
+    type: 'open-idea-form-modal',
+    data: {ideaId}
   });
 
   dispatch({
-    type: "animate-mindmap-viewbox-to-idea",
-    data: { ideaId }
+    type: 'animate-mindmap-viewbox-to-idea',
+    data: {ideaId}
   });
 }

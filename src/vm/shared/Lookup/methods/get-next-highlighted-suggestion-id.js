@@ -1,4 +1,4 @@
-import LookupType from "vm/shared/Lookup";
+import LookupType from 'vm/shared/Lookup';
 
 /**
  * Gets ID of next highlighted suggestion
@@ -9,7 +9,7 @@ import LookupType from "vm/shared/Lookup";
  * @return {string|null} ID of next highlighted suggesion
  */
 export default function getNextHighlightedSuggestionId(opts) {
-  const { lookup, forward } = opts;
+  const {lookup, forward} = opts;
 
   if (!lookup.suggestions.length) {
     // skip since no suggestions

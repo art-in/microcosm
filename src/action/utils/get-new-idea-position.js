@@ -1,6 +1,6 @@
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
-import getDistance from "utils/get-distance-between-points";
+import getDistance from 'utils/get-distance-between-points';
 
 // angle of full circle (2*PI radians or 360 degrees)
 const FULL_CIRCLE_RAD = 2 * Math.PI;

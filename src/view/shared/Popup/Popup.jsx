@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import PopupVmType from "vm/shared/Popup";
+import PopupVmType from 'vm/shared/Popup';
 
-import classes from "./Popup.css";
+import classes from './Popup.css';
 
 /**
  * @typedef {object} Props
@@ -15,7 +15,7 @@ import classes from "./Popup.css";
  */
 export default class Popup extends Component {
   render() {
-    const { popup, children, className, ...other } = this.props;
+    const {popup, children, className, ...other} = this.props;
 
     if (!popup.active) {
       return null;

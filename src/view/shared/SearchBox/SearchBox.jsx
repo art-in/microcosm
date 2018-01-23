@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import SearchBoxVmType from "vm/shared/SearchBox";
-import IconType from "vm/shared/Icon";
-import IconSize from "vm/shared/IconSize";
+import SearchBoxVmType from 'vm/shared/SearchBox';
+import IconType from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
 
-import Lookup from "view/shared/Lookup";
-import IconButton from "view/shared/IconButton";
+import Lookup from 'view/shared/Lookup';
+import IconButton from 'view/shared/IconButton';
 
-import classes from "./SearchBox.css";
+import classes from './SearchBox.css';
 
 /**
  * @typedef {object} Props

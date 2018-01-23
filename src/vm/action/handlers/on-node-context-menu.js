@@ -1,15 +1,15 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
-import getIdea from "action/utils/get-idea";
-import toViewportCoords from "vm/map/utils/map-canvas-to-viewport-coords";
+import StateType from 'boot/client/State';
+import getIdea from 'action/utils/get-idea';
+import toViewportCoords from 'vm/map/utils/map-canvas-to-viewport-coords';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import MenuItem from "vm/shared/MenuItem";
-import Icon from "vm/shared/Icon";
+import MenuItem from 'vm/shared/MenuItem';
+import Icon from 'vm/shared/Icon';
 
 /**
  * Handles context menu event from node
@@ -20,9 +20,9 @@ import Icon from "vm/shared/Icon";
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { model: { mindset } } = state;
-  const { nodeId } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {model: {mindset}} = state;
+  const {nodeId} = required(data);
 
   const node = mindmap.nodes.find(n => n.id === nodeId);
 
@@ -40,10 +40,10 @@ export default function(state, data) {
   items.push(
     new MenuItem({
       icon: Icon.plusCircle,
-      displayValue: "Add new idea",
+      displayValue: 'Add new idea',
       onSelectAction: () => ({
-        type: "on-context-menu-item-select-create-idea",
-        data: { parentIdeaId: nodeId }
+        type: 'on-context-menu-item-select-create-idea',
+        data: {parentIdeaId: nodeId}
       })
     })
   );
@@ -51,10 +51,10 @@ export default function(state, data) {
   items.push(
     new MenuItem({
       icon: Icon.link,
-      displayValue: "Add association",
+      displayValue: 'Add association',
       onSelectAction: () => ({
-        type: "show-association-tails-lookup",
-        data: { viewportPos, headIdeaId: nodeId }
+        type: 'show-association-tails-lookup',
+        data: {viewportPos, headIdeaId: nodeId}
       })
     })
   );
@@ -62,10 +62,10 @@ export default function(state, data) {
   items.push(
     new MenuItem({
       icon: Icon.paintBrush,
-      displayValue: "Set idea color",
+      displayValue: 'Set idea color',
       onSelectAction: () => ({
-        type: "show-color-picker-for-idea",
-        data: { ideaId: nodeId }
+        type: 'show-color-picker-for-idea',
+        data: {ideaId: nodeId}
       })
     })
   );
@@ -73,18 +73,18 @@ export default function(state, data) {
   items.push(
     new MenuItem({
       icon: Icon.trash,
-      displayValue: "Remove idea",
+      displayValue: 'Remove idea',
 
       // prevent removing idea with outgoing associations
       enabled: idea !== mindset.root && idea.edgesOut.length === 0,
       onSelectAction: () => ({
-        type: "on-context-menu-item-select-remove-idea",
-        data: { ideaId: nodeId }
+        type: 'on-context-menu-item-select-remove-idea',
+        data: {ideaId: nodeId}
       })
     })
   );
 
-  return view("update-context-menu", {
+  return view('update-context-menu', {
     popup: {
       active: true,
       pos: node.posAbs,

@@ -1,5 +1,5 @@
-import AssociationType from "model/entities/Association";
-import MindsetType from "model/entities/Mindset";
+import AssociationType from 'model/entities/Association';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Gets association by ID

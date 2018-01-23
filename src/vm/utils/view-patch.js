@@ -1,4 +1,4 @@
-import Patch from "utils/state/Patch";
+import Patch from 'utils/state/Patch';
 
 /**
  * Creates patch which targets only vm and view layers.
@@ -23,6 +23,6 @@ export default function viewPatch(mutationType, mutationData) {
   return new Patch({
     type: mutationType,
     data: mutationData,
-    targets: ["vm", "view"]
+    targets: ['vm', 'view']
   });
 }

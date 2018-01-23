@@ -1,3 +1,3 @@
-describe("Store", () => {
-  require("./Store.dispatch.test");
+describe('Store', () => {
+  require('./Store.dispatch.test');
 });

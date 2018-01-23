@@ -1,11 +1,11 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import getDistance from "utils/get-distance-between-points";
-import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
+import getDistance from 'utils/get-distance-between-points';
+import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
 
 /**
  * Handles link click event
@@ -17,8 +17,8 @@ import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { linkId, viewportPos } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {linkId, viewportPos} = required(data);
 
   const link = mindmap.links.find(l => l.id === linkId);
 
@@ -44,7 +44,7 @@ export default function(state, data, dispatch) {
   }
 
   dispatch({
-    type: "animate-mindmap-viewbox-to-idea",
-    data: { ideaId: node.id }
+    type: 'animate-mindmap-viewbox-to-idea',
+    data: {ideaId: node.id}
   });
 }

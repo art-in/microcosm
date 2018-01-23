@@ -1,11 +1,11 @@
-import view from "vm/utils/view-patch";
-import StateType from "boot/client/State";
-import PatchType from "utils/state/Patch";
-import getRootPathVertices from "utils/graph/get-root-path-vertices";
-import getIdea from "action/utils/get-idea";
-import toListItem from "vm/map/mappers/idea-to-list-item";
+import view from 'vm/utils/view-patch';
+import StateType from 'boot/client/State';
+import PatchType from 'utils/state/Patch';
+import getRootPathVertices from 'utils/graph/get-root-path-vertices';
+import getIdea from 'action/utils/get-idea';
+import toListItem from 'vm/map/mappers/idea-to-list-item';
 
-import IdeaListItem from "vm/shared/IdeaListItem";
+import IdeaListItem from 'vm/shared/IdeaListItem';
 
 /**
  * Opens idea form modal
@@ -18,20 +18,20 @@ import IdeaListItem from "vm/shared/IdeaListItem";
  * @return {PatchType}
  */
 export default function(state, data) {
-  const { model: { mindset } } = state;
-  const { ideaId, parentIdeaId, isNewIdea = false } = data;
+  const {model: {mindset}} = state;
+  const {ideaId, parentIdeaId, isNewIdea = false} = data;
 
   if (ideaId === undefined && !isNewIdea) {
-    throw Error("Not received ID of existing idea to open");
+    throw Error('Not received ID of existing idea to open');
   }
 
   if (isNewIdea && parentIdeaId === undefined) {
-    throw Error("Not received ID of parent idea to create new idea for");
+    throw Error('Not received ID of parent idea to create new idea for');
   }
 
-  let title = "";
-  let value = "";
-  let color = "";
+  let title = '';
+  let value = '';
+  let color = '';
   let rootPath = [];
   let predecessors = [];
   let successors = [];
@@ -68,9 +68,9 @@ export default function(state, data) {
 
     // default to empty string so mutator wont warn on type mismatch
     // (ie. mutation from string to undefined)
-    title = idea.title || "";
-    value = idea.value || "";
-    color = idea.color || "";
+    title = idea.title || '';
+    value = idea.value || '';
+    color = idea.color || '';
 
     // prevent removing idea with outgoing associations
     isRemoveAvailable = idea !== mindset.root && idea.edgesOut.length === 0;
@@ -101,7 +101,7 @@ export default function(state, data) {
     });
   }
 
-  return view("update-idea-form-modal", {
+  return view('update-idea-form-modal', {
     modal: {
       active: true
     },

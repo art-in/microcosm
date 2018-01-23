@@ -1,9 +1,9 @@
-import clone from "clone";
-import assert from "utils/assert";
-import PatchType from "utils/state/Patch";
-import ActionType from "utils/state/Action";
+import clone from 'clone';
+import assert from 'utils/assert';
+import PatchType from 'utils/state/Patch';
+import ActionType from 'utils/state/Action';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Log entry for store action

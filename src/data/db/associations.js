@@ -1,9 +1,9 @@
-import AssociationType from "model/entities/Association";
+import AssociationType from 'model/entities/Association';
 
-import toModel from "data/mappers/dbo-to-association";
-import toDbo from "data/mappers/association-to-dbo";
+import toModel from 'data/mappers/dbo-to-association';
+import toDbo from 'data/mappers/association-to-dbo';
 
-import isEmptyDbo from "data/utils/is-empty-dbo";
+import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets all associations of mindset
@@ -55,7 +55,7 @@ export async function update(db, model) {
     return;
   }
 
-  if (dbo.hasOwnProperty("mindsetId") && !dbo.mindsetId) {
+  if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
     throw Error(
       `Failed to update association '${model.id}' with empty ` +
         `parent mindset ID`

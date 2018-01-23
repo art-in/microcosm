@@ -1,19 +1,19 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import isValidPathWeight from "utils/graph/is-valid-path-weight";
-import isValidIdeaTitle from "action/utils/is-valid-idea-title";
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
+import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
 
-import getIdea from "action/utils/get-idea";
-import weighAssociation from "model/utils/weigh-association";
+import getIdea from 'action/utils/get-idea';
+import weighAssociation from 'model/utils/weigh-association';
 
-import Idea from "model/entities/Idea";
-import Association from "model/entities/Association";
-import Point from "model/entities/Point";
-import getNodeScaleForWeight from "vm/map/utils/get-node-scale-for-weight";
-import getNewIdeaPosition from "action/utils/get-new-idea-position";
+import Idea from 'model/entities/Idea';
+import Association from 'model/entities/Association';
+import Point from 'model/entities/Point';
+import getNodeScaleForWeight from 'vm/map/utils/get-node-scale-for-weight';
+import getNewIdeaPosition from 'action/utils/get-new-idea-position';
 
 /**
  * Creates idea
@@ -27,9 +27,9 @@ import getNewIdeaPosition from "action/utils/get-new-idea-position";
  * @return {Patch}
  */
 export default function createIdea(state, data) {
-  const { model: { mindset } } = state;
-  const { parentIdeaId, title, value } = required(data);
-  const { ideaId } = data;
+  const {model: {mindset}} = state;
+  const {parentIdeaId, title, value} = required(data);
+  const {ideaId} = data;
 
   const patch = new Patch();
 
@@ -71,7 +71,7 @@ export default function createIdea(state, data) {
   });
 
   // bind to parent
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: parent.id,
     edgesOut: parent.edgesOut.concat([assoc]),
     edgesToChilds: parent.edgesToChilds.concat([assoc])
@@ -92,8 +92,8 @@ export default function createIdea(state, data) {
 
   idea.rootPathWeight = parent.rootPathWeight + assoc.weight;
 
-  patch.push("add-association", { assoc });
-  patch.push("add-idea", { idea });
+  patch.push('add-association', {assoc});
+  patch.push('add-idea', {idea});
 
   return patch;
 }

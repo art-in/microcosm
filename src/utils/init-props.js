@@ -1,4 +1,4 @@
-import updateObject from "utils/update-object";
+import updateObject from 'utils/update-object';
 
 /**
  * Initializes properties of new class intance

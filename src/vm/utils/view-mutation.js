@@ -1,4 +1,4 @@
-import Mutation from "utils/state/Mutation";
+import Mutation from 'utils/state/Mutation';
 
 /**
  * Creates mutation which targets only vm and view layers.
@@ -25,6 +25,6 @@ export default function viewMutation(mutationType, mutationData) {
   return new Mutation({
     type: mutationType,
     data: mutationData,
-    targets: ["vm", "view"]
+    targets: ['vm', 'view']
   });
 }

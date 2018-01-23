@@ -1,9 +1,9 @@
-import { expect } from "chai";
-import { timer } from "test/utils";
+import {expect} from 'chai';
+import {timer} from 'test/utils';
 
-import Store from "utils/state/Store";
-import Handler from "utils/state/Handler";
-import Patch from "utils/state/Patch";
+import Store from 'utils/state/Store';
+import Handler from 'utils/state/Handler';
+import Patch from 'utils/state/Patch';
 
 // here is various situations for investigating race conditions
 // while dispatching several actions.
@@ -30,79 +30,79 @@ import Patch from "utils/state/Patch";
 // which should never fail (eg. awaiting child action dispatch from parent
 // action handler).
 
-describe("race conditions", () => {
-  describe("sync actions / sync mutators", () => {
-    it("should NOT race if dispatched simultaneously", async () => {
+describe('race conditions', () => {
+  describe('sync actions / sync mutators', () => {
+    it('should NOT race if dispatched simultaneously', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", state => {
-        seq.push("handle action (create mutation)");
+      handler.reg('increase counter', state => {
+        seq.push('handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start actions simultaneously
       await Promise.all([
-        store.dispatch({ type: "increase counter" }),
-        store.dispatch({ type: "increase counter" })
+        store.dispatch({type: 'increase counter'}),
+        store.dispatch({type: 'increase counter'})
       ]);
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "handle action (create mutation)",
-        "mutate state",
-        "handle action (create mutation)",
-        "mutate state"
+        'handle action (create mutation)',
+        'mutate state',
+        'handle action (create mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched separately", async () => {
+    it('should NOT race if dispatched separately', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", state => {
-        seq.push("handle action (create mutation)");
+      handler.reg('increase counter', state => {
+        seq.push('handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -110,79 +110,79 @@ describe("race conditions", () => {
       // start both actions from separate tasks,
       // same as they would be initiated by user actions
       await Promise.all([
-        timer(0).then(() => store.dispatch({ type: "increase counter" })),
-        timer(0).then(() => store.dispatch({ type: "increase counter" }))
+        timer(0).then(() => store.dispatch({type: 'increase counter'})),
+        timer(0).then(() => store.dispatch({type: 'increase counter'}))
       ]);
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "handle action (create mutation)",
-        "mutate state",
-        "handle action (create mutation)",
-        "mutate state"
+        'handle action (create mutation)',
+        'mutate state',
+        'handle action (create mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched sequentially", async () => {
+    it('should NOT race if dispatched sequentially', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", state => {
-        seq.push("handle action (create mutation)");
+      handler.reg('increase counter', state => {
+        seq.push('handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start actions sequentially
-      await store.dispatch({ type: "increase counter" });
-      await store.dispatch({ type: "increase counter" });
+      await store.dispatch({type: 'increase counter'});
+      await store.dispatch({type: 'increase counter'});
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "handle action (create mutation)",
-        "mutate state",
-        "handle action (create mutation)",
-        "mutate state"
+        'handle action (create mutation)',
+        'mutate state',
+        'handle action (create mutation)',
+        'mutate state'
       ]);
     });
   });
 
-  describe("async actions / async mutators", () => {
-    it("should race if dispatched simultaneously", async () => {
+  describe('async actions / async mutators', () => {
+    it('should race if dispatched simultaneously', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async state => {
-        seq.push("start handle action");
+      handler.reg('increase counter', async state => {
+        seq.push('start handle action');
         await timer(0);
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
@@ -194,17 +194,17 @@ describe("race conditions", () => {
       const mutator = async (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("start mutate state");
+            case 'set counter':
+              seq.push('start mutate state');
               await timer(0);
-              seq.push("end mutate state (change state)");
+              seq.push('end mutate state (change state)');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -212,8 +212,8 @@ describe("race conditions", () => {
       // start both actions from same task.
       // to avoid race, each dispatch should be awaited
       await Promise.all([
-        store.dispatch({ type: "increase counter" }),
-        store.dispatch({ type: "increase counter" })
+        store.dispatch({type: 'increase counter'}),
+        store.dispatch({type: 'increase counter'})
       ]);
 
       // check
@@ -221,39 +221,39 @@ describe("race conditions", () => {
       expect(state.counter).to.equal(1);
 
       expect(seq).to.deep.equal([
-        "start handle action",
-        "start handle action",
-        "end handle action (create mutation)",
-        "start mutate state",
-        "end handle action (create mutation)", // read before write
-        "start mutate state",
-        "end mutate state (change state)",
-        "end mutate state (change state)"
+        'start handle action',
+        'start handle action',
+        'end handle action (create mutation)',
+        'start mutate state',
+        'end handle action (create mutation)', // read before write
+        'start mutate state',
+        'end mutate state (change state)',
+        'end mutate state (change state)'
       ]);
     });
 
-    it("should race if dispatched separately", async () => {
+    it('should race if dispatched separately', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter 1", async state => {
-        seq.push("start handle action 1");
+      handler.reg('increase counter 1', async state => {
+        seq.push('start handle action 1');
         await timer(0);
-        seq.push("end handle action 1 (create mutation)");
+        seq.push('end handle action 1 (create mutation)');
         return new Patch({
-          type: "set counter 1",
-          data: { counter: state.counter + 1 }
+          type: 'set counter 1',
+          data: {counter: state.counter + 1}
         });
       });
 
-      handler.reg("increase counter 2", async state => {
-        seq.push("start handle action 2");
+      handler.reg('increase counter 2', async state => {
+        seq.push('start handle action 2');
         await timer(10);
-        seq.push("end handle action 2 (create mutation)");
+        seq.push('end handle action 2 (create mutation)');
         return new Patch({
-          type: "set counter 2",
-          data: { counter: state.counter + 1 }
+          type: 'set counter 2',
+          data: {counter: state.counter + 1}
         });
       });
 
@@ -263,23 +263,23 @@ describe("race conditions", () => {
       const mutator = async (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter 1":
-              seq.push("start mutate state 1");
+            case 'set counter 1':
+              seq.push('start mutate state 1');
               await timer(20);
-              seq.push("end mutate state 1 (change state)");
+              seq.push('end mutate state 1 (change state)');
               state.counter = mutation.data.counter;
               break;
-            case "set counter 2":
-              seq.push("start mutate state 2");
+            case 'set counter 2':
+              seq.push('start mutate state 2');
               await timer(0);
-              seq.push("end mutate state 2 (change state)");
+              seq.push('end mutate state 2 (change state)');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -287,8 +287,8 @@ describe("race conditions", () => {
       // start both actions from separate tasks,
       // same as they would be initiated by user actions
       await Promise.all([
-        timer(0).then(() => store.dispatch({ type: "increase counter 1" })),
-        timer(0).then(() => store.dispatch({ type: "increase counter 2" }))
+        timer(0).then(() => store.dispatch({type: 'increase counter 1'})),
+        timer(0).then(() => store.dispatch({type: 'increase counter 2'}))
       ]);
 
       // check
@@ -297,72 +297,72 @@ describe("race conditions", () => {
       expect(state.counter).to.equal(1);
 
       expect(seq).to.deep.equal([
-        "start handle action 1",
-        "start handle action 2",
-        "end handle action 1 (create mutation)",
-        "start mutate state 1",
-        "end handle action 2 (create mutation)", // (!)
-        "start mutate state 2",
-        "end mutate state 2 (change state)",
-        "end mutate state 1 (change state)"
+        'start handle action 1',
+        'start handle action 2',
+        'end handle action 1 (create mutation)',
+        'start mutate state 1',
+        'end handle action 2 (create mutation)', // (!)
+        'start mutate state 2',
+        'end mutate state 2 (change state)',
+        'end mutate state 1 (change state)'
       ]);
     });
 
-    it("should NOT race if dispatched sequentially", async () => {
+    it('should NOT race if dispatched sequentially', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async state => {
-        seq.push("start handle action");
+      handler.reg('increase counter', async state => {
+        seq.push('start handle action');
         await timer(0);
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = async (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("start mutate state");
+            case 'set counter':
+              seq.push('start mutate state');
               await timer(0);
-              seq.push("end mutate state (change state)");
+              seq.push('end mutate state (change state)');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions sequentially
-      await store.dispatch({ type: "increase counter" });
-      await store.dispatch({ type: "increase counter" });
+      await store.dispatch({type: 'increase counter'});
+      await store.dispatch({type: 'increase counter'});
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "start handle action",
-        "end handle action (create mutation)",
-        "start mutate state",
-        "end mutate state (change state)",
-        "start handle action",
-        "end handle action (create mutation)",
-        "start mutate state",
-        "end mutate state (change state)"
+        'start handle action',
+        'end handle action (create mutation)',
+        'start mutate state',
+        'end mutate state (change state)',
+        'start handle action',
+        'end handle action (create mutation)',
+        'start mutate state',
+        'end mutate state (change state)'
       ]);
     });
   });
 
-  describe("async actions / sync mutators", () => {
-    it("should race if dispatched simultaneously", async () => {
+  describe('async actions / sync mutators', () => {
+    it('should race if dispatched simultaneously', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
@@ -370,36 +370,36 @@ describe("race conditions", () => {
       // action handler schedules microtask, so
       // microtasks of both handlers started from same task
       // will start to race
-      handler.reg("increase counter", async state => {
-        seq.push("start handle action");
+      handler.reg('increase counter', async state => {
+        seq.push('start handle action');
         await 0;
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions simultaneously
       await Promise.all([
-        store.dispatch({ type: "increase counter" }),
-        store.dispatch({ type: "increase counter" })
+        store.dispatch({type: 'increase counter'}),
+        store.dispatch({type: 'increase counter'})
       ]);
 
       // check
@@ -407,42 +407,42 @@ describe("race conditions", () => {
       expect(state.counter).to.equal(1);
 
       expect(seq).to.deep.equal([
-        "start handle action",
-        "start handle action",
-        "end handle action (create mutation)", // read before write
-        "end handle action (create mutation)",
-        "mutate state",
-        "mutate state"
+        'start handle action',
+        'start handle action',
+        'end handle action (create mutation)', // read before write
+        'end handle action (create mutation)',
+        'mutate state',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched separately", async () => {
+    it('should NOT race if dispatched separately', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async state => {
-        seq.push("start handle action");
+      handler.reg('increase counter', async state => {
+        seq.push('start handle action');
         await timer(0);
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -450,119 +450,119 @@ describe("race conditions", () => {
       // start both actions from separate tasks,
       // same as they would be initiated by user actions
       await Promise.all([
-        timer(0).then(() => store.dispatch({ type: "increase counter" })),
-        timer(0).then(() => store.dispatch({ type: "increase counter" }))
+        timer(0).then(() => store.dispatch({type: 'increase counter'})),
+        timer(0).then(() => store.dispatch({type: 'increase counter'}))
       ]);
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "start handle action",
-        "start handle action",
-        "end handle action (create mutation)",
-        "mutate state",
-        "end handle action (create mutation)",
-        "mutate state"
+        'start handle action',
+        'start handle action',
+        'end handle action (create mutation)',
+        'mutate state',
+        'end handle action (create mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched sequentially", async () => {
+    it('should NOT race if dispatched sequentially', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async state => {
-        seq.push("start handle action");
+      handler.reg('increase counter', async state => {
+        seq.push('start handle action');
         await timer(0);
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions sequentially
-      await store.dispatch({ type: "increase counter" });
-      await store.dispatch({ type: "increase counter" });
+      await store.dispatch({type: 'increase counter'});
+      await store.dispatch({type: 'increase counter'});
 
       // check
       expect(state.counter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "start handle action",
-        "end handle action (create mutation)",
-        "mutate state",
-        "start handle action",
-        "end handle action (create mutation)",
-        "mutate state"
+        'start handle action',
+        'end handle action (create mutation)',
+        'mutate state',
+        'start handle action',
+        'end handle action (create mutation)',
+        'mutate state'
       ]);
     });
   });
 
-  describe("child actions", () => {
-    it("should race if dispatched simultaneously", async () => {
+  describe('child actions', () => {
+    it('should race if dispatched simultaneously', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
       handler.reg(
-        "decrease counter - parent",
+        'decrease counter - parent',
         async (state, data, dispatch) => {
-          seq.push("start handle parent action");
-          await dispatch({ type: "increase counter - child" });
-          seq.push("end handle parent action (create mutation)");
+          seq.push('start handle parent action');
+          await dispatch({type: 'increase counter - child'});
+          seq.push('end handle parent action (create mutation)');
           return new Patch({
-            type: "set counter",
-            data: { counter: state.counter - 1 }
+            type: 'set counter',
+            data: {counter: state.counter - 1}
           });
         }
       );
 
-      handler.reg("increase counter - child", state => {
-        seq.push("handle child action (create mutation)");
+      handler.reg('increase counter - child', state => {
+        seq.push('handle child action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions simultaneously
       await Promise.all([
-        store.dispatch({ type: "decrease counter - parent" }),
-        store.dispatch({ type: "decrease counter - parent" })
+        store.dispatch({type: 'decrease counter - parent'}),
+        store.dispatch({type: 'decrease counter - parent'})
       ]);
 
       // check
@@ -570,57 +570,57 @@ describe("race conditions", () => {
       expect(state.counter).to.equal(1);
 
       expect(seq).to.deep.equal([
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate state",
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate state",
-        "end handle parent action (create mutation)", // (!)
-        "end handle parent action (create mutation)",
-        "mutate state",
-        "mutate state"
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate state',
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate state',
+        'end handle parent action (create mutation)', // (!)
+        'end handle parent action (create mutation)',
+        'mutate state',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched separately", async () => {
+    it('should NOT race if dispatched separately', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
       handler.reg(
-        "decrease counter - parent",
+        'decrease counter - parent',
         async (state, data, dispatch) => {
-          seq.push("start handle parent action");
-          await dispatch({ type: "increase counter - child" });
-          seq.push("end handle parent action (create mutation)");
+          seq.push('start handle parent action');
+          await dispatch({type: 'increase counter - child'});
+          seq.push('end handle parent action (create mutation)');
           return new Patch({
-            type: "set counter",
-            data: { counter: state.counter - 1 }
+            type: 'set counter',
+            data: {counter: state.counter - 1}
           });
         }
       );
 
-      handler.reg("increase counter - child", state => {
-        seq.push("handle child action (create mutation)");
+      handler.reg('increase counter - child', state => {
+        seq.push('handle child action (create mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -629,102 +629,100 @@ describe("race conditions", () => {
       // same as they would be initiated by user actions
       await Promise.all([
         timer(0).then(() =>
-          store.dispatch({ type: "decrease counter - parent" })
+          store.dispatch({type: 'decrease counter - parent'})
         ),
-        timer(0).then(() =>
-          store.dispatch({ type: "decrease counter - parent" })
-        )
+        timer(0).then(() => store.dispatch({type: 'decrease counter - parent'}))
       ]);
 
       // check
       expect(state.counter).to.equal(0);
 
       expect(seq).to.deep.equal([
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate state",
-        "end handle parent action (create mutation)",
-        "mutate state",
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate state",
-        "end handle parent action (create mutation)",
-        "mutate state"
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate state',
+        'end handle parent action (create mutation)',
+        'mutate state',
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate state',
+        'end handle parent action (create mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched sequentially", async () => {
+    it('should NOT race if dispatched sequentially', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
       handler.reg(
-        "increase counter - parent",
+        'increase counter - parent',
         async (state, data, dispatch) => {
-          seq.push("start handle parent action");
-          await dispatch({ type: "increase counter - child" });
-          seq.push("end handle parent action (create mutation)");
+          seq.push('start handle parent action');
+          await dispatch({type: 'increase counter - child'});
+          seq.push('end handle parent action (create mutation)');
           return new Patch({
-            type: "set counter - parent",
-            data: { parentCounter: state.childCounter }
+            type: 'set counter - parent',
+            data: {parentCounter: state.childCounter}
           });
         }
       );
 
-      handler.reg("increase counter - child", state => {
-        seq.push("handle child action (create mutation)");
+      handler.reg('increase counter - child', state => {
+        seq.push('handle child action (create mutation)');
         return new Patch({
-          type: "set counter - child",
-          data: { childCounter: state.childCounter + 1 }
+          type: 'set counter - child',
+          data: {childCounter: state.childCounter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter - parent":
-              seq.push("mutate parent state");
+            case 'set counter - parent':
+              seq.push('mutate parent state');
               state.parentCounter = mutation.data.parentCounter;
               break;
-            case "set counter - child":
-              seq.push("mutate child state");
+            case 'set counter - child':
+              seq.push('mutate child state');
               state.childCounter = mutation.data.childCounter;
               break;
           }
         }
       };
 
-      const state = { childCounter: 0, parentCounter: 0 };
+      const state = {childCounter: 0, parentCounter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions sequentially
-      await store.dispatch({ type: "increase counter - parent" });
-      await store.dispatch({ type: "increase counter - parent" });
+      await store.dispatch({type: 'increase counter - parent'});
+      await store.dispatch({type: 'increase counter - parent'});
 
       // check
       expect(state.childCounter).to.equal(2);
       expect(state.parentCounter).to.equal(2);
 
       expect(seq).to.deep.equal([
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate child state",
-        "end handle parent action (create mutation)",
-        "mutate parent state",
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate child state',
+        'end handle parent action (create mutation)',
+        'mutate parent state',
 
-        "start handle parent action",
-        "handle child action (create mutation)",
-        "mutate child state",
-        "end handle parent action (create mutation)",
-        "mutate parent state"
+        'start handle parent action',
+        'handle child action (create mutation)',
+        'mutate child state',
+        'end handle parent action (create mutation)',
+        'mutate parent state'
       ]);
     });
   });
 
-  describe("intermediate mutations", () => {
-    it("should race if dispatched simultaneously", async () => {
+  describe('intermediate mutations', () => {
+    it('should race if dispatched simultaneously', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
@@ -733,12 +731,12 @@ describe("race conditions", () => {
       // but since it does not schedule separate task and
       // resolves in current one - two compeatng handlers
       // create microtasks which start to race.
-      handler.reg("increase counter", async (state, data, dispatch, mutate) => {
-        seq.push("start handle action (create inter mutation)");
+      handler.reg('increase counter', async (state, data, dispatch, mutate) => {
+        seq.push('start handle action (create inter mutation)');
         mutate(
           new Patch({
-            type: "set counter",
-            data: { counter: state.counter + 1 }
+            type: 'set counter',
+            data: {counter: state.counter + 1}
           })
         );
 
@@ -750,25 +748,25 @@ describe("race conditions", () => {
         // 2 - make intermediate mutation instead of resulting
         // 3 - remove unnecessary async tag
 
-        seq.push("end handle action (create result mutation)");
+        seq.push('end handle action (create result mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -776,8 +774,8 @@ describe("race conditions", () => {
       // start both actions simultaneously.
       // to avoid race, each dispatch should be awaited
       await Promise.all([
-        store.dispatch({ type: "increase counter" }),
-        store.dispatch({ type: "increase counter" })
+        store.dispatch({type: 'increase counter'}),
+        store.dispatch({type: 'increase counter'})
       ]);
 
       // check
@@ -785,36 +783,36 @@ describe("race conditions", () => {
       expect(state.counter).to.equal(3);
 
       expect(seq).to.deep.equal([
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "end handle action (create result mutation)",
-        "end handle action (create result mutation)",
-        "mutate state",
-        "mutate state"
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'end handle action (create result mutation)',
+        'end handle action (create result mutation)',
+        'mutate state',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if sends intermediate mutations", async () => {
+    it('should NOT race if sends intermediate mutations', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async (state, data, dispatch, mutate) => {
-        seq.push("start handle action (create mutation)");
+      handler.reg('increase counter', async (state, data, dispatch, mutate) => {
+        seq.push('start handle action (create mutation)');
         mutate(
           new Patch({
-            type: "set counter",
-            data: { counter: state.counter + 1 }
+            type: 'set counter',
+            data: {counter: state.counter + 1}
           })
         );
 
-        seq.push("end handle action (create mutation)");
+        seq.push('end handle action (create mutation)');
         mutate(
           new Patch({
-            type: "set counter",
-            data: { counter: state.counter + 1 }
+            type: 'set counter',
+            data: {counter: state.counter + 1}
           })
         );
       });
@@ -822,75 +820,75 @@ describe("race conditions", () => {
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions simultaneously
       await Promise.all([
-        store.dispatch({ type: "increase counter" }),
-        store.dispatch({ type: "increase counter" })
+        store.dispatch({type: 'increase counter'}),
+        store.dispatch({type: 'increase counter'})
       ]);
 
       // check
       expect(state.counter).to.equal(4);
 
       expect(seq).to.deep.equal([
-        "start handle action (create mutation)",
-        "mutate state",
-        "end handle action (create mutation)",
-        "mutate state",
-        "start handle action (create mutation)",
-        "mutate state",
-        "end handle action (create mutation)",
-        "mutate state"
+        'start handle action (create mutation)',
+        'mutate state',
+        'end handle action (create mutation)',
+        'mutate state',
+        'start handle action (create mutation)',
+        'mutate state',
+        'end handle action (create mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched separately", async () => {
+    it('should NOT race if dispatched separately', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async (state, data, dispatch, mutate) => {
-        seq.push("start handle action (create inter mutation)");
+      handler.reg('increase counter', async (state, data, dispatch, mutate) => {
+        seq.push('start handle action (create inter mutation)');
         mutate(
           new Patch({
-            type: "set counter",
-            data: { counter: state.counter + 1 }
+            type: 'set counter',
+            data: {counter: state.counter + 1}
           })
         );
 
         await Promise.resolve();
 
-        seq.push("end handle action (create result mutation)");
+        seq.push('end handle action (create result mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
@@ -898,82 +896,82 @@ describe("race conditions", () => {
       // start both actions from separate tasks,
       // same as they would be initiated by user actions
       await Promise.all([
-        timer(0).then(() => store.dispatch({ type: "increase counter" })),
-        timer(0).then(() => store.dispatch({ type: "increase counter" }))
+        timer(0).then(() => store.dispatch({type: 'increase counter'})),
+        timer(0).then(() => store.dispatch({type: 'increase counter'}))
       ]);
 
       // check
       expect(state.counter).to.equal(4);
 
       expect(seq).to.deep.equal([
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "end handle action (create result mutation)",
-        "mutate state",
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'end handle action (create result mutation)',
+        'mutate state',
 
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "end handle action (create result mutation)",
-        "mutate state"
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'end handle action (create result mutation)',
+        'mutate state'
       ]);
     });
 
-    it("should NOT race if dispatched sequentially", async () => {
+    it('should NOT race if dispatched sequentially', async () => {
       // setup
       const seq = [];
       const handler = new Handler();
 
-      handler.reg("increase counter", async (state, data, dispatch, mutate) => {
-        seq.push("start handle action (create inter mutation)");
+      handler.reg('increase counter', async (state, data, dispatch, mutate) => {
+        seq.push('start handle action (create inter mutation)');
         mutate(
           new Patch({
-            type: "set counter",
-            data: { counter: state.counter + 1 }
+            type: 'set counter',
+            data: {counter: state.counter + 1}
           })
         );
 
         await Promise.resolve();
 
-        seq.push("end handle action (create result mutation)");
+        seq.push('end handle action (create result mutation)');
         return new Patch({
-          type: "set counter",
-          data: { counter: state.counter + 1 }
+          type: 'set counter',
+          data: {counter: state.counter + 1}
         });
       });
 
       const mutator = (state, patch) => {
         for (const mutation of patch) {
           switch (mutation.type) {
-            case "set counter":
-              seq.push("mutate state");
+            case 'set counter':
+              seq.push('mutate state');
               state.counter = mutation.data.counter;
               break;
           }
         }
       };
 
-      const state = { counter: 0 };
+      const state = {counter: 0};
 
       const store = new Store(handler, mutator, state);
 
       // target
       // start both actions sequentially
-      await store.dispatch({ type: "increase counter" });
-      await store.dispatch({ type: "increase counter" });
+      await store.dispatch({type: 'increase counter'});
+      await store.dispatch({type: 'increase counter'});
 
       // check
       expect(state.counter).to.equal(4);
 
       expect(seq).to.deep.equal([
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "end handle action (create result mutation)",
-        "mutate state",
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'end handle action (create result mutation)',
+        'mutate state',
 
-        "start handle action (create inter mutation)",
-        "mutate state",
-        "end handle action (create result mutation)",
-        "mutate state"
+        'start handle action (create inter mutation)',
+        'mutate state',
+        'end handle action (create result mutation)',
+        'mutate state'
       ]);
     });
   });

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import noop from "utils/noop";
-import getKeyCode from "view/utils/dom/get-key-code";
+import noop from 'utils/noop';
+import getKeyCode from 'view/utils/dom/get-key-code';
 
-import LookupVmType from "vm/shared/Lookup";
-import LookupSuggestion from "../LookupSuggestion";
+import LookupVmType from 'vm/shared/Lookup';
+import LookupSuggestion from '../LookupSuggestion';
 
-import classes from "./Lookup.css";
+import classes from './Lookup.css';
 
 /**
  * @typedef {object} Props
@@ -28,7 +28,7 @@ export default class Lookup extends Component {
 
   onPhraseChange = e => {
     const phrase = e.target.value;
-    this.props.onPhraseChange({ phrase });
+    this.props.onPhraseChange({phrase});
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class Lookup extends Component {
 
     // react does not support focusin/focusout events, so need to subscribe
     // manually. 'blur' wont work because it does not bubble.
-    this.container.addEventListener("focusout", this.onFocusOut);
+    this.container.addEventListener('focusout', this.onFocusOut);
   }
 
   componentDidUpdate() {
@@ -44,7 +44,7 @@ export default class Lookup extends Component {
   }
 
   componentWillUnmount() {
-    this.container.removeEventListener("focusout", this.onFocusOut);
+    this.container.removeEventListener('focusout', this.onFocusOut);
   }
 
   ensureFocus() {
@@ -77,13 +77,13 @@ export default class Lookup extends Component {
   };
 
   onSuggestionSelect(suggestionId) {
-    const { lookup } = this.props;
+    const {lookup} = this.props;
     const suggestion = lookup.suggestions.find(s => s.id === suggestionId);
-    this.props.onSuggestionSelect({ suggestion });
+    this.props.onSuggestionSelect({suggestion});
   }
 
   render() {
-    const { className, lookup } = this.props;
+    const {className, lookup} = this.props;
     const {
       highlightedSuggestionId: highlightId,
       placeholder,

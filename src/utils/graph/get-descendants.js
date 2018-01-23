@@ -1,6 +1,6 @@
-import traverseGraph from "utils/graph/traverse-graph";
+import traverseGraph from 'utils/graph/traverse-graph';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
+import IVertexType from 'utils/graph/interfaces/IVertex';
 
 /**
  * Gets descendants of the vertex.

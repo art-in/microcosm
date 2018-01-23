@@ -1,7 +1,7 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
-import PointType from "model/entities/Point";
+import ViewModel from 'vm/utils/ViewModel';
+import PointType from 'model/entities/Point';
 
 /**
  * Popup

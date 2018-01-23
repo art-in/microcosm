@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import MenuItemVmType from "vm/shared/MenuItem";
+import MenuItemVmType from 'vm/shared/MenuItem';
 
 // @ts-ignore temporary unused component does not receive css typings
-import classes from "./MenuItem.css";
+import classes from './MenuItem.css';
 
 /**
  * @typedef {object} Props
@@ -22,7 +22,7 @@ export default class MenuItem extends Component {
   };
 
   render() {
-    const { item, className } = this.props;
+    const {item, className} = this.props;
 
     return (
       <div

@@ -1,25 +1,25 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import values from "src/utils/get-map-values";
+import values from 'src/utils/get-map-values';
 
-import State from "src/boot/client/State";
-import Patch from "src/utils/state/Patch";
-import Mindset from "src/model/entities/Mindset";
-import Idea from "src/model/entities/Idea";
+import State from 'src/boot/client/State';
+import Patch from 'src/utils/state/Patch';
+import Mindset from 'src/model/entities/Mindset';
+import Idea from 'src/model/entities/Idea';
 
-import mutate from "model/mutators";
+import mutate from 'model/mutators';
 
-describe("update-idea", () => {
-  it("should update idea", () => {
+describe('update-idea', () => {
+  it('should update idea', () => {
     // setup
     const mindset = new Mindset();
 
     mindset.ideas.set(
-      "id",
+      'id',
       new Idea({
-        id: "id",
-        value: "old",
-        color: "white"
+        id: 'id',
+        value: 'old',
+        color: 'white'
       })
     );
 
@@ -27,8 +27,8 @@ describe("update-idea", () => {
     state.model.mindset = mindset;
 
     const patch = new Patch({
-      type: "update-idea",
-      data: { id: "id", value: "new" }
+      type: 'update-idea',
+      data: {id: 'id', value: 'new'}
     });
 
     // target
@@ -39,20 +39,20 @@ describe("update-idea", () => {
 
     expect(ideas).to.have.length(1);
     expect(ideas[0]).to.containSubset({
-      id: "id",
-      value: "new",
-      color: "white"
+      id: 'id',
+      value: 'new',
+      color: 'white'
     });
   });
 
-  it("should fail if target idea was not found", () => {
+  it('should fail if target idea was not found', () => {
     // setup
     const state = new State();
     state.model.mindset = new Mindset();
 
     const patch = new Patch({
-      type: "update-idea",
-      data: { id: "id", value: "new" }
+      type: 'update-idea',
+      data: {id: 'id', value: 'new'}
     });
 
     // target

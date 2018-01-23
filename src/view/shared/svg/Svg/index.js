@@ -1,2 +1,2 @@
-import module from "./Svg";
+import module from './Svg';
 export default module;

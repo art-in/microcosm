@@ -1,8 +1,8 @@
-import required from "utils/required-params";
-import PatchType from "utils/state/Patch";
-import view from "vm/utils/view-patch";
+import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
+import view from 'vm/utils/view-patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Handles change event from value field of idea form modal
@@ -13,12 +13,12 @@ import StateType from "boot/client/State";
  * @return {PatchType}
  */
 export default function(state, data) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { value } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {value} = required(data);
 
-  const { form } = mindmap.ideaFormModal;
+  const {form} = mindmap.ideaFormModal;
 
-  return view("update-idea-form-modal", {
+  return view('update-idea-form-modal', {
     form: {
       value,
       isSaveable: form.isTitleValid,

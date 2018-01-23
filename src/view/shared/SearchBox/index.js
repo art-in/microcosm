@@ -1,2 +1,2 @@
-import module from "./SearchBox.connect";
+import module from './SearchBox.connect';
 export default module;

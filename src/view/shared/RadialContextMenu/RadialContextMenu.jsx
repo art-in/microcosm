@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { CSSTransition } from "react-transition-group";
-import icons from "font-awesome/css/font-awesome.css";
-import cx from "classnames";
+import React, {Component} from 'react';
+import {CSSTransition} from 'react-transition-group';
+import icons from 'font-awesome/css/font-awesome.css';
+import cx from 'classnames';
 
-import Group from "view/shared/svg/Group";
-import ContextMenuVmType from "vm/shared/ContextMenu";
-import MenuItemType from "vm/shared/MenuItem";
+import Group from 'view/shared/svg/Group';
+import ContextMenuVmType from 'vm/shared/ContextMenu';
+import MenuItemType from 'vm/shared/MenuItem';
 
-import mapIcon from "view/utils/map-icon";
+import mapIcon from 'view/utils/map-icon';
 
-import classes from "./RadialContextMenu.css";
+import classes from './RadialContextMenu.css';
 
 // angle of full circle (2*PI radians or 360 degrees)
 const FULL_CIRCLE_RAD = 2 * Math.PI;
@@ -66,7 +66,7 @@ export default class RadialContextMenu extends Component {
     // selects corresponding menu item
     const timeSinceUpdate = performance.now() - this.lastUpdateTime;
     if (timeSinceUpdate > TRANSITION_DURATION) {
-      this.props.onItemSelect({ item });
+      this.props.onItemSelect({item});
     }
   }
 
@@ -157,8 +157,8 @@ export default class RadialContextMenu extends Component {
   }
 
   render() {
-    const { className, cmenu } = this.props;
-    const { popup, menu } = cmenu;
+    const {className, cmenu} = this.props;
+    const {popup, menu} = cmenu;
 
     return (
       <CSSTransition

@@ -1,10 +1,10 @@
-const path = require("path");
-const gutil = require("gulp-util");
-const webpack = require("webpack");
-const assert = require("assert");
-const WebpackDevServer = require("webpack-dev-server");
-const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const path = require('path');
+const gutil = require('gulp-util');
+const webpack = require('webpack');
+const assert = require('assert');
+const WebpackDevServer = require('webpack-dev-server');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -64,13 +64,13 @@ function getPackConfig(opts) {
     entries.push(
       `webpack-dev-server/client?` +
         `http://${opts.serv.host}:${opts.serv.port}/`,
-      "webpack/hot/dev-server"
+      'webpack/hot/dev-server'
     );
 
     plugins.push(new webpack.NamedModulesPlugin());
     plugins.push(new webpack.HotModuleReplacementPlugin());
 
-    babelPlugins.push(require("react-hot-loader/babel"));
+    babelPlugins.push(require('react-hot-loader/babel'));
   }
 
   if (opts.isProduction) {
@@ -80,7 +80,7 @@ function getPackConfig(opts) {
     //    (eg. disable logger/perf store middlewares)
     plugins.push(
       new webpack.DefinePlugin({
-        "process.env": { NODE_ENV: `'production'` }
+        'process.env': {NODE_ENV: `'production'`}
       })
     );
 
@@ -93,14 +93,14 @@ function getPackConfig(opts) {
     // use inlined source maps,
     // because eval-source-map gives stacktraces without source file:line
     // (when stacktrace passed from chrome/phantomjs to terminal by karma)
-    devtool = "inline-source-map";
+    devtool = 'inline-source-map';
   }
 
-  entries.push("babel-polyfill");
+  entries.push('babel-polyfill');
 
   if (opts.watch) {
     // 'react-hot-loader/patch' should go after 'babel-polyfill'
-    entries.push("react-hot-loader/patch");
+    entries.push('react-hot-loader/patch');
   }
 
   if (opts.entry) {
@@ -110,7 +110,7 @@ function getPackConfig(opts) {
   }
 
   let root = opts.root;
-  if (typeof root === "string") {
+  if (typeof root === 'string') {
     root = [root];
   }
   root.forEach(p => resolveModules.push(path.resolve(__dirname, p)));
@@ -136,7 +136,7 @@ function getPackConfig(opts) {
           test: /\.(js|jsx)$/,
           use: [
             {
-              loader: "babel-loader",
+              loader: 'babel-loader',
               options: {
                 // extend '.babelrc' config
                 plugins: babelPlugins
@@ -149,12 +149,12 @@ function getPackConfig(opts) {
           test: /\.css$/,
           use: [
             {
-              loader: "style-loader"
+              loader: 'style-loader'
             },
             {
               // wraps currently installed 'css' loader
               // to auto-generate typings for styles
-              loader: "typings-for-css-modules-loader",
+              loader: 'typings-for-css-modules-loader',
               options: {
                 // allow default export for typings
                 namedExport: true,
@@ -167,14 +167,14 @@ function getPackConfig(opts) {
 
                 // use modules to incapsulate view component styles
                 modules: true,
-                localIdentName: "[name]-[local]",
+                localIdentName: '[name]-[local]',
 
                 // minify css
                 minimize: opts.isProduction
               }
             },
             {
-              loader: "postcss-loader"
+              loader: 'postcss-loader'
             }
           ]
         },
@@ -182,7 +182,7 @@ function getPackConfig(opts) {
           test: /\.(ttf|otf|eot|svg|woff|woff2)$/,
           use: [
             {
-              loader: "url-loader",
+              loader: 'url-loader',
               options: {
                 // add to bundle in form of base64 data url
                 // only if file size is less than limit
@@ -194,8 +194,8 @@ function getPackConfig(opts) {
       ]
     },
     resolve: {
-      extensions: [".js", ".jsx"],
-      modules: resolveModules.concat(["node_modules"])
+      extensions: ['.js', '.jsx'],
+      modules: resolveModules.concat(['node_modules'])
     }
   };
 }
@@ -221,8 +221,8 @@ function pack(opts) {
     let backendHost = opts.serv.backend.host;
     const backendPort = opts.serv.backend.port;
 
-    if (backendHost === "0.0.0.0") {
-      backendHost = "localhost";
+    if (backendHost === '0.0.0.0') {
+      backendHost = 'localhost';
     }
 
     const backendUrl = `http://${backendHost}:${backendPort}`;
@@ -238,7 +238,7 @@ function pack(opts) {
       // for some reason it should always start with slash, since
       // output.publicPath cannot start with slash (to allow base url +
       // relative bundle path) - append starting slash inplace
-      publicPath: "/" + opts.bundleUrlPath,
+      publicPath: '/' + opts.bundleUrlPath,
 
       // file system path to serve static files from
       contentBase: opts.serv.folder,
@@ -246,7 +246,7 @@ function pack(opts) {
       proxy: {
         // everything except bundle should be served from backend server
         // (eg. because backend injects runtime config into index.html)
-        ["!" + opts.bundleUrlPath + "/**"]: backendUrl
+        ['!' + opts.bundleUrlPath + '/**']: backendUrl
       },
 
       historyApiFallback: true,
@@ -254,10 +254,10 @@ function pack(opts) {
       // enable hot module replacement
       hot: true,
 
-      stats: "minimal",
+      stats: 'minimal',
 
       // do not spam browser log
-      clientLogLevel: "warning"
+      clientLogLevel: 'warning'
     });
 
     server.listen(opts.serv.port, opts.serv.host, function(err) {
@@ -276,7 +276,7 @@ function pack(opts) {
       if (err) {
         gutil.log(err);
       } else {
-        gutil.log("[webpack]", stats.toString("minimal"));
+        gutil.log('[webpack]', stats.toString('minimal'));
         resolve();
       }
     });

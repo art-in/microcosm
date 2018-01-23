@@ -12,25 +12,25 @@ export default function(event) {
   if (code === undefined) {
     switch (event.keyCode) {
       case 27:
-        code = "Escape";
+        code = 'Escape';
         break;
       case 36:
-        code = "Home";
+        code = 'Home';
         break;
       case 37:
-        code = "ArrowLeft";
+        code = 'ArrowLeft';
         break;
       case 38:
-        code = "ArrowUp";
+        code = 'ArrowUp';
         break;
       case 39:
-        code = "ArrowRight";
+        code = 'ArrowRight';
         break;
       case 40:
-        code = "ArrowDown";
+        code = 'ArrowDown';
         break;
       case 70:
-        code = "KeyF";
+        code = 'KeyF';
         break;
       default:
         code = event.key;

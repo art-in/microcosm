@@ -1,9 +1,9 @@
-import IdeaType from "model/entities/Idea";
+import IdeaType from 'model/entities/Idea';
 
-import toModel from "data/mappers/dbo-to-idea";
-import toDbo from "data/mappers/idea-to-dbo";
+import toModel from 'data/mappers/dbo-to-idea';
+import toDbo from 'data/mappers/idea-to-dbo';
 
-import isEmptyDbo from "data/utils/is-empty-dbo";
+import isEmptyDbo from 'data/utils/is-empty-dbo';
 
 /**
  * Gets idea
@@ -65,7 +65,7 @@ export async function update(db, model) {
     return;
   }
 
-  if (dbo.hasOwnProperty("mindsetId") && !dbo.mindsetId) {
+  if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
     throw Error(
       `Failed to update idea '${model.id}' with empty ` + `parent mindset ID`
     );

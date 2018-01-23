@@ -1,10 +1,10 @@
-import required from "utils/required-params";
-import PatchType from "utils/state/Patch";
-import view from "vm/utils/view-patch";
+import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
+import view from 'vm/utils/view-patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import isValidIdeaTitle from "action/utils/is-valid-idea-title";
+import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
 
 /**
  * Handles change event from title field of idea form modal
@@ -15,14 +15,14 @@ import isValidIdeaTitle from "action/utils/is-valid-idea-title";
  * @return {PatchType}
  */
 export default function(state, data) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { title } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {title} = required(data);
 
-  const { form } = mindmap.ideaFormModal;
+  const {form} = mindmap.ideaFormModal;
 
   const isTitleValid = isValidIdeaTitle(title);
 
-  return view("update-idea-form-modal", {
+  return view('update-idea-form-modal', {
     form: {
       title,
       isTitleValid,

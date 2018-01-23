@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import { IDEA_TITLE_MAX_LENGTH } from "action/utils/is-valid-idea-title";
+import {IDEA_TITLE_MAX_LENGTH} from 'action/utils/is-valid-idea-title';
 
-import IdeaFormVmType from "vm/shared/IdeaForm";
-import Icon from "vm/shared/Icon";
-import IconSize from "vm/shared/IconSize";
+import IdeaFormVmType from 'vm/shared/IdeaForm';
+import Icon from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
 
-import Button from "view/shared/Button";
-import IconButton from "view/shared/IconButton";
-import IdeaList from "view/shared/IdeaList";
-import MarkdownEditor from "view/shared/MarkdownEditor";
-import IdeaPath from "view/shared/IdeaPath/IdeaPath";
-import SearchBox from "view/shared/SearchBox";
+import Button from 'view/shared/Button';
+import IconButton from 'view/shared/IconButton';
+import IdeaList from 'view/shared/IdeaList';
+import MarkdownEditor from 'view/shared/MarkdownEditor';
+import IdeaPath from 'view/shared/IdeaPath/IdeaPath';
+import SearchBox from 'view/shared/SearchBox';
 
-import classes from "./IdeaForm.css";
+import classes from './IdeaForm.css';
 
 /**
  * @typedef {object} Props
@@ -47,11 +47,11 @@ import classes from "./IdeaForm.css";
 export default class IdeaForm extends Component {
   onTitleChange = e => {
     const title = e.target.value;
-    this.props.onTitleChange({ title });
+    this.props.onTitleChange({title});
   };
 
   onValueChange = value => {
-    this.props.onValueChange({ value });
+    this.props.onValueChange({value});
   };
 
   componentDidMount() {
@@ -102,7 +102,7 @@ export default class IdeaForm extends Component {
             className={cx(classes.titleInput, {
               [classes.titleInputInvalid]: !form.isTitleValid
             })}
-            value={form.title || ""}
+            value={form.title || ''}
             maxLength={IDEA_TITLE_MAX_LENGTH}
             ref={el => (this.input = el)}
             onChange={this.onTitleChange}
@@ -142,7 +142,7 @@ export default class IdeaForm extends Component {
 
               <IconButton
                 className={cx(classes.selectColorButton, classes.gearMenuItem)}
-                style={{ ["--idea-color"]: form.color }}
+                style={{['--idea-color']: form.color}}
                 icon={Icon.paintBrush}
                 size={IconSize.large}
                 tooltip="Set idea color"
@@ -228,7 +228,7 @@ export default class IdeaForm extends Component {
           </Button>
           <Button
             disabled={!form.isSaveable}
-            title={form.isSaveable ? "Save changes (Ctrl+Enter)" : null}
+            title={form.isSaveable ? 'Save changes (Ctrl+Enter)' : null}
             onClick={onSave}
           >
             Save

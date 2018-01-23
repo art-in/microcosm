@@ -1,7 +1,7 @@
-import traverseGraph from "utils/graph/traverse-graph";
+import traverseGraph from 'utils/graph/traverse-graph';
 
-import IdeaType from "model/entities/Idea";
-import AssociationType from "model/entities/Association";
+import IdeaType from 'model/entities/Idea';
+import AssociationType from 'model/entities/Association';
 
 /**
  * Builds ideas object graph from adjacency list

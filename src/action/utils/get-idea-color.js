@@ -1,6 +1,6 @@
-import MindsetType from "model/entities/Mindset";
+import MindsetType from 'model/entities/Mindset';
 
-import getIdea from "action/utils/get-idea";
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Gets idea color.

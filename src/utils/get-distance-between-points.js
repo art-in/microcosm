@@ -1,4 +1,4 @@
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * Calculates distance between two points
@@ -8,7 +8,7 @@ import PointType from "model/entities/Point";
  * @return {number}
  */
 export default function getDistanceBetweenPoints(point1, point2) {
-  const { sqrt, pow } = Math;
+  const {sqrt, pow} = Math;
 
   // calc distance with pythagorean theorem
   const dx = point1.x - point2.x;

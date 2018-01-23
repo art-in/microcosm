@@ -1,8 +1,8 @@
-import Idea from "model/entities/Idea";
-import Association from "model/entities/Association";
+import Idea from 'model/entities/Idea';
+import Association from 'model/entities/Association';
 
-import buildGraphFromMatrix from "utils/graph/build-graph-from-matrix";
-import weighRootPaths from "utils/graph/weigh-root-paths";
+import buildGraphFromMatrix from 'utils/graph/build-graph-from-matrix';
+import weighRootPaths from 'utils/graph/weigh-root-paths';
 
 /**
  * Builds ideas object graph from adjacency matrix
@@ -25,13 +25,13 @@ import weighRootPaths from "utils/graph/weigh-root-paths";
  * @return {Return}
  */
 export default function buildIdeasGraphFromMatrix(matrix) {
-  const { root, vertices, edges } = buildGraphFromMatrix({
+  const {root, vertices, edges} = buildGraphFromMatrix({
     matrix,
     VertexConstructor: Idea,
     EdgeConstructor: Association
   });
 
-  weighRootPaths({ root });
+  weighRootPaths({root});
 
-  return { root, vertices, edges };
+  return {root, vertices, edges};
 }

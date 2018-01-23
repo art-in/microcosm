@@ -1,2 +1,2 @@
-import module from "./Mindset.connect";
+import module from './Mindset.connect';
 export default module;

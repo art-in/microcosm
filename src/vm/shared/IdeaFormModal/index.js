@@ -1,2 +1,2 @@
-import module from "./IdeaFormModal";
+import module from './IdeaFormModal';
 export default module;

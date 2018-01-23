@@ -1,14 +1,14 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
-import LinkType from "vm/map/entities/Link";
-import NodeType from "vm/map/entities/Node";
+import LinkType from 'vm/map/entities/Link';
+import NodeType from 'vm/map/entities/Node';
 
-import ColorPicker from "vm/shared/ColorPicker";
-import ContextMenu from "vm/shared/ContextMenu";
-import LookupPopup from "vm/shared/LookupPopup";
-import IdeaFormModal from "vm/shared/IdeaFormModal";
+import ColorPicker from 'vm/shared/ColorPicker';
+import ContextMenu from 'vm/shared/ContextMenu';
+import LookupPopup from 'vm/shared/LookupPopup';
+import IdeaFormModal from 'vm/shared/IdeaFormModal';
 
 /**
  * View model representation of Mindset as a mindmap - graph of nodes and links
@@ -136,7 +136,7 @@ export default class Mindmap extends ViewModel {
    * Lookup for selecting tail idea for cross-association
    * @type {LookupPopup}
    */
-  associationTailsLookup = new LookupPopup("target idea...");
+  associationTailsLookup = new LookupPopup('target idea...');
 
   /**
    * Idea form modal

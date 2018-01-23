@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import IconType from "vm/shared/Icon";
-import IconSizeType from "vm/shared/IconSize";
+import IconType from 'vm/shared/Icon';
+import IconSizeType from 'vm/shared/IconSize';
 
-import Icon from "view/shared/Icon";
+import Icon from 'view/shared/Icon';
 
-import classes from "./IconButton.css";
+import classes from './IconButton.css';
 
 /**
  * @typedef {object} Props

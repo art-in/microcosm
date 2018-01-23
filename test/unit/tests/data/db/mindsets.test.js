@@ -1,49 +1,49 @@
-import { expect, createDB } from "test/utils";
-import { spy } from "sinon";
+import {expect, createDB} from 'test/utils';
+import {spy} from 'sinon';
 
-import Mindset from "src/model/entities/Mindset";
-import Point from "src/model/entities/Point";
+import Mindset from 'src/model/entities/Mindset';
+import Point from 'src/model/entities/Point';
 
-import * as mindsetDB from "src/data/db/mindsets";
+import * as mindsetDB from 'src/data/db/mindsets';
 
-describe("mindsets", () => {
-  describe(".get()", () => {
-    it("should return model", async () => {
+describe('mindsets', () => {
+  describe('.get()', () => {
+    it('should return model', async () => {
       // setup
       const db = createDB();
 
       await db.put({
-        _id: "123",
+        _id: '123',
         scale: 2
       });
 
       // target
-      const result = await mindsetDB.get(db, "123");
+      const result = await mindsetDB.get(db, '123');
 
       // check
       expect(result).to.be.instanceOf(Mindset);
       expect(result.scale).to.equal(2);
     });
 
-    it("should fail if item does not exist", async () => {
+    it('should fail if item does not exist', async () => {
       // setup
       const db = createDB();
 
       // target
-      const promise = mindsetDB.get(db, "123");
+      const promise = mindsetDB.get(db, '123');
 
       // check
-      await expect(promise).to.be.rejectedWith("missing");
+      await expect(promise).to.be.rejectedWith('missing');
     });
   });
 
-  describe(".getAll()", () => {
-    it("should return array of models", async () => {
+  describe('.getAll()', () => {
+    it('should return array of models', async () => {
       // setup
       const db = createDB();
 
       await db.put({
-        _id: "123",
+        _id: '123',
         scale: 2
       });
 
@@ -53,26 +53,26 @@ describe("mindsets", () => {
       // check
       expect(result).to.have.length(1);
       expect(result[0]).to.be.instanceOf(Mindset);
-      expect(result[0].id).to.equal("123");
+      expect(result[0].id).to.equal('123');
       expect(result[0].scale).to.equal(2);
     });
   });
 
-  describe(".add()", () => {
-    it("should add item to DB", async () => {
+  describe('.add()', () => {
+    it('should add item to DB', async () => {
       // setup
       const db = createDB();
 
       const mindset = new Mindset({
         scale: 2,
-        pos: new Point({ x: 0, y: 0 })
+        pos: new Point({x: 0, y: 0})
       });
 
       // target
       await mindsetDB.add(db, mindset);
 
       // check
-      const result = (await db.allDocs({ include_docs: true })).rows.map(
+      const result = (await db.allDocs({include_docs: true})).rows.map(
         r => r.doc
       );
 
@@ -81,13 +81,13 @@ describe("mindsets", () => {
       expect(result[0].scale).to.equal(2);
     });
 
-    it("should add/get same item", async () => {
+    it('should add/get same item', async () => {
       // setup
       const db = createDB();
 
       const mindset = new Mindset({
         scale: 2,
-        pos: new Point({ x: 0, y: 0 })
+        pos: new Point({x: 0, y: 0})
       });
 
       // target
@@ -98,75 +98,75 @@ describe("mindsets", () => {
       expect(result).to.deep.equal(mindset);
     });
 
-    it("should fail on duplicates", async () => {
+    it('should fail on duplicates', async () => {
       // setup
       const db = createDB();
-      db.put({ _id: "123" });
+      db.put({_id: '123'});
 
       const mindset = new Mindset({
-        id: "123",
-        pos: new Point({ x: 0, y: 0 })
+        id: '123',
+        pos: new Point({x: 0, y: 0})
       });
 
       // target
       const promise = mindsetDB.add(db, mindset);
 
-      await expect(promise).to.be.rejectedWith("Document update conflict");
+      await expect(promise).to.be.rejectedWith('Document update conflict');
     });
   });
 
-  describe(".update()", () => {
-    it("should update item", async () => {
+  describe('.update()', () => {
+    it('should update item', async () => {
       // setup
       const db = createDB();
 
-      db.post({ _id: "123", value: "test 1" });
+      db.post({_id: '123', value: 'test 1'});
 
       const mindset = new Mindset({
-        id: "123",
+        id: '123',
         scale: 2,
-        pos: new Point({ x: 0, y: 0 })
+        pos: new Point({x: 0, y: 0})
       });
 
       // target
       await mindsetDB.update(db, mindset);
 
       // check
-      const result = await db.get("123");
+      const result = await db.get('123');
       expect(result.scale).to.equal(2);
     });
 
-    it("should not store unknown props", async () => {
+    it('should not store unknown props', async () => {
       // setup
       const db = createDB();
 
-      db.post({ _id: "i" });
+      db.post({_id: 'i'});
 
       const mindset = {
-        id: "i",
-        pos: new Point({ x: 0, y: 0 }),
-        X: "unknown"
+        id: 'i',
+        pos: new Point({x: 0, y: 0}),
+        X: 'unknown'
       };
 
       // target
       await mindsetDB.update(db, mindset);
 
       // check
-      const result = await db.get("i");
+      const result = await db.get('i');
       expect(result.X).to.not.exist;
     });
 
-    it("should NOT call db if update object is empty", async () => {
+    it('should NOT call db if update object is empty', async () => {
       // setup
       const db = createDB();
 
       const get = spy(db.get);
       const put = spy(db.put);
 
-      db.post({ _id: "i" });
+      db.post({_id: 'i'});
 
       const mindset = {
-        id: "i"
+        id: 'i'
       };
 
       // target
@@ -177,27 +177,27 @@ describe("mindsets", () => {
       expect(put.called).to.be.false;
     });
 
-    it("should fail if item does not exist", async () => {
+    it('should fail if item does not exist', async () => {
       // setup
       const db = createDB();
-      const mindset = new Mindset({ scale: 1 });
+      const mindset = new Mindset({scale: 1});
 
       // target
       const promise = mindsetDB.update(db, mindset);
 
       // check
-      await expect(promise).to.be.rejectedWith("missing");
+      await expect(promise).to.be.rejectedWith('missing');
     });
   });
 
-  describe(".removeAll()", () => {
-    it("should remove all items", async () => {
+  describe('.removeAll()', () => {
+    it('should remove all items', async () => {
       // setup
       const db = createDB();
 
-      await db.post({ value: "1" });
-      await db.post({ value: "2" });
-      await db.post({ value: "3" });
+      await db.post({value: '1'});
+      await db.post({value: '2'});
+      await db.post({value: '3'});
 
       // target
       await mindsetDB.removeAll(db);

@@ -1,8 +1,8 @@
-const config = require("../../../../config.build.js");
-const packer = require("../../../utils/packer").pack;
+const config = require('../../../../config.build.js');
+const packer = require('../../../utils/packer').pack;
 
 module.exports = {
-  deps: ["build:client:bundle:clean"],
+  deps: ['build:client:bundle:clean'],
   fn: () =>
     packer({
       root: config.src.client.root,

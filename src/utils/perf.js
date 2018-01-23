@@ -44,7 +44,7 @@
  * perf.endGroup(groupId)
  *
  */
-import guid from "utils/guid";
+import guid from 'utils/guid';
 
 const groups = new Map();
 let groupCount = 0;
@@ -165,8 +165,8 @@ function end(perfId, labelSuffix) {
     throw Error(`Measure '${perfId}' was not found`);
   }
 
-  let sGroupId = "";
-  let sGroupMeasureNumber = "";
+  let sGroupId = '';
+  let sGroupMeasureNumber = '';
   if (measure.groupId) {
     // add group Id to measure label, because there is no other way
     // to visually group blocks (eg. no ability to set blocks color)
@@ -176,7 +176,7 @@ function end(perfId, labelSuffix) {
     }
   }
 
-  let suffix = "";
+  let suffix = '';
   if (labelSuffix) {
     suffix = ` [${labelSuffix}]`;
   }

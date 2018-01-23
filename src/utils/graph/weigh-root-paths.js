@@ -1,4 +1,4 @@
-import calcRootPaths from "utils/graph/calc-root-paths";
+import calcRootPaths from 'utils/graph/calc-root-paths';
 
 /**
  * Calculates minimal root paths (MRP) for each vertex in the graph

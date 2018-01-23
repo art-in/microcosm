@@ -1,12 +1,12 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import NodeType from "vm/map/entities/Node";
+import NodeType from 'vm/map/entities/Node';
 
-import getDescendants from "utils/graph/get-descendants";
+import getDescendants from 'utils/graph/get-descendants';
 
 /**
  * Handles mouse down event on mindmap node
@@ -19,10 +19,10 @@ import getDescendants from "utils/graph/get-descendants";
  * @return {PatchType|undefined}
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { nodeId, button } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {nodeId, button} = required(data);
 
-  if (button !== "left") {
+  if (button !== 'left') {
     // left button only for node dragging
     return;
   }
@@ -34,13 +34,13 @@ export default function(state, data, dispatch) {
     return;
   }
 
-  dispatch({ type: "deactivate-popups" });
+  dispatch({type: 'deactivate-popups'});
 
   // drag child sub-tree
   const descendants = getDescendants(node);
 
   // start dragging
-  return view("update-mindmap", {
+  return view('update-mindmap', {
     drag: {
       active: true,
       node,

@@ -1,5 +1,5 @@
-import MindsetType from "model/entities/Mindset";
-import MainVMType from "vm/main/Main";
+import MindsetType from 'model/entities/Mindset';
+import MainVMType from 'vm/main/Main';
 
 /**
  * Application state structure

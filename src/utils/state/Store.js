@@ -1,11 +1,11 @@
-import EventEmitter from "events";
+import EventEmitter from 'events';
 
-import guid from "utils/guid";
-import HandlerType from "./Handler";
+import guid from 'utils/guid';
+import HandlerType from './Handler';
 
-import Action from "./Action";
+import Action from './Action';
 
-import PatchType from "./Patch";
+import PatchType from './Patch';
 
 /**
  * Application state container.
@@ -106,7 +106,7 @@ export default class Store {
 
     // child actions dispatch
     const dispatch = (action, ...args) => {
-      events.emit("child-action", { action });
+      events.emit('child-action', {action});
       return this.dispatch(action, ...args);
     };
 
@@ -126,16 +126,16 @@ export default class Store {
       // it is possible to initiate several mutations during one dispatch,
       // so we need to uniquely identify each mutation
       const mutationId = guid();
-      events.emit("before-mutation", { mutationId, state, patch });
+      events.emit('before-mutation', {mutationId, state, patch});
 
       const onMutationError = error => {
         mutationFailed = true;
-        events.emit("mutation-fail", { mutationId, error });
+        events.emit('mutation-fail', {mutationId, error});
         throw error;
       };
 
       const onMutationSuccess = () => {
-        events.emit("after-mutation", { mutationId, state });
+        events.emit('after-mutation', {mutationId, state});
       };
 
       let mutationResult;
@@ -162,10 +162,10 @@ export default class Store {
       }
     };
 
-    events.emit("before-dispatch", { state, action });
+    events.emit('before-dispatch', {state, action});
 
     // handle action
-    events.emit("before-handler", { state, action });
+    events.emit('before-handler', {state, action});
 
     let patch;
     try {
@@ -182,12 +182,12 @@ export default class Store {
       if (!mutationFailed) {
         // only emit handler fail if error source is handler itself
         // and not intermediate mutation called from handler
-        events.emit("handler-fail", { error });
+        events.emit('handler-fail', {error});
       }
       throw error;
     }
 
-    events.emit("after-handler", { state });
+    events.emit('after-handler', {state});
 
     // apply resulting mutation
     const mutationRes = mutate(patch);
@@ -197,7 +197,7 @@ export default class Store {
       await mutationRes;
     }
 
-    events.emit("after-dispatch", { state });
+    events.emit('after-dispatch', {state});
 
     return state;
   }

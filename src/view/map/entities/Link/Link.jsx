@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import LinkVmType from "vm/map/entities/Link";
-import Point from "model/entities/Point";
+import LinkVmType from 'vm/map/entities/Link';
+import Point from 'model/entities/Point';
 
-import Group from "view/shared/svg/Group";
-import Line from "view/shared/svg/Line";
-import TextArea from "view/shared/svg/TextArea";
-import Tooltip from "view/shared/Tooltip";
-import Portal from "view/shared/Portal";
+import Group from 'view/shared/svg/Group';
+import Line from 'view/shared/svg/Line';
+import TextArea from 'view/shared/svg/TextArea';
+import Tooltip from 'view/shared/Tooltip';
+import Portal from 'view/shared/Portal';
 
-import classes from "./Link.css";
+import classes from './Link.css';
 
 const GRADIENT_DENCITY_RATIO = 3000;
 const ANIMATION_DURATION = 3; // sec
@@ -37,10 +37,10 @@ export default class Link extends Component {
   mouseMovedAfterMouseDown = false;
 
   getTitlePosition() {
-    const { link } = this.props;
+    const {link} = this.props;
 
     // Text cannot be drawn on paths, so compute positioning by hand.
-    const { sin, cos, atan2, sqrt, pow, max, PI } = Math;
+    const {sin, cos, atan2, sqrt, pow, max, PI} = Math;
 
     const titlePartOfLink = 0.75;
     const titleHeight = 25;
@@ -50,7 +50,7 @@ export default class Link extends Component {
     // flip title so it always above the link
     const reverseTitle = link.from.posAbs.x > link.to.posAbs.x;
 
-    const { posFrom, posTo } = {
+    const {posFrom, posTo} = {
       posFrom: reverseTitle ? link.to.posAbs : link.from.posAbs,
       posTo: reverseTitle ? link.from.posAbs : link.to.posAbs
     };
@@ -64,7 +64,7 @@ export default class Link extends Component {
 
     // rotate title with the link
     const titleWidth = linkLength * titlePartOfLink;
-    const titlePos = new Point({ x: posFrom.x, y: posFrom.y });
+    const titlePos = new Point({x: posFrom.x, y: posFrom.y});
 
     // shift title to the center of the link
     titlePos.x += dx * (1 - titlePartOfLink) / 2;
@@ -93,24 +93,24 @@ export default class Link extends Component {
       //    press right button to show context menu, while holding right
       //    button move mouse to target menu item, release button upon the
       //    item to select it
-      const { mapWindowToViewportCoords } = this.props;
+      const {mapWindowToViewportCoords} = this.props;
 
-      const windowPos = new Point({ x: e.clientX, y: e.clientY });
+      const windowPos = new Point({x: e.clientX, y: e.clientY});
       const viewportPos = mapWindowToViewportCoords(windowPos);
 
-      this.props.onContextMenu({ viewportPos });
+      this.props.onContextMenu({viewportPos});
     }
 
     e.stopPropagation();
   };
 
   onMouseMove = e => {
-    const { mapWindowToViewportCoords } = this.props;
+    const {mapWindowToViewportCoords} = this.props;
 
-    const windowPos = new Point({ x: e.clientX, y: e.clientY });
+    const windowPos = new Point({x: e.clientX, y: e.clientY});
     const viewportPos = mapWindowToViewportCoords(windowPos);
 
-    this.props.onMouseMove({ viewportPos });
+    this.props.onMouseMove({viewportPos});
 
     if (e.buttons === 1) {
       // mouse moved while holding left button.
@@ -140,12 +140,12 @@ export default class Link extends Component {
       return;
     }
 
-    const { mapWindowToViewportCoords } = this.props;
+    const {mapWindowToViewportCoords} = this.props;
 
-    const windowPos = new Point({ x: e.clientX, y: e.clientY });
+    const windowPos = new Point({x: e.clientX, y: e.clientY});
     const viewportPos = mapWindowToViewportCoords(windowPos);
 
-    this.props.onClick({ viewportPos });
+    this.props.onClick({viewportPos});
     e.stopPropagation();
   };
 
@@ -160,9 +160,9 @@ export default class Link extends Component {
   };
 
   render() {
-    const { link, className, popupContainerId } = this.props;
+    const {link, className, popupContainerId} = this.props;
 
-    const { highlighted, tooltip } = link;
+    const {highlighted, tooltip} = link;
 
     const {
       titlePos,
@@ -171,7 +171,7 @@ export default class Link extends Component {
       titleAngleDeg
     } = this.getTitlePosition();
 
-    const { atan2, sqrt, pow } = Math;
+    const {atan2, sqrt, pow} = Math;
 
     const dx = link.to.posAbs.x - link.from.posAbs.x;
     const dy = link.to.posAbs.y - link.from.posAbs.y;
@@ -184,7 +184,7 @@ export default class Link extends Component {
 
     return (
       <Group
-        className={cx(classes.root, { [classes.shaded]: link.shaded })}
+        className={cx(classes.root, {[classes.shaded]: link.shaded})}
         onMouseMove={this.onMouseMove}
         onMouseLeave={this.onMouseLeave}
         onMouseUp={this.onMouseUp}

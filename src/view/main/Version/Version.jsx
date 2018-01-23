@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import VersionVmType from "vm/main/Version";
-import IconType from "vm/shared/Icon";
+import VersionVmType from 'vm/main/Version';
+import IconType from 'vm/shared/Icon';
 
-import Icon from "view/shared/Icon";
+import Icon from 'view/shared/Icon';
 
-import classes from "./Version.css";
+import classes from './Version.css';
 
 /**
  * @typedef {object} Props
@@ -17,13 +17,13 @@ import classes from "./Version.css";
  */
 export default class Version extends Component {
   render() {
-    const { className, version: vm } = this.props;
-    const { name, homepage, version } = vm;
+    const {className, version: vm} = this.props;
+    const {name, homepage, version} = vm;
 
     return (
       <a
         className={cx(classes.root, className)}
-        target={"_blank"}
+        target={'_blank'}
         href={homepage}
       >
         {name} v{version}

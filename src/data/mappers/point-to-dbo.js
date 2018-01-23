@@ -1,4 +1,4 @@
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * Maps point to dbo

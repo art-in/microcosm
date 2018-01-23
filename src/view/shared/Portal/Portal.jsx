@@ -1,5 +1,5 @@
-import { Component } from "react";
-import ReactDOM from "react-dom";
+import {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * Renders children into a DOM node that exists outside the DOM hierarchy
@@ -29,19 +29,19 @@ import ReactDOM from "react-dom";
  */
 export default class Portal extends Component {
   static defaultProps = {
-    tag: "div"
+    tag: 'div'
   };
 
   constructor(props) {
     super(props);
 
     switch (props.tag) {
-      case "div":
+      case 'div':
         this.el = document.createElement(props.tag);
         break;
-      case "g":
+      case 'g':
         this.el = document.createElementNS(
-          "http://www.w3.org/2000/svg",
+          'http://www.w3.org/2000/svg',
           props.tag
         );
         break;

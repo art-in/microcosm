@@ -1,11 +1,11 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import MindmapVmType from "vm/map/entities/Mindmap";
-import ViewModel from "vm/utils/ViewModel";
-import SearchBox from "vm/shared/SearchBox";
-import Lookup from "vm/shared/Lookup";
+import MindmapVmType from 'vm/map/entities/Mindmap';
+import ViewModel from 'vm/utils/ViewModel';
+import SearchBox from 'vm/shared/SearchBox';
+import Lookup from 'vm/shared/Lookup';
 
-import ConnectionState from "action/utils/ConnectionState";
+import ConnectionState from 'action/utils/ConnectionState';
 
 /**
  * Mindset view model
@@ -49,7 +49,7 @@ export default class Mindset extends ViewModel {
    * @type {SearchBox}
    */
   ideaSearchBox = new SearchBox({
-    lookup: new Lookup({ placeholder: "search ideas" })
+    lookup: new Lookup({placeholder: 'search ideas'})
   });
 
   /**

@@ -1,7 +1,7 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
-import MenuItemType from "./MenuItem";
+import ViewModel from 'vm/utils/ViewModel';
+import MenuItemType from './MenuItem';
 
 /**
  * Menu

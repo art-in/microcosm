@@ -1,6 +1,6 @@
-import icons from "font-awesome/css/font-awesome.css";
+import icons from 'font-awesome/css/font-awesome.css';
 
-import IconSize from "vm/shared/IconSize";
+import IconSize from 'vm/shared/IconSize';
 
 /**
  * Maps icon size to corresponding css class

@@ -1,12 +1,12 @@
 // @ts-ignore relative path from build folder
-import config from "../config.serve";
+import config from '../config.serve';
 // @ts-ignore relative path from build folder
-import pkg from "../package.json";
+import pkg from '../package.json';
 
-import express from "express";
-import logger from "morgan";
-import compression from "compression";
-import consolidate from "consolidate";
+import express from 'express';
+import logger from 'morgan';
+import compression from 'compression';
+import consolidate from 'consolidate';
 
 const app = express();
 
@@ -21,14 +21,14 @@ const app = express();
 //     filename we will not know when to add 'Content-Encoding' response header)
 app.use(compression());
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 
 // setup template engine
-app.engine("html", consolidate.mustache);
-app.set("view engine", "html");
-app.set("views", config.server.static.folder);
+app.engine('html', consolidate.mustache);
+app.set('view engine', 'html');
+app.set('views', config.server.static.folder);
 
-app.get("/", function(req, res) {
+app.get('/', function(req, res) {
   // inject runtime config to the index page on the fly.
   // Q: why inject on the fly and not pre-build?
   // A: this is the best option I found so far. another options:
@@ -51,7 +51,7 @@ app.get("/", function(req, res) {
     }
   };
 
-  res.render("index", {
+  res.render('index', {
     baseUrl: config.server.static.baseUrl,
     runtimeConfig: JSON.stringify(runtimeConfig)
   });
@@ -61,15 +61,15 @@ app.use(express.static(config.server.static.folder));
 
 app.use(function(req, res) {
   res.status(404);
-  res.send("NOT FOUND");
+  res.send('NOT FOUND');
 });
 
 app.use(function(err, req, res) {
   res.status(500);
-  res.render("error", { error: err });
+  res.render('error', {error: err});
 });
 
-const { host, port } = config.server.static;
+const {host, port} = config.server.static;
 app.listen(port, host, function(err) {
   if (err) {
     throw Error(err);
@@ -82,6 +82,6 @@ app.listen(port, host, function(err) {
 });
 
 /* global process */
-process.on("unhandledRejection", function(reason) {
-  console.error("[Unhandled Rejection]:", reason.stack);
+process.on('unhandledRejection', function(reason) {
+  console.error('[Unhandled Rejection]:', reason.stack);
 });

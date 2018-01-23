@@ -1,8 +1,8 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
-import LookupType from "./Lookup";
+import LookupType from './Lookup';
 
 /**
  * Search box

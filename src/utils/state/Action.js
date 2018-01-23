@@ -1,4 +1,4 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
 /**
  * Action

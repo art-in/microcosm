@@ -1,104 +1,104 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import Mindset from "src/model/entities/Mindset";
-import Idea from "src/model/entities/Idea";
-import Association from "src/model/entities/Association";
-import LookupSuggestion from "src/vm/shared/LookupSuggestion";
+import Mindset from 'src/model/entities/Mindset';
+import Idea from 'src/model/entities/Idea';
+import Association from 'src/model/entities/Association';
+import LookupSuggestion from 'src/vm/shared/LookupSuggestion';
 
-import handler from "src/vm/action/handler";
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe("search-association-tails-for-lookup", () => {
-  it("should set suggestions to lookup", () => {
+describe('search-association-tails-for-lookup', () => {
+  it('should set suggestions to lookup', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
+      id: 'head',
       isRoot: true,
-      value: "idea"
+      value: 'idea'
     });
     const ideaTail = new Idea({
-      id: "tail",
-      value: "idea"
+      id: 'tail',
+      value: 'idea'
     });
 
     mindset.ideas.set(ideaHead.id, ideaHead);
     mindset.ideas.set(ideaTail.id, ideaTail);
     mindset.root = ideaHead;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "idea",
-        headIdeaId: "head"
+        phrase: 'idea',
+        headIdeaId: 'head'
       }
     });
 
     // check
     expect(patch).to.have.length(1);
-    const { data } = patch["update-association-tails-lookup"][0];
+    const {data} = patch['update-association-tails-lookup'][0];
 
     expect(data.lookup.suggestions).to.have.length(1);
     expect(data.lookup.suggestions[0]).to.be.instanceOf(LookupSuggestion);
-    expect(data.lookup.suggestions[0].data).to.deep.equal({ ideaId: "tail" });
+    expect(data.lookup.suggestions[0].data).to.deep.equal({ideaId: 'tail'});
   });
 
-  it("should NOT set head idea", () => {
+  it('should NOT set head idea', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
-      value: "idea"
+      id: 'head',
+      value: 'idea'
     });
     const ideaTail = new Idea({
-      id: "tail",
-      value: "idea"
+      id: 'tail',
+      value: 'idea'
     });
 
     mindset.ideas.set(ideaHead.id, ideaHead);
     mindset.ideas.set(ideaTail.id, ideaTail);
     mindset.root = ideaHead;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "idea",
-        headIdeaId: "head"
+        phrase: 'idea',
+        headIdeaId: 'head'
       }
     });
 
     // check
-    const { data } = patch["update-association-tails-lookup"][0];
+    const {data} = patch['update-association-tails-lookup'][0];
 
     expect(data.lookup.suggestions).to.have.length(1);
-    expect(data.lookup.suggestions[0].data.ideaId).to.equal("tail");
+    expect(data.lookup.suggestions[0].data.ideaId).to.equal('tail');
   });
 
-  it("should NOT set child ideas", () => {
+  it('should NOT set child ideas', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
-      value: "idea"
+      id: 'head',
+      value: 'idea'
     });
     const ideaTail = new Idea({
-      id: "tail",
-      value: "idea"
+      id: 'tail',
+      value: 'idea'
     });
 
     const assoc = new Association({
-      fromId: "head",
+      fromId: 'head',
       from: ideaHead,
-      toId: "tail",
+      toId: 'tail',
       to: ideaTail
     });
 
@@ -111,41 +111,41 @@ describe("search-association-tails-for-lookup", () => {
 
     mindset.root = ideaHead;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "idea",
-        headIdeaId: "head"
+        phrase: 'idea',
+        headIdeaId: 'head'
       }
     });
 
     // check
     expect(patch).to.have.length(1);
-    const { data } = patch["update-association-tails-lookup"][0];
+    const {data} = patch['update-association-tails-lookup'][0];
 
     expect(data.lookup.suggestions).to.have.length(0);
   });
 
-  it("should NOT set parent ideas", () => {
+  it('should NOT set parent ideas', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
-      value: "idea"
+      id: 'head',
+      value: 'idea'
     });
     const ideaTail = new Idea({
-      id: "tail",
-      value: "idea"
+      id: 'tail',
+      value: 'idea'
     });
 
     const assoc = new Association({
-      fromId: "head",
+      fromId: 'head',
       from: ideaHead,
-      toId: "tail",
+      toId: 'tail',
       to: ideaTail
     });
 
@@ -158,36 +158,36 @@ describe("search-association-tails-for-lookup", () => {
 
     mindset.root = ideaHead;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "idea",
-        headIdeaId: "tail"
+        phrase: 'idea',
+        headIdeaId: 'tail'
       }
     });
 
     // check
     expect(patch).to.have.length(1);
-    const { data } = patch["update-association-tails-lookup"][0];
+    const {data} = patch['update-association-tails-lookup'][0];
 
     expect(data.lookup.suggestions).to.have.length(0);
   });
 
-  it("should NOT set root idea", () => {
+  it('should NOT set root idea', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
-      value: "idea"
+      id: 'head',
+      value: 'idea'
     });
     const ideaTail = new Idea({
-      id: "tail",
+      id: 'tail',
       isRoot: true,
-      value: "idea"
+      value: 'idea'
     });
 
     mindset.ideas.set(ideaHead.id, ideaHead);
@@ -195,57 +195,57 @@ describe("search-association-tails-for-lookup", () => {
 
     mindset.root = ideaTail;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "idea",
-        headIdeaId: "head"
+        phrase: 'idea',
+        headIdeaId: 'head'
       }
     });
 
     // check
     expect(patch).to.have.length(1);
-    const { data } = patch["update-association-tails-lookup"][0];
+    const {data} = patch['update-association-tails-lookup'][0];
 
     expect(data.lookup.suggestions).to.have.length(0);
   });
 
-  it("should target only vm and view state layers", () => {
+  it('should target only vm and view state layers', () => {
     // setup
-    const mindset = new Mindset({ id: "m" });
+    const mindset = new Mindset({id: 'm'});
 
     const ideaHead = new Idea({
-      id: "head",
+      id: 'head',
       isRoot: true,
-      value: "idea #NOTFOUND#"
+      value: 'idea #NOTFOUND#'
     });
     const ideaTail = new Idea({
-      id: "tail",
-      value: "idea #FOUND#"
+      id: 'tail',
+      value: 'idea #FOUND#'
     });
 
     mindset.ideas.set(ideaHead.id, ideaHead);
     mindset.ideas.set(ideaTail.id, ideaTail);
     mindset.root = ideaHead;
 
-    const state = { model: { mindset } };
+    const state = {model: {mindset}};
 
     // target
     const patch = handle(state, {
-      type: "search-association-tails-for-lookup",
+      type: 'search-association-tails-for-lookup',
       data: {
-        phrase: "#FOUND#",
-        headIdeaId: "head"
+        phrase: '#FOUND#',
+        headIdeaId: 'head'
       }
     });
 
     // check
-    expect(patch.hasTarget("data")).to.be.false;
-    expect(patch.hasTarget("model")).to.be.false;
-    expect(patch.hasTarget("vm")).to.be.true;
-    expect(patch.hasTarget("view")).to.be.true;
+    expect(patch.hasTarget('data')).to.be.false;
+    expect(patch.hasTarget('model')).to.be.false;
+    expect(patch.hasTarget('vm')).to.be.true;
+    expect(patch.hasTarget('view')).to.be.true;
   });
 });

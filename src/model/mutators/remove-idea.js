@@ -1,6 +1,6 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Removes idea
@@ -10,8 +10,8 @@ import StateType from "boot/client/State";
  * @param {string} data.id
  */
 export default function removeIdea(state, data) {
-  const { model: { mindset } } = state;
-  const { id } = required(data);
+  const {model: {mindset}} = state;
+  const {id} = required(data);
 
   if (!mindset.ideas.has(id)) {
     throw Error(`Idea '${id}' was not found`);

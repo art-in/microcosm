@@ -1,2 +1,2 @@
-import module from "./Icon";
+import module from './Icon';
 export default module;

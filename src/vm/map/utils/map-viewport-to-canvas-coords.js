@@ -1,6 +1,6 @@
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
-import toViewboxCoords from "./map-viewport-to-viewbox-coords";
+import toViewboxCoords from './map-viewport-to-viewbox-coords';
 
 /**
  * Maps viewport coordinates to canvas coordinates
@@ -15,5 +15,5 @@ export default function mapViewportToCanvasCoords(pos, viewbox) {
   const x = viewbox.x + viewboxPos.x;
   const y = viewbox.y + viewboxPos.y;
 
-  return new Point({ x, y });
+  return new Point({x, y});
 }

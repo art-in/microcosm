@@ -1,7 +1,7 @@
-import Patch from "utils/state/Patch";
-import view from "vm/utils/view-mutation";
+import Patch from 'utils/state/Patch';
+import view from 'vm/utils/view-mutation';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Deactivates all popups
@@ -12,31 +12,31 @@ import StateType from "boot/client/State";
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset } } } = state;
-  const { mindmap } = mindset;
+  const {vm: {main: {mindset}}} = state;
+  const {mindmap} = mindset;
 
   const patch = new Patch();
 
   if (mindmap.colorPicker.active) {
-    patch.push(view("update-color-picker", { active: false }));
+    patch.push(view('update-color-picker', {active: false}));
   }
 
   if (mindmap.contextMenu.popup.active) {
-    patch.push(view("update-context-menu", { popup: { active: false } }));
+    patch.push(view('update-context-menu', {popup: {active: false}}));
   }
 
   if (mindmap.associationTailsLookup.popup.active) {
     patch.push(
-      view("update-association-tails-lookup", { popup: { active: false } })
+      view('update-association-tails-lookup', {popup: {active: false}})
     );
   }
 
   if (mindset.ideaSearchBox.active) {
-    patch.push(view("update-idea-search-box", { active: false }));
+    patch.push(view('update-idea-search-box', {active: false}));
   }
 
   if (mindmap.ideaFormModal.modal.active) {
-    dispatch({ type: "on-idea-form-modal-close" });
+    dispatch({type: 'on-idea-form-modal-close'});
   }
 
   return patch;

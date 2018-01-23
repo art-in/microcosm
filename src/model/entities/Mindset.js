@@ -1,9 +1,9 @@
-import initProps from "utils/init-props";
-import createID from "utils/create-id";
+import initProps from 'utils/init-props';
+import createID from 'utils/create-id';
 
-import IdeaType from "./Idea";
-import AssociationType from "./Association";
-import PointType from "./Point";
+import IdeaType from './Idea';
+import AssociationType from './Association';
+import PointType from './Point';
 
 /**
  * Mindset model.

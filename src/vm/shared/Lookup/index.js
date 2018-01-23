@@ -1,2 +1,2 @@
-import module from "./Lookup";
+import module from './Lookup';
 export default module;

@@ -1,2 +1,2 @@
-import module from "./MenuItem";
+import module from './MenuItem';
 export default module;

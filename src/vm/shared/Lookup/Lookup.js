@@ -1,8 +1,8 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
-import LookupSuggestionType from "vm/shared/LookupSuggestion";
+import LookupSuggestionType from 'vm/shared/LookupSuggestion';
 
 /**
  * Lookup
@@ -16,7 +16,7 @@ export default class Lookup extends ViewModel {
    * Search phrase
    * @type {string}
    */
-  phrase = "";
+  phrase = '';
 
   /**
    * Suggestions list

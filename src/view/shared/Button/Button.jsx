@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import classes from "./Button.css";
+import classes from './Button.css';
 
 /**
  * @typedef {object} Props
@@ -17,13 +17,13 @@ import classes from "./Button.css";
  */
 export default class Button extends Component {
   static defaultProps = {
-    type: "primary"
+    type: 'primary'
   };
 
   render() {
-    const { className, type, children, ...other } = this.props;
+    const {className, type, children, ...other} = this.props;
 
-    const typeClass = type === "primary" ? classes.primary : classes.secondary;
+    const typeClass = type === 'primary' ? classes.primary : classes.secondary;
 
     return (
       <button className={cx(classes.root, typeClass, className)} {...other}>

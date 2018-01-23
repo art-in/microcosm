@@ -1,6 +1,6 @@
-import deleteUndefinedProps from "utils/delete-undefined-props";
+import deleteUndefinedProps from 'utils/delete-undefined-props';
 
-import AssociationType from "model/entities/Association";
+import AssociationType from 'model/entities/Association';
 
 /**
  * Maps a association model to dbo

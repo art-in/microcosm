@@ -1,5 +1,5 @@
-import assert from "utils/assert";
-import isValidScale from "model/utils/is-valid-scale";
+import assert from 'utils/assert';
+import isValidScale from 'model/utils/is-valid-scale';
 
 /**
  * Checks whether mindmap scale limits allow to scale more up or down
@@ -10,9 +10,9 @@ import isValidScale from "model/utils/is-valid-scale";
  * @return {boolean}
  */
 export default function canScaleMore(opts) {
-  const { viewbox, up } = opts;
+  const {viewbox, up} = opts;
 
-  const { scale, scaleMin, scaleMax } = viewbox;
+  const {scale, scaleMin, scaleMax} = viewbox;
 
   assert(isValidScale(scale), `Invalid scale '${viewbox.scale}'`);
   assert(isValidScale(scaleMin), `Invalid scale min '${viewbox.scaleMin}'`);

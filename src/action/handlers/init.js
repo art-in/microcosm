@@ -1,12 +1,12 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
-import startDBServerHeartbeat from "action/utils/start-db-server-heartbeat";
+import StateType from 'boot/client/State';
+import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
-import MainVM from "vm/main/Main";
-import MindsetVM from "vm/main/Mindset";
-import VersionVM from "vm/main/Version";
+import MainVM from 'vm/main/Main';
+import MindsetVM from 'vm/main/Mindset';
+import VersionVM from 'vm/main/Version';
 
 /**
  * Inits state
@@ -17,9 +17,7 @@ import VersionVM from "vm/main/Version";
  * @param {function} mutate
  */
 export default async function init(state, data, dispatch, mutate) {
-  const { storeDispatch, runtimeConfig, dbServerUrl, viewRoot } = required(
-    data
-  );
+  const {storeDispatch, runtimeConfig, dbServerUrl, viewRoot} = required(data);
 
   // init view model
   // TBD: currently unconditionaly start loading mindset.
@@ -36,14 +34,14 @@ export default async function init(state, data, dispatch, mutate) {
   });
 
   const main = new MainVM({
-    screen: "mindset",
+    screen: 'mindset',
     mindset,
     version
   });
 
   await mutate(
     new Patch({
-      type: "init",
+      type: 'init',
       data: {
         data: {
           dbServerUrl
@@ -60,7 +58,7 @@ export default async function init(state, data, dispatch, mutate) {
   );
 
   dispatch({
-    type: "load-mindset",
+    type: 'load-mindset',
     data: {
       isInitialLoad: true
     }

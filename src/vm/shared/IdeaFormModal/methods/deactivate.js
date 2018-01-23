@@ -1,4 +1,4 @@
-import cleanForm from "vm/shared/IdeaForm/methods/clean";
+import cleanForm from 'vm/shared/IdeaForm/methods/clean';
 
 /**
  * Deactivates form modal

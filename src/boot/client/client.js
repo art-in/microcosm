@@ -1,31 +1,31 @@
-import PouchDB from "pouchdb";
-import PouchDBFindPlugin from "pouchdb-find";
+import PouchDB from 'pouchdb';
+import PouchDBFindPlugin from 'pouchdb-find';
 PouchDB.plugin(PouchDBFindPlugin);
 
-import Store from "utils/state/Store";
-import Handler from "utils/state/Handler";
+import Store from 'utils/state/Store';
+import Handler from 'utils/state/Handler';
 
-import commonHandler from "action/handler";
-import vmHandler from "vm/action/handler";
-import State from "./State";
-import combine from "utils/state/combine-mutators";
+import commonHandler from 'action/handler';
+import vmHandler from 'vm/action/handler';
+import State from './State';
+import combine from 'utils/state/combine-mutators';
 
-import logger from "utils/state/middlewares/logger";
-import perf from "utils/state/middlewares/perf";
+import logger from 'utils/state/middlewares/logger';
+import perf from 'utils/state/middlewares/perf';
 
-import mutateData from "data/mutators";
-import mutateModel from "model/mutators";
-import mutateVM from "vm/mutators";
-import mutateView from "view/mutators";
+import mutateData from 'data/mutators';
+import mutateModel from 'model/mutators';
+import mutateVM from 'vm/mutators';
+import mutateView from 'view/mutators';
 
-import runtimeConfig from "./runtime-config";
+import runtimeConfig from './runtime-config';
 
 // for devtools Fauxton extension
 // @ts-ignore unknown prop of 'window'
 window.PouchDB = PouchDB;
 
 // URL of database server
-const { host, port } = runtimeConfig.dbServer;
+const {host, port} = runtimeConfig.dbServer;
 const dbServerUrl = `${location.protocol}//${host}:${port}`;
 
 /**
@@ -34,7 +34,7 @@ const dbServerUrl = `${location.protocol}//${host}:${port}`;
 async function start() {
   const middlewares = [];
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     middlewares.push(logger);
     middlewares.push(perf);
   }
@@ -49,12 +49,12 @@ async function start() {
 
   // warm up state
   await store.dispatch({
-    type: "init",
+    type: 'init',
     data: {
       storeDispatch: store.dispatch.bind(store),
       runtimeConfig,
       dbServerUrl,
-      viewRoot: document.querySelector("#root")
+      viewRoot: document.querySelector('#root')
     }
   });
 }
@@ -67,4 +67,4 @@ async function start() {
 // Q: why not wait for 'DOMContentLoaded'?
 // A: FF infinite loading issue get fixed only with 'load'. and since all page
 //    content get rendered by code, those two events are always the same.
-window.addEventListener("load", start);
+window.addEventListener('load', start);

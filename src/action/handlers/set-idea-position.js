@@ -1,16 +1,16 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import getDescendants from "utils/graph/get-descendants";
-import weighAssociation from "model/utils/weigh-association";
-import isValidPosition from "model/utils/is-valid-position";
-import patchRootPaths from "action/utils/patch-root-paths";
-import normalizePatch from "action/utils/normalize-patch";
-import getIdea from "action/utils/get-idea";
+import getDescendants from 'utils/graph/get-descendants';
+import weighAssociation from 'model/utils/weigh-association';
+import isValidPosition from 'model/utils/is-valid-position';
+import patchRootPaths from 'action/utils/patch-root-paths';
+import normalizePatch from 'action/utils/normalize-patch';
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Sets position of idea and its child-subtree
@@ -22,8 +22,8 @@ import getIdea from "action/utils/get-idea";
  * @return {Patch|undefined}
  */
 export default function setIdeaPosition(state, data) {
-  const { model: { mindset } } = state;
-  const { ideaId, posAbs } = required(data);
+  const {model: {mindset}} = state;
+  const {ideaId, posAbs} = required(data);
 
   let patch = new Patch();
 
@@ -92,7 +92,7 @@ export default function setIdeaPosition(state, data) {
     // update relative positions of ideas
     if (idea.isRoot) {
       // absolute position equals to relative for root
-      patch.push("update-idea", {
+      patch.push('update-idea', {
         id: idea.id,
         posRel: {
           x: newPosAbs.x,
@@ -112,7 +112,7 @@ export default function setIdeaPosition(state, data) {
       // only update rel positions between moving ideas and any others,
       // since relative position between moving ideas is not changing.
       if (!movingIdeas.includes(parent)) {
-        patch.push("update-idea", {
+        patch.push('update-idea', {
           id: idea.id,
           posRel: {
             x: newPosAbs.x - parent.posAbs.x,
@@ -124,14 +124,14 @@ export default function setIdeaPosition(state, data) {
   });
 
   newAssociationWeights.forEach(w =>
-    patch.push("update-association", {
+    patch.push('update-association', {
       id: w.edge.id,
       weight: w.weight
     })
   );
 
   newIdeaPositions.forEach(p =>
-    patch.push("update-idea", {
+    patch.push('update-idea', {
       id: p.idea.id,
       posAbs: p.posAbs
     })

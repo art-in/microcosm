@@ -1,4 +1,4 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
 /**
  * Handles click event from mindmap node
@@ -9,8 +9,8 @@ import required from "utils/required-params";
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
-  const { nodeId } = required(data);
+  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {nodeId} = required(data);
 
   const node = mindmap.nodes.find(n => n.id === nodeId);
 
@@ -20,7 +20,7 @@ export default function(state, data, dispatch) {
   }
 
   dispatch({
-    type: "open-idea-form-modal",
-    data: { ideaId: nodeId }
+    type: 'open-idea-form-modal',
+    data: {ideaId: nodeId}
   });
 }

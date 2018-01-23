@@ -1,4 +1,4 @@
-import IVertexType from "utils/graph/interfaces/IVertex";
+import IVertexType from 'utils/graph/interfaces/IVertex';
 
 /**
  * Generic function for graph traversal
@@ -16,14 +16,14 @@ import IVertexType from "utils/graph/interfaces/IVertex";
  * @param {boolean}  [opts.isTree=false] - traverse graph as tree
  */
 export default function traverseGraph(opts) {
-  const { root, visit, alg = "dfs-pre", isTree = false } = opts;
+  const {root, visit, alg = 'dfs-pre', isTree = false} = opts;
 
   switch (alg) {
-    case "dfs-pre":
-    case "dfs-post":
+    case 'dfs-pre':
+    case 'dfs-post':
       dfs(root, visit, alg, isTree);
       break;
-    case "bfs":
+    case 'bfs':
       bfs(root, visit, isTree);
       break;
     default:
@@ -47,7 +47,7 @@ function dfs(vertex, visit, alg, isTree, visitedVertices = new Set()) {
 
   visitedVertices.add(vertex);
 
-  if (alg === "dfs-pre") {
+  if (alg === 'dfs-pre') {
     visit(vertex);
   }
 
@@ -57,7 +57,7 @@ function dfs(vertex, visit, alg, isTree, visitedVertices = new Set()) {
     dfs(edge.to, visit, alg, isTree, visitedVertices);
   });
 
-  if (alg === "dfs-post") {
+  if (alg === 'dfs-post') {
     visit(vertex);
   }
 }

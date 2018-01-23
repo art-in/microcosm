@@ -1,6 +1,6 @@
-import calcRootPaths from "utils/graph/calc-root-paths";
+import calcRootPaths from 'utils/graph/calc-root-paths';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
+import IVertexType from 'utils/graph/interfaces/IVertex';
 
 /**
  * Calculates minimal root paths (MRP) and diffs result with current graph state

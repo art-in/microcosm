@@ -1,4 +1,4 @@
-import Association from "model/entities/Association";
+import Association from 'model/entities/Association';
 
 /**
  * Maps dbo to association model

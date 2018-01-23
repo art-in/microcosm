@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import LookupPopupVmType from "vm/shared/LookupPopup";
+import LookupPopupVmType from 'vm/shared/LookupPopup';
 
-import Popup from "../Popup";
-import Lookup from "../Lookup";
+import Popup from '../Popup';
+import Lookup from '../Lookup';
 
-import classes from "./LookupPopup.css";
+import classes from './LookupPopup.css';
 
 /**
  * @typedef {object} Props
@@ -29,7 +29,7 @@ export default class LookupPopup extends Component {
       onSuggestionSelect,
       ...other
     } = this.props;
-    const { popup, lookup } = lookupPopup;
+    const {popup, lookup} = lookupPopup;
 
     return (
       <Popup popup={popup} className={cx(classes.root, className)} {...other}>

@@ -1,4 +1,4 @@
-const ELLIPSIS = "...";
+const ELLIPSIS = '...';
 const ELLIPSIS_LENGTH = ELLIPSIS.length;
 
 /**

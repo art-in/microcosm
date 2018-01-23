@@ -1,13 +1,13 @@
-import PatchType from "utils/state/Patch";
-import view from "vm/utils/view-patch";
+import PatchType from 'utils/state/Patch';
+import view from 'vm/utils/view-patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import deactivate from "vm/shared/IdeaFormModal/methods/deactivate";
+import deactivate from 'vm/shared/IdeaFormModal/methods/deactivate';
 import {
   MESSAGE_CONFIRM_REMOVE,
   MESSAGE_CONFIRM_LEAVE
-} from "vm/shared/IdeaForm";
+} from 'vm/shared/IdeaForm';
 
 /**
  * Handles remove event from idea form
@@ -19,10 +19,10 @@ import {
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const { model: { mindset } } = state;
-  const { vm: { main: { mindset: { mindmap } } } } = state;
+  const {model: {mindset}} = state;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
 
-  const { form } = mindmap.ideaFormModal;
+  const {form} = mindmap.ideaFormModal;
 
   const idea = mindset.ideas.get(form.ideaId);
 
@@ -37,9 +37,9 @@ export default function(state, data, dispatch) {
   }
 
   dispatch({
-    type: "remove-idea",
-    data: { ideaId: form.ideaId }
+    type: 'remove-idea',
+    data: {ideaId: form.ideaId}
   });
 
-  return view("update-idea-form-modal", deactivate());
+  return view('update-idea-form-modal', deactivate());
 }

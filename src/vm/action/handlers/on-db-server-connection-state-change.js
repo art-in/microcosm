@@ -1,9 +1,9 @@
-import required from "utils/required-params";
-import PatchType from "utils/state/Patch";
+import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
 
-import ConnectionState from "action/utils/ConnectionState";
-import StateType from "boot/client/State";
-import view from "vm/utils/view-patch";
+import ConnectionState from 'action/utils/ConnectionState';
+import StateType from 'boot/client/State';
+import view from 'vm/utils/view-patch';
 
 /**
  * Handles change of database server connection state
@@ -14,8 +14,8 @@ import view from "vm/utils/view-patch";
  * @return {PatchType}
  */
 export default function(state, data) {
-  const { data: { dbServerUrl } } = state;
-  const { connectionState } = required(data);
+  const {data: {dbServerUrl}} = state;
+  const {connectionState} = required(data);
 
   let tooltip;
 
@@ -41,7 +41,7 @@ export default function(state, data) {
       );
   }
 
-  return view("update-mindset-vm", {
+  return view('update-mindset-vm', {
     dbServerConnectionIcon: {
       state: connectionState,
       tooltip

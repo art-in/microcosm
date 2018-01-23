@@ -1,7 +1,7 @@
-import ViewModel from "vm/utils/ViewModel";
+import ViewModel from 'vm/utils/ViewModel';
 
-import Modal from "vm/shared/Modal";
-import IdeaForm from "vm/shared/IdeaForm";
+import Modal from 'vm/shared/Modal';
+import IdeaForm from 'vm/shared/IdeaForm';
 
 /**
  * Idea form wrapped into modal popup

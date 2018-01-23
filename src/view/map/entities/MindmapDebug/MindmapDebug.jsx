@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import round from "utils/round";
-import MindmapVmType from "vm/map/entities/Mindmap";
+import round from 'utils/round';
+import MindmapVmType from 'vm/map/entities/Mindmap';
 
-import classes from "./MindmapDebug.css";
+import classes from './MindmapDebug.css';
 
 /**
  * @typedef {object} Props
@@ -13,7 +13,7 @@ import classes from "./MindmapDebug.css";
  */
 export default class MindmapDebug extends Component {
   render() {
-    const { mindmap, mindmap: { viewbox } } = this.props;
+    const {mindmap, mindmap: {viewbox}} = this.props;
 
     if (!mindmap.debug.enable) {
       return null;
@@ -24,23 +24,23 @@ export default class MindmapDebug extends Component {
 
     const lines = [
       [
-        "viewbox",
+        'viewbox',
         `(${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
           `(${round(viewbox.width)}; ${round(viewbox.height)})`
       ],
 
-      ["scale", round(viewbox.scale, 2)],
-      ["drag", mindmap.drag.active.toString()],
-      ["pan", mindmap.pan.active.toString()],
+      ['scale', round(viewbox.scale, 2)],
+      ['drag', mindmap.drag.active.toString()],
+      ['pan', mindmap.pan.active.toString()],
 
-      ["focus center", round(mindmap.debug.focusCenter, 2)],
-      ["focus zone", `(Infinity - ${focusZoneMax}]`],
-      ["shade zone", `(${focusZoneMax} - ${shadeZoneMax}]`],
-      ["hide zone", `(${shadeZoneMax} - Infinity)`]
+      ['focus center', round(mindmap.debug.focusCenter, 2)],
+      ['focus zone', `(Infinity - ${focusZoneMax}]`],
+      ['shade zone', `(${focusZoneMax} - ${shadeZoneMax}]`],
+      ['hide zone', `(${shadeZoneMax} - Infinity)`]
     ];
 
     return (
-      <div id={"debug"} className={classes.root}>
+      <div id={'debug'} className={classes.root}>
         {lines.map(line => (
           <div key={line[0]}>
             <span className={classes.title}>{line[0]}:</span>

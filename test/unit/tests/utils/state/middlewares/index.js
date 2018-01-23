@@ -1,3 +1,3 @@
-describe("middlewares", () => {
-  require("./logger.test");
+describe('middlewares', () => {
+  require('./logger.test');
 });

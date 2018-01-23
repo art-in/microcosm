@@ -1,4 +1,4 @@
-import Handler from "utils/state/Handler";
+import Handler from 'utils/state/Handler';
 
 /**
  * Dynamicly registers action handlers in folder

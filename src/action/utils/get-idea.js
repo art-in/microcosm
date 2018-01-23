@@ -1,5 +1,5 @@
-import IdeaType from "model/entities/Idea";
-import MindsetType from "model/entities/Mindset";
+import IdeaType from 'model/entities/Idea';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Gets idea by ID

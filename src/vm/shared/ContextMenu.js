@@ -1,8 +1,8 @@
-import ViewModel from "vm/utils/ViewModel";
-import MenuItemType from "vm/shared/MenuItem";
+import ViewModel from 'vm/utils/ViewModel';
+import MenuItemType from 'vm/shared/MenuItem';
 
-import Menu from "./Menu";
-import Popup from "./Popup";
+import Menu from './Menu';
+import Popup from './Popup';
 
 /**
  * Context menu
@@ -36,9 +36,9 @@ export default class ContextMenu extends ViewModel {
   constructor(opts = {}) {
     super();
 
-    const { items = [] } = opts;
+    const {items = []} = opts;
 
     this.popup = new Popup();
-    this.menu = new Menu({ items });
+    this.menu = new Menu({items});
   }
 }

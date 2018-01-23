@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import LookupSuggestionVmType from "vm/shared/LookupSuggestion";
+import LookupSuggestionVmType from 'vm/shared/LookupSuggestion';
 
-import classes from "./LookupSuggestion.css";
+import classes from './LookupSuggestion.css';
 
 /**
  * @typedef {object} Props
@@ -16,7 +16,7 @@ import classes from "./LookupSuggestion.css";
  */
 export default class LookupSuggestion extends Component {
   render() {
-    const { suggestion, className, highlight, onSelected } = this.props;
+    const {suggestion, className, highlight, onSelected} = this.props;
 
     return (
       <div

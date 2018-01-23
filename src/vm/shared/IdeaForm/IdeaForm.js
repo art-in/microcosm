@@ -1,11 +1,11 @@
-import IdeaListItemType from "vm/shared/IdeaListItem";
-import SearchBox from "vm/shared/SearchBox";
-import Lookup from "vm/shared/Lookup";
+import IdeaListItemType from 'vm/shared/IdeaListItem';
+import SearchBox from 'vm/shared/SearchBox';
+import Lookup from 'vm/shared/Lookup';
 
 export const MESSAGE_CONFIRM_LEAVE =
-  "There are unsaved changes on the form. Leave anyway?";
+  'There are unsaved changes on the form. Leave anyway?';
 
-export const MESSAGE_CONFIRM_REMOVE = "Remove following idea?";
+export const MESSAGE_CONFIRM_REMOVE = 'Remove following idea?';
 
 /**
  * Form for showing and editing contents of Idea (title, value, etc.)
@@ -151,6 +151,6 @@ export default class IdeaForm {
    * @type {SearchBox}
    */
   successorSearchBox = new SearchBox({
-    lookup: new Lookup({ placeholder: "target idea..." })
+    lookup: new Lookup({placeholder: 'target idea...'})
   });
 }

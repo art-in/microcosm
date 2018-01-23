@@ -1,6 +1,6 @@
-import Idea from "model/entities/Idea";
+import Idea from 'model/entities/Idea';
 
-import dboToPoint from "./dbo-to-point";
+import dboToPoint from './dbo-to-point';
 
 /**
  * Maps dbo to idea model

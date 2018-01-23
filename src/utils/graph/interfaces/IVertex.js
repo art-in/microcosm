@@ -1,4 +1,4 @@
-import IEdgeType from "./IEdge";
+import IEdgeType from './IEdge';
 
 /**
  * Graph vertex

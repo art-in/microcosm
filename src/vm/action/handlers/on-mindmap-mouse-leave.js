@@ -1,10 +1,10 @@
-import view from "vm/utils/view-mutation";
+import view from 'vm/utils/view-mutation';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import Patch from "utils/state/Patch";
-import getNode from "vm/action/utils/get-node";
-import stopDrag from "vm/map/entities/Mindmap/methods/stop-drag";
+import Patch from 'utils/state/Patch';
+import getNode from 'vm/action/utils/get-node';
+import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
 
 /**
  * Handles mouse leave action on mindmap
@@ -13,7 +13,7 @@ import stopDrag from "vm/map/entities/Mindmap/methods/stop-drag";
  * @return {Patch|undefined}
  */
 export default function(state) {
-  const { vm: { main: { mindset: { mindmap } } } } = state;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
 
   // TODO: cancel pan too
   if (!mindmap.drag.active) {
@@ -31,7 +31,7 @@ export default function(state) {
 
   nodes.forEach(n =>
     patch.push(
-      view("update-node", {
+      view('update-node', {
         id: n.id,
         posAbs: {
           x: n.posAbs.x - dx,
@@ -42,7 +42,7 @@ export default function(state) {
   );
 
   // stop dragging
-  patch.push(view("update-mindmap", stopDrag()));
+  patch.push(view('update-mindmap', stopDrag()));
 
   return patch;
 }

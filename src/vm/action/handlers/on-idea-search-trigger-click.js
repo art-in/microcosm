@@ -1,4 +1,4 @@
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Handles click event from idea search box trigger
@@ -9,6 +9,6 @@ import StateType from "boot/client/State";
  */
 export default function(state, data, dispatch) {
   dispatch({
-    type: "activate-idea-search-box"
+    type: 'activate-idea-search-box'
   });
 }

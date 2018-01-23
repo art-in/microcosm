@@ -1,7 +1,7 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
-import MindsetType from "model/entities/Mindset";
+import StateType from 'boot/client/State';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Init mindset
@@ -10,8 +10,8 @@ import MindsetType from "model/entities/Mindset";
  * @param {object} data
  */
 export default function initMindset(state, data) {
-  const { model } = state;
-  const { mindset } = required(data.model);
+  const {model} = state;
+  const {mindset} = required(data.model);
 
   model.mindset = mindset;
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
 /**
  * @typedef {object} Props
@@ -22,7 +22,7 @@ import React, { Component } from "react";
  */
 export default class Svg extends Component {
   render() {
-    const { nodeRef, className, ...other } = this.props;
+    const {nodeRef, className, ...other} = this.props;
 
     return (
       <svg

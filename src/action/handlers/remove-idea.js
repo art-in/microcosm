@@ -1,11 +1,11 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import withoutItem from "utils/get-array-without-item";
-import normalizePatch from "action/utils/normalize-patch";
-import getIdea from "action/utils/get-idea";
+import withoutItem from 'utils/get-array-without-item';
+import normalizePatch from 'action/utils/normalize-patch';
+import getIdea from 'action/utils/get-idea';
 
 /**
  * Removes idea with corresponding associations
@@ -16,8 +16,8 @@ import getIdea from "action/utils/get-idea";
  * @return {Patch}
  */
 export default function removeIdea(state, data) {
-  const { model: { mindset } } = state;
-  const { ideaId } = required(data);
+  const {model: {mindset}} = state;
+  const {ideaId} = required(data);
 
   const patch = new Patch();
 
@@ -25,7 +25,7 @@ export default function removeIdea(state, data) {
 
   // check integrity
   if (idea.isRoot) {
-    throw Error("Unable to remove root idea");
+    throw Error('Unable to remove root idea');
   }
 
   if (idea.edgesOut.length) {
@@ -57,16 +57,16 @@ export default function removeIdea(state, data) {
       );
     }
 
-    patch.push("update-idea", {
+    patch.push('update-idea', {
       id: head.id,
       edgesOut: withoutItem(head.edgesOut, index)
     });
 
     // remove association
-    patch.push("remove-association", { id: assoc.id });
+    patch.push('remove-association', {id: assoc.id});
   });
 
-  patch.push("remove-idea", { id: ideaId });
+  patch.push('remove-idea', {id: ideaId});
 
   // update root paths.
   // since removing idea with outgoing associations is not allowed,
@@ -77,7 +77,7 @@ export default function removeIdea(state, data) {
 
   const index = parent.edgesToChilds.indexOf(idea.edgeFromParent);
 
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: parent.id,
     edgesToChilds: withoutItem(parent.edgesToChilds, index)
   });

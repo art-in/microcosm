@@ -1,8 +1,8 @@
-import initProps from "utils/init-props";
-import ViewModel from "vm/utils/ViewModel";
+import initProps from 'utils/init-props';
+import ViewModel from 'vm/utils/ViewModel';
 
-import MindsetType from "vm/main/Mindset";
-import VersionVmType from "vm/main/Version";
+import MindsetType from 'vm/main/Mindset';
+import VersionVmType from 'vm/main/Version';
 
 /**
  * Main view model

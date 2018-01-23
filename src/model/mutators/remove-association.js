@@ -1,6 +1,6 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Removes association
@@ -10,8 +10,8 @@ import StateType from "boot/client/State";
  * @param {string} data.id
  */
 export default function removeAssociation(state, data) {
-  const { model: { mindset } } = state;
-  const { id } = required(data);
+  const {model: {mindset}} = state;
+  const {id} = required(data);
 
   if (!mindset.associations.has(id)) {
     throw Error(`Association '${id}' was not found`);

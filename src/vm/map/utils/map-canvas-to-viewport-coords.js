@@ -1,6 +1,6 @@
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
-import toViewportCoords from "./map-viewbox-to-viewport-coords";
+import toViewportCoords from './map-viewbox-to-viewport-coords';
 
 /**
  * Maps canvas coordinates to viewport coordinates

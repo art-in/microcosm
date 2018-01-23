@@ -1,20 +1,20 @@
-import { expect } from "test/utils";
-import { spy } from "sinon";
+import {expect} from 'test/utils';
+import {spy} from 'sinon';
 
-import animate from "vm/utils/animate";
+import animate from 'vm/utils/animate';
 
-describe("animate", () => {
-  it("should progressively change values towards target", async () => {
+describe('animate', () => {
+  it('should progressively change values towards target', async () => {
     // setup
     const onStep = spy();
 
     // target
     await animate({
       values: [
-        { from: 1, to: 2 }, //  A
-        { from: -2, to: 0 }, // B
-        { from: 3, to: -2 }, // C
-        { from: 1, to: 1 } //   D
+        {from: 1, to: 2}, //  A
+        {from: -2, to: 0}, // B
+        {from: 3, to: -2}, // C
+        {from: 1, to: 1} //   D
       ],
       duration: 50,
       onStep,
@@ -36,16 +36,16 @@ describe("animate", () => {
     }
   });
 
-  it("should pass target values on final step", async () => {
+  it('should pass target values on final step', async () => {
     // setup
     const onStep = spy();
 
     // target
     await animate({
       values: [
-        { from: 1, to: 2 }, //  A
-        { from: -2, to: 0 }, // B
-        { from: 3, to: -2 } //  C
+        {from: 1, to: 2}, //  A
+        {from: -2, to: 0}, // B
+        {from: 3, to: -2} //  C
       ],
       duration: 50,
       onStep,
@@ -61,13 +61,13 @@ describe("animate", () => {
     ]);
   });
 
-  it("should NOT pass starting value on first step", async () => {
+  it('should NOT pass starting value on first step', async () => {
     // setup
     const onStep = spy();
 
     // target
     await animate({
-      values: [{ from: 2, to: 1 }],
+      values: [{from: 2, to: 1}],
       duration: 10,
       onStep,
       scheduleAnimationStep: cb => setTimeout(cb, 10)
@@ -78,13 +78,13 @@ describe("animate", () => {
     expect(firstStepValues[0]).to.not.equal(2);
   });
 
-  it("should NOT make steps if all values are equal", async () => {
+  it('should NOT make steps if all values are equal', async () => {
     // setup
     const onStep = spy();
 
     // target
     await animate({
-      values: [{ from: 1, to: 1 }, { from: 2, to: 2 }],
+      values: [{from: 1, to: 1}, {from: 2, to: 2}],
       duration: 10,
       onStep,
       scheduleAnimationStep: cb => setTimeout(cb, 10)

@@ -1,4 +1,4 @@
-import timer from "./timer";
+import timer from './timer';
 
 /**
  * Schedules next js-queue task (macrotask)

@@ -1,11 +1,11 @@
-import required from "utils/required-params";
-import view from "vm/utils/view-patch";
-import PatchType from "utils/state/Patch";
-import isEmpty from "utils/is-empty-object";
+import required from 'utils/required-params';
+import view from 'vm/utils/view-patch';
+import PatchType from 'utils/state/Patch';
+import isEmpty from 'utils/is-empty-object';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import onKeyDown from "vm/shared/Lookup/methods/on-keydown";
+import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
 
 /**
  * Handles keydown event from idea search lookup
@@ -18,8 +18,8 @@ import onKeyDown from "vm/shared/Lookup/methods/on-keydown";
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const { vm: { main: { mindset } } } = state;
-  const { code, preventDefault } = required(data);
+  const {vm: {main: {mindset}}} = state;
+  const {code, preventDefault} = required(data);
 
   const lookup = mindset.ideaSearchBox.lookup;
 
@@ -27,16 +27,16 @@ export default function(state, data, dispatch) {
     lookup,
     code,
     preventDefault,
-    onSuggestionSelect: ({ suggestion }) => {
+    onSuggestionSelect: ({suggestion}) => {
       dispatch({
-        type: "on-idea-search-lookup-suggestion-select",
-        data: { suggestion }
+        type: 'on-idea-search-lookup-suggestion-select',
+        data: {suggestion}
       });
     }
   });
 
   if (!isEmpty(lookupUpdate)) {
-    return view("update-idea-search-box", {
+    return view('update-idea-search-box', {
       lookup: lookupUpdate
     });
   }

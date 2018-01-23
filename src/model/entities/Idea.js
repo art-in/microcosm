@@ -1,11 +1,11 @@
-import initProps from "utils/init-props";
-import createID from "utils/create-id";
+import initProps from 'utils/init-props';
+import createID from 'utils/create-id';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
-import AssociationType from "./Association";
-import PointType from "./Point";
+import AssociationType from './Association';
+import PointType from './Point';
 
 /**
  * Idea model

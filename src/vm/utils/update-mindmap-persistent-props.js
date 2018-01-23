@@ -1,5 +1,5 @@
-import MindmapType from "vm/map/entities/Mindmap";
-import getViewboxSize from "vm/map/entities/Mindmap/methods/get-viewbox-size";
+import MindmapType from 'vm/map/entities/Mindmap';
+import getViewboxSize from 'vm/map/entities/Mindmap/methods/get-viewbox-size';
 
 /**
  * Updates mindmap view model by updating only persistent (saved to db) props of

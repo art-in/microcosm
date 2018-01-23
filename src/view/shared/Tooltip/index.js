@@ -1,2 +1,2 @@
-import module from "./Tooltip";
+import module from './Tooltip';
 export default module;

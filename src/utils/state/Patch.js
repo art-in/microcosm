@@ -1,6 +1,6 @@
-import dedup from "utils/dedup-array";
+import dedup from 'utils/dedup-array';
 
-import Mutation from "./Mutation";
+import Mutation from './Mutation';
 
 /**
  * Container of mutations, which later can be applied to the state
@@ -104,8 +104,8 @@ export default class Patch {
    */
   push(mutation, ...rest) {
     if (!(mutation instanceof Mutation)) {
-      if (typeof mutation === "string") {
-        mutation = new Mutation({ type: mutation, data: rest[0] });
+      if (typeof mutation === 'string') {
+        mutation = new Mutation({type: mutation, data: rest[0]});
       } else {
         mutation = new Mutation(mutation);
       }

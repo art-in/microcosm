@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
-import cx from "classnames";
+import React, {Component, Fragment} from 'react';
+import cx from 'classnames';
 
-import IdeaListItemType from "vm/shared/IdeaListItem";
+import IdeaListItemType from 'vm/shared/IdeaListItem';
 
-import classes from "./IdeaPath.css";
+import classes from './IdeaPath.css';
 
 /**
  * @typedef {object} Props
@@ -15,7 +15,7 @@ import classes from "./IdeaPath.css";
  */
 export default class IdeaPath extends Component {
   render() {
-    const { className, path, onIdeaSelect } = this.props;
+    const {className, path, onIdeaSelect} = this.props;
 
     return (
       <div className={cx(classes.root, className)}>

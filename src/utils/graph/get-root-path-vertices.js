@@ -1,7 +1,7 @@
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
-import getRootPath from "utils/graph/get-root-path";
+import getRootPath from 'utils/graph/get-root-path';
 
 /**
  * Gets vertices on the path from root to target vertex

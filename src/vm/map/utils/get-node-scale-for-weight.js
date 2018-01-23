@@ -1,4 +1,4 @@
-import isValidPathWeight from "utils/graph/is-valid-path-weight";
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
 /**
  * Calculates node scale according to its root path weight (RPW).

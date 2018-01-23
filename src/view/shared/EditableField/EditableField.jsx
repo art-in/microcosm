@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import noop from "utils/noop";
+import noop from 'utils/noop';
 
 /**
  * @typedef {object} Props
@@ -19,25 +19,25 @@ import noop from "utils/noop";
  */
 export default class EditableField extends Component {
   static defaultProps = {
-    tag: "div",
+    tag: 'div',
     selectOnFocus: true,
     focusOnMount: false,
     onBlur: noop
   };
 
   state = {
-    html: ""
+    html: ''
   };
 
   constructor(props) {
     super(props);
 
-    this.state = { html: props.html };
+    this.state = {html: props.html};
     this.lastHtml = props.html;
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ html: nextProps.html });
+    this.setState({html: nextProps.html});
     this.lastHtml = nextProps.html;
   }
 
@@ -76,14 +76,14 @@ export default class EditableField extends Component {
   };
 
   onKeyDown = e => {
-    if (e.key === "Enter" && !e.ctrlKey) {
+    if (e.key === 'Enter' && !e.ctrlKey) {
       e.preventDefault();
       this.emitChangeIfChanged();
     }
 
-    if (e.key === "Enter" && e.ctrlKey) {
+    if (e.key === 'Enter' && e.ctrlKey) {
       e.preventDefault();
-      document.execCommand("insertHTML", false, "<br><br>");
+      document.execCommand('insertHTML', false, '<br><br>');
     }
 
     e.stopPropagation();
@@ -91,7 +91,7 @@ export default class EditableField extends Component {
 
   onInput = () => {
     const html = this.input.innerHTML;
-    this.setState({ html });
+    this.setState({html});
   };
 
   emitChangeIfChanged = () => {
@@ -131,14 +131,14 @@ export default class EditableField extends Component {
 
           // contenteditable node can contain valid html inside,
           // like <br>, <b>, <i>, etc.
-          dangerouslySetInnerHTML: { __html: this.state.html },
+          dangerouslySetInnerHTML: {__html: this.state.html},
           ref: node => (this.input = node),
           onBlur: this.onBlur,
           onFocus: this.onFocus,
           onKeyDown: this.onKeyDown,
           onInput: this.onInput
         },
-        { ...other }
+        {...other}
       )
     );
   }

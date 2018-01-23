@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import PointType from "model/entities/Point";
+import PointType from 'model/entities/Point';
 
 /**
  * @typedef {object} Props
@@ -14,7 +14,7 @@ import PointType from "model/entities/Point";
  */
 export default class Circle extends Component {
   render() {
-    const { pos, radius, className, ...other } = this.props;
+    const {pos, radius, className, ...other} = this.props;
 
     return (
       <circle

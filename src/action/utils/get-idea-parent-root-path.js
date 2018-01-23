@@ -1,8 +1,8 @@
-import MindsetType from "model/entities/Mindset";
-import AssociationType from "model/entities/Association";
+import MindsetType from 'model/entities/Mindset';
+import AssociationType from 'model/entities/Association';
 
-import getIdea from "./get-idea";
-import getIdeaRootPath from "action/utils/get-idea-root-path";
+import getIdea from './get-idea';
+import getIdeaRootPath from 'action/utils/get-idea-root-path';
 
 /**
  * Gets path from root to parent of target idea in string form
@@ -16,7 +16,7 @@ import getIdeaRootPath from "action/utils/get-idea-root-path";
  */
 export default function getIdeaParentRootPath(mindset, ideaId) {
   if (mindset.root.id === ideaId) {
-    return "/";
+    return '/';
   }
 
   const idea = getIdea(mindset, ideaId);

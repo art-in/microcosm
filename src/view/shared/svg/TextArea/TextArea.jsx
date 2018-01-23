@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import cx from "classnames";
+import React, {Component} from 'react';
+import cx from 'classnames';
 
-import PointType from "model/entities/Point";
-import EditableField from "view/shared/EditableField";
+import PointType from 'model/entities/Point';
+import EditableField from 'view/shared/EditableField';
 
-import classes from "./TextArea.css";
+import classes from './TextArea.css';
 
 /**
  * @typedef {object} Props
@@ -46,13 +46,13 @@ export default class TextArea extends Component {
     return (
       <foreignObject
         transform={
-          (pos ? `translate(${pos.x} ${pos.y}) ` : "") +
-          (rotation ? `rotate(${rotation})` : "")
+          (pos ? `translate(${pos.x} ${pos.y}) ` : '') +
+          (rotation ? `rotate(${rotation})` : '')
         }
       >
         {editable ? (
           <EditableField
-            style={{ width, height }}
+            style={{width, height}}
             html={value}
             tag="div"
             focusOnMount={true}
@@ -62,7 +62,7 @@ export default class TextArea extends Component {
           />
         ) : (
           <div
-            style={{ width, height }}
+            style={{width, height}}
             className={cx(classes.root, className)}
             {...other}
           >

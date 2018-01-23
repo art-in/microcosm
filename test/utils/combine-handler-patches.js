@@ -1,5 +1,5 @@
-import Patch from "src/utils/state/Patch";
-import MutationType from "src/utils/state/Mutation";
+import Patch from 'src/utils/state/Patch';
+import MutationType from 'src/utils/state/Mutation';
 
 /**
  * Combines all patches produced by action handler into one patch

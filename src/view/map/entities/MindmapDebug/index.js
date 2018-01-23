@@ -1,2 +1,2 @@
-import module from "./MindmapDebug";
+import module from './MindmapDebug';
 export default module;

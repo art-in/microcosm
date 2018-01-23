@@ -1,8 +1,8 @@
-import required from "utils/required-params";
+import required from 'utils/required-params';
 
-import StateType from "boot/client/State";
-import MainVmType from "vm/main/Main";
-import updateMindmapPersistent from "vm/utils/update-mindmap-persistent-props";
+import StateType from 'boot/client/State';
+import MainVmType from 'vm/main/Main';
+import updateMindmapPersistent from 'vm/utils/update-mindmap-persistent-props';
 
 /**
  * Inits mindset
@@ -11,10 +11,10 @@ import updateMindmapPersistent from "vm/utils/update-mindmap-persistent-props";
  * @param {object} data
  */
 export default function initMindset(state, data) {
-  const { vm } = state;
-  const { isLoaded, mindmap } = required(data.vm.mindset);
+  const {vm} = state;
+  const {isLoaded, mindmap} = required(data.vm.mindset);
 
-  const { mindset } = vm.main;
+  const {mindset} = vm.main;
 
   mindset.isLoaded = isLoaded;
 

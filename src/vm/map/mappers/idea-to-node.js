@@ -1,6 +1,6 @@
-import Node from "vm/map/entities/Node";
-import IdeaType from "model/entities/Idea";
-import Point from "model/entities/Point";
+import Node from 'vm/map/entities/Node';
+import IdeaType from 'model/entities/Idea';
+import Point from 'model/entities/Point';
 
 /**
  * Maps idea model to node view model

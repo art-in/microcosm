@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react";
-import cx from "classnames";
+import React, {Component, Fragment} from 'react';
+import cx from 'classnames';
 
-import getKeyCode from "view/utils/dom/get-key-code";
-import ConnectionState from "action/utils/ConnectionState";
+import getKeyCode from 'view/utils/dom/get-key-code';
+import ConnectionState from 'action/utils/ConnectionState';
 
-import MindsetType from "vm/main/Mindset";
-import IconType from "vm/shared/Icon";
-import IconSize from "vm/shared/IconSize";
+import MindsetType from 'vm/main/Mindset';
+import IconType from 'vm/shared/Icon';
+import IconSize from 'vm/shared/IconSize';
 
-import Mindmap from "view/map/entities/Mindmap";
-import SearchBox from "view/shared/SearchBox";
-import IconButton from "view/shared/IconButton";
-import Icon from "view/shared/Icon";
+import Mindmap from 'view/map/entities/Mindmap';
+import SearchBox from 'view/shared/SearchBox';
+import IconButton from 'view/shared/IconButton';
+import Icon from 'view/shared/Icon';
 
-import classes from "./Mindset.css";
+import classes from './Mindset.css';
 
 /**
  * @typedef {object} Props
@@ -32,11 +32,11 @@ export default class Mindset extends Component {
     // listen keyboard events on body element, since otherwise it is not
     // always possible to keep focus on component container: if focused
     // element is removed from DOM - focus jumps to document body
-    document.body.addEventListener("keydown", this.onKeyDown);
+    document.body.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener("keydown", this.onKeyDown);
+    document.body.removeEventListener('keydown', this.onKeyDown);
   }
 
   onKeyDown = nativeEvent => {
@@ -75,7 +75,7 @@ export default class Mindset extends Component {
       onIdeaSearchLookupKeyDown,
       onIdeaSearchLookupSuggestionSelect
     } = this.props;
-    const { dbServerConnectionIcon } = mindset;
+    const {dbServerConnectionIcon} = mindset;
 
     return (
       <div className={cx(classes.root)}>

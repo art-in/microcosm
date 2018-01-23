@@ -1,3 +1,3 @@
-describe("mappers", () => {
-  require("./mindset-to-mindmap.test");
+describe('mappers', () => {
+  require('./mindset-to-mindmap.test');
 });

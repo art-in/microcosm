@@ -1,4 +1,4 @@
-import ConnectionState from "action/utils/ConnectionState";
+import ConnectionState from 'action/utils/ConnectionState';
 
 const HEARTBEAT_INTERVAL = 10000; // ms
 
@@ -21,7 +21,7 @@ export default function startDBServerHeartbeat(dbServerUrl, dispatch) {
    */
   async function check() {
     try {
-      const response = await fetch(dbServerUrl, { method: "HEAD" });
+      const response = await fetch(dbServerUrl, {method: 'HEAD'});
 
       if (response.ok) {
         onCheckResult(ConnectionState.connected);
@@ -44,8 +44,8 @@ export default function startDBServerHeartbeat(dbServerUrl, dispatch) {
       currentConnectionState = connectionState;
 
       dispatch({
-        type: "on-db-server-connection-state-change",
-        data: { connectionState }
+        type: 'on-db-server-connection-state-change',
+        data: {connectionState}
       });
     }
   }

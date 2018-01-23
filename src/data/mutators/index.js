@@ -1,14 +1,14 @@
-import required from "utils/required-params";
-import PatchType from "utils/state/Patch";
-import MutationType from "utils/state/Mutation";
+import required from 'utils/required-params';
+import PatchType from 'utils/state/Patch';
+import MutationType from 'utils/state/Mutation';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import AsyncTaskQueue from "utils/AsyncTaskQueue";
+import AsyncTaskQueue from 'utils/AsyncTaskQueue';
 
-import * as ideaDB from "../db/ideas";
-import * as assocDB from "../db/associations";
-import * as mindsetDB from "../db/mindsets";
+import * as ideaDB from '../db/ideas';
+import * as assocDB from '../db/associations';
+import * as mindsetDB from '../db/mindsets';
 
 /**
  * DB mutation queue
@@ -28,7 +28,7 @@ const _queue = new AsyncTaskQueue();
 export default async function mutate(state, patch) {
   await Promise.all(
     patch.map(async function(mutation) {
-      if (mutation.hasTarget("data")) {
+      if (mutation.hasTarget('data')) {
         await _queue.enqueue(async () => {
           await apply(state, mutation);
         });
@@ -43,48 +43,48 @@ export default async function mutate(state, patch) {
  * @param {MutationType} mutation
  */
 async function apply(state, mutation) {
-  const { data } = state;
+  const {data} = state;
 
   switch (mutation.type) {
-    case "init": {
-      const { dbServerUrl } = required(mutation.data.data);
+    case 'init': {
+      const {dbServerUrl} = required(mutation.data.data);
       data.dbServerUrl = dbServerUrl;
       break;
     }
 
-    case "init-mindset": {
-      const { ideas, associations, mindsets } = required(mutation.data.data);
+    case 'init-mindset': {
+      const {ideas, associations, mindsets} = required(mutation.data.data);
       data.ideas = ideas;
       data.associations = associations;
       data.mindsets = mindsets;
       break;
     }
 
-    case "add-idea":
+    case 'add-idea':
       await ideaDB.add(data.ideas, mutation.data.idea);
       break;
 
-    case "update-idea":
+    case 'update-idea':
       await ideaDB.update(data.ideas, mutation.data);
       break;
 
-    case "remove-idea":
+    case 'remove-idea':
       await ideaDB.remove(data.ideas, mutation.data.id);
       break;
 
-    case "add-association":
+    case 'add-association':
       await assocDB.add(data.associations, mutation.data.assoc);
       break;
 
-    case "update-association":
+    case 'update-association':
       await assocDB.update(data.associations, mutation.data);
       break;
 
-    case "remove-association":
+    case 'remove-association':
       await assocDB.remove(data.associations, mutation.data.id);
       break;
 
-    case "update-mindset":
+    case 'update-mindset':
       await mindsetDB.update(data.mindsets, mutation.data);
       break;
 

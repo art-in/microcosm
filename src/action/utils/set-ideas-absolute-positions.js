@@ -1,8 +1,8 @@
-import traverseGraph from "utils/graph/traverse-graph";
-import isValidPosition from "model/utils/is-valid-position";
+import traverseGraph from 'utils/graph/traverse-graph';
+import isValidPosition from 'model/utils/is-valid-position';
 
-import IdeaType from "model/entities/Idea";
-import Point from "model/entities/Point";
+import IdeaType from 'model/entities/Idea';
+import Point from 'model/entities/Point';
 
 /**
  * Calculates absolute positions for ideas due to their relative positions

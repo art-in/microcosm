@@ -8,5 +8,5 @@ export default function isEmptyDbo(dbo) {
   const props = Object.getOwnPropertyNames(dbo);
 
   // id prop always required for 'put' operation
-  return props.length === 1 && props[0] === "_id";
+  return props.length === 1 && props[0] === '_id';
 }

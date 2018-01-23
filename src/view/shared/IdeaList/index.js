@@ -1,2 +1,2 @@
-import module from "./IdeaList.jsx";
+import module from './IdeaList.jsx';
 export default module;

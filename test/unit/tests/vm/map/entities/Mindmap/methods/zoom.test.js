@@ -1,10 +1,10 @@
-import { expect } from "test/utils";
+import {expect} from 'test/utils';
 
-import zoom from "src/vm/map/entities/Mindmap/methods/zoom";
+import zoom from 'src/vm/map/entities/Mindmap/methods/zoom';
 
-describe("zoom", () => {
-  describe("move viewbox towards zoom point", () => {
-    it("should make full move if zoom point on corner", () => {
+describe('zoom', () => {
+  describe('move viewbox towards zoom point', () => {
+    it('should make full move if zoom point on corner', () => {
       // setup / target
       // _________________
       // |vb1             |
@@ -29,7 +29,7 @@ describe("zoom", () => {
           height: 100
         },
         scale: 2,
-        canvasPos: { x: 100, y: 100 }
+        canvasPos: {x: 100, y: 100}
       });
 
       // check
@@ -42,7 +42,7 @@ describe("zoom", () => {
       });
     });
 
-    it("should make partial move if zoom point on the side", () => {
+    it('should make partial move if zoom point on the side', () => {
       // setup / target
       //  ________________
       // |vb1  __________ |
@@ -67,7 +67,7 @@ describe("zoom", () => {
           height: 100
         },
         scale: 2,
-        canvasPos: { x: 75, y: 50 }
+        canvasPos: {x: 75, y: 50}
       });
 
       // check
@@ -80,7 +80,7 @@ describe("zoom", () => {
       });
     });
 
-    it("should make no move if zoom point in center", () => {
+    it('should make no move if zoom point in center', () => {
       // setup / target
       //  ________________
       // |vb1__________   |
@@ -105,7 +105,7 @@ describe("zoom", () => {
           height: 100
         },
         scale: 2,
-        canvasPos: { x: 50, y: 50 }
+        canvasPos: {x: 50, y: 50}
       });
 
       // check
@@ -119,7 +119,7 @@ describe("zoom", () => {
     });
   });
 
-  it("should fail if viewbox width is zero", () => {
+  it('should fail if viewbox width is zero', () => {
     const result = () =>
       zoom({
         viewbox: {
@@ -136,7 +136,7 @@ describe("zoom", () => {
           height: 100
         },
         scale: 1,
-        canvasPos: { x: 0, y: 0 }
+        canvasPos: {x: 0, y: 0}
       });
 
     // check

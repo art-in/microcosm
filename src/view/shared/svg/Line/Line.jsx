@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 
-import Point from "model/entities/Point";
+import Point from 'model/entities/Point';
 
 /**
  * @typedef {object} Props
@@ -38,10 +38,10 @@ export default class Line extends Component {
     //         /________\
     // end   P3          P2
 
-    const widthStart = typeof width == "object" ? width.start : width;
-    const widthEnd = typeof width == "object" ? width.end : width;
+    const widthStart = typeof width == 'object' ? width.start : width;
+    const widthEnd = typeof width == 'object' ? width.end : width;
 
-    const { sin, cos, atan2 } = Math;
+    const {sin, cos, atan2} = Math;
 
     const dx = targetPos2.x - targetPos1.x;
     const dy = targetPos2.y - targetPos1.y;

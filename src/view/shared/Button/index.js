@@ -1,2 +1,2 @@
-import module from "./Button.jsx";
+import module from './Button.jsx';
 export default module;

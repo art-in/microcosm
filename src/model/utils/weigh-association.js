@@ -1,7 +1,7 @@
-import getDistance from "utils/get-distance-between-points";
-import PointType from "model/entities/Point";
+import getDistance from 'utils/get-distance-between-points';
+import PointType from 'model/entities/Point';
 
-import isValidPosition from "./is-valid-position";
+import isValidPosition from './is-valid-position';
 
 /**
  * Gets weight of association

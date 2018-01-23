@@ -1,6 +1,6 @@
-import initProps from "utils/init-props";
+import initProps from 'utils/init-props';
 
-import IconType from "vm/shared/Icon";
+import IconType from 'vm/shared/Icon';
 
 /**
  * Menu item

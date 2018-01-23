@@ -1,5 +1,5 @@
-import { nodeDownscaleRate } from "./get-node-scale-for-weight";
-import isValidScale from "model/utils/is-valid-scale";
+import {nodeDownscaleRate} from './get-node-scale-for-weight';
+import isValidScale from 'model/utils/is-valid-scale';
 
 /**
  * Calculates focus weight for mindmap

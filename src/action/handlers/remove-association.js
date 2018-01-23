@@ -1,12 +1,12 @@
-import required from "utils/required-params";
-import Patch from "utils/state/Patch";
+import required from 'utils/required-params';
+import Patch from 'utils/state/Patch';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
-import withoutItem from "utils/get-array-without-item";
-import patchRootPaths from "action/utils/patch-root-paths";
-import normalizePatch from "action/utils/normalize-patch";
-import getAssociation from "action/utils/get-association";
+import withoutItem from 'utils/get-array-without-item';
+import patchRootPaths from 'action/utils/patch-root-paths';
+import normalizePatch from 'action/utils/normalize-patch';
+import getAssociation from 'action/utils/get-association';
 
 /**
  * Removes association
@@ -17,8 +17,8 @@ import getAssociation from "action/utils/get-association";
  * @return {Patch}
  */
 export default function(state, data) {
-  const { model: { mindset } } = state;
-  const { assocId } = required(data);
+  const {model: {mindset}} = state;
+  const {assocId} = required(data);
 
   let patch = new Patch();
 
@@ -55,7 +55,7 @@ export default function(state, data) {
     );
   }
 
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: head.id,
     edgesOut: withoutItem(head.edgesOut, index)
   });
@@ -70,13 +70,13 @@ export default function(state, data) {
     );
   }
 
-  patch.push("update-idea", {
+  patch.push('update-idea', {
     id: tail.id,
     edgesIn: withoutItem(tail.edgesIn, index)
   });
 
   // remove association
-  patch.push("remove-association", { id: assocId });
+  patch.push('remove-association', {id: assocId});
 
   // update root paths
   const rootPathsPatch = patchRootPaths({

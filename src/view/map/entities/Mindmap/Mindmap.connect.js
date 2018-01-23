@@ -1,75 +1,75 @@
-import connect from "view/utils/connect";
-import Component from "./Mindmap.jsx";
+import connect from 'view/utils/connect';
+import Component from './Mindmap.jsx';
 
 export default connect(
   props => props.mindmap,
   (dispatch, props) => ({
-    onContextMenuItemSelect: ({ item }) =>
+    onContextMenuItemSelect: ({item}) =>
       dispatch({
-        type: "on-context-menu-item-select",
-        data: { item }
+        type: 'on-context-menu-item-select',
+        data: {item}
       }),
 
-    onAssociationTailsLookupPhraseChange: ({ phrase }) =>
+    onAssociationTailsLookupPhraseChange: ({phrase}) =>
       dispatch({
-        type: "on-association-tails-lookup-phrase-change",
-        data: { phrase }
+        type: 'on-association-tails-lookup-phrase-change',
+        data: {phrase}
       }),
 
     onAssociationTailsLookupKeyDown: data =>
       dispatch({
-        type: "on-association-tails-lookup-keydown",
+        type: 'on-association-tails-lookup-keydown',
         data
       }),
 
-    onAssociationTailsLookupSuggestionSelect: ({ suggestion }) =>
+    onAssociationTailsLookupSuggestionSelect: ({suggestion}) =>
       dispatch({
-        type: "on-association-tails-lookup-suggestion-select",
-        data: { suggestion }
+        type: 'on-association-tails-lookup-suggestion-select',
+        data: {suggestion}
       }),
 
-    onColorPickerChange: ({ color }) => {
+    onColorPickerChange: ({color}) => {
       const picker = props.mindmap.colorPicker;
-      const action = picker.onSelectAction({ color });
+      const action = picker.onSelectAction({color});
       dispatch(action);
     },
 
-    onWheel: ({ up, viewportPos }) =>
+    onWheel: ({up, viewportPos}) =>
       dispatch({
-        type: "on-mindmap-wheel",
-        data: { up, viewportPos },
+        type: 'on-mindmap-wheel',
+        data: {up, viewportPos},
         throttleLog: true
       }),
 
-    onViewportResize: ({ size }) =>
+    onViewportResize: ({size}) =>
       dispatch({
-        type: "on-mindmap-viewport-resize",
-        data: { size },
+        type: 'on-mindmap-viewport-resize',
+        data: {size},
         throttleLog: true
       }),
 
     onClick: () =>
       dispatch({
-        type: "on-mindmap-click",
+        type: 'on-mindmap-click',
         throttleLog: 5000
       }),
 
     onMouseUp: () =>
       dispatch({
-        type: "on-mindmap-mouse-up",
+        type: 'on-mindmap-mouse-up',
         throttleLog: 5000
       }),
 
-    onMouseMove: ({ viewportShift, pressedMouseButton }) =>
+    onMouseMove: ({viewportShift, pressedMouseButton}) =>
       dispatch({
-        type: "on-mindmap-mouse-move",
-        data: { viewportShift, pressedMouseButton },
+        type: 'on-mindmap-mouse-move',
+        data: {viewportShift, pressedMouseButton},
         throttleLog: 10000
       }),
 
     onMouseLeave: () =>
       dispatch({
-        type: "on-mindmap-mouse-leave",
+        type: 'on-mindmap-mouse-leave',
         throttleLog: 5000
       })
   })

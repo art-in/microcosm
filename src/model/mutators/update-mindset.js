@@ -1,6 +1,6 @@
-import update from "utils/update-object";
+import update from 'utils/update-object';
 
-import StateType from "boot/client/State";
+import StateType from 'boot/client/State';
 
 /**
  * Updates mindset
@@ -9,7 +9,7 @@ import StateType from "boot/client/State";
  * @param {object} data
  */
 export default function updateMindset(state, data) {
-  const { model: { mindset } } = state;
+  const {model: {mindset}} = state;
   const patch = data;
 
   update(mindset, patch);

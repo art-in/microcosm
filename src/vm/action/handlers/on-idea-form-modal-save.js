@@ -1,7 +1,7 @@
-import StateType from "boot/client/State";
-import createId from "utils/create-id";
-import getIdea from "action/utils/get-idea";
-import diffArrays from "utils/diff-arrays";
+import StateType from 'boot/client/State';
+import createId from 'utils/create-id';
+import getIdea from 'action/utils/get-idea';
+import diffArrays from 'utils/diff-arrays';
 
 /**
  * Handles save event from idea form modal
@@ -11,10 +11,10 @@ import diffArrays from "utils/diff-arrays";
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const { model: { mindset } } = state;
-  const { vm: { main: { mindset: { mindmap } } } } = state;
+  const {model: {mindset}} = state;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
 
-  const { form } = mindmap.ideaFormModal;
+  const {form} = mindmap.ideaFormModal;
 
   if (!form.isSaveable) {
     // do not save if there was no changes
@@ -29,7 +29,7 @@ export default function(state, data, dispatch) {
     ideaId = createId();
 
     dispatch({
-      type: "create-idea",
+      type: 'create-idea',
       data: {
         parentIdeaId: form.parentIdeaId,
         title,
@@ -39,15 +39,15 @@ export default function(state, data, dispatch) {
     });
 
     dispatch({
-      type: "animate-mindmap-viewbox-to-idea",
-      data: { ideaId }
+      type: 'animate-mindmap-viewbox-to-idea',
+      data: {ideaId}
     });
   } else {
     // save changes to existing idea
     ideaId = form.ideaId;
 
     dispatch({
-      type: "set-idea-title-and-value",
+      type: 'set-idea-title-and-value',
       data: {
         ideaId: form.ideaId,
         title,
@@ -60,7 +60,7 @@ export default function(state, data, dispatch) {
 
   // save color
   dispatch({
-    type: "set-idea-color",
+    type: 'set-idea-color',
     data: {
       ideaId,
       color: form.color
@@ -75,7 +75,7 @@ export default function(state, data, dispatch) {
 
   diff.add.forEach(successorId =>
     dispatch({
-      type: "create-cross-association",
+      type: 'create-cross-association',
       data: {
         headIdeaId: idea.id,
         tailIdeaId: successorId
@@ -91,8 +91,8 @@ export default function(state, data, dispatch) {
     )
     .forEach(assocId =>
       dispatch({
-        type: "remove-association",
-        data: { assocId }
+        type: 'remove-association',
+        data: {assocId}
       })
     );
 
@@ -100,7 +100,7 @@ export default function(state, data, dispatch) {
   // existing form, so all fields correctly re-initialized (eg. when color
   // changed and saved, children in successor list should receive that color)
   dispatch({
-    type: "open-idea-form-modal",
-    data: { ideaId }
+    type: 'open-idea-form-modal',
+    data: {ideaId}
   });
 }

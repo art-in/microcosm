@@ -1,11 +1,11 @@
-import Patch from "utils/state/Patch";
-import diffRootPaths from "utils/graph/diff-root-paths";
+import Patch from 'utils/state/Patch';
+import diffRootPaths from 'utils/graph/diff-root-paths';
 
-import PointType from "model/entities/Point";
-import IdeaType from "model/entities/Idea";
+import PointType from 'model/entities/Point';
+import IdeaType from 'model/entities/Idea';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 /**
  * Calculates diff between calculated root paths and current graph state
@@ -32,7 +32,7 @@ import IEdgeType from "utils/graph/interfaces/IEdge";
  * @return {Patch} patch
  */
 export default function patchRootPaths(opts) {
-  const { replaceIdeaPositions = [] } = opts;
+  const {replaceIdeaPositions = []} = opts;
 
   const patch = new Patch();
 
@@ -42,9 +42,9 @@ export default function patchRootPaths(opts) {
     const idea = data.vertex;
 
     // eslint-disable-next-line no-unused-vars
-    const { vertex, ...update } = data;
+    const {vertex, ...update} = data;
 
-    patch.push("update-idea", {
+    patch.push('update-idea', {
       id: idea.id,
       ...update
     });
@@ -63,7 +63,7 @@ export default function patchRootPaths(opts) {
     const parentPosAbs = getIdeaPosAbs(parent, replaceIdeaPositions);
     const childPosAbs = getIdeaPosAbs(child, replaceIdeaPositions);
 
-    patch.push("update-idea", {
+    patch.push('update-idea', {
       id: child.id,
       posRel: {
         x: childPosAbs.x - parentPosAbs.x,

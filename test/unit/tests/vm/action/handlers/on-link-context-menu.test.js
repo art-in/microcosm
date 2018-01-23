@@ -1,44 +1,44 @@
-import { expect } from "test/utils";
-import createState from "test/utils/create-state";
+import {expect} from 'test/utils';
+import createState from 'test/utils/create-state';
 
-import Mindset from "src/model/entities/Mindset";
-import Idea from "src/model/entities/Idea";
-import Association from "src/model/entities/Association";
+import Mindset from 'src/model/entities/Mindset';
+import Idea from 'src/model/entities/Idea';
+import Association from 'src/model/entities/Association';
 
-import Point from "src/model/entities/Point";
-import MenuItem from "src/vm/shared/MenuItem";
-import Link from "src/vm/map/entities/Link";
+import Point from 'src/model/entities/Point';
+import MenuItem from 'src/vm/shared/MenuItem';
+import Link from 'src/vm/map/entities/Link';
 
-import handler from "src/vm/action/handler";
+import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
-describe("on-link-context-menu", () => {
-  it("should show context menu with certain items", () => {
+describe('on-link-context-menu', () => {
+  it('should show context menu with certain items', () => {
     // setup
     const state = createState();
 
-    const assoc = new Association({ id: "assoc" });
+    const assoc = new Association({id: 'assoc'});
     assoc.to = new Idea();
 
     const mindset = new Mindset();
     mindset.associations.set(assoc.id, assoc);
     state.model.mindset = mindset;
 
-    const link = new Link({ id: assoc.id });
+    const link = new Link({id: assoc.id});
     state.vm.main.mindset.mindmap.links.push(link);
 
     // target
     const patch = handle(state, {
-      type: "on-link-context-menu",
+      type: 'on-link-context-menu',
       data: {
-        viewportPos: new Point({ x: 0, y: 0 }),
-        linkId: "assoc"
+        viewportPos: new Point({x: 0, y: 0}),
+        linkId: 'assoc'
       }
     });
 
     // check
     expect(patch).to.have.length(1);
-    const { data } = patch["update-context-menu"][0];
+    const {data} = patch['update-context-menu'][0];
 
     expect(data.popup.active).to.equal(true);
 
@@ -46,41 +46,41 @@ describe("on-link-context-menu", () => {
     data.menu.items.forEach(i => expect(i).to.be.instanceOf(MenuItem));
     expect(data.menu.items).to.containSubset([
       {
-        displayValue: "Remove association"
+        displayValue: 'Remove association'
       }
     ]);
   });
 
-  it("should show context menu in certain position", () => {
+  it('should show context menu in certain position', () => {
     // setup
     const state = createState();
 
-    const assoc = new Association({ id: "assoc" });
+    const assoc = new Association({id: 'assoc'});
     assoc.to = new Idea();
 
     const mindset = new Mindset();
     mindset.associations.set(assoc.id, assoc);
     state.model.mindset = mindset;
 
-    const link = new Link({ id: assoc.id });
+    const link = new Link({id: assoc.id});
     state.vm.main.mindset.mindmap.links.push(link);
 
-    const { viewbox } = state.vm.main.mindset.mindmap;
+    const {viewbox} = state.vm.main.mindset.mindmap;
     viewbox.x = 0;
     viewbox.y = 0;
     viewbox.scale = 1;
 
     // target
     const patch = handle(state, {
-      type: "on-link-context-menu",
+      type: 'on-link-context-menu',
       data: {
-        viewportPos: new Point({ x: 100, y: 200 }),
-        linkId: "assoc"
+        viewportPos: new Point({x: 100, y: 200}),
+        linkId: 'assoc'
       }
     });
 
     // check
-    const { data } = patch["update-context-menu"][0];
+    const {data} = patch['update-context-menu'][0];
 
     expect(data.popup.pos).to.be.instanceOf(Point);
     expect(data.popup.pos).to.containSubset({
@@ -89,24 +89,24 @@ describe("on-link-context-menu", () => {
     });
   });
 
-  it("should NOT set menu if target association is shaded", () => {
+  it('should NOT set menu if target association is shaded', () => {
     // setup
     const state = createState();
 
-    const assoc = new Association({ id: "assoc" });
+    const assoc = new Association({id: 'assoc'});
     const mindset = new Mindset();
     mindset.associations.set(assoc.id, assoc);
     state.model.mindset = mindset;
 
-    const link = new Link({ id: assoc.id, shaded: true });
+    const link = new Link({id: assoc.id, shaded: true});
     state.vm.main.mindset.mindmap.links.push(link);
 
     // target
     const patch = handle(state, {
-      type: "on-link-context-menu",
+      type: 'on-link-context-menu',
       data: {
-        viewportPos: new Point({ x: 0, y: 0 }),
-        linkId: "assoc"
+        viewportPos: new Point({x: 0, y: 0}),
+        linkId: 'assoc'
       }
     });
 
@@ -114,41 +114,41 @@ describe("on-link-context-menu", () => {
     expect(patch).to.have.length(0);
   });
 
-  it("should target only vm and view state layers", () => {
+  it('should target only vm and view state layers', () => {
     // setup
     const state = createState();
 
-    const assoc = new Association({ id: "assoc" });
+    const assoc = new Association({id: 'assoc'});
     assoc.to = new Idea();
 
     const mindset = new Mindset();
     mindset.associations.set(assoc.id, assoc);
     state.model.mindset = mindset;
 
-    const link = new Link({ id: assoc.id });
+    const link = new Link({id: assoc.id});
     state.vm.main.mindset.mindmap.links.push(link);
 
     // target
     const patch = handle(state, {
-      type: "on-link-context-menu",
+      type: 'on-link-context-menu',
       data: {
-        viewportPos: new Point({ x: 0, y: 0 }),
-        linkId: "assoc"
+        viewportPos: new Point({x: 0, y: 0}),
+        linkId: 'assoc'
       }
     });
 
     // check
-    expect(patch.hasTarget("data")).to.be.false;
-    expect(patch.hasTarget("model")).to.be.false;
-    expect(patch.hasTarget("vm")).to.be.true;
-    expect(patch.hasTarget("view")).to.be.true;
+    expect(patch.hasTarget('data')).to.be.false;
+    expect(patch.hasTarget('model')).to.be.false;
+    expect(patch.hasTarget('vm')).to.be.true;
+    expect(patch.hasTarget('view')).to.be.true;
   });
 
   it(`should disable 'remove' item if last incoming association`, () => {
     // setup
     const state = createState();
 
-    const assoc = new Association({ id: "assoc" });
+    const assoc = new Association({id: 'assoc'});
     const tail = new Idea();
     tail.edgesIn = [assoc];
     assoc.to = tail;
@@ -157,22 +157,22 @@ describe("on-link-context-menu", () => {
     mindset.associations.set(assoc.id, assoc);
     state.model.mindset = mindset;
 
-    const link = new Link({ id: assoc.id });
+    const link = new Link({id: assoc.id});
     state.vm.main.mindset.mindmap.links.push(link);
 
     // target
     const patch = handle(state, {
-      type: "on-link-context-menu",
+      type: 'on-link-context-menu',
       data: {
-        viewportPos: new Point({ x: 0, y: 0 }),
-        linkId: "assoc"
+        viewportPos: new Point({x: 0, y: 0}),
+        linkId: 'assoc'
       }
     });
 
     // check
-    const { data } = patch["update-context-menu"][0];
+    const {data} = patch['update-context-menu'][0];
     const item = data.menu.items.find(
-      i => i.displayValue === "Remove association"
+      i => i.displayValue === 'Remove association'
     );
 
     expect(item).to.exist;

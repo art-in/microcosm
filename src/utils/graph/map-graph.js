@@ -1,8 +1,8 @@
-import WeightZone from "utils/graph/WeightZone";
-import isValidPathWeight from "utils/graph/is-valid-path-weight";
+import WeightZone from 'utils/graph/WeightZone';
+import isValidPathWeight from 'utils/graph/is-valid-path-weight';
 
-import IVertexType from "utils/graph/interfaces/IVertex";
-import IEdgeType from "utils/graph/interfaces/IEdge";
+import IVertexType from 'utils/graph/interfaces/IVertex';
+import IEdgeType from 'utils/graph/interfaces/IEdge';
 
 /**
  * Generic function for mapping graph of entities of one type
@@ -100,7 +100,7 @@ function mapGraphInternal(opts, internalOpts) {
     shadeZoneAmount
   } = opts;
 
-  const { visitedOriginalVertices, allVertices, allEdges } = internalOpts;
+  const {visitedOriginalVertices, allVertices, allEdges} = internalOpts;
 
   // check if vertex was already visited
   // to not fall into infinite loop in graph cycles
@@ -209,7 +209,7 @@ function mapGraphInternal(opts, internalOpts) {
  * @return {number} weight zone
  */
 function getWeightZoneForVertex(vertex, focusZoneMax, shadeZoneAmount) {
-  const { rootPathWeight } = vertex;
+  const {rootPathWeight} = vertex;
 
   // ensure root path weight set
   if (!isValidPathWeight(rootPathWeight)) {
@@ -233,7 +233,7 @@ function getWeightZoneForVertex(vertex, focusZoneMax, shadeZoneAmount) {
  * @return {boolean}
  */
 function shouldFollowEdge(predecessorZone, successorZone) {
-  const { focus, shade, hide } = WeightZone;
+  const {focus, shade, hide} = WeightZone;
 
   const from = predecessorZone;
   const to = successorZone;
