@@ -1,2 +1,2 @@
-import module from './logger';
+import module from "./logger";
 export default module;

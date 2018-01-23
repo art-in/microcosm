@@ -1,5 +1,3 @@
-describe('action', () => {
-
-    require('./handlers');
-
+describe("action", () => {
+  require("./handlers");
 });

@@ -1,136 +1,134 @@
-import initProps from 'utils/init-props';
+import initProps from "utils/init-props";
 
-import ViewModel from 'vm/utils/ViewModel';
-import LinkType from 'vm/map/entities/Link';
-import PointType from 'model/entities/Point';
+import ViewModel from "vm/utils/ViewModel";
+import LinkType from "vm/map/entities/Link";
+import PointType from "model/entities/Point";
 
 /**
  * Node
- * 
+ *
  * @implements {VertexType}
  */
 export default class Node extends ViewModel {
+  /**
+   * Debug state
+   * TODO: move flag inside debugInfo object to have
+   *       single 'debug' prop
+   * @type {boolean}
+   */
+  debug = false;
 
+  /**
+   * Info for debug purposes only (eg. render on debug pane)
+   * @type {{posRel}}
+   */
+
+  debugInfo = {
     /**
-     * Debug state
-     * TODO: move flag inside debugInfo object to have
-     *       single 'debug' prop
-     * @type {boolean}
-     */
-    debug = false;
-
-    /**
-     * Info for debug purposes only (eg. render on debug pane)
-     * @type {{posRel}}
-     */ 
-    debugInfo = {
-
-        /**
-         * Position relative to parent idea
-         * @type {PointType|undefined}
-         */
-        posRel: undefined
-
-    };
-
-    /**
-     * Node ID
-     * @type {string|undefined}
-     */
-    id = undefined;
-    
-    /**
-     * Absolute position of node on canvas.
+     * Position relative to parent idea
      * @type {PointType|undefined}
      */
-    posAbs = undefined;
+    posRel: undefined
+  };
 
-    /**
-     * Node radius
-     * @type {number}
-     */
-    radius = 0;
+  /**
+   * Node ID
+   * @type {string|undefined}
+   */
+  id = undefined;
 
-    /**
-     * Scale
-     * How much times size of node should be smaller
-     * or bigger than its normal size (ie. radius)
-     * Scale 1 - is normal size
-     * @type {number|undefined}
-     */
-    scale = undefined;
+  /**
+   * Absolute position of node on canvas.
+   * @type {PointType|undefined}
+   */
+  posAbs = undefined;
 
-    /**
-     * Node title state
-     */
-    title = {
-        value: '',
-        visible: true
-    };
+  /**
+   * Node radius
+   * @type {number}
+   */
+  radius = 0;
 
-    /**
-     * Indicates that idea is root idea of graph
-     * @type {boolean}
-     */
-    isRoot = false;
+  /**
+   * Scale
+   * How much times size of node should be smaller
+   * or bigger than its normal size (ie. radius)
+   * Scale 1 - is normal size
+   * @type {number|undefined}
+   */
+  scale = undefined;
 
-    /**
-     * Node color
-     * @type {string|undefined}
-     */
-    color = undefined;
+  /**
+   * Node title state
+   */
+  title = {
+    value: "",
+    visible: true
+  };
 
-    /**
-     * Incoming links
-     * @memberof Vertex
-     * @type {Array.<LinkType>|undefined}
-     */
-    edgesIn = undefined;
+  /**
+   * Indicates that idea is root idea of graph
+   * @type {boolean}
+   */
+  isRoot = false;
 
-    /**
-     * Outgoing links
-     * @memberof Vertex
-     * @type {Array.<LinkType>|undefined}
-     */
-    edgesOut = undefined;
-    
-    /**
-     * Link to parent idea.
-     * Note: available only after graph is weighted
-     * @memberof Vertex
-     * @type {LinkType|undefined}
-     */
-    edgeFromParent = undefined;
+  /**
+   * Node color
+   * @type {string|undefined}
+   */
+  color = undefined;
 
-    /**
-     * Links to child ideas.
-     * Note: available only after graph is weighted
-     * @memberof Vertex
-     * @type {Array.<LinkType>|undefined}
-     */
-    edgesToChilds = undefined;
+  /**
+   * Incoming links
+   * @memberof Vertex
+   * @type {Array.<LinkType>|undefined}
+   */
+  edgesIn = undefined;
 
-    /**
-     * Weight of minimal path from root (RPW).
-     * Note: available only after graph is weighted
-     * @memberof Vertex
-     * @type {number|undefined}
-     */
-    rootPathWeight = undefined;
+  /**
+   * Outgoing links
+   * @memberof Vertex
+   * @type {Array.<LinkType>|undefined}
+   */
+  edgesOut = undefined;
 
-    /**
-     * Indicates that node has less importance
-     * (ie. grayed out)
-     * @type {boolean}
-     */
-    shaded = false;
-    
-    /**
-     * Constructor
-     * @param {Partial<Node>} [props]
-     */
-    constructor(props) {
-        super();
-        initProps(this, props);
-    }
+  /**
+   * Link to parent idea.
+   * Note: available only after graph is weighted
+   * @memberof Vertex
+   * @type {LinkType|undefined}
+   */
+  edgeFromParent = undefined;
+
+  /**
+   * Links to child ideas.
+   * Note: available only after graph is weighted
+   * @memberof Vertex
+   * @type {Array.<LinkType>|undefined}
+   */
+  edgesToChilds = undefined;
+
+  /**
+   * Weight of minimal path from root (RPW).
+   * Note: available only after graph is weighted
+   * @memberof Vertex
+   * @type {number|undefined}
+   */
+  rootPathWeight = undefined;
+
+  /**
+   * Indicates that node has less importance
+   * (ie. grayed out)
+   * @type {boolean}
+   */
+  shaded = false;
+
+  /**
+   * Constructor
+   * @param {Partial<Node>} [props]
+   */
+  constructor(props) {
+    super();
+    initProps(this, props);
+  }
 }

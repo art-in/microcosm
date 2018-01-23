@@ -1,2 +1,2 @@
-import module from './Main';
+import module from "./Main";
 export default module;

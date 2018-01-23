@@ -1,7 +1,5 @@
-describe('data', () => {
+describe("data", () => {
+  require("./db");
 
-    require('./db');
-    
-    require('./mutators.test');
-
+  require("./mutators.test");
 });

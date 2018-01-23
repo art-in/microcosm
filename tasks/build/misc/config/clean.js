@@ -1,8 +1,6 @@
-const del = require('del');
+const del = require("del");
 
-const config = require('../../../../config.build');
+const config = require("../../../../config.build");
 
 module.exports = () =>
-    del([
-        config.src.output.root + '/config.serve*.js'
-    ], {force: true});
+  del([config.src.output.root + "/config.serve*.js"], { force: true });

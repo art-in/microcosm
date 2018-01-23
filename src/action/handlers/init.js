@@ -1,71 +1,70 @@
-import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import required from "utils/required-params";
+import Patch from "utils/state/Patch";
 
-import StateType from 'boot/client/State';
-import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
+import StateType from "boot/client/State";
+import startDBServerHeartbeat from "action/utils/start-db-server-heartbeat";
 
-import MainVM from 'vm/main/Main';
-import MindsetVM from 'vm/main/Mindset';
-import VersionVM from 'vm/main/Version';
+import MainVM from "vm/main/Main";
+import MindsetVM from "vm/main/Mindset";
+import VersionVM from "vm/main/Version";
 
 /**
  * Inits state
- * 
+ *
  * @param {StateType} state
  * @param {object} data
  * @param {function} dispatch
  * @param {function} mutate
  */
 export default async function init(state, data, dispatch, mutate) {
-    const {
-        storeDispatch,
-        runtimeConfig,
-        dbServerUrl,
-        viewRoot
-    } = required(data);
+  const { storeDispatch, runtimeConfig, dbServerUrl, viewRoot } = required(
+    data
+  );
 
-    // init view model
-    // TBD: currently unconditionaly start loading mindset.
-    //      in future, this action is the place to check user session,
-    //      and if it is stalled then move to login first.
-    const mindset = new MindsetVM({
-        isLoaded: false
-    });
+  // init view model
+  // TBD: currently unconditionaly start loading mindset.
+  //      in future, this action is the place to check user session,
+  //      and if it is stalled then move to login first.
+  const mindset = new MindsetVM({
+    isLoaded: false
+  });
 
-    const version = new VersionVM({
-        name: runtimeConfig.app.name,
-        homepage: runtimeConfig.app.homepage,
-        version: runtimeConfig.app.version
-    });
+  const version = new VersionVM({
+    name: runtimeConfig.app.name,
+    homepage: runtimeConfig.app.homepage,
+    version: runtimeConfig.app.version
+  });
 
-    const main = new MainVM({
-        screen: 'mindset',
-        mindset,
-        version
-    });
+  const main = new MainVM({
+    screen: "mindset",
+    mindset,
+    version
+  });
 
-    await mutate(new Patch({
-        type: 'init',
+  await mutate(
+    new Patch({
+      type: "init",
+      data: {
         data: {
-            data: {
-                dbServerUrl
-            },
-            vm: {
-                main
-            },
-            view: {
-                root: viewRoot,
-                storeDispatch
-            }
+          dbServerUrl
+        },
+        vm: {
+          main
+        },
+        view: {
+          root: viewRoot,
+          storeDispatch
         }
-    }));
+      }
+    })
+  );
 
-    dispatch({
-        type: 'load-mindset',
-        data: {
-            isInitialLoad: true
-        }
-    });
+  dispatch({
+    type: "load-mindset",
+    data: {
+      isInitialLoad: true
+    }
+  });
 
-    startDBServerHeartbeat(dbServerUrl, storeDispatch);
+  startDBServerHeartbeat(dbServerUrl, storeDispatch);
 }

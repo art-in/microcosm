@@ -1,1 +1,1 @@
-require('./Store.test');
+require("./Store.test");

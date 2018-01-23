@@ -1,6 +1,6 @@
-import deleteUndefinedProps from 'utils/delete-undefined-props';
+import deleteUndefinedProps from "utils/delete-undefined-props";
 
-import AssociationType from 'model/entities/Association';
+import AssociationType from "model/entities/Association";
 
 /**
  * Maps a association model to dbo
@@ -8,16 +8,16 @@ import AssociationType from 'model/entities/Association';
  * @return {object}
  */
 export default function associationToDbo(model) {
-    const dbo = {};
+  const dbo = {};
 
-    dbo._id = model.id;
-    dbo.mindsetId = model.mindsetId;
-    dbo.fromId = model.fromId;
-    dbo.toId = model.toId;
-    dbo.value = model.value;
-    dbo.weight = model.weight;
+  dbo._id = model.id;
+  dbo.mindsetId = model.mindsetId;
+  dbo.fromId = model.fromId;
+  dbo.toId = model.toId;
+  dbo.value = model.value;
+  dbo.weight = model.weight;
 
-    deleteUndefinedProps(dbo);
+  deleteUndefinedProps(dbo);
 
-    return dbo;
+  return dbo;
 }

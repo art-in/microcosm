@@ -1,9 +1,9 @@
-import MindsetType from 'model/entities/Mindset';
+import MindsetType from "model/entities/Mindset";
 
-import toModel from 'data/mappers/dbo-to-mindset';
-import toDbo from 'data/mappers/mindset-to-dbo';
+import toModel from "data/mappers/dbo-to-mindset";
+import toDbo from "data/mappers/mindset-to-dbo";
 
-import isEmptyDbo from 'data/utils/is-empty-dbo';
+import isEmptyDbo from "data/utils/is-empty-dbo";
 
 /**
  * Gets mindset
@@ -12,8 +12,8 @@ import isEmptyDbo from 'data/utils/is-empty-dbo';
  * @return {Promise.<MindsetType>}
  */
 export async function get(db, mindsetId) {
-    const dbo = await db.get(mindsetId);
-    return toModel(dbo);
+  const dbo = await db.get(mindsetId);
+  return toModel(dbo);
 }
 
 /**
@@ -22,14 +22,11 @@ export async function get(db, mindsetId) {
  * @return {Promise.<Array.<MindsetType>>}
  */
 export async function getAll(db) {
+  const data = await db.allDocs({ include_docs: true });
 
-    const data = await db.allDocs({include_docs: true});
+  const items = data.rows.map(i => i.doc).map(dbo => toModel(dbo));
 
-    const items = data.rows
-        .map(i => i.doc)
-        .map(dbo => toModel(dbo));
-
-    return items;
+  return items;
 }
 
 /**
@@ -38,8 +35,8 @@ export async function getAll(db) {
  * @param {MindsetType} mindset
  */
 export async function add(db, mindset) {
-    const dbo = toDbo(mindset);
-    await db.put(dbo);
+  const dbo = toDbo(mindset);
+  await db.put(dbo);
 }
 
 /**
@@ -48,21 +45,20 @@ export async function add(db, mindset) {
  * @param {MindsetType|object} model - model or patch
  */
 export async function update(db, model) {
+  const dbo = toDbo(model);
 
-    const dbo = toDbo(model);
-    
-    if (isEmptyDbo(dbo)) {
-        // skip if dbo is empty, which happens when mutation affects
-        // only model props that are not saved to db (dynamic props)
-        return;
-    }
+  if (isEmptyDbo(dbo)) {
+    // skip if dbo is empty, which happens when mutation affects
+    // only model props that are not saved to db (dynamic props)
+    return;
+  }
 
-    const existing = await db.get(model.id);
-    
-    await db.put({
-        ...existing,
-        ...dbo
-    });
+  const existing = await db.get(model.id);
+
+  await db.put({
+    ...existing,
+    ...dbo
+  });
 }
 
 /**
@@ -70,6 +66,6 @@ export async function update(db, model) {
  * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {
-    const data = await db.allDocs();
-    await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
+  const data = await db.allDocs();
+  await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
 }

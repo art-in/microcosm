@@ -2,25 +2,22 @@
  * The runtime configuration
  */
 export default class RuntimeConfig {
+  app = {
+    /** @type {string} */
+    name: undefined,
 
-    app = {
+    /** @type {string} */
+    homepage: undefined,
 
-        /** @type {string} */
-        name: undefined,
+    /** @type {string} */
+    version: undefined
+  };
 
-        /** @type {string} */
-        homepage: undefined,
+  dbServer = {
+    /** @type {string} */
+    host: undefined,
 
-        /** @type {string} */
-        version: undefined
-    }
-
-    dbServer = {
-
-        /** @type {string} */
-        host: undefined,
-
-        /** @type {number} */
-        port: undefined
-    }
+    /** @type {number} */
+    port: undefined
+  };
 }

@@ -1,2 +1,2 @@
-import module from './IdeaPath.jsx';
+import module from "./IdeaPath.jsx";
 export default module;

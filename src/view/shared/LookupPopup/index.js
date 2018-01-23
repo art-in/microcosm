@@ -1,2 +1,2 @@
-import module from './LookupPopup.connect';
+import module from "./LookupPopup.connect";
 export default module;

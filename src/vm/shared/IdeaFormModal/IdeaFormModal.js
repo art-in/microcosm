@@ -1,21 +1,19 @@
-import ViewModel from 'vm/utils/ViewModel';
+import ViewModel from "vm/utils/ViewModel";
 
-import Modal from 'vm/shared/Modal';
-import IdeaForm from 'vm/shared/IdeaForm';
+import Modal from "vm/shared/Modal";
+import IdeaForm from "vm/shared/IdeaForm";
 
 /**
  * Idea form wrapped into modal popup
  */
 export default class IdeaFormModal extends ViewModel {
+  /**
+   * Modal popup
+   */
+  modal = new Modal();
 
-    /**
-     * Modal popup
-     */
-    modal = new Modal();
-
-    /**
-     * Idea form
-     */
-    form = new IdeaForm();
-
+  /**
+   * Idea form
+   */
+  form = new IdeaForm();
 }

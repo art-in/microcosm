@@ -1,2 +1,2 @@
-import module from './Popup.connect';
+import module from "./Popup.connect";
 export default module;

@@ -1,2 +1,2 @@
-import module from './Line';
+import module from "./Line";
 export default module;

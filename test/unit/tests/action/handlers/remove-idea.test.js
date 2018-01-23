@@ -1,292 +1,282 @@
-import {expect} from 'test/utils';
-import clone from 'clone';
+import { expect } from "test/utils";
+import clone from "clone";
 
-import Mindset from 'src/model/entities/Mindset';
-import Idea from 'src/model/entities/Idea';
+import Mindset from "src/model/entities/Mindset";
+import Idea from "src/model/entities/Idea";
 
-import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
+import buildGraph from "src/model/utils/build-ideas-graph-from-matrix";
 
-import handler from 'src/action/handler';
+import handler from "src/action/handler";
 const handle = handler.handle.bind(handler);
 
-describe('remove-idea', () => {
-    
-    it('should remove idea', () => {
+describe("remove-idea", () => {
+  it("should remove idea", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+    const mindset = new Mindset();
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
 
-        // target
-        const patch = handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'C'}
-        });
+    const state = { model: { mindset } };
 
-        // check
-        const mutations = patch['remove-idea'];
-        
-        expect(mutations).to.have.length(1);
-        expect(mutations[0].data).to.deep.equal({id: 'C'});
+    // target
+    const patch = handle(state, {
+      type: "remove-idea",
+      data: { ideaId: "C" }
     });
 
-    it('should remove incoming associations', () => {
+    // check
+    const mutations = patch["remove-idea"];
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+    expect(mutations).to.have.length(1);
+    expect(mutations[0].data).to.deep.equal({ id: "C" });
+  });
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
+  it("should remove incoming associations", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        // target
-        const patch = handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'C'}
-        });
+    const mindset = new Mindset();
 
-        // check
-        const mutations = patch['remove-association'];
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
 
-        expect(mutations).to.have.length(2);
+    const state = { model: { mindset } };
 
-        expect(mutations[0].data).to.deep.equal({id: 'A to C'});
-        expect(mutations[1].data).to.deep.equal({id: 'B to C'});
+    // target
+    const patch = handle(state, {
+      type: "remove-idea",
+      data: { ideaId: "C" }
     });
 
-    it('should update successor ideas', () => {
+    // check
+    const mutations = patch["remove-association"];
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+    expect(mutations).to.have.length(2);
 
-        const assocAtoB = edges.find(l => l.id === 'A to B');
+    expect(mutations[0].data).to.deep.equal({ id: "A to C" });
+    expect(mutations[1].data).to.deep.equal({ id: "B to C" });
+  });
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
+  it("should update successor ideas", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        // target
-        const patch = handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'C'}
-        });
+    const assocAtoB = edges.find(l => l.id === "A to B");
 
-        // check
-        const mutations = patch['update-idea'];
+    const mindset = new Mindset();
 
-        expect(mutations).to.have.length(2);
-        expect(mutations[0].data).to.deep.equal({
-            id: 'A',
-            edgesToChilds: [assocAtoB],
-            edgesOut: [assocAtoB]
-        });
-        expect(mutations[1].data).to.deep.equal({
-            id: 'B',
-            edgesOut: []
-        });
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
+
+    const state = { model: { mindset } };
+
+    // target
+    const patch = handle(state, {
+      type: "remove-idea",
+      data: { ideaId: "C" }
     });
 
-    it('should NOT mutate state', () => {
+    // check
+    const mutations = patch["update-idea"];
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+    expect(mutations).to.have.length(2);
+    expect(mutations[0].data).to.deep.equal({
+      id: "A",
+      edgesToChilds: [assocAtoB],
+      edgesOut: [assocAtoB]
+    });
+    expect(mutations[1].data).to.deep.equal({
+      id: "B",
+      edgesOut: []
+    });
+  });
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
-        const stateBefore = clone(state);
+  it("should NOT mutate state", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        // target
-        handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'C'}
-        });
+    const mindset = new Mindset();
 
-        // check
-        expect(state).to.deep.equal(stateBefore);
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
+
+    const state = { model: { mindset } };
+    const stateBefore = clone(state);
+
+    // target
+    handle(state, {
+      type: "remove-idea",
+      data: { ideaId: "C" }
     });
 
-    it('should target all state layers', () => {
+    // check
+    expect(state).to.deep.equal(stateBefore);
+  });
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+  it("should target all state layers", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
+    const mindset = new Mindset();
 
-        // target
-        const patch = handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'C'}
-        });
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
 
-        // check
-        expect(patch.hasTarget('data')).to.be.true;
-        expect(patch.hasTarget('model')).to.be.true;
-        expect(patch.hasTarget('vm')).to.be.true;
-        expect(patch.hasTarget('view')).to.be.true;
+    const state = { model: { mindset } };
+
+    // target
+    const patch = handle(state, {
+      type: "remove-idea",
+      data: { ideaId: "C" }
     });
 
-    it('should fail if outgoing associations exist', () => {
+    // check
+    expect(patch.hasTarget("data")).to.be.true;
+    expect(patch.hasTarget("model")).to.be.true;
+    expect(patch.hasTarget("vm")).to.be.true;
+    expect(patch.hasTarget("view")).to.be.true;
+  });
 
-        // setup graph
-        //
-        //  (A) --> (B) --> (C)
-        //    \_____________/
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A   B   C
-            /* A */ '0   1   1',
-            /* B */ '0   0   1',
-            /* C */ '0   0   0'
-        ]);
+  it("should fail if outgoing associations exist", () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A   B   C
+      /* A */ "0   1   1",
+      /* B */ "0   0   1",
+      /* C */ "0   0   0"
+    ]);
 
-        const mindset = new Mindset();
-        
-        mindset.root = root;
-        vertices.forEach(n => mindset.ideas.set(n.id, n));
-        edges.forEach(l => mindset.associations.set(l.id, l));
-    
-        const state = {model: {mindset}};
+    const mindset = new Mindset();
 
-        // target
-        const result = () => handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'B'}
-        });
+    mindset.root = root;
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
 
-        // check
-        expect(result).to.throw(
-            `Unable to remove idea 'B' with outgoing associations`);
-    });
+    const state = { model: { mindset } };
 
-    it('should fail if no incoming associations found', () => {
-        
-        // setup
-        const mindset = new Mindset();
+    // target
+    const result = () =>
+      handle(state, {
+        type: "remove-idea",
+        data: { ideaId: "B" }
+      });
 
-        mindset.ideas.set('A', new Idea({id: 'A'}));
-        mindset.ideas.set('B', new Idea({id: 'B'}));
+    // check
+    expect(result).to.throw(
+      `Unable to remove idea 'B' with outgoing associations`
+    );
+  });
 
-        const state = {model: {mindset}};
+  it("should fail if no incoming associations found", () => {
+    // setup
+    const mindset = new Mindset();
 
-        // target
-        const result = () => handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'B'}
-        });
+    mindset.ideas.set("A", new Idea({ id: "A" }));
+    mindset.ideas.set("B", new Idea({ id: "B" }));
 
-        // check
-        expect(result).to.throw(
-            `No incoming associations found for idea 'B'`);
-    });
+    const state = { model: { mindset } };
 
-    it('should fail if idea not found', () => {
+    // target
+    const result = () =>
+      handle(state, {
+        type: "remove-idea",
+        data: { ideaId: "B" }
+      });
 
-        // setup
-        const mindset = new Mindset();
+    // check
+    expect(result).to.throw(`No incoming associations found for idea 'B'`);
+  });
 
-        const state = {model: {mindset}};
+  it("should fail if idea not found", () => {
+    // setup
+    const mindset = new Mindset();
 
-        // target
-        const result = () => handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'uknown'}
-        });
+    const state = { model: { mindset } };
 
-        // check
-        expect(result).to.throw(
-            'Idea \'uknown\' was not found in mindset');
-    });
+    // target
+    const result = () =>
+      handle(state, {
+        type: "remove-idea",
+        data: { ideaId: "uknown" }
+      });
 
-    it('should fail if idea is root', () => {
+    // check
+    expect(result).to.throw("Idea 'uknown' was not found in mindset");
+  });
 
-        // setup
-        const mindset = new Mindset();
+  it("should fail if idea is root", () => {
+    // setup
+    const mindset = new Mindset();
 
-        mindset.ideas.set('root',
-            new Idea({id: 'root', isRoot: true}));
+    mindset.ideas.set("root", new Idea({ id: "root", isRoot: true }));
 
-        const state = {model: {mindset}};
+    const state = { model: { mindset } };
 
-        // target
-        const result = () => handle(state, {
-            type: 'remove-idea',
-            data: {ideaId: 'root'}
-        });
+    // target
+    const result = () =>
+      handle(state, {
+        type: "remove-idea",
+        data: { ideaId: "root" }
+      });
 
-        // check
-        expect(result).to.throw(
-            'Unable to remove root idea');
-    });
-
+    // check
+    expect(result).to.throw("Unable to remove root idea");
+  });
 });

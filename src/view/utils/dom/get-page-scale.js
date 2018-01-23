@@ -3,5 +3,5 @@
  * @return {number}
  */
 export default function getPageScale() {
-    return window.outerWidth / window.innerWidth;
+  return window.outerWidth / window.innerWidth;
 }

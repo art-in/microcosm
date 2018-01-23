@@ -1,1 +1,1 @@
-require('./Mindmap.test');
+require("./Mindmap.test");

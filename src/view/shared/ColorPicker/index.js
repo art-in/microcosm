@@ -1,2 +1,2 @@
-import module from './ColorPicker.connect';
+import module from "./ColorPicker.connect";
 export default module;

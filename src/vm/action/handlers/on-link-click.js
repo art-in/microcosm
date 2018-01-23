@@ -1,15 +1,15 @@
-import required from 'utils/required-params';
+import required from "utils/required-params";
 
-import StateType from 'boot/client/State';
+import StateType from "boot/client/State";
 
-import PointType from 'model/entities/Point';
+import PointType from "model/entities/Point";
 
-import getDistance from 'utils/get-distance-between-points';
-import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
+import getDistance from "utils/get-distance-between-points";
+import toCanvasCoords from "vm/map/utils/map-viewport-to-canvas-coords";
 
 /**
  * Handles link click event
- * 
+ *
  * @param {StateType} state
  * @param {object}    data
  * @param {string}    data.linkId
@@ -17,34 +17,34 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-    const {vm: {main: {mindset: {mindmap}}}} = state;
-    const {linkId, viewportPos} = required(data);
- 
-    const link = mindmap.links.find(l => l.id === linkId);
+  const { vm: { main: { mindset: { mindmap } } } } = state;
+  const { linkId, viewportPos } = required(data);
 
-    if (link.shaded) {
-        // do not handle clicks from shaded links.
-        return;
-    }
+  const link = mindmap.links.find(l => l.id === linkId);
 
-    const head = link.from;
-    const tail = link.to;
+  if (link.shaded) {
+    // do not handle clicks from shaded links.
+    return;
+  }
 
-    const headPos = head.posAbs;
-    const tailPos = tail.posAbs;
+  const head = link.from;
+  const tail = link.to;
 
-    const mousePos = toCanvasCoords(viewportPos, mindmap.viewbox);
+  const headPos = head.posAbs;
+  const tailPos = tail.posAbs;
 
-    // get target node to animate to
-    let node;
-    if (getDistance(mousePos, headPos) < getDistance(mousePos, tailPos)) {
-        node = tail;
-    } else {
-        node = head;
-    }
+  const mousePos = toCanvasCoords(viewportPos, mindmap.viewbox);
 
-    dispatch({
-        type: 'animate-mindmap-viewbox-to-idea',
-        data: {ideaId: node.id}
-    });
+  // get target node to animate to
+  let node;
+  if (getDistance(mousePos, headPos) < getDistance(mousePos, tailPos)) {
+    node = tail;
+  } else {
+    node = head;
+  }
+
+  dispatch({
+    type: "animate-mindmap-viewbox-to-idea",
+    data: { ideaId: node.id }
+  });
 }

@@ -1,108 +1,99 @@
-import {expect} from 'test/utils';
+import { expect } from "test/utils";
 
-import requiredParams from 'src/utils/required-params';
+import requiredParams from "src/utils/required-params";
 
-describe('required-params', () => {
+describe("required-params", () => {
+  it("should return proxy which NOT fail if no param were missed", () => {
+    // setup
 
-    it('should return proxy which NOT fail if no param were missed', () => {
-        
-        // setup
+    /**
+     * Test function
+     * @param {object} opts
+     * @param {string} opts.reqParam1
+     * @param {string} opts.reqParam2
+     * @param {string} [opts.optParam]
+     */
+    function test(opts) {
+      // eslint-disable-next-line no-unused-vars
+      const { reqParam1, reqParam2 } = requiredParams(opts);
+      // eslint-disable-next-line no-unused-vars
+      const { optParam } = opts;
+    }
 
-        /**
-         * Test function
-         * @param {object} opts
-         * @param {string} opts.reqParam1
-         * @param {string} opts.reqParam2
-         * @param {string} [opts.optParam]
-         */
-        function test(opts) {
-            // eslint-disable-next-line no-unused-vars
-            const {reqParam1, reqParam2} = requiredParams(opts);
-            // eslint-disable-next-line no-unused-vars
-            const {optParam} = opts;
-        }
+    // target
+    const result = () =>
+      test({
+        reqParam1: "1",
+        reqParam2: "2"
+      });
 
-        // target
-        const result = () => test({
-            reqParam1: '1',
-            reqParam2: '2'
-        });
+    // check
+    expect(result).to.not.throw();
+  });
 
-        // check
-        expect(result).to.not.throw();
-    });
+  it("should return proxy which fails if param was missed", () => {
+    // setup
 
-    it('should return proxy which fails if param was missed', () => {
+    /**
+     * Test function
+     * @param {object} opts
+     * @param {string} opts.reqParam1
+     * @param {string} opts.reqParam2
+     * @param {string} [opts.optParam]
+     */
+    function test(opts) {
+      // eslint-disable-next-line no-unused-vars
+      const { reqParam1, reqParam2 } = requiredParams(opts);
+    }
 
-        // setup
+    // target
 
-        /**
-         * Test function
-         * @param {object} opts
-         * @param {string} opts.reqParam1
-         * @param {string} opts.reqParam2
-         * @param {string} [opts.optParam]
-         */
-        function test(opts) {
-            // eslint-disable-next-line no-unused-vars
-            const {reqParam1, reqParam2} = requiredParams(opts);
-        }
+    // @ts-ignore allow run-time check
+    const result = () => test({ reqParam1: "1" });
 
-        // target
+    // check
+    expect(result).to.throw(`Required parameter 'reqParam2' was not specified`);
+  });
 
-        // @ts-ignore allow run-time check
-        const result = () => test({
-            reqParam1: '1'
-        });
+  it("should fail if no params object was received", () => {
+    // setup
 
-        // check
-        expect(result).to.throw(
-            `Required parameter 'reqParam2' was not specified`);
-    });
+    /**
+     * Test function
+     * @param {object} opts
+     * @param {string} opts.reqParam1
+     * @param {string} opts.reqParam2
+     * @param {string} [opts.optParam]
+     */
+    function test(opts) {
+      // eslint-disable-next-line no-unused-vars
+      const { reqParam1, reqParam2 } = requiredParams(opts);
+    }
 
-    it('should fail if no params object was received', () => {
-        
-        // setup
+    // target
 
-        /**
-         * Test function
-         * @param {object} opts
-         * @param {string} opts.reqParam1
-         * @param {string} opts.reqParam2
-         * @param {string} [opts.optParam]
-         */
-        function test(opts) {
-            // eslint-disable-next-line no-unused-vars
-            const {reqParam1, reqParam2} = requiredParams(opts);
-        }
+    // @ts-ignore allow run-time check
+    const result = () => test();
 
-        // target
+    // check
+    expect(result).to.throw(`Invalid params object received 'undefined'`);
+  });
 
-        // @ts-ignore allow run-time check
-        const result = () => test();
+  it("should not create proxy in prod environment", () => {
+    // setup
+    const prevEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "production";
 
-        // check
-        expect(result).to.throw(
-            `Invalid params object received 'undefined'`);
-    });
-    
-    it('should not create proxy in prod environment', () => {
+    // target
+    const params = requiredParams({});
 
-        // setup
-        const prevEnv = process.env.NODE_ENV;
-        process.env.NODE_ENV = 'production';
+    // check
 
-        // target
-        const params = requiredParams({});
+    // @ts-ignore allow run-time check
+    const result = () => params.X;
+    expect(result).to.not.throw();
 
-        // check
-        
-        // @ts-ignore allow run-time check
-        const result = () => params.X;
-        expect(result).to.not.throw();
-
-        // teardown
-        process.env.NODE_ENV = prevEnv;
-    });
-
+    // teardown
+    process.env.NODE_ENV = prevEnv;
+  });
 });

@@ -1,39 +1,34 @@
-import {expect, createState} from 'test/utils';
+import { expect, createState } from "test/utils";
 
-import Patch from 'utils/state/Patch';
+import Patch from "utils/state/Patch";
 
-import mutate from 'view/mutators';
+import mutate from "view/mutators";
 
-describe('mutators', () => {
+describe("mutators", () => {
+  describe("init", () => {
+    it("should init view", () => {
+      // setup
+      const state = createState();
+      state.view.root = undefined;
 
-    describe('init', () => {
+      const patch = new Patch({
+        type: "init",
+        data: {
+          view: {
+            root: document.createElement("div"),
+            storeDispatch: () => {}
+          }
+        }
+      });
 
-        it('should init view', () => {
-            
-            // setup
-            const state = createState();
-            state.view.root = undefined;
+      // target
+      mutate(state, patch);
 
-            const patch = new Patch({
-                type: 'init',
-                data: {
-                    view: {
-                        root: document.createElement('div'),
-                        storeDispatch: () => {}
-                    }
-                }
-            });
+      // check
+      const { root } = state.view;
 
-            // target
-            mutate(state, patch);
-
-            // check
-            const {root} = state.view;
-
-            expect(root).to.exist;
-            expect(root).to.be.instanceOf(HTMLElement);
-        });
-
+      expect(root).to.exist;
+      expect(root).to.be.instanceOf(HTMLElement);
     });
-
+  });
 });

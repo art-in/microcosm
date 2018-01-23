@@ -1,6 +1,4 @@
-describe('model', () => {
-
-    require('./mutators');
-    require('./utils');
-
+describe("model", () => {
+  require("./mutators");
+  require("./utils");
 });

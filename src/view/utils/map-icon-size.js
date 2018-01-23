@@ -1,28 +1,28 @@
-import icons from 'font-awesome/css/font-awesome.css';
+import icons from "font-awesome/css/font-awesome.css";
 
-import IconSize from 'vm/shared/IconSize';
+import IconSize from "vm/shared/IconSize";
 
 /**
  * Maps icon size to corresponding css class
- * 
- * @param {IconSize} iconSize 
+ *
+ * @param {IconSize} iconSize
  * @return {string} css class
  */
 export default function(iconSize) {
-    switch (iconSize) {
+  switch (iconSize) {
     case IconSize.default:
-        return null;
+      return null;
     case IconSize.large:
-        return icons.faLg;
+      return icons.faLg;
     case IconSize.x2:
-        return icons.fa2X;
+      return icons.fa2X;
     case IconSize.x3:
-        return icons.fa3X;
+      return icons.fa3X;
     case IconSize.x4:
-        return icons.fa4X;
+      return icons.fa4X;
     case IconSize.x5:
-        return icons.fa5X;
+      return icons.fa5X;
     default:
-        throw Error(`Unknown icon size '${iconSize}'`);
-    }
+      throw Error(`Unknown icon size '${iconSize}'`);
+  }
 }

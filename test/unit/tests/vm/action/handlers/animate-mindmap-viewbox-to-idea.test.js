@@ -1,163 +1,153 @@
-import {expect, createState, combinePatches} from 'test/utils';
-import {spy} from 'sinon';
+import { expect, createState, combinePatches } from "test/utils";
+import { spy } from "sinon";
 
-import update from 'src/utils/update-object';
-import Point from 'src/model/entities/Point';
-import Idea from 'model/entities/Idea';
+import update from "src/utils/update-object";
+import Point from "src/model/entities/Point";
+import Idea from "model/entities/Idea";
 
-import mutateVM from 'src/vm/mutators';
+import mutateVM from "src/vm/mutators";
 
-import handler from 'src/vm/action/handler';
+import handler from "src/vm/action/handler";
 const handle = handler.handle.bind(handler);
 
-describe('animate-mindmap-viewbox-to-idea', () => {
+describe("animate-mindmap-viewbox-to-idea", () => {
+  async function setup() {
+    // setup state
+    //  __________________
+    // |vb1     |   canvas|
+    // |        |         |
+    // |        |         |
+    // |________|  _______|
+    // |          |vb2    |
+    // |          |   x   |
+    // |__________|_______|
+    //
+    const state = createState();
 
-    async function setup() {
+    // setup model
+    const { mindset } = state.model;
 
-        // setup state
-        //  __________________
-        // |vb1     |   canvas|
-        // |        |         |
-        // |        |         |
-        // |________|  _______|
-        // |          |vb2    |
-        // |          |   x   |
-        // |__________|_______|
-        //
-        const state = createState();
+    const ideaA = new Idea({
+      id: "A",
+      rootPathWeight: 500,
+      posAbs: new Point({ x: 500, y: 500 })
+    });
 
-        // setup model
-        const {mindset} = state.model;
+    mindset.ideas.set(ideaA.id, ideaA);
 
-        const ideaA = new Idea({
-            id: 'A',
-            rootPathWeight: 500,
-            posAbs: new Point({x: 500, y: 500})
-        });
+    // setup view model
+    const { mindmap } = state.vm.main.mindset;
 
-        mindset.ideas.set(ideaA.id, ideaA);
+    update(mindmap.viewbox, {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+      scale: 1
+    });
 
-        // setup view model
-        const {mindmap} = state.vm.main.mindset;
+    update(mindmap.viewport, {
+      width: 100,
+      height: 100
+    });
 
-        update(mindmap.viewbox, {
-            x: 0,
-            y: 0,
-            width: 100,
-            height: 100,
-            scale: 1
-        });
+    // setup spies
+    const dispatchSpy = spy();
+    const mutateMock = spy(mutateVM.bind(null, state));
 
-        update(mindmap.viewport, {
-            width: 100,
-            height: 100
-        });
+    // setup action
+    const action = {
+      type: "animate-mindmap-viewbox-to-idea",
+      data: {
+        ideaId: "A",
+        scheduleAnimationStep: cb => setTimeout(cb, 50)
+      }
+    };
 
-        // setup spies
-        const dispatchSpy = spy();
-        const mutateMock = spy(mutateVM.bind(null, state));
+    // target
+    const res = await handle(state, action, dispatchSpy, mutateMock);
 
-        // setup action
-        const action = {
-            type: 'animate-mindmap-viewbox-to-idea',
-            data: {
-                ideaId: 'A',
-                scheduleAnimationStep: cb => setTimeout(cb, 50)
-            }
-        };
+    // combine patches
+    const patch = combinePatches(mutateMock, res);
 
-        // target
-        const res = await handle(state, action, dispatchSpy, mutateMock);
+    const mutations = patch["update-mindmap"];
+    const lastMutation = mutations[mutations.length - 1];
+    const { viewbox: finalMutationViewbox } = lastMutation.data;
 
-        // combine patches
-        const patch = combinePatches(mutateMock, res);
+    return { patch, finalMutationViewbox, dispatchSpy };
+  }
 
-        const mutations = patch['update-mindmap'];
-        const lastMutation = mutations[mutations.length - 1];
-        const {viewbox: finalMutationViewbox} = lastMutation.data;
+  it("should set idea to viewbox focus zone", async () => {
+    const { finalMutationViewbox: viewbox } = await setup();
 
-        return {patch, finalMutationViewbox, dispatchSpy};
+    // scale of idea with RPW 500 = 0.5,
+    // then viewbox should have scale 2 for target idea to be focused.
+    // and if viewbox scale now 2 its size should be 2 times smaller.
+    expect(viewbox.scale).to.equal(2);
+    expect(viewbox.height).to.equal(50);
+    expect(viewbox.width).to.equal(50);
+  });
+
+  it("should set idea to the center of viewbox", async () => {
+    const { finalMutationViewbox: viewbox } = await setup();
+
+    // viewbox now have size 50x50, target idea position is 500x500,
+    // then top-left corner of viewbox should be at (500 - 50/2)
+    // for target idea be in the center of viewbox
+    expect(viewbox.x).to.equal(475);
+    expect(viewbox.y).to.equal(475);
+  });
+
+  it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
+    const { dispatchSpy } = await setup();
+
+    expect(dispatchSpy.callCount).to.equal(1);
+    expect(dispatchSpy.firstCall.args).to.have.length(1);
+    expect(dispatchSpy.firstCall.args[0]).to.containSubset({
+      type: "set-mindset-position-and-scale",
+      data: {
+        scale: 2,
+        pos: { x: 475, y: 475 }
+      }
+    });
+  });
+
+  it("should progressively increase viewbox scale", async () => {
+    const { patch } = await setup();
+
+    // collect scale mutations
+    const mutations = patch["update-mindmap"];
+    const scales = mutations.reduce((arr, m) => {
+      // take only scale mutations
+      if (m.data.viewbox && m.data.viewbox.scale) {
+        arr.push(m.data.viewbox.scale);
+      }
+      return arr;
+    }, []);
+
+    // expect each next scale be greater than previous
+    for (let i = 1; i < scales.length; i++) {
+      expect(scales[i - 1]).to.be.lte(scales[i]);
     }
+  });
 
-    it('should set idea to viewbox focus zone', async () => {
+  it("should progressively change viewbox position", async () => {
+    const { patch } = await setup();
 
-        const {finalMutationViewbox: viewbox} = await setup();
+    // collect position mutations
+    const mutations = patch["update-mindmap"];
+    const positions = mutations.reduce((arr, m) => {
+      // take only position mutations
+      if (m.data.viewbox && m.data.viewbox.x && m.data.viewbox.y) {
+        arr.push({ x: m.data.viewbox.x, y: m.data.viewbox.y });
+      }
+      return arr;
+    }, []);
 
-        // scale of idea with RPW 500 = 0.5,
-        // then viewbox should have scale 2 for target idea to be focused.
-        // and if viewbox scale now 2 its size should be 2 times smaller.
-        expect(viewbox.scale).to.equal(2);
-        expect(viewbox.height).to.equal(50);
-        expect(viewbox.width).to.equal(50);
-    });
-
-    it('should set idea to the center of viewbox', async () => {
-
-        const {finalMutationViewbox: viewbox} = await setup();
-
-        // viewbox now have size 50x50, target idea position is 500x500,
-        // then top-left corner of viewbox should be at (500 - 50/2)
-        // for target idea be in the center of viewbox
-        expect(viewbox.x).to.equal(475);
-        expect(viewbox.y).to.equal(475);
-    });
-
-    it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
-
-        const {dispatchSpy} = await setup();
-
-        expect(dispatchSpy.callCount).to.equal(1);
-        expect(dispatchSpy.firstCall.args).to.have.length(1);
-        expect(dispatchSpy.firstCall.args[0]).to.containSubset({
-            type: 'set-mindset-position-and-scale',
-            data: {
-                scale: 2,
-                pos: {x: 475, y: 475}
-            }
-        });
-    });
-
-    it('should progressively increase viewbox scale', async () => {
-        
-        const {patch} = await setup();
-
-        // collect scale mutations
-        const mutations = patch['update-mindmap'];
-        const scales = mutations.reduce(
-            (arr, m) => {
-                // take only scale mutations 
-                if (m.data.viewbox && m.data.viewbox.scale) {
-                    arr.push(m.data.viewbox.scale);
-                }
-                return arr;
-            }, []);
-
-        // expect each next scale be greater than previous
-        for (let i = 1; i < scales.length; i++) {
-            expect(scales[i - 1]).to.be.lte(scales[i]);
-        }
-    });
-
-    it('should progressively change viewbox position', async () => {
-        
-        const {patch} = await setup();
-
-        // collect position mutations
-        const mutations = patch['update-mindmap'];
-        const positions = mutations.reduce(
-            (arr, m) => {
-                // take only position mutations 
-                if (m.data.viewbox && m.data.viewbox.x && m.data.viewbox.y) {
-                    arr.push({x: m.data.viewbox.x, y: m.data.viewbox.y});
-                }
-                return arr;
-            }, []);
-
-        // expect each next position to be greater than previous
-        for (let i = 1; i < positions.length; i++) {
-            expect(positions[i - 1].x).to.be.lte(positions[i].x);
-            expect(positions[i - 1].y).to.be.lte(positions[i].y);
-        }
-    });
-
+    // expect each next position to be greater than previous
+    for (let i = 1; i < positions.length; i++) {
+      expect(positions[i - 1].x).to.be.lte(positions[i].x);
+      expect(positions[i - 1].y).to.be.lte(positions[i].y);
+    }
+  });
 });

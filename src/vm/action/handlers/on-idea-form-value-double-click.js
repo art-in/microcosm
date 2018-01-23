@@ -1,28 +1,28 @@
-import PatchType from 'utils/state/Patch';
-import view from 'vm/utils/view-patch';
+import PatchType from "utils/state/Patch";
+import view from "vm/utils/view-patch";
 
-import StateType from 'boot/client/State';
+import StateType from "boot/client/State";
 
 /**
- * Handles double click event from value field of idea form modal 
- * 
+ * Handles double click event from value field of idea form modal
+ *
  * @param {StateType} state
  * @return {PatchType}
  */
 export default function(state) {
-    const {vm: {main: {mindset: {mindmap}}}} = state;
-    
-    const {form} = mindmap.ideaFormModal;
+  const { vm: { main: { mindset: { mindmap } } } } = state;
 
-    if (form.isEditingValue) {
-        // do not exit edit mode by double click, because otherwise it is
-        // impossible to select word in text area (default behavior)
-        return;
+  const { form } = mindmap.ideaFormModal;
+
+  if (form.isEditingValue) {
+    // do not exit edit mode by double click, because otherwise it is
+    // impossible to select word in text area (default behavior)
+    return;
+  }
+
+  return view("update-idea-form-modal", {
+    form: {
+      isEditingValue: true
     }
-
-    return view('update-idea-form-modal', {
-        form: {
-            isEditingValue: true
-        }
-    });
+  });
 }

@@ -1,5 +1,5 @@
-import MindmapType from 'vm/map/entities/Mindmap';
-import NodeType from 'vm/map/entities/Node';
+import MindmapType from "vm/map/entities/Mindmap";
+import NodeType from "vm/map/entities/Node";
 
 /**
  * Gets node by ID
@@ -9,12 +9,11 @@ import NodeType from 'vm/map/entities/Node';
  * @return {NodeType}
  */
 export default function getNode(mindmap, nodeId) {
-    
-    const node = mindmap.nodes.find(n => n.id === nodeId);
+  const node = mindmap.nodes.find(n => n.id === nodeId);
 
-    if (!node) {
-        throw Error(`Node with ID '${nodeId}' not found in mindmap`);
-    }
+  if (!node) {
+    throw Error(`Node with ID '${nodeId}' not found in mindmap`);
+  }
 
-    return node;
+  return node;
 }

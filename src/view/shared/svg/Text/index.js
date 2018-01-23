@@ -1,2 +1,2 @@
-import module from './Text';
+import module from "./Text";
 export default module;

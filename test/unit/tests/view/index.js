@@ -1,6 +1,4 @@
-describe('view', () => {
-
-    require('./utils');
-    require('./mutators.test');
-
+describe("view", () => {
+  require("./utils");
+  require("./mutators.test");
 });

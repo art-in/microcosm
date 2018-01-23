@@ -1,9 +1,9 @@
-import AssociationType from 'model/entities/Association';
+import AssociationType from "model/entities/Association";
 
-import toModel from 'data/mappers/dbo-to-association';
-import toDbo from 'data/mappers/association-to-dbo';
+import toModel from "data/mappers/dbo-to-association";
+import toDbo from "data/mappers/association-to-dbo";
 
-import isEmptyDbo from 'data/utils/is-empty-dbo';
+import isEmptyDbo from "data/utils/is-empty-dbo";
 
 /**
  * Gets all associations of mindset
@@ -12,17 +12,15 @@ import isEmptyDbo from 'data/utils/is-empty-dbo';
  * @return {Promise.<Array.<AssociationType>>}
  */
 export async function getAll(db, mindsetId) {
+  const data = await db.find({
+    selector: {
+      mindsetId
+    }
+  });
 
-    const data = await db.find({
-        selector: {
-            mindsetId
-        }
-    });
+  const items = data.docs.map(dbo => toModel(dbo));
 
-    const items = data.docs
-        .map(dbo => toModel(dbo));
-
-    return items;
+  return items;
 }
 
 /**
@@ -31,15 +29,16 @@ export async function getAll(db, mindsetId) {
  * @param {AssociationType} model
  */
 export async function add(db, model) {
-    const dbo = toDbo(model);
+  const dbo = toDbo(model);
 
-    if (!dbo.mindsetId) {
-        throw Error(
-            `Failed to add association '${model.id}' with empty ` +
-            `parent mindset ID`);
-    }
+  if (!dbo.mindsetId) {
+    throw Error(
+      `Failed to add association '${model.id}' with empty ` +
+        `parent mindset ID`
+    );
+  }
 
-    await db.put(dbo);
+  await db.put(dbo);
 }
 
 /**
@@ -48,27 +47,27 @@ export async function add(db, model) {
  * @param {AssociationType|object} model - model or patch
  */
 export async function update(db, model) {
+  const dbo = toDbo(model);
 
-    const dbo = toDbo(model);
+  if (isEmptyDbo(dbo)) {
+    // skip if dbo is empty, which happens when mutation affects
+    // only model props that are not saved to db (dynamic props)
+    return;
+  }
 
-    if (isEmptyDbo(dbo)) {
-        // skip if dbo is empty, which happens when mutation affects
-        // only model props that are not saved to db (dynamic props)
-        return;
-    }
+  if (dbo.hasOwnProperty("mindsetId") && !dbo.mindsetId) {
+    throw Error(
+      `Failed to update association '${model.id}' with empty ` +
+        `parent mindset ID`
+    );
+  }
 
-    if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
-        throw Error(
-            `Failed to update association '${model.id}' with empty ` +
-            `parent mindset ID`);
-    }
+  const existing = await db.get(model.id);
 
-    const existing = await db.get(model.id);
-    
-    await db.put({
-        ...existing,
-        ...dbo
-    });
+  await db.put({
+    ...existing,
+    ...dbo
+  });
 }
 
 /**
@@ -77,8 +76,8 @@ export async function update(db, model) {
  * @param {string} assocId
  */
 export async function remove(db, assocId) {
-    const existing = await db.get(assocId);
-    await db.remove(assocId, existing._rev);
+  const existing = await db.get(assocId);
+  await db.remove(assocId, existing._rev);
 }
 
 /**
@@ -86,6 +85,6 @@ export async function remove(db, assocId) {
  * @param {PouchDB.Database} db
  */
 export async function removeAll(db) {
-    const data = await db.allDocs();
-    await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
+  const data = await db.allDocs();
+  await Promise.all(data.rows.map(r => db.remove(r.id, r.value.rev)));
 }

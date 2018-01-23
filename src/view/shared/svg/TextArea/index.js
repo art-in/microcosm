@@ -1,2 +1,2 @@
-import module from './TextArea';
+import module from "./TextArea";
 export default module;

@@ -1,9 +1,15 @@
 {
-    "extends": ["eslint:recommended", "plugin:react/recommended", "google"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+
+        // prettier formatting rules (has no code quality rules).
+        // turns off eslint rules which are in conflict.
+        "plugin:prettier/recommended"
+    ],
     "parser": "babel-eslint",
     "plugins": [
-        "babel",
-        "react"
+        "babel"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -24,39 +30,15 @@
         "WeakMap": false
     },
     "rules": {
-        // do not care about win/unix line ending diffs
-        "linebreak-style": 0,
-
-        // padding big functions makes it more "breathing" (render),
-        // padding small functions looks unnecessary (onClick)
-        "padded-blocks": 0,
-
-        // remove empty line junk at the end of each file.
-        // common unix idiom is not an argument for me
-        "eol-last": ["error", "never"],
-        
-        // remove comma junk after last obj/array item.
-        // version control diffs is not an argument for me
-        "comma-dangle": ["error", "never"],
+        // turn on prettier formatting rules
+        "prettier/prettier": "error",
 
         // since this is not a lib to embed into another project
         // and make noise there, i feel free to log anything
         "no-console": 0,
 
-        // remove invisible spaces junk at the end of lines
-        "no-trailing-spaces": ["error", { "skipBlankLines": true }],
-
-        // using 'const' instead of 'let' to follow spec meaning
+        // enforce to use 'const' over 'let' to follow spec meaning
         "prefer-const": ["error"],
-
-        // accurate text column to fit into split-screens or 
-        // portrait-screen-orientation with comfortable font size
-        "max-len": ["error", 80],
-
-        // four spaces indent
-        "indent": ["error", 4],
-
-        "arrow-parens": [ 1, "as-needed" ],
 
         "no-unused-vars": ["error", {
 
@@ -71,15 +53,7 @@
             "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
         }],
 
-        // React
-        "jsx-quotes": [ 1, "prefer-single" ],
-        "react/jsx-indent": [2, 4],
-
         // ignore 'propTypes' since using static prop validation
-        "react/prop-types": 0,
-
-        // Babel rewrites
-        "object-curly-spacing": 0,
-        "babel/object-curly-spacing": 1
+        "react/prop-types": 0
     }
 }

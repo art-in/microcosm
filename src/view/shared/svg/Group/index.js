@@ -1,2 +1,2 @@
-import module from './Group';
+import module from "./Group";
 export default module;

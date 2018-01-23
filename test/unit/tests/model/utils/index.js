@@ -1,5 +1,3 @@
-describe('utils', () => {
-    
-    require('./build-ideas-graph-from-list.test');
-
+describe("utils", () => {
+  require("./build-ideas-graph-from-list.test");
 });

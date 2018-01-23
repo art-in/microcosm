@@ -1,121 +1,118 @@
-import {expect} from 'test/utils';
-import {spy} from 'sinon';
-import {mount} from 'enzyme';
+import { expect } from "test/utils";
+import { spy } from "sinon";
+import { mount } from "enzyme";
 
-import ViewModel from 'src/vm/utils/ViewModel';
-import React, {Component} from 'react';
+import ViewModel from "src/vm/utils/ViewModel";
+import React, { Component } from "react";
 
-import connect from 'view/utils/connect';
-import Provider from 'view/utils/connect/Provider';
+import connect from "view/utils/connect";
+import Provider from "view/utils/connect/Provider";
 
-describe('connect', () => {
+describe("connect", () => {
+  it(`should update view on view-model 'change' events`, () => {
+    // setup view-model
+    class VM extends ViewModel {
+      static eventTypes = ["change"];
+      someProp = "INITIAL";
+    }
 
-    it(`should update view on view-model 'change' events`, () => {
+    const vm = new VM();
 
-        // setup view-model
-        class VM extends ViewModel {
-            static eventTypes = ['change']
-            someProp = 'INITIAL'
-        }
+    // setup view
 
-        const vm = new VM();
+    /**
+     * @typedef {object} Props
+     * @prop {VM} myVM
+     *
+     * @extends {Component<Props>}
+     */
+    class View extends Component {
+      render() {
+        return <span>{this.props.myVM.someProp}</span>;
+      }
+    }
 
-        // setup view
+    // setup connected view
+    const ConnectedView = connect(props => props.myVM)(View);
 
-        /**
-         * @typedef {object} Props
-         * @prop {VM} myVM
-         * 
-         * @extends {Component<Props>}
-         */
-        class View extends Component {
-            render() {
-                return <span>{this.props.myVM.someProp}</span>;
-            }
-        }
+    // setup store dispatch
+    const dispatch = spy();
 
-        // setup connected view
-        const ConnectedView = connect(props => props.myVM)(View);
+    // target
+    const wrapper = mount(
+      <Provider dispatch={dispatch}>
+        <ConnectedView myVM={vm} />
+      </Provider>
+    );
 
-        // setup store dispatch
-        const dispatch = spy();
+    // check
+    expect(wrapper).to.exist;
 
-        // target
-        const wrapper = mount(
-            <Provider dispatch={dispatch}>
-                <ConnectedView myVM={vm} />
-            </Provider>
-        );
+    vm.someProp = "UPDATED";
+    vm.emitChange();
 
-        // check
-        expect(wrapper).to.exist;
+    expect(wrapper.text()).to.equal("UPDATED");
+  });
 
-        vm.someProp = 'UPDATED';
-        vm.emitChange();
+  it("should dispatch store actions on view events", () => {
+    // setup view-model
+    class VM extends ViewModel {
+      static eventTypes = ["change"];
+      someProp = "vm prop value";
+    }
 
-        expect(wrapper.text()).to.equal('UPDATED');
+    const vm = new VM();
+
+    // setup view
+
+    /**
+     * @typedef {object} Props
+     * @prop {VM} myVM
+     * @prop {function(string)} onClick
+     *
+     * @extends {Component<Props>}
+     */
+    class View extends Component {
+      onClick() {
+        this.props.onClick("view event data");
+      }
+      render() {
+        return <span onClick={this.onClick.bind(this)} />;
+      }
+    }
+
+    // setup connected view
+    const ConnectedView = connect(
+      props => props.myVM,
+      (dispatch, props) => ({
+        onClick: eventData =>
+          dispatch({
+            type: "action",
+            data: `${eventData}: ${props.myVM.someProp}`
+          })
+      })
+    )(View);
+
+    // setup store dispatch
+    const dispatch = spy();
+
+    // target
+    const wrapper = mount(
+      <Provider dispatch={dispatch}>
+        <ConnectedView myVM={vm} />
+      </Provider>
+    );
+
+    // check
+    expect(wrapper).to.exist;
+
+    wrapper.simulate("click");
+
+    expect(dispatch.callCount).to.equal(1);
+    expect(dispatch.firstCall.args).to.have.length(1);
+    expect(dispatch.firstCall.args[0]).to.deep.equal({
+      type: "action",
+      data: "view event data: vm prop value"
     });
-
-    it('should dispatch store actions on view events', () => {
-
-        // setup view-model
-        class VM extends ViewModel {
-            static eventTypes = ['change']
-            someProp = 'vm prop value'
-        }
-
-        const vm = new VM();
-
-        // setup view
-        
-        /**
-         * @typedef {object} Props
-         * @prop {VM} myVM
-         * @prop {function(string)} onClick
-         * 
-         * @extends {Component<Props>}
-         */
-        class View extends Component {
-            onClick() {
-                this.props.onClick('view event data');
-            }
-            render() {
-                return <span onClick={this.onClick.bind(this)}></span>;
-            }
-        }
-
-        // setup connected view
-        const ConnectedView = connect(
-            props => props.myVM,
-            (dispatch, props) => ({
-                onClick: eventData => dispatch({
-                    type: 'action',
-                    data: `${eventData}: ${props.myVM.someProp}`
-                })
-            })
-        )(View);
-
-        // setup store dispatch
-        const dispatch = spy();
-
-        // target
-        const wrapper = mount(
-            <Provider dispatch={dispatch}>
-                <ConnectedView myVM={vm} />
-            </Provider>
-        );
-
-        // check
-        expect(wrapper).to.exist;
-
-        wrapper.simulate('click');
-
-        expect(dispatch.callCount).to.equal(1);
-        expect(dispatch.firstCall.args).to.have.length(1);
-        expect(dispatch.firstCall.args[0]).to.deep.equal({
-            type: 'action',
-            data: 'view event data: vm prop value'
-        });
-    });
-
+  });
 });

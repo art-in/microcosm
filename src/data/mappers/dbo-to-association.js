@@ -1,4 +1,4 @@
-import Association from 'model/entities/Association';
+import Association from "model/entities/Association";
 
 /**
  * Maps dbo to association model
@@ -6,14 +6,14 @@ import Association from 'model/entities/Association';
  * @return {Association}
  */
 export default function dboToAssociation(dbo) {
-    const model = new Association();
+  const model = new Association();
 
-    model.id = dbo._id;
-    model.mindsetId = dbo.mindsetId;
-    model.fromId = dbo.fromId;
-    model.toId = dbo.toId;
-    model.value = dbo.value;
-    model.weight = dbo.weight;
+  model.id = dbo._id;
+  model.mindsetId = dbo.mindsetId;
+  model.fromId = dbo.fromId;
+  model.toId = dbo.toId;
+  model.value = dbo.value;
+  model.weight = dbo.weight;
 
-    return model;
+  return model;
 }

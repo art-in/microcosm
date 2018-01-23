@@ -1,2 +1,2 @@
-import module from './Mindset';
+import module from "./Mindset";
 export default module;

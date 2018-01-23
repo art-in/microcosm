@@ -1,2 +1,2 @@
-import module from './RadialContextMenu.connect';
+import module from "./RadialContextMenu.connect";
 export default module;

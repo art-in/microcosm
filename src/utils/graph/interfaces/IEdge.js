@@ -1,27 +1,26 @@
-import IVertexType from './IVertex';
+import IVertexType from "./IVertex";
 
 /**
  * Graph edge
- * 
+ *
  * @interface
  */
 export default class Edge {
-    
-    /**
-     * Head vertex
-     * @type {IVertexType}
-     */
-    from
+  /**
+   * Head vertex
+   * @type {IVertexType}
+   */
+  from;
 
-    /**
-     * Tail vertex
-     * @type {IVertexType}
-     */
-    to
+  /**
+   * Tail vertex
+   * @type {IVertexType}
+   */
+  to;
 
-    /**
-     * Weight of edge
-     * @type {number} non-negative
-     */
-    weight
+  /**
+   * Weight of edge
+   * @type {number} non-negative
+   */
+  weight;
 }

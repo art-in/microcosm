@@ -1,4 +1,4 @@
-import PointType from 'model/entities/Point';
+import PointType from "model/entities/Point";
 
 /**
  * Maps point to dbo
@@ -6,10 +6,10 @@ import PointType from 'model/entities/Point';
  * @return {object}
  */
 export default function pointToDbo(point) {
-    const dbo = {};
+  const dbo = {};
 
-    dbo.x = point.x;
-    dbo.y = point.y;
+  dbo.x = point.x;
+  dbo.y = point.y;
 
-    return dbo;
+  return dbo;
 }

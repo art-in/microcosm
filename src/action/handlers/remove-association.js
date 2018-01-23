@@ -1,87 +1,90 @@
-import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import required from "utils/required-params";
+import Patch from "utils/state/Patch";
 
-import StateType from 'boot/client/State';
+import StateType from "boot/client/State";
 
-import withoutItem from 'utils/get-array-without-item';
-import patchRootPaths from 'action/utils/patch-root-paths';
-import normalizePatch from 'action/utils/normalize-patch';
-import getAssociation from 'action/utils/get-association';
+import withoutItem from "utils/get-array-without-item";
+import patchRootPaths from "action/utils/patch-root-paths";
+import normalizePatch from "action/utils/normalize-patch";
+import getAssociation from "action/utils/get-association";
 
 /**
  * Removes association
- * 
+ *
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.assocId
  * @return {Patch}
  */
 export default function(state, data) {
-    const {model: {mindset}} = state;
-    const {assocId} = required(data);
-    
-    let patch = new Patch();
-    
-    const assoc = getAssociation(mindset, assocId);
+  const { model: { mindset } } = state;
+  const { assocId } = required(data);
 
-    const head = assoc.from;
-    const tail = assoc.to;
+  let patch = new Patch();
 
-    // check integrity
-    if (!head) {
-        throw Error(`Association '${assocId}' has no reference to head idea`);
-    }
+  const assoc = getAssociation(mindset, assocId);
 
-    if (!tail) {
-        throw Error(`Association '${assocId}' has no reference to tail idea`);
-    }
+  const head = assoc.from;
+  const tail = assoc.to;
 
-    if (tail.edgesIn.length === 1) {
-        // hanging ideas are not allowed
-        throw Error(
-            `Association '${assocId}' cannot be removed ` +
-            `because it is the last incoming association ` +
-            `for idea '${assoc.to.id}'`);
-    }
+  // check integrity
+  if (!head) {
+    throw Error(`Association '${assocId}' has no reference to head idea`);
+  }
 
-    // unbind from head
-    let index = head.edgesOut.indexOf(assoc);
+  if (!tail) {
+    throw Error(`Association '${assocId}' has no reference to tail idea`);
+  }
 
-    if (index === -1) {
-        throw Error(
-            `Head idea '${head.id}' has no reference ` +
-            `to outgoing association '${assocId}'`);
-    }
+  if (tail.edgesIn.length === 1) {
+    // hanging ideas are not allowed
+    throw Error(
+      `Association '${assocId}' cannot be removed ` +
+        `because it is the last incoming association ` +
+        `for idea '${assoc.to.id}'`
+    );
+  }
 
-    patch.push('update-idea', {
-        id: head.id,
-        edgesOut: withoutItem(head.edgesOut, index)
-    });
+  // unbind from head
+  let index = head.edgesOut.indexOf(assoc);
 
-    // unbind from tail
-    index = tail.edgesIn.indexOf(assoc);
+  if (index === -1) {
+    throw Error(
+      `Head idea '${head.id}' has no reference ` +
+        `to outgoing association '${assocId}'`
+    );
+  }
 
-    if (index === -1) {
-        throw Error(
-            `Tail idea '${assoc.to.id}' has no reference ` +
-            `to incoming association '${assocId}'`);
-    }
+  patch.push("update-idea", {
+    id: head.id,
+    edgesOut: withoutItem(head.edgesOut, index)
+  });
 
-    patch.push('update-idea', {
-        id: tail.id,
-        edgesIn: withoutItem(tail.edgesIn, index)
-    });
+  // unbind from tail
+  index = tail.edgesIn.indexOf(assoc);
 
-    // remove association
-    patch.push('remove-association', {id: assocId});
+  if (index === -1) {
+    throw Error(
+      `Tail idea '${assoc.to.id}' has no reference ` +
+        `to incoming association '${assocId}'`
+    );
+  }
 
-    // update root paths
-    const rootPathsPatch = patchRootPaths({
-        root: mindset.root,
-        ignoreEdges: [assoc]
-    });
+  patch.push("update-idea", {
+    id: tail.id,
+    edgesIn: withoutItem(tail.edgesIn, index)
+  });
 
-    patch = Patch.combine(patch, rootPathsPatch);
-    
-    return normalizePatch(patch);
+  // remove association
+  patch.push("remove-association", { id: assocId });
+
+  // update root paths
+  const rootPathsPatch = patchRootPaths({
+    root: mindset.root,
+    ignoreEdges: [assoc]
+  });
+
+  patch = Patch.combine(patch, rootPathsPatch);
+
+  return normalizePatch(patch);
 }

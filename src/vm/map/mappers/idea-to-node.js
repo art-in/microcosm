@@ -1,6 +1,6 @@
-import Node from 'vm/map/entities/Node';
-import IdeaType from 'model/entities/Idea';
-import Point from 'model/entities/Point';
+import Node from "vm/map/entities/Node";
+import IdeaType from "model/entities/Idea";
+import Point from "model/entities/Point";
 
 /**
  * Maps idea model to node view model
@@ -8,24 +8,23 @@ import Point from 'model/entities/Point';
  * @return {Node}
  */
 export default function ideaToNode(idea) {
+  const node = new Node();
 
-    const node = new Node();
+  node.id = idea.id;
 
-    node.id = idea.id;
-    
-    node.title.value = idea.title;
+  node.title.value = idea.title;
 
-    node.isRoot = idea.isRoot;
-    node.color = idea.color;
-    
-    node.radius = 5;
-    
-    node.isRoot = idea.isRoot;
-    node.posAbs = new Point(idea.posAbs);
+  node.isRoot = idea.isRoot;
+  node.color = idea.color;
 
-    node.rootPathWeight = idea.rootPathWeight;
+  node.radius = 5;
 
-    node.debugInfo.posRel = idea.posRel;
+  node.isRoot = idea.isRoot;
+  node.posAbs = new Point(idea.posAbs);
 
-    return node;
+  node.rootPathWeight = idea.rootPathWeight;
+
+  node.debugInfo.posRel = idea.posRel;
+
+  return node;
 }

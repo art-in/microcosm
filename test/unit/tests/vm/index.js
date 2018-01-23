@@ -1,7 +1,5 @@
-describe('vm', () => {
-
-    require('./action');
-    require('./map');
-    require('./utils');
-
+describe("vm", () => {
+  require("./action");
+  require("./map");
+  require("./utils");
 });

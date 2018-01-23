@@ -1,6 +1,6 @@
-import Idea from 'model/entities/Idea';
+import Idea from "model/entities/Idea";
 
-import dboToPoint from './dbo-to-point';
+import dboToPoint from "./dbo-to-point";
 
 /**
  * Maps dbo to idea model
@@ -8,15 +8,15 @@ import dboToPoint from './dbo-to-point';
  * @return {Idea}
  */
 export default function dboToIdea(dbo) {
-    const model = new Idea();
+  const model = new Idea();
 
-    model.id = dbo._id;
-    model.mindsetId = dbo.mindsetId;
-    model.isRoot = dbo.isRoot === true;
-    model.title = dbo.title;
-    model.value = dbo.value;
-    model.color = dbo.color;
-    model.posRel = dboToPoint(dbo.posRel);
+  model.id = dbo._id;
+  model.mindsetId = dbo.mindsetId;
+  model.isRoot = dbo.isRoot === true;
+  model.title = dbo.title;
+  model.value = dbo.value;
+  model.color = dbo.color;
+  model.posRel = dboToPoint(dbo.posRel);
 
-    return model;
+  return model;
 }

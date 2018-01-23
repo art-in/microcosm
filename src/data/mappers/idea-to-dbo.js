@@ -1,8 +1,8 @@
-import deleteUndefinedProps from 'utils/delete-undefined-props';
+import deleteUndefinedProps from "utils/delete-undefined-props";
 
-import IdeaType from 'model/entities/Idea';
+import IdeaType from "model/entities/Idea";
 
-import pointToDbo from './point-to-dbo';
+import pointToDbo from "./point-to-dbo";
 
 /**
  * Maps idea model to dbo
@@ -10,17 +10,17 @@ import pointToDbo from './point-to-dbo';
  * @return {object}
  */
 export default function ideaToDbo(model) {
-    const dbo = {};
+  const dbo = {};
 
-    dbo._id = model.id;
-    dbo.mindsetId = model.mindsetId;
-    dbo.isRoot = model.isRoot || undefined;
-    dbo.title = model.title;
-    dbo.value = model.value;
-    dbo.color = model.color || undefined;
-    dbo.posRel = model.posRel && pointToDbo(model.posRel);
+  dbo._id = model.id;
+  dbo.mindsetId = model.mindsetId;
+  dbo.isRoot = model.isRoot || undefined;
+  dbo.title = model.title;
+  dbo.value = model.value;
+  dbo.color = model.color || undefined;
+  dbo.posRel = model.posRel && pointToDbo(model.posRel);
 
-    deleteUndefinedProps(dbo);
+  deleteUndefinedProps(dbo);
 
-    return dbo;
+  return dbo;
 }

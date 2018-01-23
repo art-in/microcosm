@@ -1,2 +1,2 @@
-import module from './Version.connect';
+import module from "./Version.connect";
 export default module;

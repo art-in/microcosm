@@ -1,80 +1,76 @@
-import {expect} from 'test/utils';
+import { expect } from "test/utils";
 
-import Mindset from 'src/model/entities/Mindset';
+import Mindset from "src/model/entities/Mindset";
 
-import getIdeaRootPathString from 'action/utils/get-idea-root-path';
-import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
+import getIdeaRootPathString from "action/utils/get-idea-root-path";
+import buildGraph from "src/model/utils/build-ideas-graph-from-matrix";
 
-describe('get-idea-root-path', () => {
+describe("get-idea-root-path", () => {
+  it("should return path from root to target idea", () => {
+    // setup
+    //
+    //   (A) --> (B) --> (C)
+    //             \
+    //              \--> (D)
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A  B  C  D
+      /* A */ "0  1  0  0",
+      /* B */ "0  0  1  1",
+      /* C */ "0  0  0  0",
+      /* D */ "0  0  0  0"
+    ]);
 
-    it('should return path from root to target idea', () => {
+    vertices.find(i => i.id === "A").title = "A";
+    vertices.find(i => i.id === "B").title = "B";
+    vertices.find(i => i.id === "C").title = "C";
+    vertices.find(i => i.id === "D").title = "D";
 
-        // setup
-        //
-        //   (A) --> (B) --> (C)
-        //             \
-        //              \--> (D)
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A  B  C  D
-            /* A */ '0  1  0  0',
-            /* B */ '0  0  1  1',
-            /* C */ '0  0  0  0',
-            /* D */ '0  0  0  0'
-        ]);
+    // setup mindset
+    const mindset = new Mindset();
 
-        vertices.find(i => i.id === 'A').title = 'A';
-        vertices.find(i => i.id === 'B').title = 'B';
-        vertices.find(i => i.id === 'C').title = 'C';
-        vertices.find(i => i.id === 'D').title = 'D';
+    mindset.root = root;
+    vertices.forEach(i => mindset.ideas.set(i.id, i));
+    edges.forEach(a => mindset.associations.set(a.id, a));
 
-        // setup mindset
-        const mindset = new Mindset();
+    // target
+    const res = getIdeaRootPathString(mindset, "D");
 
-        mindset.root = root;
-        vertices.forEach(i => mindset.ideas.set(i.id, i));
-        edges.forEach(a => mindset.associations.set(a.id, a));
+    // check
+    expect(res).to.equal("/A/B/D");
+  });
 
-        // target
-        const res = getIdeaRootPathString(mindset, 'D');
+  it("should return correct path if target idea is root", () => {
+    // setup
+    //
+    //   (A) --> (B) --> (C)
+    //             \
+    //              \--> (D)
+    //
+    const { root, vertices, edges } = buildGraph([
+      //       A  B  C  D
+      /* A */ "0  1  0  0",
+      /* B */ "0  0  1  1",
+      /* C */ "0  0  0  0",
+      /* D */ "0  0  0  0"
+    ]);
 
-        // check
-        expect(res).to.equal('/A/B/D');
-    });
+    vertices.find(i => i.id === "A").title = "A";
+    vertices.find(i => i.id === "B").title = "B";
+    vertices.find(i => i.id === "C").title = "C";
+    vertices.find(i => i.id === "D").title = "D";
 
-    it('should return correct path if target idea is root', () => {
+    // setup mindset
+    const mindset = new Mindset();
 
-        // setup
-        //
-        //   (A) --> (B) --> (C)
-        //             \
-        //              \--> (D)
-        //
-        const {root, vertices, edges} = buildGraph([
-            //       A  B  C  D
-            /* A */ '0  1  0  0',
-            /* B */ '0  0  1  1',
-            /* C */ '0  0  0  0',
-            /* D */ '0  0  0  0'
-        ]);
+    mindset.root = root;
+    vertices.forEach(i => mindset.ideas.set(i.id, i));
+    edges.forEach(a => mindset.associations.set(a.id, a));
 
-        vertices.find(i => i.id === 'A').title = 'A';
-        vertices.find(i => i.id === 'B').title = 'B';
-        vertices.find(i => i.id === 'C').title = 'C';
-        vertices.find(i => i.id === 'D').title = 'D';
+    // target
+    const res = getIdeaRootPathString(mindset, "A");
 
-        // setup mindset
-        const mindset = new Mindset();
-
-        mindset.root = root;
-        vertices.forEach(i => mindset.ideas.set(i.id, i));
-        edges.forEach(a => mindset.associations.set(a.id, a));
-
-        // target
-        const res = getIdeaRootPathString(mindset, 'A');
-
-        // check
-        expect(res).to.equal('/A');
-    });
-
+    // check
+    expect(res).to.equal("/A");
+  });
 });

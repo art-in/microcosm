@@ -1,2 +1,2 @@
-import module from './NodeDebug.jsx';
+import module from "./NodeDebug.jsx";
 export default module;

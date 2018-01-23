@@ -1,2 +1,2 @@
-import module from './Link.connect';
+import module from "./Link.connect";
 export default module;

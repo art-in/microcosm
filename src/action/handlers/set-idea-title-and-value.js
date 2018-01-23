@@ -1,10 +1,10 @@
-import required from 'utils/required-params';
-import Patch from 'utils/state/Patch';
+import required from "utils/required-params";
+import Patch from "utils/state/Patch";
 
-import StateType from 'boot/client/State';
+import StateType from "boot/client/State";
 
-import getIdea from 'action/utils/get-idea';
-import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
+import getIdea from "action/utils/get-idea";
+import isValidIdeaTitle from "action/utils/is-valid-idea-title";
 
 /**
  * Sets title and value to existing idea
@@ -17,24 +17,23 @@ import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
  * @return {Patch|undefined}
  */
 export default function setIdeaTitleAndValue(state, data) {
-    const {model: {mindset}} = state;
-    const {ideaId, title, value} = required(data);
-    
-    const idea = getIdea(mindset, ideaId);
+  const { model: { mindset } } = state;
+  const { ideaId, title, value } = required(data);
 
-    if (idea.title === title &&
-        idea.value === value) {
-        // was not changed
-        return;
-    }
+  const idea = getIdea(mindset, ideaId);
 
-    if (!isValidIdeaTitle(title)) {
-        throw Error(`Invalid idea title '${title}'`);
-    }
+  if (idea.title === title && idea.value === value) {
+    // was not changed
+    return;
+  }
 
-    return new Patch('update-idea', {
-        id: ideaId,
-        title: title.trim(),
-        value
-    });
+  if (!isValidIdeaTitle(title)) {
+    throw Error(`Invalid idea title '${title}'`);
+  }
+
+  return new Patch("update-idea", {
+    id: ideaId,
+    title: title.trim(),
+    value
+  });
 }

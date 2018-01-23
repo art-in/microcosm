@@ -1,5 +1,5 @@
-import IdeaType from 'model/entities/Idea';
-import MindsetType from 'model/entities/Mindset';
+import IdeaType from "model/entities/Idea";
+import MindsetType from "model/entities/Mindset";
 
 /**
  * Gets idea by ID
@@ -9,12 +9,11 @@ import MindsetType from 'model/entities/Mindset';
  * @return {IdeaType}
  */
 export default function getIdea(mindset, ideaId) {
-    
-    const idea = mindset.ideas.get(ideaId);
+  const idea = mindset.ideas.get(ideaId);
 
-    if (!idea) {
-        throw Error(`Idea '${ideaId}' was not found in mindset`);
-    }
+  if (!idea) {
+    throw Error(`Idea '${ideaId}' was not found in mindset`);
+  }
 
-    return idea;
+  return idea;
 }

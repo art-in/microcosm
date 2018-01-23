@@ -1,12 +1,12 @@
-import required from 'utils/required-params';
+import required from "utils/required-params";
 
-import StateType from 'boot/client/State';
+import StateType from "boot/client/State";
 
-import PointType from 'model/entities/Point';
+import PointType from "model/entities/Point";
 
 /**
  * Handles mindmap mouse wheel event
- * 
+ *
  * @param {StateType} state
  * @param {object}    data
  * @param {boolean}   data.up  - wheel up or down
@@ -14,16 +14,16 @@ import PointType from 'model/entities/Point';
  * @param {function} dispatch
  */
 export default function onMindmapWheel(state, data, dispatch) {
-    const {vm: {main: {mindset: {mindmap}}}} = state;
-    const {up, viewportPos} = required(data);
-    
-    if (mindmap.zoomInProgress) {
-        return;
-    }
+  const { vm: { main: { mindset: { mindmap } } } } = state;
+  const { up, viewportPos } = required(data);
 
-    dispatch({
-        type: 'animate-mindmap-zoom',
-        data: {up, viewportPos},
-        throttleLog: true
-    });
+  if (mindmap.zoomInProgress) {
+    return;
+  }
+
+  dispatch({
+    type: "animate-mindmap-zoom",
+    data: { up, viewportPos },
+    throttleLog: true
+  });
 }

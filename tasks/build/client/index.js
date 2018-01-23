@@ -1,6 +1,3 @@
 module.exports = {
-    deps: [
-        'build:client:static',
-        'build:client:bundle'
-    ]
+  deps: ["build:client:static", "build:client:bundle"]
 };
