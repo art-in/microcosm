@@ -202,7 +202,7 @@ async function ensureRequiredEntities(localDBs) {
       mindsetId: mindset.id,
       isRoot: true,
       posRel: new Point({ x: 0, y: 0 }),
-      color: "white",
+      color: "#ffffff",
       title: "root"
     });
 
