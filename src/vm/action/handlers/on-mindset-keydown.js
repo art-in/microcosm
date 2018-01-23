@@ -96,8 +96,7 @@ export default function(state, data, dispatch) {
 function onMindmapPan(opts) {
   const { code, mindmap, dispatch } = opts;
 
-  // TODO: make keyboard panning faster
-  let panKeyStep = 20;
+  let panKeyStep = 40;
 
   panKeyStep /= mindmap.viewbox.scale;
 
