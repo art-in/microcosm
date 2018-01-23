@@ -102,9 +102,9 @@ export default function mindsetToMindmap(mindset) {
 
   mindmap.root = rootNode;
 
-  mindmap.debugInfo.focusCenter = focusCenter;
-  mindmap.debugInfo.focusZoneMax = focusZoneMax;
-  mindmap.debugInfo.shadeZoneMax = focusZoneMax + shadeZoneAmount;
+  mindmap.debug.focusCenter = focusCenter;
+  mindmap.debug.focusZoneMax = focusZoneMax;
+  mindmap.debug.shadeZoneMax = focusZoneMax + shadeZoneAmount;
 
   return mindmap;
 }

@@ -15,12 +15,12 @@ export default class MindmapDebug extends Component {
   render() {
     const { mindmap, mindmap: { viewbox } } = this.props;
 
-    if (!mindmap.debug) {
+    if (!mindmap.debug.enable) {
       return null;
     }
 
-    const focusZoneMax = round(mindmap.debugInfo.focusZoneMax);
-    const shadeZoneMax = round(mindmap.debugInfo.shadeZoneMax);
+    const focusZoneMax = round(mindmap.debug.focusZoneMax);
+    const shadeZoneMax = round(mindmap.debug.shadeZoneMax);
 
     const lines = [
       [
@@ -33,7 +33,7 @@ export default class MindmapDebug extends Component {
       ["drag", mindmap.drag.active.toString()],
       ["pan", mindmap.pan.active.toString()],
 
-      ["focus center", round(mindmap.debugInfo.focusCenter, 2)],
+      ["focus center", round(mindmap.debug.focusCenter, 2)],
       ["focus zone", `(Infinity - ${focusZoneMax}]`],
       ["shade zone", `(${focusZoneMax} - ${shadeZoneMax}]`],
       ["hide zone", `(${shadeZoneMax} - Infinity)`]

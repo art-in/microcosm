@@ -21,11 +21,11 @@ export default class NodeDebug extends Component {
   render() {
     const { className, node, ...other } = this.props;
 
-    if (!node.debug) {
+    if (!node.debug.enable) {
       return null;
     }
 
-    const { posAbs, debugInfo: { posRel } } = node;
+    const { posAbs, debug: { posRel } } = node;
 
     const lines = [
       `id = ${node.id.slice(0, 5)}`,

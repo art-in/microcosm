@@ -10,11 +10,6 @@ import ViewModel from "vm/utils/ViewModel";
  */
 export default class Link extends ViewModel {
   /**
-   * Debug state
-   */
-  debug = true;
-
-  /**
    * Head node
    * @memberof Edge
    * @type {NodeType|undefined}

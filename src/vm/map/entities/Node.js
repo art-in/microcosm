@@ -11,19 +11,16 @@ import PointType from "model/entities/Point";
  */
 export default class Node extends ViewModel {
   /**
-   * Debug state
-   * TODO: move flag inside debugInfo object to have
-   *       single 'debug' prop
-   * @type {boolean}
+   * Data for debug purposes only (eg. to render on debug pane)
+   * @type {{enable, posRel}}
    */
-  debug = false;
+  debug = {
+    /**
+     * Enable debug pane
+     * @type {boolean}
+     */
+    enable: false,
 
-  /**
-   * Info for debug purposes only (eg. render on debug pane)
-   * @type {{posRel}}
-   */
-
-  debugInfo = {
     /**
      * Position relative to parent idea
      * @type {PointType|undefined}

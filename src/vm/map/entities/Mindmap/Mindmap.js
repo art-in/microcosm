@@ -16,15 +16,16 @@ import IdeaFormModal from "vm/shared/IdeaFormModal";
  */
 export default class Mindmap extends ViewModel {
   /**
-   * Debug state
+   * Data for debug purposes only (eg. to render on debug pane)
+   * @type {{enable, focusCenter, focusZoneMax, shadeZoneMax}}
    */
-  debug = false;
+  debug = {
+    /**
+     * Enable debug pane
+     * @type {boolean}
+     */
+    enable: false,
 
-  /**
-   * Info for debug purposes only (eg. render on debug pane)
-   * @type {{focusCenter, focusZoneMax, shadeZoneMax}}
-   */
-  debugInfo = {
     /**
      * Center of focus zone
      * @type {number|undefined} root path weight
