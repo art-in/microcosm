@@ -24,7 +24,7 @@ export default function updateMindmapPersistentProps(oldMindmap, newMindmap) {
 
   oldMindmap.id = newMindmap.id;
 
-  oldMindmap.debugInfo = newMindmap.debugInfo;
+  oldMindmap.debug = newMindmap.debug;
   oldMindmap.viewbox = newMindmap.viewbox;
   oldMindmap.nodes = newMindmap.nodes;
   oldMindmap.links = newMindmap.links;

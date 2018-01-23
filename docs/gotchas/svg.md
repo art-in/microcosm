@@ -1,7 +1,6 @@
 1. ~~Chrome does not redraw textPath on path change when <text> and <defs> are in different <g>-groups.~~
     Force redraw by setting random id attr.  
     http://stackoverflow.com/questions/11573694/svg-textpath-not-visible-after-transition-on-chrome  
-    TODO: search for or file a bug to Chrome  
     UPDATE: microcosm hack removed.
 
 ---

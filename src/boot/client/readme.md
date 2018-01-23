@@ -10,8 +10,3 @@ their logic can be used on server in future.
 eg. for creating rest api server can use data/model/action
 
 so consider other folders as shared between client and server.
-
----
-
-TODO: add favicon. to get rid of console error
-"Failed to load resource: the server responded with a status of 404 (Not Found)"

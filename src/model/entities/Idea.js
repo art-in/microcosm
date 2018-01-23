@@ -70,9 +70,9 @@ export default class Idea {
   posAbs = undefined;
 
   /**
-   * TODO: set undefined instead of empty array
    * List of outgoing associations
    * Note: available only after graph is build
+   * TODO: set undefined instead of empty array
    * @memberof Vertex
    * @type {Array.<AssociationType>}
    */
