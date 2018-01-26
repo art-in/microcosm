@@ -87,7 +87,7 @@ export default function(state, data, dispatch) {
 
     case 'Home':
       if (isMindmapMode && !isMindmapPopupActive) {
-        dispatch({type: 'on-go-root-button-click'});
+        dispatch({type: 'on-mindset-go-root-button-click'});
       }
       break;
 

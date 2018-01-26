@@ -17,8 +17,9 @@ import IconButton from 'view/shared/IconButton';
 import Icon from 'view/shared/Icon';
 
 import classes from './Mindset.css';
-import MindsetViewMode from 'vm/main/MindsetViewMode';
+import ViewMode from 'vm/main/MindsetViewMode';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {MindsetType} mindset
@@ -27,6 +28,7 @@ import MindsetViewMode from 'vm/main/MindsetViewMode';
  * @prop {function()} onToggleMode
  * @prop {function()} onGoRootButtonClick
  * @prop {function()} onIdeaSearchTriggerClick
+ * @prop {function()} onIdeaSearchLookupFocusOut
  * @prop {function()} onIdeaSearchLookupPhraseChange
  * @prop {function()} onIdeaSearchLookupKeyDown
  * @prop {function()} onIdeaSearchLookupSuggestionSelect
@@ -79,6 +81,7 @@ export default class Mindset extends Component {
       onToggleMode,
       onGoRootButtonClick,
       onIdeaSearchTriggerClick,
+      onIdeaSearchLookupFocusOut,
       onIdeaSearchLookupPhraseChange,
       onIdeaSearchLookupKeyDown,
       onIdeaSearchLookupSuggestionSelect,
@@ -91,7 +94,7 @@ export default class Mindset extends Component {
 
     if (mindset.isLoaded) {
       switch (mindset.mode) {
-        case MindsetViewMode.mindmap:
+        case ViewMode.mindmap:
           view = <Mindmap mindmap={mindset.mindmap} />;
           toggleModeButton = (
             <IconButton
@@ -104,7 +107,7 @@ export default class Mindset extends Component {
           );
           break;
 
-        case MindsetViewMode.list:
+        case ViewMode.list:
           view = <Mindlist list={mindset.list} />;
           toggleModeButton = (
             <IconButton
@@ -123,7 +126,12 @@ export default class Mindset extends Component {
     }
 
     return (
-      <div className={cx(classes.root)}>
+      <div
+        className={cx(classes.root, {
+          [classes.modeMindmap]: mindset.mode === ViewMode.mindmap,
+          [classes.modeList]: mindset.mode === ViewMode.list
+        })}
+      >
         {!mindset.isLoaded &&
           !mindset.isLoadFailed && (
             <div className={classes.message}>Mindset is loading...</div>
@@ -162,6 +170,7 @@ export default class Mindset extends Component {
               triggerIcon={IconType.search}
               triggerTooltip="Search ideas (Ctrl+F)"
               onTriggerClick={onIdeaSearchTriggerClick}
+              onLookupFocusOut={onIdeaSearchLookupFocusOut}
               onLookupPhraseChange={onIdeaSearchLookupPhraseChange}
               onLookupKeyDown={onIdeaSearchLookupKeyDown}
               onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}

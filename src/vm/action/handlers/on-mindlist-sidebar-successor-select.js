@@ -2,8 +2,6 @@ import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
-import openIdea from 'vm/list/entities/Mindlist/methods/open-idea';
-import viewPatch from 'vm/utils/view-patch';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
 
 /**
@@ -12,10 +10,10 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.ideaId
- * @return {PatchType}
+ * @param {function} dispatch
  */
-export default function(state, data) {
-  const {model: {mindset}, vm: {main: {mindset: {list}}}} = state;
+export default function(state, data, dispatch) {
+  const {vm: {main: {mindset: {list}}}} = state;
   const {ideaId} = required(data);
 
   const {form} = list.pane;
@@ -28,5 +26,5 @@ export default function(state, data) {
   //    performance?
   // A: there will be not performance benefits since open idea operation
   //    currently affects entire mindlist component
-  return viewPatch('update-mindlist', openIdea({mindset, ideaId}));
+  dispatch({type: 'mindlist-open-idea', data: {ideaId}});
 }

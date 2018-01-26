@@ -16,6 +16,7 @@ import SearchBox from 'view/shared/SearchBox';
 
 import classes from './IdeaForm.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import noop from 'utils/noop';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

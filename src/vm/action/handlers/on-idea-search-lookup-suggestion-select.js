@@ -5,6 +5,7 @@ import PatchType from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import LookupSuggestionType from 'vm/shared/LookupSuggestion';
+import ViewMode from 'vm/main/MindsetViewMode';
 
 /**
  * Handles suggestion select event from idea search lookup
@@ -18,22 +19,32 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
+  const {vm: {main: {mindset}}} = state;
   const {suggestion} = required(data);
 
   const ideaId = suggestion.data.ideaId;
 
-  dispatch({
-    type: 'open-idea-form-modal',
-    data: {ideaId}
-  });
+  switch (mindset.mode) {
+    case ViewMode.mindmap:
+      dispatch({
+        type: 'open-idea-form-modal',
+        data: {ideaId}
+      });
 
-  dispatch({
-    type: 'animate-mindmap-viewbox-to-idea',
-    data: {ideaId}
-  });
+      dispatch({
+        type: 'animate-mindmap-viewbox-to-idea',
+        data: {ideaId}
+      });
+      break;
+
+    case ViewMode.list:
+      dispatch({type: 'mindlist-open-idea', data: {ideaId}});
+      break;
+
+    default:
+      throw Error(`Unknown mindset view mode '${mindset.mode}'`);
+  }
 
   // deactivate search box
-  return view('update-idea-search-box', {
-    active: false
-  });
+  return view('update-idea-search-box', {active: false});
 }

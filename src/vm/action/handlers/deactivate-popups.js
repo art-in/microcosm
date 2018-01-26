@@ -31,10 +31,6 @@ export default function(state, data, dispatch) {
     );
   }
 
-  if (mindset.ideaSearchBox.active) {
-    patch.push(view('update-idea-search-box', {active: false}));
-  }
-
   if (mindmap.ideaFormModal.modal.active) {
     dispatch({type: 'on-idea-form-modal-close'});
   }

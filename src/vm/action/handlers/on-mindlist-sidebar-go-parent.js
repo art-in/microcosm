@@ -1,18 +1,16 @@
 import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
-import openIdea from 'vm/list/entities/Mindlist/methods/open-idea';
-import viewPatch from 'vm/utils/view-patch';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
 
 /**
  * Handles go parent event from mindlist sidebar
  *
  * @param {StateType} state
- * @return {PatchType}
+ * @param {object} data
+ * @param {function} dispatch
  */
-export default function(state) {
-  const {model: {mindset}} = state;
+export default function(state, data, dispatch) {
   const {vm: {main: {mindset: {list}}}} = state;
 
   const {parentIdeaId} = list.sidebar;
@@ -22,8 +20,5 @@ export default function(state) {
     return;
   }
 
-  return viewPatch(
-    'update-mindlist',
-    openIdea({mindset, ideaId: parentIdeaId})
-  );
+  dispatch({type: 'mindlist-open-idea', data: {ideaId: parentIdeaId}});
 }

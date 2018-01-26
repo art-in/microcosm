@@ -9,6 +9,7 @@ import LookupSuggestion from '../LookupSuggestion';
 
 import classes from './Lookup.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

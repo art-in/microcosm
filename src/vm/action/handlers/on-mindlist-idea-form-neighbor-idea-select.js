@@ -1,8 +1,6 @@
 import required from 'utils/required-params';
-import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
-import openIdea from 'vm/list/entities/Mindlist/methods/open-idea';
 
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
 
@@ -12,9 +10,9 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.ideaId
+ * @param {function} dispatch
  */
-export default async function(state, data) {
-  const {model: {mindset}} = state;
+export default async function(state, data, dispatch) {
   const {vm: {main: {mindset: {list}}}} = state;
   const {ideaId} = required(data);
 
@@ -24,5 +22,5 @@ export default async function(state, data) {
     return;
   }
 
-  return view('update-mindlist', openIdea({mindset, ideaId}));
+  dispatch({type: 'mindlist-open-idea', data: {ideaId}});
 }

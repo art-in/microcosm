@@ -11,35 +11,25 @@ export default connect(
         throttleLog: true
       }),
 
-    onToggleMode: () =>
-      dispatch({
-        type: 'on-mindset-toggle-mode'
-      }),
+    onToggleMode: () => dispatch({type: 'on-mindset-toggle-mode'}),
 
     onGoRootButtonClick: () =>
-      dispatch({
-        type: 'on-go-root-button-click'
-      }),
+      dispatch({type: 'on-mindset-go-root-button-click'}),
 
     onIdeaSearchTriggerClick: () =>
-      dispatch({
-        type: 'on-idea-search-trigger-click'
-      }),
+      dispatch({type: 'on-idea-search-trigger-click'}),
+
+    onIdeaSearchLookupFocusOut: () =>
+      dispatch({type: 'on-idea-search-lookup-focus-out'}),
+
     onIdeaSearchLookupPhraseChange: data =>
-      dispatch({
-        type: 'on-idea-search-lookup-phrase-change',
-        data
-      }),
+      dispatch({type: 'on-idea-search-lookup-phrase-change', data}),
+
     onIdeaSearchLookupKeyDown: data =>
-      dispatch({
-        type: 'on-idea-search-lookup-keydown',
-        data
-      }),
+      dispatch({type: 'on-idea-search-lookup-keydown', data}),
+
     onIdeaSearchLookupSuggestionSelect: data =>
-      dispatch({
-        type: 'on-idea-search-lookup-suggestion-select',
-        data
-      }),
+      dispatch({type: 'on-idea-search-lookup-suggestion-select', data}),
 
     onColorPickerChange: ({color}) => {
       const picker = props.mindset.colorPicker;

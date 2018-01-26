@@ -6,6 +6,8 @@ import classes from './ColorPicker.css';
 
 const DEFAULT_COLOR = '#000000';
 
+// TODO: eslint 'valid-jsdoc' fails if class has arrow-function fields
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {ColorPickerVmType} picker

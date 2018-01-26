@@ -8,6 +8,7 @@ import Icon from 'view/shared/Icon';
 
 import classes from './IconButton.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

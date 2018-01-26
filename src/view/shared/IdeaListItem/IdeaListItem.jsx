@@ -8,6 +8,7 @@ import IconButton from 'view/shared/IconButton';
 
 import classes from './IdeaListItem.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

@@ -1,9 +1,6 @@
-import view from 'vm/utils/view-patch';
-
 import StateType from 'boot/client/State';
 
 import onSave from 'vm/shared/IdeaForm/methods/on-save';
-import openIdea from 'vm/list/entities/Mindlist/methods/open-idea';
 
 /**
  * Handles save event from mindlist idea form
@@ -24,12 +21,6 @@ export default function(state, data, dispatch) {
     // to simplify code, re-open form from scratch instead of smart updates on
     // existing form, so all fields correctly re-initialized (eg. when color
     // changed and saved, children in successor list should receive that color)
-    return view(
-      'update-mindlist',
-      openIdea({
-        mindset,
-        ideaId
-      })
-    );
+    dispatch({type: 'mindlist-open-idea', data: {ideaId}});
   }
 }

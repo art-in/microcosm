@@ -17,6 +17,7 @@ const ANIMATION_DURATION = 3; // sec
 
 const LINE_WIDTH = 1;
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

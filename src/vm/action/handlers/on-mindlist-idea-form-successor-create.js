@@ -1,17 +1,15 @@
-import view from 'vm/utils/view-patch';
-
 import StateType from 'boot/client/State';
 
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
-import openIdea from 'vm/list/entities/Mindlist/methods/open-idea';
 
 /**
  * Handles successor create event from mindlist idea form
  *
  * @param {StateType} state
+ * @param {object} data
+ * @param {function} dispatch
  */
-export default function(state) {
-  const {model: {mindset}} = state;
+export default function(state, data, dispatch) {
   const {vm: {main: {mindset: {list}}}} = state;
 
   const {form} = list.pane;
@@ -20,12 +18,11 @@ export default function(state) {
     return;
   }
 
-  return view(
-    'update-mindlist',
-    openIdea({
-      mindset,
+  dispatch({
+    type: 'mindlist-open-idea',
+    data: {
       isNewIdea: true,
       parentIdeaId: form.ideaId
-    })
-  );
+    }
+  });
 }

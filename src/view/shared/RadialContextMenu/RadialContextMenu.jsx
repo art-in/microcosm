@@ -24,6 +24,7 @@ const OUTER_RADIUS = 150;
 // duration of animated transition of menu opening
 const TRANSITION_DURATION = Number(classes.transitionDuration) * 1000;
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

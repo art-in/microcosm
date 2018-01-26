@@ -13,13 +13,6 @@
     color: white;
 }
 
-.db-connection-state-icon,
-.go-root-button,
-.idea-search-box-trigger,
-.toggle-mode-button {
-    color: lightgray;
-}
-
 .toggle-mode-button {
     position: absolute;
     top: 10px;
@@ -38,11 +31,32 @@
     right: 10px;
 }
 
-.db-connection-state-icon:hover,
-.go-root-button:hover,
-.idea-search-box-trigger:hover,
-.toggle-mode-button:hover {
+.root.mode-mindmap .db-connection-state-icon,
+.root.mode-mindmap .go-root-button,
+.root.mode-mindmap .idea-search-box-trigger,
+.root.mode-mindmap .toggle-mode-button {
+    color: lightgray;
+}
+
+.root.mode-list .db-connection-state-icon,
+.root.mode-list .go-root-button,
+.root.mode-list .idea-search-box-trigger,
+.root.mode-list .toggle-mode-button {
+    color: #adadad;
+}
+
+.root.mode-mindmap .db-connection-state-icon:hover,
+.root.mode-mindmap .go-root-button:hover,
+.root.mode-mindmap .idea-search-box-trigger:hover,
+.root.mode-mindmap .toggle-mode-button:hover {
     color: white;
+}
+
+.root.mode-list .db-connection-state-icon:hover,
+.root.mode-list .go-root-button:hover,
+.root.mode-list .idea-search-box-trigger:hover,
+.root.mode-list .toggle-mode-button:hover {
+    color: black;
 }
 
 .idea-search-box {
@@ -54,5 +68,15 @@
 .idea-search-box-lookup {
     padding: 7px;
     border-radius: 5px;
+}
+
+.root.mode-mindmap .idea-search-box-lookup {
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+.root.mode-list .idea-search-box-lookup {
+    background-color: white;
+    padding: 7px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px black;
 }

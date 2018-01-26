@@ -17,6 +17,7 @@ import classes from './Node.css';
 const NODE_TITLE_MAX_LENGTH = 30;
 const TEXT_AREA_POS = new Point({x: 0, y: -10});
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]

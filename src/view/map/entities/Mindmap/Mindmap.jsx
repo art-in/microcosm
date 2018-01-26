@@ -20,6 +20,7 @@ import MindmapDebug from '../MindmapDebug';
 
 import classes from './Mindmap.css';
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {MindmapVmType} mindmap

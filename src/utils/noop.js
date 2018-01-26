@@ -1,4 +1,4 @@
-// eslint-disable-next-line valid-jsdoc
+/* eslint-disable valid-jsdoc */
 /**
  * @param {array} [args]
  * @return {*}

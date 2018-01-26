@@ -38,6 +38,7 @@
             "bracketSpacing": false,
 
             // single quotes make bit less visual noise than double quotes
+            // TODO: single quotes are not respected in jsx
             "singleQuote": true
         }],
 
@@ -61,7 +62,14 @@
             "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
         }],
 
-        // jsdoc annotations forces to describe argument types
+        // jsdoc annotations force to describe argument types
+        "valid-jsdoc": ["error", {
+            "prefer": {"returns": "return"},
+            // only require 'return' if there is return statement
+            "requireReturn": false,
+            "requireParamDescription": false,
+            "requireReturnDescription": false
+        }],
         "require-jsdoc": ["error", {
             "require": {
                 "FunctionDeclaration": true,
