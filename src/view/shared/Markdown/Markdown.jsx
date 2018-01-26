@@ -20,7 +20,10 @@ import classes from './Markdown.css';
  */
 export default class Markdown extends Component {
   static defaultProps = {
-    tag: 'div'
+    tag: 'div',
+
+    // parser always needs string
+    source: ''
   };
 
   constructor(props, context) {

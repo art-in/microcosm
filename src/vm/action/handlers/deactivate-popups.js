@@ -17,7 +17,7 @@ export default function(state, data, dispatch) {
 
   const patch = new Patch();
 
-  if (mindmap.colorPicker.active) {
+  if (mindset.colorPicker.active) {
     patch.push(view('update-color-picker', {active: false}));
   }
 

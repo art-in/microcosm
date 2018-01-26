@@ -5,7 +5,6 @@ import ViewModel from 'vm/utils/ViewModel';
 import LinkType from 'vm/map/entities/Link';
 import NodeType from 'vm/map/entities/Node';
 
-import ColorPicker from 'vm/shared/ColorPicker';
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 import IdeaFormModal from 'vm/shared/IdeaFormModal';
@@ -125,12 +124,6 @@ export default class Mindmap extends ViewModel {
    * @type {ContextMenu}
    */
   contextMenu = new ContextMenu();
-
-  /**
-   * Color picker
-   * @type {ColorPicker}
-   */
-  colorPicker = new ColorPicker();
 
   /**
    * Lookup for selecting tail idea for cross-association

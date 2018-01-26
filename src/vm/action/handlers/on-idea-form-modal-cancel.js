@@ -3,6 +3,8 @@ import view from 'vm/utils//view-patch';
 
 import StateType from 'boot/client/State';
 
+import onCancel from 'vm/shared/IdeaForm/methods/on-cancel';
+
 /**
  * Handles cancel event from idea form modal
  *
@@ -15,15 +17,6 @@ export default function(state) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      title: form.prev.title,
-      value: form.prev.value,
-      color: form.prev.color,
-      successors: form.prev.successors,
-      isTitleValid: true,
-      isEditingValue: false,
-      isSaveable: false,
-      isCancelable: false
-    }
+    form: onCancel(form)
   });
 }

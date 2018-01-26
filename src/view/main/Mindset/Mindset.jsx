@@ -9,21 +9,28 @@ import IconType from 'vm/shared/Icon';
 import IconSize from 'vm/shared/IconSize';
 
 import Mindmap from 'view/map/entities/Mindmap';
+import Mindlist from 'view/list/entities/Mindlist';
+
+import ColorPicker from 'view/shared/ColorPicker';
 import SearchBox from 'view/shared/SearchBox';
 import IconButton from 'view/shared/IconButton';
 import Icon from 'view/shared/Icon';
 
 import classes from './Mindset.css';
+import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 /**
  * @typedef {object} Props
  * @prop {MindsetType} mindset
+ *
  * @prop {function({code, ctrlKey, preventDefault})} onKeyDown
+ * @prop {function()} onToggleMode
  * @prop {function()} onGoRootButtonClick
  * @prop {function()} onIdeaSearchTriggerClick
  * @prop {function()} onIdeaSearchLookupPhraseChange
  * @prop {function()} onIdeaSearchLookupKeyDown
  * @prop {function()} onIdeaSearchLookupSuggestionSelect
+ * @prop {function()} onColorPickerChange
  *
  * @extends {Component<Props>}
  */
@@ -69,13 +76,51 @@ export default class Mindset extends Component {
   render() {
     const {
       mindset,
+      onToggleMode,
       onGoRootButtonClick,
       onIdeaSearchTriggerClick,
       onIdeaSearchLookupPhraseChange,
       onIdeaSearchLookupKeyDown,
-      onIdeaSearchLookupSuggestionSelect
+      onIdeaSearchLookupSuggestionSelect,
+      onColorPickerChange
     } = this.props;
     const {dbServerConnectionIcon} = mindset;
+
+    let view;
+    let toggleModeButton;
+
+    if (mindset.isLoaded) {
+      switch (mindset.mode) {
+        case MindsetViewMode.mindmap:
+          view = <Mindmap mindmap={mindset.mindmap} />;
+          toggleModeButton = (
+            <IconButton
+              className={classes.toggleModeButton}
+              icon={IconType.list}
+              size={IconSize.large}
+              tooltip="Switch to list mode"
+              onClick={onToggleMode}
+            />
+          );
+          break;
+
+        case MindsetViewMode.list:
+          view = <Mindlist list={mindset.list} />;
+          toggleModeButton = (
+            <IconButton
+              className={classes.toggleModeButton}
+              icon={IconType.map}
+              size={IconSize.large}
+              tooltip="Switch to mindmap mode"
+              onClick={onToggleMode}
+            />
+          );
+          break;
+
+        default:
+          throw Error(`Unknown mindset view mode '${mindset.mode}'`);
+      }
+    }
 
     return (
       <div className={cx(classes.root)}>
@@ -90,7 +135,9 @@ export default class Mindset extends Component {
 
         {mindset.isLoaded ? (
           <Fragment>
-            <Mindmap mindmap={mindset.mindmap} />
+            {view}
+
+            {toggleModeButton}
 
             <Icon
               className={classes.dbConnectionStateIcon}
@@ -118,6 +165,11 @@ export default class Mindset extends Component {
               onLookupPhraseChange={onIdeaSearchLookupPhraseChange}
               onLookupKeyDown={onIdeaSearchLookupKeyDown}
               onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}
+            />
+
+            <ColorPicker
+              picker={mindset.colorPicker}
+              onChange={onColorPickerChange}
             />
           </Fragment>
         ) : null}

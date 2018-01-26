@@ -31,6 +31,7 @@
     },
     "rules": {
         // turn on prettier formatting rules
+        // TODO: line limit 80 is not respected in comments
         "prettier/prettier": ["error", {
             // spaces add to line width, and sometimes look very ugly
             // (eg. nested destructuring: "{vm: { main: { mindset } } } }")
@@ -58,6 +59,19 @@
             //    (eg. we do not want 'someProp' to appear in 'rest' object:
             //    'const {someProp: unrested, ...rest} = obj')
             "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
+        }],
+
+        // jsdoc annotations forces to describe argument types
+        "require-jsdoc": ["error", {
+            "require": {
+                "FunctionDeclaration": true,
+                "MethodDefinition": true,
+                "ClassDeclaration": true,
+
+                // TODO: enable
+                "ArrowFunctionExpression": false,
+                "FunctionExpression": false
+            }
         }],
 
         // ignore 'propTypes' since using static prop validation

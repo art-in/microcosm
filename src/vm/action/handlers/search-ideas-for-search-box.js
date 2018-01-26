@@ -7,7 +7,7 @@ import StateType from 'boot/client/State';
 import searchIdeas from 'action/utils/search-ideas';
 
 import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
-import toSuggestion from 'vm/map/mappers/idea-to-lookup-suggestion';
+import toSuggestion from 'vm/mappers/idea-to-lookup-suggestion';
 
 /**
  * Searches and sets suggesting ideas to idea search box lookup

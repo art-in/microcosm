@@ -19,6 +19,7 @@ import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import view from 'vm/utils/view-patch';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
+import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
@@ -105,13 +106,13 @@ export default async function loadMindset(state, data, dispatch) {
         associations: localDBs.associations,
         mindsets: localDBs.mindsets
       },
-      model: {
-        mindset
-      },
+      model: {mindset},
       vm: {
         mindset: {
           isLoaded: true,
-          mindmap
+          mode: MindsetViewMode.mindmap,
+          mindmap,
+          list: null
         }
       }
     }

@@ -4,6 +4,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onValueChange from 'vm/shared/IdeaForm/methods/on-value-change';
+
 /**
  * Handles change event from value field of idea form modal
  *
@@ -19,10 +21,6 @@ export default function(state, data) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      value,
-      isSaveable: form.isTitleValid,
-      isCancelable: !form.isNewIdea
-    }
+    form: onValueChange(form, value)
   });
 }

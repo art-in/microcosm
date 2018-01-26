@@ -12,11 +12,12 @@ import updateMindmapPersistent from 'vm/utils/update-mindmap-persistent-props';
  */
 export default function initMindset(state, data) {
   const {vm} = state;
-  const {isLoaded, mindmap} = required(data.vm.mindset);
+  const {isLoaded, mode, mindmap} = required(data.vm.mindset);
 
   const {mindset} = vm.main;
 
   mindset.isLoaded = isLoaded;
+  mindset.mode = mode;
 
   if (mindset.mindmap) {
     // mindset can be re-initialized several times (eg. on mindset reloads

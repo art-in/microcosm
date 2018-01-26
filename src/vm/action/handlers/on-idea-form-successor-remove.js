@@ -15,8 +15,10 @@ import removeSuccessor from 'vm/shared/IdeaForm/methods/remove-successor';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {vm: {main: {mindset: {mindmap: {ideaFormModal: {form}}}}}} = state;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
   const {ideaId} = required(data);
+
+  const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
     form: removeSuccessor(form, ideaId)

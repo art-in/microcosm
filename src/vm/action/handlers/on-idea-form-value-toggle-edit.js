@@ -3,6 +3,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onToggleValueEdit from 'vm/shared/IdeaForm/methods/on-toggle-value-edit';
+
 /**
  * Handles toggle edit event from value field of idea form modal
  *
@@ -15,8 +17,6 @@ export default function(state) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      isEditingValue: !form.isEditingValue
-    }
+    form: onToggleValueEdit(form)
   });
 }

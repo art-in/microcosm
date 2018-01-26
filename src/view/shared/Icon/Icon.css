@@ -1,6 +1,6 @@
 .root {
-    /* do not change cursor to text selection (since font icon) */
-    cursor: default;
+    /* do not change cursor to text selection (since it is font icon) */
+    cursor: inherit;
     
     user-select: none;
 }

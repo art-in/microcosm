@@ -16,9 +16,10 @@ import onPhraseChange from 'vm/shared/Lookup/methods/on-phrase-change';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap: {ideaFormModal: {form}}}}}} = state;
+  const {vm: {main: {mindset: {mindmap}}}} = state;
   const {phrase} = required(data);
 
+  const {form} = mindmap.ideaFormModal;
   const lookup = form.successorSearchBox.lookup;
 
   return view('update-idea-form-successor-search-box', {

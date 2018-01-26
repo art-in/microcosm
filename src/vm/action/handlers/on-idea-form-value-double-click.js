@@ -3,6 +3,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onValueDoubleClick from 'vm/shared/IdeaForm/methods/on-value-double-click';
+
 /**
  * Handles double click event from value field of idea form modal
  *
@@ -14,15 +16,13 @@ export default function(state) {
 
   const {form} = mindmap.ideaFormModal;
 
-  if (form.isEditingValue) {
-    // do not exit edit mode by double click, because otherwise it is
-    // impossible to select word in text area (default behavior)
+  const formUpdate = onValueDoubleClick(form);
+
+  if (!formUpdate) {
     return;
   }
 
   return view('update-idea-form-modal', {
-    form: {
-      isEditingValue: true
-    }
+    form: formUpdate
   });
 }

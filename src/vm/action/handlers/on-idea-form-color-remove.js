@@ -3,6 +3,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onColorRemove from 'vm/shared/IdeaForm/methods/on-color-remove';
+
 /**
  * Handles color remove event from idea form
  *
@@ -15,10 +17,6 @@ export default function(state) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      color: null,
-      isSaveable: form.isTitleValid,
-      isCancelable: !form.isNewIdea
-    }
+    form: onColorRemove(form)
   });
 }

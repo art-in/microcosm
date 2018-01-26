@@ -3,7 +3,7 @@ import Component from './Mindmap.jsx';
 
 export default connect(
   props => props.mindmap,
-  (dispatch, props) => ({
+  dispatch => ({
     onContextMenuItemSelect: ({item}) =>
       dispatch({
         type: 'on-context-menu-item-select',
@@ -27,12 +27,6 @@ export default connect(
         type: 'on-association-tails-lookup-suggestion-select',
         data: {suggestion}
       }),
-
-    onColorPickerChange: ({color}) => {
-      const picker = props.mindmap.colorPicker;
-      const action = picker.onSelectAction({color});
-      dispatch(action);
-    },
 
     onWheel: ({up, viewportPos}) =>
       dispatch({

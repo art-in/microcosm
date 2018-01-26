@@ -15,14 +15,21 @@
 
 .db-connection-state-icon,
 .go-root-button,
-.idea-search-box-trigger {
+.idea-search-box-trigger,
+.toggle-mode-button {
     color: lightgray;
+}
+
+.toggle-mode-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 .db-connection-state-icon {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 55px;
 }
 
 .go-root-button {
@@ -33,7 +40,8 @@
 
 .db-connection-state-icon:hover,
 .go-root-button:hover,
-.idea-search-box-trigger:hover {
+.idea-search-box-trigger:hover,
+.toggle-mode-button:hover {
     color: white;
 }
 

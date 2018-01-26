@@ -3,6 +3,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onToggleGearMenu from 'vm/shared/IdeaForm/methods/on-toggle-gear-menu';
+
 /**
  * Handles toggle gear menu event from idea form
  *
@@ -15,8 +17,6 @@ export default function(state) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      isGearMenuExpanded: !form.isGearMenuExpanded
-    }
+    form: onToggleGearMenu(form)
   });
 }

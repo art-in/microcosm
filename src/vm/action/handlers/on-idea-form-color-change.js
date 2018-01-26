@@ -4,6 +4,8 @@ import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
+import onColorChange from 'vm/shared/IdeaForm/methods/on-color-change';
+
 /**
  * Handles color change event from idea form
  *
@@ -19,10 +21,6 @@ export default function(state, data) {
   const {form} = mindmap.ideaFormModal;
 
   return view('update-idea-form-modal', {
-    form: {
-      color,
-      isSaveable: form.isTitleValid,
-      isCancelable: !form.isNewIdea
-    }
+    form: onColorChange(form, color)
   });
 }

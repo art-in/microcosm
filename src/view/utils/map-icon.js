@@ -89,5 +89,17 @@ const descriptors = {
   [Icon.gear]: {
     class: icons.faGear,
     char: '\uf013'
+  },
+  [Icon.map]: {
+    class: icons.faMap,
+    char: '\uf279'
+  },
+  [Icon.list]: {
+    class: icons.faList,
+    char: '\uf03a'
+  },
+  [Icon.chevronLeft]: {
+    class: icons.faChevronLeft,
+    char: '\uf053'
   }
 };

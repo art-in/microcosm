@@ -4,6 +4,7 @@ import StateType from 'boot/client/State';
 
 import MindmapType from 'vm/map/entities/Mindmap';
 import Point from 'model/entities/Point';
+import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 /**
  * Handles keydown event from mindset
@@ -17,33 +18,43 @@ import Point from 'model/entities/Point';
  */
 export default function(state, data, dispatch) {
   const {vm: {main: {mindset}}} = state;
-  const {mindmap} = mindset;
   const {code, ctrlKey, preventDefault} = required(data);
 
-  // TODO: fails to access mindmap on loading screen
+  if (!mindset.isLoaded) {
+    return;
+  }
 
-  const isPopupActive =
-    mindmap.associationTailsLookup.active ||
-    mindset.ideaSearchBox.active ||
-    mindmap.ideaFormModal.modal.active;
+  const isMindmapMode = mindset.mode === MindsetViewMode.mindmap;
+  let isMindmapPopupActive;
+  let mindmap;
+  if (isMindmapMode) {
+    mindmap = mindset.mindmap;
+    isMindmapPopupActive =
+      mindset.mindmap.associationTailsLookup.active ||
+      mindset.ideaSearchBox.active ||
+      mindset.mindmap.ideaFormModal.modal.active;
+  }
 
+  // TODO: support list mode
   switch (code) {
     case 'Escape':
-      dispatch({type: 'deactivate-popups'});
+      if (isMindmapMode) {
+        dispatch({type: 'deactivate-popups'});
+      }
       break;
 
     case 'ArrowDown':
     case 'ArrowUp':
     case 'ArrowLeft':
     case 'ArrowRight':
-      if (!isPopupActive) {
+      if (isMindmapMode && !isMindmapPopupActive) {
         onMindmapPan({code, mindmap, dispatch});
       }
       break;
 
     case 'PageUp':
     case 'PageDown':
-      if (!isPopupActive) {
+      if (isMindmapMode && !isMindmapPopupActive) {
         dispatch({
           type: 'animate-mindmap-zoom',
           data: {
@@ -59,7 +70,7 @@ export default function(state, data, dispatch) {
       break;
 
     case 'Enter':
-      if (ctrlKey && mindmap.ideaFormModal.modal.active) {
+      if (isMindmapMode && ctrlKey && mindmap.ideaFormModal.modal.active) {
         dispatch({type: 'on-idea-form-modal-save'});
       }
       break;
@@ -68,14 +79,14 @@ export default function(state, data, dispatch) {
       // allow default browser search box only in case idea form opened
       // to search on idea contents, otherwise if mindmap shown, default
       // search will not be effective - use custom box for searching ideas
-      if (!isPopupActive && ctrlKey) {
+      if (isMindmapMode && !isMindmapPopupActive && ctrlKey) {
         dispatch({type: 'activate-idea-search-box'});
         preventDefault();
       }
       break;
 
     case 'Home':
-      if (!isPopupActive) {
+      if (isMindmapMode && !isMindmapPopupActive) {
         dispatch({type: 'on-go-root-button-click'});
       }
       break;

@@ -5,8 +5,7 @@ import StateType from 'boot/client/State';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
 
 /**
- * Handles select event of heighbor idea (direct successor or predecessor) from
- * idea form modal
+ * Handles heighbor idea select event from idea form modal
  *
  * @param {StateType} state
  * @param {object} data

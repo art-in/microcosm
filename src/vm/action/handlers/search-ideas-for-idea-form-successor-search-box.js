@@ -5,7 +5,7 @@ import PatchType from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import setSuggestions from 'vm/shared/Lookup/methods/set-suggestions';
-import toSuggestion from 'vm/map/mappers/idea-to-lookup-suggestion';
+import toSuggestion from 'vm/mappers/idea-to-lookup-suggestion';
 import searchSuccessors from 'action/utils/search-successors';
 
 /**

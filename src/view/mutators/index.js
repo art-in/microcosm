@@ -9,6 +9,7 @@ import StateType from 'boot/client/State';
 
 import Main, {rootClass} from 'view/main/Main';
 import Provider from 'view/utils/connect/Provider';
+import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 /**
  * Applies patch to view state
@@ -26,7 +27,8 @@ export default function mutate(state, patch) {
  */
 function apply(state, mutation) {
   const {mindset} = state.vm.main;
-  const {mindmap} = mindset;
+  const {mindmap, list} = mindset;
+  const isMindmapMode = mindset.mode === MindsetViewMode.mindmap;
 
   const {data} = mutation;
 
@@ -53,6 +55,9 @@ function apply(state, mutation) {
       break;
 
     case 'update-mindmap':
+      mindmap.emitChange();
+      break;
+
     case 'update-mindset':
     case 'add-association':
     case 'add-idea':
@@ -61,7 +66,9 @@ function apply(state, mutation) {
     case 'update-idea':
     case 'update-association':
     case 'update-node': // TODO: update only node and related links
-      mindmap.emitChange();
+      if (isMindmapMode) {
+        mindmap.emitChange();
+      }
       break;
 
     case 'update-link': {
@@ -75,7 +82,7 @@ function apply(state, mutation) {
       break;
 
     case 'update-color-picker':
-      mindmap.colorPicker.emitChange();
+      mindset.colorPicker.emitChange();
       break;
 
     case 'update-context-menu':
@@ -92,6 +99,18 @@ function apply(state, mutation) {
 
     case 'update-idea-form-successor-search-box':
       mindmap.ideaFormModal.form.successorSearchBox.emitChange();
+      break;
+
+    case 'update-mindlist':
+      list.emitChange();
+      break;
+
+    case 'update-mindlist-idea-pane':
+      list.pane.emitChange();
+      break;
+
+    case 'update-mindlist-idea-form-successor-search-box':
+      list.pane.form.successorSearchBox.emitChange();
       break;
 
     default:

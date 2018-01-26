@@ -2,7 +2,7 @@ import MindsetType from 'model/entities/Mindset';
 import IdeaFormType from 'vm/shared/IdeaForm';
 
 import getIdea from 'action/utils/get-idea';
-import toListItem from 'vm/map/mappers/idea-to-list-item';
+import toListItem from 'vm/mappers/idea-to-list-item';
 
 /**
  * Adds new idea to list of successors

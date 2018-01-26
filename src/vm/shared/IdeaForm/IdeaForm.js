@@ -129,8 +129,8 @@ export default class IdeaForm {
   isSuccessorsEditable = false;
 
   /**
-   * Indicates that form changes can be saved
-   * Currently should be used as indication of unsaved changes on the form
+   * Indicates that form changes can be saved.
+   * Can be used as indication of unsaved changes on the form.
    * TODO: add dedicated 'hasChanges' flag (to fix case: create new idea,
    *       leave title empty, add value, try to close - should confirm close,
    *       but it does not, since form is not saveable because of invalid

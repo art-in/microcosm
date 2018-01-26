@@ -20,7 +20,10 @@ const Icon = {
   close: 12,
   plusSquareO: 13,
   eraser: 14,
-  gear: 15
+  gear: 15,
+  map: 16,
+  list: 17,
+  chevronLeft: 18
 };
 
 export default Icon;

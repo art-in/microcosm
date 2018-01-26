@@ -12,7 +12,6 @@ import Group from 'view/shared/svg/Group';
 import IdeaFormModal from 'view/shared/IdeaFormModal';
 
 import RadialContextMenu from 'view/shared/RadialContextMenu';
-import ColorPicker from 'view/shared/ColorPicker';
 import LookupPopup from 'view/shared/LookupPopup';
 
 import Node from '../Node';
@@ -38,7 +37,6 @@ import classes from './Mindmap.css';
  * @prop {function()} onAssociationTailsLookupPhraseChange
  * @prop {function()} onAssociationTailsLookupKeyDown
  * @prop {function()} onAssociationTailsLookupSuggestionSelect
- * @prop {function()} onColorPickerChange
  *
  * @extends {Component<Props>}
  */
@@ -60,6 +58,10 @@ export default class Mindmap extends Component {
     // only after viewport mount we can get its size,
     // recalculate viewbox and render again with viewbox set
     this.onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   onResize = () => {
@@ -116,7 +118,6 @@ export default class Mindmap extends Component {
       onAssociationTailsLookupPhraseChange,
       onAssociationTailsLookupKeyDown,
       onAssociationTailsLookupSuggestionSelect,
-      onColorPickerChange,
       onContextMenuItemSelect
     } = this.props;
 
@@ -176,11 +177,6 @@ export default class Mindmap extends Component {
         </Svg>
 
         <div id={'menus'}>
-          <ColorPicker
-            picker={mindmap.colorPicker}
-            onChange={onColorPickerChange}
-          />
-
           <LookupPopup
             lookupPopup={mindmap.associationTailsLookup}
             onPhraseChange={onAssociationTailsLookupPhraseChange}

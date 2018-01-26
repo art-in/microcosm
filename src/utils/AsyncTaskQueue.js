@@ -56,7 +56,6 @@ export default class AsyncTaskQueue {
    * @param {function} fn - sync or async task
    * @return {Promise} task result
    */
-
   enqueue(fn) {
     let resolve;
     let reject;

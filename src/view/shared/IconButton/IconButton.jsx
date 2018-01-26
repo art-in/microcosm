@@ -17,14 +17,14 @@ import classes from './IconButton.css';
  * @prop {boolean} [isDisabled=false]
  * @prop {IconType} icon
  *
- * @prop {function()} onClick
+ * @prop {function(MouseEvent)} onClick
  *
  * @extends {Component<Props>}
  */
 export default class IconButton extends Component {
-  onClick = () => {
+  onClick = e => {
     if (!this.props.isDisabled) {
-      this.props.onClick();
+      this.props.onClick(e);
     }
   };
 

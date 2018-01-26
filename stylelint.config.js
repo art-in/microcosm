@@ -2,7 +2,7 @@
 module.exports = {
   extends: 'stylelint-config-standard',
   rules: {
-    // [same as for js]
+    // [same as for js] // TODO: update to correlate with eslist
     indentation: [4],
     'no-missing-end-of-source-newline': null,
     'max-line-length': 80,

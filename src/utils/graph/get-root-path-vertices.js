@@ -11,6 +11,10 @@ import getRootPath from 'utils/graph/get-root-path';
  * @return {array} vertices
  */
 export default function getRootPathVertices(root, target) {
+  if (root === target) {
+    return [target];
+  }
+
   /** @type {Array.<IEdgeType>} */
   const edges = getRootPath(root, target);
 
