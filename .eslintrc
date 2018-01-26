@@ -31,7 +31,7 @@
     },
     "rules": {
         // turn on prettier formatting rules
-        // TODO: line limit 80 is not respected in comments
+        // TODO: line limit 80 is not respected in comments (+ in imports)
         "prettier/prettier": ["error", {
             // spaces add to line width, and sometimes look very ugly
             // (eg. nested destructuring: "{vm: { main: { mindset } } } }")

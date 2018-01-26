@@ -87,37 +87,19 @@ export default class Mindset extends Component {
       onIdeaSearchLookupSuggestionSelect,
       onColorPickerChange
     } = this.props;
+
     const {dbServerConnectionIcon} = mindset;
 
     let view;
-    let toggleModeButton;
 
     if (mindset.isLoaded) {
       switch (mindset.mode) {
         case ViewMode.mindmap:
           view = <Mindmap mindmap={mindset.mindmap} />;
-          toggleModeButton = (
-            <IconButton
-              className={classes.toggleModeButton}
-              icon={IconType.list}
-              size={IconSize.large}
-              tooltip="Switch to list mode"
-              onClick={onToggleMode}
-            />
-          );
           break;
 
         case ViewMode.list:
           view = <Mindlist list={mindset.list} />;
-          toggleModeButton = (
-            <IconButton
-              className={classes.toggleModeButton}
-              icon={IconType.map}
-              size={IconSize.large}
-              tooltip="Switch to mindmap mode"
-              onClick={onToggleMode}
-            />
-          );
           break;
 
         default:
@@ -145,7 +127,13 @@ export default class Mindset extends Component {
           <Fragment>
             {view}
 
-            {toggleModeButton}
+            <IconButton
+              className={classes.toggleModeButton}
+              icon={mindset.toggleModeButton.icon}
+              size={IconSize.large}
+              tooltip={mindset.toggleModeButton.tooltip}
+              onClick={onToggleMode}
+            />
 
             <Icon
               className={classes.dbConnectionStateIcon}
@@ -158,7 +146,7 @@ export default class Mindset extends Component {
               className={classes.goRootButton}
               icon={IconType.home}
               size={IconSize.large}
-              tooltip="Go to root idea (Home)"
+              tooltip={mindset.goRootButtonTooltip}
               onClick={onGoRootButtonClick}
             />
 
@@ -168,7 +156,6 @@ export default class Mindset extends Component {
               lookupClass={classes.ideaSearchBoxLookup}
               triggerClass={classes.ideaSearchBoxTrigger}
               triggerIcon={IconType.search}
-              triggerTooltip="Search ideas (Ctrl+F)"
               onTriggerClick={onIdeaSearchTriggerClick}
               onLookupFocusOut={onIdeaSearchLookupFocusOut}
               onLookupPhraseChange={onIdeaSearchLookupPhraseChange}

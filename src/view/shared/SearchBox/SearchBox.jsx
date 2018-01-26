@@ -11,13 +11,18 @@ import IconButton from 'view/shared/IconButton';
 import classes from './SearchBox.css';
 
 /**
+ * TODO: move 'triggerIcon' to search box view model. once component start
+ *       receiving state through view model - entire state should go through
+ *       view model. otherwise if component is connected to store, and want
+ *       to conditionaly change prop through jsx, view model will not be dirty
+ *       and view will not be updated.
+ *
  * @typedef {object} Props
  * @prop {string} [className]
  * @prop {SearchBoxVmType} searchBox
  * @prop {boolean} [expandToRight=false]
  * @prop {string} lookupClass
  * @prop {string} triggerClass
- * @prop {string} triggerTooltip
  * @prop {IconType} triggerIcon
  * @prop {IconSize} [triggerIconSize]
  *
@@ -41,7 +46,6 @@ export default class SearchBox extends Component {
       expandToRight,
       lookupClass,
       triggerClass,
-      triggerTooltip,
       triggerIcon,
       triggerIconSize,
       onTriggerClick,
@@ -56,7 +60,7 @@ export default class SearchBox extends Component {
         className={cx(classes.trigger, triggerClass)}
         icon={triggerIcon}
         size={triggerIconSize}
-        tooltip={triggerTooltip}
+        tooltip={searchBox.tooltip}
         onClick={onTriggerClick}
       />
     );

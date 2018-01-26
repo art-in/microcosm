@@ -4,7 +4,7 @@ import StateType from 'boot/client/State';
 
 import MindmapType from 'vm/map/entities/Mindmap';
 import Point from 'model/entities/Point';
-import MindsetViewMode from 'vm/main/MindsetViewMode';
+import ViewMode from 'vm/main/MindsetViewMode';
 
 /**
  * Handles keydown event from mindset
@@ -24,10 +24,9 @@ export default function(state, data, dispatch) {
     return;
   }
 
-  const isMindmapMode = mindset.mode === MindsetViewMode.mindmap;
-  let isMindmapPopupActive;
   let mindmap;
-  if (isMindmapMode) {
+  let isMindmapPopupActive;
+  if (mindset.mode === ViewMode.mindmap) {
     mindmap = mindset.mindmap;
     isMindmapPopupActive =
       mindset.mindmap.associationTailsLookup.active ||
@@ -35,10 +34,9 @@ export default function(state, data, dispatch) {
       mindset.mindmap.ideaFormModal.modal.active;
   }
 
-  // TODO: support list mode
   switch (code) {
     case 'Escape':
-      if (isMindmapMode) {
+      if (mindset.mode === ViewMode.mindmap) {
         dispatch({type: 'deactivate-popups'});
       }
       break;
@@ -47,14 +45,14 @@ export default function(state, data, dispatch) {
     case 'ArrowUp':
     case 'ArrowLeft':
     case 'ArrowRight':
-      if (isMindmapMode && !isMindmapPopupActive) {
+      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         onMindmapPan({code, mindmap, dispatch});
       }
       break;
 
     case 'PageUp':
     case 'PageDown':
-      if (isMindmapMode && !isMindmapPopupActive) {
+      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         dispatch({
           type: 'animate-mindmap-zoom',
           data: {
@@ -69,24 +67,48 @@ export default function(state, data, dispatch) {
       }
       break;
 
-    case 'Enter':
-      if (isMindmapMode && ctrlKey && mindmap.ideaFormModal.modal.active) {
-        dispatch({type: 'on-idea-form-modal-save'});
+    case 'Enter': // Ctrl+Enter
+      if (ctrlKey) {
+        switch (mindset.mode) {
+          case ViewMode.mindmap:
+            if (mindmap.ideaFormModal.form.isSaveable) {
+              dispatch({type: 'on-idea-form-modal-save'});
+            }
+            break;
+
+          case ViewMode.list:
+            if (mindset.list.pane.form.isSaveable) {
+              dispatch({type: 'on-mindlist-idea-form-save'});
+            }
+            break;
+        }
       }
       break;
 
-    case 'KeyF':
-      // allow default browser search box only in case idea form opened
-      // to search on idea contents, otherwise if mindmap shown, default
-      // search will not be effective - use custom box for searching ideas
-      if (isMindmapMode && !isMindmapPopupActive && ctrlKey) {
+    case 'KeyF': // Ctrl+F
+      // in mindmap mode, allow default browser search box only in case idea
+      // form opened to search on idea text contents, otherwise if mindmap
+      // shown, default search will not be effective - use custom box for
+      // searching ideas.
+      // in list mode, only allow default search box, since idea form is always
+      // shown there.
+      if (
+        ctrlKey &&
+        mindset.mode === ViewMode.mindmap &&
+        !isMindmapPopupActive
+      ) {
         dispatch({type: 'activate-idea-search-box'});
         preventDefault();
       }
       break;
 
     case 'Home':
-      if (isMindmapMode && !isMindmapPopupActive) {
+      // in mindmap mode, allow to move to root idea by home button only if no
+      // text popup is shown, otherwise it will conflict with text editing
+      // action 'move carret to line start'.
+      // in list mode, do not override default action at all, since idea form is
+      // always shown there.
+      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         dispatch({type: 'on-mindset-go-root-button-click'});
       }
       break;
@@ -97,7 +119,7 @@ export default function(state, data, dispatch) {
 }
 
 /**
- * Handles mindset panning with keyboard
+ * Handles mindmap panning with keyboard
  *
  * @param {object} opts
  * @param {string} opts.code

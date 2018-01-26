@@ -21,6 +21,12 @@ export default class SearchBox extends ViewModel {
   lookup = undefined;
 
   /**
+   * Tooltip of trigger button
+   * @type {string}
+   */
+  tooltip = undefined;
+
+  /**
    * Constructor
    * @param {Partial<SearchBox>} [props]
    */

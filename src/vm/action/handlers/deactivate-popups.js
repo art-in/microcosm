@@ -35,5 +35,9 @@ export default function(state, data, dispatch) {
     dispatch({type: 'on-idea-form-modal-close'});
   }
 
+  if (mindset.ideaSearchBox.active) {
+    patch.push(view('update-idea-search-box', {active: false}));
+  }
+
   return patch;
 }

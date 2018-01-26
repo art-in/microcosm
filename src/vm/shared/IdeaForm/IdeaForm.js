@@ -151,6 +151,7 @@ export default class IdeaForm {
    * @type {SearchBox}
    */
   successorSearchBox = new SearchBox({
-    lookup: new Lookup({placeholder: 'target idea...'})
+    lookup: new Lookup({placeholder: 'target idea...'}),
+    tooltip: 'Add association'
   });
 }

@@ -8,6 +8,7 @@ import MainVM from 'src/vm/main/Main';
 import MindsetVM from 'src/vm/main/Mindset';
 import VersionVM from 'src/vm/main/Version';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
+import Icon from 'vm/shared/Icon';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 
@@ -35,7 +36,11 @@ export default function createState() {
   const mindset = new MindsetVM({
     isLoaded: true,
     mode: MindsetViewMode.mindmap,
-    mindmap
+    mindmap,
+    toggleModeButton: {
+      icon: Icon.list,
+      tooltip: ''
+    }
   });
 
   const version = new VersionVM({

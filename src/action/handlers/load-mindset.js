@@ -20,6 +20,7 @@ import view from 'vm/utils/view-patch';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
+import setButtonTooltips from 'vm/main/Mindset/methods/set-button-tooltips';
 
 export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
@@ -112,7 +113,8 @@ export default async function loadMindset(state, data, dispatch) {
           isLoaded: true,
           mode: MindsetViewMode.mindmap,
           mindmap,
-          list: null
+          list: null,
+          ...setButtonTooltips(MindsetViewMode.mindmap)
         }
       }
     }

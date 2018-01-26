@@ -6,6 +6,7 @@ import MindsetViewMode from 'vm/main/MindsetViewMode';
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 import toMindlist from 'vm/list/mappers/mindset-to-mindlist';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
+import setButtonTooltips from 'vm/main/Mindset/methods/set-button-tooltips';
 
 /**
  * Handles toggle mode event from mindset
@@ -28,14 +29,16 @@ export default function(state) {
     return view('update-mindset-vm', {
       mode: MindsetViewMode.mindmap,
       mindmap,
-      list: null
+      list: null,
+      ...setButtonTooltips(MindsetViewMode.mindmap)
     });
   } else {
     const list = toMindlist(mindset);
     return view('update-mindset-vm', {
       mode: MindsetViewMode.list,
       mindmap: null,
-      list
+      list,
+      ...setButtonTooltips(MindsetViewMode.list)
     });
   }
 }

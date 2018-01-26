@@ -7,6 +7,7 @@ import ColorPicker from 'vm/shared/ColorPicker';
 import ViewModel from 'vm/utils/ViewModel';
 import SearchBox from 'vm/shared/SearchBox';
 import Lookup from 'vm/shared/Lookup';
+import IconType from 'vm/shared/Icon';
 
 import ConnectionState from 'action/utils/ConnectionState';
 import MindsetViewModeType from 'vm/main/MindsetViewMode';
@@ -19,8 +20,7 @@ import MindsetViewModeType from 'vm/main/MindsetViewMode';
  */
 export default class Mindset extends ViewModel {
   /**
-   * Mindset data was loaded and mapped to view model according to current
-   * view mode (eg. mindmap, list, etc)
+   * Mindset data was loaded and mapped to view model of current view mode
    * @type {boolean}
    */
   isLoaded = false;
@@ -53,6 +53,7 @@ export default class Mindset extends ViewModel {
 
   /**
    * Icon indicating state of connection to database server
+   * @type {{state, tooltip}}
    */
   dbServerConnectionIcon = {
     /** @type {ConnectionState} */
@@ -61,6 +62,24 @@ export default class Mindset extends ViewModel {
     /** @type {string} */
     tooltip: undefined
   };
+
+  /**
+   * Button which switches current view mode
+   * @type {{icon, tooltip}}
+   */
+  toggleModeButton = {
+    /** @type {IconType} */
+    icon: undefined,
+
+    /** @type {string} */
+    tooltip: undefined
+  };
+
+  /**
+   * Tooltip of go root button
+   * @type {string}
+   */
+  goRootButtonTooltip = undefined;
 
   /**
    * Search box for finding and focusing target ideas

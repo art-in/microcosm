@@ -195,7 +195,6 @@ export default class IdeaForm extends Component {
                 searchBox={form.successorSearchBox}
                 lookupClass={classes.successorSearchLookup}
                 triggerClass={classes.successorSearchTrigger}
-                triggerTooltip="Add association"
                 triggerIcon={Icon.link}
                 onTriggerClick={onSuccessorSearchTriggerClick}
                 onLookupFocusOut={onSuccessorSearchLookupFocusOut}

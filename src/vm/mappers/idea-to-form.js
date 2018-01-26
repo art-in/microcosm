@@ -22,9 +22,9 @@ export default function ideaToForm(mindset, idea) {
   form.parentIdeaId = null;
   form.isNewIdea = false;
 
-  form.title = idea.title;
-  form.value = idea.value;
-  form.color = idea.color;
+  form.title = idea.title || '';
+  form.value = idea.value || '';
+  form.color = idea.color || '';
 
   // prevent removing idea with outgoing associations
   form.isRemoveAvailable = idea !== mindset.root && idea.edgesOut.length === 0;
