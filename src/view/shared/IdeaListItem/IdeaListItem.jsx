@@ -34,7 +34,8 @@ export default class Idea extends Component {
       <div
         className={cx(classes.root, className, {
           [classes.layoutColumn]: layout === 'column',
-          [classes.layoutInline]: layout === 'inline'
+          [classes.layoutInline]: layout === 'inline',
+          [classes.highlighted]: item.isHighlighted
         })}
         style={{'--list-item-color': item.color}}
         title={item.tooltip}

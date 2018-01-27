@@ -43,6 +43,12 @@ export default class IdeaListItem extends ViewModel {
   isRemovable = false;
 
   /**
+   * Indicates item should be somehow highlighted in the list
+   * @type {boolean}
+   */
+  isHighlighted = false;
+
+  /**
    * Constructor
    * @param {Partial<IdeaListItem>} [props]
    */

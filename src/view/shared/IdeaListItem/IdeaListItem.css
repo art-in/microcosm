@@ -1,23 +1,31 @@
 .root {
     display: flex;
-    border: 2px solid var(--list-item-color, lightgray);
 
     /* position relatively for remove button */
     position: relative;
+
+    cursor: pointer;
 }
 
 .root:hover {
-    cursor: pointer;
     background: #f5f5f5;
+}
+
+.root.highlighted {
+    background: #e6e6e6;
 }
 
 .root.layout-column {
     padding: 10px;
+
+    border-left: 4px solid var(--list-item-color, lightgray);
 }
 
 .root.layout-inline {
     display: inline-block;
     padding: 3px 5px;
+
+    border: 2px solid var(--list-item-color, lightgray);
     
     /* limit width */
     max-width: 300px;

@@ -44,6 +44,11 @@ export default function open(opts) {
     .map(a => a.to)
     .map(toListItem.bind(null, mindset));
 
+  // highlight opened idea in successors list
+  if (!isNewIdea && ideaId !== mindset.root.id) {
+    parentSuccessors.find(i => i.id === ideaId).isHighlighted = true;
+  }
+
   const sidebar = new IdeaSidebar({
     parentIdeaId: parent.id,
     title: parent.title,
@@ -51,8 +56,6 @@ export default function open(opts) {
     goParentAvailable: isNewIdea || ideaId !== mindset.root.id,
     successors: parentSuccessors
   });
-
-  // TODO: highlight opened idea in successors list
 
   return sidebar;
 }
