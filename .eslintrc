@@ -31,15 +31,29 @@
     },
     "rules": {
         // turn on prettier formatting rules
-        // TODO: line limit 80 is not respected in comments (+ in imports)
         "prettier/prettier": ["error", {
+            // this is not hard limit, but prefered line width, that can be
+            // extended in certain cases (eg. in long assigments, imports).
+            // note: not respected in comments at all.
+            "printWidth": 80,
+
             // spaces add to line width, and sometimes look very ugly
             // (eg. nested destructuring: "{vm: { main: { mindset } } } }")
             "bracketSpacing": false,
 
-            // single quotes make bit less visual noise than double quotes
-            // TODO: single quotes are not respected in jsx
+            // single quotes make bit less visual noise than double quotes.
+            // note: jsx will always use double quotes.
             "singleQuote": true
+        }],
+
+        "max-len": ["error", {
+            // hard line width limit. preferred line width is controlled by
+            // prettier and equals 80
+            "code": 160,
+
+            // prettier does not control line width in comments, so enforce it
+            // with eslint
+            "comments": 80
         }],
 
         // since this is not a lib to embed into another project
