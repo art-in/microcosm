@@ -1,23 +1,23 @@
 .root {
-    position: absolute;
+  position: absolute;
 
-    user-select: none;
-    border-radius: 2px;
-    padding: 2px 10px;
-    background-color: white;
+  user-select: none;
+  border-radius: 2px;
+  padding: 2px 10px;
+  background-color: white;
 
-    max-width: 250px;
+  max-width: 250px;
 
-    /* do not wrap */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  /* do not wrap */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
-    opacity: 1;
-    transition: opacity 0.5s;
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 .root.transition,
 .root.transition-enter {
-    opacity: 0;
+  opacity: 0;
 }

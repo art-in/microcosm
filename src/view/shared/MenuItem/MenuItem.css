@@ -1,17 +1,17 @@
 .item {
-    padding: 5px;
-    cursor: pointer;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .item:hover {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 .item.disabled {
-    color: gray;
-    cursor: default;
+  color: gray;
+  cursor: default;
 }
 
 .item.disabled:hover {
-    background-color: initial;
+  background-color: initial;
 }

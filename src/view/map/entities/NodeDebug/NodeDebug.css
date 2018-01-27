@@ -1,16 +1,16 @@
 .root {
-    user-select: none;
+  user-select: none;
 }
 
 :export {
-    font-size: 12;
+  font-size: 12;
 }
 
 .line {
-    font-size: 12px;
-    fill: #d00;
+  font-size: 12px;
+  fill: #d00;
 }
 
 .line::selection {
-    background-color: inherit;
+  background-color: inherit;
 }

@@ -1,29 +1,29 @@
 .root {
-    position: relative;
+  position: relative;
 }
 
 .textarea {
-    display: block;
-    width: 100%;
-    border: none;
-    resize: vertical;
-    padding: 5px;
+  display: block;
+  width: 100%;
+  border: none;
+  resize: vertical;
+  padding: 5px;
 
-    /* merge height with paddings so scroll height equals to height,
+  /* merge height with paddings so scroll height equals to height,
        and when setting scroll height to height it does not grow infinitely */
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .button-edit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: #adadad;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #adadad;
 
-    /* hide text under button, so button always clearly visible */
-    background-color: white;
+  /* hide text under button, so button always clearly visible */
+  background-color: white;
 }
 
 .button-edit:hover {
-    color: black;
+  color: black;
 }

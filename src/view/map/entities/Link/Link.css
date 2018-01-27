@@ -1,38 +1,38 @@
 .root {}
 
 .root:not(.shaded):hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .line {
-    /* thicken hover area */
-    stroke: transparent;
-    stroke-width: 8px;
-    opacity: 0.5;
+  /* thicken hover area */
+  stroke: transparent;
+  stroke-width: 8px;
+  opacity: 0.5;
 }
 
 .line:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .title {
-    color: #333;
-    overflow: hidden;
-    word-break: break-all;
-    text-align: center;
-    line-height: 25px;
+  color: #333;
+  overflow: hidden;
+  word-break: break-all;
+  text-align: center;
+  line-height: 25px;
 }
 
 .title::selection:not([contenteditable]) {
-    /* do not select titles of nearby nodes when dragging over */
-    background-color: inherit;
+  /* do not select titles of nearby nodes when dragging over */
+  background-color: inherit;
 }
 
 .title[contenteditable] {
-    outline: 1px solid red;
+  outline: 1px solid red;
 }
 
 .root.shaded .line {
-    opacity: 0.5;
-    stroke-width: 0.25;
+  opacity: 0.5;
+  stroke-width: 0.25;
 }

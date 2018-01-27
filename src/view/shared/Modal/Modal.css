@@ -1,56 +1,56 @@
 .root {
-    /* backing */
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  /* backing */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-    z-index: 1;
+  z-index: 1;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 
-    background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 
-    transition: opacity 0.15s;
+  transition: opacity 0.15s;
 }
 
 :export {
-    transition-duration: 0.15;
+  transition-duration: 0.15;
 }
 
 .root.transition,
 .root.transition-enter {
-    opacity: 0;
+  opacity: 0;
 }
 
 .root.transition-enter-active,
 .root.transition-exit {
-    opacity: 1;
+  opacity: 1;
 }
 
 .root.transition-exit-active {
-    opacity: 0;
+  opacity: 0;
 }
 
 .content {
-    position: relative;
-    margin: 30px auto;
-    background-color: white;
-    border-radius: 5px;
+  position: relative;
+  margin: 30px auto;
+  background-color: white;
+  border-radius: 5px;
 }
 
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #adadad;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #adadad;
 
-    /* hide text under button, so button always clearly visible */
-    background-color: white;
+  /* hide text under button, so button always clearly visible */
+  background-color: white;
 }
 
 .close:hover {
-    color: black;
+  color: black;
 }

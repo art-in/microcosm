@@ -1,27 +1,27 @@
 :global(html),
 :global(body),
 .root {
-    /* expand contents to full viewport */
-    height: 100%;
+  /* expand contents to full viewport */
+  height: 100%;
 
-    /* prevent page scrollbar initiated by overflowed elements
+  /* prevent page scrollbar initiated by overflowed elements
        (eg. idea menu or lookup suggestions) */
-    overflow: hidden;
+  overflow: hidden;
 }
 
 :global(body) {
-    height: calc(100% - 10px);
-    margin: 5px;
+  height: calc(100% - 10px);
+  margin: 5px;
 }
 
 @font-face {
-    font-family: 'montserrat';
-    src: url('./fonts/Montserrat-Regular.ttf');
+  font-family: 'montserrat';
+  src: url('./fonts/Montserrat-Regular.ttf');
 }
 
 @font-face {
-    font-family: 'montserrat-light';
-    src: url('./fonts/Montserrat-Light.ttf');
+  font-family: 'montserrat-light';
+  src: url('./fonts/Montserrat-Light.ttf');
 }
 
 .root,
@@ -29,36 +29,36 @@
 :global(textarea),
 :global(select),
 :global(button) {
-    font-family: 'montserrat', sans-serif;
-    font-size: 18px;
+  font-family: 'montserrat', sans-serif;
+  font-size: 18px;
 }
 
 :global(hr) {
-    /* normalize horizontal rule */
-    border-top: 1px solid #eceeef;
-    border-right: none;
-    border-bottom: none;
-    border-left: none;
-    margin: 20px 0;
+  /* normalize horizontal rule */
+  border-top: 1px solid #eceeef;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  margin: 20px 0;
 }
 
 :global(input),
 :global(textarea) {
-    /* normalize inputs */
-    border: 1px solid gray;
+  /* normalize inputs */
+  border: 1px solid gray;
 }
 
 :global(input):focus,
 :global(textarea):focus {
-    /* replicate chrome outlining.
+  /* replicate chrome outlining.
        use shadow to not conflict with border and outline.
        > 1px outline hides border in Chrome */
-    outline: none;
-    box-shadow: 0 0 0 2px #a5c7fe;
+  outline: none;
+  box-shadow: 0 0 0 2px #a5c7fe;
 }
 
 .version {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
 }

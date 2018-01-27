@@ -2,9 +2,8 @@
 module.exports = {
   extends: 'stylelint-config-standard',
   rules: {
-    // [same as for js] // TODO: update to correlate with eslist
-    indentation: [4],
-    'no-missing-end-of-source-newline': null,
+    // [same as for js]
+    indentation: [2],
     'max-line-length': 80,
 
     // allow new lines between style props for groupings

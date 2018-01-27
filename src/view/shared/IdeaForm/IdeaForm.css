@@ -3,124 +3,124 @@
 .header,
 .footer,
 .value {
-    padding: 20px;
+  padding: 20px;
 }
 
 .root-path {}
 
 .title-input {
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
 
-    /* do not remove border so invalid input does not shift on hover */
-    border-color: transparent;
-    font-size: 24px;
-    margin: 10px 0;
+  /* do not remove border so invalid input does not shift on hover */
+  border-color: transparent;
+  font-size: 24px;
+  margin: 10px 0;
 
-    transition: border-color 0.3s;
+  transition: border-color 0.3s;
 }
 
 .title-input:not(.title-input-invalid):not(:focus):hover {
-    /* highlight title field on hovering */
-    border-color: lightgray;
+  /* highlight title field on hovering */
+  border-color: lightgray;
 }
 
 .title-input-invalid {
-    border-color: #dc3545;
+  border-color: #dc3545;
 }
 
 .gear-menu {
-    margin-top: 15px;
+  margin-top: 15px;
 
-    /* limit space for gear button only */
-    width: 30px;
-    overflow: hidden;
-    transition: width 0.15s;
-    white-space: nowrap;
+  /* limit space for gear button only */
+  width: 30px;
+  overflow: hidden;
+  transition: width 0.15s;
+  white-space: nowrap;
 
-    /* add padding to not cut select-color-button outline */
-    padding: 5px 0;
+  /* add padding to not cut select-color-button outline */
+  padding: 5px 0;
 }
 
 .gear-menu-expanded {
-    width: 200px;
+  width: 200px;
 }
 
 .gear-menu-item {
-    /* add padding to all items so they all aligned with select-color-button */
-    padding: 5px;
+  /* add padding to all items so they all aligned with select-color-button */
+  padding: 5px;
 }
 
 .gear-menu-item:first-child {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .gear-menu-item + .gear-menu-item {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .select-color-button {
-    /* add padding so outline is not too close to icon */
-    padding: 5px;
-    outline: 2px solid var(--idea-color);
+  /* add padding so outline is not too close to icon */
+  padding: 5px;
+  outline: 2px solid var(--idea-color);
 }
 
 .remove-color-button {
 }
 
 .body {
-    /* section dividers */
-    border-top: 1px solid #eceeef;
-    border-bottom: 1px solid #eceeef;
+  /* section dividers */
+  border-top: 1px solid #eceeef;
+  border-bottom: 1px solid #eceeef;
 }
 
 .value {
-    border-bottom: 1px solid #eceeef;
+  border-bottom: 1px solid #eceeef;
 
-    /* extend zone for activating edit mode by double click */
-    min-height: 20px;
+  /* extend zone for activating edit mode by double click */
+  min-height: 20px;
 }
 
 .predecessors {}
 
 .successor-operations {
-    padding: 20px;
-    display: flex;
+  padding: 20px;
+  display: flex;
 }
 
 .successor-operations-item + .successor-operations-item {
-    margin-left: 25px;
+  margin-left: 25px;
 }
 
 .successor-create-button {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .successor-search {
-    /* extend vertically so lookup has enough space when shown */
-    height: 50px;
+  /* extend vertically so lookup has enough space when shown */
+  height: 50px;
 }
 
 .successor-search-lookup {
-    background-color: white;
-    padding: 7px;
-    border-radius: 5px;
-    box-shadow: 0 0 15px black;
+  background-color: white;
+  padding: 7px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px black;
 
-    /* lift search lookup above successor list
+  /* lift search lookup above successor list
        (as lookup and list are both positioned relatively) */
-    z-index: 1;
+  z-index: 1;
 }
 
 .successors {
-    padding: 0 20px 20px 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .footer {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* stylelint-disable no-descending-specificity */
@@ -131,7 +131,7 @@
 .remove-color-button,
 .successor-create-button,
 .successor-search-trigger {
-    color: #adadad;
+  color: #adadad;
 }
 
 .gear-button:hover,
@@ -141,5 +141,5 @@
 .remove-color-button:hover,
 .successor-create-button:hover,
 .successor-search-trigger:hover {
-    color: black;
+  color: black;
 }

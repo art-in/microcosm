@@ -1,36 +1,36 @@
 .root {}
 
 .input {
-    padding: 5px 7px;
-    width: 100%;
-    box-sizing: border-box;
+  padding: 5px 7px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .nothing-found {
-    text-align: center;
-    margin-top: 10px;
+  text-align: center;
+  margin-top: 10px;
 
-    /* do not wrap in case container is too small
+  /* do not wrap in case container is too small
        (eg. when container width animated like in idea search box, when box
         is hiding - not-found string should not wrap) */
-    overflow: hidden;
-    white-space: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .suggestions {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .suggestion {
-    cursor: pointer;
-    padding: 10px 10px;
+  cursor: pointer;
+  padding: 10px 10px;
 
-    /* do not wrap */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  /* do not wrap */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .suggestion + .suggestion {
-    border-top: 1px solid lightgray;
+  border-top: 1px solid lightgray;
 }

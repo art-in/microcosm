@@ -1,49 +1,49 @@
 .root {
-    display: flex;
+  display: flex;
 
-    /* position relatively for remove button */
-    position: relative;
+  /* position relatively for remove button */
+  position: relative;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .root:hover {
-    background: #f5f5f5;
+  background: #f5f5f5;
 }
 
 .root.highlighted {
-    background: #e6e6e6;
+  background: #e6e6e6;
 }
 
 .root.layout-column {
-    padding: 10px;
+  padding: 10px;
 
-    border-left: 4px solid var(--list-item-color, lightgray);
+  border-left: 4px solid var(--list-item-color, lightgray);
 }
 
 .root.layout-inline {
-    display: inline-block;
-    padding: 3px 5px;
+  display: inline-block;
+  padding: 3px 5px;
 
-    border: 2px solid var(--list-item-color, lightgray);
+  border: 2px solid var(--list-item-color, lightgray);
     
-    /* limit width */
-    max-width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  /* limit width */
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .title {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .root.layout-column .root-path {
-    color: lightgray;
-    margin-left: 10px;
+  color: lightgray;
+  margin-left: 10px;
 
-    white-space: nowrap;
-    overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Q: why add additional inner span?
@@ -51,26 +51,26 @@
       another solution with 'direction: rtl' does not work correctly in Edge 41:
       text still truncated on the right (see css gotcha #6) */
 .root.layout-column .root-path > span {
-    float: right;
+  float: right;
 }
 
 .root.layout-inline .root-path {
-    display: none;
+  display: none;
 }
 
 .remove-button {
-    display: none;
+  display: none;
 }
 
 .root:hover .remove-button {
-    display: block;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 
-    color: #adadad;
+  color: #adadad;
 }
 
 .root:hover .remove-button:hover {
-    color: black;
+  color: black;
 }

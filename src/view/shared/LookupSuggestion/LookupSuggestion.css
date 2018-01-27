@@ -1,20 +1,20 @@
 .root {
-    padding: 5px;
-    padding-left: 10px; /* free some space for highlight char */
-    color: #757575;
-    position: relative;
+  padding: 5px;
+  padding-left: 10px; /* free some space for highlight char */
+  color: #757575;
+  position: relative;
 }
 
 .root:hover,
 .highlight {
-    color: black;
+  color: black;
 }
 
 .highlight::before {
-    content: '•';
-    color: #757575;
+  content: '•';
+  color: #757575;
 
-    /* free from flow to not change position of suggestion text */
-    position: absolute;
-    left: 0;
+  /* free from flow to not change position of suggestion text */
+  position: absolute;
+  left: 0;
 }

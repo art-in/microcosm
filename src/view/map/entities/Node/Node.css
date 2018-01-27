@@ -1,35 +1,35 @@
 .root:not(.shaded) {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .circle {
-    fill: var(--normal-gradient);
+  fill: var(--normal-gradient);
 }
 
 .root.shaded .circle {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .root:not(.shaded):hover .circle {
-    fill: var(--highlight-gradient);
+  fill: var(--highlight-gradient);
 }
 
 .title {
-    font-family: 'montserrat-light', sans-serif;
-    font-size: 30px;
-    fill: lightgray;
-    transition: fill 0.15s, text-shadow 0.15s;
+  font-family: 'montserrat-light', sans-serif;
+  font-size: 30px;
+  fill: lightgray;
+  transition: fill 0.15s, text-shadow 0.15s;
 }
 
 .root.shaded .title {
-    color: lightgray;
+  color: lightgray;
 }
 
 .root:not(.shaded):hover .title {
-    fill: white;
+  fill: white;
 
-    /* set multiple shadows to make it darker */
-    text-shadow:
-        0 0 20px black,
-        0 0 40px black;
+  /* set multiple shadows to make it darker */
+  text-shadow:
+    0 0 20px black,
+    0 0 40px black;
 }

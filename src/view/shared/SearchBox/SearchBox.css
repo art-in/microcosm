@@ -1,44 +1,44 @@
 .root {
-    display: flex;
+  display: flex;
 }
 
 .trigger {
-    display: flex;
-    align-items: center;
-    opacity: 1;
-    transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.15s;
 }
 
 .root.active .trigger {
-    opacity: 0;
+  opacity: 0;
 }
 
 .lookup-expander {
-    display: inline-block;
-    width: 0;
+  display: inline-block;
+  width: 0;
 
-    /* zero width is not enough to hide lookup since its inner paddings will
+  /* zero width is not enough to hide lookup since its inner paddings will
        still be seen, so make it transparent (+ transition looks good) */
-    opacity: 0;
-    transition: width 0.5s, opacity 0.15s;
-    position: relative;
+  opacity: 0;
+  transition: width 0.5s, opacity 0.15s;
+  position: relative;
 }
 
 .root.active .lookup-expander {
-    width: 480px;
-    opacity: 1;
+  width: 480px;
+  opacity: 1;
 }
 
 .lookup {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 
-    width: 100%;
-    box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .root:not(.active) .lookup {
-    /* hide completely so cursor not changing when hovering hidden lookup */
-    display: none;
+  /* hide completely so cursor not changing when hovering hidden lookup */
+  display: none;
 }

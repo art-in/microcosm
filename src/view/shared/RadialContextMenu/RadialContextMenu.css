@@ -1,9 +1,9 @@
 .root * {
-    transition: transform 0.15s, opacity 0.15s;
+  transition: transform 0.15s, opacity 0.15s;
 }
 
 :export {
-    transition-duration: 0.15;
+  transition-duration: 0.15;
 }
 
 /*
@@ -16,46 +16,46 @@
 */
 .root.transition *,
 .root.transition-enter * {
-    transform: scale(0, 0);
+  transform: scale(0, 0);
 }
 
 .root.transition-enter-active *,
 .root.transition-exit * {
-    transform: scale(1, 1);
+  transform: scale(1, 1);
 }
 
 .root.transition-exit-active * {
-    transform: scale(0, 0);
+  transform: scale(0, 0);
 }
 
 .segment {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .segment.disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .segment-path {
-    fill: #2a709b;
-    stroke: white;
-    stroke-width: 1px;
-    stroke-opacity: 0.9;
-    opacity: 0.5;
+  fill: #2a709b;
+  stroke: white;
+  stroke-width: 1px;
+  stroke-opacity: 0.9;
+  opacity: 0.5;
 }
 
 .segment:not(.disabled):hover .segment-path {
-    fill: #4897c8;
-    stroke-width: 2px;
-    opacity: 0.9;
+  fill: #4897c8;
+  stroke-width: 2px;
+  opacity: 0.9;
 }
 
 .segment-icon {
-    fill: white;
-    user-select: none;
-    opacity: 0.5;
+  fill: white;
+  user-select: none;
+  opacity: 0.5;
 }
 
 .segment:not(.disabled):hover .segment-icon {
-    opacity: 1;
+  opacity: 1;
 }
