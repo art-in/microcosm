@@ -1,6 +1,10 @@
 .root {
   height: 100%;
   position: relative;
+
+  /* initiate separate block formatting context, so child margins do not
+     escape parent block (eg. mindmap margin does not move mindset) */
+  overflow: hidden;
 }
 
 .message {
@@ -15,20 +19,20 @@
 
 .toggle-mode-button {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 15px;
+  left: 15px;
 }
 
 .db-connection-state-icon {
   position: absolute;
-  top: 10px;
-  left: 55px;
+  top: 15px;
+  left: 60px;
 }
 
 .go-root-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
 }
 
 .root.mode-mindmap .db-connection-state-icon,
@@ -42,7 +46,7 @@
 .root.mode-list .go-root-button,
 .root.mode-list .idea-search-box-trigger,
 .root.mode-list .toggle-mode-button {
-  color: #adadad;
+  color: #ababab;
 }
 
 .root.mode-mindmap .db-connection-state-icon:hover,
@@ -56,13 +60,13 @@
 .root.mode-list .go-root-button:hover,
 .root.mode-list .idea-search-box-trigger:hover,
 .root.mode-list .toggle-mode-button:hover {
-  color: black;
+  color: white;
 }
 
 .idea-search-box {
   position: absolute;
-  top: 10px;
-  right: 55px;
+  top: 15px;
+  right: 60px;
 }
 
 .idea-search-box-lookup {

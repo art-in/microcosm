@@ -1,1 +1,12 @@
-.root {}
+.root {
+  background: lightgray;
+  padding: 5px 10px 10px 5px;
+}
+
+.form {
+  max-width: 800px;
+  margin: 0 auto;
+
+  background: white;
+  box-shadow: 0 0 10px grey;
+}

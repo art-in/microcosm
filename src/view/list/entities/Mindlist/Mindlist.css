@@ -2,29 +2,28 @@
   display: grid;
   height: 100%;
 
-  grid-template-columns: 300px auto;
-  grid-template-rows: 45px auto;
+  grid-template-columns: 400px auto;
+  grid-template-rows: 55px auto;
   grid-template-areas:
     'header header'
     'sidebar pane';
+
+  background-color: lightgray;
 }
 
 .header {
   /* free space for mindset buttons */
   grid-area: header;
-
-  border-bottom: 1px solid lightgray;
 }
 
 .sidebar {
   grid-area: sidebar;
 
-  border-right: 1px solid lightgray;
   overflow: auto;
 }
 
 .pane {
   grid-area: pane;
-
+  
   overflow: auto;
 }

@@ -61,6 +61,7 @@ export default class IdeaPane extends Component {
     return (
       <div className={cx(classes.root, className)}>
         <IdeaForm
+          className={classes.form}
           form={pane.form}
           onTitleChange={onTitleChange}
           onValueChange={onValueChange}

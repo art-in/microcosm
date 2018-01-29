@@ -19,6 +19,8 @@
   padding: 10px;
 
   border-left: 4px solid var(--list-item-color, lightgray);
+
+  overflow: hidden;
 }
 
 .root.layout-inline {

@@ -5,13 +5,15 @@
   height: 100%;
 
   /* prevent page scrollbar initiated by overflowed elements
-       (eg. idea menu or lookup suggestions) */
+     (eg. idea menu or lookup suggestions) */
   overflow: hidden;
 }
 
 :global(body) {
-  height: calc(100% - 10px);
-  margin: 5px;
+  height: 100%;
+
+  /* remove default margins */
+  margin: 0;
 }
 
 @font-face {
