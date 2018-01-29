@@ -7,17 +7,22 @@ import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 import MainVM from 'vm/main/Main';
 import MindsetVM from 'vm/main/Mindset';
 import VersionVM from 'vm/main/Version';
+import ClientConfigType from 'boot/client/ClientConfig';
 
 /**
  * Inits state
  *
  * @param {StateType} state
  * @param {object} data
+ * @param {function} data.storeDispatch
+ * @param {ClientConfigType} data.clientConfig
+ * @param {string} data.dbServerUrl
+ * @param {Element} data.viewRoot
  * @param {function} dispatch
  * @param {function} mutate
  */
 export default async function init(state, data, dispatch, mutate) {
-  const {storeDispatch, runtimeConfig, dbServerUrl, viewRoot} = required(data);
+  const {storeDispatch, clientConfig, dbServerUrl, viewRoot} = required(data);
 
   // init view model
   // TBD: currently unconditionaly start loading mindset.
@@ -28,9 +33,9 @@ export default async function init(state, data, dispatch, mutate) {
   });
 
   const version = new VersionVM({
-    name: runtimeConfig.app.name,
-    homepage: runtimeConfig.app.homepage,
-    version: runtimeConfig.app.version
+    name: clientConfig.app.name,
+    homepage: clientConfig.app.homepage,
+    version: clientConfig.app.version
   });
 
   const main = new MainVM({

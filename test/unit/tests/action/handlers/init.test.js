@@ -5,7 +5,7 @@ import noop from 'src/utils/noop';
 import combineHandlerPatches from 'test/utils/combine-handler-patches';
 
 import State from 'src/boot/client/State';
-import RuntimeConfig from 'src/boot/client/RuntimeConfig';
+import ClientConfig from 'src/boot/client/ClientConfig';
 
 import MainVM from 'src/vm/main/Main';
 import ConnectionState from 'src/action/utils/ConnectionState';
@@ -50,7 +50,7 @@ describe('init', () => {
         data: {
           storeDispatch: noop,
           dbServerUrl: 'TEST_DB_SERVER',
-          runtimeConfig: new RuntimeConfig(),
+          clientConfig: new ClientConfig(),
           viewRoot: document.createElement('div')
         }
       },
@@ -81,7 +81,7 @@ describe('init', () => {
         data: {
           storeDispatch: noop,
           dbServerUrl: 'TEST_DB_SERVER',
-          runtimeConfig: new RuntimeConfig(),
+          clientConfig: new ClientConfig(),
           viewRoot: document.createElement('div')
         }
       },
@@ -113,7 +113,7 @@ describe('init', () => {
         data: {
           storeDispatch,
           dbServerUrl: 'TEST_DB_SERVER',
-          runtimeConfig: new RuntimeConfig(),
+          clientConfig: new ClientConfig(),
           viewRoot: document.createElement('div')
         }
       },
@@ -146,7 +146,7 @@ describe('init', () => {
         data: {
           storeDispatch,
           dbServerUrl: 'TEST_DB_SERVER',
-          runtimeConfig: new RuntimeConfig(),
+          clientConfig: new ClientConfig(),
           viewRoot: document.createElement('div')
         }
       },
@@ -174,7 +174,7 @@ describe('init', () => {
         data: {
           storeDispatch,
           dbServerUrl: 'TEST_DB_SERVER',
-          runtimeConfig: new RuntimeConfig(),
+          clientConfig: new ClientConfig(),
           viewRoot: document.createElement('div')
         }
       },

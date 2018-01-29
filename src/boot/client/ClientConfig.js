@@ -1,7 +1,10 @@
 /**
- * The runtime configuration
+ * Client runtime configuration.
+ *
+ * The one that is transferred from server to client, and allows to configure
+ * client side app from server, without need to rebuild from sources.
  */
-export default class RuntimeConfig {
+export default class ClientConfig {
   app = {
     /** @type {string} */
     name: undefined,

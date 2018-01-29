@@ -29,7 +29,7 @@ app.set('view engine', 'html');
 app.set('views', config.server.static.folder);
 
 app.get('/', function(req, res) {
-  // inject runtime config to the index page on the fly.
+  // inject runtime client config to the index page on the fly.
   // Q: why inject on the fly and not pre-build?
   // A: this is the best option I found so far. another options:
   //  - inject config once at build time - won't work since it blocks
@@ -39,7 +39,7 @@ app.get('/', function(req, res) {
   //  - make rest api request for config from client at startup - won't work
   //    since (a) it is additional request which will hit load performance
   //    (b) it will block offline scenario
-  const runtimeConfig = {
+  const clientConfig = {
     app: {
       name: pkg.name,
       homepage: pkg.homepage,
@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
 
   res.render('index', {
     baseUrl: config.server.static.baseUrl,
-    runtimeConfig: JSON.stringify(runtimeConfig)
+    clientConfig: JSON.stringify(clientConfig)
   });
 });
 

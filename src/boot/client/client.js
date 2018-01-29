@@ -18,14 +18,14 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import runtimeConfig from './runtime-config';
+import clientConfig from './client-config';
 
 // for devtools Fauxton extension
 // @ts-ignore unknown prop of 'window'
 window.PouchDB = PouchDB;
 
 // URL of database server
-const {host, port} = runtimeConfig.dbServer;
+const {host, port} = clientConfig.dbServer;
 const dbServerUrl = `${location.protocol}//${host}:${port}`;
 
 /**
@@ -52,7 +52,7 @@ async function start() {
     type: 'init',
     data: {
       storeDispatch: store.dispatch.bind(store),
-      runtimeConfig,
+      clientConfig,
       dbServerUrl,
       viewRoot: document.querySelector('#root')
     }
