@@ -1,29 +1,19 @@
 .root {
-  display: grid;
   height: 100%;
 
-  grid-template-columns: 400px auto;
-  grid-template-rows: 55px auto;
-  grid-template-areas:
-    'header header'
-    'sidebar pane';
-
+  display: flex;
   background-color: lightgray;
 }
 
-.header {
-  /* free space for mindset buttons */
-  grid-area: header;
-}
-
 .sidebar {
-  grid-area: sidebar;
-
-  overflow: auto;
+  /* free space for mindset buttons */
+  margin-top: 60px;
 }
 
 .pane {
-  grid-area: pane;
-  
+  /* free space for mindset buttons */
+  margin-top: 55px;
+  flex-grow: 1;
+
   overflow: auto;
 }

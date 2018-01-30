@@ -38,6 +38,12 @@ export default class IdeaSidebar extends ViewModel {
   successors = undefined;
 
   /**
+   * Indicates that sidebar is collapsed.
+   * @type {boolean}
+   */
+  isCollapsed = true;
+
+  /**
    * Constructor
    * @param {Partial<IdeaSidebar>} [props]
    */

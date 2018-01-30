@@ -24,7 +24,8 @@ const Icon = {
   map: 16,
   list: 17,
   chevronLeft: 18,
-  sunO: 19
+  sunO: 19,
+  circle: 20
 };
 
 export default Icon;

@@ -105,5 +105,9 @@ const descriptors = {
   [Icon.sunO]: {
     class: icons.faSunO,
     char: '\uf185'
+  },
+  [Icon.circle]: {
+    class: icons.faCircle,
+    char: '\uf111'
   }
 };

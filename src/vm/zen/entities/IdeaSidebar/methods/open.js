@@ -4,7 +4,7 @@ import MindsetType from 'model/entities/Mindset';
 
 import toListItem from 'vm/mappers/idea-to-list-item';
 import getRootPath from 'action/utils/get-idea-root-path';
-import IdeaSidebar from 'vm/zen/entities/IdeaSidebar';
+import IdeaSidebarType from 'vm/zen/entities/IdeaSidebar';
 
 /**
  * Opens sidebar for new or existing idea
@@ -14,7 +14,7 @@ import IdeaSidebar from 'vm/zen/entities/IdeaSidebar';
  * @param {boolean} [opts.isNewIdea  = false] - is creating new idea
  * @param {string} [opts.parentIdeaId] - ID of parent idea if creating new idea
  * @param {string} [opts.ideaId] - ID of existing idea
- * @return {IdeaSidebar}
+ * @return {Partial.<IdeaSidebarType>}
  */
 export default function open(opts) {
   const {mindset, isNewIdea = false, parentIdeaId, ideaId} = opts;
@@ -49,13 +49,11 @@ export default function open(opts) {
     parentSuccessors.find(i => i.id === ideaId).isHighlighted = true;
   }
 
-  const sidebar = new IdeaSidebar({
+  return {
     parentIdeaId: parent.id,
     title: parent.title,
     rootPath: getRootPath(mindset, parent.id),
     goParentAvailable: isNewIdea || ideaId !== mindset.root.id,
     successors: parentSuccessors
-  });
-
-  return sidebar;
+  };
 }

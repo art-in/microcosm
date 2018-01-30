@@ -19,7 +19,7 @@ import classes from './IdeaListItem.css';
  *
  * @extends {Component<Props>}
  */
-export default class Idea extends Component {
+export default class IdeaListItem extends Component {
   onRemove = e => {
     this.props.onRemove();
 

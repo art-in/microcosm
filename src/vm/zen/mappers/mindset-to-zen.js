@@ -1,6 +1,8 @@
 import MindsetType from 'model/entities/Mindset';
 
 import Zen from 'vm/zen/entities/Zen';
+import IdeaSidebar from 'vm/zen/entities/IdeaSidebar';
+
 import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
 
 /**
@@ -10,9 +12,13 @@ import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
  * @return {Zen}
  */
 export default function mindsetToZen(mindset) {
-  const updateObject = openIdea({
+  const {sidebar, pane} = openIdea({
     mindset,
     ideaId: mindset.root.id
   });
-  return new Zen(updateObject);
+
+  return new Zen({
+    sidebar: new IdeaSidebar(sidebar),
+    pane
+  });
 }

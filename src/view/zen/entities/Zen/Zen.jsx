@@ -21,7 +21,6 @@ export default class Zen extends Component {
 
     return (
       <div className={cx(classes.root, className)}>
-        <div className={classes.header} />
         <IdeaSidebar className={classes.sidebar} sidebar={zen.sidebar} />
         <IdeaPane className={classes.pane} pane={zen.pane} />
       </div>

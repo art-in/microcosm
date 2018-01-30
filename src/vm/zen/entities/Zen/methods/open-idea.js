@@ -4,6 +4,7 @@ import ZenType from 'vm/zen/entities/Zen';
 import IdeaPane from 'vm/zen/entities/IdeaPane';
 import openForm from 'vm/shared/IdeaForm/methods/open';
 import openSidebar from 'vm/zen/entities/IdeaSidebar/methods/open';
+import IdeaSidebarType from 'vm/zen/entities/IdeaSidebar/IdeaSidebar';
 
 /**
  * Opens new or existing idea
@@ -13,7 +14,7 @@ import openSidebar from 'vm/zen/entities/IdeaSidebar/methods/open';
  * @param {boolean} [opts.isNewIdea  = false] - is creating new idea
  * @param {string} [opts.parentIdeaId] - ID of parent idea if creating new idea
  * @param {string} [opts.ideaId] - ID of existing idea
- * @return {Partial.<ZenType>} update object
+ * @return {{sidebar: Partial.<IdeaSidebarType>, pane: IdeaPane}} update object
  */
 export default function openIdea(opts) {
   const {mindset, isNewIdea = false, parentIdeaId, ideaId} = opts;

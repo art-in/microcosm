@@ -16,6 +16,7 @@ import classes from './IdeaSidebar.css';
  *
  * @prop {function()} onGoParent
  * @prop {function()} onSuccessorSelect
+ * @prop {function()} onToggle
  *
  * @extends {Component<Props>}
  */
@@ -27,10 +28,14 @@ export default class IdeaSidebar extends Component {
   };
 
   render() {
-    const {className, sidebar, onSuccessorSelect} = this.props;
+    const {className, sidebar, onSuccessorSelect, onToggle} = this.props;
 
     return (
-      <div className={cx(classes.root, className)}>
+      <div
+        className={cx(classes.root, className, {
+          [classes.collapsed]: sidebar.isCollapsed
+        })}
+      >
         <div
           className={cx(classes.goParentButton, {
             [classes.enabled]: sidebar.goParentAvailable
@@ -58,6 +63,16 @@ export default class IdeaSidebar extends Component {
             onIdeaSelect={onSuccessorSelect}
           />
         ) : null}
+
+        <div
+          className={classes.toggleButton}
+          title={sidebar.isCollapsed ? 'Show sidebar' : 'Hide sidebar'}
+          onClick={onToggle}
+        >
+          <Icon icon={IconType.circle} />
+          <Icon icon={IconType.circle} />
+          <Icon icon={IconType.circle} />
+        </div>
       </div>
     );
   }

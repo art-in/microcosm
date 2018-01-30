@@ -5,8 +5,10 @@ import PatchType from 'utils/state/Patch';
 import MutationType from 'utils/state/Mutation';
 
 const KEY_PREFIX = '[microcosm]';
+
 const KEY_MINDSET_VIEW_MODE = `${KEY_PREFIX} mindset_view_mode`;
 const KEY_DB_SERVER_URL = `${KEY_PREFIX} db_server_url`;
+const KEY_ZEN_SIDEBAR_COLLAPSED = `${KEY_PREFIX} zen_sidebar_collapsed`;
 
 /**
  * Applies patch to local state
@@ -29,29 +31,48 @@ function apply(state, mutation) {
 
   switch (mutation.type) {
     case 'init': {
-      local.mindsetViewMode = Number(
-        getLocalStorageItem(KEY_MINDSET_VIEW_MODE, local.mindsetViewMode)
-      );
       local.dbServerUrl = getLocalStorageItem(KEY_DB_SERVER_URL);
-
+      local.mindsetViewMode = Number(
+        getLocalStorageItem(
+          KEY_MINDSET_VIEW_MODE,
+          local.mindsetViewMode.toString()
+        )
+      );
+      local.isZenSidebarCollapsed =
+        getLocalStorageItem(
+          KEY_ZEN_SIDEBAR_COLLAPSED,
+          local.isZenSidebarCollapsed.toString()
+        ) === 'true';
       break;
     }
 
     case 'init-mindset': {
       const {dbServerUrl} = required(mutation.data.data.local);
       local.dbServerUrl = dbServerUrl;
-      localStorage.setItem(KEY_DB_SERVER_URL, dbServerUrl);
+      localStorage.setItem(KEY_DB_SERVER_URL, local.dbServerUrl);
       break;
     }
 
     case 'update-mindset-vm': {
       if (mutation.data.mode !== undefined) {
-        const mode = mutation.data.mode;
-        local.mindsetViewMode = mode;
-        localStorage.setItem(KEY_MINDSET_VIEW_MODE, mode);
+        local.mindsetViewMode = mutation.data.mode;
+        localStorage.setItem(
+          KEY_MINDSET_VIEW_MODE,
+          local.mindsetViewMode.toString()
+        );
       }
       break;
     }
+
+    case 'update-zen-idea-sidebar':
+      if (mutation.data.isCollapsed !== undefined) {
+        local.isZenSidebarCollapsed = mutation.data.isCollapsed;
+        localStorage.setItem(
+          KEY_ZEN_SIDEBAR_COLLAPSED,
+          local.isZenSidebarCollapsed.toString()
+        );
+        break;
+      }
   }
 }
 
@@ -59,7 +80,7 @@ function apply(state, mutation) {
  * Gets item from local storage
  *
  * @param {string} itemKey
- * @param {*} [defaultValue]
+ * @param {string} [defaultValue]
  * @return {string}
  */
 function getLocalStorageItem(itemKey, defaultValue) {

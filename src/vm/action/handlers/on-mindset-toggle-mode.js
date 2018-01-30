@@ -13,7 +13,7 @@ import setViewMode from 'vm/main/Mindset/methods/set-view-mode';
  * @return {PatchType}
  */
 export default function(state) {
-  const {model: {mindset}} = state;
+  const {data: {local}, model: {mindset}} = state;
   const {vm: {main: {mindset: mindsetVM}}} = state;
 
   let targetMode;
@@ -30,5 +30,8 @@ export default function(state) {
     targetMode = ViewMode.zen;
   }
 
-  return view('update-mindset-vm', setViewMode(mindset, targetMode));
+  return view(
+    'update-mindset-vm',
+    setViewMode(mindset, targetMode, local.isZenSidebarCollapsed)
+  );
 }

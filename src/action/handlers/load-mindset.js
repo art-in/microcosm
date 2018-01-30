@@ -98,7 +98,11 @@ export default async function loadMindset(state, data, dispatch) {
   // init view model
   const mindsetVM = {
     isLoaded: true,
-    ...setViewMode(mindset, state.data.local.mindsetViewMode)
+    ...setViewMode(
+      mindset,
+      state.data.local.mindsetViewMode,
+      state.data.local.isZenSidebarCollapsed
+    )
   };
 
   return new Patch({

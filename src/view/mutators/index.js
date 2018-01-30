@@ -109,6 +109,10 @@ function apply(state, mutation) {
       zen.pane.emitChange();
       break;
 
+    case 'update-zen-idea-sidebar':
+      zen.sidebar.emitChange();
+      break;
+
     case 'update-zen-idea-form-successor-search-box':
       zen.pane.form.successorSearchBox.emitChange();
       break;

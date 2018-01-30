@@ -10,9 +10,10 @@ import setButtonTooltips from 'vm/main/Mindset/methods/set-button-tooltips';
  *
  * @param {MindsetType} mindset
  * @param {MindsetViewMode} mode
+ * @param {boolean} isZenSidebarCollapsed
  * @return {object}
  */
-export default function setViewMode(mindset, mode) {
+export default function setViewMode(mindset, mode, isZenSidebarCollapsed) {
   let updateObject;
 
   switch (mode) {
@@ -22,6 +23,7 @@ export default function setViewMode(mindset, mode) {
         mindmap: null,
         zen: toZen(mindset)
       };
+      updateObject.zen.sidebar.isCollapsed = isZenSidebarCollapsed;
       break;
 
     case MindsetViewMode.mindmap:

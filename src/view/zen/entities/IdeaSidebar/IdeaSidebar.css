@@ -5,6 +5,19 @@
   /* add padding so shadow is not truncated */
   margin: 5px 5px 10px 0;
   box-shadow: 0 0 5px gray;
+
+  position: relative;
+  left: 0;
+  width: 400px;
+
+  transition: width 0.5s, left 0.5s;
+}
+
+.root.collapsed {
+  width: 0;
+
+  /* move outside the screen to hide paddings and shadow */
+  left: -25px;
 }
 
 .go-parent-button {
@@ -37,3 +50,36 @@
 }
 
 .successors {}
+
+.root.collapsed .successors {
+  /* hide list item paddings */
+  overflow: hidden;
+}
+
+.toggle-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  font-size: 8px;
+  color: #ababab;
+  cursor: pointer;
+
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 0;
+  top: 10px;
+
+  transition: right 0.5s;
+}
+
+.toggle-button:hover {
+  color: black;
+}
+
+.root.collapsed .toggle-button {
+  /* sidebar is hidden outside the screen, so move toggler back to screen */
+  right: -45px;
+}

@@ -9,15 +9,21 @@ import ViewMode from 'vm/main/MindsetViewMode';
  */
 export default class LocalState {
   /**
+   * URL of db server from which local databases were replicated last time.
+   * Empty value means replication did not happen yet (first visit).
+   * @type {string}
+   */
+  dbServerUrl = undefined;
+
+  /**
    * Mindset view mode
    * @type {ViewMode}
    */
   mindsetViewMode = ViewMode.mindmap;
 
   /**
-   * URL of db server from which local databases were replicated last time.
-   * Empty value means replication did not happen yet (first visit).
-   * @type {string}
+   * Indicates that sidebar is collapsed in zen mode
+   * @type {boolean}
    */
-  dbServerUrl = undefined;
+  isZenSidebarCollapsed = false;
 }
