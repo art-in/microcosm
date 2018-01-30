@@ -21,7 +21,7 @@ export default function(state) {
     return;
   }
 
-  return view('update-zen-idea-pane', {
+  return view('update-zen-pane', {
     form: formUpdate
   });
 }

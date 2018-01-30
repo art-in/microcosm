@@ -64,7 +64,7 @@ function apply(state, mutation) {
       break;
     }
 
-    case 'update-zen-idea-sidebar':
+    case 'update-zen-sidebar':
       if (mutation.data.isCollapsed !== undefined) {
         local.isZenSidebarCollapsed = mutation.data.isCollapsed;
         localStorage.setItem(

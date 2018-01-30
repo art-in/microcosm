@@ -16,7 +16,7 @@ export default function(state) {
 
   const {form} = zen.pane;
 
-  return view('update-zen-idea-pane', {
+  return view('update-zen-pane', {
     form: onCancel(form)
   });
 }

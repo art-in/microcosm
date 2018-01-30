@@ -5,7 +5,6 @@ import SearchBoxType from 'vm/shared/SearchBox';
 
 /**
  * Updates successor search box in zen idea form
- * TODO: update seachbox through idea-pane mutator
  *
  * @param {StateType} state
  * @param {Partial<SearchBoxType>} data

@@ -20,7 +20,7 @@ export default function(state, data) {
 
   const {form} = zen.pane;
 
-  return view('update-zen-idea-pane', {
+  return view('update-zen-pane', {
     form: onTitleChange(form, title)
   });
 }

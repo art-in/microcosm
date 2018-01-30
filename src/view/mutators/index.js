@@ -105,11 +105,11 @@ function apply(state, mutation) {
       zen.emitChange();
       break;
 
-    case 'update-zen-idea-pane':
+    case 'update-zen-pane':
       zen.pane.emitChange();
       break;
 
-    case 'update-zen-idea-sidebar':
+    case 'update-zen-sidebar':
       zen.sidebar.emitChange();
       break;
 

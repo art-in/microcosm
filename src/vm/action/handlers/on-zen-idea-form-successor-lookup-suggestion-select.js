@@ -26,7 +26,7 @@ export default function(state, data) {
 
   return new Patch([
     // add successor
-    view('update-zen-idea-pane', {
+    view('update-zen-pane', {
       form: addSuccessor(form, mindset, successorId)
     }),
 
