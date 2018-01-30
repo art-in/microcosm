@@ -6,7 +6,7 @@
  */
 const MindsetViewMode = {
   mindmap: 0,
-  list: 1
+  zen: 1
 };
 
 export default MindsetViewMode;

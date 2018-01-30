@@ -101,5 +101,9 @@ const descriptors = {
   [Icon.chevronLeft]: {
     class: icons.faChevronLeft,
     char: '\uf053'
+  },
+  [Icon.sunO]: {
+    class: icons.faSunO,
+    char: '\uf185'
   }
 };

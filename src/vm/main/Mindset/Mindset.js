@@ -1,7 +1,7 @@
 import initProps from 'utils/init-props';
 
 import MindmapVmType from 'vm/map/entities/Mindmap';
-import MindlistType from 'vm/list/entities/Mindlist';
+import ZenType from 'vm/zen/entities/Zen';
 import ColorPicker from 'vm/shared/ColorPicker';
 
 import ViewModel from 'vm/utils/ViewModel';
@@ -16,7 +16,7 @@ import MindsetViewModeType from 'vm/main/MindsetViewMode';
  * Mindset view model
  *
  * Represents root mindset component, which can show
- * mindset in different forms (map, list, etc)
+ * mindset in different forms (mindmap, zen, etc)
  */
 export default class Mindset extends ViewModel {
   /**
@@ -45,11 +45,11 @@ export default class Mindset extends ViewModel {
   mindmap = undefined;
 
   /**
-   * List view model.
-   * Note: only available in list view mode.
-   * @type {MindlistType}
+   * Zen view model.
+   * Note: only available in zen view mode.
+   * @type {ZenType}
    */
-  list = undefined;
+  zen = undefined;
 
   /**
    * Icon indicating state of connection to database server

@@ -5,7 +5,7 @@ import ViewMode from 'vm/main/MindsetViewMode';
  *
  * Holds data that is not intended to be saved in database (on server),
  * but rather specific to concreete user-agent (eg. user may prefer mobile
- * browser to open mindset always in list view mode)
+ * browser to open mindset always in zen view mode)
  */
 export default class LocalState {
   /**

@@ -23,7 +23,8 @@ const Icon = {
   gear: 15,
   map: 16,
   list: 17,
-  chevronLeft: 18
+  chevronLeft: 18,
+  sunO: 19
 };
 
 export default Icon;

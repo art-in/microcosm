@@ -42,10 +42,10 @@
   color: lightgray;
 }
 
-.root.mode-list .db-connection-state-icon,
-.root.mode-list .go-root-button,
-.root.mode-list .idea-search-box-trigger,
-.root.mode-list .toggle-mode-button {
+.root.mode-zen .db-connection-state-icon,
+.root.mode-zen .go-root-button,
+.root.mode-zen .idea-search-box-trigger,
+.root.mode-zen .toggle-mode-button {
   color: #ababab;
 }
 
@@ -56,10 +56,10 @@
   color: white;
 }
 
-.root.mode-list .db-connection-state-icon:hover,
-.root.mode-list .go-root-button:hover,
-.root.mode-list .idea-search-box-trigger:hover,
-.root.mode-list .toggle-mode-button:hover {
+.root.mode-zen .db-connection-state-icon:hover,
+.root.mode-zen .go-root-button:hover,
+.root.mode-zen .idea-search-box-trigger:hover,
+.root.mode-zen .toggle-mode-button:hover {
   color: white;
 }
 
@@ -78,7 +78,7 @@
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-.root.mode-list .idea-search-box-lookup {
+.root.mode-zen .idea-search-box-lookup {
   background-color: white;
   padding: 7px;
   border-radius: 5px;

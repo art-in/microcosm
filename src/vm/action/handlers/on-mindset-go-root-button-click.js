@@ -20,9 +20,9 @@ export default function(state, data, dispatch) {
       });
       break;
 
-    case ViewMode.list:
+    case ViewMode.zen:
       dispatch({
-        type: 'mindlist-open-idea',
+        type: 'zen-open-idea',
         data: {ideaId: root.id}
       });
       break;

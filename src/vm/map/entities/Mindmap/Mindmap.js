@@ -12,6 +12,8 @@ import IdeaFormModal from 'vm/shared/IdeaFormModal';
 /**
  * View model representation of Mindset as a mindmap - graph of nodes and links
  * drawn on 2D space with ability to zoom (geo-like map)
+ *
+ * Root view model for 'mindmap' mindset view mode.
  */
 export default class Mindmap extends ViewModel {
   /**

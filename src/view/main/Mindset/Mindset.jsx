@@ -9,7 +9,7 @@ import IconType from 'vm/shared/Icon';
 import IconSize from 'vm/shared/IconSize';
 
 import Mindmap from 'view/map/entities/Mindmap';
-import Mindlist from 'view/list/entities/Mindlist';
+import Zen from 'view/zen/entities/Zen';
 
 import ColorPicker from 'view/shared/ColorPicker';
 import SearchBox from 'view/shared/SearchBox';
@@ -98,8 +98,8 @@ export default class Mindset extends Component {
           view = <Mindmap mindmap={mindset.mindmap} />;
           break;
 
-        case ViewMode.list:
-          view = <Mindlist list={mindset.list} />;
+        case ViewMode.zen:
+          view = <Zen zen={mindset.zen} />;
           break;
 
         default:
@@ -111,7 +111,7 @@ export default class Mindset extends Component {
       <div
         className={cx(classes.root, {
           [classes.modeMindmap]: mindset.mode === ViewMode.mindmap,
-          [classes.modeList]: mindset.mode === ViewMode.list
+          [classes.modeZen]: mindset.mode === ViewMode.zen
         })}
       >
         {!mindset.isLoaded &&

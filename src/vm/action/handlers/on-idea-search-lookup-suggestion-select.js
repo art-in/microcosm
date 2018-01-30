@@ -37,8 +37,8 @@ export default function(state, data, dispatch) {
       });
       break;
 
-    case ViewMode.list:
-      dispatch({type: 'mindlist-open-idea', data: {ideaId}});
+    case ViewMode.zen:
+      dispatch({type: 'zen-open-idea', data: {ideaId}});
       break;
 
     default:

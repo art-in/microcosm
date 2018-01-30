@@ -76,9 +76,9 @@ export default function(state, data, dispatch) {
             }
             break;
 
-          case ViewMode.list:
-            if (mindset.list.pane.form.isSaveable) {
-              dispatch({type: 'on-mindlist-idea-form-save'});
+          case ViewMode.zen:
+            if (mindset.zen.pane.form.isSaveable) {
+              dispatch({type: 'on-zen-idea-form-save'});
             }
             break;
         }
@@ -90,7 +90,7 @@ export default function(state, data, dispatch) {
       // form opened to search on idea text contents, otherwise if mindmap
       // shown, default search will not be effective - use custom box for
       // searching ideas.
-      // in list mode, only allow default search box, since idea form is always
+      // in zen mode, only allow default search box, since idea form is always
       // shown there.
       if (
         ctrlKey &&
@@ -106,7 +106,7 @@ export default function(state, data, dispatch) {
       // in mindmap mode, allow to move to root idea by home button only if no
       // text popup is shown, otherwise it will conflict with text editing
       // action 'move carret to line start'.
-      // in list mode, do not override default action at all, since idea form is
+      // in zen mode, do not override default action at all, since idea form is
       // always shown there.
       if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         dispatch({type: 'on-mindset-go-root-button-click'});

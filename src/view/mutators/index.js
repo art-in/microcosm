@@ -27,7 +27,7 @@ export default function mutate(state, patch) {
  */
 function apply(state, mutation) {
   const {mindset} = state.vm.main;
-  const {mindmap, list} = mindset;
+  const {mindmap, zen} = mindset;
   const isMindmapMode = mindset.mode === MindsetViewMode.mindmap;
 
   const {data} = mutation;
@@ -101,16 +101,16 @@ function apply(state, mutation) {
       mindmap.ideaFormModal.form.successorSearchBox.emitChange();
       break;
 
-    case 'update-mindlist':
-      list.emitChange();
+    case 'update-zen':
+      zen.emitChange();
       break;
 
-    case 'update-mindlist-idea-pane':
-      list.pane.emitChange();
+    case 'update-zen-idea-pane':
+      zen.pane.emitChange();
       break;
 
-    case 'update-mindlist-idea-form-successor-search-box':
-      list.pane.form.successorSearchBox.emitChange();
+    case 'update-zen-idea-form-successor-search-box':
+      zen.pane.form.successorSearchBox.emitChange();
       break;
 
     default:

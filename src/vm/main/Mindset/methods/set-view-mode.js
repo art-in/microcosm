@@ -2,7 +2,7 @@ import MindsetType from 'model/entities/Mindset';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
-import toMindlist from 'vm/list/mappers/mindset-to-mindlist';
+import toZen from 'vm/zen/mappers/mindset-to-zen';
 import setButtonTooltips from 'vm/main/Mindset/methods/set-button-tooltips';
 
 /**
@@ -16,11 +16,11 @@ export default function setViewMode(mindset, mode) {
   let updateObject;
 
   switch (mode) {
-    case MindsetViewMode.list:
+    case MindsetViewMode.zen:
       updateObject = {
         mode,
         mindmap: null,
-        list: toMindlist(mindset)
+        zen: toZen(mindset)
       };
       break;
 
@@ -28,7 +28,7 @@ export default function setViewMode(mindset, mode) {
       updateObject = {
         mode,
         mindmap: toMindmap(mindset),
-        list: null
+        zen: null
       };
       break;
 
@@ -36,10 +36,7 @@ export default function setViewMode(mindset, mode) {
       throw Error(`Unknown mindset view mode '${mode}'`);
   }
 
-  updateObject = Object.assign(
-    updateObject,
-    setButtonTooltips(MindsetViewMode.mindmap)
-  );
+  updateObject = Object.assign(updateObject, setButtonTooltips(mode));
 
   return updateObject;
 }

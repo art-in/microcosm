@@ -18,16 +18,16 @@ export default function(state) {
 
   let targetMode;
 
-  if (mindsetVM.mode === ViewMode.list) {
+  if (mindsetVM.mode === ViewMode.zen) {
     // make sure form changes are saved
-    const {form} = mindsetVM.list.pane;
+    const {form} = mindsetVM.zen.pane;
     if (form.isSaveable && !confirm(MESSAGE_CONFIRM_LEAVE)) {
       return;
     }
 
     targetMode = ViewMode.mindmap;
   } else {
-    targetMode = ViewMode.list;
+    targetMode = ViewMode.zen;
   }
 
   return view('update-mindset-vm', setViewMode(mindset, targetMode));
