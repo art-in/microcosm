@@ -18,7 +18,7 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import clientConfig from './client-config';
+import clientConfig from './config/client-config';
 
 // for devtools Fauxton extension
 // @ts-ignore unknown prop of 'window'

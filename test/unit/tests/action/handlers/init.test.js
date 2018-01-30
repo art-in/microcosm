@@ -5,7 +5,7 @@ import noop from 'src/utils/noop';
 import combineHandlerPatches from 'test/utils/combine-handler-patches';
 
 import State from 'src/boot/client/State';
-import ClientConfig from 'src/boot/client/ClientConfig';
+import ClientConfig from 'src/boot/client/config/ClientConfig';
 
 import MainVM from 'src/vm/main/Main';
 import ConnectionState from 'src/action/utils/ConnectionState';

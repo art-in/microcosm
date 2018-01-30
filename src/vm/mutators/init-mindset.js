@@ -19,14 +19,16 @@ export default function initMindset(state, data) {
 
   updateObject(mindset, otherMindsetUpdates);
 
-  if (mindset.mindmap) {
-    // mindset can be re-initialized several times (eg. on mindset reloads
-    // per server sync changes), we do not want to clear out view specific
-    // state in that case (eg. opened idea form)
-    updateMindmapPersistent(mindset.mindmap, mindmapUpdate);
-  } else {
-    mindset.mindmap = mindmapUpdate;
-  }
+  if (mindmapUpdate) {
+    if (mindset.mindmap) {
+      // mindset can be re-initialized several times (eg. on mindset reloads
+      // per server sync changes), we do not want to clear out view specific
+      // state in that case (eg. opened idea form)
+      updateMindmapPersistent(mindset.mindmap, mindmapUpdate);
+    } else {
+      mindset.mindmap = mindmapUpdate;
+    }
 
-  mindset.mindmap.isDirty = true;
+    mindset.mindmap.isDirty = true;
+  }
 }

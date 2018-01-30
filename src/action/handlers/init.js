@@ -2,12 +2,12 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
+import ClientConfigType from 'boot/client/config/ClientConfig';
 import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
 import MainVM from 'vm/main/Main';
 import MindsetVM from 'vm/main/Mindset';
 import VersionVM from 'vm/main/Version';
-import ClientConfigType from 'boot/client/ClientConfig';
 
 /**
  * Inits state

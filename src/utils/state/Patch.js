@@ -70,7 +70,7 @@ export default class Patch {
 
   /**
    * Iterates over mutations
-   * @param {*} func
+   * @param {function(Mutation)} func
    * @param {array} [args]
    * @return {*}
    */
@@ -80,7 +80,7 @@ export default class Patch {
 
   /**
    * Map mutations
-   * @param {*} func
+   * @param {function(Mutation)} func
    * @param {array} [args]
    * @return {*}
    */
@@ -90,7 +90,7 @@ export default class Patch {
 
   /**
    * Filter mutations
-   * @param {*} func
+   * @param {function(Mutation)} func
    * @param {array} [args]
    * @return {*}
    */
