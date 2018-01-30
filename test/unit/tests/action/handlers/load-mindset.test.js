@@ -4,7 +4,6 @@ import PouchDB from 'pouchdb';
 import clone from 'clone';
 
 import noop from 'src/utils/noop';
-import update from 'src/utils/update-object';
 import deleteIndexedDB from 'src/data/utils/delete-indexed-db';
 
 import State from 'src/boot/client/State';
@@ -19,10 +18,7 @@ import * as ideaDbApi from 'src/data/db/ideas';
 import * as assocDbApi from 'src/data/db/associations';
 import * as mindsetDbApi from 'src/data/db/mindsets';
 
-import {
-  STORAGE_KEY_DB_SERVER_URL,
-  RELOAD_DEBOUNCE_TIME
-} from 'action/handlers/load-mindset';
+import {RELOAD_DEBOUNCE_TIME} from 'action/handlers/load-mindset';
 
 import handler from 'src/action/handler';
 const handle = handler.handle.bind(handler);
@@ -35,9 +31,6 @@ describe('load-mindset', function() {
   this.timeout(this.timeout() + RELOAD_DEBOUNCE_TIME);
 
   async function cleanSideEffects() {
-    // local storage keys
-    localStorage.removeItem(STORAGE_KEY_DB_SERVER_URL);
-
     // indexed databases
     const databaseNames = [
       `mindsets`,
@@ -65,8 +58,6 @@ describe('load-mindset', function() {
   it('should init mindset databases', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatch = noop;
 
     // target
@@ -74,7 +65,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -85,6 +79,7 @@ describe('load-mindset', function() {
 
     const mutationData = mutations[0].data;
 
+    expect(mutationData.data.local.dbServerUrl).to.equal('TEST_DB_SERVER');
     expect(mutationData.data.ideas).to.be.instanceOf(PouchDB);
     expect(mutationData.data.associations).to.be.instanceOf(PouchDB);
     expect(mutationData.data.mindsets).to.be.instanceOf(PouchDB);
@@ -93,23 +88,26 @@ describe('load-mindset', function() {
   it('should save url of database server', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatch = noop;
 
     // target
-    await handle(
+    const patch = await handle(
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
 
     // check
-    const res = localStorage.getItem(STORAGE_KEY_DB_SERVER_URL);
-    expect(res).to.equal('TEST_DB_SERVER');
+    const mutations = patch['init-mindset'];
+
+    expect(mutations).to.have.length(1);
+    expect(mutations[0].data.data.local.dbServerUrl).to.equal('TEST_DB_SERVER');
   });
 
   it('should NOT reinit mindset databases on reloads', async () => {
@@ -119,12 +117,10 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
-    update(state.data, {
-      dbServerUrl: 'TEST_DB_SERVER',
-      ideas: ideasDB,
-      associations: assocsDB,
-      mindsets: mindsetsDB
-    });
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.ideas = ideasDB;
+    state.data.associations = assocsDB;
+    state.data.mindsets = mindsetsDB;
 
     await mindsetDbApi.add(
       mindsetsDB,
@@ -151,7 +147,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: false}
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -170,8 +169,6 @@ describe('load-mindset', function() {
   it('should add mindset if db is empty', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatch = noop;
 
     // target
@@ -179,7 +176,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -196,8 +196,6 @@ describe('load-mindset', function() {
   it('should add root idea if db is empty', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatch = noop;
 
     // target
@@ -205,7 +203,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -220,7 +221,7 @@ describe('load-mindset', function() {
   it('should add required entities on reloads if db is empty', async () => {
     // setup state
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
     state.data.ideas = new PouchDB('ideas');
     state.data.associations = new PouchDB('associations');
     state.data.mindsets = new PouchDB('mindsets');
@@ -232,7 +233,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: false}
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -258,12 +262,9 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
-    update(state.data, {
-      dbServerUrl: 'TEST_DB_SERVER',
-      ideas: ideasDB,
-      associations: assocsDB,
-      mindsets: mindsetsDB
-    });
+    state.data.ideas = ideasDB;
+    state.data.associations = assocsDB;
+    state.data.mindsets = mindsetsDB;
 
     await mindsetDbApi.add(
       mindsetsDB,
@@ -309,7 +310,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: false}
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -341,12 +345,9 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
-    update(state.data, {
-      dbServerUrl: 'TEST_DB_SERVER',
-      ideas: ideasDB,
-      associations: assocsDB,
-      mindsets: mindsetsDB
-    });
+    state.data.ideas = ideasDB;
+    state.data.associations = assocsDB;
+    state.data.mindsets = mindsetsDB;
 
     await mindsetDbApi.add(
       mindsetsDB,
@@ -392,7 +393,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: false}
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -413,20 +417,14 @@ describe('load-mindset', function() {
 
   it('should init mindset view model', async () => {
     // setup
-    const ideasDB = createDB();
-    const assocsDB = createDB();
-    const mindsetsDB = createDB();
-
     const state = new State();
-    update(state.data, {
-      dbServerUrl: 'TEST_DB_SERVER',
-      ideas: ideasDB,
-      associations: assocsDB,
-      mindsets: mindsetsDB
-    });
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.ideas = createDB();
+    state.data.associations = createDB();
+    state.data.mindsets = createDB();
 
     await mindsetDbApi.add(
-      mindsetsDB,
+      state.data.mindsets,
       new Mindset({
         id: 'mindset id',
         scale: 1
@@ -434,7 +432,7 @@ describe('load-mindset', function() {
     );
 
     await ideaDbApi.add(
-      ideasDB,
+      state.data.ideas,
       new Idea({
         id: 'A',
         mindsetId: 'mindset id',
@@ -444,7 +442,7 @@ describe('load-mindset', function() {
     );
 
     await ideaDbApi.add(
-      ideasDB,
+      state.data.ideas,
       new Idea({
         id: 'B',
         mindsetId: 'mindset id',
@@ -453,7 +451,7 @@ describe('load-mindset', function() {
     );
 
     await assocDbApi.add(
-      assocsDB,
+      state.data.associations,
       new Association({
         mindsetId: 'mindset id',
         fromId: 'A',
@@ -469,7 +467,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: false}
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -496,7 +497,6 @@ describe('load-mindset', function() {
     const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
 
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
 
     await mindsetDbApi.add(
       mindsetsServerDB,
@@ -542,7 +542,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -610,8 +613,6 @@ describe('load-mindset', function() {
     );
 
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatch = noop;
 
     // target
@@ -619,7 +620,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -712,8 +716,6 @@ describe('load-mindset', function() {
     );
 
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-
     const dispatchSpy = spy();
 
     // target
@@ -721,7 +723,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatchSpy
     );
@@ -758,14 +763,14 @@ describe('load-mindset', function() {
     // check reload action dispatched
     expect(dispatchSpy.callCount).to.equal(1);
     expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
-      type: 'load-mindset'
+      type: 'load-mindset',
+      data: {
+        dbServerUrl: 'TEST_DB_SERVER'
+      }
     });
   });
 
   it('should clean local databases if new db server', async () => {
-    // setup previous db server url
-    localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, 'TEST_DB_SERVER_OLD');
-
     // setup local databases
     const mindsetsLocalDB = new PouchDB('mindsets');
     const ideasLocalDB = new PouchDB('ideas');
@@ -832,7 +837,9 @@ describe('load-mindset', function() {
 
     // setup state
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
+
+    // setup previous db server url
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER_OLD';
 
     const dispatchSpy = spy();
 
@@ -841,7 +848,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatchSpy
     );
@@ -869,7 +879,6 @@ describe('load-mindset', function() {
   it('should NOT mutate state', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
     const stateBefore = clone(state);
 
     const dispatch = noop;
@@ -879,7 +888,10 @@ describe('load-mindset', function() {
       state,
       {
         type: 'load-mindset',
-        data: {isInitialLoad: true}
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
       },
       dispatch
     );
@@ -891,8 +903,6 @@ describe('load-mindset', function() {
   it('should fail if db server URL is empty', async () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = undefined;
-
     const dispatch = noop;
 
     // target
@@ -907,7 +917,7 @@ describe('load-mindset', function() {
 
     // check
     await expect(promise).to.be.rejectedWith(
-      `Invalid database server URL 'undefined'`
+      `Required parameter 'dbServerUrl' was not specified`
     );
   });
 });

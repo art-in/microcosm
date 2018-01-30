@@ -36,37 +36,6 @@ describe('init', () => {
     setTimeoutStub.restore();
   });
 
-  it('should init data state', async () => {
-    // setup
-    const state = new State();
-    const dispatch = noop;
-    const mutate = spy();
-
-    // target
-    const patch = await handle(
-      state,
-      {
-        type: 'init',
-        data: {
-          storeDispatch: noop,
-          dbServerUrl: 'TEST_DB_SERVER',
-          clientConfig: new ClientConfig(),
-          viewRoot: document.createElement('div')
-        }
-      },
-      dispatch,
-      mutate
-    );
-
-    // check
-    const mutations = combineHandlerPatches(mutate, patch)['init'];
-
-    expect(mutations).to.have.length(1);
-    const mutationData = mutations[0].data;
-
-    expect(mutationData.data.dbServerUrl).to.equal('TEST_DB_SERVER');
-  });
-
   it('should init view model state', async () => {
     // setup
     const state = new State();

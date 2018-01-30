@@ -14,7 +14,7 @@ import view from 'vm/utils/view-patch';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {data: {dbServerUrl}} = state;
+  const {data: {local: {dbServerUrl}}} = state;
   const {connectionState} = required(data);
 
   let tooltip;

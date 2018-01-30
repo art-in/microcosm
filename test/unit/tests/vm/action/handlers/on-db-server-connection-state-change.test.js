@@ -10,7 +10,7 @@ describe('on-db-server-connection-state-change', () => {
   it('should set state to mindset connection state icon', () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {
@@ -32,7 +32,7 @@ describe('on-db-server-connection-state-change', () => {
   it('should set tooltip to mindset connection state icon', () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {
@@ -54,7 +54,7 @@ describe('on-db-server-connection-state-change', () => {
   it('should add db server url to tooltip of connection state icon', () => {
     // setup
     const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {

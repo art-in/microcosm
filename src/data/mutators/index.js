@@ -6,6 +6,7 @@ import PatchType from 'utils/state/Patch';
 
 /**
  * Applies patch to data state
+ *
  * @param {StateType} state
  * @param {PatchType} patch
  */

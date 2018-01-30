@@ -1,6 +1,7 @@
 import PouchDB from 'pouchdb';
 import debounce from 'debounce';
 
+import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import * as ideasDbApi from 'data/db/ideas';
@@ -20,7 +21,6 @@ import view from 'vm/utils/view-patch';
 
 import setViewMode from 'vm/main/Mindset/methods/set-view-mode';
 
-export const STORAGE_KEY_DB_SERVER_URL = '[microcosm] db_server_url';
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
 
 /**
@@ -34,25 +34,26 @@ export const RELOAD_DEBOUNCE_TIME = 1000; // ms
  * Loads mindset from database to state
  *
  * @param {StateType} state
- * @param {object} [data]
+ * @param {object} data
  * @param {string} [data.isInitialLoad=false] - initial load or reload
+ * @param {string} data.dbServerUrl
  * @param {function} dispatch
  * @return {Promise.<Patch>}
  */
 export default async function loadMindset(state, data, dispatch) {
-  const {dbServerUrl} = state.data;
   let localDBs = {
     ideas: state.data.ideas,
     associations: state.data.associations,
     mindsets: state.data.mindsets
   };
-  const {isInitialLoad = false} = data || {};
+  const {dbServerUrl} = required(data);
+  const {isInitialLoad} = data;
 
   // init mindset databases.
   // only init once - repeated mindset reloads should not reinit databases.
   if (isInitialLoad) {
     try {
-      localDBs = await initDatabases(dbServerUrl, dispatch);
+      localDBs = await initDatabases(state, dbServerUrl, dispatch);
     } catch (e) {
       // local db failed to replicate from server db on first visit,
       // since there is not much we can show except error message.
@@ -104,6 +105,7 @@ export default async function loadMindset(state, data, dispatch) {
     type: 'init-mindset',
     data: {
       data: {
+        local: {dbServerUrl},
         ideas: localDBs.ideas,
         associations: localDBs.associations,
         mindsets: localDBs.mindsets
@@ -124,11 +126,12 @@ export default async function loadMindset(state, data, dispatch) {
  *          work with local copy of data, while retry sync process is initiated,
  *          which eventually will push local changes to server when it is up.
  *
- * @param {string} dbServerUrl
+ * @param {StateType} state
+ * @param {string} dbServerUrl - URL of db server for current session
  * @param {function} dispatch
  * @return {Promise.<LocalDatabases>} local databases
  */
-async function initDatabases(dbServerUrl, dispatch) {
+async function initDatabases(state, dbServerUrl, dispatch) {
   if (!dbServerUrl) {
     throw Error(`Invalid database server URL '${dbServerUrl}'`);
   }
@@ -140,9 +143,7 @@ async function initDatabases(dbServerUrl, dispatch) {
     mindsets: new PouchDB('mindsets')
   };
 
-  // url of db server from which local databases were replicated last time.
-  // empty value means replication did not happen yet (first visit)
-  const lastDBServerUrl = localStorage.getItem(STORAGE_KEY_DB_SERVER_URL);
+  const lastDBServerUrl = state.data.local.dbServerUrl;
 
   if (lastDBServerUrl !== dbServerUrl) {
     if (lastDBServerUrl !== null) {
@@ -161,12 +162,10 @@ async function initDatabases(dbServerUrl, dispatch) {
           `${e.message}`
       );
     }
-
-    localStorage.setItem(STORAGE_KEY_DB_SERVER_URL, dbServerUrl);
   }
 
   // start live synchronization with server databases
-  const onRemoteChange = onServerDbChange.bind(null, dispatch);
+  const onRemoteChange = onServerDbChange.bind(null, dispatch, dbServerUrl);
   startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange);
 
   return localDBs;
@@ -294,8 +293,8 @@ class DbReplicationError extends Error {}
  * Still inconsistent state happens, so 'cross client sync' feature is really
  * experimental for now.
  */
-const onServerDbChange = debounce(dispatch => {
+const onServerDbChange = debounce((dispatch, dbServerUrl) => {
   // client databases were synced,
   // now it is time to reload mindset to sync model and view states
-  dispatch({type: 'load-mindset'});
+  dispatch({type: 'load-mindset', data: {dbServerUrl}});
 }, RELOAD_DEBOUNCE_TIME);

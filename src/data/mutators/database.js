@@ -22,6 +22,7 @@ const _queue = new AsyncTaskQueue();
 
 /**
  * Applies patch to database state
+ *
  * @param {StateType} state
  * @param {PatchType} patch
  */
@@ -47,8 +48,7 @@ async function apply(state, mutation) {
 
   switch (mutation.type) {
     case 'init': {
-      const {dbServerUrl} = required(mutation.data.data);
-      data.dbServerUrl = dbServerUrl;
+      // nothing to init for now
       break;
     }
 

@@ -8,29 +8,7 @@ import Idea from 'model/entities/Idea';
 import Association from 'model/entities/Association';
 import Point from 'model/entities/Point';
 
-describe('mutators', () => {
-  describe('init', () => {
-    it('should set db server url', async () => {
-      // setup
-      const state = new State();
-
-      const patch = new Patch({
-        type: 'init',
-        data: {
-          data: {
-            dbServerUrl: 'TEST_DB_SERVER'
-          }
-        }
-      });
-
-      // target
-      await mutate(state, patch);
-
-      // check
-      expect(state.data.dbServerUrl).to.equal('TEST_DB_SERVER');
-    });
-  });
-
+describe('database', () => {
   describe('add-idea', () => {
     it('should add idea', async () => {
       // setup

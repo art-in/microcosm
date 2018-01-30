@@ -18,4 +18,4 @@ Each layer converts entities to appropriate state, so its easier to work with th
 - on **(VM)** they converted to representational picture of nodes/links, 
   and it contains only small slice of all entities - only ones that are currently visible 
   (eg. zooming-out should shade out some deep nodes removing them from vm, etc.),
-- and on **(V)** they become circles and lines on rendering surface, to be visually presented to user
+- and on **(V)** they become circles and lines on rendering surface

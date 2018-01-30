@@ -48,7 +48,6 @@ export default async function init(state, data, dispatch, mutate) {
     new Patch({
       type: 'init',
       data: {
-        data: {dbServerUrl},
         vm: {main},
         view: {
           root: viewRoot,
@@ -60,7 +59,10 @@ export default async function init(state, data, dispatch, mutate) {
 
   dispatch({
     type: 'load-mindset',
-    data: {isInitialLoad: true}
+    data: {
+      isInitialLoad: true,
+      dbServerUrl
+    }
   });
 
   startDBServerHeartbeat(dbServerUrl, storeDispatch);
