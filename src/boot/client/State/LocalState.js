@@ -25,5 +25,5 @@ export default class LocalState {
    * Indicates that sidebar is collapsed in zen mode
    * @type {boolean}
    */
-  isZenSidebarCollapsed = false;
+  isZenSidebarCollapsed = true;
 }
