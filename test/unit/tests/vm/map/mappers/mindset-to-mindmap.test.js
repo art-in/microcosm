@@ -323,4 +323,20 @@ describe('mindset-to-mindmap', () => {
     expect(focusNodeLocator.scale).to.equal(1 / 3);
     expect(focusNodeLocator.pos).to.deep.equal({x: 0, y: 1000});
   });
+
+  it('should fail if focus idea ID is empty', () => {
+    const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
+
+    mindset.focusIdeaId = undefined;
+
+    // target
+    const result = () => toMindmap({mindset, center, scale});
+
+    // check
+    expect(result).to.throw(
+      `Focus idea 'undefined' has no corresponding node in mindmap`
+    );
+  });
 });

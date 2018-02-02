@@ -9,7 +9,7 @@ import getDistanceBetweenPoints from 'utils/get-distance-between-points';
  * Focus node - is the node closest to viewport center in mindmap focus zone.
  *
  * @param {MindmapType} mindmap
- * @return {string} node id
+ * @return {string} node ID
  */
 export default function getMindmapFocusNode(mindmap) {
   // observe only nodes in focus zone
