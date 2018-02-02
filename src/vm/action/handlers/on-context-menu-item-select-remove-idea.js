@@ -16,11 +16,18 @@ export default function(state, data, dispatch) {
   const {ideaId} = required(data);
 
   const idea = mindset.ideas.get(ideaId);
+  const parent = idea.edgeFromParent.from;
 
   if (confirm(`${MESSAGE_CONFIRM_REMOVE}\n\n${idea.title}\n`)) {
     dispatch({
       type: 'remove-idea',
       data: {ideaId}
+    });
+
+    // move to parent
+    dispatch({
+      type: 'animate-mindmap-viewbox-to-idea',
+      data: {ideaId: parent.id}
     });
   }
 }

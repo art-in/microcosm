@@ -22,6 +22,7 @@ export default function(state, data, dispatch) {
   const {form} = zen.pane;
 
   const idea = mindset.ideas.get(form.ideaId);
+  const parent = idea.edgeFromParent.from;
 
   // ensure changes are saved
   if (form.isSaveable && !confirm(MESSAGE_CONFIRM_LEAVE)) {
@@ -39,6 +40,5 @@ export default function(state, data, dispatch) {
   });
 
   // move to parent
-  const parentId = idea.edgeFromParent.from.id;
-  dispatch({type: 'zen-open-idea', data: {ideaId: parentId}});
+  dispatch({type: 'zen-open-idea', data: {ideaId: parent.id}});
 }

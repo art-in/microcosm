@@ -25,6 +25,7 @@ export default function(state, data, dispatch) {
   const {form} = mindmap.ideaFormModal;
 
   const idea = mindset.ideas.get(form.ideaId);
+  const parent = idea.edgeFromParent.from;
 
   // ensure changes are saved
   if (form.isSaveable && !confirm(MESSAGE_CONFIRM_LEAVE)) {
@@ -39,6 +40,12 @@ export default function(state, data, dispatch) {
   dispatch({
     type: 'remove-idea',
     data: {ideaId: form.ideaId}
+  });
+
+  // move to parent
+  dispatch({
+    type: 'animate-mindmap-viewbox-to-idea',
+    data: {ideaId: parent.id}
   });
 
   return view('update-idea-form-modal', deactivate());
