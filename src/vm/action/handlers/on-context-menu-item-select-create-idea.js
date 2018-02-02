@@ -14,7 +14,7 @@ export default async function(state, data, dispatch) {
   const {parentIdeaId} = required(data);
 
   dispatch({
-    type: 'open-idea-form-modal',
+    type: 'mindmap-open-idea',
     data: {
       isNewIdea: true,
       parentIdeaId

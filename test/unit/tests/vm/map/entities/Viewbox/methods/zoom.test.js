@@ -1,6 +1,6 @@
 import {expect} from 'test/utils';
 
-import zoom from 'src/vm/map/entities/Mindmap/methods/zoom';
+import zoom from 'src/vm/map/entities/Viewbox/methods/zoom';
 
 describe('zoom', () => {
   describe('move viewbox towards zoom point', () => {
@@ -16,13 +16,21 @@ describe('zoom', () => {
       //
       const viewbox = zoom({
         viewbox: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100,
+          center: {
+            x: 50,
+            y: 50
+          },
           scale: 1,
           scaleMin: 0.2,
-          scaleMax: Infinity
+          scaleMax: Infinity,
+          topLeft: {
+            x: 0,
+            y: 0
+          },
+          size: {
+            width: 100,
+            height: 100
+          }
         },
         viewport: {
           width: 100,
@@ -34,11 +42,19 @@ describe('zoom', () => {
 
       // check
       expect(viewbox).to.containSubset({
+        center: {
+          x: 75,
+          y: 75
+        },
         scale: 2,
-        x: 50,
-        y: 50,
-        width: 50,
-        height: 50
+        topLeft: {
+          x: 50,
+          y: 50
+        },
+        size: {
+          width: 50,
+          height: 50
+        }
       });
     });
 
@@ -54,13 +70,21 @@ describe('zoom', () => {
       //
       const viewbox = zoom({
         viewbox: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100,
+          center: {
+            x: 50,
+            y: 50
+          },
           scale: 1,
           scaleMin: 0.2,
-          scaleMax: Infinity
+          scaleMax: Infinity,
+          topLeft: {
+            x: 0,
+            y: 0
+          },
+          size: {
+            width: 100,
+            height: 100
+          }
         },
         viewport: {
           width: 100,
@@ -72,11 +96,19 @@ describe('zoom', () => {
 
       // check
       expect(viewbox).to.containSubset({
+        center: {
+          x: 62.5,
+          y: 50
+        },
         scale: 2,
-        x: 37.5,
-        y: 25,
-        width: 50,
-        height: 50
+        topLeft: {
+          x: 37.5,
+          y: 25
+        },
+        size: {
+          width: 50,
+          height: 50
+        }
       });
     });
 
@@ -92,13 +124,21 @@ describe('zoom', () => {
       //
       const viewbox = zoom({
         viewbox: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 100,
+          center: {
+            x: 50,
+            y: 50
+          },
           scale: 1,
           scaleMin: 0.2,
-          scaleMax: Infinity
+          scaleMax: Infinity,
+          topLeft: {
+            x: 0,
+            y: 0
+          },
+          size: {
+            width: 100,
+            height: 100
+          }
         },
         viewport: {
           width: 100,
@@ -110,11 +150,19 @@ describe('zoom', () => {
 
       // check
       expect(viewbox).to.containSubset({
+        center: {
+          x: 50,
+          y: 50
+        },
         scale: 2,
-        x: 25,
-        y: 25,
-        width: 50,
-        height: 50
+        topLeft: {
+          x: 25,
+          y: 25
+        },
+        size: {
+          width: 50,
+          height: 50
+        }
       });
     });
   });
@@ -123,13 +171,21 @@ describe('zoom', () => {
     const result = () =>
       zoom({
         viewbox: {
-          x: 0,
-          y: 0,
-          width: 0,
-          height: 0,
+          center: {
+            x: 0,
+            y: 0
+          },
           scale: 1,
           scaleMin: 0.2,
-          scaleMax: Infinity
+          scaleMax: Infinity,
+          topLeft: {
+            x: 0,
+            y: 0
+          },
+          size: {
+            width: 0,
+            height: 0
+          }
         },
         viewport: {
           width: 100,

@@ -5,6 +5,8 @@ import StateType from 'boot/client/State';
 
 import Point from 'model/entities/Point';
 import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
+import getMindmapFocusNode from 'vm/map/utils/get-mindmap-focus-node';
+import setPositionAndScale from 'vm/map/entities/Mindmap/methods/set-position-and-scale';
 
 /**
  * Handles mouse up event on mindmap
@@ -12,9 +14,11 @@ import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
  * @param {StateType} state
  * @param {object} data
  * @param {function} dispatch
- * @return {PatchType|undefined}
+ * @param {function} mutate
+ * @return {Promise.<PatchType|undefined>}
  */
-export default function(state, data, dispatch) {
+export default async function(state, data, dispatch, mutate) {
+  const {model: {mindset}} = state;
   const {vm: {main: {mindset: {mindmap}}}} = state;
 
   // stop dragging node
@@ -36,12 +40,21 @@ export default function(state, data, dispatch) {
 
   // stop panning
   if (mindmap.pan.active) {
+    await mutate(
+      view(
+        'update-mindmap',
+        setPositionAndScale({
+          mindset,
+          mindmap,
+          center: mindmap.viewbox.center,
+          scale: mindmap.viewbox.scale
+        })
+      )
+    );
+
     dispatch({
-      type: 'set-mindset-position-and-scale',
-      data: {
-        mindsetId: mindmap.id,
-        pos: new Point({x: mindmap.viewbox.x, y: mindmap.viewbox.y})
-      }
+      type: 'set-mindset-focus-idea',
+      data: {ideaId: getMindmapFocusNode(mindmap)}
     });
 
     return view('update-mindmap', {

@@ -11,6 +11,7 @@ import MindsetViewMode from 'vm/main/MindsetViewMode';
 import Icon from 'vm/shared/Icon';
 
 import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
+import NodeLocator from 'vm/map/entities/NodeLocator';
 
 /**
  * Creates clean test-ready state
@@ -26,12 +27,22 @@ export default function createState() {
 
   // model
   state.model.mindset = new Mindset();
-  state.model.mindset.pos = new Point({x: 0, y: 0});
 
   // view model
-  const mindmap = toMindmap(state.model.mindset);
+  const mindmap = toMindmap({
+    mindset: state.model.mindset,
+    center: new Point({x: 50, y: 50}),
+    scale: 1
+  });
+  mindmap.debug.enable = false;
+  mindmap.viewbox.topLeft.x = 0;
+  mindmap.viewbox.topLeft.y = 0;
   mindmap.viewport.width = 100;
   mindmap.viewport.height = 100;
+  mindmap.focusNodeLocator = new NodeLocator({
+    pos: new Point({x: 0, y: 0}),
+    scale: 1
+  });
 
   const mindset = new MindsetVM({
     isLoaded: true,
@@ -59,7 +70,7 @@ export default function createState() {
   state.view.root = document.createElement('div');
   state.view.storeDispatch = () => {};
 
-  // append view root to DOM so Portals can find its containers in document
+  // append view root to DOM so Portals can find their containers
   document.body.appendChild(state.view.root);
 
   return state;

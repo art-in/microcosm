@@ -4,10 +4,12 @@ import ViewModel from 'vm/utils/ViewModel';
 
 import LinkType from 'vm/map/entities/Link';
 import NodeType from 'vm/map/entities/Node';
-
 import ContextMenu from 'vm/shared/ContextMenu';
 import LookupPopup from 'vm/shared/LookupPopup';
 import IdeaFormModal from 'vm/shared/IdeaFormModal';
+import Viewport from 'vm/map/entities/Viewport';
+import Viewbox from 'vm/map/entities/Viewbox';
+import NodeLocatorType from 'vm/map/entities/NodeLocator';
 
 /**
  * View model representation of Mindset as a mindmap - graph of nodes and links
@@ -18,7 +20,7 @@ import IdeaFormModal from 'vm/shared/IdeaFormModal';
 export default class Mindmap extends ViewModel {
   /**
    * Data for debug purposes only (eg. to render on debug pane)
-   * @type {{enable, focusCenter, focusZoneMax, shadeZoneMax}}
+   * @type {{enable, focusIdeaId, focusCenter, focusZoneMax, shadeZoneMax}}
    */
   debug = {
     /**
@@ -26,6 +28,12 @@ export default class Mindmap extends ViewModel {
      * @type {boolean}
      */
     enable: false,
+
+    /**
+     * ID of focused idea
+     * @type {string}
+     */
+    focusIdeaId: undefined,
 
     /**
      * Center of focus zone
@@ -55,28 +63,12 @@ export default class Mindmap extends ViewModel {
   /**
    * Drawing surface
    */
-  viewport = {
-    width: 0,
-    height: 0
-  };
+  viewport = new Viewport();
 
   /**
-   * Fragment of canvas
+   * Fragment of canvas mapped to viewport
    */
-  viewbox = {
-    // position of top-left corner of viewbox on canvas
-    x: 0,
-    y: 0,
-
-    // size
-    width: 0,
-    height: 0,
-
-    // scale (affects the size)
-    scale: 1,
-    scaleMin: 0.2,
-    scaleMax: Infinity
-  };
+  viewbox = new Viewbox();
 
   /**
    * Indicates zoom animation is in progress
@@ -117,7 +109,7 @@ export default class Mindmap extends ViewModel {
   /**
    * Root of nodes graph
    * Note: available only after graph is build
-   * @type {Node|undefined}
+   * @type {NodeType|undefined}
    */
   root = undefined;
 
@@ -137,6 +129,12 @@ export default class Mindmap extends ViewModel {
    * Idea form modal
    */
   ideaFormModal = new IdeaFormModal();
+
+  /**
+   * Locator for focus node
+   * @type {NodeLocatorType}
+   */
+  focusNodeLocator = undefined;
 
   /**
    * Constructor

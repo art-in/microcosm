@@ -24,7 +24,9 @@ export default function ideaToNode(idea) {
 
   node.rootPathWeight = idea.rootPathWeight;
 
-  node.debug.posRel = idea.posRel;
+  if (node.debug.enable) {
+    node.debug.posRel = idea.posRel;
+  }
 
   return node;
 }

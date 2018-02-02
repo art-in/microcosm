@@ -4,9 +4,11 @@ import Patch from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import PointType from 'model/entities/Point';
+import Point from 'model/entities/Point';
 
 import view from 'vm/utils/view-mutation';
 import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
+import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-position-and-size';
 
 /**
  * Handles mouse move on mindmap
@@ -61,12 +63,18 @@ export default function(state, data, dispatch) {
     }
 
     // make pan step
+    const newPos = new Point({
+      x: mindmap.viewbox.center.x - viewboxShift.x,
+      y: mindmap.viewbox.center.y - viewboxShift.y
+    });
+
     patch.push(
       view('update-mindmap', {
-        viewbox: {
-          x: mindmap.viewbox.x - viewboxShift.x,
-          y: mindmap.viewbox.y - viewboxShift.y
-        }
+        viewbox: computePositionAndSize({
+          viewport: mindmap.viewport,
+          center: newPos,
+          scale: mindmap.viewbox.scale
+        })
       })
     );
 

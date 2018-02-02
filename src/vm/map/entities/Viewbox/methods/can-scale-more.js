@@ -1,11 +1,12 @@
 import assert from 'utils/assert';
 import isValidScale from 'model/utils/is-valid-scale';
+import ViewboxType from 'vm/map/entities/Viewbox';
 
 /**
- * Checks whether mindmap scale limits allow to scale more up or down
+ * Checks whether viewbox scale limits allow to scale more up or down
  *
  * @param {object} opts
- * @param {object} opts.viewbox - mindmap viewbox
+ * @param {ViewboxType} opts.viewbox - mindmap viewbox
  * @param {boolean} opts.up - scale up or down
  * @return {boolean}
  */

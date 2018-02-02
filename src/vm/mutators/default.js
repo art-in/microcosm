@@ -1,7 +1,8 @@
-import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
+import update from 'utils/update-object';
 
 import StateType from 'boot/client/State';
-import updateGraphPersistent from 'vm/utils/update-mindmap-persistent-props';
+import getMindmapPersistentProps from 'vm/map/utils/get-mindmap-persistent-props';
+import toMindmap from 'vm/map/mappers/mindset-to-mindmap';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 /**
@@ -11,19 +12,17 @@ import MindsetViewMode from 'vm/main/MindsetViewMode';
  */
 export default function defaultMutator(state) {
   if (state.vm.main.mindset.mode === MindsetViewMode.mindmap) {
-    // by default, remap from model as simpliest coding approach
-    // (not best performance though).
-    // some model changes can radically change viewmodel (eg. moving viewbox can
-    // remove bunch of nodes and add bunch of new nodes, or zooming-out can
-    // completely change almost all nodes because of shading).
-    // instead of doing clever patches on existing mindmap, it is simplier to
-    // rebuild whole mindmap from stratch.
-    const newGraph = toMindmap(state.model.mindset);
+    const {mindmap: oldMindmap} = state.vm.main.mindset;
 
-    const {mindmap} = state.vm.main.mindset;
+    const newMindmap = toMindmap({
+      mindset: state.model.mindset,
+      center: oldMindmap.viewbox.center,
+      scale: oldMindmap.viewbox.scale
+    });
 
-    // instead of replacing mindmap with newly mapped one, only take necessary.
-    // this keeps view model bound to view, and keeps view specific state.
-    updateGraphPersistent(mindmap, newGraph);
+    update(
+      oldMindmap,
+      getMindmapPersistentProps(newMindmap, oldMindmap.viewport)
+    );
   }
 }

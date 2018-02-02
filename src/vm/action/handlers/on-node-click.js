@@ -20,7 +20,7 @@ export default function(state, data, dispatch) {
   }
 
   dispatch({
-    type: 'open-idea-form-modal',
+    type: 'mindmap-open-idea',
     data: {ideaId: nodeId}
   });
 }

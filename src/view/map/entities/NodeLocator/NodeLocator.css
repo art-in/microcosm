@@ -1,0 +1,30 @@
+.root {
+  /* transform transition will not work in Edge v42,
+    since Edge does not support CSS transform on SVG elements at all.
+    https://stackoverflow.com/questions/34434005/svg-transform-property-not-taking-acount-in-ie-edge
+  */
+  transition: transform 0.5s;
+}
+
+.crosshair {
+  fill: transparent;
+  stroke: yellow;
+  stroke-width: 2px;
+  stroke-dasharray: 6, 6;
+  opacity: 1;
+
+  animation-name: rotate;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

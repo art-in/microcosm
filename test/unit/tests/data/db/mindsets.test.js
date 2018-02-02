@@ -14,7 +14,7 @@ describe('mindsets', () => {
 
       await db.put({
         _id: '123',
-        scale: 2
+        focusIdeaId: 'abc'
       });
 
       // target
@@ -22,7 +22,7 @@ describe('mindsets', () => {
 
       // check
       expect(result).to.be.instanceOf(Mindset);
-      expect(result.scale).to.equal(2);
+      expect(result.focusIdeaId).to.equal('abc');
     });
 
     it('should fail if item does not exist', async () => {
@@ -44,7 +44,7 @@ describe('mindsets', () => {
 
       await db.put({
         _id: '123',
-        scale: 2
+        focusIdeaId: 'abc'
       });
 
       // target
@@ -54,7 +54,7 @@ describe('mindsets', () => {
       expect(result).to.have.length(1);
       expect(result[0]).to.be.instanceOf(Mindset);
       expect(result[0].id).to.equal('123');
-      expect(result[0].scale).to.equal(2);
+      expect(result[0].focusIdeaId).to.equal('abc');
     });
   });
 
@@ -64,8 +64,7 @@ describe('mindsets', () => {
       const db = createDB();
 
       const mindset = new Mindset({
-        scale: 2,
-        pos: new Point({x: 0, y: 0})
+        focusIdeaId: 'abc'
       });
 
       // target
@@ -78,7 +77,7 @@ describe('mindsets', () => {
 
       expect(result).to.have.length(1);
       expect(result[0]._id).to.equal(mindset.id);
-      expect(result[0].scale).to.equal(2);
+      expect(result[0].focusIdeaId).to.equal('abc');
     });
 
     it('should add/get same item', async () => {
@@ -86,8 +85,7 @@ describe('mindsets', () => {
       const db = createDB();
 
       const mindset = new Mindset({
-        scale: 2,
-        pos: new Point({x: 0, y: 0})
+        focusIdeaId: 'abc'
       });
 
       // target
@@ -105,7 +103,7 @@ describe('mindsets', () => {
 
       const mindset = new Mindset({
         id: '123',
-        pos: new Point({x: 0, y: 0})
+        focusIdeaId: 'abc'
       });
 
       // target
@@ -120,12 +118,14 @@ describe('mindsets', () => {
       // setup
       const db = createDB();
 
-      db.post({_id: '123', value: 'test 1'});
+      db.post({
+        _id: '123',
+        focusIdeaId: 'abc'
+      });
 
       const mindset = new Mindset({
         id: '123',
-        scale: 2,
-        pos: new Point({x: 0, y: 0})
+        focusIdeaId: 'xyz'
       });
 
       // target
@@ -133,7 +133,7 @@ describe('mindsets', () => {
 
       // check
       const result = await db.get('123');
-      expect(result.scale).to.equal(2);
+      expect(result.focusIdeaId).to.equal('xyz');
     });
 
     it('should not store unknown props', async () => {
@@ -180,7 +180,9 @@ describe('mindsets', () => {
     it('should fail if item does not exist', async () => {
       // setup
       const db = createDB();
-      const mindset = new Mindset({scale: 1});
+      const mindset = new Mindset({
+        focusIdeaId: 'abc'
+      });
 
       // target
       const promise = mindsetDB.update(db, mindset);

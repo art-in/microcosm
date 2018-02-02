@@ -27,7 +27,7 @@ export default function(state, data, dispatch) {
     // existing form, so all fields correctly re-initialized (eg. when color
     // changed and saved, children in successor list should receive that color)
     dispatch({
-      type: 'open-idea-form-modal',
+      type: 'mindmap-open-idea',
       data: {ideaId}
     });
   }

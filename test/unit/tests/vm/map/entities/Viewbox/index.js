@@ -1,0 +1,3 @@
+describe('Viewbox', () => {
+  require('./methods');
+});

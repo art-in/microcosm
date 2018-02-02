@@ -37,7 +37,7 @@
 
 ---
 
-6. No good way of animating lines (movement along the line from its start to tail):  
+6. No good way of animating lines (movement along the line from start to tail):  
 
     - animate gradient of line `fill`  
 
@@ -66,4 +66,31 @@
         - (cons) dashes are affected by changes to viewbox size (on zoom or resize), which looks really nasty  
         - (cons) stroke is already used as invisible extender of hovering area
 
+---
 
+7. CSS transformations on SVG elements is not supported in Edge v41 (while ok in Chrome and FF).  
+https://stackoverflow.com/questions/34434005/svg-transform-property-not-taking-acount-in-ie-edge  
+https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6820655-add-css-transforms-on-svg-elements  
+
+    **Workaround**: use `transform` attribute on SVG element.
+
+---
+
+8. Unable to animate transformation with CSS `transition` when using `transform` attribute in FF v58.  
+    Ie. transformation set through `transform` attr on SVG element, while transition animation - through CSS `transition`.  
+    And if you move transformation to CSS (both transformation and transition are in CSS) it will work in FF, but CSS `transform` does not work on SVG elements in Edge (see #7)
+
+    https://bugzilla.mozilla.org/show_bug.cgi?id=951539
+    http://jsbin.com/sekasid/edit?html,output
+
+    **Workaround**: set transformation with both `transform` attribute and CSS `transform` 
+    (Chrome, FF and Edge will transform, but all except Edge will animate).
+
+---
+
+9. SVG `stroke-width` affects element size, and there is not spec way to fix it.  
+    Eg. for HTML elements you would use `outline` which does not affect size,
+    or `box-sizing: border-box` to inject border into block size.  
+    `stroke-alignment` prop was rejected from the spec.  
+
+    https://stackoverflow.com/questions/7241393/can-you-control-how-an-svgs-stroke-width-is-drawn

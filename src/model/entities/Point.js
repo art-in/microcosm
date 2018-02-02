@@ -23,4 +23,12 @@ export default class Point {
   constructor(props) {
     initProps(this, props);
   }
+
+  /**
+   * Stringifies instance
+   * @return {string}
+   */
+  toString() {
+    return `[Point (${this.x}, ${this.y})]`;
+  }
 }

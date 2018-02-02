@@ -155,50 +155,47 @@ describe('on-node-context-menu', () => {
     }
   );
 
-  it(
-    `should set item which creates ` + `'show-association-tails-lookup' action`,
-    () => {
-      // setup
-      const state = createState();
+  it(`should set item which creates 'show-association-tails-lookup' action`, () => {
+    // setup
+    const state = createState();
 
-      const idea = new Idea({id: 'idea'});
-      state.model.mindset.ideas.set(idea.id, idea);
+    const idea = new Idea({id: 'idea'});
+    state.model.mindset.ideas.set(idea.id, idea);
 
-      const node = new Node({id: idea.id});
-      node.posAbs = new Point({x: 100, y: 200});
-      state.vm.main.mindset.mindmap.nodes.push(node);
+    const node = new Node({id: idea.id});
+    node.posAbs = new Point({x: 100, y: 200});
+    state.vm.main.mindset.mindmap.nodes.push(node);
 
-      const {viewbox} = state.vm.main.mindset.mindmap;
-      viewbox.x = 0;
-      viewbox.y = 0;
-      viewbox.scale = 1;
+    const {viewbox} = state.vm.main.mindset.mindmap;
+    viewbox.topLeft.x = 0;
+    viewbox.topLeft.y = 0;
+    viewbox.scale = 1;
 
-      // setup
-      const patch = handle(state, {
-        type: 'on-node-context-menu',
-        data: {
-          nodeId: 'idea'
-        }
-      });
+    // setup
+    const patch = handle(state, {
+      type: 'on-node-context-menu',
+      data: {
+        nodeId: 'idea'
+      }
+    });
 
-      const menuMutation = patch['update-context-menu'][0];
-      const item = menuMutation.data.menu.items.find(
-        i => i.displayValue === 'Add association'
-      );
+    const menuMutation = patch['update-context-menu'][0];
+    const item = menuMutation.data.menu.items.find(
+      i => i.displayValue === 'Add association'
+    );
 
-      // target
-      const action = item.onSelectAction();
+    // target
+    const action = item.onSelectAction();
 
-      // check
-      expect(action).to.containSubset({
-        type: 'show-association-tails-lookup',
-        data: {
-          viewportPos: {x: 100, y: 200},
-          headIdeaId: 'idea'
-        }
-      });
-    }
-  );
+    // check
+    expect(action).to.containSubset({
+      type: 'show-association-tails-lookup',
+      data: {
+        viewportPos: {x: 100, y: 200},
+        headIdeaId: 'idea'
+      }
+    });
+  });
 
   it(`should set item which creates 'remove-idea' action`, () => {
     // setup

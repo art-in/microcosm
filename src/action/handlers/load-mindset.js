@@ -95,6 +95,11 @@ export default async function loadMindset(state, data, dispatch) {
   associations.forEach(a => mindset.associations.set(a.id, a));
   ideas.forEach(i => mindset.ideas.set(i.id, i));
 
+  // check focused idea exists
+  if (!mindset.ideas.get(mindset.focusIdeaId)) {
+    throw Error(`Unable to find focus idea '${mindset.focusIdeaId}'`);
+  }
+
   // init view model
   const mindsetVM = {
     isLoaded: true,
@@ -184,16 +189,12 @@ async function ensureRequiredEntities(localDBs) {
   const mindsets = await mindsetsDbApi.getAll(localDBs.mindsets);
   if (mindsets.length === 0) {
     // mindset database is empty, creating one
-    mindset = new Mindset({
-      pos: new Point({x: 0, y: 0}),
-      scale: 1
-    });
-
-    await mindsetsDbApi.add(localDBs.mindsets, mindset);
+    mindset = new Mindset();
   } else {
     mindset = mindsets[0];
   }
 
+  // TODO: count instead of loading all the entities
   const ideas = await ideasDbApi.getAll(localDBs.ideas, mindset.id);
   if (ideas.length === 0) {
     // ideas database is empty, creating root idea
@@ -206,6 +207,13 @@ async function ensureRequiredEntities(localDBs) {
     });
 
     await ideasDbApi.add(localDBs.ideas, rootIdea);
+
+    // focus root idea
+    mindset.focusIdeaId = rootIdea.id;
+  }
+
+  if (mindsets.length === 0) {
+    await mindsetsDbApi.add(localDBs.mindsets, mindset);
   }
 }
 

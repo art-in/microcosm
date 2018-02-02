@@ -5,11 +5,12 @@ import StateType from 'boot/client/State';
 
 import view from 'vm/utils/view-patch';
 import animate from 'vm/utils/animate';
-import Point from 'model/entities/Point';
 
-import zoomMindmap from 'vm/map/entities/Mindmap/methods/zoom';
-import canScaleMore from 'vm/map/entities/Mindmap/methods/can-scale-more';
+import zoom from 'vm/map/entities/Viewbox/methods/zoom';
+import canScaleMore from 'vm/map/entities/Viewbox/methods/can-scale-more';
 import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
+import getMindmapFocusNode from 'vm/map/utils/get-mindmap-focus-node';
+import setPositionAndScale from 'vm/map/entities/Mindmap/methods/set-position-and-scale';
 
 /**
  * Animates mindmap scale towards certain canvas position
@@ -24,6 +25,7 @@ import toCanvasCoords from 'vm/map/utils/map-viewport-to-canvas-coords';
  * @return {Promise.<PatchType|undefined>}
  */
 export default async function(state, data, dispatch, mutate) {
+  const {model: {mindset}} = state;
   const {vm: {main: {mindset: {mindmap}}}} = state;
   const {up, viewportPos} = required(data);
   const {scheduleAnimationStep} = data;
@@ -55,7 +57,7 @@ export default async function(state, data, dispatch, mutate) {
     scheduleAnimationStep,
 
     onStep: async ([scale]) => {
-      const viewbox = zoomMindmap({
+      const viewbox = zoom({
         viewbox: mindmap.viewbox,
         viewport: mindmap.viewport,
         scale,
@@ -65,16 +67,21 @@ export default async function(state, data, dispatch, mutate) {
     }
   });
 
-  await dispatch({
-    type: 'set-mindset-position-and-scale',
-    data: {
-      mindsetId: mindmap.id,
-      scale: mindmap.viewbox.scale,
-      pos: new Point({
-        x: mindmap.viewbox.x,
-        y: mindmap.viewbox.y
+  await mutate(
+    view(
+      'update-mindmap',
+      setPositionAndScale({
+        mindset,
+        mindmap,
+        center: mindmap.viewbox.center,
+        scale: mindmap.viewbox.scale
       })
-    }
+    )
+  );
+
+  dispatch({
+    type: 'set-mindset-focus-idea',
+    data: {ideaId: getMindmapFocusNode(mindmap)}
   });
 
   return view('update-mindmap', {zoomInProgress: false});

@@ -14,7 +14,7 @@ import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
 export default function mindsetToZen(mindset) {
   const {sidebar, pane} = openIdea({
     mindset,
-    ideaId: mindset.root.id
+    ideaId: mindset.focusIdeaId
   });
 
   return new Zen({

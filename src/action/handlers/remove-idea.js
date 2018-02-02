@@ -82,5 +82,13 @@ export default function removeIdea(state, data) {
     edgesToChilds: withoutItem(parent.edgesToChilds, index)
   });
 
+  // move focus to parent idea
+  if (mindset.focusIdeaId === ideaId) {
+    patch.push('update-mindset', {
+      id: mindset.id,
+      focusIdeaId: parent.id
+    });
+  }
+
   return normalizePatch(patch);
 }

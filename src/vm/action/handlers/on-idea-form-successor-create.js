@@ -19,7 +19,7 @@ export default function(state, data, dispatch) {
   }
 
   dispatch({
-    type: 'open-idea-form-modal',
+    type: 'mindmap-open-idea',
     data: {
       isNewIdea: true,
       parentIdeaId: form.ideaId

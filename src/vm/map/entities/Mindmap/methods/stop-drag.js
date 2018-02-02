@@ -1,7 +1,9 @@
+import MindmapType from 'vm/map/entities/Mindmap/Mindmap';
+
 /**
  * Creates update object to stop mindmap dragging node
  *
- * @return {object} mindmap update object
+ * @return {Partial.<MindmapType>} update object
  */
 export default function() {
   return {

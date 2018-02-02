@@ -1,4 +1,7 @@
+import assert from 'utils/assert';
+
 import PointType from 'model/entities/Point';
+import isValidPosition from 'model/utils/is-valid-position';
 
 /**
  * Calculates distance between two points
@@ -8,6 +11,9 @@ import PointType from 'model/entities/Point';
  * @return {number}
  */
 export default function getDistanceBetweenPoints(point1, point2) {
+  assert(isValidPosition(point1), `Invalid position 1 '${point1}'`);
+  assert(isValidPosition(point2), `Invalid position 2 '${point2}'`);
+
   const {sqrt, pow} = Math;
 
   // calc distance with pythagorean theorem

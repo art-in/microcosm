@@ -15,6 +15,7 @@ export default function mindsetToDbo(model) {
   dbo._id = model.id;
   dbo.pos = model.pos && pointToDbo(model.pos);
   dbo.scale = model.scale;
+  dbo.focusIdeaId = model.focusIdeaId;
 
   deleteUndefinedProps(dbo);
 

@@ -1,13 +1,13 @@
 import {expect} from 'test/utils';
 
 import getNodeScaleForWeight from 'vm/map/utils/get-node-scale-for-weight';
-import getGraphFocusWeightForScale from 'vm/map/utils/get-mindmap-focus-weight-for-scale';
+import getMindmapFocusWeightForScale from 'vm/map/utils/get-mindmap-focus-weight-for-scale';
 
 describe('get-mindmap-focus-weight-for-scale', () => {
   it('should focus zero weight zone for low scale', () => {
     // simulate zooming out
     for (let viewportScale = 1; viewportScale > 0; viewportScale -= 0.1) {
-      const result = getGraphFocusWeightForScale(viewportScale);
+      const result = getMindmapFocusWeightForScale(viewportScale);
       expect(result).to.equal(0);
     }
   });
@@ -24,7 +24,7 @@ describe('get-mindmap-focus-weight-for-scale', () => {
     // simulate zooming in
     for (let viewportScale = 1; viewportScale < 100; viewportScale += 0.2) {
       // get target focus weight for current scale
-      const focusWeight = getGraphFocusWeightForScale(viewportScale);
+      const focusWeight = getMindmapFocusWeightForScale(viewportScale);
 
       // find a node which happend to be in the center
       // of focus zone (focused node)

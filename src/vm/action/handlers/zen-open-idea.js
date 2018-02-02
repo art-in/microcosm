@@ -12,11 +12,16 @@ import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
  * @param {boolean} [data.isNewIdea]
  * @param {string} [data.parentIdeaId]
  * @param {string} [data.ideaId]
+ * @param {function} dispatch
  * @return {PatchType}
  */
-export default function(state, data) {
+export default function(state, data, dispatch) {
   const {model: {mindset}} = state;
   const {ideaId, parentIdeaId, isNewIdea} = data;
+
+  if (!isNewIdea) {
+    dispatch({type: 'set-mindset-focus-idea', data: {ideaId}});
+  }
 
   return view(
     'update-zen',

@@ -1,11 +1,11 @@
-import clone from 'clone';
 import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
+import view from 'vm/utils/view-patch';
 
 import StateType from 'boot/client/State';
 
-import view from 'vm/utils/view-patch';
-import getViewboxSize from 'vm/map/entities/Mindmap/methods/get-viewbox-size';
+import Viewport from 'vm/map/entities/Viewport';
+import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-position-and-size';
 
 /**
  * Handlers mindmap viewport resize event
@@ -22,13 +22,17 @@ export default function(state, data) {
   const {size} = required(data);
   const {width, height} = required(size);
 
-  const viewport = clone(mindmap.viewport);
-  const {viewbox} = mindmap;
+  const viewport = new Viewport();
 
   viewport.width = width;
   viewport.height = height;
 
-  const vb = getViewboxSize({viewbox, viewport});
-
-  return view('update-mindmap', {viewbox: vb, viewport});
+  return view('update-mindmap', {
+    viewport,
+    viewbox: computePositionAndSize({
+      viewport,
+      center: mindmap.viewbox.center,
+      scale: mindmap.viewbox.scale
+    })
+  });
 }

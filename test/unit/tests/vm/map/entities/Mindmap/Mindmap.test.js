@@ -3,8 +3,6 @@ import {expect} from 'test/utils';
 import Mindmap from 'src/vm/map/entities/Mindmap';
 
 describe('Mindmap', () => {
-  require('./methods');
-
   it('should have correct constructor display name', () => {
     // setup
     const mindmap = new Mindmap();

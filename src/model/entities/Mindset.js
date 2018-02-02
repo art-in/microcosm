@@ -7,7 +7,7 @@ import PointType from './Point';
 
 /**
  * Mindset model.
- * Represents collection of ideas linked through associations forming graph.
+ * Represents collection of ideas linked through associations and forming graph.
  */
 export default class Mindset {
   /**
@@ -16,16 +16,13 @@ export default class Mindset {
   id = createID();
 
   /**
-   * Position of viewbox on the canvas
-   * @type {PointType|undefined}
+   * ID of idea that user focuses attention on (eg. when opening idea to read
+   * its contents, or when focusing on ideas while exploring mindmap).
+   * Should be determined by view layer.
+   * Defines starting point for view modes.
+   * @type {string}
    */
-  pos = undefined;
-
-  /**
-   * Scale of viewbox on the canvas
-   * @type {number|undefined}
-   */
-  scale = undefined;
+  focusIdeaId = undefined;
 
   // region Dynamic props (computed on run, not saved to db)
 

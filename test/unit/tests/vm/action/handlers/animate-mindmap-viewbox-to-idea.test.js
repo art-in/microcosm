@@ -1,16 +1,26 @@
 import {expect, createState, combinePatches} from 'test/utils';
 import {spy} from 'sinon';
 
-import update from 'src/utils/update-object';
 import Point from 'src/model/entities/Point';
-import Idea from 'model/entities/Idea';
+import Idea from 'src/model/entities/Idea';
+import PatchType from 'src/utils/state/Patch';
 
 import mutateVM from 'src/vm/mutators';
+import Node from 'src/vm/map/entities/Node';
+import ViewboxType from 'src/vm/map/entities/Viewbox';
 
 import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('animate-mindmap-viewbox-to-idea', () => {
+  /**
+   * @typedef {object} SetupResult
+   * @prop {PatchType} patch
+   * @prop {ViewboxType} finalMutationViewbox
+   * @prop {sinon.SinonSpy} dispatchSpy
+   *
+   * @return {Promise.<SetupResult>}
+   */
   async function setup() {
     // setup state
     //  __________________
@@ -34,22 +44,26 @@ describe('animate-mindmap-viewbox-to-idea', () => {
     });
 
     mindset.ideas.set(ideaA.id, ideaA);
+    mindset.root = ideaA;
+    mindset.focusIdeaId = 'A';
 
     // setup view model
     const {mindmap} = state.vm.main.mindset;
 
-    update(mindmap.viewbox, {
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
-      scale: 1
-    });
+    mindmap.viewbox.center.x = 50;
+    mindmap.viewbox.center.y = 50;
+    mindmap.viewbox.topLeft.x = 0;
+    mindmap.viewbox.topLeft.y = 0;
+    mindmap.viewbox.size.width = 100;
+    mindmap.viewbox.size.height = 100;
+    mindmap.viewbox.scale = 1;
 
-    update(mindmap.viewport, {
-      width: 100,
-      height: 100
-    });
+    mindmap.viewport.width = 100;
+    mindmap.viewport.height = 100;
+
+    const nodeA = new Node({id: 'A'});
+
+    mindmap.nodes.push(nodeA);
 
     // setup spies
     const dispatchSpy = spy();
@@ -84,30 +98,32 @@ describe('animate-mindmap-viewbox-to-idea', () => {
     // then viewbox should have scale 2 for target idea to be focused.
     // and if viewbox scale now 2 its size should be 2 times smaller.
     expect(viewbox.scale).to.equal(2);
-    expect(viewbox.height).to.equal(50);
-    expect(viewbox.width).to.equal(50);
+    expect(viewbox.size.height).to.equal(50);
+    expect(viewbox.size.width).to.equal(50);
   });
 
   it('should set idea to the center of viewbox', async () => {
     const {finalMutationViewbox: viewbox} = await setup();
 
-    // viewbox now have size 50x50, target idea position is 500x500,
-    // then top-left corner of viewbox should be at (500 - 50/2)
-    // for target idea be in the center of viewbox
-    expect(viewbox.x).to.equal(475);
-    expect(viewbox.y).to.equal(475);
+    // viewbox center should equal to target idea position 500x500
+    expect(viewbox.center.x).to.equal(500);
+    expect(viewbox.center.y).to.equal(500);
+
+    // viewbox now have size 50x50,
+    // top-left corner of viewbox should be at (500 - 50/2)
+    expect(viewbox.topLeft.x).to.equal(475);
+    expect(viewbox.topLeft.y).to.equal(475);
   });
 
-  it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
+  it(`should dispatch 'set-mindset-focus-idea' action`, async () => {
     const {dispatchSpy} = await setup();
 
     expect(dispatchSpy.callCount).to.equal(1);
     expect(dispatchSpy.firstCall.args).to.have.length(1);
     expect(dispatchSpy.firstCall.args[0]).to.containSubset({
-      type: 'set-mindset-position-and-scale',
+      type: 'set-mindset-focus-idea',
       data: {
-        scale: 2,
-        pos: {x: 475, y: 475}
+        ideaId: 'A'
       }
     });
   });

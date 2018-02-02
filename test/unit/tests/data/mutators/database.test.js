@@ -243,7 +243,7 @@ describe('database', () => {
 
       const patch = new Patch({
         type: 'update-mindset',
-        data: {id: 'id', scale: 2}
+        data: {id: 'id', scale: 2, focusIdeaId: 'abc'}
       });
 
       // target
@@ -256,7 +256,8 @@ describe('database', () => {
       expect(mindset).to.containSubset({
         _id: 'id',
         scale: 2,
-        x: 100
+        x: 100,
+        focusIdeaId: 'abc'
       });
     });
   });

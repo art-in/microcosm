@@ -126,7 +126,7 @@ describe('load-mindset', function() {
       mindsetsDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -218,6 +218,33 @@ describe('load-mindset', function() {
     expect((await mutationData.data.ideas.info()).doc_count).to.equal(1);
   });
 
+  it('should focus root idea if db is empty', async () => {
+    // setup
+    const state = new State();
+    const dispatch = noop;
+
+    // target
+    const patch = await handle(
+      state,
+      {
+        type: 'load-mindset',
+        data: {
+          isInitialLoad: true,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
+      },
+      dispatch
+    );
+
+    // check
+    const mutations = patch['init-mindset'];
+    const mutationData = mutations[0].data;
+
+    const mindset = mutationData.model.mindset;
+
+    expect(mindset.focusIdeaId).to.equal(mindset.root.id);
+  });
+
   it('should add required entities on reloads if db is empty', async () => {
     // setup state
     const state = new State();
@@ -270,7 +297,7 @@ describe('load-mindset', function() {
       mindsetsDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -353,7 +380,7 @@ describe('load-mindset', function() {
       mindsetsDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -427,7 +454,7 @@ describe('load-mindset', function() {
       state.data.mindsets,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -502,7 +529,7 @@ describe('load-mindset', function() {
       mindsetsServerDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -579,7 +606,7 @@ describe('load-mindset', function() {
       mindsetsServerDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -682,7 +709,7 @@ describe('load-mindset', function() {
       mindsetsServerDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -780,7 +807,7 @@ describe('load-mindset', function() {
       mindsetsLocalDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -821,7 +848,7 @@ describe('load-mindset', function() {
       mindsetsServerDB,
       new Mindset({
         id: 'mindset id',
-        scale: 1
+        focusIdeaId: 'A'
       })
     );
 
@@ -919,5 +946,42 @@ describe('load-mindset', function() {
     await expect(promise).to.be.rejectedWith(
       `Required parameter 'dbServerUrl' was not specified`
     );
+  });
+
+  it('should fail if focused idea was not found', async () => {
+    // setup
+    const ideasDB = createDB();
+    const assocsDB = createDB();
+    const mindsetsDB = createDB();
+
+    const state = new State();
+    state.data.ideas = ideasDB;
+    state.data.associations = assocsDB;
+    state.data.mindsets = mindsetsDB;
+
+    await mindsetDbApi.add(
+      mindsetsDB,
+      new Mindset({
+        id: 'mindset id',
+        focusIdeaId: 'abc'
+      })
+    );
+
+    const dispatch = noop;
+
+    // target
+    const promise = handle(
+      state,
+      {
+        type: 'load-mindset',
+        data: {
+          isInitialLoad: false,
+          dbServerUrl: 'TEST_DB_SERVER'
+        }
+      },
+      dispatch
+    );
+
+    await expect(promise).to.be.rejectedWith(`Unable to find focus idea 'abc'`);
   });
 });

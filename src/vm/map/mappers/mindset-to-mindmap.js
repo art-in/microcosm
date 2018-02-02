@@ -1,7 +1,10 @@
+import clone from 'clone';
+
 import MindsetType from 'model/entities/Mindset';
 import IdeaType from 'model/entities/Idea';
 import Mindmap from 'vm/map/entities/Mindmap';
 import NodeType from 'vm/map/entities/Node';
+import LinkType from 'vm/map/entities/Link';
 
 import traverseGraph from 'utils/graph/traverse-graph';
 import mapGraph from 'utils/graph/map-graph';
@@ -14,26 +17,35 @@ import WeightZone from 'utils/graph/WeightZone';
 import ideaToNode from './idea-to-node';
 import assocToLink from './association-to-link';
 import getIdeaColor from 'action/utils/get-idea-color';
+import PointType from 'model/entities/Point';
+import NodeLocator from 'vm/map/entities/NodeLocator';
 
 /**
  * Maps mindset model to mindmap view model
  *
- * @param {MindsetType} mindset
+ * @param {object} opts
+ * @param {MindsetType} opts.mindset
+ * @param {PointType} opts.center - canvas position of viewbox center
+ * @param {number} opts.scale - scale of viewbox
  * @return {Mindmap}
  */
-export default function mindsetToMindmap(mindset) {
-  let rootNode;
-  let nodes = [];
-  let links = [];
-  let focusCenter = 0;
+export default function mindsetToMindmap(opts) {
+  const {mindset, center, scale} = opts;
+
+  /** @type {NodeType} */ let rootNode;
+  /** @type {Array.<NodeType>} */ let nodes = [];
+  /** @type {Array.<LinkType>} */ let links = [];
+  /** @type {NodeLocator} */ let focusNodeLocator;
+  let focusZoneCenter = 0;
   let focusZoneMax = 0;
   let shadeZoneAmount = 0;
 
+  // allow mindset without root, to be able to create clean mock in tests
   if (mindset.root) {
     // map graph and slice-out deep pieces basing on current scale
-    focusCenter = getFocusWeight(mindset.scale);
+    focusZoneCenter = getFocusWeight(scale);
 
-    focusZoneMax = focusCenter + 1000;
+    focusZoneMax = focusZoneCenter + 1000;
     shadeZoneAmount = 1000;
 
     const res = mapGraph({
@@ -69,6 +81,7 @@ export default function mindsetToMindmap(mindset) {
     links = res.edges;
 
     // set computed props of each mapped node
+    /** @type {Map.<string, NodeType>} */
     const nodesToCompute = new Map();
     nodes.forEach(n => nodesToCompute.set(n.id, n));
 
@@ -89,22 +102,43 @@ export default function mindsetToMindmap(mindset) {
     // we need to compute them too.
     const notVisitedNodes = [...nodesToCompute.values()];
     notVisitedNodes.forEach(computeNode.bind(null, mindset, nodes));
+
+    // highlight focus idea
+    const {focusIdeaId} = mindset;
+    const focusNode = nodes.find(n => n.id === focusIdeaId);
+    if (!focusNode) {
+      throw Error(
+        `Focus idea '${focusIdeaId}' has no corresponding node in mindmap`
+      );
+    }
+    focusNodeLocator = new NodeLocator({
+      pos: focusNode.posAbs,
+      scale: focusNode.scale
+    });
   }
 
   const mindmap = new Mindmap();
 
   mindmap.id = mindset.id;
+  mindmap.root = rootNode;
   mindmap.nodes = nodes;
   mindmap.links = links;
-  mindmap.viewbox.x = mindset.pos.x;
-  mindmap.viewbox.y = mindset.pos.y;
-  mindmap.viewbox.scale = mindset.scale;
+  mindmap.focusNodeLocator = focusNodeLocator;
+  mindmap.viewbox.center = center;
+  mindmap.viewbox.scale = scale;
 
-  mindmap.root = rootNode;
+  // init top left position and size with some valid values.
+  // we cannot set correct values here since we do not know viewport size yet.
+  mindmap.viewbox.topLeft = clone(center);
+  mindmap.viewbox.size.width = 1;
+  mindmap.viewbox.size.height = 1;
 
-  mindmap.debug.focusCenter = focusCenter;
-  mindmap.debug.focusZoneMax = focusZoneMax;
-  mindmap.debug.shadeZoneMax = focusZoneMax + shadeZoneAmount;
+  if (mindmap.debug.enable) {
+    mindmap.debug.focusCenter = focusZoneCenter;
+    mindmap.debug.focusZoneMax = focusZoneMax;
+    mindmap.debug.shadeZoneMax = focusZoneMax + shadeZoneAmount;
+    mindmap.debug.focusIdeaId = mindset.focusIdeaId;
+  }
 
   return mindmap;
 }

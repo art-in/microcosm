@@ -48,8 +48,7 @@ describe('combine-mutators', () => {
 
     state.model.mindset.root = ideaA;
     state.model.mindset.ideas.set(ideaA.id, ideaA);
-
-    state.model.mindset.scale = 1;
+    state.model.mindset.focusIdeaId = 'A';
 
     // setup view
     ReactDom.render(

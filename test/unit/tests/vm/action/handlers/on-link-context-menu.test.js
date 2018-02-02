@@ -66,8 +66,8 @@ describe('on-link-context-menu', () => {
     state.vm.main.mindset.mindmap.links.push(link);
 
     const {viewbox} = state.vm.main.mindset.mindmap;
-    viewbox.x = 0;
-    viewbox.y = 0;
+    viewbox.topLeft.x = 0;
+    viewbox.topLeft.y = 0;
     viewbox.scale = 1;
 
     // target

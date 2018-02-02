@@ -9,5 +9,5 @@ describe('handlers', () => {
   require('./set-idea-color.test');
   require('./set-idea-position.test');
   require('./set-idea-title-and-value.test');
-  require('./set-mindset-position-and-scale.test');
+  require('./set-mindset-focus-idea.test');
 });

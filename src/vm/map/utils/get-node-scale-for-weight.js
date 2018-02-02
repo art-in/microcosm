@@ -20,7 +20,7 @@ export default function getNodeScaleForWeight(rootPathWeight) {
   // return 1 / (Math.pow(2, rootPathWeight / nodeDownscaleRate));
 
   // linear progression
-  return nodeDownscaleRate / (rootPathWeight + nodeDownscaleRate);
+  return NODE_DOWNSCALE_RATE / (rootPathWeight + NODE_DOWNSCALE_RATE);
 }
 
 /**
@@ -36,4 +36,4 @@ export default function getNodeScaleForWeight(rootPathWeight) {
  *  2000  |  1/5
  *
  */
-export const nodeDownscaleRate = 500;
+export const NODE_DOWNSCALE_RATE = 500;

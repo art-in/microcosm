@@ -27,7 +27,7 @@ export default function(state, data, dispatch) {
   switch (mindset.mode) {
     case ViewMode.mindmap:
       dispatch({
-        type: 'open-idea-form-modal',
+        type: 'mindmap-open-idea',
         data: {ideaId}
       });
 

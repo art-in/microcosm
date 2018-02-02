@@ -5,10 +5,11 @@ import PointType from 'model/entities/Point';
 /**
  * @typedef {object} Props
  * @prop {string} [className]
+ * @prop {object} [style]
  * @prop {PointType} [pos]
  * @prop {number} [scale]
  * @prop {string} [id]
- * @prop {Array.<JSX.Element>} [children]
+ * @prop {JSX.Element|Array.<JSX.Element>} [children]
  *
  * @prop {function()} [onMouseDown]
  * @prop {function()} [onMouseMove]

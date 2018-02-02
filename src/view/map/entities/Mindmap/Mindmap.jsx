@@ -16,6 +16,7 @@ import LookupPopup from 'view/shared/LookupPopup';
 
 import Node from '../Node';
 import Link from '../Link';
+import NodeLocator from '../NodeLocator';
 import MindmapDebug from '../MindmapDebug';
 
 import classes from './Mindmap.css';
@@ -147,7 +148,8 @@ export default class Mindmap extends Component {
         <Svg
           nodeRef={node => (this.viewport = node)}
           viewBox={
-            `${viewbox.x} ${viewbox.y} ` + `${viewbox.width} ${viewbox.height}`
+            `${viewbox.topLeft.x} ${viewbox.topLeft.y} ` +
+            `${viewbox.size.width} ${viewbox.size.height}`
           }
           preserveAspectRatio={'xMidYMid meet'}
           className={classes.svg}
@@ -158,6 +160,8 @@ export default class Mindmap extends Component {
           onWheel={this.onWheel}
           onClick={onClick}
         >
+          <NodeLocator locator={mindmap.focusNodeLocator} />
+
           <Group id={'links'}>{links}</Group>
           <Group id={'nodes'}>{nodes}</Group>
 

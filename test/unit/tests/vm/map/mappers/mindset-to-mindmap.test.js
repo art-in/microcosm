@@ -2,6 +2,7 @@ import {expect} from 'chai';
 
 import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
+import NodeLocator from 'vm/map/entities/NodeLocator';
 
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
@@ -87,11 +88,9 @@ describe('mindset-to-mindmap', () => {
     const mindset = new Mindset();
 
     mindset.root = root;
+    mindset.focusIdeaId = 'A';
     vertices.forEach(n => mindset.ideas.set(n.id, n));
     edges.forEach(l => mindset.associations.set(l.id, l));
-
-    mindset.scale = 2;
-    mindset.pos = new Point({x: 0, y: 0});
 
     return mindset;
   }
@@ -100,9 +99,11 @@ describe('mindset-to-mindmap', () => {
 
   it.skip('should hide nodes and links in hide zone', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -152,9 +153,11 @@ describe('mindset-to-mindmap', () => {
 
   it.skip('should shade nodes and links in shade zone', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -194,9 +197,11 @@ describe('mindset-to-mindmap', () => {
 
   it.skip('should hide node titles in shade zone', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -218,9 +223,11 @@ describe('mindset-to-mindmap', () => {
 
   it('should set nodes position', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -242,9 +249,11 @@ describe('mindset-to-mindmap', () => {
 
   it.skip('should set nodes scale', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -262,7 +271,7 @@ describe('mindset-to-mindmap', () => {
     expect(nodeE.scale).to.be.greaterThan(nodeG.scale);
     expect(nodeG.scale).to.be.greaterThan(nodeH.scale);
 
-    expect(nodeA.scale).to.equal(1); //               RPW = 0
+    expect(nodeA.scale).to.equal(1); //                 RPW = 0
     expect(nodeB.scale).to.equal(1 / 2); //             RPW = 1000
     expect(nodeC.scale).to.equal(1 / 1.5); //           RPW = 500
     expect(nodeD.scale).to.be.closeTo(1 / 2, 0.1); //   RPW = 1001
@@ -273,9 +282,11 @@ describe('mindset-to-mindmap', () => {
 
   it('should set nodes color', () => {
     const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
 
     // target
-    const mindmap = toMindmap(mindset);
+    const mindmap = toMindmap({mindset, center, scale});
 
     // check
     const nodeA = mindmap.nodes.find(n => n.id === 'A');
@@ -293,5 +304,23 @@ describe('mindset-to-mindmap', () => {
     expect(nodeE.color).to.equal('green');
     expect(nodeG.color).to.equal('blue');
     expect(nodeH.color).to.equal('blue');
+  });
+
+  it('should set node locator for focus node', () => {
+    const mindset = setupMindset();
+    const center = new Point({x: 0, y: 0});
+    const scale = 2;
+
+    mindset.focusIdeaId = 'B';
+
+    // target
+    const mindmap = toMindmap({mindset, center, scale});
+
+    // check
+    const {focusNodeLocator} = mindmap;
+
+    expect(focusNodeLocator).to.be.instanceOf(NodeLocator);
+    expect(focusNodeLocator.scale).to.equal(1 / 3);
+    expect(focusNodeLocator.pos).to.deep.equal({x: 0, y: 1000});
   });
 });

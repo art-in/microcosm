@@ -1,3 +1,5 @@
+import clone from 'clone';
+
 import required from 'utils/required-params';
 
 import StateType from 'boot/client/State';
@@ -5,6 +7,10 @@ import StateType from 'boot/client/State';
 import MindmapType from 'vm/map/entities/Mindmap';
 import Point from 'model/entities/Point';
 import ViewMode from 'vm/main/MindsetViewMode';
+import getMindmapFocusNode from 'vm/map/utils/get-mindmap-focus-node';
+import view from 'vm/utils/view-patch';
+import setPositionAndScale from 'vm/map/entities/Mindmap/methods/set-position-and-scale';
+import MindsetType from 'model/entities/Mindset';
 
 /**
  * Handles keydown event from mindset
@@ -15,28 +21,30 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @param {boolean} data.ctrlKey - 'control' key is pressed
  * @param {function} data.preventDefault
  * @param {function} dispatch
+ * @param {function} mutate
  */
-export default function(state, data, dispatch) {
-  const {vm: {main: {mindset}}} = state;
+export default async function(state, data, dispatch, mutate) {
+  const {model: {mindset}} = state;
+  const {vm: {main: {mindset: mindsetVM}}} = state;
   const {code, ctrlKey, preventDefault} = required(data);
 
-  if (!mindset.isLoaded) {
+  if (!mindsetVM.isLoaded) {
     return;
   }
 
   let mindmap;
   let isMindmapPopupActive;
-  if (mindset.mode === ViewMode.mindmap) {
-    mindmap = mindset.mindmap;
+  if (mindsetVM.mode === ViewMode.mindmap) {
+    mindmap = mindsetVM.mindmap;
     isMindmapPopupActive =
-      mindset.mindmap.associationTailsLookup.active ||
-      mindset.ideaSearchBox.active ||
-      mindset.mindmap.ideaFormModal.modal.active;
+      mindsetVM.mindmap.associationTailsLookup.active ||
+      mindsetVM.ideaSearchBox.active ||
+      mindsetVM.mindmap.ideaFormModal.modal.active;
   }
 
   switch (code) {
     case 'Escape':
-      if (mindset.mode === ViewMode.mindmap) {
+      if (mindsetVM.mode === ViewMode.mindmap) {
         dispatch({type: 'deactivate-popups'});
       }
       break;
@@ -45,14 +53,14 @@ export default function(state, data, dispatch) {
     case 'ArrowUp':
     case 'ArrowLeft':
     case 'ArrowRight':
-      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
-        onMindmapPan({code, mindmap, dispatch});
+      if (mindsetVM.mode === ViewMode.mindmap && !isMindmapPopupActive) {
+        await onMindmapPan({code, mindset, mindmap, dispatch, mutate});
       }
       break;
 
     case 'PageUp':
     case 'PageDown':
-      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
+      if (mindsetVM.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         dispatch({
           type: 'animate-mindmap-zoom',
           data: {
@@ -69,7 +77,7 @@ export default function(state, data, dispatch) {
 
     case 'Enter': // Ctrl+Enter
       if (ctrlKey) {
-        switch (mindset.mode) {
+        switch (mindsetVM.mode) {
           case ViewMode.mindmap:
             if (mindmap.ideaFormModal.form.isSaveable) {
               dispatch({type: 'on-idea-form-modal-save'});
@@ -77,7 +85,7 @@ export default function(state, data, dispatch) {
             break;
 
           case ViewMode.zen:
-            if (mindset.zen.pane.form.isSaveable) {
+            if (mindsetVM.zen.pane.form.isSaveable) {
               dispatch({type: 'on-zen-idea-form-save'});
             }
             break;
@@ -94,7 +102,7 @@ export default function(state, data, dispatch) {
       // shown there.
       if (
         ctrlKey &&
-        mindset.mode === ViewMode.mindmap &&
+        mindsetVM.mode === ViewMode.mindmap &&
         !isMindmapPopupActive
       ) {
         dispatch({type: 'activate-idea-search-box'});
@@ -108,7 +116,7 @@ export default function(state, data, dispatch) {
       // action 'move carret to line start'.
       // in zen mode, do not override default action at all, since idea form is
       // always shown there.
-      if (mindset.mode === ViewMode.mindmap && !isMindmapPopupActive) {
+      if (mindsetVM.mode === ViewMode.mindmap && !isMindmapPopupActive) {
         dispatch({type: 'on-mindset-go-root-button-click'});
       }
       break;
@@ -123,20 +131,19 @@ export default function(state, data, dispatch) {
  *
  * @param {object} opts
  * @param {string} opts.code
+ * @param {MindsetType} opts.mindset
  * @param {MindmapType} opts.mindmap
  * @param {function} opts.dispatch
+ * @param {function} opts.mutate
  */
-function onMindmapPan(opts) {
-  const {code, mindmap, dispatch} = opts;
+async function onMindmapPan(opts) {
+  const {code, mindset, mindmap, dispatch, mutate} = opts;
 
   let panKeyStep = 40;
 
   panKeyStep /= mindmap.viewbox.scale;
 
-  const pos = new Point({
-    x: mindmap.viewbox.x,
-    y: mindmap.viewbox.y
-  });
+  const pos = clone(mindmap.viewbox.center);
 
   switch (code) {
     case 'ArrowDown':
@@ -153,11 +160,20 @@ function onMindmapPan(opts) {
       break;
   }
 
-  dispatch({
-    type: 'set-mindset-position-and-scale',
-    data: {
-      mindsetId: mindmap.id,
-      pos
-    }
+  await mutate(
+    view(
+      'update-mindmap',
+      setPositionAndScale({
+        mindset,
+        mindmap,
+        center: pos,
+        scale: mindmap.viewbox.scale
+      })
+    )
+  );
+
+  await dispatch({
+    type: 'set-mindset-focus-idea',
+    data: {ideaId: getMindmapFocusNode(mindmap)}
   });
 }

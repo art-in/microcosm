@@ -24,15 +24,19 @@ export default class MindmapDebug extends Component {
 
     const lines = [
       [
-        'viewbox',
-        `(${round(viewbox.x)}; ${round(viewbox.y)}) - ` +
-          `(${round(viewbox.width)}; ${round(viewbox.height)})`
+        'viewbox center',
+        `(${round(viewbox.center.x)}; ${round(viewbox.center.y)})`
       ],
-
+      [
+        'viewbox size',
+        `(${round(viewbox.size.width)}; ${round(viewbox.size.height)})`
+      ],
+      ['', '---'],
       ['scale', round(viewbox.scale, 2)],
       ['drag', mindmap.drag.active.toString()],
       ['pan', mindmap.pan.active.toString()],
-
+      ['', '---'],
+      ['focus idea id', mindmap.debug.focusIdeaId.slice(0, 5)],
       ['focus center', round(mindmap.debug.focusCenter, 2)],
       ['focus zone', `(Infinity - ${focusZoneMax}]`],
       ['shade zone', `(${focusZoneMax} - ${shadeZoneMax}]`],
@@ -41,9 +45,11 @@ export default class MindmapDebug extends Component {
 
     return (
       <div id={'debug'} className={classes.root}>
-        {lines.map(line => (
-          <div key={line[0]}>
-            <span className={classes.title}>{line[0]}:</span>
+        {lines.map((line, idx) => (
+          <div key={idx}>
+            <span className={classes.title}>
+              {line[0] ? `${line[0]}:` : ''}
+            </span>
             <span className={classes.value}>{line[1]}</span>
           </div>
         ))}

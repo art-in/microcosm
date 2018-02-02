@@ -12,6 +12,7 @@
     "test:unit:watch": "gulp test:unit:watch"
   },
   "dependencies": {
+    "@types/clone": "^0.1.30",
     "@types/extend": "^3.0.0",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",

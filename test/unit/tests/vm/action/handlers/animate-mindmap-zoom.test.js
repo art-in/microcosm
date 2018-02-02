@@ -5,6 +5,8 @@ import update from 'src/utils/update-object';
 import Point from 'src/model/entities/Point';
 
 import handler from 'src/vm/action/handler';
+import Idea from 'model/entities/Idea';
+import Node from 'vm/map/entities/Node';
 const handle = handler.handle.bind(handler);
 
 describe('animate-mindmap-zoom', () => {
@@ -13,7 +15,7 @@ describe('animate-mindmap-zoom', () => {
     const state = createState();
     const {mindmap} = state.vm.main.mindset;
 
-    mindmap.viewbox.x = mindmap.viewbox.y = 0;
+    mindmap.viewbox.topLeft.x = mindmap.viewbox.topLeft.y = 0;
     mindmap.viewbox.scale = 1;
 
     mindmap.zoomInProgress = true;
@@ -45,7 +47,7 @@ describe('animate-mindmap-zoom', () => {
     // setup state
     const state = createState();
     const {mindmap} = state.vm.main.mindset;
-    mindmap.viewbox.x = mindmap.viewbox.y = 0;
+    mindmap.viewbox.topLeft.x = mindmap.viewbox.topLeft.y = 0;
 
     mindmap.viewbox.scale = 0.5;
     mindmap.viewbox.scaleMin = 0.5;
@@ -73,23 +75,42 @@ describe('animate-mindmap-zoom', () => {
     expect(patch['update-mindmap']).to.not.exist;
   });
 
-  it(`should dispatch 'set-mindset-position-and-scale' action`, async () => {
+  it(`should dispatch 'set-mindset-focus-idea' action`, async () => {
     // setup state
     const state = createState();
+
+    // setup model
+    const {mindset} = state.model;
+
+    const ideaA = new Idea({
+      id: 'A',
+      rootPathWeight: 0,
+      isRoot: true
+    });
+
+    mindset.root = ideaA;
+    mindset.ideas.set(ideaA.id, ideaA);
+    mindset.focusIdeaId = 'A';
+
+    // setup view model
     const {mindmap} = state.vm.main.mindset;
 
-    update(mindmap.viewbox, {
-      x: 0,
-      y: 0,
-      width: 100,
-      height: 100,
-      scale: 1
+    mindmap.viewbox.topLeft.x = 0;
+    mindmap.viewbox.topLeft.y = 0;
+    mindmap.viewbox.size.width = 100;
+    mindmap.viewbox.size.height = 100;
+    mindmap.viewbox.scale = 1;
+
+    mindmap.viewport.width = 100;
+    mindmap.viewport.height = 100;
+
+    const nodeA = new Node({
+      id: 'A',
+      posAbs: new Point({x: 0, y: 0})
     });
 
-    update(mindmap.viewport, {
-      width: 100,
-      height: 100
-    });
+    mindmap.nodes.push(nodeA);
+    mindmap.root = nodeA;
 
     // setup spies
     const dispatch = spy();
@@ -112,10 +133,9 @@ describe('animate-mindmap-zoom', () => {
     expect(dispatch.callCount).to.equal(1);
     expect(dispatch.firstCall.args).to.have.length(1);
     expect(dispatch.firstCall.args[0]).to.containSubset({
-      type: 'set-mindset-position-and-scale',
+      type: 'set-mindset-focus-idea',
       data: {
-        scale: 1.5,
-        pos: {x: 0, y: 0}
+        ideaId: 'A'
       }
     });
   });
@@ -131,20 +151,43 @@ describe('animate-mindmap-zoom', () => {
     // |_____|__|___x|
     //
     const state = createState();
+
+    // setup model
+    const {mindset} = state.model;
+
+    const ideaA = new Idea({
+      id: 'A',
+      rootPathWeight: 0,
+      isRoot: true,
+      posAbs: new Point({x: 0, y: 0})
+    });
+
+    mindset.root = ideaA;
+    mindset.ideas.set(ideaA.id, ideaA);
+    mindset.focusIdeaId = 'A';
+
+    // setup view model
     const {mindmap} = state.vm.main.mindset;
 
-    update(mindmap.viewbox, {
-      x: 50,
-      y: 50,
-      width: 100,
-      height: 100,
-      scale: 2
+    mindmap.viewbox.center.x = 100;
+    mindmap.viewbox.center.y = 100;
+    mindmap.viewbox.topLeft.x = 50;
+    mindmap.viewbox.topLeft.y = 50;
+    mindmap.viewbox.size.width = 100;
+    mindmap.viewbox.size.height = 100;
+    mindmap.viewbox.scale = 2;
+
+    mindmap.viewport.width = 200;
+    mindmap.viewport.height = 200;
+
+    const nodeA = new Node({
+      id: 'A',
+      posAbs: new Point({x: 0, y: 0})
     });
 
-    update(mindmap.viewport, {
-      width: 200,
-      height: 200
-    });
+    mindmap.nodes.push(nodeA);
+    mindmap.root = nodeA;
+    mindset.focusIdeaId = 'A';
 
     // setup spies
     const dispatch = spy();
@@ -168,22 +211,27 @@ describe('animate-mindmap-zoom', () => {
     await handle(state, action, dispatch, mutate);
 
     // check
-    expect(mindmap.viewbox).to.containSubset({
-      // scale will be rased to 3 (2 x 1.5 times)
-      // 0.5 is hardcoded zoom step
-      scale: 3,
 
-      // width/height will be 1.5 times smaller
-      // 100 / 1.5 = 67
+    // scale will be rased to 3 (2 x 1.5 times)
+    // 0.5 is hardcoded zoom step
+    expect(mindmap.viewbox.scale).to.equal(3);
+
+    // width/height will be 1.5 times smaller (100 / 1.5 = 67)
+    expect(mindmap.viewbox.size).to.containSubset({
       width: 100 / 1.5,
-      height: 100 / 1.5,
-
-      // zoom target position was at the corner of the viewport/viewbox,
-      // so full hidden area will go to left side (100 - 67 = 33)
-      // prev position (50) + hidden area on the left (33) = 83
-      x: 100 - 100 / 1.5 + 50,
-      y: 100 - 100 / 1.5 + 50
+      height: 100 / 1.5
     });
+
+    // zoom target position was at the corner of the viewport/viewbox,
+    // so full hidden area will go to left side (100 - 67 = 33)
+    // prev position (50) + hidden area on the left (33) = 83
+    const hiddenArea = 100 - 100 / 1.5;
+    expect(mindmap.viewbox.topLeft.x).to.be.closeTo(50 + hiddenArea, 0.01);
+    expect(mindmap.viewbox.topLeft.y).to.be.closeTo(50 + hiddenArea, 0.01);
+
+    // the same for viewbox center, except prev position and shift
+    expect(mindmap.viewbox.center.x).to.be.closeTo(100 + hiddenArea / 2, 0.01);
+    expect(mindmap.viewbox.center.y).to.be.closeTo(100 + hiddenArea / 2, 0.01);
   });
 
   describe('zoom in', () => {
@@ -192,24 +240,46 @@ describe('animate-mindmap-zoom', () => {
     beforeEach(async () => {
       // setup state
       const state = createState();
+
+      // setup model
+      const {mindset} = state.model;
+
+      const ideaA = new Idea({
+        id: 'A',
+        rootPathWeight: 0,
+        isRoot: true,
+        posAbs: new Point({x: 0, y: 0})
+      });
+
+      mindset.root = ideaA;
+      mindset.ideas.set(ideaA.id, ideaA);
+      mindset.focusIdeaId = 'A';
+
+      // setup view model
       const {mindmap} = state.vm.main.mindset;
 
-      update(mindmap.viewbox, {
-        x: 0,
-        y: 0,
-        width: 100,
-        height: 100,
-        scale: 1
+      mindmap.viewbox.center.x = 50;
+      mindmap.viewbox.center.y = 50;
+      mindmap.viewbox.topLeft.x = 0;
+      mindmap.viewbox.topLeft.y = 0;
+      mindmap.viewbox.size.width = 100;
+      mindmap.viewbox.size.height = 100;
+      mindmap.viewbox.scale = 1;
+
+      mindmap.viewport.width = 100;
+      mindmap.viewport.height = 100;
+
+      const nodeA = new Node({
+        id: 'A',
+        posAbs: new Point({x: 0, y: 0})
       });
 
-      update(mindmap.viewport, {
-        width: 100,
-        height: 100
-      });
+      mindmap.nodes.push(nodeA);
+      mindmap.root = nodeA;
 
       // setup spies
       const dispatch = spy();
-      const mutate = spy();
+      const mutate = spy(patch => update(mindmap, patch[0].data));
 
       // setup action
       const action = {

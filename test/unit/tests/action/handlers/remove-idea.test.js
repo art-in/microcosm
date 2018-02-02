@@ -124,6 +124,41 @@ describe('remove-idea', () => {
     });
   });
 
+  it('should move mindset focus to parent idea', () => {
+    // setup graph
+    //
+    //  (A) --> (B) --> (C)
+    //    \_____________/
+    //
+    const {root, vertices, edges} = buildGraph([
+      //       A   B   C
+      /* A */ '0   1   3',
+      /* B */ '0   0   1',
+      /* C */ '0   0   0'
+    ]);
+
+    const mindset = new Mindset();
+
+    mindset.root = root;
+    mindset.focusIdeaId = 'C';
+    vertices.forEach(n => mindset.ideas.set(n.id, n));
+    edges.forEach(l => mindset.associations.set(l.id, l));
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'remove-idea',
+      data: {ideaId: 'C'}
+    });
+
+    // check
+    const mutations = patch['update-mindset'];
+
+    expect(mutations).to.have.length(1);
+    expect(mutations[0].data).to.containSubset({focusIdeaId: 'B'});
+  });
+
   it('should NOT mutate state', () => {
     // setup graph
     //

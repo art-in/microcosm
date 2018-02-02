@@ -70,7 +70,7 @@ export default class Node extends ViewModel {
   isRoot = false;
 
   /**
-   * Node color
+   * Node color (inherited)
    * @type {string|undefined}
    */
   color = undefined;
@@ -116,6 +116,7 @@ export default class Node extends ViewModel {
   /**
    * Indicates that node has less importance
    * (ie. grayed out)
+   * TODO: rename to isShaded for naming consistency
    * @type {boolean}
    */
   shaded = false;
