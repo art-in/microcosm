@@ -24,10 +24,7 @@ export default function initMindset(state, data) {
       // mindset can be re-initialized several times (eg. on mindset reloads
       // per server sync changes), we do not want to clear out view specific
       // state in that case (eg. opened idea form)
-      update(
-        mindset.mindmap,
-        getMindmapPersistentProps(newMindmap, mindset.mindmap.viewport)
-      );
+      update(mindset.mindmap, getMindmapPersistentProps(newMindmap));
     } else {
       mindset.mindmap = newMindmap;
     }

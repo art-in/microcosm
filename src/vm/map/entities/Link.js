@@ -31,7 +31,7 @@ export default class Link extends ViewModel {
   weight = undefined;
 
   /**
-   * ID of link
+   * Link ID (equals to association ID)
    * @type {string|undefined}
    */
   id = undefined;

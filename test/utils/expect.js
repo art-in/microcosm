@@ -1,8 +1,8 @@
-import chai from 'chai';
+import {use, expect} from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSubset from 'chai-subset';
 
-chai.use(chaiAsPromised);
-chai.use(chaiSubset);
+use(chaiAsPromised);
+use(chaiSubset);
 
-export default chai.expect;
+export default expect;

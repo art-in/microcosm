@@ -92,7 +92,7 @@ export default class Patch {
    * Filter mutations
    * @param {function(Mutation)} func
    * @param {array} [args]
-   * @return {*}
+   * @return {Array.<Mutation>}
    */
   filter(func, ...args) {
     return this.mutations.filter(func, ...args);

@@ -12,22 +12,21 @@ import getMindmapPersistentProps from 'vm/map/utils/get-mindmap-persistent-props
  *
  * @param {object} opts
  * @param {MindsetType} opts.mindset
- * @param {MindmapType} opts.mindmap
  * @param {PointType} opts.center - canvas position of viewbox center
  * @param {number} opts.scale
  * @return {Partial.<MindmapType>}
  */
 export default function setPositionAndScale(opts) {
-  const {mindset, mindmap, center, scale} = opts;
+  const {mindset, center, scale} = opts;
 
-  // Q: why remap from model from scratch (very slow), instead of updating
+  // Q: why remap from model from scratch (slow render), instead of updating
   //    only what is necessary in target view model, as any other methods do?
   // A: changing scale of mindmap is quite tough operation because of zone
-  //    slicing (ie. changing scale moves ideas between visibile, shaded and
-  //    hidden zones), which can radically change contents of view model.
+  //    slicing (ie. changing scale moves ideas between focus, shade and hide
+  //    zones, see 'map-graph'), which can radically change contents of vm.
   //    so for code simplicity and maintainability, sacrificing performance,
   //    instead of clever patches on existing mindmap, we rebuild mindmap from
   //    scratch, and then extracting necessary pieces to not loose view state.
   const newMindmap = toMindmap({mindset, center, scale});
-  return getMindmapPersistentProps(newMindmap, mindmap.viewport);
+  return getMindmapPersistentProps(newMindmap);
 }

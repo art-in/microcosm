@@ -18,7 +18,8 @@ import ideaToNode from './idea-to-node';
 import assocToLink from './association-to-link';
 import getIdeaColor from 'action/utils/get-idea-color';
 import PointType from 'model/entities/Point';
-import NodeLocator from 'vm/map/entities/NodeLocator';
+import NodeLocatorType from 'vm/map/entities/NodeLocator';
+import getFocusNodeLocator from 'vm/map/entities/Mindmap/methods/get-focus-node-locator';
 
 /**
  * Maps mindset model to mindmap view model
@@ -32,10 +33,12 @@ import NodeLocator from 'vm/map/entities/NodeLocator';
 export default function mindsetToMindmap(opts) {
   const {mindset, center, scale} = opts;
 
+  console.warn('map mindset to mindmap')
+
   /** @type {NodeType} */ let rootNode;
   /** @type {Array.<NodeType>} */ let nodes = [];
   /** @type {Array.<LinkType>} */ let links = [];
-  /** @type {NodeLocator} */ let focusNodeLocator;
+  /** @type {NodeLocatorType} */ let focusNodeLocator;
   let focusZoneCenter = 0;
   let focusZoneMax = 0;
   let shadeZoneAmount = 0;
@@ -104,17 +107,7 @@ export default function mindsetToMindmap(opts) {
     notVisitedNodes.forEach(computeNode.bind(null, mindset, nodes));
 
     // highlight focus idea
-    const {focusIdeaId} = mindset;
-    const focusNode = nodes.find(n => n.id === focusIdeaId);
-    if (!focusNode) {
-      throw Error(
-        `Focus idea '${focusIdeaId}' has no corresponding node in mindmap`
-      );
-    }
-    focusNodeLocator = new NodeLocator({
-      pos: focusNode.posAbs,
-      scale: focusNode.scale
-    });
+    focusNodeLocator = getFocusNodeLocator(nodes, mindset.focusIdeaId);
   }
 
   const mindmap = new Mindmap();

@@ -28,12 +28,10 @@ const _queue = new AsyncTaskQueue();
  */
 export default async function mutate(state, patch) {
   await Promise.all(
-    patch.map(async function(mutation) {
-      if (mutation.hasTarget('data')) {
-        await _queue.enqueue(async () => {
-          await apply(state, mutation);
-        });
-      }
+    patch.filter(m => m.hasTarget('data')).map(async function(mutation) {
+      await _queue.enqueue(async () => {
+        await apply(state, mutation);
+      });
     })
   );
 }

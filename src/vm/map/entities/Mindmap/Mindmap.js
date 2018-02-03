@@ -55,7 +55,7 @@ export default class Mindmap extends ViewModel {
   };
 
   /**
-   * ID
+   * Mindmap ID (equals to mindset ID)
    * @type {string|undefined}
    */
   id = undefined;

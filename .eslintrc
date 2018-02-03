@@ -53,7 +53,10 @@
 
             // prettier does not control line width in comments, so enforce it
             // with eslint
-            "comments": 80
+            "comments": 80,
+
+            // urls in comments cannot be wrapped, so we need to ignore them
+            "ignoreUrls": true
         }],
 
         // since this is not a lib to embed into another project

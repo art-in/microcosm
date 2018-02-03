@@ -30,6 +30,7 @@ export default function setViewMode(mindset, mode, isZenSidebarCollapsed) {
       break;
 
     case MindsetViewMode.mindmap: {
+      // put focus idea into the center of mindmap viewbox
       const idea = getIdea(mindset, mindset.focusIdeaId);
       const nodeScale = getNodeScaleForWeight(idea.rootPathWeight);
       const viewboxScale = getMindmapScaleForNode(nodeScale);

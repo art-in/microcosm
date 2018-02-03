@@ -29,7 +29,7 @@ export default class Node extends ViewModel {
   };
 
   /**
-   * Node ID
+   * Node ID (equals to idea ID)
    * @type {string|undefined}
    */
   id = undefined;

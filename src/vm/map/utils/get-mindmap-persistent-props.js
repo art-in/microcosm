@@ -1,6 +1,4 @@
 import MindmapType from 'vm/map/entities/Mindmap';
-import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-position-and-size';
-import ViewportType from 'vm/map/entities/Viewport';
 
 /**
  * Extracts props affected by persistent (saved to db) props of model from
@@ -12,10 +10,9 @@ import ViewportType from 'vm/map/entities/Viewport';
  * specifics, but update existing one.
  *
  * @param {MindmapType} mindmap
- * @param {ViewportType} viewport
  * @return {Partial.<MindmapType>} update object
  */
-export default function getMindmapPersistentProps(mindmap, viewport) {
+export default function getMindmapPersistentProps(mindmap) {
   // @ts-ignore deep partial
   return {
     id: mindmap.id,
@@ -23,13 +20,6 @@ export default function getMindmapPersistentProps(mindmap, viewport) {
     nodes: mindmap.nodes,
     links: mindmap.links,
     focusNodeLocator: mindmap.focusNodeLocator,
-
-    // keep position and size for prev viewport
-    viewbox: computePositionAndSize({
-      viewport,
-      center: mindmap.viewbox.center,
-      scale: mindmap.viewbox.scale
-    }),
 
     debug: {
       focusIdeaId: mindmap.debug.focusIdeaId,

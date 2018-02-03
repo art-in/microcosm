@@ -9,7 +9,7 @@ import computePositionAndSize from './compute-position-and-size';
 import canScaleMore from './can-scale-more';
 
 /**
- * Sets mindmap scale and shifts its position towards certain target position
+ * Sets viewbox scale and shifts its position towards certain target position
  *
  * @param {object} opts
  * @param {ViewboxType} opts.viewbox  - mindmap viewbox
