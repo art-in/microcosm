@@ -33,13 +33,12 @@ export default async function(state, data, dispatch, mutate) {
   const {viewbox, zoomInProgress} = mindmap;
 
   if (zoomInProgress || !canScaleMore({viewbox, up})) {
-    // zoom already running or limits reached
+    // zoom already running or out of limits
     return;
   }
 
   mutate(view('update-mindmap', {zoomInProgress: true}));
 
-  // convert coordinates from viewport to canvas
   const canvasPos = toCanvasCoords(viewportPos, viewbox);
 
   const scaleStep = 0.5;
@@ -57,22 +56,26 @@ export default async function(state, data, dispatch, mutate) {
     scheduleAnimationStep,
 
     onStep: async ([scale]) => {
-      const viewbox = zoom({
-        viewbox: mindmap.viewbox,
-        viewport: mindmap.viewport,
-        scale,
-        canvasPos
-      });
-      await mutate(view('update-mindmap', {viewbox}));
+      // perform cheap viewbox updates to keep animation steps fast
+      await mutate(
+        view('update-mindmap', {
+          viewbox: zoom({
+            viewbox: mindmap.viewbox,
+            viewport: mindmap.viewport,
+            scale,
+            canvasPos
+          })
+        })
+      );
     }
   });
 
+  // perform full mindmap update after animation is done
   await mutate(
     view(
       'update-mindmap',
       setPositionAndScale({
         mindset,
-        mindmap,
         center: mindmap.viewbox.center,
         scale: mindmap.viewbox.scale
       })

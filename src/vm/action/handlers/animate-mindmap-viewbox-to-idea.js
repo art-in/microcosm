@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import view from 'vm/utils/view-patch';
+import eq from 'utils/is-shallow-equal-objects';
 
 import StateType from 'boot/client/State';
 import Point from 'model/entities/Point';
@@ -33,22 +34,31 @@ export default async function(state, data, dispatch, mutate) {
 
   // target viewbox scale where target idea will be in the center of focus zone
   const nodeScale = getNodeScaleForWeight(idea.rootPathWeight);
-  const targetViewboxScale = getMindmapScaleForNode(nodeScale);
+  const targetScale = getMindmapScaleForNode(nodeScale);
+  const targetCenter = idea.posAbs;
+
+  if (
+    targetScale === mindmap.viewbox.scale &&
+    eq(targetCenter, mindmap.viewbox.center)
+  ) {
+    // viewbox is already in place
+    return;
+  }
 
   // animate viewbox center and scale towards target idea
   await animate({
     values: [
       {
         from: mindmap.viewbox.center.x,
-        to: idea.posAbs.x
+        to: targetCenter.x
       },
       {
         from: mindmap.viewbox.center.y,
-        to: idea.posAbs.y
+        to: targetCenter.y
       },
       {
         from: currentViewboxScale,
-        to: targetViewboxScale
+        to: targetScale
       }
     ],
     duration: 500,
@@ -57,6 +67,7 @@ export default async function(state, data, dispatch, mutate) {
     onStep: async ([viewboxCenterX, viewboxCenterY, scale]) => {
       const center = new Point({x: viewboxCenterX, y: viewboxCenterY});
 
+      // perform cheap viewbox updates to keep animation steps fast
       await mutate(
         view('update-mindmap', {
           viewbox: computePositionAndSize({
@@ -69,12 +80,12 @@ export default async function(state, data, dispatch, mutate) {
     }
   });
 
+  // perform full mindmap update after animation is done
   await mutate(
     view(
       'update-mindmap',
       setPositionAndScale({
         mindset,
-        mindmap,
         center: mindmap.viewbox.center,
         scale: mindmap.viewbox.scale
       })
