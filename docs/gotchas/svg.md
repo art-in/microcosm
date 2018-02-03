@@ -76,14 +76,15 @@ https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6
 
 ---
 
-8. Unable to animate transformation with CSS `transition` when using `transform` attribute in FF v58.  
-    Ie. transformation set through `transform` attr on SVG element, while transition animation - through CSS `transition`.  
-    And if you move transformation to CSS (both transformation and transition are in CSS) it will work in FF, but CSS `transform` does not work on SVG elements in Edge (see #7)
+8. CSS transition does not work when changing SVG `transform` attribute in FF v58.  
+    Ie. apply CSS transition for `transform` prop, change transformation in `transform` attribute.  
+    If you define transformation through CSS instead of attribute (both transformation and transition are in CSS)
+    it will work in FF, but not in Edge - CSS `transform` does not work on SVG elements in Edge (see #7)
 
-    https://bugzilla.mozilla.org/show_bug.cgi?id=951539
+    https://bugzilla.mozilla.org/show_bug.cgi?id=1435443  
     http://jsbin.com/sekasid/edit?html,output
 
-    **Workaround**: set transformation with both `transform` attribute and CSS `transform` 
+    **Workaround**: set same transformation to both `transform` attribute and CSS `transform` prop
     (Chrome, FF and Edge will transform, but all except Edge will animate).
 
 ---
