@@ -35,6 +35,27 @@
   right: 15px;
 }
 
+.idea-search-box {
+  position: absolute;
+  top: 15px;
+  right: 60px;
+}
+
+.idea-search-box-lookup {
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.root.mode-zen .go-root-button {
+  /* shift button bit left to free space for scrollbar */
+  right: 20px;
+}
+
+.root.mode-zen .idea-search-box {
+  /* shift button bit left to free space for scrollbar */
+  right: 65px;
+}
+
 .root.mode-mindmap .db-connection-state-icon,
 .root.mode-mindmap .go-root-button,
 .root.mode-mindmap .idea-search-box-trigger,
@@ -61,17 +82,6 @@
 .root.mode-zen .idea-search-box-trigger:hover,
 .root.mode-zen .toggle-mode-button:hover {
   color: black;
-}
-
-.idea-search-box {
-  position: absolute;
-  top: 15px;
-  right: 60px;
-}
-
-.idea-search-box-lookup {
-  padding: 7px;
-  border-radius: 5px;
 }
 
 .root.mode-mindmap .idea-search-box-lookup {

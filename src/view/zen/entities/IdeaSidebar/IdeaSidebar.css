@@ -1,4 +1,7 @@
 .root {
+  display: flex;
+  flex-direction: column;
+
   padding: 10px;
   background-color: white;
 
@@ -22,6 +25,8 @@
 
 .go-parent-button {
   padding: 10px 10px 10px 0;
+  
+  flex-shrink: 0;
 
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -49,7 +54,9 @@
   color: black;
 }
 
-.successors {}
+.successors {
+  overflow-y: auto;
+}
 
 .root.collapsed .successors {
   /* hide list item paddings */
