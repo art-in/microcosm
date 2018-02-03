@@ -40,6 +40,32 @@ describe('set-mindset-focus-idea', () => {
     });
   });
 
+  it('should NOT set same focus idea', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+    mindset.focusIdeaId = 'A';
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'set-mindset-focus-idea',
+      data: {ideaId: 'A'}
+    });
+
+    // check
+    expect(patch).to.have.length(0);
+  });
+
   it('should NOT mutate state', () => {
     // setup
     const ideaA = new Idea({

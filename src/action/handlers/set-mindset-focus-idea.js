@@ -19,6 +19,11 @@ export default function(state, data) {
   // check idea exists
   const idea = getIdea(mindset, ideaId);
 
+  if (mindset.focusIdeaId === ideaId) {
+    // do not set same focus idea
+    return;
+  }
+
   return new Patch({
     type: 'update-mindset',
     data: {
