@@ -5,8 +5,7 @@ import PatchType from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import NodeType from 'vm/map/entities/Node';
-
-import getDescendants from 'utils/graph/get-descendants';
+import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
 
 /**
  * Handles mouse down event on mindmap node
@@ -36,18 +35,5 @@ export default function(state, data, dispatch) {
 
   dispatch({type: 'deactivate-popups'});
 
-  // drag child sub-tree
-  const descendants = getDescendants(node);
-
-  // start dragging
-  return view('update-mindmap', {
-    drag: {
-      active: true,
-      node,
-      nodes: [node, ...descendants],
-
-      startX: node.posAbs.x,
-      startY: node.posAbs.y
-    }
-  });
+  return view('update-mindmap', startDrag(node));
 }

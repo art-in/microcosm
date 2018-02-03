@@ -2,6 +2,7 @@ import initProps from 'utils/init-props';
 
 import ViewModel from 'vm/utils/ViewModel';
 
+import PointType from 'model/entities/Point';
 import LinkType from 'vm/map/entities/Link';
 import NodeType from 'vm/map/entities/Node';
 import ContextMenu from 'vm/shared/ContextMenu';
@@ -85,13 +86,28 @@ export default class Mindmap extends ViewModel {
 
   /**
    * Dragging state
+   * @type {{active, node: NodeType, nodes: Array.<NodeType>, prev: PointType}}
    */
   drag = {
     active: false,
+
+    /**
+     * Target dragged node
+     * @type {NodeType}
+     */
     node: undefined,
+
+    /**
+     * Target node + all its descendants
+     * @type {Array.<NodeType>}
+     */
     nodes: undefined,
-    startX: undefined,
-    startY: undefined
+
+    /**
+     * Previous node position (before start dragging)
+     * @type {PointType}
+     */
+    prev: undefined
   };
 
   /**

@@ -26,8 +26,8 @@ export default function(state) {
   const patch = new Patch();
 
   // move node and child sub-tree back to starting point
-  const dx = node.posAbs.x - mindmap.drag.startX;
-  const dy = node.posAbs.y - mindmap.drag.startY;
+  const dx = node.posAbs.x - mindmap.drag.prev.x;
+  const dy = node.posAbs.y - mindmap.drag.prev.y;
 
   nodes.forEach(n =>
     patch.push(

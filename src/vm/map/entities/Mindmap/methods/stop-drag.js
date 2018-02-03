@@ -1,18 +1,17 @@
 import MindmapType from 'vm/map/entities/Mindmap/Mindmap';
 
 /**
- * Creates update object to stop mindmap dragging node
+ * Stops dragging node
  *
  * @return {Partial.<MindmapType>} update object
  */
-export default function() {
+export default function stopDrag() {
   return {
     drag: {
       active: false,
       node: null,
       nodes: null,
-      startX: null,
-      startY: null
+      prev: null
     }
   };
 }
