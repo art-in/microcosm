@@ -52,13 +52,15 @@ export default function onSave(form, mindset, dispatch) {
   const idea = getIdea(mindset, ideaId);
 
   // save color
-  dispatch({
-    type: 'set-idea-color',
-    data: {
-      ideaId,
-      color: form.color
-    }
-  });
+  if (form.color !== form.prev.color) {
+    dispatch({
+      type: 'set-idea-color',
+      data: {
+        ideaId,
+        color: form.color
+      }
+    });
+  }
 
   // save successors
   const oldSuccessorIds = idea.edgesOut.map(e => e.to.id);

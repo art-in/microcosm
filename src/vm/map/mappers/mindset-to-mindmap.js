@@ -33,8 +33,6 @@ import getFocusNodeLocator from 'vm/map/entities/Mindmap/methods/get-focus-node-
 export default function mindsetToMindmap(opts) {
   const {mindset, center, scale} = opts;
 
-  console.warn('map mindset to mindmap')
-
   /** @type {NodeType} */ let rootNode;
   /** @type {Array.<NodeType>} */ let nodes = [];
   /** @type {Array.<LinkType>} */ let links = [];
