@@ -120,6 +120,12 @@ export default async function(state, data, dispatch, mutate) {
       }
       break;
 
+    case 'KeyM': // Ctrl+M
+      if (ctrlKey) {
+        dispatch({type: 'on-mindset-toggle-mode'});
+      }
+      break;
+
     default:
     // skip
   }

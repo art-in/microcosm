@@ -17,7 +17,7 @@ export default function setButtonTooltips(mode) {
   switch (mode) {
     case MindsetViewMode.mindmap:
       toggleModeButtonIcon = Icon.sunO;
-      toggleModeButtonTooltip = 'Switch to zen mode';
+      toggleModeButtonTooltip = 'Zen mode (Ctrl+M)';
 
       // hotkeys are allowed in mindmap mode only
       ideaSearchBoxTooltip += ' (Ctrl+F)';
@@ -26,7 +26,7 @@ export default function setButtonTooltips(mode) {
 
     case MindsetViewMode.zen:
       toggleModeButtonIcon = Icon.map;
-      toggleModeButtonTooltip = 'Switch to mindmap mode';
+      toggleModeButtonTooltip = 'Mindmap mode (Ctrl+M)';
       break;
 
     default:
