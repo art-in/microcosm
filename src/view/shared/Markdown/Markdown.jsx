@@ -6,6 +6,20 @@ import TaskListsPlugin from 'markdown-it-task-lists';
 
 import classes from './Markdown.css';
 
+const md = new MarkdownIt({
+  // autoconvert URL-like text to links
+  linkify: true
+});
+
+// add github-like checkbox lists
+md.use(TaskListsPlugin, {
+  // disable check boxes since checking them will not change
+  // source markdown
+  // TODO: update source markdown when triggering checkboxes.
+  enabled: false,
+  label: false
+});
+
 /**
  * Markdown renderer
  *
@@ -26,28 +40,10 @@ export default class Markdown extends Component {
     source: ''
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.md = new MarkdownIt({
-      // autoconvert URL-like text to links
-      linkify: true
-    });
-
-    // add github-like checkbox lists
-    this.md.use(TaskListsPlugin, {
-      // disable check boxes since checking them will not change
-      // source markdown
-      // TODO: update source markdown when triggering checkboxes.
-      enabled: false,
-      label: false
-    });
-  }
-
   render() {
     const {tag, source, className, ...other} = this.props;
 
-    const html = this.md.render(source);
+    const html = md.render(source);
 
     const Container = tag;
 
