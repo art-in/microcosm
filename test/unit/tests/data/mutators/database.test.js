@@ -236,14 +236,14 @@ describe('database', () => {
     it('should update mindset', async () => {
       // setup
       const mindsetDB = createDB();
-      mindsetDB.put({_id: 'id', scale: 1, x: 100});
+      mindsetDB.put({_id: 'id', focusIdeaId: 'abc'});
 
       const state = new State();
       state.data.mindsets = mindsetDB;
 
       const patch = new Patch({
         type: 'update-mindset',
-        data: {id: 'id', scale: 2, focusIdeaId: 'abc'}
+        data: {id: 'id', focusIdeaId: 'xyz'}
       });
 
       // target
@@ -255,9 +255,7 @@ describe('database', () => {
       expect(mindset).to.exist;
       expect(mindset).to.containSubset({
         _id: 'id',
-        scale: 2,
-        x: 100,
-        focusIdeaId: 'abc'
+        focusIdeaId: 'xyz'
       });
     });
   });
