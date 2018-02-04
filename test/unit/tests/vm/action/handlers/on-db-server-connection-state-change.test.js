@@ -7,16 +7,16 @@ import handler from 'src/vm/action/handler';
 const handle = handler.handle.bind(handler);
 
 describe('on-db-server-connection-state-change', () => {
-  it('should set state to mindset connection state icon', () => {
+  it('should set icon type to mindset connection state icon', () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {
       type: 'on-db-server-connection-state-change',
       data: {
-        connectionState: ConnectionState.connected
+        connectionState: ConnectionState.connected,
+        dbServerUrl: 'TEST_DB_SERVER'
       }
     });
 
@@ -26,19 +26,19 @@ describe('on-db-server-connection-state-change', () => {
 
     const {dbServerConnectionIcon} = mutations[0].data;
 
-    expect(dbServerConnectionIcon.state).to.equal(ConnectionState.connected);
+    expect(dbServerConnectionIcon.icon).to.exist;
   });
 
   it('should set tooltip to mindset connection state icon', () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {
       type: 'on-db-server-connection-state-change',
       data: {
-        connectionState: ConnectionState.connected
+        connectionState: ConnectionState.connected,
+        dbServerUrl: 'TEST_DB_SERVER'
       }
     });
 
@@ -54,13 +54,13 @@ describe('on-db-server-connection-state-change', () => {
   it('should add db server url to tooltip of connection state icon', () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
 
     // target
     const patch = handle(state, {
       type: 'on-db-server-connection-state-change',
       data: {
-        connectionState: ConnectionState.connected
+        connectionState: ConnectionState.connected,
+        dbServerUrl: 'TEST_DB_SERVER'
       }
     });
 

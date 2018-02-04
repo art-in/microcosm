@@ -1,26 +1,29 @@
 import required from 'utils/required-params';
 import PatchType from 'utils/state/Patch';
-
-import ConnectionState from 'action/utils/ConnectionState';
-import StateType from 'boot/client/State';
 import view from 'vm/utils/view-patch';
+
+import StateType from 'boot/client/State';
+import Icon from 'vm/shared/Icon';
+import ConnectionState from 'action/utils/ConnectionState';
 
 /**
  * Handles change of database server connection state
  *
  * @param {StateType} state
  * @param {object} data
+ * @param {string} data.dbServerUrl
  * @param {ConnectionState} data.connectionState
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {data: {local: {dbServerUrl}}} = state;
-  const {connectionState} = required(data);
+  const {dbServerUrl, connectionState} = required(data);
 
   let tooltip;
+  let icon;
 
   switch (connectionState) {
     case ConnectionState.connected:
+      icon = Icon.server;
       tooltip =
         `Mindset is connected to database server ` +
         `(${dbServerUrl})\n` +
@@ -28,6 +31,7 @@ export default function(state, data) {
       break;
 
     case ConnectionState.disconnected:
+      icon = Icon.plug;
       tooltip =
         `Mindset is disconnected from database server ` +
         `(${dbServerUrl})\n` +
@@ -43,7 +47,7 @@ export default function(state, data) {
 
   return view('update-mindset-vm', {
     dbServerConnectionIcon: {
-      state: connectionState,
+      icon,
       tooltip
     }
   });

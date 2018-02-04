@@ -45,7 +45,7 @@ export default function startDBServerHeartbeat(dbServerUrl, dispatch) {
 
       dispatch({
         type: 'on-db-server-connection-state-change',
-        data: {connectionState}
+        data: {dbServerUrl, connectionState}
       });
     }
   }

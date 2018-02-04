@@ -156,7 +156,8 @@ describe('init', () => {
     expect(storeDispatch.firstCall.args[0]).to.deep.equal({
       type: 'on-db-server-connection-state-change',
       data: {
-        connectionState: ConnectionState.disconnected
+        connectionState: ConnectionState.disconnected,
+        dbServerUrl: 'TEST_DB_SERVER'
       }
     });
   });

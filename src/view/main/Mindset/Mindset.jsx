@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 
 import getKeyCode from 'view/utils/dom/get-key-code';
-import ConnectionState from 'action/utils/ConnectionState';
 
 import MindsetType from 'vm/main/Mindset';
 import IconType from 'vm/shared/Icon';
@@ -56,25 +55,6 @@ export default class Mindset extends Component {
     });
   };
 
-  getDBConnectionStateIcon(connectionState) {
-    let icon;
-
-    switch (connectionState) {
-      case ConnectionState.connected:
-        icon = IconType.server;
-        break;
-
-      case ConnectionState.disconnected:
-        icon = IconType.plug;
-        break;
-
-      default:
-        throw Error(`Unknown DB server connection state '${connectionState}'`);
-    }
-
-    return icon;
-  }
-
   render() {
     const {
       mindset,
@@ -87,8 +67,6 @@ export default class Mindset extends Component {
       onIdeaSearchLookupSuggestionSelect,
       onColorPickerChange
     } = this.props;
-
-    const {dbServerConnectionIcon} = mindset;
 
     let view;
 
@@ -137,9 +115,9 @@ export default class Mindset extends Component {
 
             <Icon
               className={classes.dbConnectionStateIcon}
-              icon={this.getDBConnectionStateIcon(dbServerConnectionIcon.state)}
+              icon={mindset.dbServerConnectionIcon.icon}
               size={IconSize.large}
-              tooltip={dbServerConnectionIcon.tooltip}
+              tooltip={mindset.dbServerConnectionIcon.tooltip}
             />
 
             <IconButton

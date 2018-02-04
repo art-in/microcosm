@@ -7,9 +7,8 @@ import ColorPicker from 'vm/shared/ColorPicker';
 import ViewModel from 'vm/utils/ViewModel';
 import SearchBox from 'vm/shared/SearchBox';
 import Lookup from 'vm/shared/Lookup';
-import IconType from 'vm/shared/Icon';
+import Icon from 'vm/shared/Icon';
 
-import ConnectionState from 'action/utils/ConnectionState';
 import MindsetViewModeType from 'vm/main/MindsetViewMode';
 
 /**
@@ -53,11 +52,11 @@ export default class Mindset extends ViewModel {
 
   /**
    * Icon indicating state of connection to database server
-   * @type {{state, tooltip}}
+   * @type {{icon: Icon, tooltip: string}}
    */
   dbServerConnectionIcon = {
-    /** @type {ConnectionState} */
-    state: ConnectionState.disconnected,
+    /** @type {Icon} */
+    icon: Icon.plug,
 
     /** @type {string} */
     tooltip: undefined
@@ -68,7 +67,7 @@ export default class Mindset extends ViewModel {
    * @type {{icon, tooltip}}
    */
   toggleModeButton = {
-    /** @type {IconType} */
+    /** @type {Icon} */
     icon: undefined,
 
     /** @type {string} */
