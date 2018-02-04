@@ -1,7 +1,8 @@
 import Mindset from 'model/entities/Mindset';
 
 /**
- * Maps dbo to mindset model
+ * Maps database object to mindset model
+ *
  * @param {object} dbo
  * @return {Mindset}
  */

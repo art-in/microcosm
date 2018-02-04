@@ -1,7 +1,8 @@
 import Association from 'model/entities/Association';
 
 /**
- * Maps dbo to association model
+ * Maps database object to association model
+ *
  * @param {object} dbo
  * @return {Association}
  */

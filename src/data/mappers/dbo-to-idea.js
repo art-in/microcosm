@@ -3,7 +3,8 @@ import Idea from 'model/entities/Idea';
 import dboToPoint from './dbo-to-point';
 
 /**
- * Maps dbo to idea model
+ * Maps database object to idea model
+ *
  * @param {object} dbo
  * @return {Idea}
  */

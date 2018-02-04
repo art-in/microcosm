@@ -1,7 +1,8 @@
 import PointType from 'model/entities/Point';
 
 /**
- * Maps point to dbo
+ * Maps point model to database object
+ *
  * @param {PointType} point - model
  * @return {object}
  */
