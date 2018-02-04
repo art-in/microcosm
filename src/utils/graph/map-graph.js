@@ -9,10 +9,9 @@ import IEdgeType from 'utils/graph/interfaces/IEdge';
  * to graph of entities of another type
  *
  * While mapping it is possible to slice particular portion of graph,
- * basing on how far target vertex is from root (root path weight).
+ * basing on how far target vertex is from the root (root path weight, RPW).
  *
- * From perspective of root path weight, all vertices fall into 3 groups
- * or weight zones:
+ * From perspective of RPW, all vertices fall into 3 groups or weight zones:
  *
  *     focus zone          (A)--->(B)<
  *                        / |      ^  \
@@ -27,7 +26,7 @@ import IEdgeType from 'utils/graph/interfaces/IEdge';
  *
  *  # - vertices and edges that were ignored while mapping
  *
- * Slicing uses following rules:
+ * Slicing rules:
  *
  * Vertices in focus zone can target ones in focus, shade or hide zones.
  * Vertices in shade zone can target ones in shade, focus, but not hide zone.
@@ -47,8 +46,8 @@ import IEdgeType from 'utils/graph/interfaces/IEdge';
  * @param {IVertexType} opts.vertex
  * @param {function} opts.mapVertex
  * @param {function} opts.mapEdge
- * @param {number}   [opts.focusZoneMax=infinity] - focus weight zone max
- * @param {number}   [opts.shadeZoneAmount=0]     - shade weight zone amount
+ * @param {number}   [opts.focusZoneMax=infinity] - max weight of focus zone
+ * @param {number}   [opts.shadeZoneAmount=0]     - weight amount of shade zone
  * @return {{rootVertex, vertices, edges}}
  */
 export default function mapGraph(opts) {

@@ -29,7 +29,7 @@ export default function getMindmapFocusWeightForScale(viewboxScale) {
   assert(isValidScale(viewboxScale), `Invalid viewbox scale '${viewboxScale}'`);
 
   // logarithmic progression
-  // const rootPathWeight = Math.log2(viewboxScale) * nodeDownscaleRate;
+  // const rootPathWeight = Math.log2(viewboxScale) * NODE_DOWNSCALE_RATE;
 
   // linear progression
   const rootPathWeight = (viewboxScale - 1) * NODE_DOWNSCALE_RATE;

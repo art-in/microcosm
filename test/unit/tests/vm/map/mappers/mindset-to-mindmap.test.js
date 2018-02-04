@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import {expect} from 'test/utils';
 
 import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
@@ -35,13 +35,13 @@ describe('mindset-to-mindmap', () => {
     //
     const {root, vertices, edges} = buildGraph([
       //       A   B      C      D     E    F   G    H
-      /* A */ '0   2000   500    0     0    0   0    2001',
+      /* A */ '0   2000   500    0     0    0   0    3001',
       /* B */ '0   0      0      1     0    0   0    0',
-      /* C */ '0   500    0      0     0    0   0    0',
-      /* D */ '0   0      0      0     499  0   0    0',
-      /* E */ '0   500    0      0     0    1   0    0',
-      /* F */ '0   0      0      500   0    0   1    0',
-      /* G */ '0   2000   0      0     0    0   0    498',
+      /* C */ '0   1000   0      0     0    0   0    0',
+      /* D */ '0   0      0      0     999  0   0    0',
+      /* E */ '0   1000   0      0     0    1   0    0',
+      /* F */ '0   0      0      1000  0    0   1    0',
+      /* G */ '0   1500   0      0     0    0   0    498',
       /* H */ '0   0      0      0     0    0   0    0'
     ]);
 
@@ -58,25 +58,25 @@ describe('mindset-to-mindmap', () => {
     ideaA.posAbs = new Point({x: 0, y: 0});
     ideaA.posRel = new Point({x: 0, y: 0});
 
-    ideaB.posAbs = new Point({x: 0, y: 1000});
-    ideaB.posRel = new Point({x: -500, y: 1000});
+    ideaB.posAbs = new Point({x: 0, y: 2000});
+    ideaB.posRel = new Point({x: 0, y: 2000});
 
     ideaC.posAbs = new Point({x: 500, y: 0});
     ideaC.posRel = new Point({x: 500, y: 0});
 
-    ideaD.posAbs = new Point({x: 0, y: 1001});
+    ideaD.posAbs = new Point({x: 0, y: 2001});
     ideaD.posRel = new Point({x: 0, y: 1});
 
-    ideaE.posAbs = new Point({x: 0, y: 1500});
-    ideaE.posRel = new Point({x: 0, y: 499});
+    ideaE.posAbs = new Point({x: 0, y: 3000});
+    ideaE.posRel = new Point({x: 0, y: 999});
 
-    ideaF.posAbs = new Point({x: 0, y: 1501});
+    ideaF.posAbs = new Point({x: 0, y: 3001});
     ideaF.posRel = new Point({x: 0, y: 1});
 
-    ideaG.posAbs = new Point({x: 0, y: 1502});
+    ideaG.posAbs = new Point({x: 0, y: 3002});
     ideaG.posRel = new Point({x: 0, y: 1});
 
-    ideaH.posAbs = new Point({x: 0, y: 2000});
+    ideaH.posAbs = new Point({x: 0, y: 3500});
     ideaH.posRel = new Point({x: 0, y: 498});
 
     // set colors
@@ -95,9 +95,7 @@ describe('mindset-to-mindmap', () => {
     return mindset;
   }
 
-  // TODO: skipping until zone boundaries colibrated for good UX
-
-  it.skip('should hide nodes and links in hide zone', () => {
+  it('should hide nodes and links in hide zone', () => {
     const mindset = setupMindset();
     const center = new Point({x: 0, y: 0});
     const scale = 2;
@@ -151,7 +149,7 @@ describe('mindset-to-mindmap', () => {
     expect(linkGtoH).to.not.exist;
   });
 
-  it.skip('should shade nodes and links in shade zone', () => {
+  it('should shade nodes and links in shade zone', () => {
     const mindset = setupMindset();
     const center = new Point({x: 0, y: 0});
     const scale = 2;
@@ -195,7 +193,7 @@ describe('mindset-to-mindmap', () => {
     expect(linkGtoB.shaded).to.be.false;
   });
 
-  it.skip('should hide node titles in shade zone', () => {
+  it('should hide node titles in shade zone', () => {
     const mindset = setupMindset();
     const center = new Point({x: 0, y: 0});
     const scale = 2;
@@ -221,7 +219,7 @@ describe('mindset-to-mindmap', () => {
     expect(nodeH.title.visible).to.be.false;
   });
 
-  it('should set nodes position', () => {
+  it('should set node absolute positions', () => {
     const mindset = setupMindset();
     const center = new Point({x: 0, y: 0});
     const scale = 2;
@@ -239,15 +237,15 @@ describe('mindset-to-mindmap', () => {
     const nodeH = mindmap.nodes.find(n => n.id === 'H');
 
     expect(nodeA.posAbs).to.containSubset({x: 0, y: 0});
-    expect(nodeB.posAbs).to.containSubset({x: 0, y: 1000});
+    expect(nodeB.posAbs).to.containSubset({x: 0, y: 2000});
     expect(nodeC.posAbs).to.containSubset({x: 500, y: 0});
-    expect(nodeD.posAbs).to.containSubset({x: 0, y: 1001});
-    expect(nodeE.posAbs).to.containSubset({x: 0, y: 1500});
-    expect(nodeG.posAbs).to.containSubset({x: 0, y: 1502});
-    expect(nodeH.posAbs).to.containSubset({x: 0, y: 2000});
+    expect(nodeD.posAbs).to.containSubset({x: 0, y: 2001});
+    expect(nodeE.posAbs).to.containSubset({x: 0, y: 3000});
+    expect(nodeG.posAbs).to.containSubset({x: 0, y: 3002});
+    expect(nodeH.posAbs).to.containSubset({x: 0, y: 3500});
   });
 
-  it.skip('should set nodes scale', () => {
+  it('should set node scales', () => {
     const mindset = setupMindset();
     const center = new Point({x: 0, y: 0});
     const scale = 2;
@@ -272,12 +270,12 @@ describe('mindset-to-mindmap', () => {
     expect(nodeG.scale).to.be.greaterThan(nodeH.scale);
 
     expect(nodeA.scale).to.equal(1); //                 RPW = 0
-    expect(nodeB.scale).to.equal(1 / 2); //             RPW = 1000
-    expect(nodeC.scale).to.equal(1 / 1.5); //           RPW = 500
-    expect(nodeD.scale).to.be.closeTo(1 / 2, 0.1); //   RPW = 1001
-    expect(nodeE.scale).to.equal(1 / 2.5); //           RPW = 1500
-    expect(nodeG.scale).to.be.closeTo(1 / 2.5, 0.1); // RPW = 1502
-    expect(nodeH.scale).to.equal(1 / 3); //             RPW = 2000
+    expect(nodeB.scale).to.equal(1 / 4); //             RPW = 1500
+    expect(nodeC.scale).to.equal(1 / 2); //             RPW = 500
+    expect(nodeD.scale).to.be.closeTo(1 / 4, 0.1); //   RPW = 1501
+    expect(nodeE.scale).to.equal(1 / 6); //             RPW = 2500
+    expect(nodeG.scale).to.be.closeTo(1 / 6, 0.1); //   RPW = 2502
+    expect(nodeH.scale).to.equal(1 / 7); //             RPW = 3000
   });
 
   it('should set nodes color', () => {
@@ -306,12 +304,12 @@ describe('mindset-to-mindmap', () => {
     expect(nodeH.color).to.equal('blue');
   });
 
-  it('should set node locator for focus node', () => {
+  it('should set node locator for focus idea', () => {
     const mindset = setupMindset();
-    const center = new Point({x: 0, y: 0});
+    const center = new Point({x: 501, y: 1});
     const scale = 2;
 
-    mindset.focusIdeaId = 'B';
+    mindset.focusIdeaId = 'C';
 
     // target
     const mindmap = toMindmap({mindset, center, scale});
@@ -320,8 +318,8 @@ describe('mindset-to-mindmap', () => {
     const {focusNodeLocator} = mindmap;
 
     expect(focusNodeLocator).to.be.instanceOf(NodeLocator);
-    expect(focusNodeLocator.scale).to.equal(1 / 3);
-    expect(focusNodeLocator.pos).to.deep.equal({x: 0, y: 1000});
+    expect(focusNodeLocator.scale).to.equal(1 / 2);
+    expect(focusNodeLocator.pos).to.deep.equal({x: 500, y: 0});
   });
 
   it('should fail if focus idea ID is empty', () => {
