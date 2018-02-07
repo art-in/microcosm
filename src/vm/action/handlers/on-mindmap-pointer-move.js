@@ -1,5 +1,6 @@
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
+import eq from 'utils/is-shallow-equal-arrays';
 
 import StateType from 'boot/client/State';
 
@@ -9,20 +10,21 @@ import Point from 'model/entities/Point';
 import view from 'vm/utils/view-mutation';
 import toViewboxCoords from 'vm/map/utils/map-viewport-to-viewbox-coords';
 import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-position-and-size';
+import PointerButton from 'vm/utils/PointerButton';
 
 /**
- * Handles mouse move on mindmap
+ * Handles pointer move on mindmap
  *
  * @param {StateType} state
  * @param {object}     data
  * @param {PointType}  data.viewportShift
- * @param {string}     data.pressedMouseButton - left or null (TODO: or null?)
+ * @param {Array.<PointerButton>} data.pressedButtons
  * @param {function} dispatch
  * @return {Patch|undefined}
  */
 export default function(state, data, dispatch) {
   const {vm: {main: {mindset: {mindmap}}}} = state;
-  const {viewportShift, pressedMouseButton} = required(data);
+  const {viewportShift, pressedButtons} = required(data);
 
   const viewboxShift = toViewboxCoords(viewportShift, mindmap.viewbox);
 
@@ -47,7 +49,7 @@ export default function(state, data, dispatch) {
   }
 
   // pan
-  if (pressedMouseButton === 'left') {
+  if (eq(pressedButtons, [PointerButton.primary])) {
     const patch = new Patch();
 
     // activate panning if not yet activated

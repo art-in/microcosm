@@ -13,7 +13,7 @@ import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.nodeId
- * @param {string} data.button
+ * @param {string} data.button - // TODO: replace with array of PointerButton's
  * @param {function} dispatch
  * @return {PatchType|undefined}
  */

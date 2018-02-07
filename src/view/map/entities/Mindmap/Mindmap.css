@@ -10,6 +10,10 @@
   position: relative;
 
   background-image: radial-gradient(#0f5b97 0%, #031020 100%);
+
+  /* prevent default browser touch behavior (eg. panning or zooming).
+     instead open stream of pointer events */
+  touch-action: none;
 }
 
 .svg {

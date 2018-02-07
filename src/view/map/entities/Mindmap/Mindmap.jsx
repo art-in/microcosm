@@ -10,6 +10,7 @@ import MindmapVmType from 'vm/map/entities/Mindmap';
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
 import IdeaFormModal from 'view/shared/IdeaFormModal';
+import mapPointerButtons from 'view/utils/map-pointer-buttons';
 
 import RadialContextMenu from 'view/shared/RadialContextMenu';
 import LookupPopup from 'view/shared/LookupPopup';
@@ -27,12 +28,12 @@ import classes from './Mindmap.css';
  * @prop {MindmapVmType} mindmap
  *
  * own events
- * @prop {function()}          onClick
+ * @prop {function()} onClick
  * @prop {function({up, viewportPos})} onWheel
- * @prop {function()}          onMouseUp
- * @prop {function()}          onMouseLeave
- * @prop {function({size})}    onViewportResize
- * @prop {function({viewportShift, pressedMouseButton})} onMouseMove
+ * @prop {function()} onPointerUp
+ * @prop {function()} onPointerLeave
+ * @prop {function({viewportShift, pressedButtons})} onPointerMove
+ * @prop {function({size})} onViewportResize
  *
  * child events
  * @prop {function({item})} onContextMenuItemSelect
@@ -52,8 +53,9 @@ export default class Mindmap extends Component {
   };
 
   componentDidMount() {
-    // for now detect viewport resize by window 'resize'.
-    // eslint-disable-next-line max-len
+    this.subscribeToPointerEvents();
+
+    // detect viewport resize by window 'resize'.
     // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
     window.addEventListener('resize', this.onResize);
 
@@ -63,7 +65,46 @@ export default class Mindmap extends Component {
   }
 
   componentWillUnmount() {
+    this.unsubscribeFromPointerEvents();
     window.removeEventListener('resize', this.onResize);
+  }
+
+  subscribeToPointerEvents() {
+    const {onPointerUp, onPointerLeave} = this.props;
+
+    // by default, subscribe to pointer agnostic Pointer Events (PE).
+    // PE is still not widely supported (eg. FF and Safari do not support PE),
+    // so need to move back to mouse events as a backoff.
+    // Q: this will work on Android Chrome, but will NOT work on iOS Safari
+    //    (since it does not support PE and, obviously, mouse). how about using
+    //    Touch Events to support all mobile browsers?
+    // A: ignoring iOS Safari for now, (1) to keep code simpler, (2) hoping PE
+    //    will be eventually accepted by Webkit, (3) do not have device to test.
+    // @ts-ignore window field
+    if (window.PointerEvent) {
+      this.viewport.addEventListener('pointermove', this.onPointerMove);
+      this.viewport.addEventListener('pointerup', onPointerUp);
+      this.viewport.addEventListener('pointerleave', onPointerLeave);
+    } else {
+      this.viewport.addEventListener('mousemove', this.onPointerMove);
+      this.viewport.addEventListener('mouseup', onPointerUp);
+      this.viewport.addEventListener('mouseleave', onPointerLeave);
+    }
+  }
+
+  unsubscribeFromPointerEvents() {
+    const {onPointerUp, onPointerLeave} = this.props;
+
+    // @ts-ignore window field
+    if (window.PointerEvent) {
+      this.viewport.removeEventListener('pointermove', this.onPointerMove);
+      this.viewport.removeEventListener('pointerup', onPointerUp);
+      this.viewport.removeEventListener('pointerleave', onPointerLeave);
+    } else {
+      this.viewport.removeEventListener('mousemove', this.onPointerMove);
+      this.viewport.removeEventListener('mouseup', onPointerUp);
+      this.viewport.removeEventListener('mouseleave', onPointerLeave);
+    }
   }
 
   onResize = () => {
@@ -80,23 +121,20 @@ export default class Mindmap extends Component {
     });
   };
 
-  onMouseMove = e => {
-    const {nativeEvent: event, buttons} = e;
+  onPointerMove = nativeEvent => {
+    const {buttons, movementX, movementY} = nativeEvent;
 
     // get shift
     const pageScale = getPageScale();
     const viewportShift = new Point({
       // get rid of browser page scale
-      x: event.movementX / pageScale,
-      y: event.movementY / pageScale
+      x: movementX / pageScale,
+      y: movementY / pageScale
     });
 
-    // get mouse buttons state
-    const pressedMouseButton = buttons === 1 ? 'left' : null;
-
-    this.props.onMouseMove({
+    this.props.onPointerMove({
       viewportShift,
-      pressedMouseButton
+      pressedButtons: mapPointerButtons(buttons)
     });
   };
 
@@ -113,10 +151,7 @@ export default class Mindmap extends Component {
   render() {
     const {
       mindmap,
-
       onClick,
-      onMouseUp,
-      onMouseLeave,
       onAssociationTailsLookupPhraseChange,
       onAssociationTailsLookupKeyDown,
       onAssociationTailsLookupSuggestionSelect,
@@ -153,9 +188,6 @@ export default class Mindmap extends Component {
           }
           preserveAspectRatio={'xMidYMid meet'}
           className={classes.svg}
-          onMouseUp={onMouseUp}
-          onMouseMove={this.onMouseMove}
-          onMouseLeave={onMouseLeave}
           onContextMenu={this.onContextMenu}
           onWheel={this.onWheel}
           onClick={onClick}

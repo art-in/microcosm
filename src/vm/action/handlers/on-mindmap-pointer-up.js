@@ -9,7 +9,7 @@ import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
 import getMindmapFocusNode from 'vm/map/utils/get-mindmap-focus-node';
 
 /**
- * Handles mouse up event on mindmap
+ * Handles pointer up event on mindmap
  *
  * @param {StateType} state
  * @param {object} data

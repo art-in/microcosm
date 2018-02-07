@@ -1,5 +1,5 @@
 /**
- * Compares two arrays shallowly (ignoring order)
+ * Compares two arrays shallowly, ignoring order
  *
  * @param {array} arrA
  * @param {array} arrB

@@ -48,22 +48,22 @@ export default connect(
         throttleLog: 5000
       }),
 
-    onMouseUp: () =>
+    onPointerUp: () =>
       dispatch({
-        type: 'on-mindmap-mouse-up',
+        type: 'on-mindmap-pointer-up',
         throttleLog: 5000
       }),
 
-    onMouseMove: ({viewportShift, pressedMouseButton}) =>
+    onPointerMove: data =>
       dispatch({
-        type: 'on-mindmap-mouse-move',
-        data: {viewportShift, pressedMouseButton},
+        type: 'on-mindmap-pointer-move',
+        data,
         throttleLog: 10000
       }),
 
-    onMouseLeave: () =>
+    onPointerLeave: () =>
       dispatch({
-        type: 'on-mindmap-mouse-leave',
+        type: 'on-mindmap-pointer-leave',
         throttleLog: 5000
       })
   })

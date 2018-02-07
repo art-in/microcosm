@@ -7,7 +7,7 @@ import getNode from 'vm/action/utils/get-node';
 import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
 
 /**
- * Handles mouse leave action on mindmap
+ * Handles pointer leave action on mindmap
  *
  * @param {StateType} state
  * @return {Patch|undefined}
