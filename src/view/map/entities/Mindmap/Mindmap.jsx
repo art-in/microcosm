@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import getElementSize from 'view/utils/dom/get-element-size';
 import getPageScale from 'view/utils/dom/get-page-scale';
 import toElementCoords from 'view/utils/dom/map-window-to-element-coords';
+import mapPointer from 'view/utils/map-pointer';
+import PointerType from 'vm/utils/Pointer';
 
 import Point from 'model/entities/Point';
 import MindmapVmType from 'vm/map/entities/Mindmap';
@@ -10,7 +12,6 @@ import MindmapVmType from 'vm/map/entities/Mindmap';
 import Svg from 'view/shared/svg/Svg';
 import Group from 'view/shared/svg/Group';
 import IdeaFormModal from 'view/shared/IdeaFormModal';
-import mapPointerButtons from 'view/utils/map-pointer-buttons';
 
 import RadialContextMenu from 'view/shared/RadialContextMenu';
 import LookupPopup from 'view/shared/LookupPopup';
@@ -28,11 +29,11 @@ import classes from './Mindmap.css';
  * @prop {MindmapVmType} mindmap
  *
  * own events
+ * @prop {function()} onPointerLeave
+ * @prop {function(object)} onPointerMove
+ * @prop {function()} onPointerUp
  * @prop {function()} onClick
  * @prop {function({up, viewportPos})} onWheel
- * @prop {function()} onPointerUp
- * @prop {function()} onPointerLeave
- * @prop {function({viewportShift, pressedButtons})} onPointerMove
  * @prop {function({size})} onViewportResize
  *
  * child events
@@ -44,6 +45,13 @@ import classes from './Mindmap.css';
  * @extends {Component<Props>}
  */
 export default class Mindmap extends Component {
+  /**
+   * Active pointers.
+   * Used for handling multi-pointer gestures, like pinch zoom.
+   * @type {Array.<PointerType>}
+   */
+  activePointers = [];
+
   getViewportSize = () => {
     return getElementSize(this.viewport);
   };
@@ -51,6 +59,48 @@ export default class Mindmap extends Component {
   mapWindowToViewportCoords = windowPos => {
     return toElementCoords(windowPos, this.viewport);
   };
+
+  subscribeToPointerEvents() {
+    const {onPointerUp} = this.props;
+
+    // by default, subscribe to pointer agnostic Pointer Events (PE).
+    // PE is still not widely supported (eg. FF and Safari do not support PE),
+    // so need to use mouse events as a fallback.
+    // Q: this will work on Android Chrome, but will NOT work on iOS Safari
+    //    (since it does not support PE and, obviously, mouse). how about using
+    //    Touch Events to support all mobile browsers?
+    // A: ignoring iOS Safari for now, (1) to keep code simpler, (2) hoping PE
+    //    will be eventually accepted by Webkit, (3) do not have device to test.
+    // @ts-ignore unknown window prop
+    if (window.PointerEvent) {
+      this.viewport.addEventListener('pointerenter', this.onPointerEnter);
+      this.viewport.addEventListener('pointerleave', this.onPointerLeave);
+      this.viewport.addEventListener('pointermove', this.onPointerMove);
+      this.viewport.addEventListener('pointerup', onPointerUp);
+    } else {
+      this.viewport.addEventListener('mouseenter', this.onPointerEnter);
+      this.viewport.addEventListener('mouseleave', this.onPointerLeave);
+      this.viewport.addEventListener('mousemove', this.onPointerMove);
+      this.viewport.addEventListener('mouseup', onPointerUp);
+    }
+  }
+
+  unsubscribeFromPointerEvents() {
+    const {onPointerUp} = this.props;
+
+    // @ts-ignore unknown window prop
+    if (window.PointerEvent) {
+      this.viewport.removeEventListener('pointerenter', this.onPointerEnter);
+      this.viewport.removeEventListener('pointerleave', this.onPointerLeave);
+      this.viewport.removeEventListener('pointermove', this.onPointerMove);
+      this.viewport.removeEventListener('pointerup', onPointerUp);
+    } else {
+      this.viewport.removeEventListener('mouseenter', this.onPointerEnter);
+      this.viewport.removeEventListener('mouseleave', this.onPointerLeave);
+      this.viewport.removeEventListener('mousemove', this.onPointerMove);
+      this.viewport.removeEventListener('mouseup', onPointerUp);
+    }
+  }
 
   componentDidMount() {
     this.subscribeToPointerEvents();
@@ -69,43 +119,63 @@ export default class Mindmap extends Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  subscribeToPointerEvents() {
-    const {onPointerUp, onPointerLeave} = this.props;
-
-    // by default, subscribe to pointer agnostic Pointer Events (PE).
-    // PE is still not widely supported (eg. FF and Safari do not support PE),
-    // so need to move back to mouse events as a backoff.
-    // Q: this will work on Android Chrome, but will NOT work on iOS Safari
-    //    (since it does not support PE and, obviously, mouse). how about using
-    //    Touch Events to support all mobile browsers?
-    // A: ignoring iOS Safari for now, (1) to keep code simpler, (2) hoping PE
-    //    will be eventually accepted by Webkit, (3) do not have device to test.
-    // @ts-ignore window field
-    if (window.PointerEvent) {
-      this.viewport.addEventListener('pointermove', this.onPointerMove);
-      this.viewport.addEventListener('pointerup', onPointerUp);
-      this.viewport.addEventListener('pointerleave', onPointerLeave);
-    } else {
-      this.viewport.addEventListener('mousemove', this.onPointerMove);
-      this.viewport.addEventListener('mouseup', onPointerUp);
-      this.viewport.addEventListener('mouseleave', onPointerLeave);
+  onPointerEnter = nativeEvent => {
+    // register new pointer
+    if (!this.activePointers.some(p => p.id === nativeEvent.pointerId)) {
+      const pointer = mapPointer(nativeEvent);
+      this.activePointers.push(pointer);
     }
-  }
+  };
 
-  unsubscribeFromPointerEvents() {
-    const {onPointerUp, onPointerLeave} = this.props;
+  onPointerLeave = nativeEvent => {
+    // unregister pointer which is out
+    const idx = this.activePointers.findIndex(
+      p => p.id === nativeEvent.pointerId
+    );
+    this.activePointers.splice(idx, 1);
 
-    // @ts-ignore window field
-    if (window.PointerEvent) {
-      this.viewport.removeEventListener('pointermove', this.onPointerMove);
-      this.viewport.removeEventListener('pointerup', onPointerUp);
-      this.viewport.removeEventListener('pointerleave', onPointerLeave);
-    } else {
-      this.viewport.removeEventListener('mousemove', this.onPointerMove);
-      this.viewport.removeEventListener('mouseup', onPointerUp);
-      this.viewport.removeEventListener('mouseleave', onPointerLeave);
+    this.props.onPointerLeave();
+  };
+
+  onPointerMove = nativeEvent => {
+    const {pointerId, movementX, movementY} = nativeEvent;
+
+    if (movementX === 0 && movementY === 0) {
+      // skip if no actual movement.
+      // Android Chrome generates constant flow of pointermove events for
+      // simple screen touch with no moves
+      return;
     }
-  }
+
+    // get pointer
+    const pointerIdx = this.activePointers.findIndex(p => p.id === pointerId);
+    const pointer = mapPointer(nativeEvent);
+
+    if (pointerIdx === -1) {
+      // register new pointer
+      // Q: why register pointer on move if we already registered it on enter?
+      // A: fail safe mechanism in case move event received before enter event
+      //    (eg. in Edge order of enter and move events is random)
+      this.activePointers.push(pointer);
+    } else {
+      // update pointer
+      this.activePointers.splice(pointerIdx, 1, pointer);
+    }
+
+    // get shift
+    const pageScale = getPageScale();
+    const viewportShift = new Point({
+      // get rid of browser page scale
+      x: movementX / pageScale,
+      y: movementY / pageScale
+    });
+
+    this.props.onPointerMove({
+      pointer,
+      activePointers: this.activePointers,
+      viewportShift
+    });
+  };
 
   onResize = () => {
     this.props.onViewportResize({size: this.getViewportSize()});
@@ -118,23 +188,6 @@ export default class Mindmap extends Component {
         new Point({x: e.clientX, y: e.clientY}),
         this.viewport
       )
-    });
-  };
-
-  onPointerMove = nativeEvent => {
-    const {buttons, movementX, movementY} = nativeEvent;
-
-    // get shift
-    const pageScale = getPageScale();
-    const viewportShift = new Point({
-      // get rid of browser page scale
-      x: movementX / pageScale,
-      y: movementY / pageScale
-    });
-
-    this.props.onPointerMove({
-      viewportShift,
-      pressedButtons: mapPointerButtons(buttons)
     });
   };
 

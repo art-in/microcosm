@@ -21,7 +21,7 @@ import mutateView from 'view/mutators';
 import clientConfig from './config/client-config';
 
 // for devtools Fauxton extension
-// @ts-ignore unknown prop of 'window'
+// @ts-ignore unknown window prop
 window.PouchDB = PouchDB;
 
 // URL of database server

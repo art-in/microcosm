@@ -4,7 +4,7 @@ import Point from 'model/entities/Point';
  * Maps window (browser viewport) coordinates to coordinates on HTML element
  * Eg. pass svg element to map coordinates to svg viewport
  *
- * @param {Point} windowPos - pos on browser viewport
+ * @param {Point} windowPos - position relative to browser viewport
  * @param {Element} element
  * @return {Point}
  */

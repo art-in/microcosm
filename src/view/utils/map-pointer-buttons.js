@@ -1,25 +1,25 @@
 import PointerButton from 'vm/utils/PointerButton';
 
 /**
- * Maps state of MouseEvent#buttons to array of buttons
- * https://www.w3.org/TR/DOM-Level-3-Events/#dom-mouseevent-buttons
+ * Maps state of PointerEvent#buttons to array of buttons
+ * https://www.w3.org/TR/pointerevents/#button-states
  *
- * @param {number} mouseEventButtons
+ * @param {number} pointerEventButtons
  * @return {Array.<PointerButton>}
  */
-export default function mapPointerButtons(mouseEventButtons) {
+export default function mapPointerButtons(pointerEventButtons) {
   /** @type {Array.<PointerButton>} */
   const buttons = [];
 
-  if (mouseEventButtons & 1) {
+  if (pointerEventButtons & 1) {
     buttons.push(PointerButton.primary);
   }
 
-  if (mouseEventButtons & 2) {
+  if (pointerEventButtons & 2) {
     buttons.push(PointerButton.secondary);
   }
 
-  if (mouseEventButtons & 4) {
+  if (pointerEventButtons & 4) {
     buttons.push(PointerButton.auxiliary);
   }
 

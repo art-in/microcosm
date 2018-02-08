@@ -72,7 +72,7 @@ export default class Mindmap extends ViewModel {
   viewbox = new Viewbox();
 
   /**
-   * Indicates zoom animation is in progress
+   * Indicates zoom in progress (zoom animation with mouse wheel or pinch zoom)
    * @type {boolean}
    */
   zoomInProgress = false;
@@ -85,14 +85,14 @@ export default class Mindmap extends ViewModel {
   };
 
   /**
-   * Dragging state
+   * Dragging node state
    * @type {{active, node: NodeType, nodes: Array.<NodeType>, prev: PointType}}
    */
   drag = {
     active: false,
 
     /**
-     * Target dragged node
+     * Target node
      * @type {NodeType}
      */
     node: undefined,

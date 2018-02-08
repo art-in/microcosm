@@ -6,19 +6,19 @@ import isValidPosition from 'model/utils/is-valid-position';
 /**
  * Calculates distance between two points
  *
- * @param {PointType} point1
- * @param {PointType} point2
+ * @param {PointType} pointA
+ * @param {PointType} pointB
  * @return {number}
  */
-export default function getDistanceBetweenPoints(point1, point2) {
-  assert(isValidPosition(point1), `Invalid position 1 '${point1}'`);
-  assert(isValidPosition(point2), `Invalid position 2 '${point2}'`);
+export default function getDistanceBetweenPoints(pointA, pointB) {
+  assert(isValidPosition(pointA), `Invalid position 1 '${pointA}'`);
+  assert(isValidPosition(pointB), `Invalid position 2 '${pointB}'`);
 
   const {sqrt, pow} = Math;
 
   // calc distance with pythagorean theorem
-  const dx = point1.x - point2.x;
-  const dy = point1.y - point2.y;
+  const dx = pointA.x - pointB.x;
+  const dy = pointA.y - pointB.y;
 
   return sqrt(pow(dx, 2) + pow(dy, 2));
 }

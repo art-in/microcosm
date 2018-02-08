@@ -1,6 +1,5 @@
 /**
  * Button of any pointer device (ie. mouse, pen, etc.)
- * https://www.w3.org/TR/DOM-Level-3-Events/#dom-mouseevent-buttons
  *
  * @typedef {number} PointerButton
  * @enum {number}
