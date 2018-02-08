@@ -4,16 +4,17 @@ import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
 
+import PointerButton from 'vm/utils/PointerButton';
 import NodeType from 'vm/map/entities/Node';
 import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
 
 /**
- * Handles mouse down event on mindmap node
+ * Handles mouse down event from mindmap node
  *
  * @param {StateType} state
  * @param {object} data
  * @param {string} data.nodeId
- * @param {string} data.button - // TODO: replace with array of PointerButton's
+ * @param {PointerButton} data.button
  * @param {function} dispatch
  * @return {PatchType|undefined}
  */
@@ -21,8 +22,8 @@ export default function(state, data, dispatch) {
   const {vm: {main: {mindset: {mindmap}}}} = state;
   const {nodeId, button} = required(data);
 
-  if (button !== 'left') {
-    // left button only for node dragging
+  if (button !== PointerButton.primary) {
+    // allow left button only for node dragging
     return;
   }
 

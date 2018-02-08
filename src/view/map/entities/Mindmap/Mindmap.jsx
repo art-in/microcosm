@@ -256,13 +256,11 @@ export default class Mindmap extends Component {
           />
 
           <Group id={popupSvgContainerId}>
-            {/*
-                        container for svg popup elements (render with Portal)
-                        - element needs to be positioned above all svg figures,
-                          since svg does not support z-index
-                        - element is easier to render in svg instead of html -
-                          graphical element (eg. radial menu)
-                    */}
+            {/* container for svg popup elements (render here with Portal)
+                - element needs to be positioned above all svg figures,
+                  since svg does not support z-index
+                - element is easier to render in svg instead of html -
+                  graphical element (eg. radial menu) */}
           </Group>
         </Svg>
 
@@ -276,15 +274,13 @@ export default class Mindmap extends Component {
         </div>
 
         <div id={popupContainerId}>
-          {/*
-                    container for html popup elements (render here with Portal)
-                    - element needs to be positioned above all svg figures,
-                      since svg does not support z-index (eg. popups/tooltips)
-                    - element is easier to render in html instead of svg
-                      (eg. text in the box, since svg does not support box
-                      auto-stretched by text)
-                    - html component can be reused outside svg
-                */}
+          {/* container for html popup elements (render here with Portal)
+              - element needs to be positioned above all svg figures,
+                since svg does not support z-index (eg. popups/tooltips)
+              - element is easier to render in html instead of svg
+                (eg. text in the box, since svg does not support box
+                auto-stretched by text)
+              - html component can be reused outside svg */}
         </div>
 
         <IdeaFormModal ideaFormModal={mindmap.ideaFormModal} />

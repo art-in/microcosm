@@ -6,6 +6,9 @@ import truncateWithEllipsis from 'utils/truncate-string-with-ellipsis';
 import Point from 'model/entities/Point';
 import NodeVmType from 'vm/map/entities/Node';
 
+import PointerButton from 'vm/utils/PointerButton';
+import mapPointerButton from 'view/utils/map-pointer-button';
+import mapPointerButtons from 'view/utils/map-pointer-buttons';
 import Group from 'view/shared/svg/Group';
 import Circle from 'view/shared/svg/Circle';
 import Text from 'view/shared/svg/Text';
@@ -35,42 +38,41 @@ export default class Node extends Component {
   mouseMovedAfterMouseDown = false;
 
   onMouseDown = e => {
-    if (e.button === 2) {
+    if (mapPointerButton(e.button) === PointerButton.secondary) {
       // Q: why emitting context menu by 'mouse down' event and not
       //    'context menu' event?
       // A: because it allows to select context menu item by holding
-      //    right mouse button:
-      //    press right button to show context menu, while holding right
-      //    button move mouse to target menu item, release button upon the
-      //    item to select it
+      //    right mouse button: press right button to show context menu, while
+      //    holding right button move mouse to target menu item, release button
+      //    upon the item to select it
       this.props.onContextMenu();
     }
 
     this.props.onMouseDown({
-      button: e.nativeEvent.which === 1 ? 'left' : 'right'
+      button: mapPointerButton(e.button)
     });
     e.stopPropagation();
   };
 
   onMouseMove = e => {
-    if (e.buttons === 1) {
+    if (mapPointerButtons(e.buttons).includes(PointerButton.primary)) {
       // mouse moved while holding left button.
       this.mouseMovedAfterMouseDown = true;
     }
   };
 
   onMouseUp = e => {
-    if (e.button === 2) {
-      // right mouse button should not initiate click
+    if (mapPointerButton(e.button) !== PointerButton.primary) {
+      // only initiate click by left button
       return;
     }
 
     if (this.mouseMovedAfterMouseDown) {
-      // only initiate click event when it is a clean click,
-      // ie. after mouse is down - it is not moved there. otherwise
-      // consider mouse-up as part of some other action on parent.
-      // (eg. when dragging node subsequent mouse-up should not
-      // be considered as click on the node, but as end of node dragging)
+      // only initiate click event when it is a clean click, ie. after mouse is
+      // down - it is not moved there. otherwise consider mouse-up as part of
+      // some other action on parent. (eg. when dragging node, subsequent
+      // mouse-up should not be considered as click on the node, but as end of
+      // node dragging)
       this.mouseMovedAfterMouseDown = false;
       return;
     }

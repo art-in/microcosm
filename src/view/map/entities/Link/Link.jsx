@@ -4,6 +4,9 @@ import cx from 'classnames';
 import LinkVmType from 'vm/map/entities/Link';
 import Point from 'model/entities/Point';
 
+import PointerButton from 'vm/utils/PointerButton';
+import mapPointerButtons from 'view/utils/map-pointer-buttons';
+import mapPointerButton from 'view/utils/map-pointer-button';
 import Group from 'view/shared/svg/Group';
 import Line from 'view/shared/svg/Line';
 import TextArea from 'view/shared/svg/TextArea';
@@ -86,14 +89,13 @@ export default class Link extends Component {
   }
 
   onMouseDown = e => {
-    if (e.button === 2) {
+    if (mapPointerButton(e.button) === PointerButton.secondary) {
       // Q: why emitting context menu by 'mouse down' event and not
       //    'context menu' event?
       // A: because it allows to select context menu item by holding
-      //    right mouse button:
-      //    press right button to show context menu, while holding right
-      //    button move mouse to target menu item, release button upon the
-      //    item to select it
+      //    right mouse button: press right button to show context menu, while
+      //    holding right button move mouse to target menu item, release button
+      //    upon the item to select it
       const {mapWindowToViewportCoords} = this.props;
 
       const windowPos = new Point({x: e.clientX, y: e.clientY});
@@ -113,7 +115,7 @@ export default class Link extends Component {
 
     this.props.onMouseMove({viewportPos});
 
-    if (e.buttons === 1) {
+    if (mapPointerButtons(e.buttons).includes(PointerButton.primary)) {
       // mouse moved while holding left button.
       this.mouseMovedAfterMouseDown = true;
     }
@@ -125,8 +127,8 @@ export default class Link extends Component {
   };
 
   onMouseUp = e => {
-    if (e.button === 2) {
-      // right mouse button should not initiate click
+    if (mapPointerButton(e.button) !== PointerButton.primary) {
+      // only initiate click by left button
       return;
     }
 

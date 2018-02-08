@@ -1,7 +1,7 @@
 import PointerButton from 'vm/utils/PointerButton';
 
 /**
- * Maps state of PointerEvent#buttons to array of buttons
+ * Maps PointerEvent#buttons to array of PointerButton view models
  * https://www.w3.org/TR/pointerevents/#button-states
  *
  * @param {number} pointerEventButtons

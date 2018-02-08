@@ -11,10 +11,10 @@
 
 2. No solid cross-browser support for `touch events` (TE) and `pointer events` (PE).  
     IE/Edge supports PE (was originally proposed by Microsoft), while Webkits in opposition to support it since 2012 (because "PE is over-abstraction").  
-    iOS Safari supports TE, while Edge only have TE under flag, since they already made their bet on PE.  
+    iOS Safari supports TE, while Edge only have TE under flag, since Microsoft already made their bet on PE.  
     Chrome supports both TE and PE, both on desktop and android.  
 
     https://github.com/w3c/pointerevents  
 
-    **Solution**: ignore iOS Safari and stick with PE (to keep code simpler, hoping Webkits will eventually accept it).
+    **Solution**: ignore iOS Safari, use PE with fallback to mouse events (to keep code simpler, and hoping Webkits will eventually accept PE).
 
