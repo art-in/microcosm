@@ -29,7 +29,7 @@ export default async function(state, data, dispatch, mutate) {
     // stop dragging ASAP, so node is not draggable until dispatch is done
     await mutate(view('update-mindmap', stopDrag()));
 
-    // make sure position was shifted
+    // make sure position was changed
     if (!eq(node.posAbs, prev)) {
       // wait for idea position is set, thou mindmap is remapped to update
       // focus node

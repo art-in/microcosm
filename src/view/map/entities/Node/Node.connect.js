@@ -20,9 +20,9 @@ export default connect(
         }
       }),
 
-    onMouseDown: ({button}) =>
+    onPointerDown: ({button}) =>
       dispatch({
-        type: 'on-mindmap-node-mouse-down',
+        type: 'on-mindmap-node-pointer-down',
         data: {
           nodeId: props.node.id,
           button

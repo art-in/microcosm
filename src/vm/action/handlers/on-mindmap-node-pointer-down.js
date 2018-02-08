@@ -9,7 +9,7 @@ import NodeType from 'vm/map/entities/Node';
 import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
 
 /**
- * Handles mouse down event from mindmap node
+ * Handles pointer down event from mindmap node
  *
  * @param {StateType} state
  * @param {object} data

@@ -27,19 +27,56 @@ const TEXT_AREA_POS = new Point({x: 0, y: -10});
  * @prop {NodeVmType} node
  *
  * events
- * @prop {function({button})} onMouseDown
+ * @prop {function({button})} onPointerDown
  * @prop {function()} onContextMenu
  * @prop {function()} onClick
  *
  * @extends {Component<Props>}
  */
 export default class Node extends Component {
-  /** Indicates that mouse was moved after left button downed */
-  mouseMovedAfterMouseDown = false;
+  /** Indicates that pointer was moved after left button downed */
+  pointerMovedAfterDown = false;
 
-  onMouseDown = e => {
+  subscribeToPointerEvents() {
+    // by default, subscribe to pointer agnostic Pointer Events (PE).
+    // PE is still not widely supported (eg. FF and Safari do not support PE),
+    // so need to use mouse events as a fallback.
+    // @ts-ignore unknown window prop
+    if (window.PointerEvent) {
+      this.element.addEventListener('pointerdown', this.onPointerDown);
+      this.element.addEventListener('pointermove', this.onPointerMove);
+      this.element.addEventListener('pointerup', this.onPointerUp);
+    } else {
+      this.element.addEventListener('mousedown', this.onPointerDown);
+      this.element.addEventListener('mousemove', this.onPointerMove);
+      this.element.addEventListener('mouseup', this.onPointerUp);
+    }
+  }
+
+  unsubscribeFromPointerEvents() {
+    // @ts-ignore unknown window prop
+    if (window.PointerEvent) {
+      this.element.removeEventListener('pointerdown', this.onPointerDown);
+      this.element.removeEventListener('pointermove', this.onPointerMove);
+      this.element.removeEventListener('pointerup', this.onPointerUp);
+    } else {
+      this.element.removeEventListener('mousedown', this.onPointerDown);
+      this.element.removeEventListener('mousemove', this.onPointerMove);
+      this.element.removeEventListener('mouseup', this.onPointerUp);
+    }
+  }
+
+  componentDidMount() {
+    this.subscribeToPointerEvents();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromPointerEvents();
+  }
+
+  onPointerDown = e => {
     if (mapPointerButton(e.button) === PointerButton.secondary) {
-      // Q: why emitting context menu by 'mouse down' event and not
+      // Q: why emitting context menu by 'pointer down' event and not
       //    'context menu' event?
       // A: because it allows to select context menu item by holding
       //    right mouse button: press right button to show context menu, while
@@ -48,32 +85,32 @@ export default class Node extends Component {
       this.props.onContextMenu();
     }
 
-    this.props.onMouseDown({
+    this.props.onPointerDown({
       button: mapPointerButton(e.button)
     });
     e.stopPropagation();
   };
 
-  onMouseMove = e => {
+  onPointerMove = e => {
     if (mapPointerButtons(e.buttons).includes(PointerButton.primary)) {
-      // mouse moved while holding left button.
-      this.mouseMovedAfterMouseDown = true;
+      // pointer moved while holding left button.
+      this.pointerMovedAfterDown = true;
     }
   };
 
-  onMouseUp = e => {
+  onPointerUp = e => {
     if (mapPointerButton(e.button) !== PointerButton.primary) {
       // only initiate click by left button
       return;
     }
 
-    if (this.mouseMovedAfterMouseDown) {
+    if (this.pointerMovedAfterDown) {
       // only initiate click event when it is a clean click, ie. after mouse is
       // down - it is not moved there. otherwise consider mouse-up as part of
       // some other action on parent. (eg. when dragging node, subsequent
       // mouse-up should not be considered as click on the node, but as end of
       // node dragging)
-      this.mouseMovedAfterMouseDown = false;
+      this.pointerMovedAfterDown = false;
       return;
     }
 
@@ -103,11 +140,9 @@ export default class Node extends Component {
         className={cx(classes.root, className, {
           [classes.shaded]: node.shaded
         })}
+        nodeRef={node => (this.element = node)}
         pos={node.posAbs}
         scale={node.scale}
-        onMouseDown={this.onMouseDown}
-        onMouseMove={this.onMouseMove}
-        onMouseUp={this.onMouseUp}
         onClick={this.onClick}
         onContextMenu={this.onContextMenu}
       >

@@ -9,6 +9,7 @@ import PointType from 'model/entities/Point';
  * @prop {PointType} [pos]
  * @prop {number} [scale]
  * @prop {string} [id]
+ * @prop {function()} [nodeRef]
  * @prop {JSX.Element|Array.<JSX.Element>} [children]
  *
  * @prop {function()} [onMouseDown]
@@ -27,7 +28,7 @@ export default class Group extends Component {
   };
 
   render() {
-    const {pos, scale, id, className, children, ...other} = this.props;
+    const {pos, scale, id, className, children, nodeRef, ...other} = this.props;
 
     const transforms = [];
 
@@ -42,7 +43,13 @@ export default class Group extends Component {
     const transform = transforms.length ? transforms.join(' ') : null;
 
     return (
-      <g className={className} id={id} transform={transform} {...other}>
+      <g
+        className={className}
+        ref={nodeRef}
+        id={id}
+        transform={transform}
+        {...other}
+      >
         {children}
       </g>
     );
