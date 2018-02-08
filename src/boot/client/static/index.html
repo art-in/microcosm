@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>microcosm</title>
-        <base href="{{baseUrl}}">
-        <link rel="icon" href="favicon.ico">
+  <head>
+    <title>microcosm</title>
+    <base href="{{baseUrl}}">
+    <link rel="icon" href="favicon.ico">
+    <meta data-client-config="{{clientConfig}}">
 
-        <meta data-client-config="{{clientConfig}}">
-    </head>
-    <body>
-        <div id="root"></div>
+    <!-- prevent viewport widening and shrinking on mobiles -->
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+</head>
+<body>
+  <div id="root"></div>
 
-        <script src="bundle/bundle.js"></script>
-    </body>
+  <script src="bundle/bundle.js"></script>
+</body>
 </html>
