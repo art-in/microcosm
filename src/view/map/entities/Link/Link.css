@@ -20,7 +20,7 @@
   overflow: hidden;
   word-break: break-all;
   text-align: center;
-  line-height: 25px;
+  line-height: 0.85em;
 }
 
 .title::selection:not([contenteditable]) {
@@ -34,5 +34,5 @@
 
 .root.shaded .line {
   opacity: 0.5;
-  stroke-width: 0.25;
+  stroke-width: 5px;
 }

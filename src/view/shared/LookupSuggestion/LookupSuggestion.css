@@ -1,6 +1,6 @@
 .root {
-  padding: 5px;
-  padding-left: 10px; /* free some space for highlight char */
+  padding: 0.3em;
+  padding-left: 0.6em; /* free some space for highlight char */
   color: #757575;
   position: relative;
 }

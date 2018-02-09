@@ -12,7 +12,7 @@
   display: inline-block;
 
   /* limit width */
-  max-width: 200px;
+  max-width: 11.1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

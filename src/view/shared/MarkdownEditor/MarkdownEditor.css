@@ -7,7 +7,7 @@
   width: 100%;
   border: none;
   resize: vertical;
-  padding: 5px;
+  padding: 0.3em;
 
   /* merge height with paddings so scroll height equals to height,
        and when setting scroll height to height it does not grow infinitely */
@@ -16,8 +16,8 @@
 
 .button-edit {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.6rem;
+  right: 0.6rem;
   color: #adadad;
 
   /* hide text under button, so button always clearly visible */

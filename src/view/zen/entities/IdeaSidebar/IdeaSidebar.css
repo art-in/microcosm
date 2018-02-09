@@ -2,16 +2,16 @@
   display: flex;
   flex-direction: column;
 
-  padding: 10px;
+  padding: 0.6em;
   background-color: white;
 
   /* add padding so shadow is not truncated */
-  margin: 5px 5px 10px 0;
-  box-shadow: 0 0 5px gray;
+  margin: 0.3em 0.3em 0.6em 0;
+  box-shadow: 0 0 0.3em gray;
 
   position: relative;
   left: 0;
-  width: 400px;
+  width: 22rem;
 
   transition: width 0.5s, left 0.5s;
 }
@@ -20,11 +20,11 @@
   width: 0;
 
   /* move outside the screen to hide paddings and shadow */
-  left: -25px;
+  left: -1.4rem;
 }
 
 .go-parent-button {
-  padding: 10px 10px 10px 0;
+  padding: 0.6em 0.6em 0.6em 0;
   
   flex-shrink: 0;
 
@@ -43,7 +43,7 @@
 }
 
 .title {
-  margin-left: 10px;
+  margin-left: 0.6em;
 }
 
 .back-icon {
@@ -69,15 +69,15 @@
   justify-content: space-around;
   align-items: center;
 
-  font-size: 8px;
+  font-size: 0.45rem;
   color: #ababab;
   cursor: pointer;
 
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 2.2rem;
+  height: 2.2rem;
   right: 0;
-  top: 10px;
+  top: 0.6rem;
 
   transition: right 0.5s;
 }
@@ -88,5 +88,5 @@
 
 .root.collapsed .toggle-button {
   /* sidebar is hidden outside the screen, so move toggler back to screen */
-  right: -45px;
+  right: -2.5rem;
 }

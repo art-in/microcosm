@@ -7,12 +7,12 @@
 
 .sidebar {
   /* free space for mindset buttons */
-  margin-top: 55px;
+  margin-top: 3em;
 }
 
 .pane {
   /* free space for mindset buttons */
-  padding-top: 55px;
+  padding-top: 3em;
   flex-grow: 1;
 
   overflow: auto;

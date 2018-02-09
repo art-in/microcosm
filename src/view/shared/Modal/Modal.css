@@ -36,15 +36,15 @@
 
 .content {
   position: relative;
-  margin: 30px auto;
+  margin: 1.65em auto;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 0.3em;
 }
 
 .close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.6rem;
+  right: 0.6rem;
   color: #adadad;
 
   /* hide text under button, so button always clearly visible */

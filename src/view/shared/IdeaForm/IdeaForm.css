@@ -3,20 +3,20 @@
 .header,
 .footer,
 .value {
-  padding: 20px;
+  padding: 1.1em;
 }
 
 .root-path {}
 
 .title-input {
-  padding: 5px;
+  padding: 0.3em;
   width: 100%;
   box-sizing: border-box;
 
   /* do not remove border so invalid input does not shift on hover */
   border-color: transparent;
-  font-size: 24px;
-  margin: 10px 0;
+  font-size: 1.4rem;
+  margin: 0.6em 0;
 
   transition: border-color 0.3s;
 }
@@ -31,25 +31,25 @@
 }
 
 .gear-menu {
-  margin-top: 15px;
+  margin-top: 0.85em;
 
   /* limit space for gear button only */
-  width: 30px;
+  width: 1.7rem;
   overflow: hidden;
   transition: width 0.15s;
   white-space: nowrap;
 
   /* add padding to not cut select-color-button outline */
-  padding: 5px 0;
+  padding: 0.3em 0;
 }
 
 .gear-menu-expanded {
-  width: 200px;
+  width: 12rem;
 }
 
 .gear-menu-item {
   /* add padding to all items so they all aligned with select-color-button */
-  padding: 5px;
+  padding: 0.3em;
 }
 
 .gear-menu-item:first-child {
@@ -57,12 +57,12 @@
 }
 
 .gear-menu-item + .gear-menu-item {
-  margin-left: 20px;
+  margin-left: 1.1em;
 }
 
 .select-color-button {
   /* add padding so outline is not too close to icon */
-  padding: 5px;
+  padding: 0.3em;
   outline: 2px solid var(--idea-color);
 }
 
@@ -79,18 +79,18 @@
   border-bottom: 1px solid #eceeef;
 
   /* extend zone for activating edit mode by double click */
-  min-height: 20px;
+  min-height: 1.1rem;
 }
 
 .predecessors {}
 
 .successor-operations {
-  padding: 20px;
+  padding: 1.1em;
   display: flex;
 }
 
 .successor-operations-item + .successor-operations-item {
-  margin-left: 25px;
+  margin-left: 1.4em;
 }
 
 .successor-create-button {
@@ -100,14 +100,14 @@
 
 .successor-search {
   /* extend vertically so lookup has enough space when shown */
-  height: 50px;
+  height: 2.8rem;
 }
 
 .successor-search-lookup {
   background-color: white;
-  padding: 7px;
-  border-radius: 5px;
-  box-shadow: 0 0 15px black;
+  padding: 0.4em;
+  border-radius: 0.3em;
+  box-shadow: 0 0 0.8em black;
 
   /* lift search lookup above successor list
        (as lookup and list are both positioned relatively) */
@@ -115,7 +115,7 @@
 }
 
 .successors {
-  padding: 0 20px 20px 20px;
+  padding: 0 1.1em 1.1em 1.1em;
 }
 
 .footer {

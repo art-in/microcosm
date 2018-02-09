@@ -4,7 +4,7 @@
 
 .title {
   font-family: 'montserrat-light', sans-serif;
-  font-size: 30px;
+  font-size: 1.7rem;
   fill: lightgray;
   transition: fill 0.15s, text-shadow 0.15s;
 }
@@ -26,8 +26,8 @@
 
   /* set multiple shadows to make it darker */
   text-shadow:
-    0 0 20px black,
-    0 0 40px black;
+    0 0 1.1em black,
+    0 0 2.2em black;
 }
 
 .root:not(.shaded):hover .circle {

@@ -19,41 +19,41 @@
 
 .toggle-mode-button {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  top: 0.85rem;
+  left: 0.85rem;
 }
 
 .db-connection-state-icon {
   position: absolute;
-  top: 15px;
-  left: 60px;
+  top: 0.85rem;
+  left: 3.3rem;
 }
 
 .go-root-button {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0.85rem;
+  right: 0.85rem;
 }
 
 .idea-search-box {
   position: absolute;
-  top: 15px;
-  right: 60px;
+  top: 0.85rem;
+  right: 3.3rem;
 }
 
 .idea-search-box-lookup {
-  padding: 7px;
-  border-radius: 5px;
+  padding: 0.4em;
+  border-radius: 0.3em;
 }
 
 .root.mode-zen .go-root-button {
   /* shift button bit left to free space for scrollbar */
-  right: 20px;
+  right: 1.1rem;
 }
 
 .root.mode-zen .idea-search-box {
   /* shift button bit left to free space for scrollbar */
-  right: 65px;
+  right: 3.6rem;
 }
 
 .root.mode-mindmap .db-connection-state-icon,
@@ -90,7 +90,7 @@
 
 .root.mode-zen .idea-search-box-lookup {
   background-color: white;
-  padding: 7px;
-  border-radius: 5px;
-  box-shadow: 0 0 15px black;
+  padding: 0.4em;
+  border-radius: 0.3em;
+  box-shadow: 0 0 0.8em black;
 }

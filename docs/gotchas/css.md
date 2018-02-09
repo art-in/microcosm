@@ -54,3 +54,29 @@
         http://jsbin.com/rawoqon/edit?html,css,output  
         Cons: additional container, ellipsis always visible, ellipsis background always white
 
+---
+
+7. `px` vs `rem`/`em`  
+
+    Votes on using both units are quite equal.
+    Everybody claims that opposite approach should die.  
+
+    Main arguments for pixel units:
+    - CSS pixel is already scaled by UA to equal spec normative pixel size - *reference pixel* - which defined as visual angle unit in spec. It should be calculated depending on hardware pixel size (DPI) and usual distance between user and device display. In practice each UA has *pixel ratio* - as ratio of hardware pixel size to CSS pixel size (eg. iPhone X pixel ratio = 4). As a result single CSS pixel should look *almost* the same on any device.  
+    - All modern browsers have *zoom* feature, which changes size of reference pixel: it proportionally affects all sizes on the page (both absolute and relative units, except `vw`/`vh`). While changing default font size is less popular.
+
+    Main arguments for relative units:  
+    - relative units basically inherit all advantages of pixel unit, since both `rem`/`em` are computed down to `px`
+    - relative units allow to make context-dependent layouts: `rem` allows to re-size entire layout by changing root element `font-size` while saving proportions, `em` allows to create modular components which are auto-scaled basing on parent `font-size`.
+    - using relative `font-size` on root element allows to save user ability to configure default font size for all sites. This feature is a bit hidden by zoom feature, but still.
+
+    https://stackoverflow.com/questions/11799236/should-i-use-px-or-rem-value-units-in-my-css
+    https://webdesign.tutsplus.com/tutorials/comprehensive-guide-when-to-use-em-vs-rem--cms-23984
+    https://mindtheshift.wordpress.com/2015/04/02/r-i-p-rem-viva-css-reference-pixel/
+    https://medium.com/@julienetienne/pixels-are-dead-faa87cd8c8b9
+
+
+    **Solution**: mainly go with relative units.
+    - `px` for borders
+    - `em` for everything that should depend on element local font size (paddings, margins, line-heights, etc.)
+    - `rem` for everyting else (font sizes, absolute positions, block sizes, etc.)

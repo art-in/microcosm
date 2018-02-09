@@ -28,6 +28,43 @@ module.exports = {
         // allow to indent empty lines
         ignore: ['empty-lines']
       }
+    ],
+
+    'unit-blacklist': [
+      ['px', 'em', 'rem'],
+      {
+        ignoreProperties: {
+          // px - for borders
+          px: [
+            'border',
+            'border-top',
+            'border-right',
+            'border-bottom',
+            'border-left',
+            'outline',
+            'stroke-width'
+          ],
+          // em - for everything that should depend on element local font size
+          em: [
+            '/^padding/',
+            '/^margin/',
+            'line-height',
+            'border-radius',
+            'box-shadow',
+            'text-shadow'
+          ],
+          // rem - for everything else
+          rem: [
+            'font-size',
+            'top',
+            'right',
+            'bottom',
+            'left',
+            '/^(max-|min-)?width/',
+            '/^(max-|min-)?height/'
+          ]
+        }
+      }
     ]
   }
 };

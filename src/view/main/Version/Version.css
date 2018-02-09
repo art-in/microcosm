@@ -1,7 +1,7 @@
 .root {
   text-decoration: none;
   user-select: none;
-  font-size: 16px;
+  font-size: 0.9rem;
 
   color: lightgray;
   opacity: 0.3;
@@ -12,5 +12,5 @@
 }
 
 .icon {
-  margin-left: 7px;
+  margin-left: 0.45em;
 }

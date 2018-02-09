@@ -3,11 +3,13 @@
 }
 
 :export {
-  font-size: 12;
+  /* define font size staticaly to compute line height by hand, since svg text
+     cannot do text wrapping */
+  font-size: 18;
 }
 
 .line {
-  font-size: 12px;
+  font-size: 1rem;
   fill: #d00;
 }
 

@@ -26,13 +26,18 @@
   src: url('./fonts/Montserrat-Light.ttf');
 }
 
+:global(html) {
+  /* increase default font size (usual default is 16px, increase to 18px) */
+  font-size: 112.5%;
+}
+
 .root,
 :global(input),
 :global(textarea),
 :global(select),
 :global(button) {
   font-family: 'montserrat', sans-serif;
-  font-size: 18px;
+  font-size: 1rem;
 }
 
 :global(hr) {
@@ -41,7 +46,7 @@
   border-right: none;
   border-bottom: none;
   border-left: none;
-  margin: 20px 0;
+  margin: 1.1em 0;
 }
 
 :global(input),
@@ -56,11 +61,11 @@
        use shadow to not conflict with border and outline.
        > 1px outline hides border in Chrome */
   outline: none;
-  box-shadow: 0 0 0 2px #a5c7fe;
+  box-shadow: 0 0 0 0.1em #a5c7fe;
 }
 
 .version {
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  bottom: 0.85rem;
+  right: 0.85rem;
 }

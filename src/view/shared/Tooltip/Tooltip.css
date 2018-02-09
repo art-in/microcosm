@@ -2,11 +2,11 @@
   position: absolute;
 
   user-select: none;
-  border-radius: 2px;
-  padding: 2px 10px;
+  border-radius: 0.1em;
+  padding: 0.1em 0.6em;
   background-color: white;
 
-  max-width: 250px;
+  max-width: 14rem;
 
   /* do not wrap */
   overflow: hidden;

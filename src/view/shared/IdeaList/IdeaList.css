@@ -2,9 +2,9 @@
 
 .root.layout-inline .item {
   /* margin right so first items of each line are vertically aligned */
-  margin-right: 5px;
+  margin-right: 0.3em;
 }
 
 .root.layout-column .item + .item {
-  margin-top: 10px;
+  margin-top: 0.6em;
 }
