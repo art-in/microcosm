@@ -92,6 +92,15 @@ export default class Node extends Component {
   };
 
   onPointerMove = e => {
+    const {movementX, movementY} = e;
+
+    if (movementX === 0 && movementY === 0) {
+      // skip if no actual movement.
+      // Android Chrome generates constant flow of pointermove events for
+      // simple screen touch with no moves
+      return;
+    }
+
     if (mapPointerButtons(e.buttons).includes(PointerButton.primary)) {
       // pointer moved while holding left button.
       this.pointerMovedAfterDown = true;

@@ -18,3 +18,7 @@
 
     **Solution**: ignore iOS Safari, use PE with fallback to mouse events (to keep code simpler, and hoping Webkits will eventually accept PE).
 
+---
+
+3. Chrome for Android can generate constant flow of `pointermove` events even if there is no movement (`movementX, movementY == 0`).  
+It depends on device. I'm seeing this on Xperia Z1, but not on Nexus 7.
