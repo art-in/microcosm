@@ -80,3 +80,17 @@
     - `px` for borders
     - `em` for everything that should depend on element local font size (paddings, margins, line-heights, etc.)
     - `rem` for everyting else (font sizes, absolute positions, block sizes, etc.)
+
+---
+
+8. Zoom in desktop and mobile browsers works differently.  
+
+    In desktop - it is changing size of *reference pixel*, which affects all sizes on the page.  
+    In mobile - it is *pitch zoom*, which slices fragment of page and maps it on the viewport.
+
+---
+
+9. Default font size in desktop and mobile browsers works differently.  
+
+    In desktop - default font size is really *default font size* that will be applied to page and can be overriden by author (that's why zoom is way to go).  
+    In mobile - it is changing ratio of Font Inflation (Font Boosting in Chrome for Android). Which statistically finds text blocks with text amount above some threshold, and increases font size in that blocks (https://jwir3.wordpress.com/2012/07/30/font-inflation-fennec-and-you/).

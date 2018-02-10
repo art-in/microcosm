@@ -5,6 +5,7 @@ module.exports = {
     // [same as for js]
     indentation: [2],
     'max-line-length': 80,
+    'string-quotes': 'single',
 
     // allow new lines between style props for groupings
     'declaration-empty-line-before': null,
@@ -63,6 +64,9 @@ module.exports = {
             '/^(max-|min-)?width/',
             '/^(max-|min-)?height/'
           ]
+        },
+        ignoreMediaFeatureNames: {
+          px: ['/^(max-|min-)?width/']
         }
       }
     ]

@@ -4,6 +4,9 @@ import MainVmType from 'vm/main/Main';
 import Mindset from 'view/main/Mindset';
 import Version from 'view/main/Version';
 
+import './shared/fonts.css';
+import './shared/global.css';
+
 import classes from './Main.css';
 
 // root class should be set to root element when mounting main component,

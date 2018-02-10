@@ -1,0 +1,22 @@
+/* https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints */
+
+/* extra small viewport (portrait phone) */
+@custom-media --xsmall-only (width < 576px);
+
+/* small viewport (landscape phone) */
+@custom-media --small-only (width >= 576px) and (width < 768px);
+@custom-media --small-up (width >= 576px);
+@custom-media --small-down (width < 768px);
+
+/* medium viewport (tablet) */
+@custom-media --medium-only (width >= 768px) and (width < 992px);
+@custom-media --medium-up (width >= 768px);
+@custom-media --medium-down (width < 992px);
+
+/* large viewport (desktop) */
+@custom-media --large-only (width >= 992px) and (width < 1200px);
+@custom-media --large-up (width >= 992px);
+@custom-media --large-down (width < 1200px);
+
+/* extra large viewport (large desktop) */
+@custom-media --xlarge-only (width >= 1200px);

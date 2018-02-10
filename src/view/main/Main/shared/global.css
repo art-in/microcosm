@@ -1,0 +1,59 @@
+@import './media-queries.css';
+
+:global(html),
+:global(body) {
+  /* expand contents to full viewport */
+  height: 100%;
+}
+
+:global(body) {
+  height: 100%;
+
+  /* remove default margins */
+  margin: 0;
+}
+
+:global(html) {
+  /* increase default font size (usual default is 16px) */
+  font-size: 112.5%; /* 18px */
+}
+
+@media (--small-down) {
+  :global(html) {
+    /* increase more on mobiles */
+    font-size: 125%; /* 20px */
+  }
+}
+
+:global(body),
+:global(input),
+:global(textarea),
+:global(select),
+:global(button) {
+  font-family: 'montserrat', sans-serif;
+  font-size: 1rem;
+}
+
+:global(hr) {
+  /* normalize horizontal rule */
+  border-top: 1px solid #eceeef;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  margin: 1.1em 0;
+}
+
+:global(input),
+:global(textarea) {
+  /* normalize inputs */
+  border: 1px solid gray;
+}
+
+:global(input):focus,
+:global(textarea):focus {
+  /* replicate chrome outlining.
+       use shadow to not conflict with border and outline.
+       > 1px outline hides border in Chrome */
+  outline: none;
+  box-shadow: 0 0 0 0.1em #a5c7fe;
+}
