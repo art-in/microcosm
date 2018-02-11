@@ -13,7 +13,7 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #808080;
+  background-color: #adadad;
   color: white;
 }
 
@@ -67,7 +67,7 @@
 .root.mode-zen .go-root-button,
 .root.mode-zen .idea-search-box-trigger,
 .root.mode-zen .toggle-mode-button {
-  color: #ababab;
+  color: #808080;
 }
 
 .root.mode-mindmap .db-connection-state-icon:hover,

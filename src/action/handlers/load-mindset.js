@@ -81,6 +81,7 @@ export default async function loadMindset(state, data, dispatch) {
   const mindsets = await mindsetsDbApi.getAll(localDBs.mindsets);
   const mindset = mindsets[0];
 
+  // TODO: load in parallel
   const ideas = await ideasDbApi.getAll(localDBs.ideas, mindset.id);
   const associations = await assocsDbApi.getAll(
     localDBs.associations,
