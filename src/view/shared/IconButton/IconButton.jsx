@@ -45,6 +45,7 @@ export default class IconButton extends Component {
         className={cx(classes.root, className, {
           [classes.disabled]: isDisabled
         })}
+        disabled={isDisabled || null}
         tooltip={tooltip}
         icon={icon}
         size={size}

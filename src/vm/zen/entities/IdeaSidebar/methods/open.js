@@ -5,6 +5,7 @@ import MindsetType from 'model/entities/Mindset';
 import toListItem from 'vm/mappers/idea-to-list-item';
 import getRootPath from 'action/utils/get-idea-root-path';
 import IdeaSidebarType from 'vm/zen/entities/IdeaSidebar';
+import IdeaListItemType from 'vm/shared/IdeaListItem';
 
 /**
  * Opens sidebar for new or existing idea
@@ -40,6 +41,7 @@ export default function open(opts) {
     }
   }
 
+  /** @type {Array.<IdeaListItemType>} */
   const parentSuccessors = parent.edgesOut
     .map(a => a.to)
     .map(toListItem.bind(null, mindset));

@@ -6,6 +6,7 @@ module.exports = {
     require('postcss-import')({path: config.src.client.root}),
     require('postcss-custom-media'),
     require('postcss-media-minmax'),
+    require('postcss-nesting'),
     require('autoprefixer')
   ]
 };

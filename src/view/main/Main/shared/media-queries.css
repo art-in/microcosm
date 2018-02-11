@@ -20,3 +20,6 @@
 
 /* extra large viewport (large desktop) */
 @custom-media --xlarge-only (width >= 1200px);
+
+/* no hoverable pointer (phone, tablet) */
+@custom-media --no-hover not all and (hover);

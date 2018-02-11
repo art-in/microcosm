@@ -1,3 +1,5 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {
   display: flex;
 }
@@ -27,6 +29,14 @@
 .root.active .lookup-expander {
   width: 27rem;
   opacity: 1;
+
+  @media (--small-down) {
+    width: 24rem;
+  }
+
+  @media (--xsmall-only) {
+    width: 14rem;
+  }
 }
 
 .lookup {

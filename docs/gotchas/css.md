@@ -63,7 +63,7 @@
 
     Main arguments for pixel units:
     - CSS pixel is already scaled by UA to equal spec normative pixel size - *reference pixel* - which defined as visual angle unit in spec. It should be calculated depending on hardware pixel size (DPI) and usual distance between user and device display. In practice each UA has *pixel ratio* - as ratio of hardware pixel size to CSS pixel size (eg. iPhone X pixel ratio = 4). As a result single CSS pixel should look *almost* the same on any device.  
-    - All modern browsers have *zoom* feature, which changes size of reference pixel: it proportionally affects all sizes on the page (both absolute and relative units, except `vw`/`vh`). While changing default font size is less popular.
+    - all modern browsers have *zoom* feature, which changes size of reference pixel: it proportionally affects all sizes on the page (both absolute and relative units, except `vw`/`vh`). While changing default font size is less popular.
 
     Main arguments for relative units:  
     - relative units basically inherit all advantages of pixel unit, since both `rem`/`em` are computed down to `px`
@@ -77,6 +77,7 @@
 
 
     **Solution**: mainly go with relative units.
+    - percent-relative `font-size` on root element
     - `px` for borders
     - `em` for everything that should depend on element local font size (paddings, margins, line-heights, etc.)
     - `rem` for everyting else (font sizes, absolute positions, block sizes, etc.)
@@ -94,3 +95,31 @@
 
     In desktop - default font size is really *default font size* that will be applied to page and can be overriden by author (that's why zoom is way to go).  
     In mobile - it is changing ratio of Font Inflation (Font Boosting in Chrome for Android). Which statistically finds text blocks with text amount above some threshold, and increases font size in that blocks (https://jwir3.wordpress.com/2012/07/30/font-inflation-fennec-and-you/).
+
+---
+
+10. Named media queries.  
+
+    Ability to give name for each media breakpoint and reuse it everywhere.  
+    Currently you need to copy-paste breakpoints whereever `@media` is used.  
+
+    **Workaround**: Media Queries Level 5 spec adds [Custom Media Queries](https://drafts.csswg.org/mediaqueries-5/#custom-mq), which can be polyfilled with [`postcss-custom-media`](https://github.com/postcss/postcss-custom-media).
+
+---
+
+11. Nesting media rules.  
+
+    Ability to nest `@media` rule inside target css rule.  
+    Currently you need to copy-paste query of target css rule into separate `@media` rule.  
+
+    **Workaround**: [CSS Nesting Module Level 3](http://tabatkins.github.io/specs/css-nesting/) defines ability to nest any rules, including `@media` rules, and can be polyfilled with [`postcss-nesting`](https://github.com/jonathantneal/postcss-nesting).
+
+---
+
+12. Sticky `:hover`/`:focus` on mobiles.
+
+    Hover styles get stuck on elements after taps.
+
+    > Even though real hovering isn't possible on most touchscreens, most mobile browsers emulate hovering support and make :hover "sticky". In other words, :hover styles start applying after tapping an element and only stop applying after the user taps some other element. This can cause Bootstrap's :hover states to become undesirably "stuck" on such browsers. Some mobile browsers also make :focus similarly sticky. There is currently no simple workaround for these issues other than removing such styles entirely.
+
+    https://getbootstrap.com/docs/3.3/getting-started/#support-sticky-hover-mobile

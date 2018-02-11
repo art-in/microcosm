@@ -1,3 +1,5 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {}
 
 .header,
@@ -66,8 +68,14 @@
   outline: 2px solid var(--idea-color);
 }
 
-.remove-color-button {
+@media (--no-hover) {
+  .remove-button[disabled] {
+    text-decoration: line-through;
+    text-decoration-color: orangered;
+  }
 }
+
+.remove-color-button {}
 
 .body {
   /* section dividers */

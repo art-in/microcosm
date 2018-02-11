@@ -1,4 +1,4 @@
-@import './media-queries.css';
+@import './media-queries';
 
 :global(html),
 :global(body) {

@@ -84,6 +84,7 @@
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.0.9",
     "postcss-media-minmax": "^3.0.0",
+    "postcss-nesting": "^4.2.1",
     "pouchdb": "^6.4.1",
     "pouchdb-adapter-memory": "^6.4.1",
     "pouchdb-find": "^6.4.1",
