@@ -15,7 +15,6 @@ import classes from './Icon.css';
  * @prop {string} [className]
  * @prop {string} [tooltip]
  * @prop {IconSize} [size]
- * @prop {boolean} [disabled]
  * @prop {IconType} icon
  *
  * @prop {function()} [onClick]

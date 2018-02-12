@@ -68,13 +68,6 @@
   outline: 2px solid var(--idea-color);
 }
 
-@media (--no-hover) {
-  .remove-button[disabled] {
-    text-decoration: line-through;
-    text-decoration-color: orangered;
-  }
-}
-
 .remove-color-button {}
 
 .body {

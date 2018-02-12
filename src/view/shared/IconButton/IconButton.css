@@ -1,7 +1,16 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {
   cursor: pointer;
 }
 
 .disabled {
   cursor: not-allowed;
+}
+
+@media (--no-hover) {
+  .disabled {
+    text-decoration: line-through;
+    text-decoration-color: orangered;
+  }
 }
