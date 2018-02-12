@@ -7,6 +7,9 @@
   position: relative;
 
   cursor: pointer;
+
+  /* highlight taps on mobiles */
+  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
 }
 
 .root:hover {
