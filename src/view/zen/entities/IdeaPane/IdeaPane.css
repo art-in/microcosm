@@ -1,5 +1,17 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {
   padding: 0.3em 0.6em 0.6em 0.3em;
+
+  @media (--small-only) {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+  }
+
+  @media (--xsmall-only) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .form {
@@ -8,4 +20,17 @@
 
   background: white;
   box-shadow: 0 0 0.6em grey;
+
+  /* lift form above mindset control buttons (home, search, etc.), so they does
+    not overlay form when it is expanded on full screen width and scrolled down
+    (ie. on mobiles).
+    Q: why not move those buttons into zen root and make them static, so it is
+      not needed to juggle with z-axis stacking?
+    A: (a) controls should stay on the screen when scrolling form on desktop.
+      (b) making separate layout for mobile and desktop would be overkill.
+      (c) moving controls to each mode would require copying a lot of code
+        for serving those controls, which would again be overkill.
+   */
+  position: relative;
+  z-index: 1;
 }

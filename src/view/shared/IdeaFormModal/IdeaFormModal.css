@@ -1,4 +1,14 @@
-.root {}
+@import 'view/main/Main/shared/media-queries';
+
+.root {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+
+  @media (--xsmall-only) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
 .content {
   max-width: 45rem;

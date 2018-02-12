@@ -1,3 +1,5 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {
   height: 100%;
 
@@ -8,6 +10,10 @@
 .sidebar {
   /* free space for mindset buttons */
   margin-top: 3em;
+
+  @media (--small-down) {
+    display: none;
+  }
 }
 
 .pane {
@@ -16,4 +22,9 @@
   flex-grow: 1;
 
   overflow: auto;
+
+  @media (--medium-down) {
+    /* free space for version tag */
+    padding-bottom: 2.5em;
+  }
 }

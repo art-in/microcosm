@@ -93,4 +93,7 @@
   padding: 0.4em;
   border-radius: 0.3em;
   box-shadow: 0 0 0.8em black;
+
+  /* lift search box above form in zen mode */
+  z-index: 2;
 }

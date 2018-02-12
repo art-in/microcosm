@@ -3,7 +3,7 @@
 /* extra small viewport (portrait phone) */
 @custom-media --xsmall-only (width < 576px);
 
-/* small viewport (landscape phone) */
+/* small viewport (landscape phone, portrait tablet) */
 @custom-media --small-only (width >= 576px) and (width < 768px);
 @custom-media --small-up (width >= 576px);
 @custom-media --small-down (width < 768px);
