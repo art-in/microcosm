@@ -11,6 +11,9 @@
   /* free space for mindset buttons */
   margin-top: 3em;
 
+  flex: 1;
+  max-width: 22rem;
+
   @media (--small-down) {
     display: none;
   }
@@ -19,7 +22,8 @@
 .pane {
   /* free space for mindset buttons */
   padding-top: 3em;
-  flex-grow: 1;
+  
+  flex: 2;
 
   overflow: auto;
 

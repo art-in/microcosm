@@ -36,33 +36,33 @@ export default class IdeaSidebar extends Component {
           [classes.collapsed]: sidebar.isCollapsed
         })}
       >
-        <div
-          className={cx(classes.goParentButton, {
-            [classes.enabled]: sidebar.goParentAvailable
-          })}
-          title={sidebar.rootPath}
-          onClick={this.onGoParentButtonClick}
-        >
-          {sidebar.goParentAvailable ? (
-            <Icon
-              className={classes.backIcon}
-              icon={IconType.chevronLeft}
-              size={IconSize.large}
+        <div className={classes.content}>
+          <div
+            className={cx(classes.goParentButton, {
+              [classes.enabled]: sidebar.goParentAvailable
+            })}
+            title={sidebar.rootPath}
+            onClick={this.onGoParentButtonClick}
+          >
+            {sidebar.goParentAvailable ? (
+              <Icon
+                className={classes.backIcon}
+                icon={IconType.chevronLeft}
+                size={IconSize.large}
+              />
+            ) : null}
+            <span className={classes.title}>{sidebar.title}</span>
+          </div>
+
+          {sidebar.successors.length ? (
+            <IdeaList
+              className={classes.successors}
+              ideas={sidebar.successors}
+              layout="column"
+              onIdeaSelect={onSuccessorSelect}
             />
           ) : null}
-          <span className={classes.title}>{sidebar.title}</span>
         </div>
-
-        <hr />
-
-        {sidebar.successors.length ? (
-          <IdeaList
-            className={classes.successors}
-            ideas={sidebar.successors}
-            layout="column"
-            onIdeaSelect={onSuccessorSelect}
-          />
-        ) : null}
 
         <div
           className={classes.toggleButton}
