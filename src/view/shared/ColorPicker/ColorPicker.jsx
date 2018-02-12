@@ -9,6 +9,12 @@ const DEFAULT_COLOR = '#000000';
 // TODO: eslint 'valid-jsdoc' fails if class has arrow-function fields
 // eslint-disable-next-line valid-jsdoc
 /**
+ * Color picker without toggle button.
+ * Needs custom toggler. Activated through view model.
+ *
+ * If you need color picker with default toggle button - just use
+ * <input type="color"> directly or introduce 'hideToggleButton' prop here.
+ *
  * @typedef {object} Props
  * @prop {ColorPickerVmType} picker
  * @prop {function({color})} onChange
@@ -16,6 +22,13 @@ const DEFAULT_COLOR = '#000000';
  * @extends {Component<Props>}
  */
 export default class ColorPicker extends Component {
+  /**
+   * Indicates that picker is been activating programmatically
+   * (ie. through view model and not through direct user click)
+   * @type {boolean}
+   */
+  isProgActivation = false;
+
   componentDidUpdate() {
     this.forcePicker();
   }
@@ -47,10 +60,21 @@ export default class ColorPicker extends Component {
       this.input.value = picker.initialColor || DEFAULT_COLOR;
 
       // need to focus input before click (Edge)
+      this.isProgActivation = true;
       this.input.focus();
       this.input.click();
     }
   }
+
+  onClick = e => {
+    if (!this.isProgActivation) {
+      // prevent activating by user click (ie. tap on top-left corner, where
+      // pseudo-hidden toggle button is located)
+      e.preventDefault();
+    }
+
+    this.isProgActivation = false;
+  };
 
   onChange = nativeEvent => {
     const color = nativeEvent.currentTarget.value;
@@ -68,6 +92,7 @@ export default class ColorPicker extends Component {
         type="color"
         className={classes.input}
         ref={node => (this.input = node)}
+        onClick={this.onClick}
       />
     );
   }
