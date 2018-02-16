@@ -18,6 +18,9 @@ export default class ClientConfig {
 
   dbServer = {
     /** @type {string} */
+    protocol: undefined,
+
+    /** @type {string} */
     host: undefined,
 
     /** @type {number} */

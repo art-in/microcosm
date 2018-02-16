@@ -27,20 +27,32 @@ const defaults = {
       // use when server hosted not on root path (ie. through proxying).
       // relative and absolute paths are allowed (eg. '/microcosm/')
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-      baseUrl: '/'
+      baseUrl: '/',
+
+      // secure client-server connection (https)
+      secure: {
+        enabled: false,
+        key: 'path/to/key.pem',
+        cert: 'path/to/cert.pem'
+      }
     },
 
     // couchdb-compatible database server
     database: {
       // address of db server that client will be connecting to.
-      // note: any ip meta-address '0.0.0.0' will not work for dev server
-      // (server will be started, but client will not be able to connect).
+      // in case using dev server - this is its start parameters.
+      protocol: 'http',
       host: 'localhost',
       port: 5984,
 
       // development database server (pouchdb-server).
-      // note: pouchdb-server is not production ready, so you should
-      // install and run your own CouchDB server for production.
+      // note 1: pouchdb-server is not production ready, so you should
+      // install and run your own couchdb server for production.
+      // node 2: dev server does not support https currently. as such, it
+      // cannot be used if static is served through https (mixed content).
+      // you should serve static over http or run separate db server over https.
+      // note 3: any-ip-meta-address-'0.0.0.0' will not work as host
+      // (server will start, but client will not be able to connect)
       dev: {
         start: true,
         dir: './.db'

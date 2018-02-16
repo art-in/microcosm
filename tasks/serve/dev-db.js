@@ -2,15 +2,35 @@ const path = require('path');
 const fs = require('fs');
 const spawn = require('child_process').spawn;
 
+const table = require('text-table');
+
 const config = require('../../config.serve');
 
 const {stdout, stderr} = process;
 
 module.exports = () => {
-  const {host, port} = config.server.database;
-  const dbDirPath = path.resolve(config.server.database.dev.dir);
+  if (config.server.static.secure.enabled) {
+    // https is not supported by pouchdb-server, but it should be easy to use
+    // express-pouchdb directly and start it over https. ignoring for now.
+    throw Error(
+      `Trying to use development database server (http) while static is ` +
+        `served through secure connection (https). This will result in mixed ` +
+        `content and db connection will be blocked by client browser. ` +
+        `Either serve static over http or run separate db server over https.`
+    );
+  }
+
+  const {protocol, host, port} = config.server.database;
+
+  if (config.server.database.protocol !== 'http') {
+    throw Error(
+      `Invalid protocol for development database server '${protocol}'. ` +
+        `Only 'http' is supported currently.`
+    );
+  }
 
   // ensure dir path exists, so we can cwd there
+  const dbDirPath = path.resolve(config.server.database.dev.dir);
   mkdirSafeSync(dbDirPath);
 
   const ps = spawn(
@@ -43,8 +63,10 @@ module.exports = () => {
 
   console.log(
     `PouchDB server started\n` +
-      `\tdb folder: ${dbDirPath}\n` +
-      `\tlistening at ${host}:${port}`
+      table([
+        ['\t db folder', dbDirPath],
+        ['\t listening at', `${protocol}://${host}:${port}`]
+      ])
   );
 };
 

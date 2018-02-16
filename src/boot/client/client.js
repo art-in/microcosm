@@ -25,8 +25,8 @@ import clientConfig from './config/client-config';
 window.PouchDB = PouchDB;
 
 // URL of database server
-const {host, port} = clientConfig.dbServer;
-const dbServerUrl = `${location.protocol}//${host}:${port}`;
+const {protocol, host, port} = clientConfig.dbServer;
+const dbServerUrl = `${protocol}://${host}:${port}`;
 
 /**
  * Startup

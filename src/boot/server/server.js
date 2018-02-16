@@ -1,12 +1,17 @@
-// @ts-ignore relative path from build folder
-import config from '../config.serve';
-// @ts-ignore relative path from build folder
-import pkg from '../package.json';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 
 import express from 'express';
 import logger from 'morgan';
 import compression from 'compression';
 import consolidate from 'consolidate';
+import table from 'text-table';
+
+// @ts-ignore relative path from build folder
+import config from '../config.serve';
+// @ts-ignore relative path from build folder
+import pkg from '../package.json';
 
 const app = express();
 
@@ -46,6 +51,7 @@ app.get('/', function(req, res) {
       version: pkg.version
     },
     dbServer: {
+      protocol: config.server.database.protocol,
       host: config.server.database.host,
       port: config.server.database.port
     }
@@ -69,15 +75,36 @@ app.use(function(err, req, res) {
   res.render('error', {error: err});
 });
 
-const {host, port} = config.server.static;
-app.listen(port, host, function(err) {
+const {host, port, folder, secure} = config.server.static;
+
+let server;
+if (secure.enabled) {
+  server = https.createServer(
+    {
+      key: fs.readFileSync(secure.key),
+      cert: fs.readFileSync(secure.cert)
+    },
+    app
+  );
+} else {
+  server = http.createServer(app);
+}
+
+server.listen(port, host, function(err) {
   if (err) {
     throw Error(err);
   }
+
+  const scheme = secure.enabled ? 'https' : 'http';
+
   console.log(
     `Server started\n` +
-      `\tserving folder: ${config.server.static.folder}\n` +
-      `\tlistening at ${host}:${port}`
+      table([
+        ['\t serving folder', folder],
+        ['\t key file', secure.enabled ? secure.key : '---'],
+        ['\t cert file', secure.enabled ? secure.cert : '---'],
+        ['\t listening at', `${scheme}://${host}:${port}`]
+      ])
   );
 });
 

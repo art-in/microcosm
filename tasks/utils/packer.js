@@ -1,7 +1,10 @@
 const path = require('path');
+const fs = require('fs');
+
 const gutil = require('gulp-util');
 const webpack = require('webpack');
 const assert = require('assert');
+const table = require('text-table');
 const WebpackDevServer = require('webpack-dev-server');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -16,9 +19,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * @prop {string} path - output bundle path
  * @prop {string} name - output bundle name
  *
+ * @typedef {object} SecureConnectionOptions
+ * @prop {boolean} enabled
+ * @prop {string} key - private key file path
+ * @prop {string} cert - certificate file path
+ *
  * @typedef {object} BackendServerOptions
  * @prop {string} host
  * @prop {number} port
+ * @prop {SecureConnectionOptions} secure
  *
  * @typedef {object} DevServerOptions
  * @prop {string} host
@@ -61,6 +70,8 @@ function getPackConfig(opts) {
   let devtool = null;
 
   if (opts.watch) {
+    // TODO: are these entries necessary? because they are not by latest docs.
+    //       but removing them breaks hot reload. needs investigation.
     entries.push(
       `webpack-dev-server/client?` +
         `http://${opts.serv.host}:${opts.serv.port}/`,
@@ -104,8 +115,7 @@ function getPackConfig(opts) {
   }
 
   if (opts.entry) {
-    // entry point not always required
-    // (eg. when webpack run by karma)
+    // entry point not always required (eg. when webpack run by karma)
     entries.push(opts.entry);
   }
 
@@ -218,22 +228,32 @@ function pack(opts) {
   const compiler = webpack(config);
 
   if (opts.watch) {
-    let backendHost = opts.serv.backend.host;
-    const backendPort = opts.serv.backend.port;
+    const {backend} = opts.serv;
+
+    let backendHost = backend.host;
+    const backendPort = backend.port;
 
     if (backendHost === '0.0.0.0') {
       backendHost = 'localhost';
     }
 
-    const backendUrl = `http://${backendHost}:${backendPort}`;
+    const scheme = backend.secure.enabled ? 'https' : 'http';
+    const backendUrl = `${scheme}://${backendHost}:${backendPort}`;
 
     // dev server
     // - serves static files without need of backend server
-    //   (not using this, proxying from backend server)
-    // - builds src modules into bundle with webpack
-    //   and serves it from memory
+    //   (not using this currently - proxying from backend server instead)
+    // - builds src modules into bundle with webpack and serves it from memory
     // - rebuilds bundle on-the-fly when src modules changed
     const server = new WebpackDevServer(compiler, {
+      // secure https connection (should reflect backend secure options)
+      https: backend.secure.enabled
+        ? {
+            key: fs.readFileSync(backend.secure.key),
+            cert: fs.readFileSync(backend.secure.cert)
+          }
+        : false,
+
       // requests to this URL path will be served with in-memory bundle.
       // for some reason it should always start with slash, since
       // output.publicPath cannot start with slash (to allow base url +
@@ -245,8 +265,8 @@ function pack(opts) {
 
       proxy: {
         // everything except bundle should be served from backend server
-        // (eg. because backend injects runtime config into index.html)
-        ['!' + opts.bundleUrlPath + '/**']: backendUrl
+        // (eg. because backend injects client config into index.html)
+        ['!' + opts.bundleUrlPath + '/**']: {target: backendUrl, secure: false}
       },
 
       historyApiFallback: true,
@@ -265,10 +285,15 @@ function pack(opts) {
         throw err;
       }
 
-      gutil.log(
+      console.log(
         `Webpack dev server started\n` +
-          `\tproxying static files from backend at ${backendUrl}\n` +
-          `\tlistening at http://${opts.serv.host}:${opts.serv.port}/`
+          table([
+            ['\t proxying static files from backend at', backendUrl],
+            [
+              '\t listening at',
+              `${scheme}://${opts.serv.host}:${opts.serv.port}/`
+            ]
+          ])
       );
     });
   } else {

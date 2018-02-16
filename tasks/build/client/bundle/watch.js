@@ -21,7 +21,8 @@ module.exports = {
         folder: buildConfig.src.client.output.root,
         backend: {
           host: serveConfig.server.static.host,
-          port: serveConfig.server.static.port
+          port: serveConfig.server.static.port,
+          secure: serveConfig.server.static.secure
         }
       },
       isProduction: false
