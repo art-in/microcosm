@@ -11,8 +11,10 @@ module.exports = {
       entry: buildConfig.src.client.entry,
       bundleUrlPath: buildConfig.src.client.bundleUrlPath,
       output: {
-        path: buildConfig.src.client.output.bundle.path,
-        name: buildConfig.src.client.output.bundle.name
+        bundle: {
+          path: buildConfig.src.client.output.bundle.path,
+          name: buildConfig.src.client.output.bundle.name
+        }
       },
       watch: true,
       serv: {

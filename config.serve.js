@@ -23,12 +23,6 @@ const defaults = {
       // entry module for nodejs process
       entry: abs('./server/server.js'),
 
-      // url that client will prefix all relative server requests with.
-      // use when server hosted not on root path (ie. through proxying).
-      // relative and absolute paths are allowed (eg. '/microcosm/')
-      // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-      baseUrl: '/',
-
       // secure client-server connection (https)
       secure: {
         enabled: false,

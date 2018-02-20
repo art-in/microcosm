@@ -100,6 +100,7 @@
     "style-loader": "^0.18.2",
     "stylelint": "^8.4.0",
     "stylelint-config-standard": "^18.0.0",
+    "sw-precache-webpack-plugin": "^0.11.4",
     "text-table": "^0.2.0",
     "typescript": "^2.6.2",
     "typings-for-css-modules-loader": "^1.7.0",

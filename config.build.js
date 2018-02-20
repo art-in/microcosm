@@ -29,6 +29,10 @@ const defaults = {
         bundle: {
           path: abs('./.build/client/bundle/'),
           name: 'bundle.js'
+        },
+        sw: {
+          path: abs('./.build/client/'),
+          name: 'sw-cache.js'
         }
       },
 

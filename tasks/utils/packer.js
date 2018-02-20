@@ -8,6 +8,7 @@ const table = require('text-table');
 const WebpackDevServer = require('webpack-dev-server');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const SWPrecachePlugin = require('sw-precache-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -15,9 +16,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * Use when only config required without run,
  * eg. when webpack run by other tool, eg. by karma
  *
+ * @typedef {object} FileLocation
+ * @prop {string} path - file path
+ * @prop {string} name - file name
+ *
  * @typedef {object} OutputOptions
- * @prop {string} path - output bundle path
- * @prop {string} name - output bundle name
+ * @prop {FileLocation} bundle - webpack bundle + chunks
+ * @prop {FileLocation} [sw] - the caching service worker
  *
  * @typedef {object} SecureConnectionOptions
  * @prop {boolean} enabled
@@ -63,7 +68,7 @@ function getPackConfig(opts) {
     // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin),
 
     // ensure import paths have correct char case
-    // (case is ignored by windows, but respected by linux)
+    // (case is ignored in windows, but respected in linux)
     new CaseSensitivePathsPlugin()
   ];
   const babelPlugins = [];
@@ -119,6 +124,30 @@ function getPackConfig(opts) {
     entries.push(opts.entry);
   }
 
+  if (opts.output.sw) {
+    if (opts.watch) {
+      // https://github.com/goldhand/sw-precache-webpack-plugin#webpack-dev-server-support
+      throw Error('Generating service worker for watch build is not supported');
+    }
+
+    // generate caching service worker. it will pre-cache all assets generated
+    // by webpack + some additional files. all other requests will go directly
+    // to server. no resources will be lazily cached (cache-first strategy)
+    plugins.push(
+      new SWPrecachePlugin({
+        filepath: path.join(opts.output.sw.path, opts.output.sw.name),
+        logger: message => gutil.log('[sw-precache]', message),
+        minify: true,
+        cacheId: '',
+        dynamicUrlToDependencies: {
+          // additional resources to pre-cache
+          '.': [], // index.html
+          'favicon.ico': []
+        }
+      })
+    );
+  }
+
   let root = opts.root;
   if (typeof root === 'string') {
     root = [root];
@@ -129,8 +158,8 @@ function getPackConfig(opts) {
     devtool,
     entry: entries,
     output: {
-      path: path.resolve(__dirname, opts.output.path),
-      filename: opts.output.name,
+      path: path.resolve(__dirname, opts.output.bundle.path),
+      filename: opts.output.bundle.name,
 
       // URL path from which additional chunks will be requested in case
       // bundle split up on several chunks

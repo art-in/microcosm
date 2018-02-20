@@ -20,6 +20,8 @@ import mutateView from 'view/mutators';
 
 import clientConfig from './config/client-config';
 
+import './sw/register-sw-cache';
+
 // for devtools Fauxton extension
 // @ts-ignore unknown window prop
 window.PouchDB = PouchDB;

@@ -16,14 +16,14 @@ import pkg from '../package.json';
 const app = express();
 
 // compress all responses on the fly.
-// Q: why compress on the fly and not pre-build?
-// A: it is not worth the trouble since we will use aggressive client side
-//    caching (service worker cache). and the trouble is that some files do not
-//    need additional compression (eg. woff fonts) which is determined by
-//    compressor dynamically, but urls are not updated dynamically
-//    (ie. url-loader does not respect .gz extension added to compressed files
-//     by compression-webpack-plugin, which result in 404s. and if do not modify
-//     filename we will not know when to add 'Content-Encoding' response header)
+// Q: why not pre-compress files when building?
+// A: it is not worth the trouble since we use aggressive client side caching
+//    (service worker cache). and the trouble is that some files do not need
+//    additional compression (eg. woff fonts) which is determined by compressor
+//    dynamically, but urls are not get updated accordingly (ie. url-loader does
+//    not respect .gz extension added by compression-webpack-plugin to
+//    compressed files, which results in 404s. and if we skip adding extension,
+//    we do not know when to add 'Content-Encoding' response header)
 app.use(compression());
 
 app.use(logger('dev'));
@@ -35,12 +35,12 @@ app.set('views', config.server.static.folder);
 
 app.get('/', function(req, res) {
   // inject runtime client config to the index page on the fly.
-  // Q: why inject on the fly and not pre-build?
+  // Q: why not pre-build config?
   // A: this is the best option I found so far. another options:
   //  - inject config once at build time - won't work since it blocks
   //    configuration of already deployed build (away from sources)
-  //  - inject config once just before serve - won't work since it blocks
-  //    running server without gulp task
+  //  - inject config once just before serve (with gulp task) - won't work since
+  //    it blocks running server directly without gulp task
   //  - make rest api request for config from client at startup - won't work
   //    since (a) it is additional request which will hit load performance
   //    (b) it will block offline scenario
@@ -58,7 +58,6 @@ app.get('/', function(req, res) {
   };
 
   res.render('index', {
-    baseUrl: config.server.static.baseUrl,
     clientConfig: JSON.stringify(clientConfig)
   });
 });

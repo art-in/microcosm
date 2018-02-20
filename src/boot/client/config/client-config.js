@@ -6,6 +6,7 @@ const cfg = document
   .querySelector('meta[data-client-config]')
   .getAttribute('data-client-config');
 
+/** @type {ClientConfig} */
 let clientConfig;
 
 try {

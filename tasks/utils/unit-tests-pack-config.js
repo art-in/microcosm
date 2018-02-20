@@ -14,8 +14,10 @@ const packConfig = getPackConfig({
   ],
   bundleUrlPath: config.src.client.bundleUrlPath,
   output: {
-    path: config.test.unit.output.path,
-    name: config.test.unit.output.name
+    bundle: {
+      path: config.test.unit.output.path,
+      name: config.test.unit.output.name
+    }
   },
   isProduction: false
 });
