@@ -23,3 +23,7 @@
 
 /* no hoverable pointer (phone, tablet) */
 @custom-media --no-hover not all and (hover);
+
+/* window is in full screen mode (via web manifest or user action) */
+@custom-media --fullscreen all and (display-mode: fullscreen),
+  all and (display-mode: standalone);

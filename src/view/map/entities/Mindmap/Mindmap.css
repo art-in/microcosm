@@ -1,8 +1,15 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {
 
   /* stylelint-disable-next-line unit-blacklist */
-  height: calc(100% - 0.6em);
-  margin: 0.3em;
+  height: calc(100% - 0.4em);
+  margin: 0.2em;
+
+  @media (--fullscreen) {
+    height: 100%;
+    margin: 0;
+  }
 
   /* Context menus are positioned relatively to Mindset container.
     Mindmap sends right-click positions relative to its container.
