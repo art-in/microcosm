@@ -48,19 +48,13 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin');
  * @prop {boolean}          [opts.watch=false] - rebuild on changes
  * @prop {string}           [opts.entry] - entry module path
  * @prop {DevServerOptions} [opts.serv] - dev server
+ * @prop {string}           [opts.static] - static files path
  *
  * @param {Options} opts
  *
  * @return {object} config
  */
 function getPackConfig(opts) {
-  if (opts.watch) {
-    assert(opts.serv);
-    assert(opts.serv.host);
-    assert(opts.serv.port);
-    assert(opts.serv.folder);
-  }
-
   const entries = [];
   const resolveModules = [];
   const plugins = [
@@ -75,6 +69,8 @@ function getPackConfig(opts) {
   let devtool = null;
 
   if (opts.watch) {
+    assert(opts.serv, 'Watch mode needs developer server options');
+
     // TODO: are these entries necessary? because they are not by latest docs.
     //       but removing them breaks hot reload. needs investigation.
     entries.push(
@@ -125,10 +121,12 @@ function getPackConfig(opts) {
   }
 
   if (opts.output.sw) {
-    if (opts.watch) {
-      // https://github.com/goldhand/sw-precache-webpack-plugin#webpack-dev-server-support
-      throw Error('Generating service worker for watch build is not supported');
-    }
+    // https://github.com/goldhand/sw-precache-webpack-plugin#webpack-dev-server-support
+    assert(!opts.watch, 'Service worker generator does not support watch mode');
+    assert(opts.static, 'Service worker generator needs static files path');
+
+    const readStaticFile = fileName =>
+      fs.readFileSync(path.resolve(opts.static, fileName));
 
     // generate caching service worker. it will pre-cache all assets generated
     // by webpack + some additional files. all other requests will go directly
@@ -140,9 +138,13 @@ function getPackConfig(opts) {
         minify: true,
         cacheId: '',
         dynamicUrlToDependencies: {
-          // additional resources to pre-cache
-          '.': [], // index.html
-          'favicon.ico': []
+          // additional resources to pre-cache. pass file contents, so generator
+          // can get hashes and SW knowns then files get changed and its time to
+          // update client cache
+          '.': readStaticFile('index.html'),
+          'favicon-16.png': readStaticFile('favicon-16.png'),
+          'favicon-144.png': readStaticFile('favicon-144.png'),
+          'manifest.json': readStaticFile('manifest.json')
         }
       })
     );

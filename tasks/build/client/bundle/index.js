@@ -8,6 +8,7 @@ module.exports = {
       root: config.src.client.root,
       entry: config.src.client.entry,
       bundleUrlPath: config.src.client.bundleUrlPath,
+      static: config.src.client.static,
       output: {
         bundle: {
           path: config.src.client.output.bundle.path,
