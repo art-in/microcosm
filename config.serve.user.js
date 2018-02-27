@@ -13,16 +13,16 @@ module.exports = {
     },
 
     database: {
-      protocol: 'https',
-      host: 'artins.space',
-      port: 6984,
+      protocol: 'http',
+      host: 'localhost',
+      port: 5984,
       auth: {
-        on: true,
+        on: false,
         name: 'admin',
-        password: 'artinsdb3'
+        password: 'admin'
       },
       dev: {
-        start: false
+        start: true
       }
     }
   }
