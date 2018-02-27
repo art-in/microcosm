@@ -7,6 +7,14 @@ import DataState from './DataState';
  * Application state
  */
 export default class State {
+  sideEffects = {
+    /** @type {function(RequestInfo, RequestInit): Promise<Response>} */
+    fetch: undefined,
+
+    /** @type {function} */
+    setTimeout: undefined
+  };
+
   /**
    * Persistent part of state
    * @type {DataState}

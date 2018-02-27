@@ -109,5 +109,9 @@ const descriptors = {
   [Icon.circle]: {
     class: icons.faCircle,
     char: '\uf111'
+  },
+  [Icon.exclamationTriangle]: {
+    class: icons.faExclamationTriangle,
+    char: '\uf071'
   }
 };

@@ -4,8 +4,7 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * Local part of persistent state.
  *
  * Holds data that is not intended to be saved in database (on server),
- * but rather specific to concreete user-agent (eg. user may prefer mobile
- * browser to open mindset always in zen view mode)
+ * but rather specific to concreete user-agent
  */
 export default class LocalState {
   /**
@@ -14,6 +13,19 @@ export default class LocalState {
    * @type {string}
    */
   dbServerUrl = undefined;
+
+  /**
+   * Name of user from whose databases we replicated last time.
+   * Empty value means replication did not happen yet (first visit).
+   * @type {string}
+   */
+  userName = undefined;
+
+  /**
+   * Indicates that database access is authorized for current user.
+   * @type {boolean}
+   */
+  isDbAuthorized = false;
 
   /**
    * Mindset view mode

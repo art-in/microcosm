@@ -1,4 +1,5 @@
 import LocalState from './LocalState';
+import CancellationTokenType from 'action/utils/CancellationToken';
 
 /**
  * Persistent part of the state
@@ -9,6 +10,18 @@ export default class DataState {
    * @type {LocalState}
    */
   local = new LocalState();
+
+  /**
+   * URL of db server for current session
+   * @type {string}
+   */
+  sessionDbServerUrl = undefined;
+
+  /**
+   * Database heartbeat cancelation token
+   * @type {CancellationTokenType}
+   */
+  dbHeartbeatToken = undefined;
 
   /** @type {PouchDB.Database} */
   ideas = undefined;

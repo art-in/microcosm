@@ -3,6 +3,8 @@ import ViewModel from 'vm/utils/ViewModel';
 
 import MindsetType from 'vm/main/Mindset';
 import VersionVmType from 'vm/main/Version';
+import AuthScreenType from 'vm/auth/AuthScreen';
+import MainScreenType from 'vm/main/MainScreen';
 
 /**
  * Main view model
@@ -11,22 +13,16 @@ import VersionVmType from 'vm/main/Version';
  * login form, preferences form, mindset etc.
  */
 export default class Main extends ViewModel {
-  /**
-   * Screen type
-   * @type {string|undefined}
-   */
+  /** @type {MainScreenType} */
   screen = undefined;
 
-  /**
-   * Mindset view model
-   * @type {MindsetType|undefined}
-   */
+  /** @type {AuthScreenType} */
+  auth = undefined;
+
+  /** @type {MindsetType|undefined} */
   mindset = undefined;
 
-  /**
-   * Version mark view model
-   * @type {VersionVmType|undefined}
-   */
+  /** @type {VersionVmType|undefined} */
   version = undefined;
 
   /**

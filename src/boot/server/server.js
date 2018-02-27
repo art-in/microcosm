@@ -7,11 +7,14 @@ import logger from 'morgan';
 import compression from 'compression';
 import consolidate from 'consolidate';
 import table from 'text-table';
+import bodyParser from 'body-parser';
 
 // @ts-ignore relative path from build folder
 import config from '../config.serve';
 // @ts-ignore relative path from build folder
 import pkg from '../package.json';
+
+import auth from './auth';
 
 const app = express();
 
@@ -26,6 +29,7 @@ const app = express();
 //    we do not know when to add 'Content-Encoding' response header)
 app.use(compression());
 
+app.use(bodyParser.json());
 app.use(logger('dev'));
 
 // setup template engine
@@ -63,15 +67,16 @@ app.get('/', function(req, res) {
 });
 
 app.use(express.static(config.server.static.folder));
+app.use('/auth', auth);
 
 app.use(function(req, res) {
-  res.status(404);
-  res.send('NOT FOUND');
+  res.status(404).send('NOT FOUND');
 });
 
-app.use(function(err, req, res) {
-  res.status(500);
-  res.render('error', {error: err});
+// eslint-disable-next-line no-unused-vars
+app.use(function(err, req, res, next) {
+  console.error(err);
+  res.status(500).send();
 });
 
 const {host, port, folder, secure} = config.server.static;

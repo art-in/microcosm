@@ -25,7 +25,8 @@ const Icon = {
   list: 17,
   chevronLeft: 18,
   sunO: 19,
-  circle: 20
+  circle: 20,
+  exclamationTriangle: 21
 };
 
 export default Icon;

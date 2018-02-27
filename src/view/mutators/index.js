@@ -26,9 +26,7 @@ export default function mutate(state, patch) {
  * @param {MutationType} mutation
  */
 function apply(state, mutation) {
-  const {mindset} = state.vm.main;
-  const {mindmap, zen} = mindset;
-  const isMindmapMode = mindset.mode === MindsetViewMode.mindmap;
+  const {mindset, auth} = state.vm.main;
 
   const {data} = mutation;
 
@@ -49,13 +47,21 @@ function apply(state, mutation) {
       break;
     }
 
+    case 'update-main':
+      state.vm.main.emitChange();
+      break;
+
+    case 'update-auth-login-form':
+      auth.loginForm.emitChange();
+      break;
+
     case 'init-mindset':
     case 'update-mindset-vm':
       state.vm.main.mindset.emitChange();
       break;
 
     case 'update-mindmap':
-      mindmap.emitChange();
+      mindset.mindmap.emitChange();
       break;
 
     case 'update-mindset':
@@ -66,19 +72,19 @@ function apply(state, mutation) {
     case 'update-idea':
     case 'update-association':
     case 'update-node': // TODO: update only node and related links
-      if (isMindmapMode) {
-        mindmap.emitChange();
+      if (mindset.mode === MindsetViewMode.mindmap) {
+        mindset.mindmap.emitChange();
       }
       break;
 
     case 'update-link': {
-      const link = mindmap.links.find(l => l.id === data.id);
+      const link = mindset.mindmap.links.find(l => l.id === data.id);
       link.emitChange();
       break;
     }
 
     case 'update-association-tails-lookup':
-      mindmap.associationTailsLookup.emitChange();
+      mindset.mindmap.associationTailsLookup.emitChange();
       break;
 
     case 'update-color-picker':
@@ -86,7 +92,7 @@ function apply(state, mutation) {
       break;
 
     case 'update-context-menu':
-      mindmap.contextMenu.emitChange();
+      mindset.mindmap.contextMenu.emitChange();
       break;
 
     case 'update-idea-search-box':
@@ -94,27 +100,31 @@ function apply(state, mutation) {
       break;
 
     case 'update-idea-form-modal':
-      mindmap.ideaFormModal.emitChange();
+      mindset.mindmap.ideaFormModal.emitChange();
       break;
 
     case 'update-idea-form-successor-search-box':
-      mindmap.ideaFormModal.form.successorSearchBox.emitChange();
+      mindset.mindmap.ideaFormModal.form.successorSearchBox.emitChange();
       break;
 
     case 'update-zen':
-      zen.emitChange();
+      mindset.zen.emitChange();
       break;
 
     case 'update-zen-pane':
-      zen.pane.emitChange();
+      mindset.zen.pane.emitChange();
       break;
 
     case 'update-zen-sidebar':
-      zen.sidebar.emitChange();
+      mindset.zen.sidebar.emitChange();
       break;
 
     case 'update-zen-idea-form-successor-search-box':
-      zen.pane.form.successorSearchBox.emitChange();
+      mindset.zen.pane.form.successorSearchBox.emitChange();
+      break;
+
+    case 'update-db-connection':
+      mindset.dbConnectionIcon.emitChange();
       break;
 
     default:

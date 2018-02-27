@@ -46,15 +46,19 @@ async function apply(state, mutation) {
 
   switch (mutation.type) {
     case 'init': {
-      // nothing to init for now
+      const {sessionDbServerUrl} = required(mutation.data.data);
+      data.sessionDbServerUrl = sessionDbServerUrl;
       break;
     }
 
     case 'init-mindset': {
-      const {ideas, associations, mindsets} = required(mutation.data.data);
+      const {ideas, associations, mindsets, dbHeartbeatToken} = required(
+        mutation.data.data
+      );
       data.ideas = ideas;
       data.associations = associations;
       data.mindsets = mindsets;
+      data.dbHeartbeatToken = dbHeartbeatToken;
       break;
     }
 
@@ -84,6 +88,10 @@ async function apply(state, mutation) {
 
     case 'update-mindset':
       await mindsetDB.update(data.mindsets, mutation.data);
+      break;
+
+    case 'update-db-connection':
+      // nothing to update currently
       break;
 
     default:

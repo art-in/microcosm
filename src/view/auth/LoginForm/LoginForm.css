@@ -1,0 +1,35 @@
+/* TODO: #78 */
+/* stylelint-disable */
+
+.root {}
+
+.field {
+  display: flex;
+}
+
+.field + .field {
+  margin-top: 10px;
+}
+
+.field-title {
+  display: inline-block;
+  min-width: 100px;
+}
+
+.field-value {
+  padding: 3px 5px;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 15px;
+}
+
+.error {
+  margin-top: 15px;
+  color: red;
+  border: 1px solid red;
+}

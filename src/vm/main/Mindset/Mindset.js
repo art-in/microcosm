@@ -7,9 +7,10 @@ import ColorPicker from 'vm/shared/ColorPicker';
 import ViewModel from 'vm/utils/ViewModel';
 import SearchBox from 'vm/shared/SearchBox';
 import Lookup from 'vm/shared/Lookup';
-import Icon from 'vm/shared/Icon';
+import IconType from 'vm/shared/Icon';
 
 import MindsetViewModeType from 'vm/main/MindsetViewMode';
+import DbConnectionIcon from 'vm/main/DbConnectionIcon';
 
 /**
  * Mindset view model
@@ -51,23 +52,17 @@ export default class Mindset extends ViewModel {
   zen = undefined;
 
   /**
-   * Icon indicating state of connection to database server
-   * @type {{icon: Icon, tooltip: string}}
+   * Icon indicating state of connection with server database
+   * @type {DbConnectionIcon}
    */
-  dbServerConnectionIcon = {
-    /** @type {Icon} */
-    icon: Icon.plug,
-
-    /** @type {string} */
-    tooltip: undefined
-  };
+  dbConnectionIcon = new DbConnectionIcon();
 
   /**
    * Button which switches current view mode
    * @type {{icon, tooltip}}
    */
   toggleModeButton = {
-    /** @type {Icon} */
+    /** @type {IconType} */
     icon: undefined,
 
     /** @type {string} */

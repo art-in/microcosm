@@ -10,7 +10,8 @@ if (process.env.NODE_ENV === 'production') {
     // precaching requests do not degrade the first visit experience.
     window.addEventListener('load', async () => {
       // register service worker. it will only be installed if script is new.
-      // if script was not changed (status 304), installation will be skipped.
+      // if script was not changed (status 304, or status 200 but no changes),
+      // installation will be skipped.
       const reg = await navigator.serviceWorker.register('sw-cache.js');
 
       reg.addEventListener('updatefound', () => {

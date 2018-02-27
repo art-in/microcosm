@@ -1,6 +1,7 @@
 import PouchDB from 'pouchdb';
 import debounce from 'debounce';
 
+import assert from 'utils/assert';
 import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
@@ -14,9 +15,11 @@ import Point from 'model/entities/Point';
 
 import StateType from 'boot/client/State';
 
+import startDBHeartbeat from 'action/utils/start-db-heartbeat';
+import getServerDbUrl from 'action/utils/get-server-db-url';
+import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import buildIdeasGraph from 'model/utils/build-ideas-graph-from-list';
 import weighRootPaths from 'utils/graph/weigh-root-paths';
-import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import view from 'vm/utils/view-patch';
 
 import setViewMode from 'vm/main/Mindset/methods/set-view-mode';
@@ -36,7 +39,8 @@ export const RELOAD_DEBOUNCE_TIME = 1000; // ms
  * @param {StateType} state
  * @param {object} data
  * @param {string} [data.isInitialLoad=false] - initial load or reload
- * @param {string} data.dbServerUrl
+ * @param {string} data.sessionDbServerUrl - db server URL for current session
+ * @param {string} data.sessionUserName - user name for current session
  * @param {function} dispatch
  * @return {Promise.<Patch>}
  */
@@ -46,24 +50,23 @@ export default async function loadMindset(state, data, dispatch) {
     associations: state.data.associations,
     mindsets: state.data.mindsets
   };
-  const {dbServerUrl} = required(data);
+  const {sessionDbServerUrl, sessionUserName} = required(data);
   const {isInitialLoad} = data;
 
   // init mindset databases.
   // only init once - repeated mindset reloads should not reinit databases.
   if (isInitialLoad) {
     try {
-      localDBs = await initDatabases(state, dbServerUrl, dispatch);
+      localDBs = await initDatabases(
+        state,
+        sessionDbServerUrl,
+        sessionUserName,
+        dispatch
+      );
     } catch (e) {
-      // local db failed to replicate from server db on first visit,
-      // since there is not much we can show except error message.
-      // in case of repeated visit error will not be thrown, since we can
-      // show local copy of data, while retry sync process is initiated
       if (e instanceof DbReplicationError) {
         console.warn(e.message);
-        return view('update-mindset-vm', {
-          isLoadFailed: true
-        });
+        return view('update-mindset-vm', {isLoadFailed: true});
       }
 
       throw e;
@@ -111,11 +114,23 @@ export default async function loadMindset(state, data, dispatch) {
     )
   };
 
+  const dbHeartbeatToken = startDBHeartbeat(
+    sessionDbServerUrl,
+    sessionUserName,
+    dispatch,
+    state.sideEffects.fetch,
+    state.sideEffects.setTimeout
+  );
+
   return new Patch({
     type: 'init-mindset',
     data: {
       data: {
-        local: {dbServerUrl},
+        local: {
+          dbServerUrl: sessionDbServerUrl,
+          userName: sessionUserName
+        },
+        dbHeartbeatToken,
         ideas: localDBs.ideas,
         associations: localDBs.associations,
         mindsets: localDBs.mindsets
@@ -129,54 +144,68 @@ export default async function loadMindset(state, data, dispatch) {
 /**
  * Initializes databases
  *
- * @throws {DbReplicationError} will throw if
- *          local db failed to replicate from server db on first visit,
- *          since there is not much we can show except error message.
- *          in case of repeated visit error will not be thrown, since we can
- *          work with local copy of data, while retry sync process is initiated,
- *          which eventually will push local changes to server when it is up.
+ * @throws {DbReplicationError} will be thrown if local db failed to replicate
+ *   from server db on first visit, since there is not much we can show except
+ *   error message. in case of repeated visit, error will not be thrown, since
+ *   we can work with local copy of data, while retry sync process is initiated,
+ *   which eventually will push local changes to server when it is up.
  *
  * @param {StateType} state
- * @param {string} dbServerUrl - URL of db server for current session
+ * @param {string} sessionDbServerUrl
+ * @param {string} sessionUserName
  * @param {function} dispatch
  * @return {Promise.<LocalDatabases>} local databases
  */
-async function initDatabases(state, dbServerUrl, dispatch) {
-  if (!dbServerUrl) {
-    throw Error(`Invalid database server URL '${dbServerUrl}'`);
-  }
+async function initDatabases(
+  state,
+  sessionDbServerUrl,
+  sessionUserName,
+  dispatch
+) {
+  assert(sessionDbServerUrl, `Invalid db server URL '${sessionDbServerUrl}'`);
+  assert(sessionUserName, `Invalid user name '${sessionUserName}'`);
 
-  // create handles to local databases (will be created if not exist)
+  // create handles to local databases (dbs will be created if not exist)
   const localDBs = {
     ideas: new PouchDB('ideas'),
     associations: new PouchDB('associations'),
     mindsets: new PouchDB('mindsets')
   };
 
-  const lastDBServerUrl = state.data.local.dbServerUrl;
+  const {dbServerUrl, userName} = state.data.local;
 
-  if (lastDBServerUrl !== dbServerUrl) {
-    if (lastDBServerUrl !== null) {
-      // local databases were previously replicated from another server.
-      // clean them before replicating from current server, otherwise
-      // all local entities will be pushed and mixed with server entities
-      // on subsequent sync
+  if (sessionDbServerUrl !== dbServerUrl || sessionUserName !== userName) {
+    if (dbServerUrl) {
+      // local databases were previously replicated from another server dbs.
+      // clean them before replicating from current server, otherwise entities
+      // will mix up
       await cleanDatabases(localDBs);
     }
 
     try {
-      await replicateFromServer(dbServerUrl, localDBs);
+      await replicateFromServer(sessionDbServerUrl, sessionUserName, localDBs);
     } catch (e) {
       throw new DbReplicationError(
-        `Local database failed to replicate from server database: ` +
+        `Local databases failed to replicate from server databases: ` +
           `${e.message}`
       );
     }
   }
 
   // start live synchronization with server databases
-  const onRemoteChange = onServerDbChange.bind(null, dispatch, dbServerUrl);
-  startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange);
+  const onRemoteChange = onServerDbChange.bind(
+    null,
+    dispatch,
+    sessionDbServerUrl,
+    sessionUserName
+  );
+
+  startSyncWithRemote(
+    sessionDbServerUrl,
+    sessionUserName,
+    localDBs,
+    onRemoteChange
+  );
 
   return localDBs;
 }
@@ -234,21 +263,27 @@ async function cleanDatabases(localDBs) {
 }
 
 /**
- * Replicates data from remote databases to local databases once
+ * Replicates data from server databases to local databases once
  *
  * @param {string} dbServerUrl
+ * @param {string} userName
  * @param {LocalDatabases} localDBs
  * @return {Promise}
  */
-function replicateFromServer(dbServerUrl, localDBs) {
+function replicateFromServer(dbServerUrl, userName, localDBs) {
   return Promise.all(
     Object.entries(localDBs).map(
       ([dbName, db]) =>
         new Promise((resolve, reject) => {
-          const remoteDbURL = `${dbServerUrl}/${dbName}`;
+          const serverDbURL = getServerDbUrl(dbServerUrl, userName, dbName);
 
           db.replicate
-            .from(remoteDbURL)
+            .from(serverDbURL, {
+              // do not create server database. which can happen if logged in
+              // as server admin. other users cannot create it anyway.
+              // @ts-ignore
+              skip_setup: true
+            })
             .on('complete', resolve)
             .on('error', reject);
         })
@@ -260,12 +295,13 @@ function replicateFromServer(dbServerUrl, localDBs) {
  * Starts replicating server and local databases in both direction in real time
  *
  * @param {string} dbServerUrl
+ * @param {string} userName
  * @param {LocalDatabases} localDBs
  * @param {function} onRemoteChange
  */
-function startSyncWithRemote(dbServerUrl, localDBs, onRemoteChange) {
+function startSyncWithRemote(dbServerUrl, userName, localDBs, onRemoteChange) {
   Object.entries(localDBs).forEach(([dbName, db]) => {
-    const remoteDbURL = `${dbServerUrl}/${dbName}`;
+    const remoteDbURL = getServerDbUrl(dbServerUrl, userName, dbName);
 
     db
       .sync(remoteDbURL, {
@@ -306,8 +342,13 @@ class DbReplicationError extends Error {}
  * Still inconsistent state happens, so 'cross client sync' feature is really
  * experimental for now.
  */
-const onServerDbChange = debounce((dispatch, dbServerUrl) => {
-  // client databases were synced,
-  // now it is time to reload mindset to sync model and view states
-  dispatch({type: 'load-mindset', data: {dbServerUrl}});
-}, RELOAD_DEBOUNCE_TIME);
+const onServerDbChange = debounce(
+  (dispatch, sessionDbServerUrl, sessionUserName) =>
+    // client databases were synced,
+    // now it is time to reload mindset to update model and view states
+    dispatch({
+      type: 'load-mindset',
+      data: {sessionDbServerUrl, sessionUserName}
+    }),
+  RELOAD_DEBOUNCE_TIME
+);

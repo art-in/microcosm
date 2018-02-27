@@ -39,6 +39,15 @@ const defaults = {
       host: 'localhost',
       port: 5984,
 
+      // credentials of database server administrator. it never goes to client.
+      // used only to register new users (to add user and create databases).
+      // admin authentication can be skipped if server has no admin yet.
+      auth: {
+        on: false,
+        name: 'admin',
+        password: 'admin'
+      },
+
       // development database server (pouchdb-server).
       // note 1: pouchdb-server is not production ready, so you should
       // install and run your own couchdb server for production.

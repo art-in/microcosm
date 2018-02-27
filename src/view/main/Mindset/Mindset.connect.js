@@ -35,6 +35,9 @@ export default connect(
       const picker = props.mindset.colorPicker;
       const action = picker.onSelectAction({color});
       dispatch(action);
-    }
+    },
+
+    onDbConnectionIconClick: () =>
+      dispatch({type: 'on-mindset-db-connection-icon-click'})
   })
 )(Component);

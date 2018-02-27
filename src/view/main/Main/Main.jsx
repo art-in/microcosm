@@ -1,8 +1,12 @@
 import React, {Component, Fragment} from 'react';
 
 import MainVmType from 'vm/main/Main';
+import MainScreen from 'vm/main/MainScreen';
+
+import AuthScreen from 'view/auth/AuthScreen';
 import Mindset from 'view/main/Mindset';
 import Version from 'view/main/Version';
+import MessageScreen from 'view/shared/MessageScreen';
 
 import './shared/fonts.css';
 import './shared/global.css';
@@ -23,10 +27,16 @@ export default class Main extends Component {
   render() {
     const {main: mainVM} = this.props;
 
-    let pageComponent;
+    let screen;
     switch (mainVM.screen) {
-      case 'mindset':
-        pageComponent = <Mindset mindset={mainVM.mindset} />;
+      case MainScreen.loading:
+        screen = <MessageScreen>Loading...</MessageScreen>;
+        break;
+      case MainScreen.auth:
+        screen = <AuthScreen auth={mainVM.auth} />;
+        break;
+      case MainScreen.mindset:
+        screen = <Mindset mindset={mainVM.mindset} />;
         break;
       default:
         throw Error(`Unknown screen type '${mainVM.screen}'`);
@@ -34,7 +44,7 @@ export default class Main extends Component {
 
     return (
       <Fragment>
-        {pageComponent}
+        {screen}
 
         <Version className={classes.version} version={mainVM.version} />
       </Fragment>

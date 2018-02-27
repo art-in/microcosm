@@ -37,9 +37,9 @@ describe('load-mindset', function() {
       'ideas',
       'associations',
 
-      'TEST_DB_SERVER/mindsets',
-      'TEST_DB_SERVER/ideas',
-      'TEST_DB_SERVER/associations'
+      'TEST_DB_SERVER/TEST_USER_mindsets',
+      'TEST_DB_SERVER/TEST_USER_ideas',
+      'TEST_DB_SERVER/TEST_USER_associations'
     ];
 
     await Promise.all(
@@ -55,9 +55,13 @@ describe('load-mindset', function() {
     await cleanSideEffects();
   });
 
+  require('./load-mindset.heartbeat.test');
+
   it('should init mindset databases', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -67,7 +71,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -88,6 +93,8 @@ describe('load-mindset', function() {
   it('should save url of database server', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -97,7 +104,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -117,6 +125,8 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.local.dbServerUrl = 'TEST_DB_SERVER';
     state.data.ideas = ideasDB;
     state.data.associations = assocsDB;
@@ -149,7 +159,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -169,6 +180,8 @@ describe('load-mindset', function() {
   it('should add mindset if db is empty', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -178,7 +191,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -196,6 +210,8 @@ describe('load-mindset', function() {
   it('should add root idea if db is empty', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -205,7 +221,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -221,6 +238,8 @@ describe('load-mindset', function() {
   it('should focus root idea if db is empty', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -230,7 +249,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -248,7 +268,8 @@ describe('load-mindset', function() {
   it('should add required entities on reloads if db is empty', async () => {
     // setup state
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.ideas = new PouchDB('ideas');
     state.data.associations = new PouchDB('associations');
     state.data.mindsets = new PouchDB('mindsets');
@@ -262,7 +283,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -289,6 +311,8 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.ideas = ideasDB;
     state.data.associations = assocsDB;
     state.data.mindsets = mindsetsDB;
@@ -339,7 +363,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -372,6 +397,8 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.ideas = ideasDB;
     state.data.associations = assocsDB;
     state.data.mindsets = mindsetsDB;
@@ -422,7 +449,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -445,7 +473,8 @@ describe('load-mindset', function() {
   it('should init mindset view model', async () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.ideas = createDB();
     state.data.associations = createDB();
     state.data.mindsets = createDB();
@@ -496,7 +525,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -519,11 +549,13 @@ describe('load-mindset', function() {
 
   it('should replicate server databases on first visit', async () => {
     // setup
-    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
-    const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
-    const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
+    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_mindsets');
+    const ideasServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_ideas');
+    const assocsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_associations');
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
 
     await mindsetDbApi.add(
       mindsetsServerDB,
@@ -571,7 +603,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -598,9 +631,9 @@ describe('load-mindset', function() {
 
   it('should start syncing local and server databases', async () => {
     // setup
-    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
-    const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
-    const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
+    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_mindsets');
+    const ideasServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_ideas');
+    const assocsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_associations');
 
     await mindsetDbApi.add(
       mindsetsServerDB,
@@ -640,6 +673,8 @@ describe('load-mindset', function() {
     );
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -649,7 +684,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -687,7 +723,7 @@ describe('load-mindset', function() {
     );
 
     // await database synchronization
-    await timer(100);
+    await timer(RELOAD_DEBOUNCE_TIME + 100);
 
     // check local databases pull server changes
     const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
@@ -701,9 +737,9 @@ describe('load-mindset', function() {
 
   it('should dispatch mindset reload on server db changes', async () => {
     // setup
-    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
-    const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
-    const assocsServerDB = new PouchDB('TEST_DB_SERVER/associations');
+    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_mindsets');
+    const ideasServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_ideas');
+    const assocsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_associations');
 
     await mindsetDbApi.add(
       mindsetsServerDB,
@@ -743,7 +779,9 @@ describe('load-mindset', function() {
     );
 
     const state = new State();
-    const dispatchSpy = spy();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
+    const dispatch = spy();
 
     // target
     const patch = await handle(
@@ -752,10 +790,11 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
-      dispatchSpy
+      dispatch
     );
 
     // check
@@ -788,11 +827,16 @@ describe('load-mindset', function() {
     await timer(RELOAD_DEBOUNCE_TIME + 100);
 
     // check reload action dispatched
-    expect(dispatchSpy.callCount).to.equal(1);
-    expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
+    const dispatchLoadMindset = dispatch
+      .getCalls()
+      .filter(c => c.args[0].type === 'load-mindset');
+
+    expect(dispatchLoadMindset).to.have.length(1);
+    expect(dispatchLoadMindset[0].args[0]).to.deep.equal({
       type: 'load-mindset',
       data: {
-        dbServerUrl: 'TEST_DB_SERVER'
+        sessionDbServerUrl: 'TEST_DB_SERVER',
+        sessionUserName: 'TEST_USER'
       }
     });
   });
@@ -841,8 +885,8 @@ describe('load-mindset', function() {
     );
 
     // setup server databases
-    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/mindsets');
-    const ideasServerDB = new PouchDB('TEST_DB_SERVER/ideas');
+    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_mindsets');
+    const ideasServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_ideas');
 
     await mindsetDbApi.add(
       mindsetsServerDB,
@@ -864,9 +908,12 @@ describe('load-mindset', function() {
 
     // setup state
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
 
     // setup previous db server url
     state.data.local.dbServerUrl = 'TEST_DB_SERVER_OLD';
+    state.data.local.userName = 'TEST_USER';
 
     const dispatchSpy = spy();
 
@@ -877,7 +924,118 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
+        }
+      },
+      dispatchSpy
+    );
+
+    // check
+    const mutations = patch['init-mindset'];
+    expect(mutations).to.have.length(1);
+
+    const mutationData = mutations[0].data;
+
+    const mindsetsDB = mutationData.data.mindsets;
+    const ideasDB = mutationData.data.ideas;
+    const assocsDB = mutationData.data.associations;
+
+    // check local databases have only entities from new db server
+    const mindsetsCount = (await mindsetsDB.info()).doc_count;
+    const ideasCount = (await ideasDB.info()).doc_count;
+    const assocsCount = (await assocsDB.info()).doc_count;
+
+    expect(mindsetsCount).to.equal(1);
+    expect(ideasCount).to.equal(1);
+    expect(assocsCount).to.equal(0);
+  });
+
+  it('should clean local databases if new user', async () => {
+    // setup local databases
+    const mindsetsLocalDB = new PouchDB('mindsets');
+    const ideasLocalDB = new PouchDB('ideas');
+    const assocsLocalDB = new PouchDB('associations');
+
+    await mindsetDbApi.add(
+      mindsetsLocalDB,
+      new Mindset({
+        id: 'mindset id',
+        focusIdeaId: 'A'
+      })
+    );
+
+    await ideaDbApi.add(
+      ideasLocalDB,
+      new Idea({
+        id: 'A',
+        mindsetId: 'mindset id',
+        isRoot: true,
+        posRel: new Point({x: 0, y: 0})
+      })
+    );
+
+    await ideaDbApi.add(
+      ideasLocalDB,
+      new Idea({
+        id: 'B',
+        mindsetId: 'mindset id',
+        posRel: new Point({x: 0, y: 100})
+      })
+    );
+
+    await assocDbApi.add(
+      assocsLocalDB,
+      new Association({
+        mindsetId: 'mindset id',
+        fromId: 'A',
+        toId: 'B',
+        weight: 100
+      })
+    );
+
+    // setup server databases
+    const mindsetsServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_mindsets');
+    const ideasServerDB = new PouchDB('TEST_DB_SERVER/TEST_USER_ideas');
+
+    await mindsetDbApi.add(
+      mindsetsServerDB,
+      new Mindset({
+        id: 'mindset id',
+        focusIdeaId: 'A'
+      })
+    );
+
+    await ideaDbApi.add(
+      ideasServerDB,
+      new Idea({
+        id: 'A',
+        mindsetId: 'mindset id',
+        isRoot: true,
+        posRel: new Point({x: 0, y: 0})
+      })
+    );
+
+    // setup state
+    const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
+
+    // setup previous db server url and user
+    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.local.userName = 'TEST_USER_OLD';
+
+    const dispatchSpy = spy();
+
+    // target
+    const patch = await handle(
+      state,
+      {
+        type: 'load-mindset',
+        data: {
+          isInitialLoad: true,
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatchSpy
@@ -906,6 +1064,8 @@ describe('load-mindset', function() {
   it('should NOT mutate state', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const stateBefore = clone(state);
 
     const dispatch = noop;
@@ -917,7 +1077,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: true,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch
@@ -930,6 +1091,8 @@ describe('load-mindset', function() {
   it('should fail if db server URL is empty', async () => {
     // setup
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     const dispatch = noop;
 
     // target
@@ -944,7 +1107,7 @@ describe('load-mindset', function() {
 
     // check
     await expect(promise).to.be.rejectedWith(
-      `Required parameter 'dbServerUrl' was not specified`
+      `Required parameter 'sessionDbServerUrl' was not specified`
     );
   });
 
@@ -955,6 +1118,8 @@ describe('load-mindset', function() {
     const mindsetsDB = createDB();
 
     const state = new State();
+    state.sideEffects.fetch = spy();
+    state.sideEffects.setTimeout = spy();
     state.data.ideas = ideasDB;
     state.data.associations = assocsDB;
     state.data.mindsets = mindsetsDB;
@@ -976,7 +1141,8 @@ describe('load-mindset', function() {
         type: 'load-mindset',
         data: {
           isInitialLoad: false,
-          dbServerUrl: 'TEST_DB_SERVER'
+          sessionDbServerUrl: 'TEST_DB_SERVER',
+          sessionUserName: 'TEST_USER'
         }
       },
       dispatch

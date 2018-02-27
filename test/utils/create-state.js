@@ -5,6 +5,7 @@ import State from 'src/boot/client/State';
 import Mindset from 'src/model/entities/Mindset';
 import Point from 'src/model/entities/Point';
 import MainVM from 'src/vm/main/Main';
+import MainScreen from 'vm/main/MainScreen';
 import MindsetVM from 'src/vm/main/Mindset';
 import VersionVM from 'src/vm/main/Version';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
@@ -61,7 +62,7 @@ export default function createState() {
   });
 
   state.vm.main = new MainVM({
-    screen: 'mindset',
+    screen: MainScreen.mindset,
     mindset,
     version
   });

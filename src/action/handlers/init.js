@@ -3,67 +3,110 @@ import Patch from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
 import ClientConfigType from 'boot/client/config/ClientConfig';
-import startDBServerHeartbeat from 'action/utils/start-db-server-heartbeat';
 
+import view from 'vm/utils/view-patch';
+import ConnectionState from 'action/utils/ConnectionState';
+import getDbConnectionState from 'action/utils/get-db-connection-state';
 import MainVM from 'vm/main/Main';
-import MindsetVM from 'vm/main/Mindset';
 import VersionVM from 'vm/main/Version';
+import MainScreen from 'vm/main/MainScreen';
+import openScreen from 'vm/main/Main/methods/open-screen';
 
 /**
- * Inits state
+ * Inits state on app start
  *
  * @param {StateType} state
  * @param {object} data
+ * @param {function} data.fetch
+ * @param {function} data.setTimeout
  * @param {function} data.storeDispatch
  * @param {ClientConfigType} data.clientConfig
- * @param {string} data.dbServerUrl
+ * @param {string} data.sessionDbServerUrl
  * @param {Element} data.viewRoot
  * @param {function} dispatch
  * @param {function} mutate
  */
 export default async function init(state, data, dispatch, mutate) {
-  const {storeDispatch, clientConfig, dbServerUrl, viewRoot} = required(data);
+  const {
+    fetch,
+    setTimeout,
+    storeDispatch,
+    clientConfig,
+    sessionDbServerUrl,
+    viewRoot
+  } = required(data);
 
   // init view model
-  // TBD: currently unconditionaly start loading mindset.
-  //      in future, this action is the place to check user session,
-  //      and if it is stalled then move to login first.
-  const mindset = new MindsetVM({
-    isLoaded: false
-  });
-
-  const version = new VersionVM({
-    name: clientConfig.app.name,
-    homepage: clientConfig.app.homepage,
-    version: clientConfig.app.version
-  });
-
   const main = new MainVM({
-    screen: 'mindset',
-    mindset,
-    version
+    screen: MainScreen.loading,
+    version: new VersionVM({
+      name: clientConfig.app.name,
+      homepage: clientConfig.app.homepage,
+      version: clientConfig.app.version
+    })
   });
 
   await mutate(
     new Patch({
       type: 'init',
       data: {
+        sideEffects: {fetch, setTimeout},
+        data: {sessionDbServerUrl, fetch, setTimeout},
         vm: {main},
-        view: {
-          root: viewRoot,
-          storeDispatch
-        }
+        view: {root: viewRoot, storeDispatch}
       }
     })
   );
 
-  dispatch({
-    type: 'load-mindset',
-    data: {
-      isInitialLoad: true,
-      dbServerUrl
-    }
-  });
+  const {userName, isDbAuthorized, dbServerUrl} = state.data.local;
 
-  startDBServerHeartbeat(dbServerUrl, storeDispatch);
+  let shouldLogin;
+
+  if (!dbServerUrl) {
+    // force login form on first visit
+    shouldLogin = true;
+  } else if (!isDbAuthorized) {
+    // force login form if last connection was not authorized.
+    // ensure db server is reachable, otherwise we will not be able to
+    // authenticate user without db server
+    const connectionState = await getDbConnectionState(
+      dbServerUrl,
+      userName,
+      state.sideEffects.fetch
+    );
+
+    shouldLogin = connectionState !== ConnectionState.disconnected;
+  }
+
+  // Q: why not force login form on each app start?
+  // A: because it would be too frequent for user.
+  //
+  // Q: why not check authorization on each app start, and force login form only
+  //    when auth check fails?
+  // A: because auth check requires request to db server. on slow network it
+  //    will slowdown entire app start. since we are offline ready, we have
+  //    everything we need to open mindset as fast as possible. right after
+  //    mindset is opened we making that auth check.
+  //
+  // Q: why not force login form right after auth check fails?
+  // A: because by the time server responds, user may already make some changes
+  //    to mindset. if we force login form, we will distract user attention from
+  //    mindset and possibly loose unsaved changes.
+  //    instead we notifying user about auth issue unobtrusively (with db
+  //    connection state icon), allowing to open login form manually. and if
+  //    user not paying attention to that - forcing login on next app start.
+  if (shouldLogin) {
+    await mutate(view('update-main', openScreen(MainScreen.auth)));
+  } else {
+    await mutate(view('update-main', openScreen(MainScreen.mindset)));
+
+    dispatch({
+      type: 'load-mindset',
+      data: {
+        isInitialLoad: true,
+        sessionDbServerUrl: dbServerUrl,
+        sessionUserName: userName
+      }
+    });
+  }
 }

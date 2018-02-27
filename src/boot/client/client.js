@@ -53,9 +53,11 @@ async function start() {
   await store.dispatch({
     type: 'init',
     data: {
+      fetch: window.fetch,
+      setTimeout: window.setTimeout,
       storeDispatch: store.dispatch.bind(store),
       clientConfig,
-      dbServerUrl,
+      sessionDbServerUrl: dbServerUrl,
       viewRoot: document.querySelector('#root')
     }
   });

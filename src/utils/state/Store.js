@@ -105,9 +105,9 @@ export default class Store {
     this._middlewares.forEach(m => m.onDispatch(events, action));
 
     // child actions dispatch
-    const dispatch = (action, ...args) => {
+    const dispatch = action => {
       events.emit('child-action', {action});
-      return this.dispatch(action, ...args);
+      return this.dispatch(action);
     };
 
     const state = this._state;

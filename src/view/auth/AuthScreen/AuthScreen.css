@@ -1,0 +1,16 @@
+/* TODO: #78 */
+/* stylelint-disable */
+
+.root {
+  height: 100%;
+  background-color: #adadad;
+
+  /* initiate separate block formatting context, so child margins do not
+    escape parent block (eg. form margin does not move auth screen) */
+  overflow: hidden;
+}
+
+.form {
+  margin: 100px auto;
+  width: 400px;
+}

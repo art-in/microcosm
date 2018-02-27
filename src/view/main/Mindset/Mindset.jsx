@@ -4,6 +4,7 @@ import cx from 'classnames';
 import getKeyCode from 'view/utils/dom/get-key-code';
 
 import MindsetType from 'vm/main/Mindset';
+import DbConnectionIcon from 'view/main/DbConnectionIcon';
 import IconType from 'vm/shared/Icon';
 import IconSize from 'vm/shared/IconSize';
 
@@ -13,7 +14,7 @@ import Zen from 'view/zen/entities/Zen';
 import ColorPicker from 'view/shared/ColorPicker';
 import SearchBox from 'view/shared/SearchBox';
 import IconButton from 'view/shared/IconButton';
-import Icon from 'view/shared/Icon';
+import MessageScreen from 'view/shared/MessageScreen';
 
 import classes from './Mindset.css';
 import ViewMode from 'vm/main/MindsetViewMode';
@@ -32,6 +33,7 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @prop {function()} onIdeaSearchLookupKeyDown
  * @prop {function()} onIdeaSearchLookupSuggestionSelect
  * @prop {function()} onColorPickerChange
+ * @prop {function()} onDbConnectionIconClick
  *
  * @extends {Component<Props>}
  */
@@ -65,7 +67,8 @@ export default class Mindset extends Component {
       onIdeaSearchLookupPhraseChange,
       onIdeaSearchLookupKeyDown,
       onIdeaSearchLookupSuggestionSelect,
-      onColorPickerChange
+      onColorPickerChange,
+      onDbConnectionIconClick
     } = this.props;
 
     let view;
@@ -94,11 +97,11 @@ export default class Mindset extends Component {
       >
         {!mindset.isLoaded &&
           !mindset.isLoadFailed && (
-            <div className={classes.message}>Mindset is loading...</div>
+            <MessageScreen>Mindset is loading...</MessageScreen>
           )}
 
         {mindset.isLoadFailed && (
-          <div className={classes.message}>Mindset load failed</div>
+          <MessageScreen>Mindset load failed</MessageScreen>
         )}
 
         {mindset.isLoaded ? (
@@ -113,11 +116,10 @@ export default class Mindset extends Component {
               onClick={onToggleMode}
             />
 
-            <Icon
-              className={classes.dbConnectionStateIcon}
-              icon={mindset.dbServerConnectionIcon.icon}
-              size={IconSize.large}
-              tooltip={mindset.dbServerConnectionIcon.tooltip}
+            <DbConnectionIcon
+              className={classes.dbConnectionIcon}
+              connectionIcon={mindset.dbConnectionIcon}
+              onClick={onDbConnectionIconClick}
             />
 
             <IconButton

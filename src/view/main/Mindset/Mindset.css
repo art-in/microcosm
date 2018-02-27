@@ -7,23 +7,13 @@
   overflow: hidden;
 }
 
-.message {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  background-color: #adadad;
-  color: white;
-}
-
 .toggle-mode-button {
   position: absolute;
   top: 0.85rem;
   left: 0.85rem;
 }
 
-.db-connection-state-icon {
+.db-connection-icon {
   position: absolute;
   top: 0.85rem;
   left: 3.3rem;
@@ -56,28 +46,28 @@
   right: 3.6rem;
 }
 
-.root.mode-mindmap .db-connection-state-icon,
+.root.mode-mindmap .db-connection-icon,
 .root.mode-mindmap .go-root-button,
 .root.mode-mindmap .idea-search-box-trigger,
 .root.mode-mindmap .toggle-mode-button {
   color: lightgray;
 }
 
-.root.mode-zen .db-connection-state-icon,
+.root.mode-zen .db-connection-icon,
 .root.mode-zen .go-root-button,
 .root.mode-zen .idea-search-box-trigger,
 .root.mode-zen .toggle-mode-button {
   color: #808080;
 }
 
-.root.mode-mindmap .db-connection-state-icon:hover,
+.root.mode-mindmap .db-connection-icon:hover,
 .root.mode-mindmap .go-root-button:hover,
 .root.mode-mindmap .idea-search-box-trigger:hover,
 .root.mode-mindmap .toggle-mode-button:hover {
   color: white;
 }
 
-.root.mode-zen .db-connection-state-icon:hover,
+.root.mode-zen .db-connection-icon:hover,
 .root.mode-zen .go-root-button:hover,
 .root.mode-zen .idea-search-box-trigger:hover,
 .root.mode-zen .toggle-mode-button:hover {

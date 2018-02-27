@@ -6,9 +6,11 @@ import MutationType from 'utils/state/Mutation';
 
 const KEY_PREFIX = '[microcosm]';
 
-const KEY_MINDSET_VIEW_MODE = `${KEY_PREFIX} mindset_view_mode`;
-const KEY_DB_SERVER_URL = `${KEY_PREFIX} db_server_url`;
-const KEY_ZEN_SIDEBAR_COLLAPSED = `${KEY_PREFIX} zen_sidebar_collapsed`;
+const MINDSET_VIEW_MODE = `${KEY_PREFIX} mindset_view_mode`;
+const DB_SERVER_URL = `${KEY_PREFIX} db_server_url`;
+const USER_NAME = `${KEY_PREFIX} user`;
+const ZEN_SIDEBAR_COLLAPSED = `${KEY_PREFIX} zen_sidebar_collapsed`;
+const DB_AUTHORIZED = `${KEY_PREFIX} db_authorized`;
 
 /**
  * Applies patch to local state
@@ -31,65 +33,103 @@ function apply(state, mutation) {
 
   switch (mutation.type) {
     case 'init': {
-      local.dbServerUrl = getLocalStorageItem(KEY_DB_SERVER_URL);
-      local.mindsetViewMode = Number(
-        getLocalStorageItem(
-          KEY_MINDSET_VIEW_MODE,
-          local.mindsetViewMode.toString()
-        )
+      local.dbServerUrl = getString(DB_SERVER_URL, null);
+      local.userName = getString(USER_NAME, null);
+      local.isDbAuthorized = getBoolean(DB_AUTHORIZED, local.isDbAuthorized);
+      local.mindsetViewMode = getNumeric(
+        MINDSET_VIEW_MODE,
+        local.mindsetViewMode
       );
-      local.isZenSidebarCollapsed =
-        getLocalStorageItem(
-          KEY_ZEN_SIDEBAR_COLLAPSED,
-          local.isZenSidebarCollapsed.toString()
-        ) === 'true';
+      local.isZenSidebarCollapsed = getBoolean(
+        ZEN_SIDEBAR_COLLAPSED,
+        local.isZenSidebarCollapsed
+      );
       break;
     }
 
     case 'init-mindset': {
-      const {dbServerUrl} = required(mutation.data.data.local);
+      const {dbServerUrl, userName} = required(mutation.data.data.local);
       local.dbServerUrl = dbServerUrl;
-      localStorage.setItem(KEY_DB_SERVER_URL, local.dbServerUrl);
+      setItem(DB_SERVER_URL, local.dbServerUrl);
+
+      local.userName = userName;
+      setItem(USER_NAME, local.userName);
       break;
     }
 
     case 'update-mindset-vm': {
       if (mutation.data.mode !== undefined) {
         local.mindsetViewMode = mutation.data.mode;
-        localStorage.setItem(
-          KEY_MINDSET_VIEW_MODE,
-          local.mindsetViewMode.toString()
-        );
+        setItem(MINDSET_VIEW_MODE, local.mindsetViewMode);
       }
+      break;
+    }
+
+    case 'update-db-connection': {
+      const {isDbAuthorized} = required(mutation.data);
+      local.isDbAuthorized = isDbAuthorized;
+      setItem(DB_AUTHORIZED, local.isDbAuthorized);
       break;
     }
 
     case 'update-zen-sidebar':
       if (mutation.data.isCollapsed !== undefined) {
         local.isZenSidebarCollapsed = mutation.data.isCollapsed;
-        localStorage.setItem(
-          KEY_ZEN_SIDEBAR_COLLAPSED,
-          local.isZenSidebarCollapsed.toString()
-        );
+        setItem(ZEN_SIDEBAR_COLLAPSED, local.isZenSidebarCollapsed);
         break;
       }
   }
 }
 
 /**
- * Gets item from local storage
+ * Gets string item from local storage
  *
  * @param {string} itemKey
- * @param {string} [defaultValue]
+ * @param {*} [defaultValue]
  * @return {string}
  */
-function getLocalStorageItem(itemKey, defaultValue) {
+function getString(itemKey, defaultValue) {
   let item = localStorage.getItem(itemKey);
 
   if (item === null) {
     item = defaultValue;
-    localStorage.setItem(itemKey, item);
+
+    if (defaultValue !== null) {
+      localStorage.setItem(itemKey, item.toString());
+    }
   }
 
   return item;
+}
+
+/**
+ * Get boolean item from local storage
+ *
+ * @param {string} itemKey
+ * @param {*} defaultValue
+ * @return {boolean}
+ */
+function getBoolean(itemKey, defaultValue) {
+  return getString(itemKey, defaultValue) === 'true';
+}
+
+/**
+ * Get numeric item from local storage
+ *
+ * @param {string} itemKey
+ * @param {*} defaultValue
+ * @return {number}
+ */
+function getNumeric(itemKey, defaultValue) {
+  return Number(getString(itemKey, defaultValue));
+}
+
+/**
+ * Sets item to local storage
+ *
+ * @param {string} itemKey
+ * @param {*} value
+ */
+function setItem(itemKey, value) {
+  localStorage.setItem(itemKey, value.toString());
 }

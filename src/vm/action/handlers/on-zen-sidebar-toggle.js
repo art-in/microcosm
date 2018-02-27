@@ -1,7 +1,7 @@
 import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
-import viewPatch from 'vm/utils/view-patch';
+import view from 'vm/utils/view-patch';
 
 /**
  * Handles toggle collapse event from zen sidebar
@@ -12,7 +12,7 @@ import viewPatch from 'vm/utils/view-patch';
 export default function(state) {
   const {vm: {main: {mindset: {zen: {sidebar}}}}} = state;
 
-  return viewPatch('update-zen-sidebar', {
+  return view('update-zen-sidebar', {
     isCollapsed: !sidebar.isCollapsed
   });
 }
