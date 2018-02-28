@@ -30,7 +30,7 @@ const app = express();
 app.use(compression());
 
 app.use(bodyParser.json());
-app.use(logger('dev'));
+app.use(logger(config.server.static.logFormat));
 
 // setup template engine
 app.engine('html', consolidate.mustache);
@@ -47,7 +47,7 @@ app.get('/', function(req, res) {
   //    it blocks running server directly without gulp task
   //  - make rest api request for config from client at startup - won't work
   //    since (a) it is additional request which will hit load performance
-  //    (b) it will block offline scenario
+  //    (b) and will block offline scenario
   const clientConfig = {
     app: {
       name: pkg.name,

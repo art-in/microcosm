@@ -7,12 +7,12 @@ module.exports = {
     static: {
       host: '0.0.0.0',
       port: 3000,
-
       secure: {
         enabled: false,
         key: 'path/to/key.pem',
         cert: 'path/to/cert.pem'
-      }
+      },
+      logFormat: 'dev'
     },
 
     database: {

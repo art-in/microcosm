@@ -19,7 +19,8 @@ const defaults = {
     }
   },
   server: {
-    // nodejs server, which serves static files to browser
+    // nodejs server, which serves static files to browser and provides user
+    // registration api
     static: {
       host: '0.0.0.0',
       port: 3000,
@@ -35,7 +36,11 @@ const defaults = {
         enabled: false,
         key: 'path/to/key.pem',
         cert: 'path/to/cert.pem'
-      }
+      },
+
+      // log format (common, combined, dev, etc.)
+      // https://github.com/expressjs/morgan#predefined-formats
+      logFormat: 'dev'
     },
 
     // couchdb-compatible database server
