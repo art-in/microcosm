@@ -1,13 +1,14 @@
 import express from 'express';
 import fetch, {Response as FetchResponseType} from 'node-fetch';
+import HttpStatus from 'http-status-codes';
 
 import asyncMiddleware from './utils/async-middleware';
+import ServerErrorCode from './utils/ServerErrorCode';
 
 // @ts-ignore relative path from build folder
 import config from '../config.serve';
 
 const db = config.server.database;
-
 const credentials = db.auth.on ? `${db.auth.name}:${db.auth.password}@` : '';
 const dbServerUrl = `${db.protocol}://${credentials}${db.host}:${db.port}`;
 
@@ -25,15 +26,32 @@ const auth = express.Router();
 auth.post(
   '/',
   asyncMiddleware(async (req, res) => {
-    const {name, password} = req.body;
+    const {name, password, invite} = req.body;
+
+    // check invite code
+    if (
+      config.client.reg.invite.on &&
+      config.client.reg.invite.code !== invite
+    ) {
+      const err = {error: ServerErrorCode.invalidInviteCode};
+      console.error(err);
+      res.status(HttpStatus.UNAUTHORIZED).send(err);
+      return;
+    }
 
     // add new user
     let dbResponse = await addDbServerUser(dbServerUrl, name, password);
 
     if (dbResponse.error) {
-      const err = {reason: 'Auth: Failed to add new user.', dbResponse};
-      console.error(err);
-      res.status(500).send(err);
+      if (dbResponse.error === 'conflict') {
+        const err = {error: ServerErrorCode.duplicateUserName};
+        console.error(err, dbResponse);
+        res.status(HttpStatus.FORBIDDEN).send(err);
+      } else {
+        const err = {error: ServerErrorCode.internalError};
+        console.error(err, dbResponse);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+      }
       return;
     }
 
@@ -46,9 +64,9 @@ auth.post(
 
     dbResponse = responses.find(r => r.error);
     if (dbResponse) {
-      const err = {reason: 'Auth: Failed to create user database.', dbResponse};
-      console.error(err);
-      res.status(500).send(err);
+      const err = {error: ServerErrorCode.internalError};
+      console.error(err, dbResponse);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       return;
     }
 
@@ -61,13 +79,13 @@ auth.post(
 
     dbResponse = responses.find(r => r.error);
     if (dbResponse) {
-      const err = {reason: 'Auth: Failed to authorize user.', dbResponse};
-      console.error(err);
-      res.status(500).send(err);
+      const err = {error: ServerErrorCode.internalError};
+      console.error(err, dbResponse);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       return;
     }
 
-    res.status(201).send();
+    res.status(HttpStatus.CREATED).send();
   })
 );
 

@@ -58,7 +58,8 @@ app.get('/', function(req, res) {
       protocol: config.server.database.protocol,
       host: config.server.database.host,
       port: config.server.database.port
-    }
+    },
+    regInviteRequired: config.client.reg.invite.on
   };
 
   res.render('index', {

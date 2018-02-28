@@ -6,13 +6,20 @@ const abs = p => path.join(__dirname, p);
 
 /**
  * Serve configuration
- * Then one that is used for serving build (added to build folder)
+ * The one that is used for serving build (added to build folder)
  *
  * NOTE: do not modify defaults - put custom config to 'config.serve.user.js'
  */
 const defaults = {
+  client: {
+    // user registration form
+    reg: {
+      // allow registration with invite code only
+      invite: {on: false, code: 'welcome'}
+    }
+  },
   server: {
-    // nodejs server, which serves static files for browser
+    // nodejs server, which serves static files to browser
     static: {
       host: '0.0.0.0',
       port: 3000,
@@ -42,11 +49,7 @@ const defaults = {
       // credentials of database server administrator. it never goes to client.
       // used only to register new users (to add user and create databases).
       // admin authentication can be skipped if server has no admin yet.
-      auth: {
-        on: false,
-        name: 'admin',
-        password: 'admin'
-      },
+      auth: {on: false, name: 'admin', password: 'admin'},
 
       // development database server (pouchdb-server).
       // note 1: pouchdb-server is not production ready, so you should
@@ -56,10 +59,7 @@ const defaults = {
       // you should serve static over http or run separate db server over https.
       // note 3: any-ip-meta-address-'0.0.0.0' will not work as host
       // (server will start, but client will not be able to connect)
-      dev: {
-        start: true,
-        dir: './.db'
-      }
+      dev: {start: true, dir: './.db'}
     }
   }
 };

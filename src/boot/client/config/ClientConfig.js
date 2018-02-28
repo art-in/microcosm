@@ -26,4 +26,10 @@ export default class ClientConfig {
     /** @type {number} */
     port: undefined
   };
+
+  /**
+   * Indicates that user registration requires invite code
+   * @type {boolean}
+   */
+  regInviteRequired = undefined;
 }

@@ -1,5 +1,8 @@
 /* global module */
 module.exports = {
+  client: {
+    reg: {invite: {on: false, code: 'welcome'}}
+  },
   server: {
     static: {
       host: '0.0.0.0',
@@ -16,14 +19,8 @@ module.exports = {
       protocol: 'http',
       host: 'localhost',
       port: 5984,
-      auth: {
-        on: false,
-        name: 'admin',
-        password: 'admin'
-      },
-      dev: {
-        start: true
-      }
+      auth: {on: false, name: 'admin', password: 'admin'},
+      dev: {start: true}
     }
   }
 };
