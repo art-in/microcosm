@@ -4,18 +4,29 @@ import ViewModel from 'vm/utils/ViewModel';
  * Login form
  */
 export default class LoginForm extends ViewModel {
-  /** @type {string} */
-  name = undefined;
+  name = {
+    /** @type {string} */
+    value: undefined,
 
-  /** @type {string} */
-  password = undefined;
+    /** @type {boolean} */
+    isInvalid: false
+  };
 
-  /**
-   * Login error section which notifies user if login failed
-   * @type {{visible, message}}
-   */
-  loginError = {
+  password = {
+    /** @type {string} */
+    value: undefined,
+
+    /** @type {boolean} */
+    isInvalid: false
+  };
+
+  errorNotification = {
     visible: false,
     message: undefined
+  };
+
+  loginButton = {
+    enabled: true,
+    content: 'Log in'
   };
 }

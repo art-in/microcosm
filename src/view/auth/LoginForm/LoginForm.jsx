@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import LoginFormVMType from 'vm/auth/LoginForm';
 import Button from 'view/shared/Button';
+import getKeyCode from 'view/utils/dom/get-key-code';
 
 import classes from './LoginForm.css';
 
@@ -25,37 +26,54 @@ export default class LoginForm extends Component {
   onPasswordChange = e => {
     this.props.onPasswordChange(e.target.value);
   };
+  onPasswordKeyPress = e => {
+    if (getKeyCode(e.nativeEvent) === 'Enter') {
+      this.props.onLogin();
+    }
+  };
   render() {
     const {className, form, onLogin} = this.props;
 
     return (
       <div className={cx(classes.root, className)}>
         <div className={classes.field}>
-          <span className={classes.fieldTitle}>Name:</span>
           <input
-            className={classes.fieldValue}
+            className={cx(classes.fieldValue, {
+              [classes.fieldValueInvalid]: form.name.isInvalid
+            })}
             type="text"
-            value={form.name || ''}
+            placeholder="Username"
+            autoCapitalize="off"
+            autoCorrect="off"
+            autoFocus
+            ref={node => (this.inputName = node)}
+            value={form.name.value || ''}
             onChange={this.onNameChange}
           />
         </div>
 
         <div className={classes.field}>
-          <span className={classes.fieldTitle}>Password:</span>
           <input
-            className={classes.fieldValue}
-            type="text"
-            value={form.password || ''}
+            className={cx(classes.fieldValue, {
+              [classes.fieldValueInvalid]: form.name.isInvalid
+            })}
+            type="password"
+            placeholder="Password"
+            ref={node => (this.inputPassword = node)}
+            value={form.password.value || ''}
             onChange={this.onPasswordChange}
+            onKeyPress={this.onPasswordKeyPress}
           />
         </div>
 
-        {form.loginError.visible ? (
-          <div className={classes.error}>{form.loginError.message}</div>
+        {form.errorNotification.visible ? (
+          <div className={classes.error}>{form.errorNotification.message}</div>
         ) : null}
 
         <div className={classes.buttons}>
-          <Button onClick={onLogin}>Login</Button>
+          <Button onClick={onLogin} disabled={!form.loginButton.enabled}>
+            {form.loginButton.content}
+          </Button>
         </div>
       </div>
     );

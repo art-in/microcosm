@@ -45,3 +45,9 @@
     > Unlike the input event, the change event is not necessarily fired for each change to an element's value.   (details: https://developer.mozilla.org/en-US/docs/Web/Events/change)  
     
     https://github.com/facebook/react/issues/6087
+
+---
+
+7. No valid way to render `autoFocus` attribute on inputs.  
+    React polyfills `autoFocus` to hide browser inconsistencies.  
+    https://github.com/facebook/react/issues/3066

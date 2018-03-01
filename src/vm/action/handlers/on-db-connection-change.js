@@ -49,7 +49,7 @@ export default function(state, data) {
       tooltipLines = [
         `Mindset is not authorized to access server database ` +
           `(${dbServerUrl})`,
-        `All changes are saved locally, but not on server.`,
+        `All changes are saved locally, but not sent to server.`,
         '',
         `Click to open login form.`
       ];

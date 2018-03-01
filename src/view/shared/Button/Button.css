@@ -37,8 +37,17 @@
   border-color: #adadad;
 }
 
-.primary:disabled,
-.secondary:disabled {
+.primary.disabled-soft:disabled {
+  color: rgba(255, 255, 255, 0.75);
+  background-color: #94d3a2;
+  background-image: none;
+  border-color: rgba(27, 31, 35, 0.2);
+  box-shadow: none;
+}
+
+.primary.disabled-hard:disabled,
+.secondary.disabled-hard:disabled,
+.secondary.disabled-soft:disabled {
   color: #adadad;
   background-color: #fff;
   background-image: none;

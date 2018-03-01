@@ -28,6 +28,15 @@ export default class Auth extends Component {
         throw Error(`Unknown auth screen mode '${auth.mode}'`);
     }
 
-    return <div className={cx(classes.root, className)}>{form}</div>;
+    return (
+      <div className={cx(classes.root, className)}>
+        <div className={classes.dialog}>
+          <div className={classes.titles}>
+            <span className={classes.title}>Login</span>
+          </div>
+          {form}
+        </div>
+      </div>
+    );
   }
 }

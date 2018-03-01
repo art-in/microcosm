@@ -1,7 +1,10 @@
 /**
  * Polyfills KeyboardEvent#code
  * https://www.w3.org/TR/DOM-Level-3-Events/#dom-keyboardevent-code
- * TODO: remove when Edge supports KeyboardEvent#code
+ *
+ * TODO: remove when everybody supports it. currently no support for:
+ * - Edge (code === undefined)
+ * - Chrome for Android (code === empty string)
  *
  * @param {KeyboardEvent} event
  * @return {string}
@@ -9,7 +12,7 @@
 export default function(event) {
   let code = event.code;
 
-  if (code === undefined) {
+  if (code === undefined || code === '') {
     switch (event.keyCode) {
       case 27:
         code = 'Escape';

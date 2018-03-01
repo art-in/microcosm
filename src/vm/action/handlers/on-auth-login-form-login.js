@@ -18,17 +18,20 @@ export default async function(state, data, dispatch, mutate) {
   const {sessionDbServerUrl} = state.data;
   const {loginForm} = state.vm.main.auth;
 
-  await mutate(view('update-auth-login-form', {loginError: {visible: false}}));
+  await mutate(
+    view('update-auth-login-form', {
+      loginButton: {enabled: false, content: 'Logging in...'}
+    })
+  );
 
   const response = await loginDbServer(
     sessionDbServerUrl,
-    loginForm.name,
-    loginForm.password,
+    loginForm.name.value,
+    loginForm.password.value,
     state.sideEffects.fetch
   );
 
   if (response.ok) {
-    // login succeed
     await mutate(view('update-main', openScreen(MainScreen.mindset)));
 
     dispatch({
@@ -36,13 +39,26 @@ export default async function(state, data, dispatch, mutate) {
       data: {
         isInitialLoad: true,
         sessionDbServerUrl,
-        sessionUserName: loginForm.name
+        sessionUserName: loginForm.name.value
       }
     });
-  } else {
-    // login failed
+  } else if (!response.isConnected) {
     return view('update-auth-login-form', {
-      loginError: {visible: true, message: `Login failed: ${response.reason}`}
+      errorNotification: {
+        visible: true,
+        message: 'Unable to connect to server.'
+      },
+      loginButton: {enabled: true, content: 'Log in'}
+    });
+  } else {
+    return view('update-auth-login-form', {
+      name: {isInvalid: true},
+      password: {isInvalid: true},
+      errorNotification: {
+        visible: true,
+        message: 'Invalid username or password.'
+      },
+      loginButton: {enabled: true, content: 'Log in'}
     });
   }
 }
@@ -58,20 +74,32 @@ export default async function(state, data, dispatch, mutate) {
  * @param {string} name
  * @param {string} password
  * @param {function(RequestInfo, RequestInit): Promise<Response>} fetch
- * @return {Promise.<{ok:boolean, error, reason}>} database server response
+ *
+ * @typedef {object} LoginResult
+ * @prop {boolean} [ok=false] - login succeed
+ * @prop {string} [error] - error code
+ * @prop {boolean} isConnected - connected to database server
+ * @return {Promise.<LoginResult>}
  */
 async function loginDbServer(dbServerUrl, name, password, fetch) {
-  const res = await fetch(`${dbServerUrl}/_session`, {
-    method: 'POST',
-    headers: {
-      ['Accept']: 'application/json',
-      ['Content-Type']: 'application/json'
-    },
-    // allow server to set cookies for another origin
-    credentials: 'include',
-    body: JSON.stringify({name, password})
-  });
-  const response = await res.json();
+  try {
+    const res = await fetch(`${dbServerUrl}/_session`, {
+      method: 'POST',
+      headers: {
+        ['Accept']: 'application/json',
+        ['Content-Type']: 'application/json'
+      },
+      // allow server to set cookies for another origin
+      credentials: 'include',
+      body: JSON.stringify({name, password})
+    });
+    const response = await res.json();
 
-  return response;
+    response.isConnected = true;
+
+    return response;
+  } catch (error) {
+    // db server not reachable (offline, db shutted down, etc)
+    return {isConnected: false};
+  }
 }

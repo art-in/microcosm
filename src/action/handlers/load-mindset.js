@@ -280,8 +280,8 @@ function replicateFromServer(dbServerUrl, userName, localDBs) {
           db.replicate
             .from(serverDbURL, {
               // do not create server database. which can happen if logged in
-              // as server admin. other users cannot create it anyway.
-              // @ts-ignore
+              // as server admin or server has no admin yet.
+              // @ts-ignore unknown option
               skip_setup: true
             })
             .on('complete', resolve)
@@ -306,7 +306,11 @@ function startSyncWithRemote(dbServerUrl, userName, localDBs, onRemoteChange) {
     db
       .sync(remoteDbURL, {
         live: true,
-        retry: true
+        retry: true,
+        // do not create server database. which can happen if logged in
+        // as server admin or server has no admin yet.
+        // @ts-ignore unknown option
+        skip_setup: true
       })
       .on('change', opts => {
         if (opts.direction === 'pull') {

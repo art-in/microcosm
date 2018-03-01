@@ -15,5 +15,9 @@ import view from 'vm/utils/view-patch';
 export default function(state, data) {
   const {password} = required(data);
 
-  return view('update-auth-login-form', {password});
+  return view('update-auth-login-form', {
+    name: {isInvalid: false},
+    password: {value: password, isInvalid: false},
+    errorNotification: {visible: false}
+  });
 }

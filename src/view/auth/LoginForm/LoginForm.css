@@ -1,35 +1,38 @@
-/* TODO: #78 */
-/* stylelint-disable */
-
-.root {}
+.root {
+  padding: 1.1em;
+}
 
 .field {
   display: flex;
 }
 
 .field + .field {
-  margin-top: 10px;
-}
-
-.field-title {
-  display: inline-block;
-  min-width: 100px;
+  margin-top: 0.8em;
 }
 
 .field-value {
-  padding: 3px 5px;
+  padding: 0.3em 0.4em;
   width: 100%;
+  border-radius: 0.15em;
+}
+
+.field-value-invalid {
+  border: 1px solid red;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
 
-  margin-top: 15px;
+  margin-top: 2em;
 }
 
 .error {
-  margin-top: 15px;
-  color: red;
+  margin-top: 1.4em;
+  padding: 0.8em 1.1em;
+  border-radius: 0.3em;
+  background-color: #ffdce0;
+  color: #86181d;
   border: 1px solid red;
+  text-align: center;
 }

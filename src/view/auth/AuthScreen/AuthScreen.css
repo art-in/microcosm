@@ -1,16 +1,45 @@
-/* TODO: #78 */
-/* stylelint-disable */
+@import 'view/main/Main/shared/media-queries';
 
 .root {
   height: 100%;
   background-color: #adadad;
 
   /* initiate separate block formatting context, so child margins do not
-    escape parent block (eg. form margin does not move auth screen) */
+    escape parent block (eg. dialog margin does not move auth screen) */
   overflow: hidden;
+
+  display: flex;
+  justify-content: center;
 }
 
-.form {
-  margin: 100px auto;
-  width: 400px;
+.dialog {
+  background: white;
+  box-shadow: 0 0 1em gray;
+  border-radius: 0.3em;
+
+  width: 22rem;
+  margin-top: 5.5em;
+  align-self: flex-start;
+
+  @media (--medium-down) {
+    margin-top: 0;
+    align-self: center;
+  }
+
+  /* lift dialog above version mark */
+  position: relative;
+  z-index: 1;
 }
+
+.titles {
+  display: flex;
+  padding: 1.1em;
+}
+
+.title {
+  flex: 1;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.form {}

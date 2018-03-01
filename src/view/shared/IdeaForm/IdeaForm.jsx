@@ -222,12 +222,14 @@ export default class IdeaForm extends Component {
           <Button
             type="secondary"
             disabled={!form.isCancelable}
+            disabledStyle="hard"
             onClick={onCancel}
           >
             Cancel
           </Button>
           <Button
             disabled={!form.isSaveable}
+            disabledStyle="hard"
             title={form.isSaveable ? 'Save changes (Ctrl+Enter)' : null}
             onClick={onSave}
           >
