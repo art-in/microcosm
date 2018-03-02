@@ -1,6 +1,7 @@
 1. No API to check if local database was already created and replicated from remote database.  
     Checking existance of local `indexed db` manually will not work since `pouchdb` will always create that before attempt to replicate from remote.    
     https://stackoverflow.com/questions/38541859/pouchdb-check-if-local-database-exists  
+
     **Workaround**: using handmade `localStorage` key.  
 
 ---
@@ -9,6 +10,7 @@
     That's odd, since `pouchdb` definitely knows when connection is down (it starts retry process),
     but there is no `connected` / `disconnected` events to check that outside.  
     https://stackoverflow.com/questions/26892438/how-to-know-when-weve-lost-sync-with-a-remote-couchdb  
+    
     **Workaround**: initiate separate handmade polling  
 
 ---
@@ -19,3 +21,16 @@
     Well it is not normal for me to see those errors in console.  
     That actually could be avoided by placing another API endpoint on server that always exists for such checks.  
 
+    https://github.com/pouchdb/pouchdb/issues/7091
+
+---
+
+4. Browser initiates lots of unnecessary OPTION requests to server databases.  
+    Eg. when trying to POST in `_session`, browser first sends OPTION before the POST.  
+
+    This is CORS [`preflight request`](https://www.w3.org/TR/cors/#preflight-request).  
+    By CORS spec, browser should send preflight before sending actual request to make sure
+    server supports CORS.  
+
+    https://stackoverflow.com/questions/15381105/cors-what-is-the-motivation-behind-introducing-preflight-requests  
+    https://github.com/pouchdb/pouchdb/issues/3399

@@ -2,9 +2,18 @@ import initProps from 'utils/init-props';
 import ViewModel from 'vm/utils/ViewModel';
 
 /**
- * Form for logging in (signing in, authentication) of existing user
+ * Form for signing up (registering, authorization) of new user
  */
-export default class LoginForm extends ViewModel {
+export default class SignupForm extends ViewModel {
+  /** @type {string} */
+  invite = undefined;
+
+  /** @type {boolean} */
+  isInviteValid = true;
+
+  /** @type {boolean} */
+  isInviteVisible = true;
+
   /** @type {string} */
   username = undefined;
 
@@ -22,14 +31,14 @@ export default class LoginForm extends ViewModel {
     message: undefined
   };
 
-  loginButton = {
+  signupButton = {
     enabled: true,
-    content: 'Log in'
+    content: 'Sign up'
   };
 
   /**
    * Constructor
-   * @param {Partial<LoginForm>} [props]
+   * @param {Partial<SignupForm>} [props]
    */
   constructor(props) {
     super();

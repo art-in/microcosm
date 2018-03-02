@@ -4,10 +4,10 @@ import Component from './LoginForm.jsx';
 export default connect(
   props => props.form,
   dispatch => ({
-    onNameChange: name =>
+    onUsernameChange: username =>
       dispatch({
-        type: 'on-auth-login-form-name-change',
-        data: {name}
+        type: 'on-auth-login-form-username-change',
+        data: {username}
       }),
 
     onPasswordChange: password =>

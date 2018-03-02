@@ -41,7 +41,7 @@ export default function(state, data) {
           `connection is restored.`
       ];
       isClickable = false;
-      isDbAuthorized = state.data.local.isDbAuthorized;
+      isDbAuthorized = state.data.isDbAuthorized;
       break;
 
     case ConnectionState.unauthorized:

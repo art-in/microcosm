@@ -31,8 +31,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch: noop,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -65,8 +65,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -87,8 +87,8 @@ describe('init', () => {
   it('should open login form on first visit', async () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = null;
-    state.data.local.userName = null;
+    state.data.dbServerUrl = null;
+    state.data.userName = null;
     const dispatch = noop;
     const mutate = spy();
     const storeDispatch = noop;
@@ -102,8 +102,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -124,9 +124,9 @@ describe('init', () => {
   it('should open login form if connection not authorized', async () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.local.userName = null;
-    state.data.local.isDbAuthorized = false;
+    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.userName = null;
+    state.data.isDbAuthorized = false;
 
     // simulate db server is reachable
     state.sideEffects.fetch = async () => new Response(null, {status: 200});
@@ -144,8 +144,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -164,14 +164,14 @@ describe('init', () => {
   });
 
   it(
-    `should open mindset if connection not authorized, ` +
+    `should open mindset if connection not authorized ` +
       `but server is not reachable`,
     async () => {
       // setup
       const state = new State();
-      state.data.local.dbServerUrl = 'TEST_DB_SERVER';
-      state.data.local.userName = null;
-      state.data.local.isDbAuthorized = false;
+      state.data.dbServerUrl = 'TEST_DB_SERVER';
+      state.data.userName = null;
+      state.data.isDbAuthorized = false;
       const dispatch = noop;
       const mutate = spy();
       const storeDispatch = noop;
@@ -188,8 +188,8 @@ describe('init', () => {
             fetch: noop,
             setTimeout: noop,
             storeDispatch,
-            sessionDbServerUrl: 'TEST_DB_SERVER',
             clientConfig: new ClientConfig(),
+            apiServerUrl: 'TEST_API_SERVER',
             viewRoot: document.createElement('div')
           }
         },
@@ -210,8 +210,8 @@ describe('init', () => {
   it('should open mindset if db was replicated previously', async () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.local.userName = null;
+    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.userName = null;
     const dispatch = noop;
     const mutate = spy();
     const storeDispatch = noop;
@@ -225,8 +225,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -246,8 +246,8 @@ describe('init', () => {
   it(`should dispatch 'load-mindset' when opening mindset`, async () => {
     // setup
     const state = new State();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.local.userName = 'TEST_USER';
+    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.userName = 'TEST_USER';
     const dispatch = spy();
     const mutate = spy();
     const storeDispatch = noop;
@@ -261,8 +261,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },
@@ -299,8 +299,8 @@ describe('init', () => {
           fetch: noop,
           setTimeout: noop,
           storeDispatch: noop,
-          sessionDbServerUrl: 'TEST_DB_SERVER',
           clientConfig: new ClientConfig(),
+          apiServerUrl: 'TEST_API_SERVER',
           viewRoot: document.createElement('div')
         }
       },

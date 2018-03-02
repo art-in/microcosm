@@ -22,6 +22,7 @@ import openScreen from 'vm/main/Main/methods/open-screen';
  * @param {function} data.storeDispatch
  * @param {ClientConfigType} data.clientConfig
  * @param {string} data.sessionDbServerUrl
+ * @param {string} data.apiServerUrl
  * @param {Element} data.viewRoot
  * @param {function} dispatch
  * @param {function} mutate
@@ -32,7 +33,7 @@ export default async function init(state, data, dispatch, mutate) {
     setTimeout,
     storeDispatch,
     clientConfig,
-    sessionDbServerUrl,
+    apiServerUrl,
     viewRoot
   } = required(data);
 
@@ -46,19 +47,22 @@ export default async function init(state, data, dispatch, mutate) {
     })
   });
 
+  const {protocol, host, port} = clientConfig.dbServer;
+  const sessionDbServerUrl = `${protocol}://${host}:${port}`;
+
   await mutate(
     new Patch({
       type: 'init',
       data: {
         sideEffects: {fetch, setTimeout},
-        data: {sessionDbServerUrl, fetch, setTimeout},
+        params: {clientConfig, sessionDbServerUrl, apiServerUrl},
         vm: {main},
         view: {root: viewRoot, storeDispatch}
       }
     })
   );
 
-  const {userName, isDbAuthorized, dbServerUrl} = state.data.local;
+  const {userName, isDbAuthorized, dbServerUrl} = state.data;
 
   let shouldLogin;
 

@@ -84,7 +84,7 @@ describe('load-mindset', function() {
 
     const mutationData = mutations[0].data;
 
-    expect(mutationData.data.local.dbServerUrl).to.equal('TEST_DB_SERVER');
+    expect(mutationData.data.dbServerUrl).to.equal('TEST_DB_SERVER');
     expect(mutationData.data.ideas).to.be.instanceOf(PouchDB);
     expect(mutationData.data.associations).to.be.instanceOf(PouchDB);
     expect(mutationData.data.mindsets).to.be.instanceOf(PouchDB);
@@ -115,7 +115,7 @@ describe('load-mindset', function() {
     const mutations = patch['init-mindset'];
 
     expect(mutations).to.have.length(1);
-    expect(mutations[0].data.data.local.dbServerUrl).to.equal('TEST_DB_SERVER');
+    expect(mutations[0].data.data.dbServerUrl).to.equal('TEST_DB_SERVER');
   });
 
   it('should NOT reinit mindset databases on reloads', async () => {
@@ -127,7 +127,7 @@ describe('load-mindset', function() {
     const state = new State();
     state.sideEffects.fetch = spy();
     state.sideEffects.setTimeout = spy();
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.dbServerUrl = 'TEST_DB_SERVER';
     state.data.ideas = ideasDB;
     state.data.associations = assocsDB;
     state.data.mindsets = mindsetsDB;
@@ -912,8 +912,8 @@ describe('load-mindset', function() {
     state.sideEffects.setTimeout = spy();
 
     // setup previous db server url
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER_OLD';
-    state.data.local.userName = 'TEST_USER';
+    state.data.dbServerUrl = 'TEST_DB_SERVER_OLD';
+    state.data.userName = 'TEST_USER';
 
     const dispatchSpy = spy();
 
@@ -1022,8 +1022,8 @@ describe('load-mindset', function() {
     state.sideEffects.setTimeout = spy();
 
     // setup previous db server url and user
-    state.data.local.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.local.userName = 'TEST_USER_OLD';
+    state.data.dbServerUrl = 'TEST_DB_SERVER';
+    state.data.userName = 'TEST_USER_OLD';
 
     const dispatchSpy = spy();
 

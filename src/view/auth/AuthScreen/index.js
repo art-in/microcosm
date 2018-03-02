@@ -1,2 +1,2 @@
-import module from './AuthScreen.jsx';
+import module from './AuthScreen.connect';
 export default module;

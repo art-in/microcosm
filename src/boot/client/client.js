@@ -18,17 +18,13 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import clientConfig from './config/client-config';
+import loadClientConfig from './config/load-client-config';
 
 import './sw/register-sw-cache';
 
 // for devtools Fauxton extension
 // @ts-ignore unknown window prop
 window.PouchDB = PouchDB;
-
-// URL of database server
-const {protocol, host, port} = clientConfig.dbServer;
-const dbServerUrl = `${protocol}://${host}:${port}`;
 
 /**
  * Startup
@@ -56,8 +52,8 @@ async function start() {
       fetch: window.fetch,
       setTimeout: window.setTimeout,
       storeDispatch: store.dispatch.bind(store),
-      clientConfig,
-      sessionDbServerUrl: dbServerUrl,
+      clientConfig: loadClientConfig(),
+      apiServerUrl: location.href,
       viewRoot: document.querySelector('#root')
     }
   });

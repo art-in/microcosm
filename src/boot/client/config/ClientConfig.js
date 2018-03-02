@@ -28,8 +28,8 @@ export default class ClientConfig {
   };
 
   /**
-   * Indicates that user registration requires invite code
+   * Indicates that user signup requires invite code
    * @type {boolean}
    */
-  regInviteRequired = undefined;
+  signupInviteRequired = undefined;
 }

@@ -109,8 +109,8 @@ export default async function loadMindset(state, data, dispatch) {
     isLoaded: true,
     ...setViewMode(
       mindset,
-      state.data.local.mindsetViewMode,
-      state.data.local.isZenSidebarCollapsed
+      state.data.mindsetViewMode,
+      state.data.isZenSidebarCollapsed
     )
   };
 
@@ -126,10 +126,8 @@ export default async function loadMindset(state, data, dispatch) {
     type: 'init-mindset',
     data: {
       data: {
-        local: {
-          dbServerUrl: sessionDbServerUrl,
-          userName: sessionUserName
-        },
+        dbServerUrl: sessionDbServerUrl,
+        userName: sessionUserName,
         dbHeartbeatToken,
         ideas: localDBs.ideas,
         associations: localDBs.associations,
@@ -172,7 +170,7 @@ async function initDatabases(
     mindsets: new PouchDB('mindsets')
   };
 
-  const {dbServerUrl, userName} = state.data.local;
+  const {dbServerUrl, userName} = state.data;
 
   if (sessionDbServerUrl !== dbServerUrl || sessionUserName !== userName) {
     if (dbServerUrl) {

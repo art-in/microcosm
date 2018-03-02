@@ -1,7 +1,7 @@
 /* global module */
 module.exports = {
   client: {
-    reg: {invite: {on: false, code: 'welcome'}}
+    signup: {invite: {on: false, code: 'welcome'}}
   },
   server: {
     static: {

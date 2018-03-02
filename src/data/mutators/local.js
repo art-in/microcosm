@@ -29,53 +29,53 @@ export default function(state, patch) {
  * @param {MutationType} mutation
  */
 function apply(state, mutation) {
-  const {local} = state.data;
+  const {data} = state;
 
   switch (mutation.type) {
     case 'init': {
-      local.dbServerUrl = getString(DB_SERVER_URL, null);
-      local.userName = getString(USER_NAME, null);
-      local.isDbAuthorized = getBoolean(DB_AUTHORIZED, local.isDbAuthorized);
-      local.mindsetViewMode = getNumeric(
+      data.dbServerUrl = getString(DB_SERVER_URL, null);
+      data.userName = getString(USER_NAME, null);
+      data.isDbAuthorized = getBoolean(DB_AUTHORIZED, data.isDbAuthorized);
+      data.mindsetViewMode = getNumeric(
         MINDSET_VIEW_MODE,
-        local.mindsetViewMode
+        data.mindsetViewMode
       );
-      local.isZenSidebarCollapsed = getBoolean(
+      data.isZenSidebarCollapsed = getBoolean(
         ZEN_SIDEBAR_COLLAPSED,
-        local.isZenSidebarCollapsed
+        data.isZenSidebarCollapsed
       );
       break;
     }
 
     case 'init-mindset': {
-      const {dbServerUrl, userName} = required(mutation.data.data.local);
-      local.dbServerUrl = dbServerUrl;
-      setItem(DB_SERVER_URL, local.dbServerUrl);
+      const {dbServerUrl, userName} = required(mutation.data.data);
+      data.dbServerUrl = dbServerUrl;
+      setItem(DB_SERVER_URL, data.dbServerUrl);
 
-      local.userName = userName;
-      setItem(USER_NAME, local.userName);
+      data.userName = userName;
+      setItem(USER_NAME, data.userName);
       break;
     }
 
     case 'update-mindset-vm': {
       if (mutation.data.mode !== undefined) {
-        local.mindsetViewMode = mutation.data.mode;
-        setItem(MINDSET_VIEW_MODE, local.mindsetViewMode);
+        data.mindsetViewMode = mutation.data.mode;
+        setItem(MINDSET_VIEW_MODE, data.mindsetViewMode);
       }
       break;
     }
 
     case 'update-db-connection': {
       const {isDbAuthorized} = required(mutation.data);
-      local.isDbAuthorized = isDbAuthorized;
-      setItem(DB_AUTHORIZED, local.isDbAuthorized);
+      data.isDbAuthorized = isDbAuthorized;
+      setItem(DB_AUTHORIZED, data.isDbAuthorized);
       break;
     }
 
     case 'update-zen-sidebar':
       if (mutation.data.isCollapsed !== undefined) {
-        local.isZenSidebarCollapsed = mutation.data.isCollapsed;
-        setItem(ZEN_SIDEBAR_COLLAPSED, local.isZenSidebarCollapsed);
+        data.isZenSidebarCollapsed = mutation.data.isCollapsed;
+        setItem(ZEN_SIDEBAR_COLLAPSED, data.isZenSidebarCollapsed);
         break;
       }
   }

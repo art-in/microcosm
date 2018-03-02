@@ -1,25 +1,29 @@
 import React, {Component} from 'react';
 import cx from 'classnames';
 
-import LoginFormVMType from 'vm/auth/LoginForm';
+import SignupFormVMType from 'vm/auth/SignupForm';
 import Button from 'view/shared/Button';
 import getKeyCode from 'view/utils/dom/get-key-code';
 
-import classes from './LoginForm.css';
+import classes from './SignupForm.css';
 
 // eslint-disable-next-line valid-jsdoc
 /**
  * @typedef {object} Props
  * @prop {string} [className]
- * @prop {LoginFormVMType} form
+ * @prop {SignupFormVMType} form
  *
+ * @prop {function(string)} onInviteChange
  * @prop {function(string)} onUsernameChange
  * @prop {function(string)} onPasswordChange
- * @prop {function()} onLogin
+ * @prop {function()} onSignup
  *
  * @extends {Component<Props>}
  */
-export default class LoginForm extends Component {
+export default class SignupForm extends Component {
+  onInviteChange = e => {
+    this.props.onInviteChange(e.target.value);
+  };
   onUsernameChange = e => {
     this.props.onUsernameChange(e.target.value);
   };
@@ -28,14 +32,27 @@ export default class LoginForm extends Component {
   };
   onPasswordKeyPress = e => {
     if (getKeyCode(e.nativeEvent) === 'Enter') {
-      this.props.onLogin();
+      this.props.onSignup();
     }
   };
   render() {
-    const {className, form, onLogin} = this.props;
+    const {className, form, onSignup} = this.props;
 
     return (
       <div className={cx(classes.root, className)}>
+        {form.isInviteVisible ? (
+          <input
+            className={cx(classes.field, {
+              [classes.fieldInvalid]: !form.isInviteValid
+            })}
+            placeholder="Invite code"
+            autoCapitalize="off"
+            autoCorrect="off"
+            value={form.invite || ''}
+            onChange={this.onInviteChange}
+          />
+        ) : null}
+
         <input
           className={cx(classes.field, {
             [classes.fieldInvalid]: !form.isUsernameValid
@@ -44,7 +61,6 @@ export default class LoginForm extends Component {
           placeholder="Username"
           autoCapitalize="off"
           autoCorrect="off"
-          autoFocus
           value={form.username || ''}
           onChange={this.onUsernameChange}
         />
@@ -65,8 +81,8 @@ export default class LoginForm extends Component {
         ) : null}
 
         <div className={classes.buttons}>
-          <Button onClick={onLogin} disabled={!form.loginButton.enabled}>
-            {form.loginButton.content}
+          <Button onClick={onSignup} disabled={!form.signupButton.enabled}>
+            {form.signupButton.content}
           </Button>
         </div>
       </div>

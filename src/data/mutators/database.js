@@ -46,8 +46,7 @@ async function apply(state, mutation) {
 
   switch (mutation.type) {
     case 'init': {
-      const {sessionDbServerUrl} = required(mutation.data.data);
-      data.sessionDbServerUrl = sessionDbServerUrl;
+      // nothing to init for now
       break;
     }
 

@@ -1,12 +1,18 @@
 import MindsetType from 'model/entities/Mindset';
 import MainVMType from 'vm/main/Main';
 
+import ClientConfigType from 'boot/client/config/ClientConfig';
+
 import DataState from './DataState';
 
 /**
  * Application state
  */
 export default class State {
+  /**
+   * Side effect functions that we hold in app state to avoid global state and
+   * make testing easier
+   */
   sideEffects = {
     /** @type {function(RequestInfo, RequestInit): Promise<Response>} */
     fetch: undefined,
@@ -16,7 +22,29 @@ export default class State {
   };
 
   /**
-   * Persistent part of state
+   * Application starting parameters
+   */
+  params = {
+    /**
+     * @type {ClientConfigType}
+     */
+    clientConfig: undefined,
+
+    /**
+     * URL of db server for current session
+     * @type {string}
+     */
+    sessionDbServerUrl: undefined,
+
+    /**
+     * URL of api server (eg. for signing up new users)
+     * @type {string}
+     */
+    apiServerUrl: undefined
+  };
+
+  /**
+   * Persistent part of the state
    * @type {DataState}
    */
   data = new DataState();

@@ -8,6 +8,7 @@ import compression from 'compression';
 import consolidate from 'consolidate';
 import table from 'text-table';
 import bodyParser from 'body-parser';
+import HttpStatus from 'http-status-codes';
 
 // @ts-ignore relative path from build folder
 import config from '../config.serve';
@@ -59,7 +60,7 @@ app.get('/', function(req, res) {
       host: config.server.database.host,
       port: config.server.database.port
     },
-    regInviteRequired: config.client.reg.invite.on
+    signupInviteRequired: config.client.signup.invite.on
   };
 
   res.render('index', {
@@ -71,13 +72,14 @@ app.use(express.static(config.server.static.folder));
 app.use('/auth', auth);
 
 app.use(function(req, res) {
-  res.status(404).send('NOT FOUND');
+  res.status(HttpStatus.NOT_FOUND).send();
 });
 
+// global error handler
 // eslint-disable-next-line no-unused-vars
 app.use(function(err, req, res, next) {
   console.error(err);
-  res.status(500).send();
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
 });
 
 const {host, port, folder, secure} = config.server.static;

@@ -8,13 +8,14 @@ const abs = p => path.join(__dirname, p);
  * Serve configuration
  * The one that is used for serving build (added to build folder)
  *
- * NOTE: do not modify defaults - put custom config to 'config.serve.user.js'
+ * NOTE 1: do not modify defaults - put custom config to 'config.serve.user.js'
+ * NOTE 2: restart nodejs server to apply changes
  */
 const defaults = {
   client: {
-    // user registration form
-    reg: {
-      // allow registration with invite code only
+    // user signup form
+    signup: {
+      // allow signing up with invite code only
       invite: {on: false, code: 'welcome'}
     }
   },
@@ -52,7 +53,7 @@ const defaults = {
       port: 5984,
 
       // credentials of database server administrator. it never goes to client.
-      // used only to register new users (to add user and create databases).
+      // used only to sign up new users (to add user and create databases).
       // admin authentication can be skipped if server has no admin yet.
       auth: {on: false, name: 'admin', password: 'admin'},
 

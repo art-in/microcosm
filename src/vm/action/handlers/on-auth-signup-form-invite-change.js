@@ -5,19 +5,20 @@ import StateType from 'boot/client/State';
 import view from 'vm/utils/view-patch';
 
 /**
- * Handles password change event from login form
+ * Handles invite code change event from signup form
  *
  * @param {StateType} state
  * @param {object} data
- * @param {string} data.password
+ * @param {string} data.invite
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {password} = required(data);
+  const {invite} = required(data);
 
   return view('update-auth-screen', {
-    loginForm: {
-      password,
+    signupForm: {
+      invite,
+      isInviteValid: true,
       isUsernameValid: true,
       isPasswordValid: true,
       errorNotification: {visible: false}

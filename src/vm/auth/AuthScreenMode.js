@@ -5,7 +5,10 @@
  * @enum {number}
  */
 const AuthScreenMode = {
-  registration: 0,
+  /** Sign up (register, authorize) new user */
+  signup: 0,
+
+  /** Log in (sign in, authenticate) existing user */
   login: 1
 };
 

@@ -51,8 +51,8 @@ function apply(state, mutation) {
       state.vm.main.emitChange();
       break;
 
-    case 'update-auth-login-form':
-      auth.loginForm.emitChange();
+    case 'update-auth-screen':
+      auth.emitChange();
       break;
 
     case 'init-mindset':
