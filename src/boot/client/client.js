@@ -18,8 +18,6 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import loadClientConfig from './config/load-client-config';
-
 import './sw/register-sw-cache';
 
 // for devtools Fauxton extension
@@ -51,9 +49,10 @@ async function start() {
     data: {
       fetch: window.fetch,
       setTimeout: window.setTimeout,
+      confirm: window.confirm,
+      reload: window.location.reload,
       storeDispatch: store.dispatch.bind(store),
-      clientConfig: loadClientConfig(),
-      apiServerUrl: location.href,
+      apiServerUrl: location.href + 'api/',
       viewRoot: document.querySelector('#root')
     }
   });

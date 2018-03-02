@@ -20,8 +20,7 @@ const defaults = {
     }
   },
   server: {
-    // nodejs server, which serves static files to browser and provides user
-    // registration api
+    // nodejs server, which serves static files to browser and provides rest api
     static: {
       host: '0.0.0.0',
       port: 3000,

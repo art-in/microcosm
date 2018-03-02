@@ -14,7 +14,6 @@ module.exports = {
       },
       logFormat: 'dev'
     },
-
     database: {
       protocol: 'http',
       host: 'localhost',

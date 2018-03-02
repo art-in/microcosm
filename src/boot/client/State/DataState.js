@@ -1,5 +1,6 @@
 import CancellationTokenType from 'action/utils/CancellationToken';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
+import ClientConfigType from 'boot/client/ClientConfig';
 
 /**
  * Persistent part of the state
@@ -38,6 +39,13 @@ export default class DataState {
    * @type {boolean}
    */
   isZenSidebarCollapsed = true;
+
+  /**
+   * Client config, received from server last time.
+   * Empty value means no config was received yet (first visit).
+   * @type {ClientConfigType}
+   */
+  clientConfig = undefined;
 
   // endregion
 

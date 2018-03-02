@@ -45,10 +45,9 @@ async function apply(state, mutation) {
   const {data} = state;
 
   switch (mutation.type) {
-    case 'init': {
+    case 'init':
       // nothing to init for now
       break;
-    }
 
     case 'init-mindset': {
       const {ideas, associations, mindsets, dbHeartbeatToken} = required(
@@ -60,6 +59,11 @@ async function apply(state, mutation) {
       data.dbHeartbeatToken = dbHeartbeatToken;
       break;
     }
+
+    case 'init-local-data':
+    case 'update-client-config':
+      // ignore local data updates
+      break;
 
     case 'add-idea':
       await ideaDB.add(data.ideas, mutation.data.idea);

@@ -23,7 +23,7 @@ export default function(state, data) {
       return view('update-auth-screen', {
         mode,
         signupForm: new SignupForm({
-          isInviteVisible: state.params.clientConfig.signupInviteRequired
+          isInviteVisible: state.data.clientConfig.signupInviteRequired
         }),
         loginForm: null
       });

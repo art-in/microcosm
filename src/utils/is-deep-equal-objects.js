@@ -1,16 +1,13 @@
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 /**
- * Compares two objects shallowly
- *
- * Source:
- * https://github.com/facebook/fbjs/blob/master/packages/fbjs/src/core/shallowEqual.js
+ * Compares two objects deeply
  *
  * @param {Object.<string, *>} objA
  * @param {Object.<string, *>} objB
  * @return {boolean}
  */
-export default function isShallowEqualObjects(objA, objB) {
+export default function isDeepEqualObjects(objA, objB) {
   if (Object.is(objA, objB)) {
     return true;
   }
@@ -35,7 +32,7 @@ export default function isShallowEqualObjects(objA, objB) {
   for (let i = 0; i < keysA.length; i++) {
     if (
       !hasOwnProperty.call(objB, keysA[i]) ||
-      !Object.is(objA[keysA[i]], objB[keysA[i]])
+      !isDeepEqualObjects(objA[keysA[i]], objB[keysA[i]])
     ) {
       return false;
     }

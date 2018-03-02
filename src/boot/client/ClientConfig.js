@@ -1,8 +1,10 @@
+import initProps from 'utils/init-props';
+
 /**
  * Client runtime configuration.
  *
  * The one that is transferred from server to client, and allows to configure
- * client side app from server, without need to rebuild from sources.
+ * client side app, without rebuilding from sources.
  */
 export default class ClientConfig {
   app = {
@@ -32,4 +34,12 @@ export default class ClientConfig {
    * @type {boolean}
    */
   signupInviteRequired = undefined;
+
+  /**
+   * Constructor
+   * @param {Partial<ClientConfig>} [props]
+   */
+  constructor(props) {
+    initProps(this, props);
+  }
 }

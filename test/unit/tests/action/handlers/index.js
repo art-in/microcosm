@@ -2,6 +2,7 @@ describe('handlers', () => {
   require('./create-cross-association.test');
   require('./create-idea.test');
   require('./init.test');
+  require('./load-client-config.test');
   require('./load-mindset.test');
   require('./remove-association.test');
   require('./remove-idea.test');

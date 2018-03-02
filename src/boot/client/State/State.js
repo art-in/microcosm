@@ -1,7 +1,7 @@
 import MindsetType from 'model/entities/Mindset';
 import MainVMType from 'vm/main/Main';
 
-import ClientConfigType from 'boot/client/config/ClientConfig';
+import ClientConfigType from 'boot/client/ClientConfig';
 
 import DataState from './DataState';
 
@@ -18,18 +18,19 @@ export default class State {
     fetch: undefined,
 
     /** @type {function} */
-    setTimeout: undefined
+    setTimeout: undefined,
+
+    /** @type {function} */
+    confirm: undefined,
+
+    /** @type {function} */
+    reload: undefined
   };
 
   /**
    * Application starting parameters
    */
   params = {
-    /**
-     * @type {ClientConfigType}
-     */
-    clientConfig: undefined,
-
     /**
      * URL of db server for current session
      * @type {string}

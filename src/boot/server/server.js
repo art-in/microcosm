@@ -5,17 +5,15 @@ import https from 'https';
 import express from 'express';
 import logger from 'morgan';
 import compression from 'compression';
-import consolidate from 'consolidate';
 import table from 'text-table';
 import bodyParser from 'body-parser';
 import HttpStatus from 'http-status-codes';
 
 // @ts-ignore relative path from build folder
 import config from '../config.serve';
-// @ts-ignore relative path from build folder
-import pkg from '../package.json';
 
-import auth from './auth';
+import api from './api';
+import apiAuth from './api-auth';
 
 const app = express();
 
@@ -33,43 +31,10 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(logger(config.server.static.logFormat));
 
-// setup template engine
-app.engine('html', consolidate.mustache);
-app.set('view engine', 'html');
-app.set('views', config.server.static.folder);
-
-app.get('/', function(req, res) {
-  // inject runtime client config to the index page on the fly.
-  // Q: why not pre-build config?
-  // A: this is the best option I found so far. another options:
-  //  - inject config once at build time - won't work since it blocks
-  //    configuration of already deployed build (away from sources)
-  //  - inject config once just before serve (with gulp task) - won't work since
-  //    it blocks running server directly without gulp task
-  //  - make rest api request for config from client at startup - won't work
-  //    since (a) it is additional request which will hit load performance
-  //    (b) and will block offline scenario
-  const clientConfig = {
-    app: {
-      name: pkg.name,
-      homepage: pkg.homepage,
-      version: pkg.version
-    },
-    dbServer: {
-      protocol: config.server.database.protocol,
-      host: config.server.database.host,
-      port: config.server.database.port
-    },
-    signupInviteRequired: config.client.signup.invite.on
-  };
-
-  res.render('index', {
-    clientConfig: JSON.stringify(clientConfig)
-  });
-});
-
 app.use(express.static(config.server.static.folder));
-app.use('/auth', auth);
+
+app.use('/api', api);
+app.use('/api/auth', apiAuth);
 
 app.use(function(req, res) {
   res.status(HttpStatus.NOT_FOUND).send();

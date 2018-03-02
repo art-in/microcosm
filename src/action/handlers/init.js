@@ -2,7 +2,7 @@ import required from 'utils/required-params';
 import Patch from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
-import ClientConfigType from 'boot/client/config/ClientConfig';
+import ClientConfigType from 'boot/client/ClientConfig';
 
 import view from 'vm/utils/view-patch';
 import ConnectionState from 'action/utils/ConnectionState';
@@ -17,8 +17,10 @@ import openScreen from 'vm/main/Main/methods/open-screen';
  *
  * @param {StateType} state
  * @param {object} data
- * @param {function} data.fetch
+ * @param {function(RequestInfo, RequestInit): Promise<Response>} data.fetch
  * @param {function} data.setTimeout
+ * @param {function} data.confirm
+ * @param {function} data.reload
  * @param {function} data.storeDispatch
  * @param {ClientConfigType} data.clientConfig
  * @param {string} data.sessionDbServerUrl
@@ -31,11 +33,30 @@ export default async function init(state, data, dispatch, mutate) {
   const {
     fetch,
     setTimeout,
+    confirm,
+    reload,
     storeDispatch,
-    clientConfig,
     apiServerUrl,
     viewRoot
   } = required(data);
+
+  await mutate(new Patch({type: 'init-local-data', targets: ['data']}));
+
+  const loadClientConfigAction = {
+    type: 'load-client-config',
+    data: {fetch, confirm, reload, apiServerUrl}
+  };
+
+  if (!state.data.clientConfig) {
+    // load client config from server on first visit
+    await dispatch(loadClientConfigAction);
+  } else {
+    // use local config, while checking for updates in background.
+    // this allows us to start the app in offline scenario.
+    dispatch(loadClientConfigAction);
+  }
+
+  const clientConfig = state.data.clientConfig;
 
   // init view model
   const main = new MainVM({
@@ -54,8 +75,8 @@ export default async function init(state, data, dispatch, mutate) {
     new Patch({
       type: 'init',
       data: {
-        sideEffects: {fetch, setTimeout},
-        params: {clientConfig, sessionDbServerUrl, apiServerUrl},
+        sideEffects: {fetch, setTimeout, confirm, reload},
+        params: {sessionDbServerUrl, apiServerUrl},
         vm: {main},
         view: {root: viewRoot, storeDispatch}
       }
