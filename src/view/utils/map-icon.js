@@ -113,5 +113,9 @@ const descriptors = {
   [Icon.exclamationTriangle]: {
     class: icons.faExclamationTriangle,
     char: '\uf071'
+  },
+  [Icon.signOut]: {
+    class: icons.faSignOut,
+    char: '\uf08b'
   }
 };

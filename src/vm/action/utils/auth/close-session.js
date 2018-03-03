@@ -1,13 +1,10 @@
 /**
- * Tries to authenticate user for accessing database server.
+ * Tries to close authenticated session with database server.
  *
- * In case user name and password are authentic, database server will return
- * cookie with session token. Browser will be sending that cookie with all
- * subsequent requests to user databases.
+ * Database server will return cookie with empty session token, which
+ * effectively destroys current session.
  *
  * @param {string} dbServerUrl
- * @param {string} username
- * @param {string} password
  * @param {function(RequestInfo, RequestInit): Promise<Response>} fetch
  *
  * @typedef {object} AuthenticationResult
@@ -16,22 +13,15 @@
  * @prop {boolean} isConnected - connected to database server
  * @return {Promise.<AuthenticationResult>}
  */
-export default async function authenticate(
-  dbServerUrl,
-  username,
-  password,
-  fetch
-) {
+export default async function closeSession(dbServerUrl, fetch) {
   try {
     const res = await fetch(`${dbServerUrl}/_session`, {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
-        ['Accept']: 'application/json',
-        ['Content-Type']: 'application/json'
+        ['Accept']: 'application/json'
       },
       // allow server to set cookies for another origin
-      credentials: 'include',
-      body: JSON.stringify({name: username, password})
+      credentials: 'include'
     });
     const response = await res.json();
 

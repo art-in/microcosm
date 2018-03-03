@@ -50,7 +50,7 @@ async function start() {
       fetch: window.fetch,
       setTimeout: window.setTimeout,
       confirm: window.confirm,
-      reload: window.location.reload,
+      reload: window.location.reload.bind(window.location),
       storeDispatch: store.dispatch.bind(store),
       apiServerUrl: location.href + 'api/',
       viewRoot: document.querySelector('#root')

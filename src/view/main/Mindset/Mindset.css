@@ -22,13 +22,19 @@
 .go-root-button {
   position: absolute;
   top: 0.85rem;
-  right: 0.85rem;
+  right: 3.3rem;
 }
 
 .idea-search-box {
   position: absolute;
   top: 0.85rem;
-  right: 3.3rem;
+  right: 5.8rem;
+}
+
+.logout-button {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
 }
 
 .idea-search-box-lookup {
@@ -38,39 +44,48 @@
 
 .root.mode-zen .go-root-button {
   /* shift button bit left to free space for scrollbar */
-  right: 1.1rem;
+  right: 3.6rem;
 }
 
 .root.mode-zen .idea-search-box {
   /* shift button bit left to free space for scrollbar */
-  right: 3.6rem;
+  right: 6.1rem;
+}
+
+.root.mode-zen .logout-button {
+  /* shift button bit left to free space for scrollbar */
+  right: 1.1rem;
 }
 
 .root.mode-mindmap .db-connection-icon,
 .root.mode-mindmap .go-root-button,
 .root.mode-mindmap .idea-search-box-trigger,
-.root.mode-mindmap .toggle-mode-button {
+.root.mode-mindmap .toggle-mode-button,
+.root.mode-mindmap .logout-button {
   color: lightgray;
 }
 
 .root.mode-zen .db-connection-icon,
 .root.mode-zen .go-root-button,
 .root.mode-zen .idea-search-box-trigger,
-.root.mode-zen .toggle-mode-button {
+.root.mode-zen .toggle-mode-button,
+.root.mode-zen .logout-button {
   color: #808080;
 }
 
 .root.mode-mindmap .db-connection-icon:hover,
 .root.mode-mindmap .go-root-button:hover,
 .root.mode-mindmap .idea-search-box-trigger:hover,
-.root.mode-mindmap .toggle-mode-button:hover {
+.root.mode-mindmap .toggle-mode-button:hover,
+.root.mode-mindmap .logout-button:hover {
   color: white;
 }
 
 .root.mode-zen .db-connection-icon:hover,
 .root.mode-zen .go-root-button:hover,
 .root.mode-zen .idea-search-box-trigger:hover,
-.root.mode-zen .toggle-mode-button:hover {
+.root.mode-zen .toggle-mode-button:hover,
+.root.mode-zen .logout-button:hover {
   color: black;
 }
 

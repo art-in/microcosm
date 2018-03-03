@@ -84,8 +84,17 @@ function apply(state, mutation) {
       if (mutation.data.isCollapsed !== undefined) {
         data.isZenSidebarCollapsed = mutation.data.isCollapsed;
         setItem(ZEN_SIDEBAR_COLLAPSED, data.isZenSidebarCollapsed);
-        break;
       }
+      break;
+
+    case 'cleanup':
+      localStorage.removeItem(MINDSET_VIEW_MODE);
+      localStorage.removeItem(DB_SERVER_URL);
+      localStorage.removeItem(USER_NAME);
+      localStorage.removeItem(ZEN_SIDEBAR_COLLAPSED);
+      localStorage.removeItem(DB_AUTHORIZED);
+      localStorage.removeItem(CLIENT_CONFIG);
+      break;
   }
 }
 

@@ -13,6 +13,14 @@ import MainType from 'vm/main/Main';
  */
 export default function openScreen(screen) {
   switch (screen) {
+    case MainScreen.loading: {
+      return {
+        screen: MainScreen.loading,
+        auth: null,
+        mindset: null
+      };
+    }
+
     case MainScreen.auth: {
       return {
         screen: MainScreen.auth,

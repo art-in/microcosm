@@ -97,6 +97,15 @@ async function apply(state, mutation) {
       // nothing to update currently
       break;
 
+    case 'cleanup':
+      state.data.dbHeartbeatToken.cancel();
+      await Promise.all([
+        state.data.ideas.destroy(),
+        state.data.associations.destroy(),
+        state.data.mindsets.destroy()
+      ]);
+      break;
+
     default:
       throw Error(`Unknown data mutation '${mutation.type}'`);
   }

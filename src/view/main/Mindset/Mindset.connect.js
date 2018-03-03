@@ -38,6 +38,9 @@ export default connect(
     },
 
     onDbConnectionIconClick: () =>
-      dispatch({type: 'on-mindset-db-connection-icon-click'})
+      dispatch({type: 'on-mindset-db-connection-icon-click'}),
+
+    onLogoutButtonClick: () =>
+      dispatch({type: 'on-mindset-logout-button-click'})
   })
 )(Component);

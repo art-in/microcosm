@@ -34,6 +34,7 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @prop {function()} onIdeaSearchLookupSuggestionSelect
  * @prop {function()} onColorPickerChange
  * @prop {function()} onDbConnectionIconClick
+ * @prop {function()} onLogoutButtonClick
  *
  * @extends {Component<Props>}
  */
@@ -68,7 +69,8 @@ export default class Mindset extends Component {
       onIdeaSearchLookupKeyDown,
       onIdeaSearchLookupSuggestionSelect,
       onColorPickerChange,
-      onDbConnectionIconClick
+      onDbConnectionIconClick,
+      onLogoutButtonClick
     } = this.props;
 
     let view;
@@ -141,6 +143,14 @@ export default class Mindset extends Component {
               onLookupPhraseChange={onIdeaSearchLookupPhraseChange}
               onLookupKeyDown={onIdeaSearchLookupKeyDown}
               onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}
+            />
+
+            <IconButton
+              className={classes.logoutButton}
+              icon={IconType.signOut}
+              size={IconSize.large}
+              tooltip="Log out"
+              onClick={onLogoutButtonClick}
             />
 
             <ColorPicker

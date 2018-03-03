@@ -26,7 +26,8 @@ const Icon = {
   chevronLeft: 18,
   sunO: 19,
   circle: 20,
-  exclamationTriangle: 21
+  exclamationTriangle: 21,
+  signOut: 22
 };
 
 export default Icon;
