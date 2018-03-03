@@ -18,7 +18,10 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import './sw/register-sw-cache';
+import reloadToUpdateVersion from './utils/reload-to-update-version';
+
+import registerCacheSW from './utils/register-sw-cache';
+registerCacheSW(reloadToUpdateVersion);
 
 // for devtools Fauxton extension
 // @ts-ignore unknown window prop
@@ -51,6 +54,7 @@ async function start() {
       setTimeout: window.setTimeout,
       confirm: window.confirm,
       reload: window.location.reload.bind(window.location),
+      reloadToUpdateVersion,
       storeDispatch: store.dispatch.bind(store),
       apiServerUrl: location.href + 'api/',
       viewRoot: document.querySelector('#root')

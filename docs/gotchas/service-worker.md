@@ -15,4 +15,19 @@
 
     https://stackoverflow.com/a/48886857/1064570
 
+---
 
+3. SW update process.  
+
+    Browser requests SW script everytime it navigates to page controlled by SW
+    (and also everytime `push` event received).  
+    But those requests can be resolved by browser HTTP cache, without call to server.  
+
+    There is no background service that updates SW each 24 hours.  
+    Spec "24 hours" is about max duration in HTTP cache, which limits cache duration
+    if server sets `max-age` greater than 24 hours.  
+
+    By default, browser will request SW from server with `no-cache` header, which disables
+    HTTP cache for SW script.
+
+    https://stackoverflow.com/questions/38843970/service-worker-javascript-update-frequency-every-24-hours

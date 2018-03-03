@@ -21,6 +21,7 @@ import openScreen from 'vm/main/Main/methods/open-screen';
  * @param {function} data.setTimeout
  * @param {function} data.confirm
  * @param {function} data.reload
+ * @param {function} data.reloadToUpdateVersion
  * @param {function} data.storeDispatch
  * @param {ClientConfigType} data.clientConfig
  * @param {string} data.sessionDbServerUrl
@@ -35,6 +36,7 @@ export default async function init(state, data, dispatch, mutate) {
     setTimeout,
     confirm,
     reload,
+    reloadToUpdateVersion,
     storeDispatch,
     apiServerUrl,
     viewRoot
@@ -44,7 +46,7 @@ export default async function init(state, data, dispatch, mutate) {
 
   const loadClientConfigAction = {
     type: 'load-client-config',
-    data: {fetch, confirm, reload, apiServerUrl}
+    data: {fetch, reloadToUpdateVersion, apiServerUrl}
   };
 
   if (!state.data.clientConfig) {
@@ -75,7 +77,13 @@ export default async function init(state, data, dispatch, mutate) {
     new Patch({
       type: 'init',
       data: {
-        sideEffects: {fetch, setTimeout, confirm, reload},
+        sideEffects: {
+          fetch,
+          setTimeout,
+          confirm,
+          reload,
+          reloadToUpdateVersion
+        },
         params: {sessionDbServerUrl, apiServerUrl},
         vm: {main},
         view: {root: viewRoot, storeDispatch}

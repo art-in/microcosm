@@ -15,7 +15,7 @@ import loadClientConfig from 'action/utils/load-client-config';
  */
 export default async function(state, data, dispatch, mutate) {
   const {clientConfig: oldClientConfig} = state.data;
-  const {fetch, confirm, reload, apiServerUrl} = required(data);
+  const {fetch, reloadToUpdateVersion, apiServerUrl} = required(data);
 
   const isFirstVisit = !oldClientConfig;
 
@@ -44,8 +44,8 @@ export default async function(state, data, dispatch, mutate) {
     })
   );
 
-  // request page reload to complete update process
-  if (!isFirstVisit && confirm('New config received, reload now?')) {
-    reload();
+  if (!isFirstVisit) {
+    // reload page to complete update process
+    reloadToUpdateVersion();
   }
 }

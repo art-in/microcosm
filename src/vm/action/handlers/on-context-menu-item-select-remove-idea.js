@@ -18,6 +18,7 @@ export default function(state, data, dispatch) {
   const idea = mindset.ideas.get(ideaId);
   const parent = idea.edgeFromParent.from;
 
+  // TODO: get confirm from state.sideEffects
   if (confirm(`${MESSAGE_CONFIRM_REMOVE}\n\n${idea.title}\n`)) {
     dispatch({
       type: 'remove-idea',

@@ -24,7 +24,10 @@ export default class State {
     confirm: undefined,
 
     /** @type {function} */
-    reload: undefined
+    reload: undefined,
+
+    /** @type {function} */
+    reloadToUpdateVersion: undefined
   };
 
   /**

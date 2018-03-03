@@ -33,8 +33,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm: noop,
-          reload: noop,
+          reloadToUpdateVersion: noop,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -70,8 +69,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm: noop,
-          reload: noop,
+          reloadToUpdateVersion: noop,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -106,8 +104,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm: noop,
-          reload: noop,
+          reloadToUpdateVersion: noop,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -124,8 +121,7 @@ describe('load-client-config', () => {
   it('should confirm page reload after config updated', async () => {
     // setup
     const state = new State();
-    const confirm = spy(() => true);
-    const reload = spy();
+    const reloadToUpdateVersion = spy(() => true);
 
     const dispatch = noop;
     const mutate = spy();
@@ -145,8 +141,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm,
-          reload,
+          reloadToUpdateVersion,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -155,15 +150,13 @@ describe('load-client-config', () => {
     );
 
     // check
-    expect(confirm.callCount).to.equal(1);
-    expect(reload.callCount).to.equal(1);
+    expect(reloadToUpdateVersion.callCount).to.equal(1);
   });
 
   it('should NOT confirm page reload on first visit', async () => {
     // setup
     const state = new State();
-    const confirm = spy();
-    const reload = spy();
+    const reloadToUpdateVersion = spy();
 
     const dispatch = noop;
     const mutate = spy();
@@ -183,8 +176,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm,
-          reload,
+          reloadToUpdateVersion,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -193,8 +185,7 @@ describe('load-client-config', () => {
     );
 
     // check
-    expect(confirm.callCount).to.equal(0);
-    expect(reload.callCount).to.equal(0);
+    expect(reloadToUpdateVersion.callCount).to.equal(0);
   });
 
   it('should NOT mutate state', async () => {
@@ -220,8 +211,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm: noop,
-          reload: noop,
+          reloadToUpdateVersion: noop,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
@@ -252,8 +242,7 @@ describe('load-client-config', () => {
         type: 'load-client-config',
         data: {
           fetch,
-          confirm: noop,
-          reload: noop,
+          reloadToUpdateVersion: noop,
           apiServerUrl: 'TEST_API_SERVER'
         }
       },
