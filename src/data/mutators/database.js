@@ -61,7 +61,6 @@ async function apply(state, mutation) {
     }
 
     case 'init-local-data':
-    case 'update-client-config':
       // ignore local data updates
       break;
 

@@ -24,16 +24,16 @@ export default class State {
     confirm: undefined,
 
     /** @type {function} */
-    reload: undefined,
-
-    /** @type {function} */
-    reloadToUpdateVersion: undefined
+    reload: undefined
   };
 
   /**
    * Application starting parameters
    */
   params = {
+    /** @type {ClientConfigType} */
+    clientConfig: undefined,
+
     /**
      * URL of db server for current session
      * @type {string}

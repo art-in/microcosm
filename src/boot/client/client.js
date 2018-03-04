@@ -18,10 +18,7 @@ import mutateModel from 'model/mutators';
 import mutateVM from 'vm/mutators';
 import mutateView from 'view/mutators';
 
-import reloadToUpdateVersion from './utils/reload-to-update-version';
-
-import registerCacheSW from './utils/register-sw-cache';
-registerCacheSW(reloadToUpdateVersion);
+import './utils/register-sw-cache';
 
 // for devtools Fauxton extension
 // @ts-ignore unknown window prop
@@ -38,6 +35,9 @@ async function start() {
     middlewares.push(perf);
   }
 
+  // load client config. it should take no time, since we sw-caching it
+  const clientConfig = await (await fetch('api/config')).json();
+
   // init store
   const store = new Store(
     Handler.combine(commonHandler, vmHandler),
@@ -50,13 +50,18 @@ async function start() {
   await store.dispatch({
     type: 'init',
     data: {
+      // side effects
       fetch: window.fetch,
       setTimeout: window.setTimeout,
       confirm: window.confirm,
       reload: window.location.reload.bind(window.location),
-      reloadToUpdateVersion,
-      storeDispatch: store.dispatch.bind(store),
+
+      // config
+      clientConfig,
       apiServerUrl: location.href + 'api/',
+
+      // other
+      storeDispatch: store.dispatch.bind(store),
       viewRoot: document.querySelector('#root')
     }
   });
@@ -67,6 +72,7 @@ async function start() {
 // A: it fixes FF issue when it gets stuck in page loading state forever
 //    because of server database long polling (and in loading state it does not
 //    run SMIL animations and draw text-shadow on SVG elements with artifacts).
+//
 // Q: why not wait for 'DOMContentLoaded'?
 // A: FF infinite loading issue get fixed only with 'load'. and since all page
 //    content get rendered by code, those two events are always the same.

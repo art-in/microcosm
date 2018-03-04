@@ -16,6 +16,7 @@ import LoginForm from 'vm/auth/LoginForm';
  * @return {PatchType}
  */
 export default function(state, data) {
+  const {clientConfig} = state.params;
   const {mode} = required(data);
 
   switch (mode) {
@@ -23,7 +24,7 @@ export default function(state, data) {
       return view('update-auth-screen', {
         mode,
         signupForm: new SignupForm({
-          isInviteVisible: state.data.clientConfig.signupInviteRequired
+          isInviteVisible: clientConfig.signupInviteRequired
         }),
         loginForm: null
       });

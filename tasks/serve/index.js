@@ -1,6 +1,6 @@
 const config = require('../../config.serve');
 
-const deps = ['serve:static'];
+const deps = ['serve:generate-sw-cache', 'serve:static'];
 
 if (config.server.database.dev.start) {
   deps.push('serve:dev-db');

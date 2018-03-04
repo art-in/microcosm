@@ -21,11 +21,10 @@ import openScreen from 'vm/main/Main/methods/open-screen';
  * @param {function} data.setTimeout
  * @param {function} data.confirm
  * @param {function} data.reload
- * @param {function} data.reloadToUpdateVersion
- * @param {function} data.storeDispatch
  * @param {ClientConfigType} data.clientConfig
- * @param {string} data.sessionDbServerUrl
  * @param {string} data.apiServerUrl
+ * @param {string} data.sessionDbServerUrl
+ * @param {function} data.storeDispatch
  * @param {Element} data.viewRoot
  * @param {function} dispatch
  * @param {function} mutate
@@ -36,29 +35,13 @@ export default async function init(state, data, dispatch, mutate) {
     setTimeout,
     confirm,
     reload,
-    reloadToUpdateVersion,
-    storeDispatch,
+    clientConfig,
     apiServerUrl,
+    storeDispatch,
     viewRoot
   } = required(data);
 
   await mutate(new Patch({type: 'init-local-data', targets: ['data']}));
-
-  const loadClientConfigAction = {
-    type: 'load-client-config',
-    data: {fetch, reloadToUpdateVersion, apiServerUrl}
-  };
-
-  if (!state.data.clientConfig) {
-    // load client config from server on first visit
-    await dispatch(loadClientConfigAction);
-  } else {
-    // use local config, while checking for updates in background.
-    // this allows us to start the app in offline scenario.
-    dispatch(loadClientConfigAction);
-  }
-
-  const clientConfig = state.data.clientConfig;
 
   // init view model
   const main = new MainVM({
@@ -77,14 +60,8 @@ export default async function init(state, data, dispatch, mutate) {
     new Patch({
       type: 'init',
       data: {
-        sideEffects: {
-          fetch,
-          setTimeout,
-          confirm,
-          reload,
-          reloadToUpdateVersion
-        },
-        params: {sessionDbServerUrl, apiServerUrl},
+        sideEffects: {fetch, setTimeout, confirm, reload},
+        params: {clientConfig, sessionDbServerUrl, apiServerUrl},
         vm: {main},
         view: {root: viewRoot, storeDispatch}
       }

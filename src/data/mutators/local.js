@@ -3,7 +3,6 @@ import required from 'utils/required-params';
 import StateType from 'boot/client/State';
 import PatchType from 'utils/state/Patch';
 import MutationType from 'utils/state/Mutation';
-import ClientConfig from 'boot/client/ClientConfig';
 
 const KEY_PREFIX = '[microcosm]';
 
@@ -12,7 +11,6 @@ const DB_SERVER_URL = `${KEY_PREFIX} db_server_url`;
 const USER_NAME = `${KEY_PREFIX} user`;
 const ZEN_SIDEBAR_COLLAPSED = `${KEY_PREFIX} zen_sidebar_collapsed`;
 const DB_AUTHORIZED = `${KEY_PREFIX} db_authorized`;
-const CLIENT_CONFIG = `${KEY_PREFIX} client_config`;
 
 /**
  * Applies patch to local state
@@ -46,14 +44,8 @@ function apply(state, mutation) {
         ZEN_SIDEBAR_COLLAPSED,
         data.isZenSidebarCollapsed
       );
-      data.clientConfig = getClientConfig(CLIENT_CONFIG, null);
       break;
     }
-
-    case 'update-client-config':
-      data.clientConfig = mutation.data;
-      setObject(CLIENT_CONFIG, data.clientConfig);
-      break;
 
     case 'init-mindset': {
       const {dbServerUrl, userName} = required(mutation.data.data);
@@ -93,7 +85,6 @@ function apply(state, mutation) {
       localStorage.removeItem(USER_NAME);
       localStorage.removeItem(ZEN_SIDEBAR_COLLAPSED);
       localStorage.removeItem(DB_AUTHORIZED);
-      localStorage.removeItem(CLIENT_CONFIG);
       break;
   }
 }
@@ -142,34 +133,6 @@ function getNumeric(itemKey, defaultValue) {
 }
 
 /**
- * Gets object from local storage
- *
- * @param {string} itemKey
- * @param {*} defaultValue
- * @return {Object.<string, *>}
- */
-function getObject(itemKey, defaultValue) {
-  const json = getString(itemKey, null);
-  if (json === null) {
-    return defaultValue;
-  }
-
-  return JSON.parse(json);
-}
-
-/**
- * Gets client config from local storage
- *
- * @param {string} itemKey
- * @param {*} defaultValue
- * @return {ClientConfig}
- */
-function getClientConfig(itemKey, defaultValue) {
-  const obj = getObject(itemKey, null);
-  return obj === null ? defaultValue : new ClientConfig(obj);
-}
-
-/**
  * Sets item of primitive type to local storage
  *
  * @param {string} itemKey
@@ -177,14 +140,4 @@ function getClientConfig(itemKey, defaultValue) {
  */
 function setItem(itemKey, value) {
   localStorage.setItem(itemKey, value.toString());
-}
-
-/**
- * Sets object item to local storage
- *
- * @param {string} itemKey
- * @param {*} value
- */
-function setObject(itemKey, value) {
-  localStorage.setItem(itemKey, JSON.stringify(value));
 }

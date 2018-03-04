@@ -1,8 +1,7 @@
 /* global require, module, __dirname */
-const path = require('path');
 const extend = require('extend');
+const abs = require('./tasks/utils/join-path')(__dirname);
 const userConfig = require('./config.build.user');
-const abs = p => path.join(__dirname, p);
 
 /**
  * Build configuration
@@ -29,10 +28,6 @@ const defaults = {
         bundle: {
           path: abs('./.build/client/bundle/'),
           name: 'bundle.js'
-        },
-        sw: {
-          path: abs('./.build/client/'),
-          name: 'sw-cache.js'
         }
       },
 

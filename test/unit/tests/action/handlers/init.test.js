@@ -19,8 +19,6 @@ describe('init', () => {
   it('should init view model state', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
-
     const dispatch = noop;
     const mutate = spy();
 
@@ -34,10 +32,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch: noop,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch: noop,
           viewRoot: document.createElement('div')
         }
       },
@@ -57,8 +54,6 @@ describe('init', () => {
   it('should init view state', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
-
     const dispatch = noop;
     const mutate = spy();
     const storeDispatch = noop;
@@ -73,10 +68,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch,
           viewRoot: document.createElement('div')
         }
       },
@@ -97,7 +91,6 @@ describe('init', () => {
   it('should open login form on first visit', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
     state.data.dbServerUrl = null;
     state.data.userName = null;
 
@@ -115,10 +108,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch,
           viewRoot: document.createElement('div')
         }
       },
@@ -139,7 +131,6 @@ describe('init', () => {
   it('should open login form if connection not authorized', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
     state.data.dbServerUrl = 'TEST_DB_SERVER';
     state.data.userName = null;
     state.data.isDbAuthorized = false;
@@ -161,10 +152,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch,
           viewRoot: document.createElement('div')
         }
       },
@@ -188,7 +178,6 @@ describe('init', () => {
     async () => {
       // setup
       const state = new State();
-      state.data.clientConfig = new ClientConfig();
       state.data.dbServerUrl = 'TEST_DB_SERVER';
       state.data.userName = null;
       state.data.isDbAuthorized = false;
@@ -210,10 +199,9 @@ describe('init', () => {
             setTimeout: noop,
             confirm: noop,
             reload: noop,
-            reloadToUpdateVersion: noop,
-            storeDispatch,
             clientConfig: new ClientConfig(),
             apiServerUrl: 'TEST_API_SERVER',
+            storeDispatch,
             viewRoot: document.createElement('div')
           }
         },
@@ -234,7 +222,6 @@ describe('init', () => {
   it('should open mindset if db was replicated previously', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
     state.data.dbServerUrl = 'TEST_DB_SERVER';
     state.data.userName = null;
 
@@ -252,10 +239,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch,
           viewRoot: document.createElement('div')
         }
       },
@@ -275,7 +261,6 @@ describe('init', () => {
   it(`should dispatch 'load-mindset' when opening mindset`, async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
     state.data.dbServerUrl = 'TEST_DB_SERVER';
     state.data.userName = 'TEST_USER';
 
@@ -293,10 +278,9 @@ describe('init', () => {
           setTimeout: noop,
           confirm: noop,
           reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
+          storeDispatch,
           viewRoot: document.createElement('div')
         }
       },
@@ -316,154 +300,12 @@ describe('init', () => {
     });
   });
 
-  it(`should dispatch 'load-client-config'`, async () => {
-    // setup
-    const state = new State();
-    state.data.clientConfig = new ClientConfig();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.userName = 'TEST_USER';
-
-    const dispatch = spy();
-    const mutate = spy();
-    const storeDispatch = noop;
-
-    // target
-    await handle(
-      state,
-      {
-        type: 'init',
-        data: {
-          fetch: noop,
-          setTimeout: noop,
-          confirm: noop,
-          reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
-          clientConfig: new ClientConfig(),
-          apiServerUrl: 'TEST_API_SERVER',
-          viewRoot: document.createElement('div')
-        }
-      },
-      dispatch,
-      mutate
-    );
-
-    // check
-    const dispatchLoadConfig = dispatch
-      .getCalls()
-      .filter(c => c.args[0].type === 'load-client-config');
-
-    expect(dispatchLoadConfig).to.have.length(1);
-  });
-
-  it(`should await client config to load on first visit`, async () => {
-    // setup
-    const newClientConfig = new ClientConfig({
-      dbServer: {protocol: 'https', host: 'b', port: 4}
-    });
-
-    const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.userName = 'TEST_USER';
-
-    // simulate config was not set yet (first visit)
-    state.data.clientConfig = null;
-
-    // simutate async loading new config from server
-    const dispatch = spy(
-      async () => (state.data.clientConfig = await newClientConfig)
-    );
-    const mutate = spy();
-    const storeDispatch = noop;
-
-    // target
-    const patch = await handle(
-      state,
-      {
-        type: 'init',
-        data: {
-          fetch: noop,
-          setTimeout: noop,
-          confirm: noop,
-          reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
-          clientConfig: new ClientConfig(),
-          apiServerUrl: 'TEST_API_SERVER',
-          viewRoot: document.createElement('div')
-        }
-      },
-      dispatch,
-      mutate
-    );
-
-    // check
-    const mutations = combineHandlerPatches(mutate, patch)['init'];
-
-    expect(mutations).to.have.length(1);
-    expect(mutations[0].data.params.sessionDbServerUrl).to.equal('https://b:4');
-  });
-
-  it(`should use local client config on repeated visit`, async () => {
-    // setup
-    const oldClientConfig = new ClientConfig({
-      dbServer: {protocol: 'http', host: 'a', port: 80}
-    });
-    const newClientConfig = new ClientConfig({
-      dbServer: {protocol: 'https', host: 'b', port: 443}
-    });
-
-    const state = new State();
-    state.data.dbServerUrl = 'TEST_DB_SERVER';
-    state.data.userName = 'TEST_USER';
-
-    // simulate config was set to state previously (repeated visit)
-    state.data.clientConfig = oldClientConfig;
-
-    // simutate async loading new config from server
-    const dispatch = spy(
-      async () => (state.data.clientConfig = await newClientConfig)
-    );
-    const mutate = spy();
-    const storeDispatch = noop;
-
-    // target
-    const patch = await handle(
-      state,
-      {
-        type: 'init',
-        data: {
-          fetch: noop,
-          setTimeout: noop,
-          confirm: noop,
-          reload: noop,
-          reloadToUpdateVersion: noop,
-          storeDispatch,
-          clientConfig: new ClientConfig(),
-          apiServerUrl: 'TEST_API_SERVER',
-          viewRoot: document.createElement('div')
-        }
-      },
-      dispatch,
-      mutate
-    );
-
-    // check
-    const mutations = combineHandlerPatches(mutate, patch)['init'];
-
-    expect(mutations).to.have.length(1);
-    expect(mutations[0].data.params.sessionDbServerUrl).to.equal('http://a:80');
-  });
-
   it('should NOT mutate state', async () => {
     // setup
     const state = new State();
-    state.data.clientConfig = new ClientConfig();
-
     const dispatch = noop;
-    const stateBefore = clone(state);
-
     const mutate = spy();
+    const stateBefore = clone(state);
 
     // target
     await handle(

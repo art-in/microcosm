@@ -8,7 +8,6 @@ const table = require('text-table');
 const WebpackDevServer = require('webpack-dev-server');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const SWPrecachePlugin = require('sw-precache-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -22,7 +21,6 @@ const SWPrecachePlugin = require('sw-precache-webpack-plugin');
  *
  * @typedef {object} OutputOptions
  * @prop {FileLocation} bundle - webpack bundle + chunks
- * @prop {FileLocation} [sw] - the caching service worker
  *
  * @typedef {object} SecureConnectionOptions
  * @prop {boolean} enabled
@@ -118,36 +116,6 @@ function getPackConfig(opts) {
   if (opts.entry) {
     // entry point not always required (eg. when webpack run by karma)
     entries.push(opts.entry);
-  }
-
-  if (opts.output.sw) {
-    // https://github.com/goldhand/sw-precache-webpack-plugin#webpack-dev-server-support
-    assert(!opts.watch, 'Service worker generator does not support watch mode');
-    assert(opts.static, 'Service worker generator needs static files path');
-
-    const readStaticFile = fileName =>
-      fs.readFileSync(path.resolve(opts.static, fileName));
-
-    // generate caching service worker. it will pre-cache all assets generated
-    // by webpack + some additional files. all other requests will go directly
-    // to server. no resources will be lazily cached (cache-first strategy)
-    plugins.push(
-      new SWPrecachePlugin({
-        filepath: path.join(opts.output.sw.path, opts.output.sw.name),
-        logger: message => gutil.log('[sw-precache]', message),
-        minify: true,
-        cacheId: '',
-        dynamicUrlToDependencies: {
-          // additional resources to pre-cache. pass file contents, so generator
-          // can get hashes and SW knowns then files get changed and its time to
-          // update client cache
-          '.': readStaticFile('index.html'),
-          'favicon-16.png': readStaticFile('favicon-16.png'),
-          'favicon-144.png': readStaticFile('favicon-144.png'),
-          'manifest.json': readStaticFile('manifest.json')
-        }
-      })
-    );
   }
 
   let root = opts.root;

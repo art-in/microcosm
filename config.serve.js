@@ -1,12 +1,12 @@
 /* global require, module, __dirname */
-const path = require('path');
 const extend = require('extend');
+const abs = require('./tasks/utils/join-path')(__dirname);
 const userConfig = require('./config.serve.user');
-const abs = p => path.join(__dirname, p);
 
 /**
  * Serve configuration
  * The one that is used for serving build (added to build folder)
+ * TODO: rename to simple 'config.js'
  *
  * NOTE 1: do not modify defaults - put custom config to 'config.serve.user.js'
  * NOTE 2: restart nodejs server to apply changes

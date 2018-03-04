@@ -9,17 +9,17 @@ import StateType from 'boot/client/State';
  * @param {object} data
  */
 export default function init(state, data) {
-  const {fetch, setTimeout, confirm, reload, reloadToUpdateVersion} = required(
-    data.sideEffects
+  const {fetch, setTimeout, confirm, reload} = required(data.sideEffects);
+  const {clientConfig, sessionDbServerUrl, apiServerUrl} = required(
+    data.params
   );
-  const {sessionDbServerUrl, apiServerUrl} = required(data.params);
 
   state.sideEffects.fetch = fetch;
   state.sideEffects.setTimeout = setTimeout;
   state.sideEffects.confirm = confirm;
   state.sideEffects.reload = reload;
-  state.sideEffects.reloadToUpdateVersion = reloadToUpdateVersion;
 
+  state.params.clientConfig = clientConfig;
   state.params.sessionDbServerUrl = sessionDbServerUrl;
   state.params.apiServerUrl = apiServerUrl;
 }

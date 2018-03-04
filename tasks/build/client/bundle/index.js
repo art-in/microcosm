@@ -13,10 +13,6 @@ module.exports = {
         bundle: {
           path: config.src.client.output.bundle.path,
           name: config.src.client.output.bundle.name
-        },
-        sw: {
-          path: config.src.client.output.sw.path,
-          name: config.src.client.output.sw.name
         }
       },
       isProduction: true

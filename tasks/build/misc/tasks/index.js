@@ -8,6 +8,7 @@ module.exports = {
         [
           config.root + '/gulpfile.js',
           config.root + '/tasks/serve/**/*',
+          config.root + '/tasks/utils/join-path.js',
 
           // do not copy watch tasks to build
           '!' + config.root + '/tasks/serve/**/watch.js'
