@@ -1,6 +1,6 @@
 const del = require('del');
 
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
 
 module.exports = () =>
-  del([config.src.output.root + '/package*.json'], {force: true});
+  del([buildConfig.src.output.root + '/package*.json'], {force: true});

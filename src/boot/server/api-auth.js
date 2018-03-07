@@ -8,7 +8,7 @@ import createDatabase from './utils/create-database';
 import addDbUser from './utils/add-db-user';
 
 // @ts-ignore relative path from build folder
-import config from '../config.serve';
+import config from '../config';
 
 const db = config.server.database;
 const credentials = db.auth.on ? `${db.auth.name}:${db.auth.password}@` : '';

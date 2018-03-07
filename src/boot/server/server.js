@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import HttpStatus from 'http-status-codes';
 
 // @ts-ignore relative path from build folder
-import config from '../config.serve';
+import config from '../config';
 
 import api from './api';
 import apiAuth from './api-auth';

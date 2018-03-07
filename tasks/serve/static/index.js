@@ -1,4 +1,4 @@
-const config = require('../../../config.serve');
+const config = require('../../../config');
 const spawn = require('child_process').spawn;
 
 const {stdout, stderr} = process;

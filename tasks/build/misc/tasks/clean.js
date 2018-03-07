@@ -1,12 +1,12 @@
 const del = require('del');
 
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
 
 module.exports = () =>
   del(
     [
-      config.src.output.root + '/gulpfile.js',
-      config.src.output.root + '/tasks'
+      buildConfig.src.output.root + '/gulpfile.js',
+      buildConfig.src.output.root + '/tasks'
     ],
     {force: true}
   );

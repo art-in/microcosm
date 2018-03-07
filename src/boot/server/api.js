@@ -2,7 +2,7 @@ import express from 'express';
 import HttpStatus from 'http-status-codes';
 
 // @ts-ignore relative path from build folder
-import config from '../config.serve';
+import config from '../config';
 // @ts-ignore relative path from build folder
 import pkg from '../package.json';
 

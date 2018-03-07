@@ -1,10 +1,10 @@
-const config = require('../../../config.build');
+const buildConfig = require('../../../config.build');
 const nodemon = require('gulp-nodemon');
 
 module.exports = () =>
   nodemon({
-    script: config.src.serv.output.entry,
-    watch: config.src.serv.output.root,
+    script: buildConfig.src.serv.output.entry,
+    watch: buildConfig.src.serv.output.root,
     env: {
       NODE_PATH: '$NODE_PATH;' + __dirname
     },

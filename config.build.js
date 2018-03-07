@@ -4,10 +4,11 @@ const abs = require('./tasks/utils/join-path')(__dirname);
 const userConfig = require('./config.build.user');
 
 /**
- * Build configuration
- * The one that is used for building and testing sources
+ * Build-time configuration.
  *
- * NOTE: do not modify defaults - put custom config to 'config.build.user.js'
+ * NOTE: do not modify defaults - put custom config to 'config.build.user.js'.
+ *       turn off changes tracking to avoid accidental push to upstream:
+ *       git update-index --assume-unchanged config.build.user.js
  */
 const defaults = {
   root: __dirname,

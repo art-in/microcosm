@@ -3,7 +3,7 @@ const gutil = require('gulp-util');
 var swPrecache = require('sw-precache');
 var minify = require('uglify-es').minify;
 const abs = require('../utils/join-path')(__dirname);
-const config = require('../../config.serve');
+const config = require('../../config');
 
 /**
  * Generates caching service worker (SW).
@@ -42,8 +42,8 @@ module.exports = async () => {
       // additional resources and their dependencies. sw-precache will get
       // hashes from them, and SW will know when to update client cache.
       'api/config': [
-        abs('../../config.serve.js'),
-        abs('../../config.serve.user.js'),
+        abs('../../config.js'),
+        abs('../../config.user.js'),
         abs('../../package.json')
       ]
     }

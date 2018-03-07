@@ -1,5 +1,5 @@
 const buildConfig = require('../../../../config.build');
-const serveConfig = require('../../../../config.serve');
+const config = require('../../../../config');
 
 const packer = require('../../../utils/packer').pack;
 
@@ -22,9 +22,9 @@ module.exports = {
         port: buildConfig.dev.server.port,
         folder: buildConfig.src.client.output.root,
         backend: {
-          host: serveConfig.server.static.host,
-          port: serveConfig.server.static.port,
-          secure: serveConfig.server.static.secure
+          host: config.server.static.host,
+          port: config.server.static.port,
+          secure: config.server.static.secure
         }
       },
       isProduction: false

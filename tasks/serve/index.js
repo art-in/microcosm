@@ -1,4 +1,4 @@
-const config = require('../../config.serve');
+const config = require('../../config');
 
 const deps = ['serve:generate-sw-cache', 'serve:static'];
 

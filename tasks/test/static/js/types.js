@@ -1,4 +1,4 @@
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
 const ts = require('gulp-typescript');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   deps: ['build:client:bundle'],
 
   fn: () => {
-    const tsProject = ts.createProject(config.test.static.tsConfig);
+    const tsProject = ts.createProject(buildConfig.test.static.tsConfig);
 
     // load and check files defined in config
     return (

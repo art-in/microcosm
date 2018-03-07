@@ -1,4 +1,4 @@
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
 
 module.exports = {
   deps: ['build:misc:tasks:clean'],
@@ -6,14 +6,14 @@ module.exports = {
     gulp
       .src(
         [
-          config.root + '/gulpfile.js',
-          config.root + '/tasks/serve/**/*',
-          config.root + '/tasks/utils/join-path.js',
+          buildConfig.root + '/gulpfile.js',
+          buildConfig.root + '/tasks/serve/**/*',
+          buildConfig.root + '/tasks/utils/join-path.js',
 
           // do not copy watch tasks to build
-          '!' + config.root + '/tasks/serve/**/watch.js'
+          '!' + buildConfig.root + '/tasks/serve/**/watch.js'
         ],
-        {base: config.root}
+        {base: buildConfig.root}
       )
-      .pipe(gulp.dest(config.src.output.root))
+      .pipe(gulp.dest(buildConfig.src.output.root))
 };

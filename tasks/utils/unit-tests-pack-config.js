@@ -1,4 +1,4 @@
-const config = require('../../config.build');
+const buildConfig = require('../../config.build');
 const getPackConfig = require('./packer').getPackConfig;
 
 const packConfig = getPackConfig({
@@ -7,16 +7,16 @@ const packConfig = getPackConfig({
     // eg. when importing 'utils' from test it is not clear whether it is
     // source utils or test utils. better to use explicit notation:
     // 'src/utils' or 'test/utils'
-    config.root,
+    buildConfig.root,
 
     // for src-modules internal references to work
-    config.src.client.root
+    buildConfig.src.client.root
   ],
-  bundleUrlPath: config.src.client.bundleUrlPath,
+  bundleUrlPath: buildConfig.src.client.bundleUrlPath,
   output: {
     bundle: {
-      path: config.test.unit.output.path,
-      name: config.test.unit.output.name
+      path: buildConfig.test.unit.output.path,
+      name: buildConfig.test.unit.output.name
     }
   },
   isProduction: false

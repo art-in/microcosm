@@ -1,9 +1,12 @@
-const config = require('../../../../config.build');
+const buildConfig = require('../../../../config.build');
 
 module.exports = {
   deps: ['build:misc:config:clean'],
   fn: gulp =>
     gulp
-      .src([config.root + '/config.serve*.js'])
-      .pipe(gulp.dest(config.src.output.root))
+      .src([
+        buildConfig.root + '/config.js',
+        buildConfig.root + '/config.user.js'
+      ])
+      .pipe(gulp.dest(buildConfig.src.output.root))
 };

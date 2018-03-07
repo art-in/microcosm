@@ -1,11 +1,11 @@
 const babel = require('gulp-babel');
-const config = require('../../../config.build');
+const buildConfig = require('../../../config.build');
 
 module.exports = {
   deps: ['build:server:clean'],
   fn: gulp =>
     gulp
-      .src(config.src.serv.root + '/**/*.js')
+      .src(buildConfig.src.serv.root + '/**/*.js')
       .pipe(babel())
-      .pipe(gulp.dest(config.src.serv.output.root))
+      .pipe(gulp.dest(buildConfig.src.serv.output.root))
 };

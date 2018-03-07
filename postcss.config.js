@@ -1,9 +1,9 @@
 /* global module, require */
-const config = require('./config.build');
+const buildConfig = require('./config.build');
 
 module.exports = {
   plugins: [
-    require('postcss-import')({path: config.src.client.root}),
+    require('postcss-import')({path: buildConfig.src.client.root}),
     require('postcss-custom-media'),
     require('postcss-media-minmax'),
     require('postcss-nesting'),

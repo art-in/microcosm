@@ -4,7 +4,7 @@ const spawn = require('child_process').spawn;
 
 const table = require('text-table');
 
-const config = require('../../config.serve');
+const config = require('../../config');
 
 const {stdout, stderr} = process;
 
