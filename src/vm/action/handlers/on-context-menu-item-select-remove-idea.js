@@ -12,7 +12,7 @@ import {MESSAGE_CONFIRM_REMOVE} from 'vm/shared/IdeaForm';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
+  const {sideEffects: {confirm}, model: {mindset}} = state;
   const {ideaId} = required(data);
 
   const idea = mindset.ideas.get(ideaId);

@@ -29,10 +29,10 @@ const font = {
  */
 export default function(entry) {
   // group header
-  console.groupCollapsed(...getHeader(entry));
+  window.console.groupCollapsed(...getHeader(entry));
 
   // prev state
-  console.log(
+  window.console.log(
     S + 'prev state'.padEnd(20),
     color.gray + font.bold,
     entry.prevState
@@ -41,7 +41,7 @@ export default function(entry) {
   // action
   const actionTitle = S + 'action ' + S + `(${entry.perf.handler.duration} ms)`;
 
-  console.log(
+  window.console.log(
     actionTitle.padEnd(24),
     color.red + font.bold,
     color.gray + font.normal,
@@ -53,7 +53,7 @@ export default function(entry) {
     const mutationDuration = entry.patch ? entry.perf.mutation.duration : 0;
     const patchTitle = S + 'patch ' + S + `(${mutationDuration} ms)`;
 
-    console.log(
+    window.console.log(
       patchTitle.padEnd(24),
       color.blue + font.bold,
       color.gray + font.normal,
@@ -63,7 +63,7 @@ export default function(entry) {
 
   // next state
   if (!entry.handlerFailed && !entry.mutationFailed) {
-    console.log(
+    window.console.log(
       S + 'next state'.padEnd(20),
       color.green + font.bold,
       entry.nextState
@@ -71,7 +71,7 @@ export default function(entry) {
   }
 
   // close group
-  console.groupEnd();
+  window.console.groupEnd();
 }
 
 /**
@@ -104,7 +104,7 @@ function getHeader(entry) {
 
   if (throttled && hasMutations && !targets) {
     // prevent throttling of data/model mutations
-    console.warn(
+    window.console.warn(
       `Action '${action.type}' was throttled, but its mutations ` +
         `target whole state. Consider only throttle actions ` +
         `that mutate specific parts of state (eg. view only)`

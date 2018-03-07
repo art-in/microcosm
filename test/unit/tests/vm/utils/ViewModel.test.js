@@ -25,7 +25,7 @@ describe('ViewModel', () => {
 
     it('should warn if no handler was found', () => {
       // setup
-      const consoleWarn = stub(console, 'warn');
+      const consoleWarn = stub(window.console, 'warn');
 
       // setup
       class TestVM extends ViewModel {}
@@ -67,7 +67,7 @@ describe('ViewModel', () => {
   describe('.unsubscribe()', () => {
     it('should remove handler subscription', () => {
       // setup
-      const consoleWarn = stub(console, 'warn');
+      const consoleWarn = stub(window.console, 'warn');
 
       class TestVM extends ViewModel {}
 

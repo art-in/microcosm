@@ -43,11 +43,11 @@ export default class Mindset extends Component {
     // listen keyboard events on body element, since otherwise it is not
     // always possible to keep focus on component container: if focused
     // element is removed from DOM - focus jumps to document body
-    document.body.addEventListener('keydown', this.onKeyDown);
+    window.document.body.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('keydown', this.onKeyDown);
+    window.document.body.removeEventListener('keydown', this.onKeyDown);
   }
 
   onKeyDown = nativeEvent => {

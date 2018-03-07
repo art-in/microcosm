@@ -15,7 +15,7 @@ describe('mutators', () => {
         type: 'init',
         data: {
           view: {
-            root: document.createElement('div'),
+            root: window.document.createElement('div'),
             storeDispatch: () => {}
           }
         }

@@ -16,11 +16,20 @@
             "jsx": true
         }
     },
-    "env": {
-        "browser": true
-    },
     "globals": {
+        // force window.<global> notation to make globals usage explicit.
+        // avoid using "env":"browser" to allow bunch of environment variables.
+        "window": false,
+
+        // host objects (which should be accessed with window.<global>, but
+        // typescript does not support them on window object)
+        "HTMLElement": false,
+        "Response": false,
+
+        // webpack objects
         "process": false,
+
+        // javascript standart build-ins
         "Promise": false,
         "Symbol": false,
         "Proxy": false,

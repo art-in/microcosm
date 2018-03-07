@@ -76,7 +76,7 @@ describe('animate-mindmap-viewbox-to-idea', () => {
         type: 'animate-mindmap-viewbox-to-idea',
         data: {
           ideaId: 'A',
-          scheduleAnimationStep: cb => setTimeout(cb, 50)
+          scheduleAnimationStep: cb => window.setTimeout(cb, 50)
         }
       };
 
@@ -217,7 +217,7 @@ describe('animate-mindmap-viewbox-to-idea', () => {
       type: 'animate-mindmap-viewbox-to-idea',
       data: {
         ideaId: 'A',
-        scheduleAnimationStep: cb => setTimeout(cb, 50)
+        scheduleAnimationStep: cb => window.setTimeout(cb, 50)
       }
     };
 

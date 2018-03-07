@@ -67,7 +67,7 @@ export default class EditableField extends Component {
   onFocus = () => {
     if (this.props.selectOnFocus) {
       const node = this.input;
-      const range = document.createRange();
+      const range = window.document.createRange();
       range.selectNodeContents(node);
 
       const sel = window.getSelection();
@@ -84,7 +84,7 @@ export default class EditableField extends Component {
 
     if (e.key === 'Enter' && e.ctrlKey) {
       e.preventDefault();
-      document.execCommand('insertHTML', false, '<br><br>');
+      window.document.execCommand('insertHTML', false, '<br><br>');
     }
 
     e.stopPropagation();

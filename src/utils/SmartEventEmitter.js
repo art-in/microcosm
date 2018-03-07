@@ -15,7 +15,7 @@ export default class SmartEventEmitter extends EventEmitter {
    */
   emit(eventType, ...args) {
     if (!this.hasListeners(eventType)) {
-      console.warn(
+      window.console.warn(
         `Triggering '${eventType}' event on ` +
           `'${this.constructor.name}', but no one listens to it`
       );

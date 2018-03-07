@@ -38,13 +38,13 @@ export default function animate(opts) {
   // to be able to pass custom schedulers from tests
   // 1. to test animation timings
   // 2. requestAnimationFrame not called in headless test environment
-  scheduleAnimationStep = scheduleAnimationStep || requestAnimationFrame;
+  scheduleAnimationStep = scheduleAnimationStep || window.requestAnimationFrame;
 
   const {promise, resolve, reject} = pms();
 
   // animate
 
-  const startTime = performance.now();
+  const startTime = window.performance.now();
   const endTime = startTime + duration;
 
   const stepDurations = [];
@@ -52,9 +52,9 @@ export default function animate(opts) {
   const ranges = values.map(val => val.to - val.from);
 
   const callNextStep = () => {
-    const beforeStep = performance.now();
+    const beforeStep = window.performance.now();
     scheduleAnimationStep(async () => {
-      const now = performance.now();
+      const now = window.performance.now();
       const timeElapsed = now - startTime;
       const timeRatio = timeElapsed / duration;
 
@@ -85,7 +85,7 @@ export default function animate(opts) {
       try {
         await onStep(stepValues);
 
-        const stepDuration = performance.now() - beforeStep;
+        const stepDuration = window.performance.now() - beforeStep;
         stepDurations.push(stepDuration);
       } catch (e) {
         reject(e);

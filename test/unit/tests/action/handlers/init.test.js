@@ -35,7 +35,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch: noop,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -71,7 +71,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -111,7 +111,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -155,7 +155,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -202,7 +202,7 @@ describe('init', () => {
             clientConfig: new ClientConfig(),
             apiServerUrl: 'TEST_API_SERVER',
             storeDispatch,
-            viewRoot: document.createElement('div')
+            viewRoot: window.document.createElement('div')
           }
         },
         dispatch,
@@ -242,7 +242,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -281,7 +281,7 @@ describe('init', () => {
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
           storeDispatch,
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,
@@ -321,7 +321,7 @@ describe('init', () => {
           storeDispatch: noop,
           clientConfig: new ClientConfig(),
           apiServerUrl: 'TEST_API_SERVER',
-          viewRoot: document.createElement('div')
+          viewRoot: window.document.createElement('div')
         }
       },
       dispatch,

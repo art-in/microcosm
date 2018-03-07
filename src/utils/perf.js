@@ -132,7 +132,7 @@ export function endGroup(groupId, labelSuffix) {
  */
 function start(label, groupId) {
   const perfId = guid();
-  performance.mark(perfId);
+  window.performance.mark(perfId);
 
   const measure = {
     label
@@ -184,11 +184,11 @@ function end(perfId, labelSuffix) {
   const label = measure.label;
   const measureLabel = `${sGroupId}${label}${sGroupMeasureNumber}${suffix}`;
 
-  performance.measure(measureLabel, perfId);
+  window.performance.measure(measureLabel, perfId);
 
   // clear marks immediately to avoid growing buffer
-  performance.clearMarks(perfId);
-  performance.clearMeasures(measureLabel);
+  window.performance.clearMarks(perfId);
+  window.performance.clearMeasures(measureLabel);
 }
 
 export default {

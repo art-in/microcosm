@@ -24,7 +24,7 @@ export default class ViewModel {
    */
   emitChange(...args) {
     if (!this._onChangeHandler) {
-      console.warn(
+      window.console.warn(
         `Triggering change event on ` +
           `'${this.constructor.name}' view model, ` +
           `but no one listens to it`

@@ -1,8 +1,7 @@
 {
     "rules": {
-
-        // arbitrary class/function defined in test setup
-        // should not require fat jsdoc comment
+        // arbitrary class/function defined in test setup should not require fat
+        // jsdoc comment
         "require-jsdoc": 0
     }
 }

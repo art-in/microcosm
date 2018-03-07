@@ -65,7 +65,7 @@ export default async function loadMindset(state, data, dispatch) {
       );
     } catch (e) {
       if (e instanceof DbReplicationError) {
-        console.warn(e.message);
+        window.console.warn(e.message);
         return view('update-mindset-vm', {isLoadFailed: true});
       }
 

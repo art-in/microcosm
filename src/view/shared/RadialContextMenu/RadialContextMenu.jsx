@@ -35,7 +35,7 @@ const TRANSITION_DURATION = Number(classes.transitionDuration) * 1000;
  */
 export default class RadialContextMenu extends Component {
   componentDidUpdate() {
-    this.lastUpdateTime = performance.now();
+    this.lastUpdateTime = window.performance.now();
   }
 
   onSegmentClick = (item, e) => {
@@ -65,7 +65,7 @@ export default class RadialContextMenu extends Component {
     // fixes case: simple right click shows menu, while mouse-up stage of
     // that click gets triggered on some segment, and unintentionally
     // selects corresponding menu item
-    const timeSinceUpdate = performance.now() - this.lastUpdateTime;
+    const timeSinceUpdate = window.performance.now() - this.lastUpdateTime;
     if (timeSinceUpdate > TRANSITION_DURATION) {
       this.props.onItemSelect({item});
     }

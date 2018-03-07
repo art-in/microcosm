@@ -37,10 +37,10 @@ export default class Portal extends Component {
 
     switch (props.tag) {
       case 'div':
-        this.el = document.createElement(props.tag);
+        this.el = window.document.createElement(props.tag);
         break;
       case 'g':
-        this.el = document.createElementNS(
+        this.el = window.document.createElementNS(
           'http://www.w3.org/2000/svg',
           props.tag
         );
@@ -61,7 +61,7 @@ export default class Portal extends Component {
   }
 
   getPortalRoot() {
-    const portalRoot = document.getElementById(this.props.rootId);
+    const portalRoot = window.document.getElementById(this.props.rootId);
 
     if (!portalRoot) {
       throw Error(

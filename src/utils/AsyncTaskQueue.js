@@ -105,7 +105,7 @@ export default class AsyncTaskQueue {
     // 1. previous async task result handled before next task started
     // 2. sync tasks executed in separate event loop steps
     const executeNext = () =>
-      setTimeout(() => {
+      window.setTimeout(() => {
         this._currentTask = null;
         this._executeNext();
       }, 0);

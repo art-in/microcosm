@@ -18,7 +18,7 @@ describe('animate', () => {
       ],
       duration: 50,
       onStep,
-      scheduleAnimationStep: cb => setTimeout(cb, 5)
+      scheduleAnimationStep: cb => window.setTimeout(cb, 5)
     });
 
     // expect
@@ -49,7 +49,7 @@ describe('animate', () => {
       ],
       duration: 50,
       onStep,
-      scheduleAnimationStep: cb => setTimeout(cb, 10)
+      scheduleAnimationStep: cb => window.setTimeout(cb, 10)
     });
 
     // expect
@@ -70,7 +70,7 @@ describe('animate', () => {
       values: [{from: 2, to: 1}],
       duration: 10,
       onStep,
-      scheduleAnimationStep: cb => setTimeout(cb, 10)
+      scheduleAnimationStep: cb => window.setTimeout(cb, 10)
     });
 
     // expect
@@ -87,7 +87,7 @@ describe('animate', () => {
       values: [{from: 1, to: 1}, {from: 2, to: 2}],
       duration: 10,
       onStep,
-      scheduleAnimationStep: cb => setTimeout(cb, 10)
+      scheduleAnimationStep: cb => window.setTimeout(cb, 10)
     });
 
     // expect

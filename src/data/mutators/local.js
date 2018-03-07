@@ -80,11 +80,11 @@ function apply(state, mutation) {
       break;
 
     case 'cleanup':
-      localStorage.removeItem(MINDSET_VIEW_MODE);
-      localStorage.removeItem(DB_SERVER_URL);
-      localStorage.removeItem(USER_NAME);
-      localStorage.removeItem(ZEN_SIDEBAR_COLLAPSED);
-      localStorage.removeItem(DB_AUTHORIZED);
+      window.localStorage.removeItem(MINDSET_VIEW_MODE);
+      window.localStorage.removeItem(DB_SERVER_URL);
+      window.localStorage.removeItem(USER_NAME);
+      window.localStorage.removeItem(ZEN_SIDEBAR_COLLAPSED);
+      window.localStorage.removeItem(DB_AUTHORIZED);
       break;
   }
 }
@@ -97,13 +97,13 @@ function apply(state, mutation) {
  * @return {string}
  */
 function getString(itemKey, defaultValue) {
-  let item = localStorage.getItem(itemKey);
+  let item = window.localStorage.getItem(itemKey);
 
   if (item === null) {
     item = defaultValue;
 
     if (defaultValue !== null) {
-      localStorage.setItem(itemKey, item.toString());
+      window.localStorage.setItem(itemKey, item.toString());
     }
   }
 
@@ -139,5 +139,5 @@ function getNumeric(itemKey, defaultValue) {
  * @param {string|number|boolean} value
  */
 function setItem(itemKey, value) {
-  localStorage.setItem(itemKey, value.toString());
+  window.localStorage.setItem(itemKey, value.toString());
 }

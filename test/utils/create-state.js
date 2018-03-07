@@ -68,11 +68,11 @@ export default function createState() {
   });
 
   // view
-  state.view.root = document.createElement('div');
+  state.view.root = window.document.createElement('div');
   state.view.storeDispatch = () => {};
 
   // append view root to DOM so Portals can find their containers
-  document.body.appendChild(state.view.root);
+  window.document.body.appendChild(state.view.root);
 
   return state;
 }

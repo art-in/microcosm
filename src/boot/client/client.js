@@ -36,7 +36,7 @@ async function start() {
   }
 
   // load client config. it should take no time, since we sw-caching it
-  const clientConfig = await (await fetch('api/config')).json();
+  const clientConfig = await (await window.fetch('api/config')).json();
 
   // init store
   const store = new Store(
@@ -58,11 +58,11 @@ async function start() {
 
       // config
       clientConfig,
-      apiServerUrl: location.href + 'api/',
+      apiServerUrl: window.location.href + 'api/',
 
       // other
       storeDispatch: store.dispatch.bind(store),
-      viewRoot: document.querySelector('#root')
+      viewRoot: window.document.querySelector('#root')
     }
   });
 }

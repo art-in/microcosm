@@ -21,9 +21,9 @@ describe('logger', () => {
   let groupEnd;
 
   before(() => {
-    groupCollapsed = stub(console, 'groupCollapsed');
-    log = stub(console, 'log');
-    groupEnd = stub(console, 'groupEnd');
+    groupCollapsed = stub(window.console, 'groupCollapsed');
+    log = stub(window.console, 'log');
+    groupEnd = stub(window.console, 'groupEnd');
   });
 
   after(() => {

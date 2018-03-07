@@ -67,7 +67,7 @@ function throttleLogDispatch(state, events, action) {
     let delay;
     if (!firstAction) {
       const lastDispatchTime = throttleState.lastTime;
-      elapsed = performance.now() - lastDispatchTime;
+      elapsed = window.performance.now() - lastDispatchTime;
       delay =
         typeof action.throttleLog === 'number'
           ? action.throttleLog
@@ -78,7 +78,7 @@ function throttleLogDispatch(state, events, action) {
       logDispatch(state, events, throttleState.throttledCount);
 
       // reset throttle state
-      throttleState.lastTime = performance.now();
+      throttleState.lastTime = window.performance.now();
       throttleState.throttledCount = 0;
     } else {
       // skip this dispatch
@@ -108,24 +108,24 @@ function logDispatch(state, events, throttledCount) {
     entry.prevState = state;
     entry.action = action;
     entry.throttledCount = throttledCount;
-    entry.perf.dispatch.start = performance.now();
+    entry.perf.dispatch.start = window.performance.now();
   });
 
   events.on('after-dispatch', opts => {
     const {state} = required(opts);
 
-    entry.perf.dispatch.end = performance.now();
+    entry.perf.dispatch.end = window.performance.now();
     entry.nextState = state;
 
     log(entry);
   });
 
   events.on('before-handler', () => {
-    entry.perf.handler.start = performance.now();
+    entry.perf.handler.start = window.performance.now();
   });
 
   events.on('after-handler', () => {
-    entry.perf.handler.end = performance.now();
+    entry.perf.handler.end = window.performance.now();
   });
 
   events.on('child-action', opts => {
@@ -136,8 +136,8 @@ function logDispatch(state, events, throttledCount) {
   events.on('handler-fail', opts => {
     const {error} = required(opts);
 
-    entry.perf.handler.end = performance.now();
-    entry.perf.dispatch.end = performance.now();
+    entry.perf.handler.end = window.performance.now();
+    entry.perf.dispatch.end = window.performance.now();
     entry.handlerFailed = true;
     entry.error = error;
 
@@ -151,21 +151,21 @@ function logDispatch(state, events, throttledCount) {
 
     // TODO: intermediate mutations should sum durations,
     //       not just get last one
-    entry.perf.mutation.start = performance.now();
+    entry.perf.mutation.start = window.performance.now();
   });
 
   events.on('after-mutation', () => {
-    entry.perf.mutation.end = performance.now();
+    entry.perf.mutation.end = window.performance.now();
   });
 
   events.on('mutation-fail', opts => {
     const {error} = required(opts);
 
-    entry.perf.mutation.end = performance.now();
-    entry.perf.dispatch.end = performance.now();
+    entry.perf.mutation.end = window.performance.now();
+    entry.perf.dispatch.end = window.performance.now();
     if (entry.perf.handler.end === undefined) {
       // finish handler too if intermediate mutation failed
-      entry.perf.handler.end = performance.now();
+      entry.perf.handler.end = window.performance.now();
     }
     entry.mutationFailed = true;
     entry.error = error;

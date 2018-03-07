@@ -23,7 +23,7 @@ describe('SmartEventEmitter', () => {
 
     it('should warn if no handler was found', () => {
       // setup
-      const consoleWarn = stub(console, 'warn');
+      const consoleWarn = stub(window.console, 'warn');
 
       // setup
       class TestEmitter extends SmartEventEmitter {}

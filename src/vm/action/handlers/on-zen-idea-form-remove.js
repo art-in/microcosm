@@ -16,7 +16,7 @@ import {
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
+  const {sideEffects: {confirm}, model: {mindset}} = state;
   const {vm: {main: {mindset: {zen}}}} = state;
 
   const {form} = zen.pane;

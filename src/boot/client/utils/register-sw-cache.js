@@ -8,14 +8,14 @@
 // register SW in prod environment only, since SW generator does not support
 // webpack dev server. in dev env you would typically disable cache anyway.
 if (process.env.NODE_ENV === 'production') {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in window.navigator) {
     // delay registration until after the page has loaded, to ensure that
     // precaching requests do not degrade the first visit experience.
     window.addEventListener('load', async () => {
       // register service worker. it will only be installed if script is new.
       // if script was not changed (status 304, or status 200 but no changes),
       // installation will be skipped.
-      const reg = await navigator.serviceWorker.register('sw-cache.js');
+      const reg = await window.navigator.serviceWorker.register('sw-cache.js');
 
       reg.addEventListener('updatefound', () => {
         // a new service worker being installed (clean install or update)
@@ -25,10 +25,10 @@ if (process.env.NODE_ENV === 'production') {
             // new service worker is installed and cache is filled/updated
             newWorker.state == 'installed' &&
             // existing worker ensures it is update and not clean install
-            navigator.serviceWorker.controller
+            window.navigator.serviceWorker.controller
           ) {
             // request page reload to complete update process
-            if (confirm('New version installed, reload now?')) {
+            if (window.confirm('New version installed, reload now?')) {
               window.location.reload();
             }
           }

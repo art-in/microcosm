@@ -122,7 +122,7 @@ describe('animate-mindmap-zoom', () => {
       data: {
         up: true,
         viewportPos: new Point({x: 0, y: 0}),
-        scheduleAnimationStep: cb => setTimeout(cb, 100)
+        scheduleAnimationStep: cb => window.setTimeout(cb, 100)
       }
     };
 
@@ -203,7 +203,7 @@ describe('animate-mindmap-zoom', () => {
       data: {
         up: true,
         viewportPos: new Point({x: 200, y: 200}),
-        scheduleAnimationStep: cb => setTimeout(cb, 50)
+        scheduleAnimationStep: cb => window.setTimeout(cb, 50)
       }
     };
 
@@ -287,7 +287,7 @@ describe('animate-mindmap-zoom', () => {
         data: {
           up: true,
           viewportPos: new Point({x: 0, y: 0}),
-          scheduleAnimationStep: cb => setTimeout(cb, 50)
+          scheduleAnimationStep: cb => window.setTimeout(cb, 50)
         }
       };
 
