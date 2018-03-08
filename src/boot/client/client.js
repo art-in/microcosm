@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 import PouchDB from 'pouchdb';
 import PouchDBFindPlugin from 'pouchdb-find';
 PouchDB.plugin(PouchDBFindPlugin);
@@ -38,6 +40,18 @@ async function start() {
   // load client config. it should take no time, since we sw-caching it
   const clientConfig = await (await window.fetch('api/config')).json();
 
+  // try to get user credentials from query string.
+  // only use case for this - is entering as demo user in single link click.
+  const query = queryString.parse(window.location.search);
+  let userName, userPassword;
+  if (query.user && query.pass) {
+    userName = query.user;
+    userPassword = query.pass;
+  }
+
+  // clean up query params
+  window.history.pushState(null, '', window.location.pathname);
+
   // init store
   const store = new Store(
     Handler.combine(commonHandler, vmHandler),
@@ -62,7 +76,11 @@ async function start() {
 
       // other
       storeDispatch: store.dispatch.bind(store),
-      viewRoot: window.document.querySelector('#root')
+      viewRoot: window.document.querySelector('#root'),
+
+      // user credentials
+      userName,
+      userPassword
     }
   });
 }

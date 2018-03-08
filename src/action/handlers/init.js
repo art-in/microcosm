@@ -11,6 +11,8 @@ import MainVM from 'vm/main/Main';
 import VersionVM from 'vm/main/Version';
 import MainScreen from 'vm/main/MainScreen';
 import openScreen from 'vm/main/Main/methods/open-screen';
+import AuthScreenMode from 'vm/auth/AuthScreenMode';
+import LoginForm from 'vm/auth/LoginForm';
 
 /**
  * Inits state on app start
@@ -26,6 +28,8 @@ import openScreen from 'vm/main/Main/methods/open-screen';
  * @param {string} data.sessionDbServerUrl
  * @param {function} data.storeDispatch
  * @param {Element} data.viewRoot
+ * @param {string} [data.userName]
+ * @param {string} [data.userPassword]
  * @param {function} dispatch
  * @param {function} mutate
  */
@@ -40,6 +44,8 @@ export default async function init(state, data, dispatch, mutate) {
     storeDispatch,
     viewRoot
   } = required(data);
+
+  const {userName, userPassword} = data;
 
   await mutate(new Patch({type: 'init-local-data', targets: ['data']}));
 
@@ -68,11 +74,18 @@ export default async function init(state, data, dispatch, mutate) {
     })
   );
 
-  const {userName, isDbAuthorized, dbServerUrl} = state.data;
+  const {
+    userName: lastUserName,
+    isDbAuthorized,
+    dbServerUrl: lastDbServerUrl
+  } = state.data;
 
   let shouldLogin;
 
-  if (!dbServerUrl) {
+  if (userName && userPassword) {
+    // forse login if user credentials are explicitly provided
+    shouldLogin = true;
+  } else if (!lastDbServerUrl) {
     // force login form on first visit
     shouldLogin = true;
   } else if (!isDbAuthorized) {
@@ -80,8 +93,8 @@ export default async function init(state, data, dispatch, mutate) {
     // ensure db server is reachable, otherwise we will not be able to
     // authenticate user without db server
     const connectionState = await getDbConnectionState(
-      dbServerUrl,
-      userName,
+      lastDbServerUrl,
+      lastUserName,
       state.sideEffects.fetch
     );
 
@@ -107,6 +120,21 @@ export default async function init(state, data, dispatch, mutate) {
   //    user not paying attention to that - forcing login on next app start.
   if (shouldLogin) {
     await mutate(view('update-main', openScreen(MainScreen.auth)));
+
+    if (userName && userPassword) {
+      await mutate(
+        view('update-auth-screen', {
+          mode: AuthScreenMode.login,
+          signupForm: null,
+          loginForm: new LoginForm({
+            username: userName,
+            password: userPassword
+          })
+        })
+      );
+
+      dispatch({type: 'on-auth-login-form-login'});
+    }
   } else {
     await mutate(view('update-main', openScreen(MainScreen.mindset)));
 
@@ -114,8 +142,8 @@ export default async function init(state, data, dispatch, mutate) {
       type: 'load-mindset',
       data: {
         isInitialLoad: true,
-        sessionDbServerUrl: dbServerUrl,
-        sessionUserName: userName
+        sessionDbServerUrl: lastDbServerUrl,
+        sessionUserName: lastUserName
       }
     });
   }
