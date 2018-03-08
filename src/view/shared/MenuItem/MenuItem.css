@@ -1,17 +1,26 @@
-.item {
-  padding: 0.3em;
+.root.type-action {
   cursor: pointer;
 }
 
-.item:hover {
-  background-color: lightgray;
+.root.type-action,
+.root.type-text {
+  padding: 0.3em 0.8em;
 }
 
-.item.disabled {
+.root.type-action:hover {
+  text-decoration: underline;
+}
+
+.root.type-action.disabled {
   color: gray;
   cursor: default;
 }
 
-.item.disabled:hover {
+.root.type-action.disabled:hover {
   background-color: initial;
+}
+
+.root.type-separator {
+  margin: 0.45em 0.1em;
+  border-color: #e1e4e8;
 }

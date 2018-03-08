@@ -8,7 +8,7 @@ import MainScreen from 'vm/main/MainScreen';
 import openScreen from 'vm/main/Main/methods/open-screen';
 
 /**
- * Handles click event from logout button
+ * Handles logout item select event from mindset gear menu
  *
  * @param {StateType} state
  * @param {object} data
@@ -32,7 +32,7 @@ export default async function(state, data, dispatch, mutate) {
     throw Error('Failed to close session.');
   }
 
-  // reload the page to re-init the app. we could dispatch 'init' action here,
-  // but reloading seems cleaner and easier solution
+  // reload page to re-init the app. we could dispatch 'init' action here,
+  // but reloading seems cleaner and easier solution.
   reload();
 }

@@ -117,5 +117,9 @@ const descriptors = {
   [Icon.signOut]: {
     class: icons.faSignOut,
     char: '\uf08b'
+  },
+  [Icon.user]: {
+    class: icons.faUser,
+    char: '\uf007'
   }
 };

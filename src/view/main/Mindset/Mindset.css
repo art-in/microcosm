@@ -31,10 +31,19 @@
   right: 5.8rem;
 }
 
-.logout-button {
+.gear-menu {
   position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
+  top: 0.75rem;
+  right: 1rem;
+}
+
+.gear-menu-popup {
+  /* move to the left, so it is not cut off by page edge or scroll bar */
+  left: -10.5rem;
+}
+
+.gear-menu-popup::after {
+  left: 10.5rem;
 }
 
 .idea-search-box-lookup {
@@ -44,24 +53,24 @@
 
 .root.mode-zen .go-root-button {
   /* shift button bit left to free space for scrollbar */
-  right: 3.6rem;
+  right: 3.9rem;
 }
 
 .root.mode-zen .idea-search-box {
   /* shift button bit left to free space for scrollbar */
-  right: 6.1rem;
+  right: 6.4rem;
 }
 
-.root.mode-zen .logout-button {
+.root.mode-zen .gear-menu {
   /* shift button bit left to free space for scrollbar */
-  right: 1.1rem;
+  right: 1.7rem;
 }
 
 .root.mode-mindmap .db-connection-icon,
 .root.mode-mindmap .go-root-button,
 .root.mode-mindmap .idea-search-box-trigger,
 .root.mode-mindmap .toggle-mode-button,
-.root.mode-mindmap .logout-button {
+.root.mode-mindmap .gear-menu-trigger {
   color: lightgray;
 }
 
@@ -69,7 +78,7 @@
 .root.mode-zen .go-root-button,
 .root.mode-zen .idea-search-box-trigger,
 .root.mode-zen .toggle-mode-button,
-.root.mode-zen .logout-button {
+.root.mode-zen .gear-menu-trigger {
   color: #808080;
 }
 
@@ -77,7 +86,7 @@
 .root.mode-mindmap .go-root-button:hover,
 .root.mode-mindmap .idea-search-box-trigger:hover,
 .root.mode-mindmap .toggle-mode-button:hover,
-.root.mode-mindmap .logout-button:hover {
+.root.mode-mindmap .gear-menu-trigger:hover {
   color: white;
 }
 
@@ -85,7 +94,7 @@
 .root.mode-zen .go-root-button:hover,
 .root.mode-zen .idea-search-box-trigger:hover,
 .root.mode-zen .toggle-mode-button:hover,
-.root.mode-zen .logout-button:hover {
+.root.mode-zen .gear-menu-trigger:hover {
   color: black;
 }
 
@@ -98,7 +107,10 @@
   padding: 0.4em;
   border-radius: 0.3em;
   box-shadow: 0 0 0.8em black;
+}
 
-  /* lift search box above form in zen mode */
+.root.mode-zen .idea-search-box-lookup,
+.root.mode-zen .gear-menu-popup {
+  /* lift popups above form in zen mode */
   z-index: 2;
 }

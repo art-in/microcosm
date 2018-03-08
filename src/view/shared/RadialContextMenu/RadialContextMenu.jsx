@@ -5,6 +5,7 @@ import cx from 'classnames';
 
 import Group from 'view/shared/svg/Group';
 import ContextMenuVmType from 'vm/shared/ContextMenu';
+import MenuItemTypes from 'vm/shared/MenuItemType';
 import MenuItemType from 'vm/shared/MenuItem';
 
 import mapIcon from 'view/utils/map-icon';
@@ -80,6 +81,10 @@ export default class RadialContextMenu extends Component {
    * @return {React.ReactElement}
    */
   drawSegment(segmentsCount, segmentNumber, menuItem) {
+    if (menuItem.type !== MenuItemTypes.action) {
+      throw Error(`Unknown menu item type '${menuItem.type}'`);
+    }
+
     // angle of each segment
     const segmentRad = FULL_CIRCLE_RAD / segmentsCount;
 

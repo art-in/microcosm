@@ -10,9 +10,9 @@
   text-align: center;
   margin-top: 0.6em;
 
-  /* do not wrap in case container is too small
-       (eg. when container width animated like in idea search box, when box
-        is hiding - not-found string should not wrap) */
+  /* do not wrap in case container is too small (eg. when container width
+    animated like in idea search box, when box is hiding - not-found string
+    should not wrap) */
   overflow: hidden;
   white-space: nowrap;
 }

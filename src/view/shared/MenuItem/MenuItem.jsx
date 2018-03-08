@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import cx from 'classnames';
 
 import MenuItemVmType from 'vm/shared/MenuItem';
+import MenuItemType from 'vm/shared/MenuItemType';
+import Markdown from 'view/shared/Markdown';
 
 // @ts-ignore temporary unused component does not receive css typings
 import classes from './MenuItem.css';
@@ -24,15 +26,39 @@ export default class MenuItem extends Component {
   render() {
     const {item, className} = this.props;
 
-    return (
-      <div
-        className={cx(classes.item, className, {
-          [classes.disabled]: !item.enabled
-        })}
-        onClick={this.onClick}
-      >
-        {this.props.item.displayValue}
-      </div>
-    );
+    switch (item.type) {
+      case MenuItemType.action:
+        return (
+          <div
+            className={cx(
+              classes.root,
+              classes.typeAction,
+              {
+                [classes.disabled]: !item.enabled
+              },
+              className
+            )}
+            onClick={this.onClick}
+          >
+            {this.props.item.displayValue}
+          </div>
+        );
+
+      case MenuItemType.markdown:
+        return (
+          <Markdown
+            className={cx(classes.root, classes.typeText, className)}
+            source={this.props.item.displayValue}
+          />
+        );
+
+      case MenuItemType.separator:
+        return (
+          <hr className={cx(classes.root, classes.typeSeparator, className)} />
+        );
+
+      default:
+        throw Error(`Unknown menu item type '${item.type}'`);
+    }
   }
 }

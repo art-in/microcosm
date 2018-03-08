@@ -11,6 +11,7 @@ import IconType from 'vm/shared/Icon';
 
 import MindsetViewModeType from 'vm/main/MindsetViewMode';
 import DbConnectionIcon from 'vm/main/DbConnectionIcon';
+import DropDownMenu from 'vm/shared/DropDownMenu';
 
 /**
  * Mindset view model
@@ -82,6 +83,12 @@ export default class Mindset extends ViewModel {
   ideaSearchBox = new SearchBox({
     lookup: new Lookup({placeholder: 'search ideas'})
   });
+
+  /**
+   * Menu with additional operations (like logout, etc.)
+   * @type {DropDownMenu}
+   */
+  gearMenu = new DropDownMenu();
 
   /**
    * Color picker

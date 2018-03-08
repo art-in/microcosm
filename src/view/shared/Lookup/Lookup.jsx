@@ -35,7 +35,7 @@ export default class Lookup extends Component {
   componentDidMount() {
     this.ensureFocus();
 
-    // react does not support focusin/focusout events, so need to subscribe
+    // react does not support focusin/focusout events, so we should subscribe
     // manually. 'blur' wont work because it does not bubble.
     this.container.addEventListener('focusout', this.onFocusOut);
   }
@@ -95,7 +95,7 @@ export default class Lookup extends Component {
       <div
         className={cx(classes.root, className)}
         ref={node => (this.container = node)}
-        // make sure focus stay in container when clicking suggestions,
+        // make sure focus stays in container when clicking suggestions,
         // so lookup does not get hidden too soon because of focus out
         tabIndex={0}
       >

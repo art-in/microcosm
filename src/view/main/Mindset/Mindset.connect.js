@@ -40,7 +40,13 @@ export default connect(
     onDbConnectionIconClick: () =>
       dispatch({type: 'on-mindset-db-connection-icon-click'}),
 
-    onLogoutButtonClick: () =>
-      dispatch({type: 'on-mindset-logout-button-click'})
+    onGearMenuFocusOut: () =>
+      dispatch({type: 'on-mindset-gear-menu-focus-out'}),
+
+    onGearMenuTriggerClick: () =>
+      dispatch({type: 'on-mindset-gear-menu-trigger-click'}),
+
+    onGearMenuItemSelect: data =>
+      dispatch({type: 'on-mindset-gear-menu-item-select', data})
   })
 )(Component);

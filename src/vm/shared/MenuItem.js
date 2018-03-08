@@ -1,6 +1,7 @@
 import initProps from 'utils/init-props';
 
 import IconType from 'vm/shared/Icon';
+import MenuItemType from 'vm/shared/MenuItemType';
 
 /**
  * Menu item
@@ -11,6 +12,11 @@ export default class MenuItem {
    * @type {string}
    */
   id = Math.random().toString();
+
+  /**
+   * @type {MenuItemType}
+   */
+  type = MenuItemType.action;
 
   /**
    * Display value
@@ -31,7 +37,7 @@ export default class MenuItem {
   enabled = true;
 
   /**
-   * Gets action after item selected
+   * Gets action to dispatch after item selected
    * @type {function|undefined}
    */
   onSelectAction = undefined;

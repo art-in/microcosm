@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import cx from 'classnames';
 
+import noop from 'utils/noop';
 import getKeyCode from 'view/utils/dom/get-key-code';
 
 import MindsetType from 'vm/main/Mindset';
@@ -15,6 +16,7 @@ import ColorPicker from 'view/shared/ColorPicker';
 import SearchBox from 'view/shared/SearchBox';
 import IconButton from 'view/shared/IconButton';
 import MessageScreen from 'view/shared/MessageScreen';
+import DropDownMenu from 'view/shared/DropDownMenu';
 
 import classes from './Mindset.css';
 import ViewMode from 'vm/main/MindsetViewMode';
@@ -34,7 +36,9 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @prop {function()} onIdeaSearchLookupSuggestionSelect
  * @prop {function()} onColorPickerChange
  * @prop {function()} onDbConnectionIconClick
- * @prop {function()} onLogoutButtonClick
+ * @prop {function()} onGearMenuFocusOut
+ * @prop {function()} onGearMenuTriggerClick
+ * @prop {function()} onGearMenuItemSelect
  *
  * @extends {Component<Props>}
  */
@@ -70,7 +74,9 @@ export default class Mindset extends Component {
       onIdeaSearchLookupSuggestionSelect,
       onColorPickerChange,
       onDbConnectionIconClick,
-      onLogoutButtonClick
+      onGearMenuFocusOut,
+      onGearMenuTriggerClick,
+      onGearMenuItemSelect
     } = this.props;
 
     let view;
@@ -145,12 +151,21 @@ export default class Mindset extends Component {
               onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}
             />
 
-            <IconButton
-              className={classes.logoutButton}
-              icon={IconType.signOut}
-              size={IconSize.large}
-              tooltip="Log out"
-              onClick={onLogoutButtonClick}
+            <DropDownMenu
+              className={classes.gearMenu}
+              popupClass={classes.gearMenuPopup}
+              ddmenu={mindset.gearMenu}
+              trigger={
+                <IconButton
+                  className={classes.gearMenuTrigger}
+                  icon={IconType.user}
+                  size={IconSize.large}
+                  onClick={noop}
+                />
+              }
+              onFocusOut={onGearMenuFocusOut}
+              onTriggerClick={onGearMenuTriggerClick}
+              onItemSelect={onGearMenuItemSelect}
             />
 
             <ColorPicker

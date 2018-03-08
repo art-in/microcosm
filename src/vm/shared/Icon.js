@@ -27,7 +27,8 @@ const Icon = {
   sunO: 19,
   circle: 20,
   exclamationTriangle: 21,
-  signOut: 22
+  signOut: 22,
+  user: 23
 };
 
 export default Icon;
