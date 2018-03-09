@@ -68,7 +68,8 @@ async function start() {
       fetch: window.fetch,
       setTimeout: window.setTimeout,
       confirm: window.confirm,
-      reload: window.location.reload.bind(window.location),
+      // wrapping instead of binding, otherwise "invalid calling object" in Edge
+      reload: () => window.location.reload(),
 
       // config
       clientConfig,
