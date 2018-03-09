@@ -7,13 +7,16 @@ const failEmoj = '💥';
 /**
  * Creates new instance of performance middleware.
  *
- * Draws measure blocks of dispatch process
- * in 'user timings' section of performance timeline.
+ * Draws measure blocks of dispatch process in 'user timings' section of
+ * performance timeline.
  *
- * @param {EventEmitter} events - dispatch events
  * @return {object} middleware instance
  */
 export default () => ({
+  /**
+   * Handles new dispatch
+   * @param {EventEmitter} events - dispatch events
+   */
   onDispatch(events) {
     let perfDispatchId;
 

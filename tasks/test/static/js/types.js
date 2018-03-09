@@ -1,4 +1,7 @@
 const buildConfig = require('../../../../config.build');
+
+// TODO: uninstall '@types/vinyl' dependency when this will be fixed
+//       https://github.com/ivogabe/gulp-typescript/issues/567
 const ts = require('gulp-typescript');
 
 module.exports = {

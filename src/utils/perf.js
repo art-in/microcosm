@@ -1,6 +1,6 @@
 /**
- * Utils for drawing custom measure blocks
- * in 'user timings' section of performance timeline
+ * Utils for drawing custom measure blocks in 'user timings' section of
+ * performance timeline.
  *
  * Q: how is it better then default timeline?
  * A:
@@ -62,9 +62,9 @@ function getGroupId() {
   if (groups.size >= charCount) {
     // not enough unique group IDs to start new group.
     // this can happen since we use finit set of IDs (alphabet letters),
-    // eg. when starting lots of group measures and not ending them
-    // quickly enough. Usually this should not happen, and if it does -
-    // it may highligh problems with code
+    // eg. when starting lots of group measures and not ending them quickly
+    // enough. Usually this should not happen, and if it does - it may highligh
+    // problems with the code.
     throw Error(`Groups overflow.`);
   }
 
