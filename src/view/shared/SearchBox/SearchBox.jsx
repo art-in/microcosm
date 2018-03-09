@@ -73,7 +73,7 @@ export default class SearchBox extends Component {
       >
         {!expandToRight ? trigger : null}
 
-        <span className={classes.lookupExpander}>
+        <div className={classes.lookupExpander}>
           <Lookup
             className={cx(classes.lookup, lookupClass)}
             lookup={searchBox.lookup}
@@ -82,7 +82,7 @@ export default class SearchBox extends Component {
             onKeyDown={onLookupKeyDown}
             onSuggestionSelect={onLookupSuggestionSelect}
           />
-        </span>
+        </div>
 
         {expandToRight ? trigger : null}
       </div>

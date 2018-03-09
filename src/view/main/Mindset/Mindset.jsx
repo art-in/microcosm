@@ -116,57 +116,59 @@ export default class Mindset extends Component {
           <Fragment>
             {view}
 
-            <IconButton
-              className={classes.toggleModeButton}
-              icon={mindset.toggleModeButton.icon}
-              size={IconSize.large}
-              tooltip={mindset.toggleModeButton.tooltip}
-              onClick={onToggleMode}
-            />
+            <div className={classes.topLeftButtons}>
+              <IconButton
+                className={classes.toggleModeButton}
+                icon={mindset.toggleModeButton.icon}
+                size={IconSize.large}
+                tooltip={mindset.toggleModeButton.tooltip}
+                onClick={onToggleMode}
+              />
 
-            <DbConnectionIcon
-              className={classes.dbConnectionIcon}
-              connectionIcon={mindset.dbConnectionIcon}
-              onClick={onDbConnectionIconClick}
-            />
+              <DbConnectionIcon
+                className={classes.dbConnectionIcon}
+                connectionIcon={mindset.dbConnectionIcon}
+                onClick={onDbConnectionIconClick}
+              />
+            </div>
 
-            <IconButton
-              className={classes.goRootButton}
-              icon={IconType.home}
-              size={IconSize.large}
-              tooltip={mindset.goRootButtonTooltip}
-              onClick={onGoRootButtonClick}
-            />
+            <div className={classes.topRightButtons}>
+              <SearchBox
+                searchBox={mindset.ideaSearchBox}
+                lookupClass={classes.ideaSearchBoxLookup}
+                triggerClass={classes.ideaSearchBoxTrigger}
+                triggerIcon={IconType.search}
+                onTriggerClick={onIdeaSearchTriggerClick}
+                onLookupFocusOut={onIdeaSearchLookupFocusOut}
+                onLookupPhraseChange={onIdeaSearchLookupPhraseChange}
+                onLookupKeyDown={onIdeaSearchLookupKeyDown}
+                onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}
+              />
 
-            <SearchBox
-              className={classes.ideaSearchBox}
-              searchBox={mindset.ideaSearchBox}
-              lookupClass={classes.ideaSearchBoxLookup}
-              triggerClass={classes.ideaSearchBoxTrigger}
-              triggerIcon={IconType.search}
-              onTriggerClick={onIdeaSearchTriggerClick}
-              onLookupFocusOut={onIdeaSearchLookupFocusOut}
-              onLookupPhraseChange={onIdeaSearchLookupPhraseChange}
-              onLookupKeyDown={onIdeaSearchLookupKeyDown}
-              onLookupSuggestionSelect={onIdeaSearchLookupSuggestionSelect}
-            />
+              <IconButton
+                className={classes.goRootButton}
+                icon={IconType.home}
+                size={IconSize.large}
+                tooltip={mindset.goRootButtonTooltip}
+                onClick={onGoRootButtonClick}
+              />
 
-            <DropDownMenu
-              className={classes.gearMenu}
-              popupClass={classes.gearMenuPopup}
-              ddmenu={mindset.gearMenu}
-              trigger={
-                <IconButton
-                  className={classes.gearMenuTrigger}
-                  icon={IconType.user}
-                  size={IconSize.large}
-                  onClick={noop}
-                />
-              }
-              onFocusOut={onGearMenuFocusOut}
-              onTriggerClick={onGearMenuTriggerClick}
-              onItemSelect={onGearMenuItemSelect}
-            />
+              <DropDownMenu
+                popupClass={classes.gearMenuPopup}
+                ddmenu={mindset.gearMenu}
+                trigger={
+                  <IconButton
+                    className={classes.gearMenuTrigger}
+                    icon={IconType.user}
+                    size={IconSize.large}
+                    onClick={noop}
+                  />
+                }
+                onFocusOut={onGearMenuFocusOut}
+                onTriggerClick={onGearMenuTriggerClick}
+                onItemSelect={onGearMenuItemSelect}
+              />
+            </div>
 
             <ColorPicker
               picker={mindset.colorPicker}

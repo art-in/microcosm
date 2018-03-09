@@ -1,3 +1,5 @@
+@import 'view/main/Main/shared/media-queries.css';
+
 .root {
   height: 100%;
   position: relative;
@@ -7,63 +9,45 @@
   overflow: hidden;
 }
 
-.toggle-mode-button {
+.top-left-buttons,
+.top-right-buttons {
   position: absolute;
   top: 0.85rem;
-  left: 0.85rem;
 }
 
-.db-connection-icon {
-  position: absolute;
-  top: 0.85rem;
-  left: 3.3rem;
+.top-left-buttons > * + *,
+.top-right-buttons > * + * {
+  margin-left: 1.2em;
 }
 
-.go-root-button {
-  position: absolute;
-  top: 0.85rem;
-  right: 3.3rem;
+.top-left-buttons {
+  left: 1rem;
 }
 
-.idea-search-box {
-  position: absolute;
-  top: 0.85rem;
-  right: 5.8rem;
-}
-
-.gear-menu {
-  position: absolute;
-  top: 0.75rem;
+.top-right-buttons {
   right: 1rem;
 }
 
+@media (--large-up) {
+  .root.mode-zen .top-right-buttons {
+    /* move buttons to the left, so they are not cut off by scroll bar */
+    right: 1.85rem;
+  }
+}
+
 .gear-menu-popup {
-  /* move to the left, so it is not cut off by page edge or scroll bar */
-  left: -10.5rem;
+  /* move menu to the left, so it is not cut off by page edge or scroll bar */
+  left: -10.2rem;
 }
 
 .gear-menu-popup::after {
-  left: 10.5rem;
+  /* move menu arrow below trigger button */
+  left: 10.2rem;
 }
 
 .idea-search-box-lookup {
   padding: 0.4em;
   border-radius: 0.3em;
-}
-
-.root.mode-zen .go-root-button {
-  /* shift button bit left to free space for scrollbar */
-  right: 3.9rem;
-}
-
-.root.mode-zen .idea-search-box {
-  /* shift button bit left to free space for scrollbar */
-  right: 6.4rem;
-}
-
-.root.mode-zen .gear-menu {
-  /* shift button bit left to free space for scrollbar */
-  right: 1.7rem;
 }
 
 .root.mode-mindmap .db-connection-icon,

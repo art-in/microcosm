@@ -88,6 +88,10 @@
 .successor-operations {
   padding: 1.1em;
   display: flex;
+
+  /* expand vertically so lookup has enough space when shown */
+  height: 2.8rem;
+  align-items: center;
 }
 
 .successor-operations-item + .successor-operations-item {
@@ -99,20 +103,18 @@
   align-items: center;
 }
 
-.successor-search {
-  /* extend vertically so lookup has enough space when shown */
-  height: 2.8rem;
-}
-
 .successor-search-lookup {
   background-color: white;
   padding: 0.4em;
   border-radius: 0.3em;
   box-shadow: 0 0 0.8em black;
 
-  /* lift search lookup above successor list
-       (as lookup and list are both positioned relatively) */
+  /* lift search lookup above successor list (since both lookup and list are
+    positioned relatively) */
   z-index: 1;
+
+  /* adjust lookup vertically to the center of operations */
+  top: -0.8rem;
 }
 
 .successors {

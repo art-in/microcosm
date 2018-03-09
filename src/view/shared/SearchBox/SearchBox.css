@@ -1,12 +1,11 @@
 @import 'view/main/Main/shared/media-queries';
 
 .root {
-  display: flex;
+  display: inline-block;
 }
 
 .trigger {
-  display: flex;
-  align-items: center;
+  display: inline-block;
   opacity: 1;
   transition: opacity 0.15s;
 }
@@ -17,6 +16,7 @@
 
 .lookup-expander {
   display: inline-block;
+  height: 1rem;
   width: 0;
 
   /* zero width is not enough to hide lookup since its inner paddings will
@@ -31,11 +31,11 @@
   opacity: 1;
 
   @media (--small-down) {
-    width: 24rem;
+    width: 23rem;
   }
 
   @media (--xsmall-only) {
-    width: 14rem;
+    width: 11rem;
   }
 }
 

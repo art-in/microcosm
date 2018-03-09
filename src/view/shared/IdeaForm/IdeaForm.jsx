@@ -187,10 +187,7 @@ export default class IdeaForm extends Component {
               />
 
               <SearchBox
-                className={cx(
-                  classes.successorSearch,
-                  classes.successorOperationsItem
-                )}
+                className={classes.successorOperationsItem}
                 expandToRight={true}
                 searchBox={form.successorSearchBox}
                 lookupClass={classes.successorSearchLookup}
