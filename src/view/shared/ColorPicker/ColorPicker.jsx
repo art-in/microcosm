@@ -6,7 +6,8 @@ import classes from './ColorPicker.css';
 
 const DEFAULT_COLOR = '#000000';
 
-// TODO: eslint 'valid-jsdoc' fails if class has arrow-function fields
+// TODO: remove when eslint fixes 'valid-jsdoc' rule validation for classes with
+//       arrow-function props (https://github.com/babel/babel-eslint/issues/518)
 // eslint-disable-next-line valid-jsdoc
 /**
  * Color picker without toggle button.
