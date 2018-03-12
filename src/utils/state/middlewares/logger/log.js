@@ -24,7 +24,8 @@ const font = {
 };
 
 /**
- * Logs store action to console
+ * Logs entry to console
+ *
  * @param {LogEntryType} entry
  */
 export default function(entry) {

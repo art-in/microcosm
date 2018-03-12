@@ -1,8 +1,10 @@
+import EventEmitterType from 'events';
+
 import required from 'utils/required-params';
 
 import Patch from 'utils/state/Patch';
 import ActionType from 'utils/state/Action';
-import EventEmitterType from 'events';
+import Middleware from 'utils/state/Middleware';
 
 import LogEntry from './LogEntry';
 import log from './log';
@@ -15,51 +17,55 @@ const DEFAULT_TROTTLE_DELAY = 1000;
  *
  * Logs each dispatch to console.
  *
- * @return {object} middleware instance
+ * @param {object} [opts]
+ * @param {function} [opts.mapStateForLog] - gets part of state to log
+ * @return {Middleware} middleware instance
  */
-export default function() {
-  const middlewareState = {};
-  return {
-    onDispatch: onDispatch.bind(null, middlewareState)
-  };
+export default function(opts = {}) {
+  const {mapStateForLog = state => state} = opts;
+
+  const middleware = new Middleware({state: {mapStateForLog}});
+  middleware.onDispatch = onDispatch.bind(null, middleware);
+
+  return middleware;
 }
 
 /**
  * Handles next dispatch
  *
- * @param {object}       state  - middleware state
+ * @param {Middleware} middleware
  * @param {EventEmitterType} events - next dispatch events
- * @param {ActionType}       action - target action
+ * @param {ActionType} action - target action
  */
-function onDispatch(state, events, action) {
-  throttleLogDispatch(state, events, action);
+function onDispatch(middleware, events, action) {
+  throttleLogDispatch(middleware, events, action);
 }
 
 /**
  * Throttles dispatch log
  *
- * @param {object}       state  - middleware state
+ * @param {Middleware} middleware
  * @param {EventEmitterType} events - next dispatch events
- * @param {ActionType}       action - target action
+ * @param {ActionType} action - target action
  */
-function throttleLogDispatch(state, events, action) {
-  if (!state.throttleState) {
+function throttleLogDispatch(middleware, events, action) {
+  if (!middleware.state.throttleState) {
     // dictionary throttle state:
     // key - action type
     // value.lastTime       - time of last logged dispatch
     // value.throttledCount - number of throtted action
-    state.throttleState = new Map();
+    middleware.state.throttleState = new Map();
   }
 
   if (THROTTLING_ENABLED && action.throttleLog) {
-    let throttleState = state.throttleState.get(action.type);
+    let throttleState = middleware.state.throttleState.get(action.type);
 
     // this is first action of this type
     const firstAction = throttleState === undefined;
 
     if (firstAction) {
       throttleState = {};
-      state.throttleState.set(action.type, throttleState);
+      middleware.state.throttleState.set(action.type, throttleState);
     }
 
     // time elapsed from previous action of same type
@@ -75,7 +81,7 @@ function throttleLogDispatch(state, events, action) {
     }
 
     if (firstAction || (!firstAction && elapsed > delay)) {
-      logDispatch(state, events, throttleState.throttledCount);
+      logDispatch(middleware, events, throttleState.throttledCount);
 
       // reset throttle state
       throttleState.lastTime = window.performance.now();
@@ -85,18 +91,19 @@ function throttleLogDispatch(state, events, action) {
       throttleState.throttledCount++;
     }
   } else {
-    logDispatch(state, events);
+    logDispatch(middleware, events);
   }
 }
 
 /**
  * Logs dispatch
- * @param {object}       state  - middleware state
+ *
+ * @param {Middleware} middleware
  * @param {EventEmitter} events
- * @param {number}      [throttledCount] - number of actions of same type
- *                                   that were throttled before this one
+ * @param {number} [throttledCount] - number of actions of same type that were
+ *                                    throttled before this one
  */
-function logDispatch(state, events, throttledCount) {
+function logDispatch(middleware, events, throttledCount) {
   /** @type {LogEntry} */
   let entry = null;
 
@@ -105,7 +112,7 @@ function logDispatch(state, events, throttledCount) {
 
     entry = new LogEntry();
 
-    entry.prevState = state;
+    entry.prevState = middleware.state.mapStateForLog(state);
     entry.action = action;
     entry.throttledCount = throttledCount;
     entry.perf.dispatch.start = window.performance.now();
@@ -115,7 +122,7 @@ function logDispatch(state, events, throttledCount) {
     const {state} = required(opts);
 
     entry.perf.dispatch.end = window.performance.now();
-    entry.nextState = state;
+    entry.nextState = middleware.state.mapStateForLog(state);
 
     log(entry);
   });

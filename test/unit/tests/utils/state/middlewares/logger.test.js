@@ -701,4 +701,49 @@ describe('logger', () => {
       expect(logHeader).to.not.contain(`[child:`);
     });
   });
+
+  describe('mapping state for log', () => {
+    beforeEach(() => {
+      // setup
+      const dispatchEvents = new EventEmitter();
+
+      function mapStateForLog(state) {
+        // take only part of state, ignore the rest
+        const {vm: unrested, ...part} = state;
+        return part;
+      }
+
+      const middleware = logger({mapStateForLog});
+
+      const action = new Action({type: 'my-action', data: 'A'});
+      const prevState = {model: 'prev model', vm: 'prev vm'};
+      const patch = new Patch({type: 'my-mutation', data: 'M'});
+      const nextState = {model: 'next model', vm: 'next vm'};
+
+      middleware.onDispatch(dispatchEvents, action);
+
+      dispatchEvents.emit('before-dispatch', {state: prevState, action});
+      dispatchEvents.emit('before-handler', {state: prevState, action});
+      dispatchEvents.emit('after-handler', {state: prevState});
+      dispatchEvents.emit('before-mutation', {state: prevState, patch});
+      dispatchEvents.emit('after-mutation', {state: nextState});
+      dispatchEvents.emit('after-dispatch', {state: nextState});
+    });
+
+    it('should log prev state', () => {
+      expect(log.getCall(0).args[0]).to.match(RegExp(`${S}prev state`));
+
+      expect(log.getCall(0).args[2]).to.deep.equal({
+        model: 'prev model'
+      });
+    });
+
+    it('should log next state', () => {
+      expect(log.getCall(3).args[0]).to.match(RegExp(`${S}next state`));
+
+      expect(log.getCall(3).args[2]).to.deep.equal({
+        model: 'next model'
+      });
+    });
+  });
 });

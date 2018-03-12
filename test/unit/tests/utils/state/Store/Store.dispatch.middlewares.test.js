@@ -9,6 +9,7 @@ import Store from 'src/utils/state/Store';
 import Handler from 'src/utils/state/Handler';
 import Patch from 'src/utils/state/Patch';
 import Action from 'src/utils/state/Action';
+import Middleware from 'utils/state/Middleware';
 
 describe('middlewares', () => {
   it('should call multiple middlewares', async () => {
@@ -22,7 +23,7 @@ describe('middlewares', () => {
     const onBeforeMutation1 = spy();
     const onAfterMutation1 = spy();
 
-    const middleware1 = () => ({
+    const middleware1 = new Middleware({
       onDispatch: events => {
         events.on('before-dispatch', onBeforeDispatch1);
         events.on('after-dispatch', onAfterDispatch1);
@@ -36,7 +37,7 @@ describe('middlewares', () => {
     const onBeforeMutation2 = spy();
     const onAfterMutation2 = spy();
 
-    const middleware2 = () => ({
+    const middleware2 = new Middleware({
       onDispatch: events => {
         events.on('before-dispatch', onBeforeDispatch2);
         events.on('after-dispatch', onAfterDispatch2);
@@ -87,7 +88,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const inst = [];
-    const middleware = spy(() => ({
+    const middleware = new Middleware({
       onDispatch: events => {
         const instNumber = inst.length;
         const log = event => seq.push(`instance ${instNumber}: ${event}`);
@@ -102,7 +103,7 @@ describe('middlewares', () => {
 
         inst.push(instance);
       }
-    }));
+    });
 
     // setup store
     const store = new Store(disp, mutator, state, [middleware]);
@@ -131,7 +132,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onBeforeDispatch = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('before-dispatch', (...args) =>
           // clone to catch the state at this moment
@@ -172,7 +173,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onAfterDispatch = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('after-dispatch', (...args) =>
           // clone to catch the state at this moment
@@ -208,7 +209,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onBeforeHandler = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('before-handler', (...args) =>
           // clone to catch the state at this moment
@@ -249,7 +250,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onAfterHandler = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('after-handler', (...args) =>
           // clone to catch the state at this moment
@@ -285,7 +286,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onBeforeMutation = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('before-mutation', (...args) =>
           // clone to catch the state at this moment
@@ -332,7 +333,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onAfterMutate = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('after-mutation', (...args) =>
           // clone to catch the state at this moment
@@ -372,7 +373,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onBeforeMutation = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('before-mutation', (...args) =>
           // clone to catch the state at this moment
@@ -419,7 +420,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onAfterMutation = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events =>
         events.on('after-mutation', (...args) =>
           // clone to catch the state at this moment
@@ -470,7 +471,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onEvent = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events => {
         events.on('before-mutation', onEvent.bind(null, 'before-mutation'));
         events.on('after-mutation', onEvent.bind(null, 'after-mutation'));
@@ -526,13 +527,13 @@ describe('middlewares', () => {
 
     // setup middleware
     const inst = [];
-    const middleware = spy(() => ({
+    const middleware = new Middleware({
       onDispatch: events => {
         const instance = {onChildAction: spy()};
         events.on('child-action', instance.onChildAction);
         inst.push(instance);
       }
-    }));
+    });
 
     // setup store
     const store = new Store(handler, mutator, state, [middleware]);
@@ -568,7 +569,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onHandlerFail = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events => events.on('handler-fail', onHandlerFail)
     });
 
@@ -605,7 +606,7 @@ describe('middlewares', () => {
     // setup middleware
     const onMutationFail = spy();
     const onHandlerFail = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events => {
         events.on('mutation-fail', onMutationFail);
         events.on('handler-fail', onHandlerFail);
@@ -637,7 +638,7 @@ describe('middlewares', () => {
 
     // setup middleware
     const onMutationFail = spy();
-    const middleware = () => ({
+    const middleware = new Middleware({
       onDispatch: events => events.on('mutation-fail', onMutationFail)
     });
 

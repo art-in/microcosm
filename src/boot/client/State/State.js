@@ -71,6 +71,9 @@ export default class State {
 
   view = {
     /** @type {Element} */
-    root: undefined
+    root: undefined,
+
+    /** @type {function()} */
+    storeDispatch: undefined
   };
 }

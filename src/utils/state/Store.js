@@ -6,6 +6,7 @@ import HandlerType from './Handler';
 import Action from './Action';
 
 import PatchType from './Patch';
+import MiddlewareType from './Middleware';
 
 /**
  * Application state container.
@@ -69,7 +70,7 @@ export default class Store {
 
   /**
    * List of middlewares
-   * @type {Array.<object>}
+   * @type {Array.<MiddlewareType>}
    */
   _middlewares = [];
 
@@ -78,13 +79,13 @@ export default class Store {
    * @param {HandlerType} handler
    * @param {function} mutator
    * @param {object} [initialState]
-   * @param {array} [middlewares]
+   * @param {Array.<MiddlewareType>} [middlewares]
    */
   constructor(handler, mutator, initialState = {}, middlewares = []) {
     this._handler = handler;
     this._mutator = mutator;
     this._state = initialState;
-    this._middlewares = middlewares.map(m => m());
+    this._middlewares = middlewares;
   }
 
   /**

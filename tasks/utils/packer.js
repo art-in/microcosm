@@ -98,9 +98,16 @@ function getPackConfig(opts) {
   } else {
     mode = 'development';
 
-    // use inlined source maps,
-    // because eval-source-map gives stacktraces without source file:line
-    // (when stacktrace passed from chrome/phantomjs to terminal by karma)
+    // stacktrace source-mapping:
+    // - 'eval-source-map':
+    //    chrome devtools - all good,
+    //    karma - slitely wrong line numbers.
+    // - 'source-map':
+    //    chrome devtools - all good,
+    //    karma - not source-mapped at all.
+    // - 'inline-source-map':
+    //    chrome devtools - all good,
+    //    karma - both source and in-bundle line numbers.
     devtool = 'inline-source-map';
   }
 

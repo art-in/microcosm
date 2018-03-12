@@ -9,8 +9,10 @@ import Handler from 'utils/state/Handler';
 
 import commonHandler from 'action/handler';
 import vmHandler from 'vm/action/handler';
-import State from './State';
 import combine from 'utils/state/combine-mutators';
+
+import State from 'boot/client/State';
+import mapStateForLog from 'boot/client/State/map-state-for-log';
 
 import logger from 'utils/state/middlewares/logger';
 import perf from 'utils/state/middlewares/perf';
@@ -33,8 +35,8 @@ async function start() {
   const middlewares = [];
 
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(logger);
-    middlewares.push(perf);
+    middlewares.push(logger({mapStateForLog}));
+    middlewares.push(perf());
   }
 
   // load client config. it should take no time, since we sw-caching it

@@ -1,9 +1,6 @@
-import clone from 'clone';
 import assert from 'utils/assert';
 import PatchType from 'utils/state/Patch';
 import ActionType from 'utils/state/Action';
-
-import StateType from 'boot/client/State';
 
 /**
  * Log entry for store action
@@ -102,52 +99,16 @@ export default class LogEntry {
   patch = undefined;
 
   /**
+   * State before dispatching action
    * @type {object|undefined}
    */
-  _prevState = undefined;
+  prevState = undefined;
 
   /**
-   * Gets state before action
-   * @return {StateType}
-   */
-  get prevState() {
-    return this._prevState;
-  }
-
-  /**
-   * Sets state before action
-   * @param {StateType} state
-   */
-  set prevState(state) {
-    this._prevState = {
-      model: clone(state.model),
-      vm: clone(state.vm)
-    };
-  }
-
-  /**
+   * State after dispatching action
    * @type {object|undefined}
    */
-  _nextState = undefined;
-
-  /**
-   * Gets state after action
-   * @return {StateType}
-   */
-  get nextState() {
-    return this._nextState;
-  }
-
-  /**
-   * Sets state after action
-   * @param {StateType} state
-   */
-  set nextState(state) {
-    this._nextState = {
-      model: clone(state.model),
-      vm: clone(state.vm)
-    };
-  }
+  nextState = undefined;
 
   /**
    * Indicates action failed
