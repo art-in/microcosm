@@ -3,6 +3,9 @@ const KarmaServer = require('karma').Server;
 /**
  * Runs unit tests
  *
+ * TODO: update karma to v2.0 when sourcemaps loading is fixed
+ *       https://github.com/karma-runner/karma/issues/2930
+ *
  * @param {object} opts
  * @param {object} opts.packConfig - webpack config
  * @param {string} opts.entry - entry module path
