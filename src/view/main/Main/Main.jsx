@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import {hot} from 'react-hot-loader';
 
 import MainVmType from 'vm/main/Main';
 import MainScreen from 'vm/main/MainScreen';
@@ -23,7 +24,7 @@ export const rootClass = classes.root;
  *
  * @extends {Component<Props>}
  */
-export default class Main extends Component {
+class Main extends Component {
   render() {
     const {main: mainVM} = this.props;
 
@@ -51,3 +52,7 @@ export default class Main extends Component {
     );
   }
 }
+
+// mark root component as reload point for hot module replacement
+// eslint-disable-next-line no-undef
+export default hot(module)(Main);

@@ -53,11 +53,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * @return {object} config
  */
 function getPackConfig(opts) {
+  let mode;
   const entries = [];
   const resolveModules = [];
   const plugins = [
     // uncomment to see bundle analysis (starts server + opens browser)
-    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin),
+    // new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
 
     // ensure import paths have correct char case
     // (case is ignored in windows, but respected in linux)
@@ -69,30 +70,25 @@ function getPackConfig(opts) {
   if (opts.watch) {
     assert(opts.serv, 'Watch mode needs developer server options');
 
-    // TODO: are these entries necessary? because they are not by latest docs.
-    //       but removing them breaks hot reload. needs investigation.
+    // TODO: are these entries necessary? because they are not in latest docs.
+    //       but if remove them - hot reload will not work.
     entries.push(
       `webpack-dev-server/client?` +
         `http://${opts.serv.host}:${opts.serv.port}/`,
       'webpack/hot/dev-server'
     );
 
-    plugins.push(new webpack.NamedModulesPlugin());
     plugins.push(new webpack.HotModuleReplacementPlugin());
 
     babelPlugins.push(require('react-hot-loader/babel'));
   }
 
   if (opts.isProduction) {
-    // include node production env var
     // 1. include minified version of libs (eg. react)
-    // 2. use in app for runtime optimizations
-    //    (eg. disable logger/perf store middlewares)
-    plugins.push(
-      new webpack.DefinePlugin({
-        'process.env': {NODE_ENV: `'production'`}
-      })
-    );
+    // 2. enable all kind of optimizations to generate optimized bundles
+    // 3. use process.env.NODE_ENV in the app for runtime optimizations
+    //    (eg. to disable logger/perf store middlewares in prod)
+    mode = 'production';
 
     // minify js scripts
     plugins.push(new UglifyJsPlugin());
@@ -100,6 +96,8 @@ function getPackConfig(opts) {
     // do not include source maps
     devtool = false;
   } else {
+    mode = 'development';
+
     // use inlined source maps,
     // because eval-source-map gives stacktraces without source file:line
     // (when stacktrace passed from chrome/phantomjs to terminal by karma)
@@ -125,6 +123,7 @@ function getPackConfig(opts) {
   root.forEach(p => resolveModules.push(path.resolve(__dirname, p)));
 
   return {
+    mode,
     devtool,
     entry: entries,
     output: {
@@ -205,6 +204,14 @@ function getPackConfig(opts) {
     resolve: {
       extensions: ['.js', '.jsx'],
       modules: resolveModules.concat(['node_modules'])
+    },
+    performance: {
+      // ignore any "asset is too big" warnings since we use aggressive caching
+      // via service worker cache storage, which solves load performance issues.
+      // to improve parse/run performance of js chunks we could still use code
+      // splitting. but it requires extra effort for finding split points and
+      // then dynamic importing, so it does not worth it for now.
+      hints: false
     }
   };
 }

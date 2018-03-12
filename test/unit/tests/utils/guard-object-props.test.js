@@ -63,24 +63,6 @@ describe('guard-object-props', () => {
     );
   });
 
-  it('should NOT create proxy in prod environment', () => {
-    // setup
-    const prevEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
-
-    // target
-    const obj = guardObjectProps({});
-
-    // check
-
-    // @ts-ignore allow run-time check
-    const result = () => obj.X;
-    expect(result).to.not.throw();
-
-    // teardown
-    process.env.NODE_ENV = prevEnv;
-  });
-
   it('should NOT fail to read existing symbol prop', () => {
     const symbol = Symbol('sym');
     const obj = guardObjectProps({[symbol]: 1});

@@ -37,13 +37,13 @@ function apply(state, mutation) {
       state.view.root = root;
       state.view.storeDispatch = storeDispatch;
 
-      mount(state);
-
-      // register webpack hot module replacement
-      /* eslint-disable no-undef */
-      if (module.hot) {
-        module.hot.accept('view/main/Main', () => mount(state));
-      }
+      state.view.root.classList.add(rootClass);
+      ReactDom.render(
+        <Provider dispatch={state.view.storeDispatch}>
+          <Main main={state.vm.main} />
+        </Provider>,
+        state.view.root
+      );
       break;
     }
 
@@ -130,18 +130,4 @@ function apply(state, mutation) {
     default:
       throw Error(`Unknown view mutation '${mutation.type}'`);
   }
-}
-
-/**
- * Mounts component tree
- * @param {StateType} state
- */
-function mount(state) {
-  state.view.root.classList.add(rootClass);
-  ReactDom.render(
-    <Provider dispatch={state.view.storeDispatch}>
-      <Main main={state.vm.main} />
-    </Provider>,
-    state.view.root
-  );
 }

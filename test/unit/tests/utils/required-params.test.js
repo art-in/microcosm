@@ -78,22 +78,4 @@ describe('required-params', () => {
     // check
     expect(result).to.throw(`Invalid params object received 'undefined'`);
   });
-
-  it('should not create proxy in prod environment', () => {
-    // setup
-    const prevEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
-
-    // target
-    const params = requiredParams({});
-
-    // check
-
-    // @ts-ignore allow run-time check
-    const result = () => params.X;
-    expect(result).to.not.throw();
-
-    // teardown
-    process.env.NODE_ENV = prevEnv;
-  });
 });
