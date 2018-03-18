@@ -7,7 +7,7 @@ export const IDEA_TITLE_MAX_LENGTH = 50;
  * @return {boolean}
  */
 export default function isValidIdeaTitle(title) {
-  if (!title) {
+  if (!title || typeof title !== 'string') {
     return false;
   }
 

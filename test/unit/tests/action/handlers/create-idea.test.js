@@ -1,6 +1,7 @@
 import {expect} from 'test/utils';
 import clone from 'clone';
 
+import Patch from 'src/utils/state/Patch';
 import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
@@ -88,7 +89,7 @@ describe('create-idea', () => {
     expect(idea.id).to.equal('test ID');
   });
 
-  it('should trim idea title', () => {
+  it('should trim title', () => {
     // setup
     const ideaA = new Idea({
       id: 'A',
@@ -121,6 +122,42 @@ describe('create-idea', () => {
     const {idea} = mutations[0].data;
 
     expect(idea.title).to.equal('title');
+  });
+
+  it('should set empty-string value if it is empty', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    let patch = new Patch();
+    for (const v of ['', null, undefined]) {
+      const p = handle(state, {
+        type: 'create-idea',
+        data: {parentIdeaId: 'A', title: 'title', value: v}
+      });
+      patch = Patch.combine(patch, p);
+    }
+
+    // check
+    const mutations = patch['add-idea'];
+
+    expect(mutations).to.have.length(3);
+
+    for (const mutation of mutations) {
+      const {idea} = mutation.data;
+      expect(idea.value).to.equal('');
+    }
   });
 
   it('should add association from parent idea', () => {
@@ -319,7 +356,7 @@ describe('create-idea', () => {
     expect(result).to.throw(`Idea 'not exist' was not found in mindset`);
   });
 
-  it('should fail if idea title is empty', () => {
+  it('should fail if title is empty', () => {
     // setup
     const ideaA = new Idea({
       id: 'A',
@@ -349,7 +386,7 @@ describe('create-idea', () => {
     expect(target).to.throw(`Invalid idea title ' '`);
   });
 
-  it('should fail if idea title is too long', () => {
+  it('should fail if title is too long', () => {
     // setup
     const ideaA = new Idea({
       id: 'A',
@@ -379,5 +416,65 @@ describe('create-idea', () => {
     expect(result).to.throw(
       `Invalid idea title '${'title'.padStart(51, 'long')}'`
     );
+  });
+
+  it('should fail if title is not a string', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const target = () =>
+      handle(state, {
+        type: 'create-idea',
+        data: {
+          parentIdeaId: 'A',
+          title: {},
+          value: 'value test'
+        }
+      });
+
+    // check
+    expect(target).to.throw(`Invalid idea title '[object Object]'`);
+  });
+
+  it('should fail if value is not a string', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const target = () =>
+      handle(state, {
+        type: 'create-idea',
+        data: {
+          parentIdeaId: 'A',
+          title: 'title',
+          value: true
+        }
+      });
+
+    // check
+    expect(target).to.throw(`Invalid idea value 'true'`);
   });
 });

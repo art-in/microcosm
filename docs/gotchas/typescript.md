@@ -103,3 +103,8 @@
     };
     ```
     https://github.com/Microsoft/TypeScript/issues/11233
+
+---
+
+15. **typescript**: hyphenated object properties are not supported (eg. `obj['my-prop']`).  
+    https://github.com/Microsoft/TypeScript/issues/4032

@@ -1,8 +1,10 @@
 import queryString from 'query-string';
 
 import PouchDB from 'pouchdb';
-import PouchDBFindPlugin from 'pouchdb-find';
-PouchDB.plugin(PouchDBFindPlugin);
+import PouchDbPluginFind from 'pouchdb-find';
+import PouchDbPluginMemory from 'pouchdb-adapter-memory';
+PouchDB.plugin(PouchDbPluginFind);
+PouchDB.plugin(PouchDbPluginMemory);
 
 import Store from 'utils/state/Store';
 import Handler from 'utils/state/Handler';
@@ -12,7 +14,7 @@ import vmHandler from 'vm/action/handler';
 import combine from 'utils/state/combine-mutators';
 
 import State from 'boot/client/State';
-import mapStateForLog from 'boot/client/State/map-state-for-log';
+import cloneState from 'boot/client/utils/clone-state-safely';
 
 import logger from 'utils/state/middlewares/logger';
 import perf from 'utils/state/middlewares/perf';
@@ -35,7 +37,7 @@ async function start() {
   const middlewares = [];
 
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(logger({mapStateForLog}));
+    middlewares.push(logger({mapState: cloneState}));
     middlewares.push(perf());
   }
 

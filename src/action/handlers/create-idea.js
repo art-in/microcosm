@@ -37,6 +37,10 @@ export default function createIdea(state, data) {
     throw Error(`Invalid idea title '${title}'`);
   }
 
+  if (value && typeof value !== 'string') {
+    throw Error(`Invalid idea value '${value}'`);
+  }
+
   const parent = getIdea(mindset, parentIdeaId);
 
   const posRel = getNewIdeaPosition(
@@ -53,7 +57,7 @@ export default function createIdea(state, data) {
       y: parent.posAbs.y + posRel.y
     }),
     title: title.trim(),
-    value
+    value: value || ''
   });
 
   if (ideaId !== undefined) {

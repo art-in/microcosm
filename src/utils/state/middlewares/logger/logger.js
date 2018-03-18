@@ -18,13 +18,13 @@ const DEFAULT_TROTTLE_DELAY = 1000;
  * Logs each dispatch to console.
  *
  * @param {object} [opts]
- * @param {function} [opts.mapStateForLog] - gets part of state to log
+ * @param {function} [opts.mapState] - maps state before logging
  * @return {Middleware} middleware instance
  */
 export default function(opts = {}) {
-  const {mapStateForLog = state => state} = opts;
+  const {mapState = state => state} = opts;
 
-  const middleware = new Middleware({state: {mapStateForLog}});
+  const middleware = new Middleware({state: {mapState}});
   middleware.onDispatch = onDispatch.bind(null, middleware);
 
   return middleware;
@@ -112,7 +112,7 @@ function logDispatch(middleware, events, throttledCount) {
 
     entry = new LogEntry();
 
-    entry.prevState = middleware.state.mapStateForLog(state);
+    entry.prevState = middleware.state.mapState(state);
     entry.action = action;
     entry.throttledCount = throttledCount;
     entry.perf.dispatch.start = window.performance.now();
@@ -122,7 +122,7 @@ function logDispatch(middleware, events, throttledCount) {
     const {state} = required(opts);
 
     entry.perf.dispatch.end = window.performance.now();
-    entry.nextState = middleware.state.mapStateForLog(state);
+    entry.nextState = middleware.state.mapState(state);
 
     log(entry);
   });

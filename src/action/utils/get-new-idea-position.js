@@ -21,7 +21,7 @@ const MIN_DISTANCE_FROM_OCCUPIED_POSITIONS = 200;
 /**
  * Gets relative position for new idea
  *
- * TODO: cover with unit tests when UX is manually tested
+ * TODO: cover with unit tests when UX is manually approved
  *
  * @param {Point} parentRelPos - relative position of parent to grandparent
  * @param {Array.<Point>} occupiedPositions - already occupied positions
@@ -39,7 +39,7 @@ export default function getNewIdeaPosition(
 
   const isFreePos = isFreePosition.bind(null, occupiedPositions, minDistance);
 
-  // start distributing ideas to same direction as grandparent to parent,
+  // start distributing ideas to the same direction as grandparent to parent,
   // so whole tree automatically tends to grow as a flower to every direction
   // from root in balanced way, and not to one particular direction (eg. left)
   const startingAngleRad = Math.atan2(parentRelPos.y, parentRelPos.x);
@@ -79,7 +79,7 @@ export default function getNewIdeaPosition(
  * @param {number} minDistance - min distance from occupied positions
  * @param {number} radius - distance from parent
  * @param {number} angleRad - angle of direction from parent
- * @return {Point|undefined} position if is free, otherwise undefined
+ * @return {Point|undefined} free position, otherwise undefined
  */
 function isFreePosition(occupiedPositions, minDistance, radius, angleRad) {
   const proposedPos = new Point({
@@ -100,7 +100,7 @@ function isFreePosition(occupiedPositions, minDistance, radius, angleRad) {
       return proposedPos;
     }
   } else {
-    // no occupied positions means each position is free
+    // no occupied positions means any position is free
     return proposedPos;
   }
 }

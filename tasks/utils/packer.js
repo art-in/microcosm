@@ -205,6 +205,10 @@ function getPackConfig(opts) {
               }
             }
           ]
+        },
+        {
+          test: /\.enex$/,
+          use: [{loader: 'raw-loader'}]
         }
       ]
     },

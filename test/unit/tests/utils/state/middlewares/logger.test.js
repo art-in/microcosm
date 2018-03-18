@@ -707,13 +707,13 @@ describe('logger', () => {
       // setup
       const dispatchEvents = new EventEmitter();
 
-      function mapStateForLog(state) {
+      function mapState(state) {
         // take only part of state, ignore the rest
         const {vm: unrested, ...part} = state;
         return part;
       }
 
-      const middleware = logger({mapStateForLog});
+      const middleware = logger({mapState});
 
       const action = new Action({type: 'my-action', data: 'A'});
       const prevState = {model: 'prev model', vm: 'prev vm'};

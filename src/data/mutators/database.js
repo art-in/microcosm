@@ -5,6 +5,7 @@ import MutationType from 'utils/state/Mutation';
 import StateType from 'boot/client/State';
 
 import AsyncTaskQueue from 'utils/AsyncTaskQueue';
+import replicate from 'data/utils/replicate';
 
 import * as ideaDB from '../db/ideas';
 import * as assocDB from '../db/associations';
@@ -63,6 +64,16 @@ async function apply(state, mutation) {
     case 'init-local-data':
       // ignore local data updates
       break;
+
+    case 'replicate-from-databases': {
+      const {ideas, associations, mindsets} = required(mutation.data);
+      await Promise.all([
+        replicate(ideas, state.data.ideas),
+        replicate(associations, state.data.associations),
+        replicate(mindsets, state.data.mindsets)
+      ]);
+      break;
+    }
 
     case 'add-idea':
       await ideaDB.add(data.ideas, mutation.data.idea);

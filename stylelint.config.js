@@ -1,6 +1,9 @@
 /* global module */
 module.exports = {
   extends: 'stylelint-config-standard',
+  /* TODO: ignore non-css files until embedded css is fixed
+    https://github.com/stylelint/stylelint/issues/3219 */
+  ignoreFiles: ['./**/*.html', './**/*.md', './**/*.enex'],
   rules: {
     // [same as for js]
     indentation: [2],

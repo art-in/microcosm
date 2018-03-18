@@ -25,6 +25,8 @@
         // typescript does not support them on window object)
         "HTMLElement": false,
         "Response": false,
+        "FileReader": false,
+        "File": false,
 
         // webpack objects
         "process": false,
@@ -36,7 +38,8 @@
         "Set": false,
         "WeakSet": false,
         "Map": false,
-        "WeakMap": false
+        "WeakMap": false,
+        "Uint8Array": false
     },
     "rules": {
         // turn on prettier formatting rules

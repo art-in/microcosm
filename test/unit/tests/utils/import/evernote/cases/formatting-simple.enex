@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd">
+<en-export export-date="20180313T211332Z" application="Evernote/Windows" version="6.x">
+	<note>
+		<title>SIMPLE FORMATTERS</title>
+		<content>
+			<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+			<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
+			
+			<en-note>
+				<div><b>bold</b></div>
+				<div><i>italic</i></div>
+				<div><u>underline</u></div>
+				<div><strike>strikethrough</strike></div>
+				<div><span style="background-color: rgb(255, 250, 165);-evernote-highlight:true;">highlight&nbsp;</span></div>
+			</en-note>]]>
+		</content>
+		<created>20180313T210948Z</created>
+		<updated>20180313T211320Z</updated>
+		<note-attributes>
+			<author>Artin</author>
+			<source>desktop.win</source>
+			<source-application>evernote.win32</source-application>
+		</note-attributes>
+	</note>
+</en-export>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd">
+<en-export export-date="20180314T115508Z" application="Evernote/Windows" version="6.x">
+  <note>
+    <title>FORMATTING INSIDE PARAGAPH</title>
+    <content>
+      <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+      <?xml version="1.0"?>
+      <!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
+      <en-note>
+        <div>normal test <b>bold text</b> normal text</div>
+      </en-note>]]>
+    </content>
+    <created>20180314T115406Z</created>
+    <updated>20180314T115424Z</updated>
+    <note-attributes>
+      <author>Artin</author>
+      <source>desktop.win</source>
+      <source-application>evernote.win32</source-application>
+    </note-attributes>
+  </note>
+</en-export>

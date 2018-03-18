@@ -1,5 +1,6 @@
 describe('utils', () => {
   require('./graph');
+  require('./import');
   require('./state');
 
   require('./AsyncTaskQueue.test');

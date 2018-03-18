@@ -21,17 +21,10 @@ import setAbsolutePositions from 'action/utils/set-ideas-absolute-positions';
 import buildIdeasGraph from 'model/utils/build-ideas-graph-from-list';
 import weighRootPaths from 'utils/graph/weigh-root-paths';
 import view from 'vm/utils/view-patch';
-
 import setViewMode from 'vm/main/Mindset/methods/set-view-mode';
+import replicate from 'data/utils/replicate';
 
 export const RELOAD_DEBOUNCE_TIME = 1000; // ms
-
-/**
- * @typedef {object} LocalDatabases
- * @prop {PouchDB.Database} ideas
- * @prop {PouchDB.Database} associations
- * @prop {PouchDB.Database} mindsets
- */
 
 /**
  * Loads mindset from database to state
@@ -105,6 +98,9 @@ export default async function loadMindset(state, data, dispatch) {
   }
 
   // init view model
+  // TODO: fix: reload moves focus zone from current zoom to focus-idea.
+  //       vm mapper should set focus center to focus-idea only on first load,
+  //       and keep it the same on reloads.
   const mindsetVM = {
     isLoaded: true,
     ...setViewMode(
@@ -152,7 +148,7 @@ export default async function loadMindset(state, data, dispatch) {
  * @param {string} sessionDbServerUrl
  * @param {string} sessionUserName
  * @param {function} dispatch
- * @return {Promise.<LocalDatabases>} local databases
+ * @return {Promise.<MindsetDatabases>} local databases
  */
 async function initDatabases(
   state,
@@ -210,7 +206,7 @@ async function initDatabases(
 
 /**
  * Ensures databases contain required entities
- * @param {LocalDatabases} localDBs
+ * @param {MindsetDatabases} localDBs
  */
 async function ensureRequiredEntities(localDBs) {
   let mindset;
@@ -248,7 +244,7 @@ async function ensureRequiredEntities(localDBs) {
 /**
  * Cleans local databases
  *
- * @param {LocalDatabases} localDBs
+ * @param {MindsetDatabases} localDBs
  */
 async function cleanDatabases(localDBs) {
   // since there is no API for cleaning databases, we first destroying
@@ -261,40 +257,34 @@ async function cleanDatabases(localDBs) {
 }
 
 /**
- * Replicates data from server databases to local databases once
+ * Replicates data from server databases to local databases
  *
  * @param {string} dbServerUrl
  * @param {string} userName
- * @param {LocalDatabases} localDBs
+ * @param {MindsetDatabases} localDBs
  * @return {Promise}
  */
 function replicateFromServer(dbServerUrl, userName, localDBs) {
+  // replicate all dbs in parallel
   return Promise.all(
-    Object.entries(localDBs).map(
-      ([dbName, db]) =>
-        new Promise((resolve, reject) => {
-          const serverDbURL = getServerDbUrl(dbServerUrl, userName, dbName);
-
-          db.replicate
-            .from(serverDbURL, {
-              // do not create server database. which can happen if logged in
-              // as server admin or server has no admin yet.
-              // @ts-ignore unknown option
-              skip_setup: true
-            })
-            .on('complete', resolve)
-            .on('error', reject);
-        })
-    )
+    Object.entries(localDBs).map(([dbName, db]) => {
+      const serverDbURL = getServerDbUrl(dbServerUrl, userName, dbName);
+      return replicate(serverDbURL, db, {
+        // do not create server database. which can happen if logged in as
+        // server admin or server has no admins yet.
+        // @ts-ignore unknown option
+        skip_setup: true
+      });
+    })
   );
 }
 
 /**
- * Starts replicating server and local databases in both direction in real time
+ * Starts live bi-directional replication between server and local databases
  *
  * @param {string} dbServerUrl
  * @param {string} userName
- * @param {LocalDatabases} localDBs
+ * @param {MindsetDatabases} localDBs
  * @param {function} onRemoteChange
  */
 function startSyncWithRemote(dbServerUrl, userName, localDBs, onRemoteChange) {
@@ -305,8 +295,8 @@ function startSyncWithRemote(dbServerUrl, userName, localDBs, onRemoteChange) {
       .sync(remoteDbURL, {
         live: true,
         retry: true,
-        // do not create server database. which can happen if logged in
-        // as server admin or server has no admin yet.
+        // do not create server database. which can happen if logged in as
+        // server admin or server has no admins yet.
         // @ts-ignore unknown option
         skip_setup: true
       })

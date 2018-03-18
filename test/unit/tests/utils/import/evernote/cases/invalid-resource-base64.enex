@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd">
+<en-export export-date="20180314T174039Z" application="Evernote/Windows" version="6.x">
+  <note>
+    <title>IMAGE</title>
+    <content>
+      <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+      <?xml version="1.0"?>
+      <!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">
+      <en-note>
+        <div><br/></div>
+        <div>
+          <en-media hash="110c179554ba9760c943b63e9e9da8f0" type="image/png"/>
+        </div>
+        <div><br/></div>
+      </en-note>]]>
+	  </content>
+    <created>20180314T173501Z</created>
+    <updated>20180314T174028Z</updated>
+    <note-attributes>
+      <author>Artin</author>
+      <source>desktop.win</source>
+      <source-application>evernote.win32</source-application>
+    </note-attributes>
+    <resource>
+      <data encoding="base64">
+        INVALID_BASE64  
+      </data>
+      <mime>image/png</mime>
+      <resource-attributes>
+        <source-url>file://C:\Users\Artin\Desktop\scalacat.png</source-url>
+        <file-name>scalacat.png</file-name>
+      </resource-attributes>
+    </resource>
+  </note>
+</en-export>
