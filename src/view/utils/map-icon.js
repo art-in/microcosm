@@ -121,5 +121,9 @@ const descriptors = {
   [Icon.user]: {
     class: icons.faUser,
     char: '\uf007'
+  },
+  [Icon.infoCircle]: {
+    class: icons.faInfoCircle,
+    char: '\uf05a'
   }
 };

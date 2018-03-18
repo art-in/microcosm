@@ -1,0 +1,64 @@
+.root {}
+
+.title {
+  font-size: 1.5rem;
+  padding: 1.1em;
+  border-bottom: 1px solid lightgray;
+}
+
+.fields {
+  border-bottom: 1px solid lightgray;
+}
+
+.field {
+  display: flex;
+  padding: 1.1em;
+}
+
+.field + .field {
+  padding-top: 0;
+}
+
+.field-title {
+  flex: 1;
+  display: inline-block;
+}
+
+.field-value {
+  flex: 2;
+}
+
+.field-value > input {
+  width: 100%;
+}
+
+.tip {
+  padding: 1.1em;
+  display: flex;
+}
+
+.tip span + span {
+  display: inline-block;
+  margin-left: 0.6em;
+}
+
+.tip span:first-child {
+  color: #1781d6;
+}
+
+.progress {
+  border-top: 1px solid lightgray;
+  padding: 1.1em;
+}
+
+.log {
+  max-height: 11rem;
+  overflow-y: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.1em;
+  border-top: 1px solid lightgray;
+}

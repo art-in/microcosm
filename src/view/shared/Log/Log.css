@@ -1,0 +1,7 @@
+.root {
+  border: 1px solid lightgray;
+}
+
+.entry + .entry {
+  border-top: 1px solid #f0f0f0;
+}

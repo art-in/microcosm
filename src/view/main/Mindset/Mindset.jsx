@@ -17,6 +17,7 @@ import SearchBox from 'view/shared/SearchBox';
 import IconButton from 'view/shared/IconButton';
 import MessageScreen from 'view/shared/MessageScreen';
 import DropDownMenu from 'view/shared/DropDownMenu';
+import ImportFormModal from 'view/shared/ImportFormModal';
 
 import classes from './Mindset.css';
 import ViewMode from 'vm/main/MindsetViewMode';
@@ -174,6 +175,8 @@ export default class Mindset extends Component {
               picker={mindset.colorPicker}
               onChange={onColorPickerChange}
             />
+
+            <ImportFormModal formModal={mindset.importFormModal} />
           </Fragment>
         ) : null}
       </div>

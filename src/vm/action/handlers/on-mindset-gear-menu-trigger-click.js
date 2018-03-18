@@ -29,6 +29,12 @@ export default function(state) {
           type: MenuItemType.separator
         }),
         new MenuItem({
+          displayValue: 'Import...',
+          onSelectAction: () => ({
+            type: 'on-mindset-gear-menu-item-select-import'
+          })
+        }),
+        new MenuItem({
           displayValue: 'Log out',
           onSelectAction: () => ({
             type: 'on-mindset-gear-menu-item-select-logout'

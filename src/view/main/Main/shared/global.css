@@ -49,6 +49,10 @@
   border: 1px solid #9d9d9d;
 }
 
+:global(input[type=file]) {
+  border: none;
+}
+
 :global(input):focus,
 :global(textarea):focus {
   /* replicate chrome outlining for inputs. use shadow to avoid conflict with

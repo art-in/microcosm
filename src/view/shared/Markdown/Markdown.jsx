@@ -6,16 +6,24 @@ import TaskListsPlugin from 'markdown-it-task-lists';
 
 import classes from './Markdown.css';
 
+// uses CommonMark spec + few extensions from Github Flavored Markdown (GFM):
+// - strikethrough (GFM). bug: requires two tildes instead of one.
+//   https://github.com/markdown-it/markdown-it/issues/446
+// - tables (GFM)
 const md = new MarkdownIt({
-  // autoconvert URL-like text to links
+  // enable autolinks (GFM)
   linkify: true
 });
 
-// add github-like checkbox lists
+// allow any image formats, to extend default support (bmp, svg+xml, tiff only).
+// https://github.com/markdown-it/markdown-it/issues/447
+const defaultValidate = md.validateLink;
+md.validateLink = url => /^data:image\/.*?;/.test(url) || defaultValidate(url);
+
+// add checkbox lists (GFM)
 md.use(TaskListsPlugin, {
-  // disable check boxes since checking them will not change
-  // source markdown
-  // TODO: update source markdown when triggering checkboxes.
+  // disable check boxes since checking them will not change source markdown
+  // TODO: implement interactive checking
   enabled: false,
   label: false
 });

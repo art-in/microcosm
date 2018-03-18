@@ -12,6 +12,7 @@ import IconType from 'vm/shared/Icon';
 import MindsetViewModeType from 'vm/main/MindsetViewMode';
 import DbConnectionIcon from 'vm/main/DbConnectionIcon';
 import DropDownMenu from 'vm/shared/DropDownMenu';
+import ImportFormModal from 'vm/shared/ImportFormModal';
 
 /**
  * Mindset view model
@@ -95,6 +96,12 @@ export default class Mindset extends ViewModel {
    * @type {ColorPicker}
    */
   colorPicker = new ColorPicker();
+
+  /**
+   * Import form modal
+   * @type {ImportFormModal}
+   */
+  importFormModal = new ImportFormModal();
 
   /**
    * Constructor

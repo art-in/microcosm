@@ -1,0 +1,23 @@
+.root {
+  padding: 0.1em 0.3em;
+}
+
+.severity-info {
+  color: black;
+  background-color: white;
+}
+
+.severity-warning {
+  color: #5c3b00;
+  background-color: #fffbe6;
+}
+
+.severity-error {
+  color: red;
+  background-color: #fff0f0;
+}
+
+.time {
+  font-weight: bold;
+  margin-right: 0.6em;
+}
