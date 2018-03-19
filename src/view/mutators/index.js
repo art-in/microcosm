@@ -127,6 +127,10 @@ function apply(state, mutation) {
       mindset.dbConnectionIcon.emitChange();
       break;
 
+    case 'update-import-form':
+      mindset.importFormModal.emitChange();
+      break;
+
     default:
       throw Error(`Unknown view mutation '${mutation.type}'`);
   }

@@ -27,14 +27,10 @@ export default async function(state, data, dispatch, mutate) {
   const {vm: {main: {mindset: {importFormModal: {form}}}}} = state;
 
   await mutate(
-    view('update-mindset-vm', {
-      importFormModal: {
-        form: {
-          inProgress: true,
-          isInputEnabled: false,
-          importButton: {enabled: false, content: 'Importing...'}
-        }
-      }
+    view('update-import-form', {
+      inProgress: true,
+      isInputEnabled: false,
+      importButton: {enabled: false, content: 'Importing...'}
     })
   );
 
@@ -53,12 +49,7 @@ export default async function(state, data, dispatch, mutate) {
   try {
     const importResult = importIdeas(importSource, state, events);
 
-    await mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {token: importResult.token}}
-      })
-    );
-
+    await mutate(view('update-import-form', {token: importResult.token}));
     const databases = await importResult.done;
 
     if (form.token.isCanceled) {
@@ -72,11 +63,7 @@ export default async function(state, data, dispatch, mutate) {
         message: `Pushing new ideas to user mindset...`
       })
     ]);
-    await mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {log: {entries: logEntries}}}
-      })
-    );
+    await mutate(view('update-import-form', {log: {entries: logEntries}}));
 
     // push imported ideas to current user mindset
     await mutate(
@@ -98,11 +85,7 @@ export default async function(state, data, dispatch, mutate) {
     logEntries = form.log.entries.concat([
       new LogEntry({time: new Date(), message: 'Done.'})
     ]);
-    await mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {log: {entries: logEntries}}}
-      })
-    );
+    await mutate(view('update-import-form', {log: {entries: logEntries}}));
   } catch (e) {
     const logEntries = form.log.entries.concat([
       new LogEntry({
@@ -110,11 +93,7 @@ export default async function(state, data, dispatch, mutate) {
         message: e.toString()
       })
     ]);
-    mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {log: {entries: logEntries}}}
-      })
-    );
+    mutate(view('update-import-form', {log: {entries: logEntries}}));
 
     // re-throw error up, since we do not known error type here, and not sure if
     // it is an invalid import source or just bad code (eg. undefined is not a
@@ -122,15 +101,11 @@ export default async function(state, data, dispatch, mutate) {
     throw e;
   } finally {
     await mutate(
-      view('update-mindset-vm', {
-        importFormModal: {
-          form: {
-            inProgress: false,
-            isInputEnabled: true,
-            // keep import button disabled, to avoid importing same file again
-            importButton: {enabled: false, content: 'Import'}
-          }
-        }
+      view('update-import-form', {
+        inProgress: false,
+        isInputEnabled: true,
+        // keep import button disabled, to avoid importing same file again
+        importButton: {enabled: false, content: 'Import'}
       })
     );
   }
@@ -181,11 +156,7 @@ function subscribeToImportEvents(events, mutate, form) {
     const logEntries = form.log.entries.concat([
       new LogEntry({time: new Date(), message})
     ]);
-    mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {log: {entries: logEntries}}}
-      })
-    );
+    mutate(view('update-import-form', {log: {entries: logEntries}}));
   });
 
   events.on('warn', warnings => {
@@ -194,10 +165,6 @@ function subscribeToImportEvents(events, mutate, form) {
         w => new LogEntry({severity: LogEntrySeverity.warning, message: w})
       )
     );
-    mutate(
-      view('update-mindset-vm', {
-        importFormModal: {form: {log: {entries: logEntries}}}
-      })
-    );
+    mutate(view('update-import-form', {log: {entries: logEntries}}));
   });
 }

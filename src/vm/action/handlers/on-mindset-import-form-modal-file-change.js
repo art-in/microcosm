@@ -15,13 +15,9 @@ import view from 'vm/utils/view-patch';
 export default function(state, data) {
   const {file} = required(data);
 
-  return view('update-mindset-vm', {
-    importFormModal: {
-      form: {
-        file: file || null,
-        log: {entries: []},
-        importButton: {enabled: Boolean(file)}
-      }
-    }
+  return view('update-import-form', {
+    file: file || null,
+    log: {entries: []},
+    importButton: {enabled: Boolean(file)}
   });
 }
