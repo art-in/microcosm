@@ -30,6 +30,7 @@ export default async function(state, data, dispatch, mutate) {
     view('update-mindset-vm', {
       importFormModal: {
         form: {
+          inProgress: true,
           isInputEnabled: false,
           importButton: {enabled: false, content: 'Importing...'}
         }
@@ -39,7 +40,6 @@ export default async function(state, data, dispatch, mutate) {
 
   // TODO: add progress bar
   // TODO: make tips and log section collapsable
-  // TODO: confirm modal close while import in progress
 
   const importSource = new ImportSource({
     notebook: NotebookType.evernote,
@@ -51,7 +51,20 @@ export default async function(state, data, dispatch, mutate) {
   subscribeToImportEvents(events, mutate, form);
 
   try {
-    const databases = await importIdeas(importSource, state, events);
+    const importResult = importIdeas(importSource, state, events);
+
+    await mutate(
+      view('update-mindset-vm', {
+        importFormModal: {form: {token: importResult.token}}
+      })
+    );
+
+    const databases = await importResult.done;
+
+    if (form.token.isCanceled) {
+      // import process was canceled by user
+      return;
+    }
 
     let logEntries = form.log.entries.concat([
       new LogEntry({
@@ -112,6 +125,7 @@ export default async function(state, data, dispatch, mutate) {
       view('update-mindset-vm', {
         importFormModal: {
           form: {
+            inProgress: false,
             isInputEnabled: true,
             // keep import button disabled, to avoid importing same file again
             importButton: {enabled: false, content: 'Import'}
@@ -147,6 +161,9 @@ function subscribeToImportEvents(events, mutate, form) {
         break;
       case ImportStatus.mapping:
         message = 'Mapping notes to ideas...';
+        break;
+      case ImportStatus.canceled:
+        message = 'Import was canceled by user.';
         break;
       case ImportStatus.failed:
       case ImportStatus.succeed: {

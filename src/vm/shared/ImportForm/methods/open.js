@@ -11,6 +11,14 @@ import Log from 'vm/shared/Log';
 export default function open(targetIdea) {
   return {
     targetIdeaTitle: targetIdea.title,
-    log: new Log()
+    file: null,
+    log: new Log(),
+    isInputEnabled: true,
+    inProgress: false,
+    token: null,
+    importButton: {
+      enabled: false,
+      content: 'Import'
+    }
   };
 }

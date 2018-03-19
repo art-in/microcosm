@@ -1,5 +1,9 @@
+import CancellationTokenType from 'action/utils/CancellationToken';
 import ViewModel from 'vm/utils/ViewModel';
 import LogType from 'vm/shared/Log';
+
+export const MESSAGE_CONFIRM_LEAVE =
+  'Import still in progress. Cancel and leave anyway?';
 
 /**
  * Form for importing data from other systems (eg. from Evernote)
@@ -18,10 +22,17 @@ export default class ImportForm extends ViewModel {
   log = undefined;
 
   /** @type {boolean} */
-  isInputEnabled = true;
+  isInputEnabled = undefined;
 
+  /** @type {boolean} */
+  inProgress = undefined;
+
+  /** @type {CancellationTokenType} */
+  token = undefined;
+
+  /** @type {{enabled:boolean, content:string}} */
   importButton = {
-    enabled: false,
-    content: 'Import'
+    enabled: undefined,
+    content: undefined
   };
 }

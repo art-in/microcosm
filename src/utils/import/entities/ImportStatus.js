@@ -17,6 +17,9 @@ const ImportStatus = {
   /** Mapping notes to ideas */
   mapping: 'mapping',
 
+  /** Import process finished prematurely from outside (eg. by user) */
+  canceled: 'canceled',
+
   /** Import process finished with error */
   failed: 'failed',
 
