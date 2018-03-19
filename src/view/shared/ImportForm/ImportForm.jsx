@@ -47,14 +47,17 @@ export default class ImportForm extends Component {
           <div className={classes.field}>
             <span className={classes.fieldTitle}>Source:</span>
             <span className={classes.fieldValue}>
-              <input type="file" accept=".enex" onChange={this.onFileChange} />
+              <input
+                type="file"
+                accept=".enex"
+                disabled={!form.isInputEnabled}
+                onChange={this.onFileChange}
+              />
             </span>
           </div>
           <div className={classes.field}>
             <span className={classes.fieldTitle}>Target idea:</span>
-            <span className={classes.fieldValue}>
-              <b>{form.targetIdeaTitle}</b>
-            </span>
+            <span className={classes.fieldValue}>{form.targetIdeaTitle}</span>
           </div>
         </div>
         <div>
@@ -74,7 +77,9 @@ export default class ImportForm extends Component {
           <Log className={classes.log} log={form.log} />
         </div>
         <div className={classes.buttons}>
-          <Button onClick={onImport}>Import</Button>
+          <Button disabled={!form.importButton.enabled} onClick={onImport}>
+            {form.importButton.content}
+          </Button>
         </div>
       </div>
     );

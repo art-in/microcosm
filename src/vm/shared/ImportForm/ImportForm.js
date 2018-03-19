@@ -17,8 +17,11 @@ export default class ImportForm extends ViewModel {
   /** @type {LogType} */
   log = undefined;
 
+  /** @type {boolean} */
+  isInputEnabled = true;
+
   importButton = {
-    enabled: true,
+    enabled: false,
     content: 'Import'
   };
 }

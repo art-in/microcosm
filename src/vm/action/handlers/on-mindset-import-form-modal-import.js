@@ -26,7 +26,17 @@ import ImportFormType from 'vm/shared/ImportForm';
 export default async function(state, data, dispatch, mutate) {
   const {vm: {main: {mindset: {importFormModal: {form}}}}} = state;
 
-  // TODO: disable 'Import' button while file not selected or in progress
+  await mutate(
+    view('update-mindset-vm', {
+      importFormModal: {
+        form: {
+          isInputEnabled: false,
+          importButton: {enabled: false, content: 'Importing...'}
+        }
+      }
+    })
+  );
+
   // TODO: add progress bar
   // TODO: make tips and log section collapsable
   // TODO: confirm modal close while import in progress
@@ -97,6 +107,18 @@ export default async function(state, data, dispatch, mutate) {
     // it is an invalid import source or just bad code (eg. undefined is not a
     // function). in last case we need stacktrace in the console for debugging.
     throw e;
+  } finally {
+    await mutate(
+      view('update-mindset-vm', {
+        importFormModal: {
+          form: {
+            isInputEnabled: true,
+            // keep import button disabled, to avoid importing same file again
+            importButton: {enabled: false, content: 'Import'}
+          }
+        }
+      })
+    );
   }
 }
 

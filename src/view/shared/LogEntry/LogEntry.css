@@ -18,6 +18,8 @@
 }
 
 .time {
+  display: inline-block;
   font-weight: bold;
   margin-right: 0.6em;
+  min-width: 4.4rem;
 }

@@ -17,7 +17,11 @@ export default function(state, data) {
 
   return view('update-mindset-vm', {
     importFormModal: {
-      form: {file}
+      form: {
+        file: file || null,
+        log: {entries: []},
+        importButton: {enabled: Boolean(file)}
+      }
     }
   });
 }
