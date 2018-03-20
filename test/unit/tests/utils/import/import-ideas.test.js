@@ -3,13 +3,14 @@ import {stub, spy} from 'sinon';
 
 import {createState, expect} from 'test/utils';
 
-import Idea from 'model/entities/Idea';
+import Idea from 'src/model/entities/Idea';
 import ImportStatus from 'utils/import/entities/ImportStatus';
 import ImportSource from 'src/utils/import/entities/ImportSource';
 import ImportSourceType from 'src/utils/import/entities/ImportSourceType';
 import NotebookType from 'src/utils/import/entities/NotebookType';
-import Point from 'model/entities/Point';
+import Point from 'src/model/entities/Point';
 import cloneState from 'src/boot/client/utils/clone-state-safely';
+import CancellationToken from 'src/action/utils/CancellationToken';
 import * as ideasDbApi from 'src/data/db/ideas';
 
 import enex from './evernote/cases';
@@ -51,10 +52,9 @@ describe('import-ideas', () => {
     const events = new EventEmitter();
 
     // target
-    const result = importIdeas(source, state, events);
+    const databases = await importIdeas(source, state, events);
 
     // check
-    const databases = await result.done;
     const ideasData = await databases.ideas.allDocs({include_docs: true});
 
     expect(ideasData.rows).to.have.length(2);
@@ -100,11 +100,9 @@ describe('import-ideas', () => {
     const stateBefore = cloneState(state);
 
     // target
-    const result = importIdeas(source, state, events);
+    await importIdeas(source, state, events);
 
     // check
-    await result.done;
-
     expect(state).to.deep.equal(stateBefore);
 
     const includeDocs = {include_docs: true};
@@ -157,7 +155,7 @@ describe('import-ideas', () => {
     const result = importIdeas(source, state, events);
 
     // check
-    await expect(result.done).to.not.be.rejectedWith();
+    await expect(result).to.not.be.rejectedWith();
   });
 
   it('should load from text source', async () => {
@@ -197,7 +195,7 @@ describe('import-ideas', () => {
     const result = importIdeas(source, state, events);
 
     // check
-    await expect(result.done).to.not.be.rejectedWith();
+    await expect(result).to.not.be.rejectedWith();
   });
 
   it(`should emit 'status-change' events`, async () => {
@@ -235,11 +233,9 @@ describe('import-ideas', () => {
     const emitStub = stub(events, 'emit');
 
     // target
-    const result = importIdeas(source, state, events);
+    await importIdeas(source, state, events);
 
     // check
-    await result.done;
-
     const statusChanges = emitStub
       .getCalls()
       .filter(c => c.args[0] === 'status-change')
@@ -290,11 +286,9 @@ describe('import-ideas', () => {
     const emitStub = stub(events, 'emit');
 
     // target
-    const result = importIdeas(source, state, events);
+    await importIdeas(source, state, events);
 
     // check
-    await result.done;
-
     const warns = emitStub
       .getCalls()
       .filter(c => c.args[0] === 'warn')
@@ -340,16 +334,19 @@ describe('import-ideas', () => {
       file: new File([enex['basic-single-note']], 'file.enex')
     });
 
+    // setup cancellation token
+    const token = new CancellationToken();
+
     // setup events
     const events = new EventEmitter();
     const emitStub = stub(events, 'emit');
 
     // target
-    const result = importIdeas(source, state, events);
-    result.token.isCanceled = true;
+    const result = importIdeas(source, state, events, token);
+    token.isCanceled = true;
 
     // check
-    const databases = await result.done;
+    const databases = await result;
     expect(databases).to.equal(null);
 
     const statusChanges = emitStub
@@ -395,16 +392,19 @@ describe('import-ideas', () => {
       text: enex['basic-single-note']
     });
 
+    // setup cancellation token
+    const token = new CancellationToken();
+
     // setup events
     const events = new EventEmitter();
     const emitStub = stub(events, 'emit');
 
     // target
-    const result = importIdeas(source, state, events);
-    result.token.isCanceled = true;
+    const result = importIdeas(source, state, events, token);
+    token.isCanceled = true;
 
     // check
-    const databases = await result.done;
+    const databases = await result;
     expect(databases).to.equal(null);
 
     const statusChanges = emitStub
@@ -451,20 +451,24 @@ describe('import-ideas', () => {
       file: new File([enex['basic-single-note']], 'file.enex')
     });
 
+    // setup cancellation token
+    const token = new CancellationToken();
+
     // setup events
     const events = new EventEmitter();
     const emitSpy = (events.emit = spy(events.emit));
 
-    // target
-    const result = importIdeas(source, state, events);
     events.on('status-change', status => {
       if (status === ImportStatus.parsing) {
-        result.token.isCanceled = true;
+        token.isCanceled = true;
       }
     });
 
+    // target
+    const result = importIdeas(source, state, events, token);
+
     // check
-    const databases = await result.done;
+    const databases = await result;
     expect(databases).to.equal(null);
 
     const statusChanges = emitSpy
@@ -511,20 +515,24 @@ describe('import-ideas', () => {
       file: new File([enex['basic-single-note']], 'file.enex')
     });
 
+    // setup cancellation token
+    const token = new CancellationToken();
+
     // setup events
     const events = new EventEmitter();
     const emitSpy = (events.emit = spy(events.emit));
 
-    // target
-    const result = importIdeas(source, state, events);
     events.on('status-change', status => {
       if (status === ImportStatus.mapping) {
-        result.token.isCanceled = true;
+        token.isCanceled = true;
       }
     });
 
+    // target
+    const result = importIdeas(source, state, events, token);
+
     // check
-    const databases = await result.done;
+    const databases = await result;
     expect(databases).to.equal(null);
 
     const statusChanges = emitSpy
@@ -579,9 +587,7 @@ describe('import-ideas', () => {
     const result = importIdeas(source, state, events);
 
     // check
-    await expect(result.done).to.be.rejectedWith(
-      `Unknown source data type '-1'`
-    );
+    await expect(result).to.be.rejectedWith(`Unknown source data type '-1'`);
 
     const statusChanges = emitStub
       .getCalls()
@@ -634,7 +640,7 @@ describe('import-ideas', () => {
     const result = importIdeas(source, state, events);
 
     // check
-    await expect(result.done).to.be.rejectedWith('Received ENEX is empty');
+    await expect(result).to.be.rejectedWith('Received ENEX is empty');
 
     const statusChanges = emitStub
       .getCalls()
@@ -688,7 +694,7 @@ describe('import-ideas', () => {
     const result = importIdeas(source, state, events);
 
     // check
-    await expect(result.done).to.be.rejectedWith('Focus idea ID is empty');
+    await expect(result).to.be.rejectedWith('Focus idea ID is empty');
 
     const statusChanges = emitStub
       .getCalls()

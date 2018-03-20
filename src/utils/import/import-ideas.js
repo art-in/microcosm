@@ -1,7 +1,7 @@
 import readFileAsText from 'utils/read-file-as-text';
 
 import StateType from 'boot/client/State';
-import CancellationToken from 'action/utils/CancellationToken';
+import CancellationTokenType from 'action/utils/CancellationToken';
 
 import NotebookType from './entities/NotebookType';
 import ImportStatus from './entities/ImportStatus';
@@ -17,30 +17,23 @@ import mapNotes from './map-notes-to-ideas';
  * @param {ImportSourceType} source
  * @param {StateType} state
  * @param {EventEmitter} events
- *
- * @typedef {object} Result
- * @prop {CancellationToken} token
- * @prop {Promise.<MindsetDatabases|null>} done
- * @return {Result}
+ * @param {CancellationTokenType} [token]
+ * @return {Promise.<MindsetDatabases|null>}
  */
-export default function importIdeas(source, state, events) {
-  const token = new CancellationToken();
-  const done = importIdeasInternal(source, state, events, token);
-
-  return {
-    token,
-    done: done.catch(e => {
-      events.emit('status-change', ImportStatus.failed);
-      throw e;
-    })
-  };
+export default async function importIdeas(source, state, events, token) {
+  try {
+    return await importIdeasInternal(source, state, events, token);
+  } catch (e) {
+    events.emit('status-change', ImportStatus.failed);
+    throw e;
+  }
 }
 
 /**
  * @param {ImportSourceType} source
  * @param {StateType} state
  * @param {EventEmitter} events
- * @param {CancellationToken} token
+ * @param {CancellationTokenType} [token]
  * @return {Promise.<MindsetDatabases|null>}
  */
 async function importIdeasInternal(source, state, events, token) {
@@ -60,7 +53,7 @@ async function importIdeasInternal(source, state, events, token) {
       throw Error(`Unknown source data type '${source.type}'`);
   }
 
-  if (token.isCanceled) {
+  if (token && token.isCanceled) {
     events.emit('status-change', ImportStatus.canceled);
     return null;
   }
@@ -81,7 +74,7 @@ async function importIdeasInternal(source, state, events, token) {
     events.emit('warn', parseResult.warnings);
   }
 
-  if (token.isCanceled) {
+  if (token && token.isCanceled) {
     events.emit('status-change', ImportStatus.canceled);
     return null;
   }
@@ -94,7 +87,7 @@ async function importIdeasInternal(source, state, events, token) {
     events.emit('warn', mapResult.warnings);
   }
 
-  if (token.isCanceled) {
+  if (token && token.isCanceled) {
     events.emit('status-change', ImportStatus.canceled);
     return null;
   }
