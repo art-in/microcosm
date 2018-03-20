@@ -14,6 +14,9 @@ import NotebookType from 'utils/import/entities/NotebookType';
 import LogEntry from 'vm/shared/LogEntry';
 import LogEntrySeverity from 'vm/shared/LogEntrySeverity';
 import ImportFormType from 'vm/shared/ImportForm';
+import ProgressBarStyle from 'vm/shared/ProgressBarStyle';
+import CancellationTokenType from 'action/utils/CancellationToken';
+import CancellationToken from 'action/utils/CancellationToken';
 
 /**
  * Handles import event from import form modal
@@ -30,29 +33,29 @@ export default async function(state, data, dispatch, mutate) {
     view('update-import-form', {
       inProgress: true,
       isInputEnabled: false,
+      logIsShown: true,
       importButton: {enabled: false, content: 'Importing...'}
     })
   );
 
-  // TODO: add progress bar
-  // TODO: make tips and log section collapsable
+  // TODO: close modal by Esc key
 
-  const importSource = new ImportSource({
+  const source = new ImportSource({
     notebook: NotebookType.evernote,
     type: ImportSourceType.file,
     file: form.file
   });
 
+  const token = new CancellationToken();
+  await mutate(view('update-import-form', {token}));
+
   const events = new EventEmitter();
-  subscribeToImportEvents(events, mutate, form);
+  subscribeToImportEvents(events, mutate, form, token);
 
   try {
-    const importResult = importIdeas(importSource, state, events);
+    const databases = await importIdeas(source, state, events, token);
 
-    await mutate(view('update-import-form', {token: importResult.token}));
-    const databases = await importResult.done;
-
-    if (form.token.isCanceled) {
+    if (token.isCanceled) {
       // import process was canceled by user
       return;
     }
@@ -117,38 +120,71 @@ export default async function(state, data, dispatch, mutate) {
  * @param {EventEmitter} events
  * @param {function} mutate
  * @param {ImportFormType} form
+ * @param {CancellationTokenType} token
  */
-function subscribeToImportEvents(events, mutate, form) {
+function subscribeToImportEvents(events, mutate, form, token) {
   let startedOn;
 
   events.on('status-change', status => {
+    if (token.isCanceled) {
+      // import was canceled by user
+      return;
+    }
+
     let message;
+    const progressBar = {inProgress: true};
     switch (status) {
       case ImportStatus.started:
         message = 'Import started.';
         startedOn = moment();
+        progressBar.progress = 0;
+        progressBar.style = ProgressBarStyle.info;
         break;
+
       case ImportStatus.loading:
         message = 'Loading export data...';
+        progressBar.progress = 25;
         break;
+
       case ImportStatus.parsing:
         message = 'Parsing notes...';
+        progressBar.progress = 50;
         break;
+
       case ImportStatus.mapping:
         message = 'Mapping notes to ideas...';
+        progressBar.progress = 75;
         break;
-      case ImportStatus.canceled:
-        message = 'Import was canceled by user.';
-        break;
-      case ImportStatus.failed:
-      case ImportStatus.succeed: {
+
+      case ImportStatus.failed: {
+        progressBar.inProgress = false;
+        progressBar.progress = 100;
+        progressBar.style = ProgressBarStyle.error;
         const elapsedSec = moment
           .duration(moment().diff(startedOn))
           .as('seconds');
-        const res = status === ImportStatus.succeed ? 'success' : 'error';
+        message = `Import finished with error in ${elapsedSec}s.`;
+        break;
+      }
+
+      case ImportStatus.succeed: {
+        progressBar.inProgress = false;
+        progressBar.progress = 100;
+
+        // keep warn style if there were warnings
+        const hasWarnings = form.progressBar.style === ProgressBarStyle.warning;
+        progressBar.style = hasWarnings
+          ? ProgressBarStyle.warning
+          : ProgressBarStyle.success;
+        const res = hasWarnings ? 'warnings' : 'success';
+
+        const elapsedSec = moment
+          .duration(moment().diff(startedOn))
+          .as('seconds');
         message = `Import finished with ${res} in ${elapsedSec}s.`;
         break;
       }
+
       default:
         throw Error(`Unknown import status '${status}'`);
     }
@@ -156,15 +192,30 @@ function subscribeToImportEvents(events, mutate, form) {
     const logEntries = form.log.entries.concat([
       new LogEntry({time: new Date(), message})
     ]);
-    mutate(view('update-import-form', {log: {entries: logEntries}}));
+    mutate(
+      view('update-import-form', {
+        log: {entries: logEntries},
+        progressBar
+      })
+    );
   });
 
   events.on('warn', warnings => {
+    if (token.isCanceled) {
+      // import was canceled by user
+      return;
+    }
+
     const logEntries = form.log.entries.concat(
       warnings.map(
         w => new LogEntry({severity: LogEntrySeverity.warning, message: w})
       )
     );
-    mutate(view('update-import-form', {log: {entries: logEntries}}));
+    mutate(
+      view('update-import-form', {
+        log: {entries: logEntries},
+        progressBar: {style: ProgressBarStyle.warning}
+      })
+    );
   });
 }

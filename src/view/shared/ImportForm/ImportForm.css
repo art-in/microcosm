@@ -52,8 +52,10 @@
 }
 
 .log {
-  max-height: 11rem;
+  margin-top: 0.8em;
+  max-height: 12rem;
   overflow-y: auto;
+  border: none;
 }
 
 .buttons {

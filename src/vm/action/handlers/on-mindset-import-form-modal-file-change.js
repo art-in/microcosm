@@ -18,6 +18,8 @@ export default function(state, data) {
   return view('update-import-form', {
     file: file || null,
     log: {entries: []},
+    logIsShown: false,
+    progressBar: {progress: 0},
     importButton: {enabled: Boolean(file)}
   });
 }

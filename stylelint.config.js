@@ -65,7 +65,9 @@ module.exports = {
             'bottom',
             'left',
             '/^(max-|min-)?width/',
-            '/^(max-|min-)?height/'
+            '/^(max-|min-)?height/',
+            'background-size',
+            'background-position'
           ]
         },
         ignoreMediaFeatureNames: {

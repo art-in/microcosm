@@ -8,6 +8,7 @@ import IconSize from 'vm/shared/IconSize';
 import Button from 'view/shared/Button';
 import Icon from 'view/shared/Icon';
 import Log from 'view/shared/Log';
+import ProgressBar from 'view/shared/ProgressBar';
 
 import classes from './ImportForm.css';
 
@@ -72,12 +73,17 @@ export default class ImportForm extends Component {
           </div>
         </div>
         <div className={classes.progress}>
-          <div>Import log:</div>
-          <br />
-          <Log className={classes.log} log={form.log} />
+          <ProgressBar bar={form.progressBar} />
+          {form.logIsShown ? (
+            <Log className={classes.log} log={form.log} />
+          ) : null}
         </div>
         <div className={classes.buttons}>
-          <Button disabled={!form.importButton.enabled} onClick={onImport}>
+          <Button
+            disabled={!form.importButton.enabled}
+            disabledStyle="hard"
+            onClick={onImport}
+          >
             {form.importButton.content}
           </Button>
         </div>
