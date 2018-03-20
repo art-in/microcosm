@@ -1,3 +1,5 @@
+@import 'view/main/Main/shared/media-queries';
+
 .root {}
 
 .title {
@@ -22,6 +24,7 @@
 .field-title {
   flex: 1;
   display: inline-block;
+  min-width: 6.75rem;
 }
 
 .field-value {
@@ -53,9 +56,14 @@
 
 .log {
   margin-top: 0.8em;
-  max-height: 12rem;
   overflow-y: auto;
   border: none;
+
+  max-height: 13rem;
+
+  @media (--small-down) {
+    max-height: 16.5rem;
+  }
 }
 
 .buttons {

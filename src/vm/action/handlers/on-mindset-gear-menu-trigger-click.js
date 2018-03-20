@@ -25,15 +25,14 @@ export default function(state) {
           type: MenuItemType.markdown,
           displayValue: `Logged in as **${userName}**`
         }),
-        new MenuItem({
-          type: MenuItemType.separator
-        }),
+        new MenuItem({type: MenuItemType.separator}),
         new MenuItem({
           displayValue: 'Import...',
           onSelectAction: () => ({
             type: 'on-mindset-gear-menu-item-select-import'
           })
         }),
+        new MenuItem({type: MenuItemType.separator}),
         new MenuItem({
           displayValue: 'Log out',
           onSelectAction: () => ({
