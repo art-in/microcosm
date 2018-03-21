@@ -1,7 +1,11 @@
-import {expect} from 'test/utils';
 import clone from 'clone';
 
+import {expect} from 'test/utils';
+import getRangeAroundNow from 'test/utils/get-range-around-now';
+
 import Patch from 'src/utils/state/Patch';
+import dateIsoRegexp from 'src/utils/date-iso-regexp';
+
 import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
@@ -54,7 +58,7 @@ describe('create-idea', () => {
     expect(idea.rootPathWeight).to.equal(500);
   });
 
-  it('should add new idea with specified ID', () => {
+  it('should set specified idea ID', () => {
     // setup
     const ideaA = new Idea({
       id: 'A',
@@ -124,7 +128,7 @@ describe('create-idea', () => {
     expect(idea.title).to.equal('title');
   });
 
-  it('should set empty-string value if it is empty', () => {
+  it('should set empty-string to value if empty', () => {
     // setup
     const ideaA = new Idea({
       id: 'A',
@@ -271,6 +275,187 @@ describe('create-idea', () => {
     expect(idea).to.be.instanceOf(Idea);
     expect(idea.posRel).to.containSubset({x: 500, y: 0});
     expect(idea.posAbs).to.containSubset({x: 510, y: 20});
+  });
+
+  it('should set now as idea creation time', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-idea',
+      data: {
+        parentIdeaId: 'A',
+        title: 'title test',
+        value: 'value test'
+      }
+    });
+
+    // check
+    const mutations = patch['add-idea'];
+
+    expect(mutations).to.have.length(1);
+    const {idea} = mutations[0].data;
+
+    const {nowStart, nowEnd} = getRangeAroundNow();
+
+    expect(idea.createdOn).to.be.a('string');
+    expect(idea.createdOn).to.match(dateIsoRegexp);
+    expect(new Date(idea.createdOn)).to.be.withinTime(nowStart, nowEnd);
+  });
+
+  it('should set now as association creation time', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-idea',
+      data: {
+        parentIdeaId: 'A',
+        title: 'title test',
+        value: 'value test'
+      }
+    });
+
+    // check
+    const mutations = patch['add-association'];
+
+    expect(mutations).to.have.length(1);
+    const {assoc} = mutations[0].data;
+
+    const {nowStart, nowEnd} = getRangeAroundNow();
+
+    expect(assoc.createdOn).to.be.a('string');
+    expect(assoc.createdOn).to.match(dateIsoRegexp);
+    expect(new Date(assoc.createdOn)).to.be.withinTime(nowStart, nowEnd);
+  });
+
+  it('should set specified creation time to idea', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-idea',
+      data: {
+        parentIdeaId: 'A',
+        createdOn: '2018-03-21T11:42:05.826Z',
+        title: 'title test',
+        value: 'value test'
+      }
+    });
+
+    // check
+    const mutations = patch['add-idea'];
+
+    expect(mutations).to.have.length(1);
+    const {idea} = mutations[0].data;
+
+    expect(idea.createdOn).to.equal('2018-03-21T11:42:05.826Z');
+  });
+
+  it('should set specified creation time to association', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-idea',
+      data: {
+        parentIdeaId: 'A',
+        createdOn: '2018-03-21T11:42:05.826Z',
+        title: 'title test',
+        value: 'value test'
+      }
+    });
+
+    // check
+    const mutations = patch['add-association'];
+
+    expect(mutations).to.have.length(1);
+    const {assoc} = mutations[0].data;
+
+    expect(assoc.createdOn).to.equal('2018-03-21T11:42:05.826Z');
+  });
+
+  it('should normalize specified creation time', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-idea',
+      data: {
+        parentIdeaId: 'A',
+        createdOn: '20180321T101132Z', // another form of ISO 8601 string
+        title: 'title test',
+        value: 'value test'
+      }
+    });
+
+    // check
+    const mutations = patch['add-idea'];
+
+    expect(mutations).to.have.length(1);
+    const {idea} = mutations[0].data;
+
+    expect(idea.createdOn).to.equal('2018-03-21T10:11:32.000Z');
   });
 
   it('should NOT mutate state', () => {
@@ -476,5 +661,38 @@ describe('create-idea', () => {
 
     // check
     expect(target).to.throw(`Invalid idea value 'true'`);
+  });
+
+  it('should fail if invalid ISO 8601 creation time string', () => {
+    // setup
+    const ideaA = new Idea({
+      id: 'A',
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgesToChilds: [],
+      rootPathWeight: 0
+    });
+
+    const mindset = new Mindset({id: 'm'});
+    mindset.ideas.set(ideaA.id, ideaA);
+
+    const state = {model: {mindset}};
+
+    // target
+    const result = () =>
+      handle(state, {
+        type: 'create-idea',
+        data: {
+          parentIdeaId: 'A',
+          createdOn: 'INVALID TIME',
+          title: 'title test',
+          value: 'value test'
+        }
+      });
+
+    // check
+    expect(result).to.throw(
+      `Invalid ISO 8601 creation time string 'INVALID TIME'`
+    );
   });
 });

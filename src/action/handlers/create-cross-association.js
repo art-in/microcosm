@@ -56,6 +56,7 @@ export default function createCrossAssociation(state, data) {
   let patch = new Patch();
 
   const assoc = new Association({
+    createdOn: new Date().toISOString(),
     mindsetId: mindset.id,
     fromId: headIdeaId,
     from: head,

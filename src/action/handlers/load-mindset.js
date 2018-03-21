@@ -213,7 +213,7 @@ async function ensureRequiredEntities(localDBs) {
   const mindsets = await mindsetsDbApi.getAll(localDBs.mindsets);
   if (mindsets.length === 0) {
     // mindset database is empty, creating one
-    mindset = new Mindset();
+    mindset = new Mindset({createdOn: new Date().toISOString()});
   } else {
     mindset = mindsets[0];
   }
@@ -223,6 +223,7 @@ async function ensureRequiredEntities(localDBs) {
   if (ideas.length === 0) {
     // ideas database is empty, creating root idea
     const rootIdea = new Idea({
+      createdOn: new Date().toISOString(),
       mindsetId: mindset.id,
       isRoot: true,
       posRel: new Point({x: 0, y: 0}),

@@ -59,6 +59,7 @@ export default async function mapNotesToIdeas(notes, state) {
       type: 'create-idea',
       data: {
         parentIdeaId: focusIdeaId,
+        createdOn: note.createdOn,
         title: normalizeTitle(note.title, warnings),
         value: note.content
       }

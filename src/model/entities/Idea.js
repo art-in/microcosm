@@ -24,6 +24,9 @@ export default class Idea {
    */
   id = createID();
 
+  /** @type {DateTimeISO} */
+  createdOn = undefined;
+
   /**
    * ID of parent mindset
    * @type {string|undefined}

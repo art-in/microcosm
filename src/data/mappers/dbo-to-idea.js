@@ -12,6 +12,7 @@ export default function dboToIdea(dbo) {
   const model = new Idea();
 
   model.id = dbo._id;
+  model.createdOn = dbo.createdOn;
   model.mindsetId = dbo.mindsetId;
   model.isRoot = dbo.isRoot === true;
   model.title = dbo.title;

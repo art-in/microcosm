@@ -11,8 +11,8 @@ export default class Note {
   /** @type {string} markdown string */
   content = undefined;
 
-  /** @type {Date} */
-  created = undefined;
+  /** @type {DateTimeISO} */
+  createdOn = undefined;
 
   /**
    * Constructor

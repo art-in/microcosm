@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import {createState, expect} from 'test/utils';
+import getRangeAroundNow from 'test/utils/get-range-around-now';
 
 import cloneState from 'src/boot/client/utils/clone-state-safely';
 import Note from 'src/utils/import/entities/Note';
@@ -370,5 +371,61 @@ describe('map-notes-to-ideas', () => {
     expect(dataA.posRel).to.not.deep.equal(dataB.posRel);
     expect(dataA.posRel).to.not.deep.equal(dataC.posRel);
     expect(dataB.posRel).to.not.deep.equal(dataC.posRel);
+  });
+
+  it('should map creation time', async () => {
+    // setup state
+    const state = createState();
+
+    /** @type {DateTimeISO} */
+    const timeA = '2000-01-01T01:01:01.000Z';
+
+    const ideaA = new Idea({
+      id: 'A',
+      createdOn: timeA,
+      mindsetId: 'mindset id',
+      isRoot: true,
+      rootPathWeight: 0,
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      title: 'A title (existing)',
+      value: 'A value (existing)',
+      edgesToChilds: []
+    });
+
+    await ideasDbApi.add(state.data.ideas, ideaA);
+
+    state.model.mindset.id = 'mindset id';
+    state.model.mindset.root = ideaA;
+    state.model.mindset.ideas.set(ideaA.id, ideaA);
+    state.model.mindset.focusIdeaId = 'A';
+
+    // setup notes
+    /** @type {DateTimeISO} */
+    const timeB = '2018-03-21T10:11:32.001Z';
+
+    const notes = [
+      new Note({title: 'B title (imported)', createdOn: timeB}),
+      new Note({title: 'C title (imported)', createdOn: undefined})
+    ];
+
+    // target
+    const {warnings, databases} = await mapNotes(notes, state);
+
+    // check
+    const ideasData = await databases.ideas.allDocs({include_docs: true});
+
+    expect(warnings).to.be.empty;
+    expect(ideasData.rows).to.have.length(3);
+
+    const dataA = ideasData.rows.find(r => r.doc.title.startsWith('A')).doc;
+    const dataB = ideasData.rows.find(r => r.doc.title.startsWith('B')).doc;
+    const dataC = ideasData.rows.find(r => r.doc.title.startsWith('C')).doc;
+
+    const {nowStart, nowEnd} = getRangeAroundNow();
+
+    expect(dataA.createdOn).to.equal(timeA);
+    expect(dataB.createdOn).to.equal(timeB);
+    expect(new Date(dataC.createdOn)).to.be.withinTime(nowStart, nowEnd);
   });
 });

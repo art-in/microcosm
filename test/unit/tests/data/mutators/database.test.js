@@ -20,6 +20,7 @@ describe('database', () => {
         data: {
           idea: new Idea({
             id: 'id',
+            createdOn: '2018-03-21T12:03:40.000',
             mindsetId: 'mindset id',
             value: 'test',
             posRel: new Point({x: 0, y: 0})
@@ -38,6 +39,7 @@ describe('database', () => {
       expect(data.rows).to.have.length(1);
       expect(data.rows[0].doc).to.containSubset({
         _id: 'id',
+        createdOn: '2018-03-21T12:03:40.000',
         mindsetId: 'mindset id',
         value: 'test'
       });

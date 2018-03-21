@@ -1,7 +1,9 @@
-import {expect, createDB, timer} from 'test/utils';
 import {spy} from 'sinon';
 import PouchDB from 'pouchdb';
 import clone from 'clone';
+
+import {expect, createDB, timer} from 'test/utils';
+import getRangeAroundNow from 'test/utils/get-range-around-now';
 
 import noop from 'src/utils/noop';
 import deleteIndexedDB from 'src/data/utils/delete-indexed-db';
@@ -297,11 +299,20 @@ describe('load-mindset', function() {
     const mindsetsLocalDB = mutationData.data.mindsets;
     const ideasLocalDB = mutationData.data.ideas;
 
-    const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
-    const ideasCount = (await ideasLocalDB.info()).doc_count;
+    const includeDocs = {include_docs: true};
+    const mindsetsData = (await mindsetsLocalDB.allDocs(includeDocs)).rows;
+    const ideasData = (await ideasLocalDB.allDocs(includeDocs)).rows;
 
-    expect(mindsetsCount).to.equal(1);
-    expect(ideasCount).to.equal(1);
+    // check creation time
+    const {nowStart, nowEnd} = getRangeAroundNow();
+
+    expect(mindsetsData).to.have.length(1);
+    const mindset = mindsetsData[0];
+    expect(new Date(mindset.doc.createdOn)).to.be.withinTime(nowStart, nowEnd);
+
+    expect(ideasData).to.have.length(1);
+    const idea = ideasData[0];
+    expect(new Date(idea.doc.createdOn)).to.be.withinTime(nowStart, nowEnd);
   });
 
   it('should init model with idea root path weights', async () => {

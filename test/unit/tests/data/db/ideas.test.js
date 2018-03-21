@@ -14,6 +14,7 @@ describe('ideas', () => {
 
       await db.put({
         _id: '123',
+        createdOn: '2018-03-21T12:03:40.000',
         value: 'test',
         posRel: {x: 100, y: 200}
       });
@@ -23,6 +24,7 @@ describe('ideas', () => {
 
       // check
       expect(result).to.be.instanceOf(Idea);
+      expect(result.createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result.value).to.equal('test');
       expect(result.posRel).to.be.instanceOf(Point);
       expect(result.posRel).to.containSubset({x: 100, y: 200});
@@ -47,6 +49,7 @@ describe('ideas', () => {
 
       await db.put({
         _id: '123',
+        createdOn: '2018-03-21T12:03:40.000',
         mindsetId: 'test id',
         value: 'test value'
       });
@@ -58,6 +61,7 @@ describe('ideas', () => {
       expect(result).to.have.length(1);
       expect(result[0]).to.be.instanceOf(Idea);
       expect(result[0].id).to.equal('123');
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result[0].value).to.equal('test value');
     });
 
@@ -90,6 +94,7 @@ describe('ideas', () => {
       const db = createDB();
 
       const idea = new Idea({
+        createdOn: '2018-03-21T12:03:40.000',
         mindsetId: 'mindset id',
         value: 'test value',
         posRel: {x: 10, y: 20}
@@ -105,6 +110,7 @@ describe('ideas', () => {
 
       expect(result).to.have.length(1);
       expect(result[0]._id).to.equal(idea.id);
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result[0].mindsetId).to.equal('mindset id');
       expect(result[0].value).to.equal('test value');
       expect(result[0].posRel.constructor).to.equal(Object);

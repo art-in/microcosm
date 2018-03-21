@@ -15,6 +15,9 @@ export default class Mindset {
    */
   id = createID();
 
+  /** @type {DateTimeISO} */
+  createdOn = undefined;
+
   /**
    * ID of idea that user focuses attention on (eg. when opening idea to read
    * its contents, or when focusing on ideas while exploring mindmap).

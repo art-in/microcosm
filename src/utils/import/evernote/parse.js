@@ -28,13 +28,13 @@ export default async function parse(enex) {
       res.warnings.map(w => `While parsing note "${note.title}": ${w}`)
     );
 
-    const created = note.created ? moment(note.created).toDate() : null;
+    const createdOn = note.created ? moment(note.created).toISOString() : null;
 
     notes.push(
       new Note({
         title: note.title,
         content: res.markdown,
-        created
+        createdOn
       })
     );
   }

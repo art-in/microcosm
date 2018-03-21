@@ -12,6 +12,7 @@ export default function mindsetToDbo(model) {
   const dbo = {};
 
   dbo._id = model.id;
+  dbo.createdOn = model.createdOn;
   dbo.focusIdeaId = model.focusIdeaId;
 
   deleteUndefinedProps(dbo);

@@ -15,6 +15,9 @@ export default class Association {
    */
   id = createID();
 
+  /** @type {DateTimeISO} */
+  createdOn = undefined;
+
   /**
    * Value
    * @type {string|undefined}

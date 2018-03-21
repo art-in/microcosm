@@ -25,10 +25,8 @@ async function checkResult(caseName, promise) {
       expect(notes).to.have.length(1);
       expect(notes[0].title).to.equal('TEST TITLE');
       expect(notes[0].content).to.equal('TEST VALUE');
-      expect(notes[0].created).to.be.a('date');
-      expect(notes[0].created.toISOString()).to.equal(
-        '2018-03-13T12:03:12.000Z'
-      );
+      expect(notes[0].createdOn).to.be.a('string');
+      expect(notes[0].createdOn).to.equal('2018-03-13T12:03:12.000Z');
       expect(warnings).to.be.empty;
       break;
     }
@@ -39,16 +37,12 @@ async function checkResult(caseName, promise) {
       expect(notes).to.have.length(2);
       expect(notes[0].title).to.equal('TEST TITLE 1');
       expect(notes[0].content).to.equal('TEST VALUE 1');
-      expect(notes[0].created).to.be.a('date');
-      expect(notes[0].created.toISOString()).to.equal(
-        '2018-03-13T12:03:12.000Z'
-      );
+      expect(notes[0].createdOn).to.be.a('string');
+      expect(notes[0].createdOn).to.equal('2018-03-13T12:03:12.000Z');
       expect(notes[1].title).to.equal('TEST TITLE 2');
       expect(notes[1].content).to.equal('TEST VALUE 2');
-      expect(notes[1].created).to.be.a('date');
-      expect(notes[1].created.toISOString()).to.equal(
-        '2018-03-13T13:04:01.000Z'
-      );
+      expect(notes[1].createdOn).to.be.a('string');
+      expect(notes[1].createdOn).to.equal('2018-03-13T13:04:01.000Z');
       break;
     }
 
@@ -65,7 +59,7 @@ async function checkResult(caseName, promise) {
       expect(notes).to.have.length(1);
       expect(notes[0].title).to.equal('TEST TITLE');
       expect(notes[0].content).to.equal('TEST VALUE');
-      expect(notes[0].created).to.equal(null);
+      expect(notes[0].createdOn).to.equal(null);
       break;
     }
 

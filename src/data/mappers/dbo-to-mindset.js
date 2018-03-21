@@ -10,6 +10,7 @@ export default function dboToMindset(dbo) {
   const model = new Mindset();
 
   model.id = dbo._id;
+  model.createdOn = dbo.createdOn;
   model.focusIdeaId = dbo.focusIdeaId;
 
   return model;

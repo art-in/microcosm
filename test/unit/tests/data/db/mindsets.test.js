@@ -14,6 +14,7 @@ describe('mindsets', () => {
 
       await db.put({
         _id: '123',
+        createdOn: '2018-03-21T12:03:40.000',
         focusIdeaId: 'abc'
       });
 
@@ -22,6 +23,7 @@ describe('mindsets', () => {
 
       // check
       expect(result).to.be.instanceOf(Mindset);
+      expect(result.createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result.focusIdeaId).to.equal('abc');
     });
 
@@ -44,6 +46,7 @@ describe('mindsets', () => {
 
       await db.put({
         _id: '123',
+        createdOn: '2018-03-21T12:03:40.000',
         focusIdeaId: 'abc'
       });
 
@@ -54,6 +57,7 @@ describe('mindsets', () => {
       expect(result).to.have.length(1);
       expect(result[0]).to.be.instanceOf(Mindset);
       expect(result[0].id).to.equal('123');
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result[0].focusIdeaId).to.equal('abc');
     });
   });
@@ -64,6 +68,7 @@ describe('mindsets', () => {
       const db = createDB();
 
       const mindset = new Mindset({
+        createdOn: '2018-03-21T12:03:40.000',
         focusIdeaId: 'abc'
       });
 
@@ -77,6 +82,7 @@ describe('mindsets', () => {
 
       expect(result).to.have.length(1);
       expect(result[0]._id).to.equal(mindset.id);
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result[0].focusIdeaId).to.equal('abc');
     });
 

@@ -12,6 +12,7 @@ describe('associations', () => {
 
       await db.put({
         _id: '123',
+        createdOn: '2018-03-21T12:03:40.000Z',
         mindsetId: 'test id',
         value: 'test value'
       });
@@ -23,6 +24,7 @@ describe('associations', () => {
       expect(result).to.have.length(1);
       expect(result[0]).to.be.instanceOf(Association);
       expect(result[0].id).to.equal('123');
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000Z');
       expect(result[0].value).to.equal('test value');
     });
 
@@ -55,6 +57,7 @@ describe('associations', () => {
       const db = createDB();
 
       const assoc = new Association({
+        createdOn: '2018-03-21T12:03:40.000',
         mindsetId: 'mindset id',
         value: 'test value'
       });
@@ -69,6 +72,7 @@ describe('associations', () => {
 
       expect(result).to.have.length(1);
       expect(result[0]._id).to.equal(assoc.id);
+      expect(result[0].createdOn).to.equal('2018-03-21T12:03:40.000');
       expect(result[0].mindsetId).to.equal('mindset id');
       expect(result[0].value).to.equal('test value');
     });

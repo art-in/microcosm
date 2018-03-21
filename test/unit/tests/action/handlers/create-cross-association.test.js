@@ -1,11 +1,14 @@
-import {expect} from 'test/utils';
 import clone from 'clone';
+
+import {expect} from 'test/utils';
+import getRangeAroundNow from 'test/utils/get-range-around-now';
 
 import Mindset from 'src/model/entities/Mindset';
 import Idea from 'src/model/entities/Idea';
 import Association from 'src/model/entities/Association';
 import Point from 'src/model/entities/Point';
 
+import dateIsoRegexp from 'src/utils/date-iso-regexp';
 import buildGraph from 'src/model/utils/build-ideas-graph-from-matrix';
 
 import handler from 'src/action/handler';
@@ -210,6 +213,55 @@ describe('create-cross-association', () => {
       id: 'D',
       rootPathWeight: 2.9
     });
+  });
+
+  it('should set now as association creation time', () => {
+    // setup
+    const mindset = new Mindset({id: 'm'});
+
+    const ideaA = new Idea({
+      id: 'A',
+      isRoot: true,
+      posRel: new Point({x: 0, y: 0}),
+      posAbs: new Point({x: 0, y: 0}),
+      edgeFromParent: null,
+      edgesToChilds: []
+    });
+
+    const ideaB = new Idea({
+      id: 'B',
+      posRel: new Point({x: 10, y: 10}),
+      posAbs: new Point({x: 10, y: 10}),
+      edgeFromParent: null,
+      edgesToChilds: []
+    });
+
+    mindset.ideas.set(ideaA.id, ideaA);
+    mindset.ideas.set(ideaB.id, ideaB);
+    mindset.root = ideaA;
+
+    const state = {model: {mindset}};
+
+    // target
+    const patch = handle(state, {
+      type: 'create-cross-association',
+      data: {
+        headIdeaId: 'A',
+        tailIdeaId: 'B'
+      }
+    });
+
+    // check
+    const mutations = patch['add-association'];
+
+    expect(mutations).to.have.length(1);
+    const {assoc} = mutations[0].data;
+
+    const {nowStart, nowEnd} = getRangeAroundNow();
+
+    expect(assoc.createdOn).to.be.a('string');
+    expect(assoc.createdOn).to.match(dateIsoRegexp);
+    expect(new Date(assoc.createdOn)).to.be.withinTime(nowStart, nowEnd);
   });
 
   it('should NOT mutate state', () => {
