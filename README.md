@@ -4,15 +4,15 @@ microcosm is a [note taking](https://en.wikipedia.org/wiki/Note-taking) web app,
 
 # Features
 
-- [x] view modes:
-  - mindmap (map with pan & zoom)
-  - zen (simple textual form)
 - [x] [pwa](https://en.wikipedia.org/wiki/Progressive_web_app)
-  - responsive (phone, tablet, desktop)
-  - secure (https, cookie auth)
-  - offline ready (service worker, indexed db)
-  - installable
-- [ ] import from Evernote
+  - [x] responsive (phone, tablet, desktop)
+  - [x] secure (https, cookie auth)
+  - [x] offline ready (service worker, indexed db)
+  - [x] installable
+- [x] view modes:
+  - [x] mindmap (map with pan & zoom)
+  - [x] zen (simple textual form)
+- [x] import from Evernote
  
 # Install
 
