@@ -1,9 +1,11 @@
+import SortDirection from 'utils/sort/sort-direction';
+import byCreatedOn from 'utils/sort/get-comparator-by-created-on';
 import getIdea from 'action/utils/get-idea';
+import getRootPath from 'action/utils/get-idea-root-path';
 
 import MindsetType from 'model/entities/Mindset';
 
 import toListItem from 'vm/mappers/idea-to-list-item';
-import getRootPath from 'action/utils/get-idea-root-path';
 import IdeaSidebarType from 'vm/zen/entities/IdeaSidebar';
 import IdeaListItemType from 'vm/shared/IdeaListItem';
 
@@ -43,6 +45,7 @@ export default function open(opts) {
 
   /** @type {Array.<IdeaListItemType>} */
   const parentSuccessors = parent.edgesOut
+    .sort(byCreatedOn(SortDirection.desc))
     .map(a => a.to)
     .map(toListItem.bind(null, mindset));
 

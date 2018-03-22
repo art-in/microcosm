@@ -1,10 +1,13 @@
+import SortDirection from 'utils/sort/sort-direction';
+import byCreatedOn from 'utils/sort/get-comparator-by-created-on';
+import moveItem from 'utils/move-array-item';
+import getRootPathVertices from 'utils/graph/get-root-path-vertices';
+
 import MindsetType from 'model/entities/Mindset';
 import IdeaType from 'model/entities/Idea';
 
 import IdeaForm from 'vm/shared/IdeaForm/IdeaForm';
 import toListItem from 'vm/mappers/idea-to-list-item';
-import moveItem from 'utils/move-array-item';
-import getRootPathVertices from 'utils/graph/get-root-path-vertices';
 import IdeaListItem from 'vm/shared/IdeaListItem';
 
 /**
@@ -56,8 +59,9 @@ export default function ideaToForm(mindset, idea) {
 
   // map predecessors
   if (mindset.root !== idea) {
+    let incomingAssocs = idea.edgesIn.sort(byCreatedOn(SortDirection.asc));
+
     // move parent to the top of predecessors
-    let incomingAssocs = idea.edgesIn;
     const parentAssocIdx = incomingAssocs.indexOf(idea.edgeFromParent);
     incomingAssocs = moveItem(incomingAssocs, parentAssocIdx, 0);
 
@@ -70,6 +74,7 @@ export default function ideaToForm(mindset, idea) {
 
   // map successors
   form.successors = idea.edgesOut
+    .sort(byCreatedOn(SortDirection.desc))
     .map(a => a.to)
     .map(toListItem.bind(null, mindset));
 
@@ -79,8 +84,8 @@ export default function ideaToForm(mindset, idea) {
     // prevent removing last incoming association from successor
     s.isRemovable = successor.edgesIn.length !== 1;
 
-    // do not show root path (parent and grandparents) of
-    // successor idea if this idea is its parent
+    // do not show root path (parent and grandparents) of successor idea if this
+    // idea is its parent
     s.rootPath = successor.edgeFromParent.from === idea ? null : s.rootPath;
   });
 

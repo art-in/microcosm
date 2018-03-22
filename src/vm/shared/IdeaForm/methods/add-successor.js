@@ -18,7 +18,7 @@ export default function addSuccessor(form, mindset, successorId) {
   const successorItem = toListItem(mindset, successor);
   successorItem.isRemovable = true;
 
-  const successors = form.successors.concat([successorItem]);
+  const successors = [successorItem].concat(form.successors);
 
   return {
     successors,
