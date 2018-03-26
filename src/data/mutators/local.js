@@ -93,7 +93,7 @@ function apply(state, mutation) {
  * Gets string item from local storage
  *
  * @param {string} itemKey
- * @param {*} [defaultValue]
+ * @param {string} defaultValue
  * @return {string}
  */
 function getString(itemKey, defaultValue) {
@@ -103,7 +103,7 @@ function getString(itemKey, defaultValue) {
     item = defaultValue;
 
     if (defaultValue !== null) {
-      window.localStorage.setItem(itemKey, item.toString());
+      window.localStorage.setItem(itemKey, item);
     }
   }
 
@@ -114,22 +114,22 @@ function getString(itemKey, defaultValue) {
  * Get boolean item from local storage
  *
  * @param {string} itemKey
- * @param {*} defaultValue
+ * @param {boolean} defaultValue
  * @return {boolean}
  */
 function getBoolean(itemKey, defaultValue) {
-  return getString(itemKey, defaultValue) === 'true';
+  return getString(itemKey, defaultValue.toString()) === 'true';
 }
 
 /**
  * Get numeric item from local storage
  *
  * @param {string} itemKey
- * @param {*} defaultValue
+ * @param {number} defaultValue
  * @return {number}
  */
 function getNumeric(itemKey, defaultValue) {
-  return Number(getString(itemKey, defaultValue));
+  return Number(getString(itemKey, defaultValue.toString()));
 }
 
 /**
