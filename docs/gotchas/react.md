@@ -25,22 +25,13 @@
 
 ---
 
-4. When component update is skipped by `shouldComponentUpdate`, all child components will still be updated (#3),  
-    except children that were received through props (ie. `this.props.children`), they wont be updated.  
-    
-    This is surprising, because not all children get updated as described in docs, but only ones defined statically, and not ones received from props dynamically.  
-    TODO: why it is not mentioned in docs? why update static and not dynamic children (what's the difference)?  
-    https://discuss.reactjs.org/t/shouldcomponentupdate-and-children/2055/7
-
----
-
-5. No way to stop propagation of native events with react handlers since react really catches all of them on `document` element (event delegation) - when events are already propagated to root.  
+4. No way to stop propagation of native events with react handlers since react really catches all of them on `document` element (event delegation) - when events are already propagated to root.  
     React implements its own propagation of synthetic events for its components.  
     https://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
 
 ---
 
-6. `onChange` handler for inputs really adds handler for `input` event, not `change` event.  
+5. `onChange` handler for inputs really adds handler for `input` event, not `change` event.  
     React does that because `change` event may not trigger each time input changes, but `input` event always does.  
     > Unlike the input event, the change event is not necessarily fired for each change to an element's value.   (details: https://developer.mozilla.org/en-US/docs/Web/Events/change)  
     
@@ -48,6 +39,6 @@
 
 ---
 
-7. No valid way to render `autoFocus` attribute on inputs.  
+6. No valid way to render `autoFocus` attribute on inputs.  
     React polyfills `autoFocus` to hide browser inconsistencies.  
     https://github.com/facebook/react/issues/3066

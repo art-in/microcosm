@@ -95,20 +95,13 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
       shouldComponentUpdate(nextProps, nextState) {
         const {vm} = nextState;
 
-        // dirty check view model
-        let isDirty = vm.isDirty;
-
         if (nextProps.children) {
-          // dynamic children received from props will not get updated
-          // if update is prevented (unlike static children), so we
-          // either need to compare children shallowly with prev ones,
-          // or just force such view model to update.
-          // since connected children will be dirty checked before
-          // update too, we just forcing parent to update.
-          isDirty = true;
+          // do not block children updates. connected ones will be dirty checked
+          return true;
         }
 
-        return isDirty;
+        // dirty check view model
+        return vm.isDirty;
       }
 
       /**
