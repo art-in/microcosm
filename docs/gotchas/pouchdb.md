@@ -34,3 +34,11 @@
 
     https://stackoverflow.com/questions/15381105/cors-what-is-the-motivation-behind-introducing-preflight-requests  
     https://github.com/pouchdb/pouchdb/issues/3399
+
+---
+
+5. Unable to use `pouchdb-server` with cookie authentication in dev environment
+    because requests often get stuck.  
+    https://github.com/pouchdb/pouchdb-server/issues/308  
+    
+    **Workaround**: fallback to full CouchDB.
