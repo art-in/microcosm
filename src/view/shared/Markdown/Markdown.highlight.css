@@ -1,0 +1,77 @@
+/*
+CSS to replicate GitHub code highlighting style
+https://github.com/isagalaev/highlight.js/blob/master/src/styles/github-gist.css
+highlight.js version: 9.12.0
+
+Using GitHub Gist theme instead of GitHub theme because later is ugly.
+
+GitHub Gist Theme
+Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
+*/
+
+.root :global(.hljs) {
+  display: block;
+  background: white;
+  padding: 0.5em;
+  color: #333;
+  overflow-x: auto;
+}
+
+.root :global(.hljs-comment),
+.root :global(.hljs-meta) {
+  color: #969896;
+}
+
+.root :global(.hljs-string),
+.root :global(.hljs-variable),
+.root :global(.hljs-template-variable),
+.root :global(.hljs-strong),
+.root :global(.hljs-emphasis),
+.root :global(.hljs-quote) {
+  color: #df5000;
+}
+
+.root :global(.hljs-keyword),
+.root :global(.hljs-selector-tag),
+.root :global(.hljs-type) {
+  color: #a71d5d;
+}
+
+.root :global(.hljs-literal),
+.root :global(.hljs-symbol),
+.root :global(.hljs-bullet),
+.root :global(.hljs-attribute) {
+  color: #0086b3;
+}
+
+.root :global(.hljs-section),
+.root :global(.hljs-name) {
+  color: #63a35c;
+}
+
+.root :global(.hljs-tag) {
+  color: #333;
+}
+
+.root :global(.hljs-title),
+.root :global(.hljs-attr),
+.root :global(.hljs-selector-id),
+.root :global(.hljs-selector-class),
+.root :global(.hljs-selector-attr),
+.root :global(.hljs-selector-pseudo) {
+  color: #795da3;
+}
+
+.root :global(.hljs-addition) {
+  color: #55a532;
+  background-color: #eaffea;
+}
+
+.root :global(.hljs-deletion) {
+  color: #bd2c00;
+  background-color: #ffecec;
+}
+
+.root :global(.hljs-link) {
+  text-decoration: underline;
+}
