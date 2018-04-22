@@ -13,6 +13,7 @@ const userConfig = require('./config.build.user');
 const defaults = {
   root: __dirname,
   src: {
+    root: abs('./src/'),
     serv: {
       root: abs('src/boot/server/'),
       output: {
@@ -53,6 +54,9 @@ const defaults = {
         name: 'bundle-test.js'
       }
     }
+  },
+  tasks: {
+    root: abs('./tasks/')
   },
   dev: {
     // webpack dev server, which serves static files and live rebuilds
