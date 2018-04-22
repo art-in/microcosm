@@ -47,6 +47,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
  * @prop {string}           [opts.entry] - entry module path
  * @prop {DevServerOptions} [opts.serv] - dev server
  * @prop {string}           [opts.static] - static files path
+ * @prop {boolean}          [opts.coverage] - instrument code coverage counters
  *
  * @param {Options} opts
  *
@@ -121,6 +122,12 @@ function getPackConfig(opts) {
   if (opts.entry) {
     // entry point not always required (eg. when webpack run by karma)
     entries.push(opts.entry);
+  }
+
+  if (opts.coverage) {
+    // instrument code with coverage counters (lines/statements/branches execs).
+    // eg. for unit test coverage metric.
+    babelPlugins.push('istanbul');
   }
 
   let root = opts.root;

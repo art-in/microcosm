@@ -9,3 +9,5 @@ node_modules
 # pouchdb dev database server folder
 .db
 
+# test coverage report folder
+.coverage

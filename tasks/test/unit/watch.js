@@ -7,5 +7,6 @@ module.exports = () =>
   runUnitTests({
     packConfig: packConfig,
     entry: buildConfig.test.unit.entry,
-    watch: true
+    watch: true,
+    reportCoverage: false
   });

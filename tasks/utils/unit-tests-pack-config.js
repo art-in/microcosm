@@ -19,7 +19,8 @@ const packConfig = getPackConfig({
       name: buildConfig.test.unit.output.name
     }
   },
-  isProduction: false
+  isProduction: false,
+  coverage: true
 });
 
 module.exports = packConfig;
