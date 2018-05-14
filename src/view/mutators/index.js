@@ -4,11 +4,11 @@ import ReactDom from 'react-dom';
 import required from 'utils/required-params';
 import MutationType from 'utils/state/Mutation';
 import PatchType from 'utils/state/Patch';
+import StoreContext from 'view/utils/connect/context';
 
 import StateType from 'boot/client/State';
 
 import Main, {rootClass} from 'view/main/Main';
-import Provider from 'view/utils/connect/Provider';
 import MindsetViewMode from 'vm/main/MindsetViewMode';
 
 /**
@@ -39,9 +39,9 @@ function apply(state, mutation) {
 
       state.view.root.classList.add(rootClass);
       ReactDom.render(
-        <Provider dispatch={state.view.storeDispatch}>
+        <StoreContext.Provider value={state.view.storeDispatch}>
           <Main main={state.vm.main} />
-        </Provider>,
+        </StoreContext.Provider>,
         state.view.root
       );
       break;

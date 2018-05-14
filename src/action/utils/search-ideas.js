@@ -9,7 +9,7 @@ import MindsetType from 'model/entities/Mindset';
  * @param {MindsetType} mindset
  * @param {object} opts
  * @param {string} opts.phrase
- * @param {Object.<string>} [opts.excludeIds]
+ * @param {Array.<string>} [opts.excludeIds]
  * @return {Array.<IdeaType>}
  */
 export default function searchIdeas(mindset, opts) {

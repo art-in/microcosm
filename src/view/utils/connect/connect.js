@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import noop from 'utils/noop';
 
 import ViewModel from 'vm/utils/ViewModel';
+import StoreContext from 'view/utils/connect/context';
 
 /**
  * HOC, which connects view component to view-model and store.
@@ -37,63 +37,87 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
       return vm;
     };
 
+    // eslint-disable-next-line valid-jsdoc
     /**
-     * Wrapper component
-     *
-     * @typedef {object} Context
-     * @prop {function()} dispatch
-     *
      * @typedef {object} State
      * @prop {ViewModel} vm
-     * @prop {function} onVMChange
      *
      * @extends {Component<{}, State>}
      */
     class ConnectedComponent extends Component {
-      constructor(props, ...args) {
-        super(props, ...args);
-
-        const vm = getVM(props);
-        const onVMChange = this.bindVM(vm);
-
-        this.state = {vm, onVMChange};
-      }
+      /** @type {State} */
+      state = {vm: null};
 
       static get displayName() {
         return `Connected(${CustomComponent.name})`;
       }
 
-      /** @type {Context} */
-      context;
-
-      // run-time type checks of context is required by react
-      static contextTypes = {
-        dispatch: PropTypes.func.isRequired
-      };
-
-      componentWillReceiveProps(nextProps) {
+      static getDerivedStateFromProps(nextProps, prevState) {
         const nextVM = getVM(nextProps);
-        const {vm, onVMChange} = this.state;
 
-        // in case new vm instance passed to component,
-        // we should unbind previous vm and bind new
-        if (this.state.vm !== nextVM) {
-          this.unbindVM(vm, onVMChange);
+        if (prevState.vm !== nextVM) {
+          return {vm: nextVM};
+        }
 
-          const nextOnVMChange = this.bindVM(nextVM);
-          this.setState({
-            vm: nextVM,
-            onVMChange: nextOnVMChange
-          });
+        return null;
+      }
+
+      componentDidUpdate(prevProps, prevState) {
+        if (this.state.vm !== prevState.vm) {
+          if (prevState.vm) {
+            // in case new vm instance passed to component,
+            // we should unbind previous vm
+            prevState.vm.unsubscribe(this.onVMChange);
+          }
+
+          this.state.vm.subscribe(this.onVMChange);
         }
       }
 
-      componentWillUnmount() {
-        this.unbindVM(this.state.vm, this.state.onVMChange);
+      componentDidMount() {
+        this.state.vm.subscribe(this.onVMChange);
       }
+
+      componentWillUnmount() {
+        this.state.vm.unsubscribe(this.onVMChange);
+      }
+
+      onVMChange = vm => {
+        // Q: why not just this.forceUpdate() here?
+        // A: current approach allows to warn on situations when we receive
+        //    change event from prev vm, which ideally should never happen.
+        //    also this is recommended async-safe way to handle subscriptions.
+        //    https://github.com/facebook/react/tree/master/packages/create-subscription
+
+        this.setState(state => {
+          // update only if change belongs to current vm. otherwise ignore.
+          if (state.vm === vm) {
+            // force update even if target vm is not dirty.
+            this.isForcedUpdate = true;
+            return {}; // trigger render
+          }
+
+          // received change event from prev vm. this can happen because
+          // vm-receiving in gDSFP and vm-binding in cDM/cDU may be executed in
+          // separate js tasks (render-commit is no longer atomic since v16).
+          // ideally this should never happen, but if it does - most likely
+          // something goes wrong in upstream vm update process.
+          window.console.warn(
+            `Component '${CustomComponent.name}' received change event from ` +
+              `previous view model. Ignoring update.`
+          );
+          return null; // do not render
+        });
+      };
 
       shouldComponentUpdate(nextProps, nextState) {
         const {vm} = nextState;
+
+        if (this.isForcedUpdate) {
+          // update was forced by vm change event
+          this.isForcedUpdate = false;
+          return true;
+        }
 
         if (nextProps.children) {
           // do not block children updates. connected ones will be dirty checked
@@ -104,48 +128,26 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
         return vm.isDirty;
       }
 
-      /**
-       * Binds view-model to view component
-       * @param {ViewModel} vm
-       * @return {function} view model change handler
-       */
-      bindVM(vm) {
-        // eslint-disable-next-line require-jsdoc
-        const onVMChange = () =>
-          // forceUpdate will only skip shouldComponentUpdate for
-          // this wrapper component, while child components will
-          // still receive all normal lifecycle hooks.
-          this.forceUpdate();
-
-        vm.subscribe(onVMChange);
-
-        return onVMChange;
-      }
-
-      /**
-       * Unbinds view-model from view component
-       * @param {ViewModel} vm
-       * @param {function} onVMChange
-       */
-      unbindVM(vm, onVMChange) {
-        vm.unsubscribe(onVMChange);
-      }
-
       render() {
-        // clean dirty flag on view model
-        const vm = this.state.vm;
-        vm.isDirty = false;
+        return (
+          <StoreContext.Consumer>
+            {dispatch => {
+              // clean dirty flag on view model
+              const vm = this.state.vm;
+              vm.isDirty = false;
 
-        // mix connect props
-        const dispatch = this.context.dispatch;
-        const connectProps = mapDispatchToProps(dispatch, this.props);
+              // mix connect props
+              const connectProps = mapDispatchToProps(dispatch, this.props);
 
-        const props = {
-          ...this.props,
-          ...connectProps
-        };
+              const props = {
+                ...this.props,
+                ...connectProps
+              };
 
-        return <CustomComponent {...props} />;
+              return <CustomComponent {...props} />;
+            }}
+          </StoreContext.Consumer>
+        );
       }
     }
 

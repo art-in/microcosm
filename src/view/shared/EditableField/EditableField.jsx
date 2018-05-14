@@ -37,7 +37,8 @@ export default class EditableField extends Component {
     this.lastHtml = props.html;
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // TODO: update livecycle hook (skipping for now as component not used)
     this.setState({html: nextProps.html});
     this.lastHtml = nextProps.html;
   }

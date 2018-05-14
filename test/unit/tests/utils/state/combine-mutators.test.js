@@ -16,7 +16,7 @@ import mutateView from 'src/view/mutators';
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import Provider from 'view/utils/connect/Provider';
+import StoreContext from 'view/utils/connect/context';
 import MainView from 'src/view/main/Main';
 
 describe('combine-mutators', () => {
@@ -52,9 +52,9 @@ describe('combine-mutators', () => {
 
     // setup view
     ReactDom.render(
-      <Provider dispatch={state.view.storeDispatch}>
+      <StoreContext.Provider value={state.view.storeDispatch}>
         <MainView main={state.vm.main} />
-      </Provider>,
+      </StoreContext.Provider>,
       state.view.root
     );
 

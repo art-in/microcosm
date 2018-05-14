@@ -5,13 +5,33 @@ import ViewModel from 'src/vm/utils/ViewModel';
 
 describe('ViewModel', () => {
   describe('.emitChange()', () => {
-    it('should execute event handlers', () => {
+    it('should execute event handler', () => {
+      // setup
+      class TestVM extends ViewModel {}
+
+      const vm = new TestVM();
+
+      const handler1 = spy();
+      const handler2 = spy();
+
+      vm.subscribe(handler1);
+
+      // target
+      vm.emitChange();
+
+      // check
+      expect(handler1.callCount).to.equal(1);
+      expect(handler2.callCount).to.equal(0);
+    });
+
+    it('should pass target vm to event handler arguments', () => {
       // setup
       class TestVM extends ViewModel {}
 
       const vm = new TestVM();
 
       const handler = spy();
+
       vm.subscribe(handler);
 
       // target
@@ -19,8 +39,8 @@ describe('ViewModel', () => {
 
       // check
       expect(handler.callCount).to.equal(1);
-      expect(handler.firstCall.args).to.have.length(3);
-      expect(handler.firstCall.args).to.deep.equal([1, 2, 3]);
+      expect(handler.firstCall.args).to.have.length(4);
+      expect(handler.firstCall.args).to.deep.equal([vm, 1, 2, 3]);
     });
 
     it('should warn if no handler was found', () => {
@@ -59,7 +79,7 @@ describe('ViewModel', () => {
 
       // check
       expect(target).to.throw(
-        `'TestVM' view model already has handler for ` + `change event`
+        `'TestVM' view model already has handler for change event`
       );
     });
   });

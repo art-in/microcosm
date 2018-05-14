@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 
 import StateType from 'boot/client/State';
 import ViewMode from 'vm/main/MindsetViewMode';
@@ -31,6 +31,6 @@ export default function defaultMutator(state) {
       scale: mindmap.viewbox.scale
     });
 
-    update(mindmap, getMindmapPersistentProps(newMindmap));
+    updateViewModel(mindmap, getMindmapPersistentProps(newMindmap));
   }
 }

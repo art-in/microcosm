@@ -109,9 +109,11 @@ export default class Mindmap extends Component {
     // https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js
     window.addEventListener('resize', this.onResize);
 
-    // only after viewport mount we can get its size,
-    // recalculate viewbox and render again with viewbox set
-    this.onResize();
+    // re-render after mount, as only now we know actual viewport size and can
+    // update viewbox proportions accordingly.
+    // schedule re-render on-before next frame, so 'connect' has time to bind vm
+    // (vm binding happens on componentDidMount too).
+    window.requestAnimationFrame(this.onResize);
   }
 
   componentWillUnmount() {

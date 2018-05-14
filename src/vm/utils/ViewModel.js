@@ -32,12 +32,12 @@ export default class ViewModel {
       return;
     }
 
-    this._onChangeHandler(...args);
+    this._onChangeHandler(this, ...args);
   }
 
   /**
    * Subscribes to changes
-   * @param {function(any[]): void} handler
+   * @param {function(ViewModel, any[]): void} handler
    */
   subscribe(handler) {
     if (this._onChangeHandler) {

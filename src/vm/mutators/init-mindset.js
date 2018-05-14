@@ -1,4 +1,4 @@
-import update from 'utils/update-object';
+import updateViewModel from 'vm/utils/update-view-model';
 import required from 'utils/required-params';
 
 import StateType from 'boot/client/State';
@@ -17,18 +17,16 @@ export default function initMindset(state, data) {
 
   const {mindmap: newMindmap, ...otherMindsetUpdates} = mindsetUpdate;
 
-  update(mindset, otherMindsetUpdates);
+  updateViewModel(mindset, otherMindsetUpdates);
 
   if (newMindmap) {
     if (mindset.mindmap) {
       // mindset can be re-initialized several times (eg. on mindset reloads
       // per server sync changes), we do not want to clear out view specific
       // state in that case (eg. opened idea form)
-      update(mindset.mindmap, getMindmapPersistentProps(newMindmap));
+      updateViewModel(mindset.mindmap, getMindmapPersistentProps(newMindmap));
     } else {
       mindset.mindmap = newMindmap;
     }
-
-    mindset.mindmap.isDirty = true;
   }
 }
