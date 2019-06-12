@@ -1,4 +1,4 @@
-# microcosm [![CircleCI Status](https://circleci.com/gh/artin-phares/microcosm.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/artin-phares/microcosm)
+# microcosm [![CircleCI](https://circleci.com/gh/art-in/microcosm.svg?style=svg)](https://circleci.com/gh/art-in/microcosm)
 
 microcosm is a [note taking](https://en.wikipedia.org/wiki/Note-taking) web app, which represents notes as a [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) of _ideas_ and _associations_.
 
