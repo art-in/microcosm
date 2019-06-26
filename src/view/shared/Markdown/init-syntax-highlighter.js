@@ -3,6 +3,7 @@
 import hl from 'highlight.js/lib/highlight';
 
 // directly import languages to avoid bundling unused modules
+hl.registerLanguage('cpp', require('highlight.js/lib/languages/cpp'));
 hl.registerLanguage('cs', require('highlight.js/lib/languages/cs'));
 hl.registerLanguage('css', require('highlight.js/lib/languages/css'));
 hl.registerLanguage('go', require('highlight.js/lib/languages/go'));
