@@ -15,7 +15,7 @@ const KarmaServer = require('karma').Server;
  */
 function runUnitTests(opts) {
   return new Promise(function(resolve) {
-    let chrome = 'ChromeHeadless';
+    let chrome = 'ChromeHeadlessNoSandbox';
 
     if (require('os').platform() === 'win32') {
       // TODO: karma cannot capture headless chrome in windows 7,
@@ -45,6 +45,14 @@ function runUnitTests(opts) {
         webpack: opts.packConfig,
         webpackMiddleware: {
           stats: 'errors-only'
+        },
+
+        customLaunchers: {
+          // chrome does not support running as root without --no-sandbox
+          ChromeHeadlessNoSandbox: {
+            base: 'ChromeHeadless',
+            flags: ['--no-sandbox']
+          }
         },
 
         browsers: [chrome],
