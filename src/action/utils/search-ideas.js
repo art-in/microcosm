@@ -1,4 +1,5 @@
 import values from 'utils/get-map-values';
+import escapeRegExp from 'utils/escape-regexp';
 
 import IdeaType from 'model/entities/Idea';
 import MindsetType from 'model/entities/Mindset';
@@ -19,12 +20,12 @@ export default function searchIdeas(mindset, opts) {
     throw Error('Search string is empty');
   }
 
+  const regexp = new RegExp(escapeRegExp(phrase), 'i');
+
   return values(mindset.ideas).filter(idea => {
     if (excludeIds && excludeIds.includes(idea.id)) {
       return false;
     }
-
-    const regexp = new RegExp(phrase, 'i');
 
     return (
       (idea.title && idea.title.match(regexp)) ||
