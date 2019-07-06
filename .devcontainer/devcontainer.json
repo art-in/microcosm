@@ -1,0 +1,16 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+	"name": "microcosm",
+	"dockerFile": "Dockerfile",
+	"appPort": [
+		3000, // prod nodejs server
+		3001, // webpack dev server
+		5984 // dev pouchdb server
+	],
+	"postCreateCommand": "npm install",
+	"extensions": [
+		"eamodio.gitlens",
+		"dbaeumer.vscode-eslint",
+		"shinnn.stylelint"
+	]
+}
