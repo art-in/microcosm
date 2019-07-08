@@ -59,7 +59,10 @@ function getPackConfig(opts) {
   const resolveModules = [];
   const plugins = [
     // uncomment to see bundle analysis (starts server + opens browser)
-    // new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
+    // new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin({
+    //   analyzerHost: '0.0.0.0',
+    //   analyzerPort: 8888
+    // }),
 
     // ensure import paths have correct char case
     // (case is ignored in windows, but respected in linux)

@@ -5,7 +5,8 @@
 	"appPort": [
 		3000, // prod nodejs server
 		3001, // webpack dev server
-		5984 // dev pouchdb server
+		5984, // dev pouchdb server
+		8888 //  webpack bundle analyzer
 	],
 	"postCreateCommand": "npm install",
 	"extensions": [
