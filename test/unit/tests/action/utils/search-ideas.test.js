@@ -187,4 +187,40 @@ describe('search-ideas', () => {
     // check
     expect(result).to.throw('Search string is empty');
   });
+
+  it('should return ideas found by title first', () => {
+    // setup
+    const mindset = new Mindset({id: 'm'});
+
+    const idea1 = new Idea({
+      id: 'idea 1',
+      title: '',
+      value: '---#FOUND#---'
+    });
+    const idea2 = new Idea({
+      id: 'idea 2',
+      title: '---#FOUND#---',
+      value: ''
+    });
+    const idea3 = new Idea({
+      id: 'idea 3',
+      title: '',
+      value: '---#FOUND#---'
+    });
+
+    mindset.ideas.set(idea1.id, idea1);
+    mindset.ideas.set(idea2.id, idea2);
+    mindset.ideas.set(idea3.id, idea3);
+
+    // target
+    const result = searchIdeas(mindset, {
+      phrase: 'FOUND'
+    });
+
+    // check
+    expect(result).to.have.length(3);
+    expect(result[0].id).to.equal('idea 2');
+    expect(result[1].id).to.equal('idea 1');
+    expect(result[2].id).to.equal('idea 3');
+  });
 });

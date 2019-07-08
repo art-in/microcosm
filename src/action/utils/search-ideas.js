@@ -20,16 +20,23 @@ export default function searchIdeas(mindset, opts) {
     throw Error('Search string is empty');
   }
 
+  const byTitle = [];
+  const byValue = [];
+
+  // using regexp to easily ignore case
   const regexp = new RegExp(escapeRegExp(phrase), 'i');
 
-  return values(mindset.ideas).filter(idea => {
+  values(mindset.ideas).forEach(idea => {
     if (excludeIds && excludeIds.includes(idea.id)) {
-      return false;
+      return;
     }
 
-    return (
-      (idea.title && idea.title.match(regexp)) ||
-      (idea.value && idea.value.match(regexp))
-    );
+    if (idea.title && idea.title.match(regexp)) {
+      byTitle.push(idea);
+    } else if (idea.value && idea.value.match(regexp)) {
+      byValue.push(idea);
+    }
   });
+
+  return byTitle.concat(byValue);
 }
