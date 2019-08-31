@@ -17,6 +17,7 @@ import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
  */
 export default function(state, data, dispatch) {
   const {model: {mindset}} = state;
+  const {vm: {main: {mindset: {zen: {pane: {form: prevForm}}}}}} = state;
   const {ideaId, parentIdeaId, isNewIdea} = data;
 
   if (!isNewIdea) {
@@ -29,7 +30,8 @@ export default function(state, data, dispatch) {
       mindset,
       isNewIdea,
       parentIdeaId,
-      ideaId
+      ideaId,
+      prevForm
     })
   );
 }

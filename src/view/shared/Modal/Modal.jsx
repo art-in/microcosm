@@ -17,10 +17,22 @@ import classes from './Modal.css';
  * @prop {ModalVmType} modal
  *
  * @prop {function()} onClose
+ * @prop {function()} [onScroll]
  *
  * @extends {Component<Props>}
  */
 export default class Modal extends Component {
+  componentDidUpdate() {
+    if (this.props.modal.active && this.props.modal.isScrolledTop) {
+      this.backing.scrollTop = 0;
+
+      // it was not really scrolled, but we need to clean isScrolledTop flag
+      // and do not want to handle real scroll event as it will decrease
+      // rendering performance.
+      window.setTimeout(() => this.props.onScroll());
+    }
+  }
+
   onBackingClick = e => {
     // backing is parent element for modal, so clicks from modal will also
     // bubble up, but we want to close only by clicks on backing itself

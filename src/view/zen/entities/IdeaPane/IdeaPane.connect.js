@@ -95,6 +95,11 @@ export default connect(
     onCancel: () =>
       dispatch({
         type: 'on-zen-idea-form-cancel'
+      }),
+
+    onScroll: () =>
+      dispatch({
+        type: 'on-zen-idea-form-scroll'
       })
   })
 )(Component);

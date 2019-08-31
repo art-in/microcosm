@@ -100,6 +100,11 @@ export default connect(
     onCancel: () =>
       dispatch({
         type: 'on-idea-form-modal-cancel'
+      }),
+
+    onScroll: () =>
+      dispatch({
+        type: 'on-idea-form-modal-scroll'
       })
   })
 )(Component);

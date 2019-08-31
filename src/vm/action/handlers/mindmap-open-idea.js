@@ -3,6 +3,7 @@ import StateType from 'boot/client/State';
 import PatchType from 'utils/state/Patch';
 
 import open from 'vm/shared/IdeaForm/methods/open';
+import shouldScrollTop from 'vm/action/utils/should-scroll-top-on-open-idea';
 
 /**
  * Opens new or existing idea in mindmap mode
@@ -16,7 +17,10 @@ import open from 'vm/shared/IdeaForm/methods/open';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset},
+    vm: {main: {mindset: {mindmap: {ideaFormModal: {form: prevForm}}}}}
+  } = state;
   const {ideaId, parentIdeaId, isNewIdea} = data;
 
   if (!isNewIdea) {
@@ -24,7 +28,10 @@ export default function(state, data, dispatch) {
   }
 
   return view('update-idea-form-modal', {
-    modal: {active: true},
+    modal: {
+      active: true,
+      isScrolledTop: shouldScrollTop(ideaId, prevForm)
+    },
     form: open({
       mindset,
       isNewIdea,

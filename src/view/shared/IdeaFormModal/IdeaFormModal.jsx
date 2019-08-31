@@ -32,6 +32,7 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onClose
  * @prop {function()} onSave
  * @prop {function()} onCancel
+ * @prop {function()} onScroll
  *
  * @extends {Component<Props>}
  */
@@ -58,7 +59,8 @@ export default class IdeaFormModal extends Component {
       onSuccessorSearchLookupSuggestionSelect,
       onClose,
       onSave,
-      onCancel
+      onCancel,
+      onScroll
     } = this.props;
 
     return (
@@ -67,6 +69,7 @@ export default class IdeaFormModal extends Component {
         contentClass={classes.content}
         modal={ideaFormModal.modal}
         onClose={onClose}
+        onScroll={onScroll}
       >
         <IdeaForm
           form={ideaFormModal.form}

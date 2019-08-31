@@ -30,10 +30,22 @@ import classes from './IdeaPane.css';
  * @prop {function()} onSuccessorSearchLookupSuggestionSelect
  * @prop {function()} onSave
  * @prop {function()} onCancel
+ * @prop {function()} onScroll
  *
  * @extends {Component<Props>}
  */
 export default class IdeaPane extends Component {
+  componentDidUpdate() {
+    if (this.props.pane.isScrolledTop) {
+      this.container.scrollTop = 0;
+
+      // it was not really scrolled, but we need to clean isScrolledTop flag
+      // and do not want to handle real scroll event as it will decrease
+      // rendering performance.
+      window.setTimeout(() => this.props.onScroll());
+    }
+  }
+
   render() {
     const {
       className,
@@ -59,7 +71,10 @@ export default class IdeaPane extends Component {
     } = this.props;
 
     return (
-      <div className={cx(classes.root, className)}>
+      <div
+        className={cx(classes.root, className)}
+        ref={node => (this.container = node)}
+      >
         <IdeaForm
           className={classes.form}
           form={pane.form}
