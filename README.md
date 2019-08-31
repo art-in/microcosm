@@ -1,6 +1,6 @@
 # microcosm [![CircleCI](https://circleci.com/gh/art-in/microcosm.svg?style=svg)](https://circleci.com/gh/art-in/microcosm)
 
-microcosm is a [note taking](https://en.wikipedia.org/wiki/Note-taking) web app, which represents notes as a [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)).
+microcosm is a [note taking](https://en.wikipedia.org/wiki/Note-taking) web app, which organizes notes in a [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)).
 
 use case is [personal knowledge base](https://en.wikipedia.org/wiki/Personal_knowledge_base) for crystallizing ideas and saving important stuff.
 
