@@ -1,2 +1,4 @@
 # ignored by default
 node_modules
+
+**/*.jsx
