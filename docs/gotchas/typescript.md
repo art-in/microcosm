@@ -47,7 +47,7 @@
 7. **jsdoc**: generic types are hard or impossible to define in `jsdoc` in complex cases,  
    like functions which are not called directly, but through another function which loose type info  
    (eg. `eventEmitter.emit('event type', param1)` calls event handler but we do not check `param1`)  
-   to type check `Store#dispatch` calls: https://github.com/artin-phares/microcosm/issues/65
+   to type check `Store#dispatch` calls: https://github.com/art-in/microcosm/issues/65
 
    _Workaround_: use typescript type definitions (`.d.ts`) (as already did for `connect`).   
   
@@ -56,7 +56,7 @@
 8. **typescript(?)**: complex case of defining generic type for `connect`.  
    while connecting view components to state, own-props is not type-checked.  
    not sure if it is limitation of `typescript` or just bad type definitions.  
-   https://github.com/artin-phares/microcosm/issues/66  
+   https://github.com/art-in/microcosm/issues/66  
    
 ---
 

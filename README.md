@@ -31,7 +31,7 @@ npm run serve
  
 # Config
 
-There is [`config.js`](https://github.com/artin-phares/microcosm/blob/master/config.js) file with all the options and descriptions for them.
+There is [`config.js`](https://github.com/art-in/microcosm/blob/master/config.js) file with all the options and descriptions for them.
  
 # Tasks
 
