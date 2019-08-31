@@ -100,6 +100,12 @@ export default connect(
     onScroll: () =>
       dispatch({
         type: 'on-zen-idea-form-scroll'
+      }),
+
+    onTitleFocusChange: data =>
+      dispatch({
+        type: 'on-zen-idea-form-title-focus-change',
+        data
       })
   })
 )(Component);

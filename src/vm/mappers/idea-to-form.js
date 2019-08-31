@@ -32,7 +32,7 @@ export default function ideaToForm(mindset, idea) {
   // prevent removing idea with outgoing associations
   form.isRemoveAvailable = idea !== mindset.root && idea.edgesOut.length === 0;
   form.isTitleValid = true;
-  form.shouldFocusTitleOnShow = false;
+  form.isTitleFocused = false;
   form.isEditingValue = false;
   form.isGearMenuAvailable = true;
   form.isGearMenuExpanded = false;

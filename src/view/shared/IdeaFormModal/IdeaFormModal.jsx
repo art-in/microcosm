@@ -33,6 +33,7 @@ import classes from './IdeaFormModal.css';
  * @prop {function()} onSave
  * @prop {function()} onCancel
  * @prop {function()} onScroll
+ * @prop {function(object)} onTitleFocusChange
  *
  * @extends {Component<Props>}
  */
@@ -60,7 +61,8 @@ export default class IdeaFormModal extends Component {
       onClose,
       onSave,
       onCancel,
-      onScroll
+      onScroll,
+      onTitleFocusChange
     } = this.props;
 
     return (
@@ -96,6 +98,7 @@ export default class IdeaFormModal extends Component {
           }
           onSave={onSave}
           onCancel={onCancel}
+          onTitleFocusChange={onTitleFocusChange}
         />
       </Modal>
     );

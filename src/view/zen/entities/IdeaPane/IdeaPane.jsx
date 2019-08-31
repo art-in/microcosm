@@ -31,19 +31,22 @@ import classes from './IdeaPane.css';
  * @prop {function()} onSave
  * @prop {function()} onCancel
  * @prop {function()} onScroll
+ * @prop {function(object)} onTitleFocusChange
  *
  * @extends {Component<Props>}
  */
 export default class IdeaPane extends Component {
   componentDidUpdate() {
-    if (this.props.pane.isScrolledTop) {
-      this.container.scrollTop = 0;
+    window.setTimeout(() => {
+      if (this.props.pane.isScrolledTop) {
+        this.container.scrollTop = 0;
 
-      // it was not really scrolled, but we need to clean isScrolledTop flag
-      // and do not want to handle real scroll event as it will decrease
-      // rendering performance.
-      window.setTimeout(() => this.props.onScroll());
-    }
+        // it was not really scrolled, but we need to clean isScrolledTop flag
+        // and do not want to handle real scroll event as it will decrease
+        // rendering performance.
+        this.props.onScroll();
+      }
+    });
   }
 
   render() {
@@ -67,7 +70,8 @@ export default class IdeaPane extends Component {
       onSuccessorSearchLookupKeyDown,
       onSuccessorSearchLookupSuggestionSelect,
       onSave,
-      onCancel
+      onCancel,
+      onTitleFocusChange
     } = this.props;
 
     return (
@@ -100,6 +104,7 @@ export default class IdeaPane extends Component {
           }
           onSave={onSave}
           onCancel={onCancel}
+          onTitleFocusChange={onTitleFocusChange}
         />
       </div>
     );

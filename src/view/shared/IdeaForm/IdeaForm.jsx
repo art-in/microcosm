@@ -42,6 +42,7 @@ import classes from './IdeaForm.css';
  * @prop {function()} onSuccessorSearchLookupSuggestionSelect
  * @prop {function()} onSave
  * @prop {function()} onCancel
+ * @prop {function(object)} onTitleFocusChange
  *
  * @extends {Component<Props>}
  */
@@ -55,12 +56,17 @@ export default class IdeaForm extends Component {
     this.props.onValueChange({value});
   };
 
-  componentDidMount() {
-    // TODO: does not work in case form was already mounted
-    //       (ie. open form for existing idea, add child idea)
-    if (this.props.form.shouldFocusTitleOnShow) {
-      this.input.focus();
-    }
+  componentDidUpdate() {
+    window.setTimeout(() => {
+      if (this.props.form.isTitleFocused) {
+        this.input.focus();
+
+        // focus was not really changed, but we need to clean isTitleFocused
+        // flag and do not want to handle real focus event as it will decrease
+        // rendering performance.
+        this.props.onTitleFocusChange({isFocused: false});
+      }
+    });
   }
 
   render() {

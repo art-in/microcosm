@@ -23,14 +23,16 @@ import classes from './Modal.css';
  */
 export default class Modal extends Component {
   componentDidUpdate() {
-    if (this.props.modal.active && this.props.modal.isScrolledTop) {
-      this.backing.scrollTop = 0;
+    window.setTimeout(() => {
+      if (this.props.modal.active && this.props.modal.isScrolledTop) {
+        this.backing.scrollTop = 0;
 
-      // it was not really scrolled, but we need to clean isScrolledTop flag
-      // and do not want to handle real scroll event as it will decrease
-      // rendering performance.
-      window.setTimeout(() => this.props.onScroll());
-    }
+        // it was not really scrolled, but we need to clean isScrolledTop flag
+        // and do not want to handle real scroll event as it will decrease
+        // rendering performance.
+        this.props.onScroll();
+      }
+    });
   }
 
   onBackingClick = e => {

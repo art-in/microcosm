@@ -46,7 +46,7 @@ export default function open(opts) {
 
     form.isRemoveAvailable = false;
     form.isTitleValid = false;
-    form.shouldFocusTitleOnShow = true;
+    form.isTitleFocused = true;
     form.isEditingValue = true;
     form.isGearMenuAvailable = false;
     form.isGearMenuExpanded = false;

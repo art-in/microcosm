@@ -92,10 +92,10 @@ export default class IdeaForm {
   isTitleValid = true;
 
   /**
-   * Indicates that title field should be focused when form is shown
+   * Indicates that title field is focused and ready for input
    * @type {boolean}
    */
-  shouldFocusTitleOnShow = false;
+  isTitleFocused = false;
 
   /**
    * Indicates that value field is in edit mode

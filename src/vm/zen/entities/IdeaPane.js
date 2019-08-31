@@ -14,7 +14,7 @@ export default class IdeaPane extends ViewModel {
   form = undefined;
 
   /**
-   * Is its top visible?
+   * Indicates that it is scrolled to the top.
    *
    * Note: ideally we would map scroll position to view model, but it will
    * decrease rendering performance when scrolling. so this flag is enough

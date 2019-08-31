@@ -105,6 +105,12 @@ export default connect(
     onScroll: () =>
       dispatch({
         type: 'on-idea-form-modal-scroll'
+      }),
+
+    onTitleFocusChange: data =>
+      dispatch({
+        type: 'on-idea-form-modal-title-focus-change',
+        data
       })
   })
 )(Component);
