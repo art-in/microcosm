@@ -28,14 +28,30 @@ export default class MarkdownEditor extends Component {
     this.props.onChange(e.target.value);
   };
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.editing) {
-      // auto resize textarea to its contents, because by default
-      // it auto-shrinks to small area with scroll.
-      // unfortunately parent scroll position will be reset, because
-      // obviously size gets adjusted after small area already drawn.
+      // auto-resize textarea to its contents, because by default it shrinks
+      // to small area with scroll bar.
       this.textarea.style.height = this.textarea.scrollHeight + 'px';
+
+      // after edit mode activated and textarea resized we can remove height
+      // from container so it can grow / shrink normally.
+      if (!prevProps.editing) {
+        this.container.style.height = '';
+      }
     }
+  }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    // preserve current height on container while activating edit mode, so
+    // scroll of parent container not reset to zero.
+    if (!prevProps.editing && this.props.editing) {
+      const rect = this.container.getBoundingClientRect();
+      const height = Math.round(rect.height);
+      this.container.style.height = height + 'px';
+    }
+
+    return null;
   }
 
   render() {
@@ -51,7 +67,11 @@ export default class MarkdownEditor extends Component {
     } = this.props;
 
     return (
-      <div className={cx(classes.root, className)} {...other}>
+      <div
+        className={cx(classes.root, className)}
+        ref={node => (this.container = node)}
+        {...other}
+      >
         <IconButton
           className={cx(classes.buttonEdit, editButtonClass)}
           icon={editing ? Icon.eye : Icon.pencil}
