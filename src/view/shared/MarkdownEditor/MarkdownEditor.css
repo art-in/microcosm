@@ -9,9 +9,14 @@
   resize: vertical;
   padding: 0.3em;
 
-  /* merge height with paddings so scroll height equals to height,
-       and when setting scroll height to height it does not grow infinitely */
+  /* merge height with paddings so scroll height equals to height, and when
+     setting scroll height to height it does not grow infinitely */
   box-sizing: border-box;
+
+  /* prevent horizontal scroll bar to appear, as it changes scroll height of
+     the area and messing with auto-resize logic, so sometimes it can provoke
+     infinite vertical scroll bar blinking after each character edit (#85) */
+  overflow-x: hidden;
 }
 
 .button-edit {
