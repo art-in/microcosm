@@ -22,7 +22,8 @@ import classes from './Modal.css';
  * @extends {Component<Props>}
  */
 export default class Modal extends Component {
-  componentDidUpdate() {
+  checkScroll() {
+    // schedule event to next task to avoid recursive update.
     window.setTimeout(() => {
       if (this.props.modal.active && this.props.modal.isScrolledTop) {
         this.backing.scrollTop = 0;
@@ -33,6 +34,14 @@ export default class Modal extends Component {
         this.props.onScroll();
       }
     });
+  }
+
+  componentDidMount() {
+    this.checkScroll();
+  }
+
+  componentDidUpdate() {
+    this.checkScroll();
   }
 
   onBackingClick = e => {

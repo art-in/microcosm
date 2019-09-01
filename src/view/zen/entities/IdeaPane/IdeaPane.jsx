@@ -36,7 +36,8 @@ import classes from './IdeaPane.css';
  * @extends {Component<Props>}
  */
 export default class IdeaPane extends Component {
-  componentDidUpdate() {
+  checkScroll() {
+    // schedule event to next task to avoid recursive update.
     window.setTimeout(() => {
       if (this.props.pane.isScrolledTop) {
         this.container.scrollTop = 0;
@@ -47,6 +48,14 @@ export default class IdeaPane extends Component {
         this.props.onScroll();
       }
     });
+  }
+
+  componentDidMount() {
+    this.checkScroll();
+  }
+
+  componentDidUpdate() {
+    this.checkScroll();
   }
 
   render() {

@@ -63,10 +63,15 @@ export default function connect(mapPropsToVM, mapDispatchToProps = noop) {
       }
 
       componentDidUpdate(prevProps, prevState) {
+        // rebinding view to new vm.
+        // vm can be swapped several times during same js task, eg. recursive
+        // update. but since react batches updates, rebind will happen to the
+        // latest passed vm. this may result in emitting events on new vm when
+        // view not yet subscribed ("Triggering change event on view model, but
+        // no one listens to it"). to fix this make sure to schedule vm swap to
+        // next js task, eg. wrap action dispatch with 'setTimeout'.
         if (this.state.vm !== prevState.vm) {
           if (prevState.vm) {
-            // in case new vm instance passed to component,
-            // we should unbind previous vm
             prevState.vm.unsubscribe(this.onVMChange);
           }
 
