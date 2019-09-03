@@ -1,13 +1,12 @@
 const path = require('path');
 const fs = require('fs');
+const assert = require('assert');
 
 const gutil = require('gulp-util');
 const webpack = require('webpack');
-const assert = require('assert');
 const table = require('text-table');
 const WebpackDevServer = require('webpack-dev-server');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 /**
  * Gets config of packing client assets into bundle
@@ -73,29 +72,15 @@ function getPackConfig(opts) {
 
   if (opts.watch) {
     assert(opts.serv, 'Watch mode needs developer server options');
-
-    // TODO: are these entries necessary? because they are not in latest docs.
-    //       but if remove them - hot reload will not work.
-    entries.push(
-      `webpack-dev-server/client?` +
-        `http://${opts.serv.host}:${opts.serv.port}/`,
-      'webpack/hot/dev-server'
-    );
-
-    plugins.push(new webpack.HotModuleReplacementPlugin());
-
     babelPlugins.push(require('react-hot-loader/babel'));
   }
 
   if (opts.isProduction) {
-    // 1. include minified version of libs (eg. react)
-    // 2. enable all kind of optimizations to generate optimized bundles
+    // 1. minify / tree shake
+    // 2. include minified versions of third-party libs (eg. react)
     // 3. use process.env.NODE_ENV in the app for runtime optimizations
     //    (eg. to disable logger/perf store middlewares in prod)
     mode = 'production';
-
-    // minify js scripts
-    plugins.push(new UglifyJsPlugin());
 
     // do not include source maps
     devtool = false;
@@ -105,7 +90,7 @@ function getPackConfig(opts) {
     // stacktrace source-mapping:
     // - 'eval-source-map':
     //    chrome devtools - all good,
-    //    karma - slitely wrong line numbers.
+    //    karma - slightly wrong line numbers.
     // - 'source-map':
     //    chrome devtools - all good,
     //    karma - not source-mapped at all.
@@ -149,7 +134,7 @@ function getPackConfig(opts) {
 
       // URL path from which additional chunks will be requested in case
       // bundle split up on several chunks
-      // (eg. if url-loader does not inlude font into bundle but extract
+      // (eg. if url-loader does not include font into bundle but extract
       // it to separate chunk, this is URL path url-loader will add to
       // URL to request that chunk)
       publicPath: opts.bundleUrlPath
@@ -186,11 +171,11 @@ function getPackConfig(opts) {
 
                 // use camel-case notation of class names in js
                 // to be able to type check them, otherwise usage
-                // of unexisting class will be ignored
+                // of nonexistent class will be ignored
                 // (classes.classA instead of classes['class-a'])
                 camelCase: true,
 
-                // use modules to incapsulate view component styles
+                // use modules to encapsulate view component styles
                 modules: true,
                 localIdentName: '[name]-[local]',
 
@@ -252,8 +237,6 @@ function pack(opts) {
     resolve = res;
   });
 
-  const compiler = webpack(config);
-
   if (opts.watch) {
     const {backend} = opts.serv;
 
@@ -269,10 +252,11 @@ function pack(opts) {
 
     // dev server
     // - serves static files without need of backend server
-    //   (not using this currently - proxying from backend server instead)
+    //   (not using this currently - proxying to backend server instead)
     // - builds src modules into bundle with webpack and serves it from memory
     // - rebuilds bundle on-the-fly when src modules changed
-    const server = new WebpackDevServer(compiler, {
+    // - sends module changes to client through HMR plugin
+    const devServerConfig = {
       // secure https connection (should reflect backend secure options)
       https: backend.secure.enabled
         ? {
@@ -305,7 +289,12 @@ function pack(opts) {
 
       // do not spam browser log
       clientLogLevel: 'warning'
-    });
+    };
+
+    // update config by adding necessary entries and plugins
+    WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
+    const compiler = webpack(config);
+    const server = new WebpackDevServer(compiler, devServerConfig);
 
     server.listen(opts.serv.port, opts.serv.host, function(err) {
       if (err) {
@@ -324,7 +313,7 @@ function pack(opts) {
       );
     });
   } else {
-    compiler.run(function(err, stats) {
+    webpack(config).run(function(err, stats) {
       if (err) {
         gutil.log(err);
       } else {
