@@ -9,7 +9,6 @@ import Point from 'model/entities/Point';
 import ViewMode from 'vm/main/MindsetViewMode';
 import getMindmapFocusNode from 'vm/map/utils/get-mindmap-focus-node';
 import view from 'vm/utils/view-patch';
-import MindsetType from 'model/entities/Mindset';
 import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-position-and-size';
 
 /**
@@ -43,9 +42,7 @@ export default async function(state, data, dispatch, mutate) {
 
   switch (code) {
     case 'Escape':
-      if (mindset.mode === ViewMode.mindmap) {
-        dispatch({type: 'deactivate-popups'});
-      }
+      dispatch({type: 'deactivate-popups'});
       break;
 
     case 'ArrowDown':
