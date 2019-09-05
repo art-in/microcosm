@@ -1,5 +1,5 @@
 /**
- * Generages new GUID
+ * Generates new GUID
  * @return {string}
  */
 export default function guid() {

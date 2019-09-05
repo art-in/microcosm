@@ -4,12 +4,12 @@
  * Use case?
  * Both following conditions should meet.
  *
- * 1. Need to execute async tasks atomicaly
+ * 1. Need to execute async tasks atomically
  * Async tasks executed by series of sync sub-tasks (steps in js task queue).
  * When async tasks called in parallel, their sub-tasks can mix up, which
  * is usually OK, because improves performance.
  * But sometimes unacceptable: eg. get/insert ops in DB.
- * To ensure certain series of async tasks are executed atomicaly
+ * To ensure certain series of async tasks are executed atomically
  * (ie. sub-tasks not mixed up), we should maintain our own
  * task queue for them.
  *
@@ -17,7 +17,7 @@
  * Ie. we do not know what async tasks we need to execute at once,
  * they initiated in the process (eg. by user actions).
  * Otherwise it's better chain them in sequence with
- * simple 'await's. Same, if we have list of generic async tasks
+ * simple awaits. Same, if we have list of generic async tasks
  * - again, better use simple foreach loop with 'await' inside
  */
 export default class AsyncTaskQueue {

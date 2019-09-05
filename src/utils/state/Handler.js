@@ -10,12 +10,12 @@ import ActionType from './Action';
  * to state by mutators.
  *
  * Q: Why not just change state directly?
- * A: It helps to define business logic as series of clean independant
+ * A: It helps to define business logic as series of clean independent
  *    testable functions (FP style).
  *  - code reuse. action handler defines _what_ should be changed once.
  *    if state consists of layers which mirroring each other (db-model-view),
  *    mutation produced by handler can be applied to multiple layers.
- *    meanwile handler itself does not have references to _how_ mutations
+ *    meanwhile handler itself does not have references to _how_ mutations
  *    should be applied (refs to db, model, view).
  *  - portability: ability to move and run business logic in any environment
  *    (ie. create server rest-api by dispatching same actions as on client,

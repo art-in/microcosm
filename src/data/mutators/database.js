@@ -14,7 +14,7 @@ import * as mindsetDB from '../db/mindsets';
 /**
  * DB mutation queue
  * Since DB uses async API with two-phased updates (get/set),
- * we need to perform those updates atomicly to avoid
+ * we need to perform those updates atomically to avoid
  * 'Document update conflict' errors.
  * To achieve that we use task queue to ensure that sub-tasks
  * of async update tasks (get and set) will not mix up.

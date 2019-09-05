@@ -19,10 +19,10 @@ export default function guardObjectProps(object) {
 
   let result = object;
 
-  // prevent writes to unexisting props
+  // prevent writes to nonexisting props
   Object.seal(result);
 
-  // prevent reads from unexisting props.
+  // prevent reads from nonexisting props.
   // do not create proxies in production since proxy is a performance hit.
   if (process.env.NODE_ENV !== 'production') {
     result = new Proxy(result, {
@@ -65,7 +65,7 @@ function onGet(target, name) {
     // explicitly convert prop name to string because
     // Symbol does not support implicit conversion (TypeError)
     const str = name.toString();
-    throw Error(`Failed to read unexisting property '${str}'`);
+    throw Error(`Failed to read nonexisting property '${str}'`);
   }
 
   return target[name];

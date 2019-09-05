@@ -61,7 +61,7 @@ const charCount = 26;
 function getGroupId() {
   if (groups.size >= charCount) {
     // not enough unique group IDs to start new group.
-    // this can happen since we use finit set of IDs (alphabet letters),
+    // this can happen since we use finite set of IDs (alphabet letters),
     // eg. when starting lots of group measures and not ending them quickly
     // enough. Usually this should not happen, and if it does - it may highligh
     // problems with the code.

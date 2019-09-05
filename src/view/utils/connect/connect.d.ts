@@ -28,8 +28,8 @@ interface MapDispatchToProps<TInjectedProps, TOwnProps> {
     (dispatch: Function, props: TOwnProps): TInjectedProps;
 }
 
-// bug (#66): own props will not be staticly checked because its type cannot be
-// infered from component props for some reason, unless user explicitly 
+// bug (#66): own props will not be statically checked because its type cannot be
+// inferred from component props for some reason, unless user explicitly 
 // specifies type of own props. but default type is generic 'any' for now.
 export interface ConnectFunction {
 

@@ -14,7 +14,7 @@
     eg. `onClick={this.onChildClick.bind(null, this.props.closuredParentProp)}`  
 
     If parent updated but child update was skipped - child element remains subscribed to old handler function with old parent data in closure.  
-    This is totaly valid, but not intuitively expected at first glance.  
+    This is totally valid, but not intuitively expected at first glance.  
     __Workaround__: if closured data is some entity object - then closure entity ID instead of entity itself.  
 
 ---

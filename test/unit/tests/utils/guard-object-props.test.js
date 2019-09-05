@@ -3,13 +3,13 @@ import {expect} from 'test/utils';
 import guardObjectProps from 'src/utils/guard-object-props';
 
 describe('guard-object-props', () => {
-  it('should fail to read unexisting prop', () => {
+  it('should fail to read nonexisting prop', () => {
     const obj = guardObjectProps({a: 1});
 
     // @ts-ignore allow run-time check
     const result = () => obj.X;
 
-    expect(result).to.throw(`Failed to read unexisting property 'X'`);
+    expect(result).to.throw(`Failed to read nonexisting property 'X'`);
   });
 
   it('should NOT fail to read existing prop', () => {
@@ -31,7 +31,7 @@ describe('guard-object-props', () => {
     expect(result).to.equal(1);
   });
 
-  it('should fail to write unexisting prop', () => {
+  it('should fail to write nonexisting prop', () => {
     const obj = guardObjectProps({a: 1});
 
     // @ts-ignore allow run-time check
@@ -72,12 +72,12 @@ describe('guard-object-props', () => {
     expect(result).to.equal(1);
   });
 
-  it('should fail to read unexisting symbol prop', () => {
+  it('should fail to read nonexisting symbol prop', () => {
     const symbol = Symbol('sym');
     const obj = guardObjectProps({});
 
     expect(() => obj[symbol]).to.throw(
-      `Failed to read unexisting property 'Symbol(sym)'`
+      `Failed to read nonexisting property 'Symbol(sym)'`
     );
   });
 });

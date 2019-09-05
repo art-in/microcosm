@@ -6,8 +6,8 @@ import StateType from 'boot/client/State';
  * Clones state. Non-clonable props will be shallowly copied.
  *
  * Q: why mutate state here?
- * A: it is not mutated: state first mutated to ignore some props, then clonned,
- *    then restored back to original. this is least nasty approach I fould so
+ * A: it is not mutated: state first mutated to ignore some props, then cloned,
+ *    then restored back to original. this is least nasty approach I found so
  *    far to ignore certain object props while cloning. approach with
  *    destructuring assignment looks even worse.
  *
@@ -36,7 +36,7 @@ export default function cloneStateSafely(state) {
   state.data.associations = null;
   state.data.mindsets = null;
 
-  // everything else can be safely clonned
+  // everything else can be safely cloned
   const stateClone = clone(state);
 
   // restore non-clonable props & shallow copy them to the clone

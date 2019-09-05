@@ -9,13 +9,13 @@ import Patch from 'utils/state/Patch';
 // while dispatching several actions.
 //
 // they all fall into three groups of how dispatches were started:
-// 1. simultaneously (concurently, from same task)
+// 1. simultaneously (concurrently, from same task)
 // 2. separately (concurrently, from separate tasks)
 // 3. sequentially
 //
 // case #1 (same task) has best chance for race conditions,
 // because not only tasks, but also microtasks can race here.
-// but running from same task means it was intentianely done from code,
+// but running from same task means it was intentionally done from code,
 // and that can be easily fixed by awaiting (sequential dispatch #3).
 //
 // case #2 (separate tasks) is closest for real situations.
@@ -257,7 +257,7 @@ describe('race conditions', () => {
         });
       });
 
-      // since mutator is async process of appling mutation
+      // since mutator is async process of applying mutation
       // is broken. create-mutation-apply-mutation is not atomic.
       // tasks start to race.
       const mutator = async (state, patch) => {
@@ -729,7 +729,7 @@ describe('race conditions', () => {
 
       // dispatch forced to await async handler to get patch,
       // but since it does not schedule separate task and
-      // resolves in current one - two compeatng handlers
+      // resolves in current one - two competing handlers
       // create microtasks which start to race.
       handler.reg('increase counter', async (state, data, dispatch, mutate) => {
         seq.push('start handle action (create inter mutation)');

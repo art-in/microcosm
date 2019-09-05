@@ -19,7 +19,7 @@ export default function defaultMutator(state) {
     // A: updating mindmap view model after some model mutations can be quite
     //    tough operation, because of weigh zone slicing (see 'map-graph').
     //    eg. adding new association may change root path weights (RPW) for
-    //    bunch of ideas. with new RPWs they may occure in different weight
+    //    bunch of ideas. with new RPWs they may occur in different weight
     //    zone, thou some new nodes should appear, some be shaded and some be
     //    removed from mindmap.
     //    so for code simplicity and maintainability, sacrificing performance,

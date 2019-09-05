@@ -110,7 +110,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
       target[prop] = sourceValue;
     } else if (targetType === 'object' && sourceType === 'object') {
       // check object constructor.
-      // allow source constructor to be genenic object (simple patch).
+      // allow source constructor to be generic object (simple patch).
       if (
         sourceValue.constructor !== Object &&
         targetValue.constructor !== sourceValue.constructor

@@ -1,8 +1,8 @@
-1. **jsdoc**: Desctructured function params are not supported  
+1. **jsdoc**: Destructured function params are not supported  
     `TS8024: JSDoc '@param' tag has name 'opts', but there is no parameter with that name.`  
     https://github.com/Microsoft/TypeScript/issues/11859  
 
-    _Workaround_: desctuct params in the body of function instead of params header.
+    _Workaround_: destruct params in the body of function instead of params header.
 
 ---
 
@@ -79,7 +79,7 @@
     _Workaround 2_: ignore css files for entire project (if no `.css.d.ts` exist).  
     if combined with option #1 this helps to not prebuild typings for CI,  
     but checking css in local env and ignore them in CI is even worse option  
-    (ignore css globaly, otherwise - better prebuild before running tests or just do not .gitignore).  
+    (ignore css globally, otherwise - better prebuild before running tests or just do not .gitignore).  
     `declare module '*.css' {...}`  
     https://stackoverflow.com/a/44228423/1064570
 

@@ -8,7 +8,7 @@
 const ConnectionState = {
   /**
    * Connection is not established (eg. offline, network error, remote party
-   * is shutted down, etc.)
+   * is shut down, etc.)
    */
   disconnected: 0,
 

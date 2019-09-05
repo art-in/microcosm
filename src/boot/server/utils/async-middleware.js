@@ -1,7 +1,7 @@
 /**
- * Wrapper for express async middlewares, which propogates errors to next
+ * Wrapper for express async middlewares, which propagates errors to next
  * middleware in the chain (up to express default error handler).
- * Otherwise those errors will quitely stay inside rejected promise (unhandled
+ * Otherwise those errors will quietly stay inside rejected promise (unhandled
  * promise rejection), and request will hang up.
  *
  * Source

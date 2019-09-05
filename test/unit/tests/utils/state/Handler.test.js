@@ -128,7 +128,7 @@ describe('Handler', () => {
       expect(patch[2].type).to.equal('intermediate mutation 3');
       expect(patch[3].type).to.equal('resulting mutation');
 
-      // check mutations existance
+      // check mutations existence
       expect(patch['intermediate mutation 1']).to.exist;
       expect(patch['intermediate mutation 2']).to.exist;
       expect(patch['intermediate mutation 3']).to.exist;

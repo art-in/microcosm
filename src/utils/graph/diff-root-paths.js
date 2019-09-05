@@ -11,7 +11,7 @@ import IVertexType from 'utils/graph/interfaces/IVertex';
  *    most of them usually will be skipped since MRP equals to vertex state.
  *    is it possible to only produce MRP object when root path is really
  *    different (ie. diff-ing during root paths calc process)?
- * A: im affraid no (or I dont know that solution for now).
+ * A: im afraid no (or I do not know that solution for now).
  *    calc uses Dijkstra algorithm which can visit same vertex several times
  *    during search for the best path among all possible. so it needs to
  *    preserve previous best path info somewhere anyway. it is hard to

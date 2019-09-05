@@ -30,7 +30,7 @@ export default async function getDbConnectionState(
       return ConnectionState.disconnected;
     }
   } catch (e) {
-    // db server not reachable (offline, db shutted down, etc)
+    // db server not reachable (offline, db shut down, etc)
     return ConnectionState.disconnected;
   }
 }

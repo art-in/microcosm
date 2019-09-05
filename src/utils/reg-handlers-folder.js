@@ -1,7 +1,7 @@
 import Handler from 'utils/state/Handler';
 
 /**
- * Dynamicly registers action handlers in folder
+ * Dynamically registers action handlers in folder
  *
  * Action type    - module name
  * Action handler - module default export

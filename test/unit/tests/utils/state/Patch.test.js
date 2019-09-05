@@ -19,7 +19,7 @@ describe('Patch', () => {
     expect(result[0]).to.be.instanceOf(Mutation);
   });
 
-  it('should be iteratable via forEach', () => {
+  it('should be iterable via forEach', () => {
     // setup
     const patch = new Patch();
 

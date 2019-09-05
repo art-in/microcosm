@@ -1,5 +1,5 @@
 1. No API to check if local database was already created and replicated from remote database.  
-    Checking existance of local `indexed db` manually will not work since `pouchdb` will always create that before attempt to replicate from remote.    
+    Checking existence of local `indexed db` manually will not work since `pouchdb` will always create that before attempt to replicate from remote.    
     https://stackoverflow.com/questions/38541859/pouchdb-check-if-local-database-exists  
 
     **Workaround**: using handmade `localStorage` key.  

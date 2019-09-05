@@ -1,9 +1,9 @@
 import perf from 'utils/perf';
 import Middleware from 'utils/state/Middleware';
 
-const dispatchEmoj = '🚀';
-const mutateEmoj = '❗';
-const failEmoj = '💥';
+const dispatchEmoji = '🚀';
+const mutateEmoji = '❗';
+const failEmoji = '💥';
 
 /**
  * Creates new instance of performance middleware.
@@ -28,7 +28,7 @@ export default () =>
       const perfMutationIds = new Map();
 
       events.on('before-dispatch', ({action}) => {
-        const dispatchLabel = `${dispatchEmoj} ${action.type}`;
+        const dispatchLabel = `${dispatchEmoji} ${action.type}`;
         perfDispatchId = perf.startGroup(dispatchLabel);
       });
 
@@ -38,7 +38,7 @@ export default () =>
 
       events.on('before-mutation', ({mutationId, patch}) => {
         const mutations = patch.map(m => m.type).join(', ');
-        const mutationLabel = `${mutateEmoj} ${mutations}`;
+        const mutationLabel = `${mutateEmoji} ${mutations}`;
         const perfId = perf.start(mutationLabel, perfDispatchId);
 
         perfMutationIds.set(mutationId, perfId);
@@ -50,14 +50,14 @@ export default () =>
       });
 
       events.on('mutation-fail', ({mutationId}) => {
-        perf.end(perfMutationIds.get(mutationId), `failed ${failEmoj}`);
+        perf.end(perfMutationIds.get(mutationId), `failed ${failEmoji}`);
         perfMutationIds.delete(mutationId);
 
-        perf.endGroup(perfDispatchId, `failed in mutator ${failEmoj}`);
+        perf.endGroup(perfDispatchId, `failed in mutator ${failEmoji}`);
       });
 
       events.on('handler-fail', () => {
-        perf.endGroup(perfDispatchId, `failed in handler ${failEmoj}`);
+        perf.endGroup(perfDispatchId, `failed in handler ${failEmoji}`);
       });
     }
   });

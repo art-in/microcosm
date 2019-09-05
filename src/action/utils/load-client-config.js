@@ -12,7 +12,7 @@ export default async function loadClientConfig(apiServerUrl, fetch) {
   try {
     response = await fetch(`${apiServerUrl}config`);
   } catch (e) {
-    // server not reachable (offline, server shutted down, etc)
+    // server not reachable (offline, server shut down, etc)
     return null;
   }
 

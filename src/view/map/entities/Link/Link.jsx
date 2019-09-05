@@ -15,7 +15,7 @@ import Portal from 'view/shared/Portal';
 
 import classes from './Link.css';
 
-const GRADIENT_DENCITY_RATIO = 3000;
+const GRADIENT_DENSITY_RATIO = 3000;
 const ANIMATION_DURATION = 3; // sec
 
 const LINE_WIDTH = 1;
@@ -182,7 +182,7 @@ export default class Link extends Component {
     const linkLength = sqrt(pow(dx, 2) + pow(dy, 2));
     const angleDeg = atan2(dy, dx) * (180 / Math.PI);
     const scale = link.from.scale;
-    const gradientDencity = GRADIENT_DENCITY_RATIO * scale / linkLength;
+    const gradientDensity = GRADIENT_DENSITY_RATIO * scale / linkLength;
     const gradientId = `link-gradient-${link.id}`;
 
     return (
@@ -237,7 +237,7 @@ export default class Link extends Component {
             id={gradientId}
             gradientTransform={`rotate(${angleDeg})`}
             x1="0%"
-            x2={`${gradientDencity / 2}%`}
+            x2={`${gradientDensity / 2}%`}
             spreadMethod="repeat"
           >
             <stop offset="0%" stopColor="rgba(0, 0, 0, 0)" />
@@ -247,7 +247,7 @@ export default class Link extends Component {
 
             {/*
                         Q: why animate with SMIL (does not work in Edge)?
-                        A: best soluting I've found for now (see svg gotcha #6)
+                        A: best solution I've found for now (see svg gotcha #6)
                            have tried with CSS animation:
                             - animate gradient of `fill` (very slow)
                             - animate pattern of `fill` (Chrome only)
@@ -256,15 +256,15 @@ export default class Link extends Component {
             <animate
               attributeName="x1"
               from="0%"
-              to={`${gradientDencity / 2}%`}
+              to={`${gradientDensity / 2}%`}
               dur={`${ANIMATION_DURATION}s`}
               repeatCount="indefinite"
             />
 
             <animate
               attributeName="x2"
-              from={`${gradientDencity / 2}%`}
-              to={`${gradientDencity}%`}
+              from={`${gradientDensity / 2}%`}
+              to={`${gradientDensity}%`}
               dur={`${ANIMATION_DURATION}s`}
               repeatCount="indefinite"
             />

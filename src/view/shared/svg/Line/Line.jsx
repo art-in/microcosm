@@ -28,7 +28,7 @@ export default class Line extends Component {
     } = this.props;
 
     // Variable Stroke Width (VSW) not supported by SVG (#26).
-    // Currenly we need to variate start and end widths only.
+    // Currently we need to variate start and end widths only.
     // We do it by drawing trapeze path:
     // start / end width defined by (pos1-pos4) and (pos2-pos3) lines.
     //

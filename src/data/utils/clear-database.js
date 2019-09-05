@@ -1,5 +1,5 @@
 /**
- * Removes all documents from database (replicatable)
+ * Removes all documents from database (will replicate)
  *
  * @param {PouchDB.Database} db
  * @return {Promise}

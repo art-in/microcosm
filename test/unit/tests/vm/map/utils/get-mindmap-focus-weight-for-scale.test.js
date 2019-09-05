@@ -26,13 +26,13 @@ describe('get-mindmap-focus-weight-for-scale', () => {
       // get target focus weight for current scale
       const focusWeight = getMindmapFocusWeightForScale(viewportScale);
 
-      // find a node which happend to be in the center
+      // find a node which happened to be in the center
       // of focus zone (focused node)
       const node = nodes.find(n => Math.abs(n.weight - focusWeight) < 1);
 
       if (node === undefined) {
         throw Error(
-          `Node with appropritate RPW '${focusWeight}' ` +
+          `Node with appropriate RPW '${focusWeight}' ` +
             `for viewport scale '${viewportScale}' was not found`
         );
       }

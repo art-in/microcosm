@@ -19,7 +19,7 @@ import {NODE_DOWNSCALE_RATE} from './get-node-scale-for-weight';
  *
  * Node 2: balancing focus weight can be implemented imperatively,
  * ie. by traversing nodes graph and finding RPW of nodes with resulting
- * scale closest to 1. But algorithmical approach will always be faster
+ * scale closest to 1. But algorithmic approach will always be faster
  * (harder to read though).
  *
  * @param {number|undefined} viewboxScale

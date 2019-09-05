@@ -1,5 +1,5 @@
 /**
- * Dynamicly registers mutators in folder
+ * Dynamically registers mutators in folder
  *
  * Mutation type - module name
  * Mutator       - module default export

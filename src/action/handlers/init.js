@@ -83,7 +83,7 @@ export default async function init(state, data, dispatch, mutate) {
   let shouldLogin;
 
   if (userName && userPassword) {
-    // forse login if user credentials are explicitly provided
+    // force login if user credentials are explicitly provided
     shouldLogin = true;
   } else if (!lastDbServerUrl) {
     // force login form on first visit

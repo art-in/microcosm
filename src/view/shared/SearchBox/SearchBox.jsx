@@ -14,7 +14,7 @@ import classes from './SearchBox.css';
  * TODO: move 'triggerIcon' to search box view model. once component start
  *       receiving state through view model - entire state should go through
  *       view model. otherwise if component is connected to store, and want
- *       to conditionaly change prop through jsx, view model will not be dirty
+ *       to conditionally change prop through jsx, view model will not be dirty
  *       and view will not be updated.
  *
  * @typedef {object} Props

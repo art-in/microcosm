@@ -25,7 +25,7 @@ export default class Lookup extends ViewModel {
   suggestions = [];
 
   /**
-   * Id of suggestion highlighed
+   * Id of suggestion highlighted
    * in the list of suggestions
    * @type {string|undefined}
    */

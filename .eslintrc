@@ -2,7 +2,6 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-
         // prettier formatting rules (has no code quality rules).
         // turns off eslint rules which are in conflict.
         "plugin:prettier/recommended"
@@ -20,18 +19,15 @@
         // force window.<global> notation to make globals usage explicit.
         // avoid using "env":"browser" to allow bunch of environment variables.
         "window": false,
-
         // host objects (which should be accessed with window.<global>, but
         // typescript does not support them on window object)
         "HTMLElement": false,
         "Response": false,
         "FileReader": false,
         "File": false,
-
         // webpack objects
         "process": false,
-
-        // javascript standart build-ins
+        // javascript standard build-ins
         "Promise": false,
         "Symbol": false,
         "Proxy": false,
@@ -43,74 +39,81 @@
     },
     "rules": {
         // turn on prettier formatting rules
-        "prettier/prettier": ["error", {
-            // this is not hard limit, but prefered line width, that can be
-            // extended in certain cases (eg. in long assigments, imports).
-            // note: not respected in comments at all.
-            "printWidth": 80,
-
-            // spaces add to line width, and sometimes look very ugly
-            // (eg. nested destructuring: "{vm: { main: { mindset } } } }")
-            "bracketSpacing": false,
-
-            // single quotes make bit less visual noise than double quotes.
-            // note: jsx will always use double quotes.
-            "singleQuote": true
-        }],
-
-        "max-len": ["error", {
-            // hard line width limit. preferred line width is controlled by
-            // prettier and equals 80
-            "code": 160,
-
-            // prettier does not control line width in comments, so enforce it
-            // with eslint
-            "comments": 80,
-
-            // urls in comments cannot be wrapped, so we need to ignore them
-            "ignoreUrls": true
-        }],
-
+        "prettier/prettier": [
+            "error",
+            {
+                // this is not hard limit, but preferred line width, that can be
+                // extended in certain cases (eg. in long assignments, imports).
+                // note: not respected in comments at all.
+                "printWidth": 80,
+                // spaces add to line width, and sometimes look very ugly
+                // (eg. nested destructuring: "{vm: { main: { mindset } } } }")
+                "bracketSpacing": false,
+                // single quotes make bit less visual noise than double quotes.
+                // note: jsx will always use double quotes.
+                "singleQuote": true
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                // hard line width limit. preferred line width is controlled by
+                // prettier and equals 80
+                "code": 160,
+                // prettier does not control line width in comments, so enforce it
+                // with eslint
+                "comments": 80,
+                // urls in comments cannot be wrapped, so we need to ignore them
+                "ignoreUrls": true
+            }
+        ],
         // since this is not a lib to embed into another project
         // and make noise there, i feel free to log anything
         "no-console": 0,
-
         // enforce to use 'const' over 'let' to follow spec meaning
-        "prefer-const": ["error"],
-
-        "no-unused-vars": ["error", {
-
-            // 1. allow unused vars with 'Type' in name, since they really
-            //    used in jsdoc type annotations, but eslint does not support
-            //    jsdoc as a valid 'use' for vars
-            //    https://github.com/eslint/eslint/issues/2813
-            // 2. allow unused vars with 'unrested' in name, to remove
-            //    props from rest`ed object while destructuring
-            //    (eg. we do not want 'someProp' to appear in 'rest' object:
-            //    'const {someProp: unrested, ...rest} = obj')
-            "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
-        }],
-
-        // jsdoc annotations force to describe argument types
-        "valid-jsdoc": ["error", {
-            "prefer": {"returns": "return"},
-            // only require 'return' if there is return statement
-            "requireReturn": false,
-            "requireParamDescription": false,
-            "requireReturnDescription": false
-        }],
-        "require-jsdoc": ["error", {
-            "require": {
-                "FunctionDeclaration": true,
-                "MethodDefinition": true,
-                "ClassDeclaration": true,
-
-                // TODO: enable
-                "ArrowFunctionExpression": false,
-                "FunctionExpression": false
+        "prefer-const": [
+            "error"
+        ],
+        "no-unused-vars": [
+            "error",
+            {
+                // 1. allow unused vars with 'Type' in name, since they really
+                //    used in jsdoc type annotations, but eslint does not support
+                //    jsdoc as a valid 'use' for vars
+                //    https://github.com/eslint/eslint/issues/2813
+                // 2. allow unused vars with 'unrested' in name, to remove
+                //    props from rest`ed object while destructuring
+                //    (eg. we do not want 'someProp' to appear in 'rest' object:
+                //    'const {someProp: unrested, ...rest} = obj')
+                "varsIgnorePattern": "(.+Type$|^unrested\\d?$)"
             }
-        }],
-
+        ],
+        // jsdoc annotations force to describe argument types
+        "valid-jsdoc": [
+            "error",
+            {
+                "prefer": {
+                    "returns": "return"
+                },
+                // only require 'return' if there is return statement
+                "requireReturn": false,
+                "requireParamDescription": false,
+                "requireReturnDescription": false
+            }
+        ],
+        "require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "FunctionDeclaration": true,
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true,
+                    // TODO: enable
+                    "ArrowFunctionExpression": false,
+                    "FunctionExpression": false
+                }
+            }
+        ],
         // ignore 'propTypes' since using static prop validation
         "react/prop-types": 0
     }

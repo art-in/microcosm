@@ -14,7 +14,7 @@ import weighRootPaths from 'utils/graph/weigh-root-paths';
  *
  * Q: why is it in src/ folder and not in test/ like other test utils?
  * A: this util has unit test, and I did not found good place for tests
- *    of test utils yet. but basicly yes, this should be in test/utils/ folder.
+ *    of test utils yet. but basically yes, this should be in test/utils/.
  *
  * @typedef {object} Return
  * @prop {Idea} root

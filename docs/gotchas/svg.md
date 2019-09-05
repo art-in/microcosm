@@ -45,20 +45,20 @@
             - (pros) works in Chrome and FF
             - (pros) fast enough (~20% of event loop time on Rendering+Painting for 10 lines in Chrome)
             - (cons) does not work in Edge
-            - (cons) SMIL will be eventually depricated in Chrome/FF #2
+            - (cons) SMIL will be eventually deprecated in Chrome/FF #2
 
         - animate `<stop>` colors with CSS animation (hack, since stop offset is not accessible from CSS)  
         http://jsbin.com/wetivek/1/edit?html,css,output  
             - (pros) works everywhere  
-            - (cons) blury image (needs at least 10 stop colors to have more or less clear borders between colors),  
+            - (cons) blurry image (needs at least 10 stop colors to have more or less clear borders between colors),  
             - (cons) very slow (~50% of event loop time on Rendering+Painting for 10 lines and 10 gradient stops in Chrome)   
     - animate pattern of line `fill`  
     http://jsbin.com/cuwidoj/3/edit?html,css,output  
         - (pros) fast enough (~20% of event loop time on Rendering+Painting for 10 lines in Chrome)  
         - (cons) does not work in FF and Edge.  
-            FF and Edge do not animate transform of elements inside SVG `<defs>` with CSS according to the SVG spec, althrough Chrome does.    
+            FF and Edge do not animate transform of elements inside SVG `<defs>` with CSS according to the SVG spec, although Chrome does.    
             https://greensock.com/forums/topic/13423-svg-pattern-transform-browser-compatibility/?do=findComment&comment=57279  
-        - (cons) Edge randomly fails to draw pattern correctly when dynamicaly changing angle of line and pattern  
+        - (cons) Edge randomly fails to draw pattern correctly when dynamically changing angle of line and pattern  
 
     - animate offset of line `stroke` (with `stroke-dasharray` and `stroke-dashoffset`)  
     http://jsbin.com/mesonu/4/edit?html,css,output  

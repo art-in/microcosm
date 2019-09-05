@@ -10,7 +10,7 @@ import LogEntry from './LogEntry';
 import log from './log';
 
 const THROTTLING_ENABLED = true;
-const DEFAULT_TROTTLE_DELAY = 1000;
+const DEFAULT_THROTTLE_DELAY = 1000;
 
 /**
  * Creates new instance of logger middleware.
@@ -53,7 +53,7 @@ function throttleLogDispatch(middleware, events, action) {
     // dictionary throttle state:
     // key - action type
     // value.lastTime       - time of last logged dispatch
-    // value.throttledCount - number of throtted action
+    // value.throttledCount - number of throttled action
     middleware.state.throttleState = new Map();
   }
 
@@ -77,7 +77,7 @@ function throttleLogDispatch(middleware, events, action) {
       delay =
         typeof action.throttleLog === 'number'
           ? action.throttleLog
-          : DEFAULT_TROTTLE_DELAY;
+          : DEFAULT_THROTTLE_DELAY;
     }
 
     if (firstAction || (!firstAction && elapsed > delay)) {

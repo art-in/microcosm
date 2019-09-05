@@ -47,7 +47,7 @@ export default async function loadMindset(state, data, dispatch) {
   const {isInitialLoad} = data;
 
   // init mindset databases.
-  // only init once - repeated mindset reloads should not reinit databases.
+  // only init once - repeated mindset reloads should not re-init databases.
   if (isInitialLoad) {
     try {
       localDBs = await initDatabases(

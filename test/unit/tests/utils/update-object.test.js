@@ -48,7 +48,7 @@ describe('update-object', () => {
     expect(target).to.deep.equal({nested: [4]});
   });
 
-  it('shold ignore prototype props of source', () => {
+  it('should ignore prototype props of source', () => {
     const target = {a: 'original', b: 'original'};
     const source = {a: 'updated'};
     Object.setPrototypeOf(source, {b: 'updated'});

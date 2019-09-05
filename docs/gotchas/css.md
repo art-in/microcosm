@@ -14,7 +14,7 @@
 ---  
 
 3. No way to set CSS `transform` functions separately.  
-    eg. first add `transform: translate() rotate()`, later add scaling `transform: scale()` - and that will cancel both `translate` and `rotate` since entire `transform` will be overriden.  
+    eg. first add `transform: translate() rotate()`, later add scaling `transform: scale()` - and that will cancel both `translate` and `rotate` since entire `transform` will be overridden.  
     https://stackoverflow.com/questions/5890948/css-transform-without-overwriting-previous-transform  
     __Workaround__: distribute several transformations between several wrappers.  
 
@@ -80,7 +80,7 @@
     - percent-relative `font-size` on root element
     - `px` for borders
     - `em` for everything that should depend on element local font size (paddings, margins, line-heights, etc.)
-    - `rem` for everyting else (font sizes, absolute positions, block sizes, etc.)
+    - `rem` for everything else (font sizes, absolute positions, block sizes, etc.)
 
 ---
 
@@ -93,7 +93,7 @@
 
 9. Default font size in desktop and mobile browsers works differently.  
 
-    In desktop - default font size is really *default font size* that will be applied to page and can be overriden by author (that's why zoom is way to go).  
+    In desktop - default font size is really *default font size* that will be applied to page and can be overridden by author (that's why zoom is way to go).  
     In mobile - it is changing ratio of Font Inflation (Font Boosting in Chrome for Android). Which statistically finds text blocks with text amount above some threshold, and increases font size in that blocks (https://jwir3.wordpress.com/2012/07/30/font-inflation-fennec-and-you/).
 
 ---
@@ -101,7 +101,7 @@
 10. Named media queries.  
 
     Ability to give name for each media breakpoint and reuse it everywhere.  
-    Currently you need to copy-paste breakpoints whereever `@media` is used.  
+    Currently you need to copy-paste breakpoints wherever `@media` is used.  
 
     **Workaround**: Media Queries Level 5 spec adds [Custom Media Queries](https://drafts.csswg.org/mediaqueries-5/#custom-mq), which can be polyfilled with [`postcss-custom-media`](https://github.com/postcss/postcss-custom-media).
 

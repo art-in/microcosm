@@ -105,7 +105,7 @@ async function prepareTempState(state) {
 function normalizeTitle(noteTitle, warnings) {
   let title = noteTitle;
   if (!title) {
-    // we cannot allow empty title, so set smth like current date
+    // we cannot allow empty title, so set something like current date
     title = new Date().toISOString();
   }
 

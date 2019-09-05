@@ -44,7 +44,7 @@ export default class DataState {
   // region shared state (database)
 
   /**
-   * Database heartbeat cancelation token
+   * Database heartbeat cancellation token
    * @type {CancellationTokenType}
    */
   dbHeartbeatToken = undefined;

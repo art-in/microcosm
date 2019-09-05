@@ -29,7 +29,7 @@ export default async function closeSession(dbServerUrl, fetch) {
 
     return response;
   } catch (err) {
-    // server not reachable (offline, server shutted down, etc)
+    // server not reachable (offline, server shut down, etc)
     return {isConnected: false};
   }
 }

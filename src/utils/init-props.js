@@ -1,7 +1,7 @@
 import updateObject from 'utils/update-object';
 
 /**
- * Initializes properties of new class intance
+ * Initializes properties of new class instance
  *
  * @example
  * class A {

@@ -1,72 +1,55 @@
 {
     "compilerOptions": {
-        
         "baseUrl": ".",
-            "paths": {
-                "*": [
-                    // module paths relative to root are allowed when building
-                    // tests only, but let ts allow that for all files to keep
-                    // config simpler (otherwise dynamicly change base url by
-                    // passing it from gulp tasks to packer and type plugin)
-                    "*",
-                    "src/*"
-                ]
+        "paths": {
+            "*": [
+                // module paths relative to root are allowed when building
+                // tests only, but let ts allow that for all files to keep
+                // config simpler (otherwise dynamically change base url by
+                // passing it from gulp tasks to packer and type plugin)
+                "*",
+                "src/*"
+            ]
         },
-
         "allowJs": true,
         "checkJs": true,
         "noEmit": true,
-
         // TODO: gradually cover code with type annotations.
         // for now disable, otherwise it will flood with myriads of type errors.
         // "noImplicitAny": true,
-
         // allow only explicit null/undefined type definitions.
         // TODO: enable when ts bug fixed ("Object is possibly 'undefined'")
-	    // https://github.com/Microsoft/TypeScript/issues/13369
+        // https://github.com/Microsoft/TypeScript/issues/13369
         // "strictNullChecks": true,
-
         // allow to import 'index.js' as module root
         "moduleResolution": "node",
-
         // allow to import default export from modules that do not have
         // explicit default export in es2015 syntax, but instead CommonJS
         // 'module.exports ='. this is auto-resolved as default export by babel
         // but not by typescript (eg. "import React from 'react'")
         "allowSyntheticDefaultImports": true,
-
         // allow object property accessors (get/set)
         "target": "es6",
-
         // support jsx (but do not transpile it)
         "jsx": "preserve",
-
         "lib": [
-
             // support latest ecmascript features (+ previous years too)
             "es2017",
-
             // support DOM refs (window/document, etc.)
             "dom"
         ],
-
         // if omitted, 'node_modules/@types' will be auto-included,
         // but prefer to explicitly list typings here
         "types": [
-
             // allow 'require.context'
             "webpack-env",
-
             // allow 'process.env.NODE_ENV'
             "node",
-
             // support database
             "pouchdb",
-
             // support test environment
             "mocha",
             "sinon",
-
             // support view components
             "react"
         ]

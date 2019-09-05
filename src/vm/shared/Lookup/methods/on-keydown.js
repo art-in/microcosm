@@ -28,7 +28,7 @@ export default function onKeyDown(opts) {
         highlightedSuggestionId: suggestionId
       };
 
-      // prevent default browser behavior of moving carret in input
+      // prevent default browser behavior of moving caret in input
       preventDefault();
       break;
     }

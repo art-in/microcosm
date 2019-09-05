@@ -87,7 +87,7 @@ export default class PriorityQueue {
    * @return {boolean}
    */
   has(item) {
-    // check existance (time - O(1))
+    // check existence (time - O(1))
     return this._items.has(item);
   }
 }

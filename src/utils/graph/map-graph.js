@@ -35,7 +35,7 @@ import IEdgeType from 'utils/graph/interfaces/IEdge';
  * Main purposes of slicing are
  * - reduce amount of vertices by hiding too distant ones, while preserving all
  *   incoming and outgoing edges for vertices in focus zone.
- * - not slice rougly, but introduce intermediate 'shade' zone with 'relaxed'
+ * - not slice roughly, but introduce intermediate 'shade' zone with 'relaxed'
  *   slicing rules
  *
  * Note: mapping can produce graph with vertices unreachable from root.

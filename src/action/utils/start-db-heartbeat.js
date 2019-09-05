@@ -17,7 +17,7 @@ const HEARTBEAT_INTERVAL = 10000; // ms
  * @param {function} dispatch
  * @param {function(RequestInfo, RequestInit): Promise<Response>} fetch
  * @param {function} setTimeout
- * @return {CancellationToken} heartbeat cancelation token
+ * @return {CancellationToken} heartbeat cancellation token
  */
 export default function startDBHeartbeat(
   dbServerUrl,

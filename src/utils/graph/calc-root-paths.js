@@ -27,9 +27,9 @@ import IVertexType from 'utils/graph/interfaces/IVertex';
  *       representation (eg. adjacency matrix) with applied changes and then
  *       calculate paths on that duplicate?
  * A  b) duplicating original graph or creating it in different representations
- *       for purposes of on-graph calculations goin to be extremely inefficient,
- *       since it would need to dupl/create graphs with possibly thousands of
- *       vertices for each graph mutation. this would produce lots of objects
+ *       for purposes of graph calculations going to be extremely inefficient,
+ *       since it would need to duplicate/create graphs with possibly thousands
+ *       of vertices for each graph mutation. this would produce lots of objects
  *       which will hurt GC.
  *
  * @param {object} opts

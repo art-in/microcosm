@@ -2,7 +2,7 @@
  * Run-time checks for required function parameters
  *
  * @deprecated prefer static type checks over run-time checks.
- *             use as last resort when static analisys is not possible.
+ *             use as last resort when static analysis is not possible.
  *
  * Current usecases:
  * - Store action handlers (until #65 is fixed)
@@ -10,7 +10,7 @@
  * - EventEmitter event handlers
  *
  * Q: Why not use static type check system (eg. Typescript or Flow)?
- * A: 1. It is not always possible to use static analisys, eg.
+ * A: 1. It is not always possible to use static analysis, eg.
  *       a. you have a project which is not 100% type covered, and some of your
  *          functions not called directly but through another generic function
  *          which loose types info (eg. EventEmitter#emit)

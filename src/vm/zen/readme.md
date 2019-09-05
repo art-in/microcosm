@@ -4,8 +4,8 @@ Logic for presenting Mindset in simplest text form.
 
 Inspiration.
 
-Basicaly UI/UX is inspired by Evernote UI: list of notes in sidebar, contents of note in main area.  
-Similary `zen` mode has list of parent ideas in the sidebar, and idea contents in main area.
+Basically UI/UX is inspired by Evernote UI: list of notes in sidebar, contents of note in main area.  
+Similarly `zen` mode has list of parent ideas in the sidebar, and idea contents in main area.
 
 Evernote notes is tree structure with 3 levels of nesting (`notebook stack` -> `notebook` -> `note`), and there are `tag`s for grouping notes across different notebooks.  
 

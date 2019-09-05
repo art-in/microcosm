@@ -52,7 +52,7 @@ How custom `Store` is different?
 
 Action lifetime expanded: action is logged and counted with performance metrics starting from UI event to state mutation.
 
-How custom `Store` is simillar?
+How custom `Store` is similar?
 
 There is a split on Action Handlers and Mutators, corresponding to `Redux` "fat AC - thin SR" approach.  
 Entire business logic consistently defined inside Action Handlers.  

@@ -94,7 +94,7 @@ export default class RadialContextMenu extends Component {
 
     // angle of gap between segments for inner and outer radiuses.
     // inner and outer radiuses should correlate so lines between
-    // neighbour segments stay parallel
+    // neighbor segments stay parallel
     const outerGapRad = INNER_RADIUS * SEGMENT_GAP_RATIO;
     const innerGapRad = OUTER_RADIUS * SEGMENT_GAP_RATIO;
 
