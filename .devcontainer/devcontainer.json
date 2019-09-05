@@ -12,6 +12,7 @@
 	"extensions": [
 		"eamodio.gitlens",
 		"dbaeumer.vscode-eslint",
-		"shinnn.stylelint"
+		"shinnn.stylelint",
+		"streetsidesoftware.code-spell-checker"
 	]
 }
