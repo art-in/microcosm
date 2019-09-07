@@ -11,7 +11,13 @@ import onValueDoubleClick from 'vm/shared/IdeaForm/methods/on-value-double-click
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {form} = zen.pane;
 

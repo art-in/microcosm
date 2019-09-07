@@ -17,7 +17,8 @@ import isValidIdeaTitle from 'action/utils/is-valid-idea-title';
  * @return {Patch|undefined}
  */
 export default function setIdeaTitleAndValue(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {ideaId, title, value} = required(data);
 
   const idea = getIdea(mindset, ideaId);

@@ -21,7 +21,14 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-  const {model: {mindset}, vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {viewportPos, linkId} = required(data);
 
   const link = mindmap.links.find(l => l.id === linkId);

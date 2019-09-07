@@ -16,8 +16,14 @@ import addSuccessor from 'vm/shared/IdeaForm/methods/add-successor';
  * @return {Patch}
  */
 export default function(state, data) {
-  const {model: {mindset}} = state;
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {suggestion} = required(data);
 
   const {form} = mindmap.ideaFormModal;

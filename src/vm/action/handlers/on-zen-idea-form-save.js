@@ -10,8 +10,14 @@ import onSave from 'vm/shared/IdeaForm/methods/on-save';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {form} = zen.pane;
 

@@ -30,7 +30,8 @@ import getNewIdeaPosition from 'action/utils/get-new-idea-position';
  * @return {Patch}
  */
 export default function createIdea(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {parentIdeaId, title, value} = required(data);
   const {ideaId} = data;
   let {createdOn} = data;

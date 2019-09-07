@@ -80,7 +80,6 @@ server.listen(port, host, function(err) {
   );
 });
 
-/* global process */
 process.on('unhandledRejection', function(reason) {
   console.error('[Unhandled Rejection]:', reason.stack);
 });

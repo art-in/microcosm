@@ -24,7 +24,14 @@ import setPositionAndScale from 'vm/map/entities/Mindmap/methods/set-position-an
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-  const {model: {mindset}, vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {ideaId} = required(data);
   const {scheduleAnimationStep} = data;
 

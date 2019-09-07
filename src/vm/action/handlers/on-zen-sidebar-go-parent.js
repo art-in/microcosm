@@ -11,7 +11,14 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {sideEffects: {confirm}, vm: {main: {mindset: {zen}}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {parentIdeaId} = zen.sidebar;
   const {form} = zen.pane;

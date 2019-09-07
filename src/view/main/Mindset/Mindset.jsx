@@ -104,10 +104,9 @@ export default class Mindset extends Component {
           [classes.modeZen]: mindset.mode === ViewMode.zen
         })}
       >
-        {!mindset.isLoaded &&
-          !mindset.isLoadFailed && (
-            <MessageScreen>Mindset is loading...</MessageScreen>
-          )}
+        {!mindset.isLoaded && !mindset.isLoadFailed && (
+          <MessageScreen>Mindset is loading...</MessageScreen>
+        )}
 
         {mindset.isLoadFailed && (
           <MessageScreen>Mindset load failed</MessageScreen>

@@ -17,8 +17,18 @@ import searchSuccessors from 'action/utils/search-successors';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {model: {mindset}} = state;
-  const {vm: {main: {mindset: {mindmap: {ideaFormModal: {form}}}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {
+          mindmap: {
+            ideaFormModal: {form}
+          }
+        }
+      }
+    }
+  } = state;
   const {phrase} = required(data);
 
   const ideas = searchSuccessors(mindset, {

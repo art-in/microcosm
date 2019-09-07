@@ -19,7 +19,13 @@ import getDistance from 'utils/get-distance-between-points';
  * @return {PatchType}
  */
 export default function onLinkMouseMove(state, data) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {linkId, viewportPos} = required(data);
 
   const link = mindmap.links.find(l => l.id === linkId);

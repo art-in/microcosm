@@ -89,7 +89,7 @@ describe('animate-mindmap-viewbox-to-idea', () => {
       /** @type {Array.<MutationType>} */
       const mutations = patch['update-mindmap'];
       const vbMutations = mutations.filter(m =>
-        m.data.hasOwnProperty('viewbox')
+        Object.prototype.hasOwnProperty.call(m.data, 'viewbox')
       );
       const finalVBMutation = vbMutations[vbMutations.length - 1];
       const {viewbox: finalMutationViewbox} = finalVBMutation.data;

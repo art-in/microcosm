@@ -20,7 +20,9 @@ import weighAssociation from 'model/utils/weigh-association';
  * @return {Patch}
  */
 export default function createCrossAssociation(state, data) {
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset}
+  } = state;
   const {headIdeaId, tailIdeaId} = required(data);
 
   const head = getIdea(mindset, headIdeaId);

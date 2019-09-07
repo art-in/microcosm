@@ -15,7 +15,13 @@ import onTitleChange from 'vm/shared/IdeaForm/methods/on-title-change';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
   const {title} = required(data);
 
   const {form} = zen.pane;

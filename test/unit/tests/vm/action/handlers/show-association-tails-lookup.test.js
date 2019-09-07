@@ -60,7 +60,11 @@ describe('show-association-tails-lookup', () => {
     });
 
     const lookupMutation = patch['update-association-tails-lookup'][0];
-    const {data: {lookup: {onSelectAction}}} = lookupMutation;
+    const {
+      data: {
+        lookup: {onSelectAction}
+      }
+    } = lookupMutation;
 
     // target
     const action = onSelectAction({
@@ -91,7 +95,11 @@ describe('show-association-tails-lookup', () => {
     });
 
     const lookupMutation = patch['update-association-tails-lookup'][0];
-    const {data: {lookup: {onPhraseChangeAction}}} = lookupMutation;
+    const {
+      data: {
+        lookup: {onPhraseChangeAction}
+      }
+    } = lookupMutation;
 
     // target
     const action = onPhraseChangeAction({

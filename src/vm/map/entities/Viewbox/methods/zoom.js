@@ -58,8 +58,8 @@ export default function zoom(opts) {
 
   // shift viewbox towards target position
   const newCenter = {
-    x: prevCenter.x + hiddenWidth / 2 * shiftFactorX,
-    y: prevCenter.y + hiddenHeight / 2 * shiftFactorY
+    x: prevCenter.x + (hiddenWidth / 2) * shiftFactorX,
+    y: prevCenter.y + (hiddenHeight / 2) * shiftFactorY
   };
 
   // compute top-left position for new center

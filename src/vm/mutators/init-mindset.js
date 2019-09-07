@@ -12,8 +12,14 @@ import getMindmapPersistentProps from 'vm/map/utils/get-mindmap-persistent-props
  * @param {object} data
  */
 export default function initMindset(state, data) {
-  const {vm: {main: {mindset}}} = state;
-  const {vm: {mindset: mindsetUpdate}} = required(data);
+  const {
+    vm: {
+      main: {mindset}
+    }
+  } = state;
+  const {
+    vm: {mindset: mindsetUpdate}
+  } = required(data);
 
   const {mindmap: newMindmap, ...otherMindsetUpdates} = mindsetUpdate;
 

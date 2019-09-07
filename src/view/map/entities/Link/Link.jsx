@@ -71,8 +71,8 @@ export default class Link extends Component {
     const titlePos = new Point({x: posFrom.x, y: posFrom.y});
 
     // shift title to the center of the link
-    titlePos.x += dx * (1 - titlePartOfLink) / 2;
-    titlePos.y += dy * (1 - titlePartOfLink) / 2;
+    titlePos.x += (dx * (1 - titlePartOfLink)) / 2;
+    titlePos.y += (dy * (1 - titlePartOfLink)) / 2;
 
     // lift title above the link
     const titleLiftHeight = titleHeight + max(linkStartWidth, linkEndWidth) / 2;
@@ -182,7 +182,7 @@ export default class Link extends Component {
     const linkLength = sqrt(pow(dx, 2) + pow(dy, 2));
     const angleDeg = atan2(dy, dx) * (180 / Math.PI);
     const scale = link.from.scale;
-    const gradientDensity = GRADIENT_DENSITY_RATIO * scale / linkLength;
+    const gradientDensity = (GRADIENT_DENSITY_RATIO * scale) / linkLength;
     const gradientId = `link-gradient-${link.id}`;
 
     return (

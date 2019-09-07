@@ -16,7 +16,8 @@ import getIdea from 'action/utils/get-idea';
  * @return {Patch}
  */
 export default function removeIdea(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {ideaId} = required(data);
 
   const patch = new Patch();

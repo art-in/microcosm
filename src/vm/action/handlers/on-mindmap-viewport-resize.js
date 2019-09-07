@@ -18,7 +18,13 @@ import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-posi
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {size} = required(data);
   const {width, height} = required(size);
 

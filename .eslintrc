@@ -15,6 +15,11 @@
             "jsx": true
         }
     },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "globals": {
         // force window.<global> notation to make globals usage explicit.
         // avoid using "env":"browser" to allow bunch of environment variables.
@@ -114,6 +119,8 @@
                 }
             }
         ],
+        // ignore since produces confusing warnings
+        "require-atomic-updates": 0,
         // ignore 'propTypes' since using static prop validation
         "react/prop-types": 0
     }

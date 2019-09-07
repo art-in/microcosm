@@ -9,7 +9,13 @@ import required from 'utils/required-params';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {nodeId} = required(data);
 
   const node = mindmap.nodes.find(n => n.id === nodeId);

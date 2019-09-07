@@ -292,15 +292,14 @@ function startSyncWithRemote(dbServerUrl, userName, localDBs, onRemoteChange) {
   Object.entries(localDBs).forEach(([dbName, db]) => {
     const remoteDbURL = getServerDbUrl(dbServerUrl, userName, dbName);
 
-    db
-      .sync(remoteDbURL, {
-        live: true,
-        retry: true,
-        // do not create server database. which can happen if logged in as
-        // server admin or server has no admins yet.
-        // @ts-ignore unknown option
-        skip_setup: true
-      })
+    db.sync(remoteDbURL, {
+      live: true,
+      retry: true,
+      // do not create server database. which can happen if logged in as
+      // server admin or server has no admins yet.
+      // @ts-ignore unknown option
+      skip_setup: true
+    })
       .on('change', opts => {
         if (opts.direction === 'pull') {
           onRemoteChange();

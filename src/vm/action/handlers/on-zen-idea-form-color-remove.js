@@ -11,7 +11,13 @@ import onColorRemove from 'vm/shared/IdeaForm/methods/on-color-remove';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {form} = zen.pane;
 

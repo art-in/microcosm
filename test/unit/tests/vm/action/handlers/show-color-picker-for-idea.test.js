@@ -28,7 +28,9 @@ describe('show-color-picker-for-idea', () => {
     });
 
     const pickerMutation = patch['update-color-picker'][0];
-    const {data: {onSelectAction}} = pickerMutation;
+    const {
+      data: {onSelectAction}
+    } = pickerMutation;
 
     // target
     const action = onSelectAction({color: 'red'});

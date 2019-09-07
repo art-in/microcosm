@@ -82,8 +82,7 @@ export default function(ideas, associations) {
   }
 
   // check all ideas can be reached from the root
-  // TODO: this additional validational traversal can hit performance
-  //       for big graphs
+  // TODO: additional validation traversal can hit performance for big graphs
   visitedIdeas.clear();
   traverseGraph({
     root: rootIdea,

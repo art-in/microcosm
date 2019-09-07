@@ -12,7 +12,13 @@ import onColorRemove from 'vm/shared/IdeaForm/methods/on-color-remove';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

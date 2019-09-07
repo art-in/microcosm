@@ -13,8 +13,14 @@ import MenuItemType from 'vm/shared/MenuItemType';
  * @return {PatchType}
  */
 export default function(state) {
-  const {data: {userName}} = state;
-  const {vm: {main: {mindset: {gearMenu}}}} = state;
+  const {
+    data: {userName},
+    vm: {
+      main: {
+        mindset: {gearMenu}
+      }
+    }
+  } = state;
 
   // init menu on first open
   let menu = gearMenu.menu;

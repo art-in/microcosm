@@ -20,8 +20,14 @@ import Icon from 'vm/shared/Icon';
  * @return {PatchType|undefined}
  */
 export default function(state, data) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {nodeId} = required(data);
 
   const node = mindmap.nodes.find(n => n.id === nodeId);

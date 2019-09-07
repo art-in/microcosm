@@ -17,15 +17,17 @@ const mutators = regMutatorsFolder(context);
  */
 export default function mutate(state, patch) {
   let prevDefault = false;
-  patch.filter(m => m.hasTarget('vm')).forEach(m => {
-    const {type, data} = m;
-    if (mutators[type]) {
-      mutators[type](state, data);
-      prevDefault = false;
-    } else if (!prevDefault) {
-      // do not run default mutator several times in a row
-      defaultMutator(state);
-      prevDefault = true;
-    }
-  });
+  patch
+    .filter(m => m.hasTarget('vm'))
+    .forEach(m => {
+      const {type, data} = m;
+      if (mutators[type]) {
+        mutators[type](state, data);
+        prevDefault = false;
+      } else if (!prevDefault) {
+        // do not run default mutator several times in a row
+        defaultMutator(state);
+        prevDefault = true;
+      }
+    });
 }

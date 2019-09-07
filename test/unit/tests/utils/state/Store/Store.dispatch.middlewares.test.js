@@ -78,7 +78,7 @@ describe('middlewares', () => {
 
     disp.reg(
       'parent action',
-      async (_, __, dispatch) => void await dispatch({type: 'child action'})
+      async (_, __, dispatch) => void (await dispatch({type: 'child action'}))
     );
 
     disp.reg('child action', () => new Patch({type: 'child mutation'}));
@@ -517,7 +517,7 @@ describe('middlewares', () => {
 
     handler.reg(
       'parent action',
-      async (_, __, dispatch) => void await dispatch({type: 'child action'})
+      async (_, __, dispatch) => void (await dispatch({type: 'child action'}))
     );
 
     handler.reg('child action', () => new Patch({type: 'child mutation'}));

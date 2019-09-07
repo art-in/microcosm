@@ -19,8 +19,15 @@ import {
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {sideEffects: {confirm}, model: {mindset}} = state;
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    sideEffects: {confirm},
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

@@ -5,7 +5,7 @@ import StateType from 'boot/client/State';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
 
 /**
- * Handles select heighbor idea event from zen idea form
+ * Handles select neighbor idea event from zen idea form
  *
  * @param {StateType} state
  * @param {object} data
@@ -13,7 +13,14 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
  * @param {function} dispatch
  */
 export default async function(state, data, dispatch) {
-  const {sideEffects: {confirm}, vm: {main: {mindset: {zen}}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
   const {ideaId} = required(data);
 
   const {form} = zen.pane;

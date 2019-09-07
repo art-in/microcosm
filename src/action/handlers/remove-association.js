@@ -17,7 +17,8 @@ import getAssociation from 'action/utils/get-association';
  * @return {Patch}
  */
 export default function(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {assocId} = required(data);
 
   let patch = new Patch();

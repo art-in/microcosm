@@ -5,7 +5,6 @@ import PatchType from 'utils/state/Patch';
 import StateType from 'boot/client/State';
 
 import PointerButton from 'vm/utils/PointerButton';
-import NodeType from 'vm/map/entities/Node';
 import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
 
 /**
@@ -19,7 +18,13 @@ import startDrag from 'vm/map/entities/Mindmap/methods/start-drag';
  * @return {PatchType|undefined}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {nodeId, button} = required(data);
 
   if (button !== PointerButton.primary) {

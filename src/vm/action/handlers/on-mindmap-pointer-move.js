@@ -34,7 +34,13 @@ const PINCH_ZOOM_SPEED = 500;
  * @return {Patch|undefined}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {pointer, activePointers, viewportShift} = required(data);
 
   const viewboxShift = toViewboxCoords(viewportShift, mindmap.viewbox);

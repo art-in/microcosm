@@ -18,7 +18,13 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {code, preventDefault} = required(data);
 
   const {form} = mindmap.ideaFormModal;

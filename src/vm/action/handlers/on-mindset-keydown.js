@@ -23,7 +23,11 @@ import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-posi
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-  const {vm: {main: {mindset}}} = state;
+  const {
+    vm: {
+      main: {mindset}
+    }
+  } = state;
   const {code, ctrlKey, preventDefault} = required(data);
 
   if (!mindset.isLoaded) {

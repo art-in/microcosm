@@ -19,7 +19,15 @@ import shouldScrollTop from 'vm/action/utils/should-scroll-top-on-open-idea';
 export default function(state, data, dispatch) {
   const {
     model: {mindset},
-    vm: {main: {mindset: {mindmap: {ideaFormModal: {form: prevForm}}}}}
+    vm: {
+      main: {
+        mindset: {
+          mindmap: {
+            ideaFormModal: {form: prevForm}
+          }
+        }
+      }
+    }
   } = state;
   const {ideaId, parentIdeaId, isNewIdea} = data;
 

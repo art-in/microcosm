@@ -13,7 +13,13 @@ import stopDrag from 'vm/map/entities/Mindmap/methods/stop-drag';
  * @return {Patch|undefined}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   // TODO: cancel pan too
   if (!mindmap.drag.active) {

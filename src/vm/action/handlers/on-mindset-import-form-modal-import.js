@@ -27,7 +27,15 @@ import CancellationToken from 'action/utils/CancellationToken';
  * @param {function} mutate
  */
 export default async function(state, data, dispatch, mutate) {
-  const {vm: {main: {mindset: {importFormModal: {form}}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {
+          importFormModal: {form}
+        }
+      }
+    }
+  } = state;
 
   await mutate(
     view('update-import-form', {

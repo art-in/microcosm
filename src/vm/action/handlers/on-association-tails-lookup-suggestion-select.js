@@ -16,7 +16,13 @@ import LookupSuggestionType from 'vm/shared/LookupSuggestion';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {suggestion} = required(data);
 
   const lookup = mindmap.associationTailsLookup.lookup;

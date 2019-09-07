@@ -19,7 +19,9 @@ import searchSuccessors from 'action/utils/search-successors';
  * @return {PatchType}
  */
 export default function searchAssociationTailsForLookup(state, data) {
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset}
+  } = state;
   const {phrase, headIdeaId} = required(data);
 
   const ideas = searchSuccessors(mindset, {

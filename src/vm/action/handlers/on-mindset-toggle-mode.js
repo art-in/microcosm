@@ -13,8 +13,14 @@ import setViewMode from 'vm/main/Mindset/methods/set-view-mode';
  * @return {PatchType}
  */
 export default function(state) {
-  const {sideEffects: {confirm}, data, model: {mindset}} = state;
-  const {vm: {main: {mindset: mindsetVM}}} = state;
+  const {
+    sideEffects: {confirm},
+    data,
+    model: {mindset},
+    vm: {
+      main: {mindset: mindsetVM}
+    }
+  } = state;
 
   let targetMode;
 

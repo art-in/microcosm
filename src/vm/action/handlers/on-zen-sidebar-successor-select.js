@@ -1,5 +1,4 @@
 import required from 'utils/required-params';
-import PatchType from 'utils/state/Patch';
 
 import StateType from 'boot/client/State';
 import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
@@ -13,7 +12,14 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm/IdeaForm';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {sideEffects: {confirm}, vm: {main: {mindset: {zen}}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
   const {ideaId} = required(data);
 
   const {form} = zen.pane;

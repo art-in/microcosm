@@ -12,7 +12,13 @@ import onToggleValueEdit from 'vm/shared/IdeaForm/methods/on-toggle-value-edit';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {form} = zen.pane;
 

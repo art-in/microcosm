@@ -19,7 +19,11 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset}}} = state;
+  const {
+    vm: {
+      main: {mindset}
+    }
+  } = state;
   const {suggestion} = required(data);
 
   const ideaId = suggestion.data.ideaId;

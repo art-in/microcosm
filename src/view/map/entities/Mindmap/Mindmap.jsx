@@ -196,7 +196,7 @@ export default class Mindmap extends Component {
   onContextMenu = e => {
     // prevent default context menu since it moves focus out of mindmap
     // (eg. right mouse down on node, move aside from custom context menu
-    // and release upon mindmap svg - default contex menu appear and custom
+    // and release upon mindmap svg - default context menu appear and custom
     // context menu items are no longer apply hover styles (Chrome, Edge)
     // + you should click outside default menu once to cancel it until you
     // can continue interact with mindmap (Edge))

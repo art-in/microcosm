@@ -18,7 +18,13 @@ import onKeyDown from 'vm/shared/Lookup/methods/on-keydown';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
   const {code, preventDefault} = required(data);
 
   const {form} = zen.pane;

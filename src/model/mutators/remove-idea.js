@@ -10,7 +10,8 @@ import StateType from 'boot/client/State';
  * @param {string} data.id
  */
 export default function removeIdea(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {id} = required(data);
 
   if (!mindset.ideas.has(id)) {

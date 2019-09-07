@@ -55,7 +55,10 @@ export async function update(db, model) {
     return;
   }
 
-  if (dbo.hasOwnProperty('mindsetId') && !dbo.mindsetId) {
+  if (
+    Object.prototype.hasOwnProperty.call(dbo, 'mindsetId') &&
+    !dbo.mindsetId
+  ) {
     throw Error(
       `Failed to update association '${model.id}' with empty ` +
         `parent mindset ID`

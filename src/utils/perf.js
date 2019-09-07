@@ -69,7 +69,7 @@ function getGroupId() {
   }
 
   // generate unique group Id ('A', 'B', 'C',...)
-  const groupIdCharCode = charCodeA + groupCount % charCount;
+  const groupIdCharCode = charCodeA + (groupCount % charCount);
   const groupId = String.fromCharCode(groupIdCharCode);
   groupCount++;
 

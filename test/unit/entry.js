@@ -1,2 +1,1 @@
-/* global require */
 require('./tests');

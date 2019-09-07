@@ -10,8 +10,16 @@ import onSave from 'vm/shared/IdeaForm/methods/on-save';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    model: {mindset}
+  } = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

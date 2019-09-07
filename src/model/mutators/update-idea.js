@@ -9,7 +9,8 @@ import StateType from 'boot/client/State';
  * @param {object} data
  */
 export default function updateIdea(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const patch = data;
 
   const idea = mindset.ideas.get(patch.id);

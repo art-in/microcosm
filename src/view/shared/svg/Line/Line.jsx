@@ -48,10 +48,10 @@ export default class Line extends Component {
 
     const angleRad = atan2(dy, dx);
 
-    const dxStart = -sin(angleRad) * widthStart / 2;
-    const dyStart = cos(angleRad) * widthStart / 2;
-    const dxEnd = -sin(angleRad) * widthEnd / 2;
-    const dyEnd = cos(angleRad) * widthEnd / 2;
+    const dxStart = (-sin(angleRad) * widthStart) / 2;
+    const dyStart = (cos(angleRad) * widthStart) / 2;
+    const dxEnd = (-sin(angleRad) * widthEnd) / 2;
+    const dyEnd = (cos(angleRad) * widthEnd) / 2;
 
     const pos1 = new Point({
       x: targetPos1.x - dxStart,

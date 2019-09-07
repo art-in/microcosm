@@ -10,7 +10,15 @@ import view from 'vm/utils/view-patch';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {zen: {sidebar}}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {
+          zen: {sidebar}
+        }
+      }
+    }
+  } = state;
 
   return view('update-zen-sidebar', {
     isCollapsed: !sidebar.isCollapsed

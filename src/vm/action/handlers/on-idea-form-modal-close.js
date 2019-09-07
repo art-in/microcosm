@@ -13,7 +13,14 @@ import deactivate from 'vm/shared/IdeaFormModal/methods/deactivate';
  * @return {PatchType}
  */
 export default function(state) {
-  const {sideEffects: {confirm}, vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

@@ -14,7 +14,13 @@ import PointType from 'model/entities/Point';
  * @param {function} dispatch
  */
 export default function onMindmapWheel(state, data, dispatch) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
   const {up, viewportPos} = required(data);
 
   if (mindmap.zoomInProgress) {

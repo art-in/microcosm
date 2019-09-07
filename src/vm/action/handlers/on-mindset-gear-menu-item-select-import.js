@@ -13,7 +13,9 @@ import getIdea from 'action/utils/get-idea';
  * @return {PatchType}
  */
 export default function(state) {
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset}
+  } = state;
 
   const focusIdea = getIdea(mindset, mindset.focusIdeaId);
 

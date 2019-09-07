@@ -15,7 +15,13 @@ import removeSuccessor from 'vm/shared/IdeaForm/methods/remove-successor';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
   const {ideaId} = required(data);
 
   const {form} = zen.pane;

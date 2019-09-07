@@ -12,7 +12,13 @@ import onValueDoubleClick from 'vm/shared/IdeaForm/methods/on-value-double-click
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

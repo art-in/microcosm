@@ -11,7 +11,13 @@ import onToggleGearMenu from 'vm/shared/IdeaForm/methods/on-toggle-gear-menu';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {zen}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {zen}
+      }
+    }
+  } = state;
 
   const {form} = zen.pane;
 

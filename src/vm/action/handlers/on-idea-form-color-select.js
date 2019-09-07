@@ -10,7 +10,13 @@ import StateType from 'boot/client/State';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

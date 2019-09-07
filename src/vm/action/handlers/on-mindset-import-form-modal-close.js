@@ -11,7 +11,12 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/ImportForm';
  * @return {PatchType}
  */
 export default function(state) {
-  const {sideEffects: {confirm}, vm: {main: {mindset}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {mindset}
+    }
+  } = state;
 
   const {form} = mindset.importFormModal;
 

@@ -16,8 +16,18 @@ import openIdea from 'vm/zen/entities/Zen/methods/open-idea';
  * @return {PatchType}
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset}} = state;
-  const {vm: {main: {mindset: {zen: {pane: {form: prevForm}}}}}} = state;
+  const {
+    model: {mindset},
+    vm: {
+      main: {
+        mindset: {
+          zen: {
+            pane: {form: prevForm}
+          }
+        }
+      }
+    }
+  } = state;
   const {ideaId, parentIdeaId, isNewIdea} = data;
 
   if (!isNewIdea) {

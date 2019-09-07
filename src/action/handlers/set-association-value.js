@@ -15,7 +15,8 @@ import getAssociation from 'action/utils/get-association';
  * @return {Patch|undefined}
  */
 export default function setAssociationValue(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {assocId, value} = required(data);
 
   const assoc = getAssociation(mindset, assocId);

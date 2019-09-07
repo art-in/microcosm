@@ -1,5 +1,4 @@
-/* global require, process */
-
+/* global require */
 const gulpRequireTasks = require('gulp-require-tasks');
 
 gulpRequireTasks({

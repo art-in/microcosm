@@ -15,7 +15,8 @@ import getIdea from 'action/utils/get-idea';
  * @return {Patch|undefined}
  */
 export default function setIdeaColor(state, data) {
-  const {model: {mindset}} = state;
+  const {model} = state;
+  const {mindset} = model;
   const {ideaId, color} = required(data);
 
   const idea = getIdea(mindset, ideaId);

@@ -18,7 +18,9 @@ import toSuggestion from 'vm/mappers/idea-to-lookup-suggestion';
  * @return {PatchType}
  */
 export default function(state, data) {
-  const {model: {mindset}} = state;
+  const {
+    model: {mindset}
+  } = state;
   const {phrase} = required(data);
 
   const ideas = searchIdeas(mindset, {phrase});

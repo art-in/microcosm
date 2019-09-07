@@ -25,7 +25,10 @@ export default class NodeDebug extends Component {
       return null;
     }
 
-    const {posAbs, debug: {posRel}} = node;
+    const {
+      posAbs,
+      debug: {posRel}
+    } = node;
 
     const lines = [
       `id = ${node.id.slice(0, 5)}`,

@@ -12,7 +12,13 @@ import onToggleGearMenu from 'vm/shared/IdeaForm/methods/on-toggle-gear-menu';
  * @return {PatchType}
  */
 export default function(state) {
-  const {vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

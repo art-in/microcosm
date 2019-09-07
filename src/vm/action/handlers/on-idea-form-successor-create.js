@@ -10,7 +10,14 @@ import {MESSAGE_CONFIRM_LEAVE} from 'vm/shared/IdeaForm';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {sideEffects: {confirm}, vm: {main: {mindset: {mindmap}}}} = state;
+  const {
+    sideEffects: {confirm},
+    vm: {
+      main: {
+        mindset: {mindmap}
+      }
+    }
+  } = state;
 
   const {form} = mindmap.ideaFormModal;
 

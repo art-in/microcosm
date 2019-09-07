@@ -13,7 +13,10 @@ import classes from './MindmapDebug.css';
  */
 export default class MindmapDebug extends Component {
   render() {
-    const {mindmap, mindmap: {viewbox}} = this.props;
+    const {
+      mindmap,
+      mindmap: {viewbox}
+    } = this.props;
 
     if (!mindmap.debug.enable) {
       return null;

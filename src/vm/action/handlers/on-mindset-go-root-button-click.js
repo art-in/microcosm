@@ -9,8 +9,14 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @param {function} dispatch
  */
 export default function(state, data, dispatch) {
-  const {model: {mindset: {root}}} = state;
-  const {vm: {main: {mindset: mindsetVM}}} = state;
+  const {
+    model: {
+      mindset: {root}
+    },
+    vm: {
+      main: {mindset: mindsetVM}
+    }
+  } = state;
 
   switch (mindsetVM.mode) {
     case ViewMode.mindmap:

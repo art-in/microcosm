@@ -13,7 +13,11 @@ import StateType from 'boot/client/State';
  * @return {Patch}
  */
 export default function(state, data, dispatch) {
-  const {vm: {main: {mindset}}} = state;
+  const {
+    vm: {
+      main: {mindset}
+    }
+  } = state;
 
   const patch = new Patch();
 

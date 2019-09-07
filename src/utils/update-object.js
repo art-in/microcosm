@@ -29,7 +29,7 @@ import noop from 'utils/noop';
  */
 export default function updateObject(target, source, shouldUpdate = noop) {
   for (const prop in source) {
-    if (!source.hasOwnProperty(prop)) {
+    if (!Object.prototype.hasOwnProperty.call(source, prop)) {
       // ignore prototype props
       continue;
     }
@@ -43,7 +43,7 @@ export default function updateObject(target, source, shouldUpdate = noop) {
     }
 
     // do not allow creating new props in target
-    if (!target.hasOwnProperty(prop)) {
+    if (!Object.prototype.hasOwnProperty.call(target, prop)) {
       throw Error(`Target object does not have property '${prop}' to update`);
     }
 
