@@ -33,7 +33,7 @@ export default class ClientConfig {
    * Indicates that user signup requires invite code
    * @type {boolean}
    */
-  signupInviteRequired = undefined;
+  signupInviteRequired;
 
   /**
    * Constructor

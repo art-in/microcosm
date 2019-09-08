@@ -13,17 +13,17 @@ export default class Pointer {
    * Pointer ID
    * @type {number}
    */
-  id = undefined;
+  id;
 
   /**
    * Position relative to viewport.
    * @type {PointType}
    */
-  pos = undefined;
+  pos;
 
   /**
    * Pressed buttons
    * @type {Array.<PointerButtonType>}
    */
-  pressedButtons = undefined;
+  pressedButtons;
 }

@@ -16,7 +16,7 @@ export default class Mindset {
   id = createID();
 
   /** @type {DateTimeISO} */
-  createdOn = undefined;
+  createdOn;
 
   /**
    * ID of idea that user focuses attention on (eg. when opening idea to read
@@ -25,7 +25,7 @@ export default class Mindset {
    * Defines starting point for view modes.
    * @type {string}
    */
-  focusIdeaId = undefined;
+  focusIdeaId;
 
   // region Dynamic props (computed on run, not saved to db)
 
@@ -46,7 +46,7 @@ export default class Mindset {
    * Note: available only after graph is build
    * @type {IdeaType|undefined}
    */
-  root = undefined;
+  root;
 
   // endregion
 

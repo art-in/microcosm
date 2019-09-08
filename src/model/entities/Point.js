@@ -8,13 +8,13 @@ export default class Point {
    * X coordinate
    * @type {number|undefined}
    */
-  x = undefined;
+  x;
 
   /**
    * Y coordinate
    * @type {number|undefined}
    */
-  y = undefined;
+  y;
 
   /**
    * Constructor

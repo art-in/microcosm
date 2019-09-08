@@ -6,13 +6,13 @@ import ViewModel from 'vm/utils/ViewModel';
  */
 export default class LoginForm extends ViewModel {
   /** @type {string} */
-  username = undefined;
+  username;
 
   /** @type {boolean} */
   isUsernameValid = true;
 
   /** @type {string} */
-  password = undefined;
+  password;
 
   /** @type {boolean} */
   isPasswordValid = true;

@@ -2,7 +2,6 @@ import initProps from 'utils/init-props';
 import ViewModel from 'vm/utils/ViewModel';
 
 import IdeaSidebarType from 'vm/zen/entities/IdeaSidebar';
-import IdeaFormType from 'vm/shared/IdeaForm';
 import IdeaPaneType from 'vm/zen/entities/IdeaPane';
 
 /**
@@ -15,13 +14,13 @@ export default class Zen extends ViewModel {
    * Sidebar with props of parent idea
    * @type {IdeaSidebarType}
    */
-  sidebar = undefined;
+  sidebar;
 
   /**
    * Pane with props of currently opened idea
    * @type {IdeaPaneType}
    */
-  pane = undefined;
+  pane;
 
   /**
    * Constructor

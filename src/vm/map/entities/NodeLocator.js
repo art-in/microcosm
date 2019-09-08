@@ -11,13 +11,13 @@ export default class NodeLocator extends ViewModel {
    * Position
    * @type {PointType}
    */
-  pos = undefined;
+  pos;
 
   /**
    * Scale (so locator can downscale along with deep nodes)
    * @type {number}
    */
-  scale = undefined;
+  scale;
 
   /**
    * Constructor

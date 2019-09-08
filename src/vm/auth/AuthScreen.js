@@ -10,13 +10,13 @@ import SignupFormType from 'vm/auth/SignupForm';
  */
 export default class AuthScreen extends ViewModel {
   /** @type {AuthScreenModeType} */
-  mode = undefined;
+  mode;
 
   /** @type {LoginFormType} */
-  loginForm = undefined;
+  loginForm;
 
   /** @type {SignupFormType} */
-  signupForm = undefined;
+  signupForm;
 
   /**
    * Constructor

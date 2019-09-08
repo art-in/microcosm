@@ -9,19 +9,19 @@ export default class Version extends ViewModel {
    * App name
    * @type {string|undefined}
    */
-  name = undefined;
+  name;
 
   /**
    * Project homepage
    * @type {string|undefined}
    */
-  homepage = undefined;
+  homepage;
 
   /**
    * App version
    * @type {string|undefined}
    */
-  version = undefined;
+  version;
 
   /**
    * Constructor

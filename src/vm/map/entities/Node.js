@@ -32,13 +32,13 @@ export default class Node extends ViewModel {
    * Node ID (equals to idea ID)
    * @type {string|undefined}
    */
-  id = undefined;
+  id;
 
   /**
    * Absolute position of node on canvas.
    * @type {PointType|undefined}
    */
-  posAbs = undefined;
+  posAbs;
 
   /**
    * Node radius
@@ -53,7 +53,7 @@ export default class Node extends ViewModel {
    * Scale 1 - is normal size
    * @type {number|undefined}
    */
-  scale = undefined;
+  scale;
 
   /**
    * Node title state
@@ -73,21 +73,21 @@ export default class Node extends ViewModel {
    * Node color (inherited)
    * @type {string|undefined}
    */
-  color = undefined;
+  color;
 
   /**
    * Incoming links
    * @memberof Vertex
    * @type {Array.<LinkType>|undefined}
    */
-  edgesIn = undefined;
+  edgesIn;
 
   /**
    * Outgoing links
    * @memberof Vertex
    * @type {Array.<LinkType>|undefined}
    */
-  edgesOut = undefined;
+  edgesOut;
 
   /**
    * Link to parent idea.
@@ -95,7 +95,7 @@ export default class Node extends ViewModel {
    * @memberof Vertex
    * @type {LinkType|undefined}
    */
-  edgeFromParent = undefined;
+  edgeFromParent;
 
   /**
    * Links to child ideas.
@@ -103,7 +103,7 @@ export default class Node extends ViewModel {
    * @memberof Vertex
    * @type {Array.<LinkType>|undefined}
    */
-  edgesToChilds = undefined;
+  edgesToChilds;
 
   /**
    * Weight of minimal path from root (RPW).
@@ -111,7 +111,7 @@ export default class Node extends ViewModel {
    * @memberof Vertex
    * @type {number|undefined}
    */
-  rootPathWeight = undefined;
+  rootPathWeight;
 
   /**
    * Indicates that node has less importance

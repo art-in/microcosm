@@ -8,13 +8,13 @@ export default class Middleware {
    * Handles action dispatch
    * @type {function}
    */
-  onDispatch = undefined;
+  onDispatch;
 
   /**
    * Custom state for particular type of middleware
    * @type {Object.<string, *>}
    */
-  state = undefined;
+  state;
 
   /**
    * Constructor

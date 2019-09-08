@@ -15,56 +15,56 @@ export default class IdeaForm {
    * ID of existing idea
    * @type {string}
    */
-  ideaId = undefined;
+  ideaId;
 
   /**
    * ID of parent idea (in case preparing contents for new idea)
    * @type {string}
    */
-  parentIdeaId = undefined;
+  parentIdeaId;
 
   /**
    * Indicates whether form works with contents of existing idea
    * or preparing contents for new idea
    * @type {boolean}
    */
-  isNewIdea = undefined;
+  isNewIdea;
 
   /**
    * Title field contents
    * @type {string}
    */
-  title = undefined;
+  title;
 
   /**
    * Value field contents
    * @type {string}
    */
-  value = undefined;
+  value;
 
   /**
    * Color field contents
    * @type {string}
    */
-  color = undefined;
+  color;
 
   /**
    * Ideas on path from root to parent idea
    * @type {Array.<IdeaListItemType>}
    */
-  rootPath = undefined;
+  rootPath;
 
   /**
    * Direct predecessor ideas (heads of incoming associations)
    * @type {Array.<IdeaListItemType>}
    */
-  predecessors = undefined;
+  predecessors;
 
   /**
    * Direct successor ideas (tails of outgoing associations)
    * @type {Array.<IdeaListItemType>}
    */
-  successors = undefined;
+  successors;
 
   /**
    * State of fields before last save.

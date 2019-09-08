@@ -6,13 +6,13 @@ import initProps from 'utils/init-props';
  */
 export default class Note {
   /** @type {string} */
-  title = undefined;
+  title;
 
   /** @type {string} markdown string */
-  content = undefined;
+  content;
 
   /** @type {DateTimeISO} */
-  createdOn = undefined;
+  createdOn;
 
   /**
    * Constructor

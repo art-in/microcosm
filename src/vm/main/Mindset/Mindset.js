@@ -37,21 +37,21 @@ export default class Mindset extends ViewModel {
    * View mode
    * @type {MindsetViewModeType}
    */
-  mode = undefined;
+  mode;
 
   /**
    * Mindmap view model.
    * Note: only available in mindmap view mode.
    * @type {MindmapVmType|undefined}
    */
-  mindmap = undefined;
+  mindmap;
 
   /**
    * Zen view model.
    * Note: only available in zen view mode.
    * @type {ZenType}
    */
-  zen = undefined;
+  zen;
 
   /**
    * Icon indicating state of connection with server database
@@ -75,7 +75,7 @@ export default class Mindset extends ViewModel {
    * Tooltip of go root button
    * @type {string}
    */
-  goRootButtonTooltip = undefined;
+  goRootButtonTooltip;
 
   /**
    * Search box for finding and focusing target ideas

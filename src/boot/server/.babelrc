@@ -1,5 +1,15 @@
 {
-    // restore transpiling to 'commonjs' from root config.
-    // need to transpile until nodejs supports es2015 modules natively.
-    "presets": [["es2015", {"modules": "commonjs"}]]
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    // add transformations for current node version.
+                    // node which makes build should be of the same version as
+                    // node which runs production build.
+                    "node": true
+                }
+            }
+        ]
+    ]
 }

@@ -31,10 +31,7 @@ function runUnitTests(opts) {
 
     new KarmaServer(
       {
-        files: [
-          {pattern: 'node_modules/babel-polyfill/dist/polyfill.js'},
-          {pattern: opts.entry, watched: true}
-        ],
+        files: [{pattern: opts.entry, watched: true}],
 
         singleRun: !opts.watch,
 

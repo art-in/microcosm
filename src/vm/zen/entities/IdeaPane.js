@@ -11,7 +11,7 @@ export default class IdeaPane extends ViewModel {
    * Idea form
    * @type {IdeaFormType}
    */
-  form = undefined;
+  form;
 
   /**
    * Indicates that it is scrolled to the top.

@@ -14,16 +14,16 @@ import MainScreenType from 'vm/main/MainScreen';
  */
 export default class Main extends ViewModel {
   /** @type {MainScreenType} */
-  screen = undefined;
+  screen;
 
   /** @type {AuthScreenType} */
-  auth = undefined;
+  auth;
 
   /** @type {MindsetType|undefined} */
-  mindset = undefined;
+  mindset;
 
   /** @type {VersionVmType|undefined} */
-  version = undefined;
+  version;
 
   /**
    * Constructor

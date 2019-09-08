@@ -10,31 +10,31 @@ export default class IdeaListItem extends ViewModel {
    * Idea ID
    * @type {string}
    */
-  id = undefined;
+  id;
 
   /**
    * Title of target idea
    * @type {string}
    */
-  title = undefined;
+  title;
 
   /**
    * Color corresponding to idea
    * @type {string}
    */
-  color = undefined;
+  color;
 
   /**
    * Root path string
    * @type {string|null}
    */
-  rootPath = undefined;
+  rootPath;
 
   /**
    * Tooltip
    * @type {string}
    */
-  tooltip = undefined;
+  tooltip;
 
   /**
    * Indicates item can be removed

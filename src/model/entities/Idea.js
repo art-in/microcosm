@@ -10,11 +10,6 @@ import PointType from './Point';
 /**
  * Idea model
  *
- * TODO: remove '= undefined' from class properties
- * as soon as babel transform automatically sets 'undefined'
- * to props without default values.
- * https://github.com/babel/babel/issues/5056
- *
  * @implements {Vertex}
  */
 export default class Idea {
@@ -25,13 +20,13 @@ export default class Idea {
   id = createID();
 
   /** @type {DateTimeISO} */
-  createdOn = undefined;
+  createdOn;
 
   /**
    * ID of parent mindset
    * @type {string|undefined}
    */
-  mindsetId = undefined;
+  mindsetId;
 
   /**
    * Indicates that idea is root idea of mindset
@@ -43,26 +38,26 @@ export default class Idea {
    * Short essence of idea
    * @type {string|undefined}
    */
-  title = undefined;
+  title;
 
   /**
    * Full description of idea
    * @type {string|undefined}
    */
-  value = undefined;
+  value;
 
   /**
    * Idea color (not inherited)
    * @type {string|undefined}
    */
-  color = undefined;
+  color;
 
   /**
    * Position on mindset relative to parent idea
    * in minimum spanning tree (MST).
    * @type {PointType|undefined}
    */
-  posRel = undefined;
+  posRel;
 
   // region Dynamic props (computed on run, not saved to db)
 
@@ -70,7 +65,7 @@ export default class Idea {
    * Absolute position on mindset.
    * @type {PointType|undefined}
    */
-  posAbs = undefined;
+  posAbs;
 
   /**
    * List of outgoing associations
@@ -95,7 +90,7 @@ export default class Idea {
    * @memberof Vertex
    * @type {AssociationType?|undefined}
    */
-  edgeFromParent = undefined;
+  edgeFromParent;
 
   /**
    * Edges to child ideas.
@@ -103,7 +98,7 @@ export default class Idea {
    * @memberof Vertex
    * @type {Array.<AssociationType>|undefined}
    */
-  edgesToChilds = undefined;
+  edgesToChilds;
 
   /**
    * Weight of minimal path from root (RPW).
@@ -111,7 +106,7 @@ export default class Idea {
    * @memberof Vertex
    * @type {number|undefined}
    */
-  rootPathWeight = undefined;
+  rootPathWeight;
 
   // endregion
 

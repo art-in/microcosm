@@ -17,13 +17,13 @@ export default class Popup extends ViewModel {
    * Position on viewport (browser or svg, depending on view render context)
    * @type {PointType|undefined}
    */
-  pos = undefined;
+  pos;
 
   /**
    * Scale.
    * @type {number|undefined}
    */
-  scale = undefined;
+  scale;
 
   /**
    * Constructor

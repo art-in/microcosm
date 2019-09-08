@@ -18,13 +18,13 @@ export default class SearchBox extends ViewModel {
    * Search lookup
    * @type {LookupType|undefined}
    */
-  lookup = undefined;
+  lookup;
 
   /**
    * Tooltip of trigger button
    * @type {string}
    */
-  tooltip = undefined;
+  tooltip;
 
   /**
    * Constructor

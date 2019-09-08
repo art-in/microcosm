@@ -8,7 +8,7 @@ export default class CancellationToken {
   isCanceled = false;
 
   /** @type {function} */
-  cancel = undefined;
+  cancel;
 
   /**
    * Constructor

@@ -16,31 +16,31 @@ export default class Association {
   id = createID();
 
   /** @type {DateTimeISO} */
-  createdOn = undefined;
+  createdOn;
 
   /**
    * Value
    * @type {string|undefined}
    */
-  value = undefined;
+  value;
 
   /**
    * ID of parent mindset
    * @type {string|undefined}
    */
-  mindsetId = undefined;
+  mindsetId;
 
   /**
    * ID of head idea
    * @type {string|undefined}
    */
-  fromId = undefined;
+  fromId;
 
   /**
    * ID of tail idea
    * @type {string|undefined}
    */
-  toId = undefined;
+  toId;
 
   // region Dynamic props (computed on run, not saved to db)
 
@@ -50,7 +50,7 @@ export default class Association {
    * @memberof Edge
    * @type {IdeaType|undefined}
    */
-  from = undefined;
+  from;
 
   /**
    * Tail idea
@@ -58,14 +58,14 @@ export default class Association {
    * @memberof Edge
    * @type {IdeaType|undefined}
    */
-  to = undefined;
+  to;
 
   /**
    * Weight
    * @memberof Edge
    * @type {number|undefined}
    */
-  weight = undefined;
+  weight;
 
   // endregion
 

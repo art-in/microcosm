@@ -17,7 +17,7 @@ export default class DropDownMenu extends ViewModel {
    * Menu
    * @type {MenuType}
    */
-  menu = undefined;
+  menu;
 
   /**
    * Constructor

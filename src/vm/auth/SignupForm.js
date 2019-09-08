@@ -6,7 +6,7 @@ import ViewModel from 'vm/utils/ViewModel';
  */
 export default class SignupForm extends ViewModel {
   /** @type {string} */
-  invite = undefined;
+  invite;
 
   /** @type {boolean} */
   isInviteValid = true;
@@ -15,13 +15,13 @@ export default class SignupForm extends ViewModel {
   isInviteVisible = true;
 
   /** @type {string} */
-  username = undefined;
+  username;
 
   /** @type {boolean} */
   isUsernameValid = true;
 
   /** @type {string} */
-  password = undefined;
+  password;
 
   /** @type {boolean} */
   isPasswordValid = true;

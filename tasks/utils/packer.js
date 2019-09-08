@@ -57,7 +57,7 @@ function getPackConfig(opts) {
   const entries = [];
   const resolveModules = [];
   const plugins = [
-    // uncomment to see bundle analysis (starts server + opens browser)
+    // uncomment to see bundle analysis (starts server)
     // new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin({
     //   analyzerHost: '0.0.0.0',
     //   analyzerPort: 8888
@@ -73,6 +73,7 @@ function getPackConfig(opts) {
   if (opts.watch) {
     assert(opts.serv, 'Watch mode needs developer server options');
     babelPlugins.push(require('react-hot-loader/babel'));
+    entries.push('react-hot-loader/patch');
   }
 
   if (opts.isProduction) {
@@ -100,13 +101,6 @@ function getPackConfig(opts) {
     devtool = 'inline-source-map';
   }
 
-  entries.push('babel-polyfill');
-
-  if (opts.watch) {
-    // 'react-hot-loader/patch' should go after 'babel-polyfill'
-    entries.push('react-hot-loader/patch');
-  }
-
   if (opts.entry) {
     // entry point not always required (eg. when webpack run by karma)
     entries.push(opts.entry);
@@ -127,7 +121,7 @@ function getPackConfig(opts) {
   return {
     mode,
     devtool,
-    entry: entries,
+    entry: entries.length ? entries : undefined,
     output: {
       path: path.resolve(__dirname, opts.output.bundle.path),
       filename: opts.output.bundle.name,

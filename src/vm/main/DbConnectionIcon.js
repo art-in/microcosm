@@ -9,8 +9,8 @@ export default class DbConnectionIcon extends ViewModel {
   icon = Icon.plug;
 
   /** @type {string} */
-  tooltip = undefined;
+  tooltip;
 
   /** @type {boolean} */
-  isClickable = undefined;
+  isClickable;
 }

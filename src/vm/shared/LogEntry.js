@@ -13,10 +13,10 @@ export default class LogEntry {
   severity = LogEntrySeverity.info;
 
   /** @type {Date} */
-  time = undefined;
+  time;
 
   /** @type {string} */
-  message = undefined;
+  message;
 
   /**
    * Constructor

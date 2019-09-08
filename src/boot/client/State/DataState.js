@@ -12,14 +12,14 @@ export default class DataState {
    * Empty value means replication did not happen yet (first visit).
    * @type {string}
    */
-  dbServerUrl = undefined;
+  dbServerUrl;
 
   /**
    * Name of user from whose databases we replicated last time.
    * Empty value means replication did not happen yet (first visit).
    * @type {string}
    */
-  userName = undefined;
+  userName;
 
   /**
    * Indicates that database access is authorized for current user.
@@ -47,16 +47,16 @@ export default class DataState {
    * Database heartbeat cancellation token
    * @type {CancellationTokenType}
    */
-  dbHeartbeatToken = undefined;
+  dbHeartbeatToken;
 
   /** @type {PouchDB.Database} */
-  ideas = undefined;
+  ideas;
 
   /** @type {PouchDB.Database} */
-  associations = undefined;
+  associations;
 
   /** @type {PouchDB.Database} */
-  mindsets = undefined;
+  mindsets;
 
   // endregion
 }

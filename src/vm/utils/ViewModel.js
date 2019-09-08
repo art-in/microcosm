@@ -16,7 +16,7 @@ export default class ViewModel {
    */
   isDirty = true;
 
-  _onChangeHandler = undefined;
+  _onChangeHandler;
 
   /**
    * Emits change event

@@ -8,16 +8,16 @@ import ImportSourceType from 'utils/import/entities/ImportSourceType';
  */
 export default class ImportSource {
   /** @type {NotebookType} */
-  notebook = undefined;
+  notebook;
 
   /** @type {ImportSourceType} */
-  type = undefined;
+  type;
 
   /** @type {string} */
-  text = undefined;
+  text;
 
   /** @type {File} */
-  file = undefined;
+  file;
 
   /**
    * Constructor

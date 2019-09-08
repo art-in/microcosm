@@ -14,13 +14,13 @@ export default class LookupSuggestion {
    * Display name
    * @type {string|undefined}
    */
-  displayName = undefined;
+  displayName;
 
   /**
    * Any data associated with this suggestion
    * @type {*}
    */
-  data = undefined;
+  data;
 
   /**
    * Constructor

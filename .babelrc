@@ -1,19 +1,20 @@
 {
     "presets": [
-        // do not transpile es2015 modules syntax to 'commonjs'.
-        // it's required for react hot-loader to work.
-        // for client, webpack supports modules syntax and will
-        // remove it while bundling. server should stick with 'commonjs'.
-        ["es2015", {"modules": false}],
-        "react"
+        [
+            // add transformations basing on target environment .browserslistrc
+            // babel will later skip the ones that were not used.
+            "@babel/preset-env",
+            {
+                // add polyfills from core-js and regenerator-runtime
+                "useBuiltIns": "usage",
+                "corejs": {
+                    "version": 3
+                }
+            }
+        ],
+        "@babel/preset-react"
     ],
     "plugins": [
-        "transform-class-properties",
-        "transform-export-extensions",
-        "transform-object-rest-spread",
-        "transform-async-to-generator",
-        ["transform-builtin-extend", {
-            "globals": ["Error"]
-        }]
+        "@babel/plugin-proposal-class-properties"
     ]
 }

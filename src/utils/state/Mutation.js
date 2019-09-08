@@ -8,20 +8,20 @@ export default class Mutation {
    * Type of mutation
    * @type {string|undefined}
    */
-  type = undefined;
+  type;
 
   /**
    * Payload data
    * @type {object|undefined}
    */
-  data = undefined;
+  data;
 
   /**
    * Target parts of state to mutate
    * If empty - mutation should be allied to whole state
    * @type {Array.<string>|undefined}
    */
-  targets = undefined;
+  targets;
 
   /**
    * Constructor

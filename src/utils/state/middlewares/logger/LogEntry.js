@@ -10,7 +10,7 @@ export default class LogEntry {
    * Action
    * @type {ActionType|undefined}
    */
-  action = undefined;
+  action;
 
   /**
    * Action dispatching performance info
@@ -96,19 +96,19 @@ export default class LogEntry {
    * State patch
    * @type {PatchType|undefined}
    */
-  patch = undefined;
+  patch;
 
   /**
    * State before dispatching action
    * @type {object|undefined}
    */
-  prevState = undefined;
+  prevState;
 
   /**
    * State after dispatching action
    * @type {object|undefined}
    */
-  nextState = undefined;
+  nextState;
 
   /**
    * Indicates action failed
@@ -134,7 +134,7 @@ export default class LogEntry {
    * Error from handler or mutation if failed
    * @type {Error|undefined}
    */
-  error = undefined;
+  error;
 
   /**
    * Number of actions of same type

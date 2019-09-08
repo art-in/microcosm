@@ -11,13 +11,13 @@ export default class LookupPopup extends ViewModel {
    * Popup container
    * @type {Popup|undefined}
    */
-  popup = undefined;
+  popup;
 
   /**
    * Lookup
    * @type {Lookup|undefined}
    */
-  lookup = undefined;
+  lookup;
 
   /**
    * Is shown?

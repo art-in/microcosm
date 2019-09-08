@@ -22,13 +22,13 @@ export default class MenuItem {
    * Display value
    * @type {string|undefined}
    */
-  displayValue = undefined;
+  displayValue;
 
   /**
    * Icon
    * @type {IconType|undefined}
    */
-  icon = undefined;
+  icon;
 
   /**
    * Indicates item is ready to be selected
@@ -40,7 +40,7 @@ export default class MenuItem {
    * Gets action to dispatch after item selected
    * @type {function|undefined}
    */
-  onSelectAction = undefined;
+  onSelectAction;
 
   /**
    * Constructor

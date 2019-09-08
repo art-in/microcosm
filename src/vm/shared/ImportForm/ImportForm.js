@@ -10,31 +10,31 @@ export const MESSAGE_CONFIRM_LEAVE = 'Import is in progress. Cancel and leave?';
  */
 export default class ImportForm extends ViewModel {
   /** @type {string} */
-  targetIdeaTitle = undefined;
+  targetIdeaTitle;
 
   /**
    * Source file to import data from
    * @type {File}
    */
-  file = undefined;
+  file;
 
   /** @type {LogType} */
-  log = undefined;
+  log;
 
   /** @type {boolean} */
-  logIsShown = undefined;
+  logIsShown;
 
   /** @type {boolean} */
-  isInputEnabled = undefined;
+  isInputEnabled;
 
   /** @type {boolean} */
-  inProgress = undefined;
+  inProgress;
 
   /** @type {CancellationTokenType} */
-  token = undefined;
+  token;
 
   /** @type {ProgressBarType} */
-  progressBar = undefined;
+  progressBar;
 
   /** @type {{enabled:boolean, content:string}} */
   importButton = {

@@ -29,7 +29,7 @@ export default class Lookup extends ViewModel {
    * in the list of suggestions
    * @type {string|undefined}
    */
-  highlightedSuggestionId = undefined;
+  highlightedSuggestionId;
 
   /**
    * Indicates that lookup is loading suggestions
@@ -47,7 +47,7 @@ export default class Lookup extends ViewModel {
    * Input placeholder
    * @type {string|undefined}
    */
-  placeholder = undefined;
+  placeholder;
 
   /**
    * Indicates 'nothing found' label is shown
@@ -59,13 +59,13 @@ export default class Lookup extends ViewModel {
    * Gets action to perform on phrase change
    * @type {function|undefined}
    */
-  onPhraseChangeAction = undefined;
+  onPhraseChangeAction;
 
   /**
    * Gets action to perform on suggestion select
    * @type {function({suggestion})|undefined}
    */
-  onSelectAction = undefined;
+  onSelectAction;
 
   /**
    * Constructor

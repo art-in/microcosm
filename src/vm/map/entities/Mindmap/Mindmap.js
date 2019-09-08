@@ -59,7 +59,7 @@ export default class Mindmap extends ViewModel {
    * Mindmap ID (equals to mindset ID)
    * @type {string|undefined}
    */
-  id = undefined;
+  id;
 
   /**
    * Drawing surface
@@ -127,7 +127,7 @@ export default class Mindmap extends ViewModel {
    * Note: available only after graph is build
    * @type {NodeType|undefined}
    */
-  root = undefined;
+  root;
 
   /**
    * Context menu of links
@@ -150,7 +150,7 @@ export default class Mindmap extends ViewModel {
    * Locator for focus node
    * @type {NodeLocatorType}
    */
-  focusNodeLocator = undefined;
+  focusNodeLocator;
 
   /**
    * Constructor

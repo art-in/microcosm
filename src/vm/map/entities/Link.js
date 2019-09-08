@@ -14,27 +14,27 @@ export default class Link extends ViewModel {
    * @memberof Edge
    * @type {NodeType|undefined}
    */
-  from = undefined;
+  from;
 
   /**
    * Tail node
    * @memberof Edge
    * @type {NodeType|undefined}
    */
-  to = undefined;
+  to;
 
   /**
    * Measure of closeness of head and tail nodes
    * @memberof Edge
    * @type {number|undefined}
    */
-  weight = undefined;
+  weight;
 
   /**
    * Link ID (equals to association ID)
    * @type {string|undefined}
    */
-  id = undefined;
+  id;
 
   /**
    * Link title state
