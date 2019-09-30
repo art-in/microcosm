@@ -1,16 +1,16 @@
 import guid from 'utils/guid';
 
-import PouchDB_ from 'pouchdb';
+import PouchDB from 'pouchdb';
 import memoryPlugin from 'pouchdb-adapter-memory';
 import findPlugin from 'pouchdb-find';
 
-PouchDB_.plugin(memoryPlugin);
-PouchDB_.plugin(findPlugin);
+PouchDB.plugin(memoryPlugin);
+PouchDB.plugin(findPlugin);
 
 /**
  * Creates unique database
- * @return {PouchDB.Database}
+ * @return {PouchDB_Database}
  */
 export default function createDB() {
-  return new PouchDB_(guid(), {adapter: 'memory'});
+  return new PouchDB(guid(), {adapter: 'memory'});
 }
