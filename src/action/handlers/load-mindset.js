@@ -136,6 +136,23 @@ export default async function loadMindset(state, data, dispatch) {
 }
 
 /**
+ * Returns handle to local database.
+ * Backend storage will be created if it does not exist yet.
+ *
+ * @param {string} name - db name
+ * @return {PouchDB_Database}
+ */
+function getDbHandle(name) {
+  return new PouchDB(name, {
+    // remove non-leaf doc revisions since we do not resolve conflicts anyway
+    auto_compaction: true,
+
+    // limit revision list to speed up mindset updates
+    revs_limit: 10
+  });
+}
+
+/**
  * Initializes databases
  *
  * @throws {DbReplicationError} will be thrown if local db failed to replicate
@@ -159,11 +176,10 @@ async function initDatabases(
   assert(sessionDbServerUrl, `Invalid db server URL '${sessionDbServerUrl}'`);
   assert(sessionUserName, `Invalid user name '${sessionUserName}'`);
 
-  // create handles to local databases (dbs will be created if not exist)
   const localDBs = {
-    ideas: new PouchDB('ideas'),
-    associations: new PouchDB('associations'),
-    mindsets: new PouchDB('mindsets')
+    ideas: getDbHandle('ideas'),
+    associations: getDbHandle('associations'),
+    mindsets: getDbHandle('mindsets')
   };
 
   const {dbServerUrl, userName} = state.data;
@@ -253,7 +269,7 @@ async function cleanDatabases(localDBs) {
   await Promise.all(Object.entries(localDBs).map(([, db]) => db.destroy()));
 
   Object.keys(localDBs).forEach(
-    dbName => (localDBs[dbName] = new PouchDB(dbName))
+    dbName => (localDBs[dbName] = getDbHandle(dbName))
   );
 }
 
