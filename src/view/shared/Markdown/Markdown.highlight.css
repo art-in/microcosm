@@ -1,12 +1,13 @@
 /*
 CSS to replicate GitHub code highlighting style
 https://github.com/isagalaev/highlight.js/blob/master/src/styles/github-gist.css
-highlight.js version: 9.12.0
+highlight.js version: 9.15.10
 
 Using GitHub Gist theme instead of GitHub theme because later is ugly.
 
 GitHub Gist Theme
-Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
+Author : Anthony Attard - https://github.com/AnthonyAttard
+Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
 */
 
 .root :global(.hljs) {
@@ -22,7 +23,6 @@ Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
   color: #969896;
 }
 
-.root :global(.hljs-string),
 .root :global(.hljs-variable),
 .root :global(.hljs-template-variable),
 .root :global(.hljs-strong),
@@ -34,7 +34,7 @@ Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
 .root :global(.hljs-keyword),
 .root :global(.hljs-selector-tag),
 .root :global(.hljs-type) {
-  color: #a71d5d;
+  color: #d73a49;
 }
 
 .root :global(.hljs-literal),
@@ -59,7 +59,7 @@ Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
 .root :global(.hljs-selector-class),
 .root :global(.hljs-selector-attr),
 .root :global(.hljs-selector-pseudo) {
-  color: #795da3;
+  color: #6f42c1;
 }
 
 .root :global(.hljs-addition) {
@@ -74,4 +74,12 @@ Author: Louis Barranqueiro - https://github.com/LouisBarranqueiro
 
 .root :global(.hljs-link) {
   text-decoration: underline;
+}
+
+.root :global(.hljs-number) {
+  color: #005cc5;
+}
+
+.root :global(.hljs-string) {
+  color: #032f62;
 }
