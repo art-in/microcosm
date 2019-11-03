@@ -5,6 +5,8 @@ import Icon from 'vm/shared/Icon';
 
 import Markdown from 'view/shared/Markdown';
 import IconButton from 'view/shared/IconButton';
+import getKeyCode from 'view/utils/dom/get-key-code';
+import indent from 'view/utils/dom/indent';
 
 import classes from './MarkdownEditor.css';
 
@@ -26,6 +28,30 @@ import classes from './MarkdownEditor.css';
 export default class MarkdownEditor extends Component {
   onChange = e => {
     this.props.onChange(e.target.value);
+  };
+
+  onKeyDown = e => {
+    if (getKeyCode(e.nativeEvent) === 'Tab') {
+      // override native behavior, since indenting is more valuable
+      e.preventDefault();
+
+      const ta = this.textarea;
+
+      const indented = indent({
+        text: ta.value,
+        selStart: ta.selectionStart,
+        selEnd: ta.selectionEnd,
+        isInsert: !e.shiftKey
+      });
+
+      if (indented.text !== ta.value) {
+        ta.value = indented.text;
+        ta.selectionStart = indented.selStart;
+        ta.selectionEnd = indented.selEnd;
+
+        this.onChange(e);
+      }
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -86,6 +112,7 @@ export default class MarkdownEditor extends Component {
             ref={node => (this.textarea = node)}
             value={value}
             onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
           />
         ) : (
           <Markdown source={value} />

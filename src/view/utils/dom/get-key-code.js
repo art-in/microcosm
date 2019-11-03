@@ -14,6 +14,9 @@ export default function(event) {
 
   if (code === undefined || code === '') {
     switch (event.keyCode) {
+      case 9:
+        code = 'Tab';
+        break;
       case 27:
         code = 'Escape';
         break;
