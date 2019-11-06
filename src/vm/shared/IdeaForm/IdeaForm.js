@@ -130,8 +130,10 @@ export default class IdeaForm {
 
   /**
    * Indicates that form changes can be saved.
-   * Can be used as indication of unsaved changes on the form.
-   * TODO: add dedicated 'hasChanges' flag (to fix case: create new idea,
+   * - there are unsaved changes
+   * - and no invalid fields
+   *
+   * TODO: add separate 'hasChanges' flag (to fix case: create new idea,
    *       leave title empty, add value, try to close - should confirm close,
    *       but it does not, since form is not saveable because of invalid
    *       title and not because there is no changes)

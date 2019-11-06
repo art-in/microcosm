@@ -77,18 +77,27 @@ export default async function(state, data, dispatch, mutate) {
 
     case 'Enter': // Ctrl+Enter
       if (ctrlKey) {
+        let form, saveAction, toggleEditAction;
+
         switch (mindset.mode) {
           case ViewMode.mindmap:
-            if (mindmap.ideaFormModal.form.isSaveable) {
-              dispatch({type: 'on-idea-form-modal-save'});
-            }
+            form = mindmap.ideaFormModal.form;
+            saveAction = {type: 'on-idea-form-modal-save'};
+            toggleEditAction = {type: 'on-idea-form-value-toggle-edit'};
             break;
-
           case ViewMode.zen:
-            if (mindset.zen.pane.form.isSaveable) {
-              dispatch({type: 'on-zen-idea-form-save'});
-            }
+            form = mindset.zen.pane.form;
+            saveAction = {type: 'on-zen-idea-form-save'};
+            toggleEditAction = {type: 'on-zen-idea-form-value-toggle-edit'};
             break;
+          default:
+            throw Error(`Unknown mindset mode '${mindset.mode}'`);
+        }
+
+        if (form.isSaveable) {
+          dispatch(saveAction);
+        } else if (form.isEditingValue && !form.isNewIdea) {
+          dispatch(toggleEditAction);
         }
       }
       break;
