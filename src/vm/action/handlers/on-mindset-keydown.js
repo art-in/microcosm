@@ -18,6 +18,7 @@ import computePositionAndSize from 'vm/map/entities/Viewbox/methods/compute-posi
  * @param {object} data
  * @param {string} data.code
  * @param {boolean} data.ctrlKey - 'control' key is pressed
+ * @param {boolean} data.shiftKey - 'shift' key is pressed
  * @param {function} data.preventDefault
  * @param {function} dispatch
  * @param {function} mutate
@@ -28,7 +29,7 @@ export default async function(state, data, dispatch, mutate) {
       main: {mindset}
     }
   } = state;
-  const {code, ctrlKey, preventDefault} = required(data);
+  const {code, ctrlKey, shiftKey, preventDefault} = required(data);
 
   if (!mindset.isLoaded) {
     return;
@@ -102,17 +103,11 @@ export default async function(state, data, dispatch, mutate) {
       }
       break;
 
-    case 'KeyF': // Ctrl+F
-      // in mindmap mode, allow default browser search box only in case idea
-      // form opened to search on idea text contents, otherwise if mindmap
-      // shown, default search will not be effective - use custom box for
-      // searching ideas.
-      // in zen mode, only allow default search box, since idea form is always
-      // shown there.
+    case 'KeyF': // Ctrl+Shift+F
       if (
         ctrlKey &&
-        mindset.mode === ViewMode.mindmap &&
-        !isMindmapPopupActive
+        shiftKey &&
+        (mindset.mode !== ViewMode.mindmap || !isMindmapPopupActive)
       ) {
         dispatch({type: 'activate-idea-search-box'});
         preventDefault();

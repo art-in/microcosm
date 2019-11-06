@@ -27,7 +27,7 @@ import ViewMode from 'vm/main/MindsetViewMode';
  * @typedef {object} Props
  * @prop {MindsetType} mindset
  *
- * @prop {function({code, ctrlKey, preventDefault})} onKeyDown
+ * @prop {function({code, ctrlKey, shiftKey, preventDefault})} onKeyDown
  * @prop {function()} onToggleMode
  * @prop {function()} onGoRootButtonClick
  * @prop {function()} onIdeaSearchTriggerClick
@@ -59,6 +59,7 @@ export default class Mindset extends Component {
     this.props.onKeyDown({
       code: getKeyCode(nativeEvent),
       ctrlKey: nativeEvent.ctrlKey,
+      shiftKey: nativeEvent.shiftKey,
       preventDefault: nativeEvent.preventDefault.bind(nativeEvent)
     });
   };

@@ -1,5 +1,4 @@
 import MindsetViewMode from 'vm/main/MindsetViewMode';
-import MindsetType from 'vm/main/Mindset/Mindset';
 import Icon from 'vm/shared/Icon';
 
 /**
@@ -9,7 +8,6 @@ import Icon from 'vm/shared/Icon';
  * @return {object} update object
  */
 export default function setButtonTooltips(mode) {
-  let ideaSearchBoxTooltip = 'Search ideas';
   let goRootButtonTooltip = 'Go to root idea';
   let toggleModeButtonIcon;
   let toggleModeButtonTooltip;
@@ -18,9 +16,6 @@ export default function setButtonTooltips(mode) {
     case MindsetViewMode.mindmap:
       toggleModeButtonIcon = Icon.sunO;
       toggleModeButtonTooltip = 'Zen mode (Ctrl+M)';
-
-      // hotkeys are allowed in mindmap mode only
-      ideaSearchBoxTooltip += ' (Ctrl+F)';
       goRootButtonTooltip += ' (Home)';
       break;
 
@@ -35,7 +30,7 @@ export default function setButtonTooltips(mode) {
 
   return {
     ideaSearchBox: {
-      tooltip: ideaSearchBoxTooltip
+      tooltip: 'Search ideas (Ctrl+Shift+F)'
     },
     goRootButtonTooltip,
     toggleModeButton: {
