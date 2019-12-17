@@ -15,5 +15,6 @@ hl.registerLanguage('sql', require('highlight.js/lib/languages/sql'));
 hl.registerLanguage('ts', require('highlight.js/lib/languages/typescript'));
 hl.registerLanguage('xml', require('highlight.js/lib/languages/xml'));
 hl.registerLanguage('rust', require('highlight.js/lib/languages/rust'));
+hl.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
 
 export default hl;
