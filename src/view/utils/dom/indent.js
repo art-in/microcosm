@@ -1,6 +1,12 @@
 const INDENT_SIZE = 2;
 const INDENT = ' '.repeat(INDENT_SIZE);
 
+const SPACES = [
+  ' ', // normal space
+  '\t', // tab
+  '\xa0' // non-breaking space (nbsp)
+];
+
 /**
  * Inserts or removes indent to/from selected fragment of text.
  *
@@ -81,7 +87,7 @@ export default function indent(opts) {
         let spacesCount = 0;
         let spacesEnd = cur + 1;
         while (
-          text[spacesEnd] === ' ' &&
+          SPACES.includes(text[spacesEnd]) &&
           spacesCount < INDENT_SIZE &&
           spacesEnd < text.length &&
           spacesEnd < selEnd

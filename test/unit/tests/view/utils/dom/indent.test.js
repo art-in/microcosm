@@ -2,6 +2,8 @@ import {expect} from 'test/utils';
 
 import indent from 'src/view/utils/dom/indent';
 
+const NBSP = '\xa0'; // non-breaking space
+
 describe('indent', () => {
   describe('invalid selection', () => {
     it('should fail if selection range is undefined', () => {
@@ -96,6 +98,30 @@ describe('indent', () => {
       expect(res.selEnd).to.equal(14);
     });
 
+    it('should remove tabs from beginning of the line', () => {
+      const text = 'first line\n\t\t\tsecond line\n third line';
+      const selStart = 16; // second line
+      const selEnd = 16;
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal('first line\n\tsecond line\n third line');
+      expect(res.selStart).to.equal(14);
+      expect(res.selEnd).to.equal(14);
+    });
+
+    it('should remove non-breaking spaces from beginning of the line', () => {
+      const text = `first line\n${NBSP}${NBSP}${NBSP}second line\n third line`;
+      const selStart = 16; // second line
+      const selEnd = 16;
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal(`first line\n${NBSP}second line\n third line`);
+      expect(res.selStart).to.equal(14);
+      expect(res.selEnd).to.equal(14);
+    });
+
     it('should not remove more spaces than indent size', () => {
       const text = 'first line\n   second line\n third line';
       const selStart = 17; // second line
@@ -180,6 +206,30 @@ describe('indent', () => {
       expect(res.text).to.equal('first line\nsecond line\n third line');
       expect(res.selStart).to.equal(11);
       expect(res.selEnd).to.equal(22);
+    });
+
+    it('should remove tabs from beginning of selected line', () => {
+      const text = 'first line\n\t\t\tsecond line\n third line';
+      const selStart = 14; // "s" in "second"
+      const selEnd = 21; // "l" in "line"
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal('first line\n\tsecond line\n third line');
+      expect(res.selStart).to.equal(12);
+      expect(res.selEnd).to.equal(19);
+    });
+
+    it('should remove non-breaking spaces from beginning of selected line', () => {
+      const text = `first line\n${NBSP}${NBSP}${NBSP}second line\n third line`;
+      const selStart = 14; // "s" in "second"
+      const selEnd = 21; // "l" in "line"
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal(`first line\n${NBSP}second line\n third line`);
+      expect(res.selStart).to.equal(12);
+      expect(res.selEnd).to.equal(19);
     });
 
     it('should not remove more spaces than indent size', () => {
@@ -290,6 +340,30 @@ describe('indent', () => {
       expect(res.text).to.equal('first line\nsecond line\nthird line');
       expect(res.selStart).to.equal(11);
       expect(res.selEnd).to.equal(33);
+    });
+
+    it('should remove tabs from beginning of second and third lines', () => {
+      const text = 'first line\n\tsecond line\n\t\tthird line';
+      const selStart = 17; // on second line
+      const selEnd = 28; // on third line
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal('first line\nsecond line\nthird line');
+      expect(res.selStart).to.equal(16);
+      expect(res.selEnd).to.equal(25);
+    });
+
+    it('should remove non-breaking spaces from beginning of second and third lines', () => {
+      const text = `first line\n${NBSP}${NBSP}second line\n${NBSP}third line`;
+      const selStart = 17; // on second line
+      const selEnd = 28; // on third line
+
+      const res = indent({text, selStart, selEnd, isInsert: false});
+
+      expect(res.text).to.equal('first line\nsecond line\nthird line');
+      expect(res.selStart).to.equal(15);
+      expect(res.selEnd).to.equal(25);
     });
   });
 });
