@@ -1,6 +1,6 @@
 {
   "name": "microcosm",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "homepage": "https://github.com/art-in/microcosm",
   "scripts": {
     "start": "gulp default",
