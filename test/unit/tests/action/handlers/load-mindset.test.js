@@ -27,10 +27,13 @@ const handle = handler.handle.bind(handler);
 
 const POUCH_PREFIX = '_pouch_';
 
+// debounce time + replication time
+const DB_SYNC_TIME = RELOAD_DEBOUNCE_TIME + 1000;
+
 describe('load-mindset', function() {
   // @ts-ignore default timeout getter
   // eslint-disable-next-line no-invalid-this
-  this.timeout(this.timeout() + RELOAD_DEBOUNCE_TIME);
+  this.timeout(this.timeout() + DB_SYNC_TIME);
 
   async function cleanSideEffects() {
     // indexed databases
@@ -733,8 +736,7 @@ describe('load-mindset', function() {
       })
     );
 
-    // await database synchronization
-    await timer(RELOAD_DEBOUNCE_TIME + 100);
+    await timer(DB_SYNC_TIME);
 
     // check local databases pull server changes
     const mindsetsCount = (await mindsetsLocalDB.info()).doc_count;
@@ -833,9 +835,7 @@ describe('load-mindset', function() {
       })
     );
 
-    // await mindset reload debounce
-    // add some time on top to cover initial replication
-    await timer(RELOAD_DEBOUNCE_TIME + 100);
+    await timer(DB_SYNC_TIME);
 
     // check reload action dispatched
     const dispatchLoadMindset = dispatch
