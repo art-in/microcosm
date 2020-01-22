@@ -4,7 +4,8 @@ const INDENT = ' '.repeat(INDENT_SIZE);
 const SPACES = [
   ' ', // normal space
   '\t', // tab
-  '\xa0' // non-breaking space (nbsp)
+  '\xa0', // non-breaking space (&nbsp)
+  '\xad' // soft hyphen (&shy)
 ];
 
 /**
