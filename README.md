@@ -44,5 +44,6 @@ There is [`config.js`](https://github.com/art-in/microcosm/blob/master/config.js
   <tr><td>npm run test:static</td>  <td>run static tests (lint, types, etc.)  </td></tr>
   <tr><td>npm run test:unit</td>  <td>run unit tests  </td></tr>
   <tr><td>npm run test:unit:watch</td>  <td>run unit tests (watch mode)</td></tr>
+  <tr><td>npm run deploy:docker</td>  <td>publish docker image with production build to Docker Hub</td></tr>
 </table>
 

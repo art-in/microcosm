@@ -9,6 +9,11 @@
 		8888 //  webpack bundle analyzer
 	],
 	"postCreateCommand": "npm install",
+	"mounts": [
+		// allow to access host docker engine from inside dev container for
+		// publishing docker image to hub while deploying production build
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
 	"extensions": [
 		"eamodio.gitlens",
 		"dbaeumer.vscode-eslint",

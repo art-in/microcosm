@@ -9,7 +9,8 @@
     "test": "gulp test",
     "test:static": "gulp test:static",
     "test:unit": "gulp test:unit",
-    "test:unit:watch": "gulp test:unit:watch"
+    "test:unit:watch": "gulp test:unit:watch",
+    "deploy:docker": "gulp deploy:docker"
   },
   "engines": {
     "node": "^9.11.2"

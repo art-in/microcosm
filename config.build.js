@@ -68,6 +68,17 @@ const defaults = {
       // folder from which static files are served to client
       folder: abs('./.build/client/')
     }
+  },
+  deploy: {
+    docker: {
+      // dockerfile used for building docker image
+      dockerFilePath: abs('./docker/Dockerfile'),
+
+      // tag with which docker image is built and published to docker hub
+      // version will be automatically appended by npm script
+      // example: '<username>/microcosm'
+      imageTag: undefined
+    }
   }
 };
 
