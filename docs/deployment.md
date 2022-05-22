@@ -43,12 +43,13 @@ microcosm can be deployed in two ways
     docker login
     ```
 1. configure image tag
-    ```json
+    ```js
     // config.build.user.js
-
-    deploy: {
-      docker: {
-        imageTag: '<username>/microcosm'
+    {
+      deploy: {
+        docker: {
+          imageTag: '<username>/microcosm'
+        }
       }
     }
     ```
