@@ -15,11 +15,7 @@ api.get('/config', (req, res) => {
       homepage: pkg.homepage,
       version: pkg.version
     },
-    dbServer: {
-      protocol: config.server.database.protocol,
-      host: config.server.database.host,
-      port: config.server.database.port
-    },
+    dbServer: config.server.database.url,
     signupInviteRequired: config.client.signup.invite.on
   };
 

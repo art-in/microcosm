@@ -59,8 +59,8 @@ export default async function init(state, data, dispatch, mutate) {
     })
   });
 
-  const {protocol, host, port} = clientConfig.dbServer;
-  const sessionDbServerUrl = `${protocol}://${host}:${port}`;
+  const {protocol, host, port, path} = clientConfig.dbServer;
+  const sessionDbServerUrl = `${protocol}://${host}:${port}/${path}`;
 
   await mutate(
     new Patch({

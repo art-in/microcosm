@@ -6,7 +6,9 @@ const userConfig = require('./config.user');
 /**
  * Run-time configuration.
  *
- * NOTE 1: do not modify defaults - put custom config to 'config.user.js'
+ * NOTE 1: do not modify defaults - put custom config to 'config.user.js'.
+ *         turn off changes tracking to avoid accidental push to upstream:
+ *         git update-index --assume-unchanged config.user.js
  * NOTE 2: restart nodejs to apply changes
  */
 const defaults = {
@@ -43,11 +45,14 @@ const defaults = {
 
     // couchdb-compatible database server
     database: {
-      // address of db server that client will be connecting to.
+      // url of db server that client will be connecting to.
       // in case using dev server - this is its start parameters.
-      protocol: 'http',
-      host: 'localhost',
-      port: 5984,
+      url: {
+        protocol: 'http',
+        host: 'localhost',
+        port: 5984,
+        path: ''
+      },
 
       // credentials of database server administrator. it never goes to client.
       // used only to sign up new users (to add user and create databases).

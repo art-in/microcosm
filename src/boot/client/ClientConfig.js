@@ -26,7 +26,10 @@ export default class ClientConfig {
     host: undefined,
 
     /** @type {number} */
-    port: undefined
+    port: undefined,
+
+    /** @type {string} */
+    path: undefined
   };
 
   /**

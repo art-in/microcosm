@@ -20,9 +20,9 @@ module.exports = () => {
     );
   }
 
-  const {protocol, host, port} = config.server.database;
+  const {protocol, host, port} = config.server.database.url;
 
-  if (config.server.database.protocol !== 'http') {
+  if (config.server.database.url.protocol !== 'http') {
     throw Error(
       `Invalid protocol for development database server '${protocol}'. ` +
         `Only 'http' is supported currently.`
