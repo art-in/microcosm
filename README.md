@@ -1,4 +1,4 @@
-# microcosm [![CircleCI](https://circleci.com/gh/art-in/microcosm.svg?style=svg)](https://circleci.com/gh/art-in/microcosm)
+# microcosm ![GitHub Actions](https://github.com/art-in/microcosm/actions/workflows/test.yml/badge.svg)
 
 microcosm is a [note taking](https://en.wikipedia.org/wiki/Note-taking) web app, which organizes notes in a [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)).
 
